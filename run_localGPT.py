@@ -2,43 +2,49 @@ from langchain.chains import RetrievalQA
 # from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceInstructEmbeddings
-from langchain.llms import HuggingFacePipeline
+from langchain.llms import LlamaCpp
 from constants import CHROMA_SETTINGS, PERSIST_DIRECTORY
-from transformers import LlamaTokenizer, LlamaForCausalLM, pipeline
 import click
 
 from constants import CHROMA_SETTINGS
 
 
+# def load_model():
+#     """
+#     Select a model on huggingface.
+#     If you are running this for the first time, it will download a model for you.
+#     subsequent runs will use the model from the disk.
+#     """
+#     model_id = "TheBloke/vicuna-7B-1.1-HF"
+#     tokenizer = LlamaTokenizer.from_pretrained(model_id)
+#
+#     model = LlamaForCausalLM.from_pretrained(model_id,
+#                                              #   load_in_8bit=True, # set these options if your GPU supports them!
+#                                              #   device_map=1#'auto',
+#                                              #   torch_dtype=torch.float16,
+#                                              #   low_cpu_mem_usage=True
+#                                              )
+#
+#     pipe = pipeline(
+#         "text-generation",
+#         model=model,
+#         tokenizer=tokenizer,
+#         max_length=2048,
+#         temperature=0,
+#         top_p=0.95,
+#         repetition_penalty=1.15
+#     )
+#
+#     local_llm = HuggingFacePipeline(pipeline=pipe)
+#
+#     return local_llm
+
 def load_model():
-    """
-    Select a model on huggingface.
-    If you are running this for the first time, it will download a model for you.
-    subsequent runs will use the model from the disk.
-    """
-    model_id = "TheBloke/vicuna-7B-1.1-HF"
-    tokenizer = LlamaTokenizer.from_pretrained(model_id)
-
-    model = LlamaForCausalLM.from_pretrained(model_id,
-                                             #   load_in_8bit=True, # set these options if your GPU supports them!
-                                             #   device_map=1#'auto',
-                                             #   torch_dtype=torch.float16,
-                                             #   low_cpu_mem_usage=True
-                                             )
-
-    pipe = pipeline(
-        "text-generation",
-        model=model,
-        tokenizer=tokenizer,
-        max_length=2048,
-        temperature=0,
-        top_p=0.95,
-        repetition_penalty=1.15
-    )
-
-    local_llm = HuggingFacePipeline(pipeline=pipe)
-
-    return local_llm
+    # TODO : add GPU BLAS accelerate support
+    # https://python.langchain.com/en/latest/modules/models/llms/integrations/llamacpp.html
+    model_path = "../llama.cpp/models/ko_vicuna_7b/ggml-model-q5_0.bin"
+    llm = LlamaCpp(model_path=model_path, n_ctx=8192)
+    return llm
 
 
 # @click.command()
