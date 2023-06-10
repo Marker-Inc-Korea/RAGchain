@@ -2,12 +2,14 @@ from langchain.chains import RetrievalQA
 # from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceInstructEmbeddings
-from langchain.llms import LlamaCpp
+from langchain.llms import HuggingFacePipeline
 from constants import CHROMA_SETTINGS, PERSIST_DIRECTORY
 import click
 
 from constants import CHROMA_SETTINGS
 
+quantized_model_dir = "../llama.cpp/models/ko_alapca_polyglot/gptq_4bit" # TODO : set your quantized model path
+tokenizer_dir = "qwopqwop/KoAlpaca-Polyglot-12.8B-GPTQ"
 
 # def load_model():
 #     """
@@ -39,12 +41,24 @@ from constants import CHROMA_SETTINGS
 #
 #     return local_llm
 
+
 def load_model():
-    # TODO : add GPU BLAS accelerate support
-    # https://python.langchain.com/en/latest/modules/models/llms/integrations/llamacpp.html
-    model_path = "../llama.cpp/models/ko_vicuna_7b/ggml-model-q5_0.bin"
-    llm = LlamaCpp(model_path=model_path, n_ctx=8192)
-    return llm
+    try:
+        from auto_gptq import AutoGPTQForCausalLM
+        from transformers import AutoTokenizer, TextGenerationPipeline
+    except ImportError:
+        raise ModuleNotFoundError(
+            "Could not import AutoGPTQ library. "
+            "Please install the AutoGPTQ library to "
+            "use this embedding model: pip install auto-gptq"
+        )
+    except Exception:
+        raise NameError(f"Could not load quantized model from path: {quantized_model_dir}")
+
+    model = AutoGPTQForCausalLM.from_quantized(quantized_model_dir, device="cuda:0")
+    tokenizer = AutoTokenizer.from_pretrained(tokenizer_dir)
+    pipeline = TextGenerationPipeline(model=model, tokenizer=tokenizer)
+    return HuggingFacePipeline(pipeline=pipeline)
 
 
 # @click.command()
@@ -72,8 +86,7 @@ def main(device_type, ):
 
     print(f"Running on: {device}")
 
-    embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-xl",
-                                               model_kwargs={"device": device})
+    embeddings = HuggingFaceInstructEmbeddings(model_name = "BM-K/KoSimCSE-roberta-multitask", model_kwargs={"device": device})
     # load the vectorstore
     db = Chroma(persist_directory=PERSIST_DIRECTORY, embedding_function=embeddings, client_settings=CHROMA_SETTINGS)
     retriever = db.as_retriever()
@@ -89,7 +102,7 @@ def main(device_type, ):
             break
 
         # Get the answer from the chain
-        res = qa(query)
+        res = qa({"query": query})
         answer, docs = res['result'], res['source_documents']
 
         # Print the result
