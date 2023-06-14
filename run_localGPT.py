@@ -14,7 +14,8 @@ tokenizer_dir = "qwopqwop/KoAlpaca-Polyglot-12.8B-GPTQ"
 
 def load_model(model_type: str = "koAlpaca"):
     try:
-        from transformers import AutoTokenizer, pipeline, BitsAndBytesConfig, AutoModelForCausalLM
+        from transformers import AutoTokenizer, pipeline, BitsAndBytesConfig, AutoModelForCausalLM, \
+            LogitsProcessorList, RepetitionPenaltyLogitsProcessor, NoRepeatNGramLogitsProcessor
         import torch
     except ImportError:
         raise ModuleNotFoundError(
@@ -36,7 +37,12 @@ def load_model(model_type: str = "koAlpaca"):
 
         tokenizer = AutoTokenizer.from_pretrained(model_id)
         model = AutoModelForCausalLM.from_pretrained(model_id, quantization_config=bnb_config, device_map={"": 0})
-        pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=100)
+        # define repetition penalty (not fixed)
+        repetition_penalty = float(1.2)
+        logits_processor = LogitsProcessorList(
+            [RepetitionPenaltyLogitsProcessor(penalty=repetition_penalty), NoRepeatNGramLogitsProcessor(5)])
+        pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=100,
+                        logits_processor=logits_processor)
         return HuggingFacePipeline(pipeline=pipe)
     elif model_type == "openai":
         try:
