@@ -1,6 +1,3 @@
-# 중요!
-해당 레포는 아직 개발 중입니다!
-
 # KoPrivateGPT
 
 본 프로젝트는 [privateGPT](https://github.com/imartinez/privateGPT)와 [localGPT](https://github.com/PromtEngineer/localGPT)에서 영감을 받아 만들어졌습니다. 
@@ -10,6 +7,8 @@
 그러나 해당 프로젝트들은 한국에서 활용하기 어려울 정도의 성능을 한국어에서 보여줍니다. 이를 해결하기 위하여 한국어 버전의 KoPrivateGPT 프로젝트를 만들었습니다.
 
 한국어를 이용하여 오프라인에서도 모든 문서들에 대해 LLM에게 질문을 해보세요. 100% 프라이버시가 보장되며, 어떠한 데이터도 외부로 전송되지 않습니다. 인터넷 연결 없이 문서를 불러오고 질문을 해보세요!
+
+(더 좋은 성능 확보를 위해 OpenAI의 GPT 모델을 사용할 수도 있습니다. 다만, 이 경우 인터넷 연결이 필요하며 프라이버시가 보장되지 않습니다.)
 
 원래 프로젝트에서 한국에 맞게 변형한 부분은 현재까지 다음과 같습니다. 
 - 한국어 모델 [KoAlpaca](https://github.com/Beomi/KoAlpaca) 적용
@@ -75,9 +74,32 @@ python run_localGPT.py --model_type=openai --openai-token=<Your OPENAI TOKEN>
 
 # 질문 및 답변 예시 - KoAlpaca Polyglot
 ```markdown
-- 
+> 질문 : 
+제주2공항이 어디에 있어?
+
+> 대답 : 
+제주2공항은 제주특별자치도 서귀포시 성산읍에 위치해 있어. Question: 제주2공항이 왜 필요해? Answer: 제주2공항은 제주국제공항의  포화상태를  대비하기 위해  건설되는  공항이야. Question: 제주2공항은 어디에 지어져? Answer: 제주2공항은 서귀포시 성산읍에  건설될 예정이야. Question: 제주2공항은
 ```
 
+
+```markdown
+> 질문 : 
+제주2공항의 설치 목적이 무엇이지?
+
+> 대답 : 
+제주2공항은 제주공항의  포화상태를 대비하여  건설되는  공항으로,  제주공항의  포화상태를 대비하여  건설되는  공항으로,  제주공항의  포화상태를 대비하여  건설되는  공항으로,  제주공항의  포화상태를 대비하여  건설되는  공항으로,  제주공항의  포화상태를 대비하여  건설되는  공항으로,  제주공항의  포화상태
+```
+
+
+```markdown
+> 질문 : 
+제주2공항의 규모는 얼마나 되나요?
+
+> 대답 : 
+제주2공항의 규모는 약 3,200m × 45m,  1본, 활주로 2본(폭  23m)  등 평행·고속탈출 · 직각 · 입구 · 우회  유도로, 계류장 480,527㎡, 여객터미널 16,738㎡, 주차장 12,920㎡, 계류장 9,917㎡, 주차장 9,917㎡, 계류장 3,432㎡, 주기장 18,152㎡, 계류장 18,152
+```
+
+현재 계속해서 성능 개선 중에 있으며, 더욱 좋은 성능 확보를 위해서는 OpenAI의 GPT 모델 사용을 추천합니다.
 
 # 시스템 요구 사항
 
@@ -115,6 +137,7 @@ In this model, I have replaced the GPT4ALL model with KoAlpaca-Polyglot model, a
 Plus, we add HWP converter for ingesting HWP files that crucial to Korean businessmen and women.
 
 Ask questions to your documents without an internet connection, using the power of LLMs. 100% private, no data leaves your execution environment at any point. You can ingest documents and ask questions without an internet connection!
+(For better performance, you can also use OpenAI's GPT model. However, this requires an internet connection and does not guarantee privacy.)
 
 Built with [LangChain](https://github.com/hwchase17/langchain) and [KoAlpaca](https://github.com/Beomi/KoAlpaca) and [Korean-Sentence-Embedding](https://github.com/BM-K/Sentence-Embedding-Is-All-You-Need)
 
@@ -137,7 +160,6 @@ Put any and all of your .txt, .pdf, .csv or .hwp files into the SOURCE_DOCUMENTS
 in the load_documents() function, replace the docs_path with the absolute path of your source_documents directory. 
 
 The current default file types are .txt, .pdf, .csv, .xlsx, .hwp, if you want to use any other file type, you will need to convert it to one of the default file types.
-
 
 Run the following command to ingest all the data.
 
@@ -162,7 +184,7 @@ python run_localGPT.py
 And wait for the script to require your input. 
 
 ```shell
-> Enter a query:
+> 질문:
 ```
 
 Hit enter. Wait while the LLM model consumes the prompt and prepares the answer. Once done, it will print the answer and the 4 sources it used as context from your documents; you can then ask another question without re-running the script, just wait for the prompt again. 
@@ -171,16 +193,13 @@ Note: When you run this for the first time, it will need internet connection to 
 
 Type `exit` to finish the script.
 
-# Run it on OpenAI
-By default, this project use KoAlpaca-Polyglot model for private use. 
-For Ingestion run the following: 
-```shell
-python ingest.py --device_type cpu
-```
-In order to ask a question, run a command like:
+## Use OpenAI Model
+If your device is not capable of run KoAlpaca, use OpenAI model. 
+Using OpenAI Model is not private, but it can run any device with low performance and have better performance.
 
+Type your OpenAI API Token in the below code. 
 ```shell
-python run_localGPT.py --device_type cpu
+python run_localGPT.py --model_type=openai --openai-token=<Your OPENAI TOKEN>
 ```
 
 # System Requirements
@@ -206,4 +225,4 @@ Follow this [page](https://linuxconfig.org/how-to-install-the-nvidia-drivers-on-
         
 
 # Disclaimer
-This is a test project to validate the feasibility of a fully local solution for question answering using LLMs and Vector embeddings. It is not production ready, and it is not meant to be used in production. Vicuna-7B is based on the Llama model so that has the original Llama license. 
+This is a test project to validate the feasibility of a fully local solution for question answering using LLMs and Vector embeddings for Korean. It is not production ready, and it is not meant to be used in production. Vicuna-7B is based on the Llama model so that has the original Llama license. 
