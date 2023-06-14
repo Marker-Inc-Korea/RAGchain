@@ -4,11 +4,10 @@ from typing import List
 from utils import xlxs_to_csv
 from langchain.document_loaders import TextLoader, PDFMinerLoader, CSVLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import Chroma, Milvus, Pinecone
+from langchain.vectorstores import Chroma
 from langchain.docstore.document import Document
-from constants import CHROMA_SETTINGS, SOURCE_DIRECTORY, PERSIST_DIRECTORY, MILVUS_HOST, MILVUS_PORT, PINECONE_ENV, PINECONE_TOKEN
+from constants import CHROMA_SETTINGS, SOURCE_DIRECTORY, PERSIST_DIRECTORY
 from langchain.embeddings import HuggingFaceInstructEmbeddings
-import pinecone
 
 
 def load_single_document(file_path: str) -> Document:
