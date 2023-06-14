@@ -1,4 +1,4 @@
-langchain==0.0.166
+langchain
 chromadb==0.3.22
 llama-cpp-python==0.1.48
 urllib3==1.26.6
@@ -13,3 +13,5 @@ accelerate
 bitsandbytes
 click
 openpyxl
+xformers
+openai

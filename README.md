@@ -1,3 +1,6 @@
+# 중요!
+해당 레포는 아직 개발 중입니다!
+
 # KoPrivateGPT
 
 본 프로젝트는 [privateGPT](https://github.com/imartinez/privateGPT)와 [localGPT](https://github.com/PromtEngineer/localGPT)에서 영감을 받아 만들어졌습니다. 
