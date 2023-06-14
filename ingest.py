@@ -60,7 +60,7 @@ def main(device_type, ):
     #  Load documents and split in chunks
     print(f"Loading documents from {SOURCE_DIRECTORY}")
     documents = load_documents(SOURCE_DIRECTORY)
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=100, chunk_overlap=20)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=30)
     texts = text_splitter.split_documents(documents)
     print(f"Loaded {len(documents)} documents from {SOURCE_DIRECTORY}")
     print(f"Split into {len(texts)} chunks of text")

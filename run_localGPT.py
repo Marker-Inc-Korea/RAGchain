@@ -14,7 +14,7 @@ tokenizer_dir = "qwopqwop/KoAlpaca-Polyglot-12.8B-GPTQ"
 
 def load_model(model_type: str = "koAlpaca"):
     try:
-        from transformers import AutoTokenizer, TextGenerationPipeline, BitsAndBytesConfig, AutoModelForCausalLM
+        from transformers import AutoTokenizer, pipeline, BitsAndBytesConfig, AutoModelForCausalLM
         import torch
     except ImportError:
         raise ModuleNotFoundError(
@@ -36,8 +36,8 @@ def load_model(model_type: str = "koAlpaca"):
 
         tokenizer = AutoTokenizer.from_pretrained(model_id)
         model = AutoModelForCausalLM.from_pretrained(model_id, quantization_config=bnb_config, device_map={"": 0})
-        pipeline = TextGenerationPipeline(model=model, tokenizer=tokenizer)
-        return HuggingFacePipeline(pipeline=pipeline)
+        pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=100)
+        return HuggingFacePipeline(pipeline=pipe)
     elif model_type == "openai":
         try:
             from langchain.llms import OpenAI
