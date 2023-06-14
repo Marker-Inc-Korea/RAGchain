@@ -2,50 +2,52 @@ from langchain.chains import RetrievalQA
 # from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceInstructEmbeddings
-from langchain.llms import LlamaCpp
+from langchain.llms import HuggingFacePipeline
 from constants import CHROMA_SETTINGS, PERSIST_DIRECTORY
 import click
+import os
 
 from constants import CHROMA_SETTINGS
 
+tokenizer_dir = "qwopqwop/KoAlpaca-Polyglot-12.8B-GPTQ"
 
-# def load_model():
-#     """
-#     Select a model on huggingface.
-#     If you are running this for the first time, it will download a model for you.
-#     subsequent runs will use the model from the disk.
-#     """
-#     model_id = "TheBloke/vicuna-7B-1.1-HF"
-#     tokenizer = LlamaTokenizer.from_pretrained(model_id)
-#
-#     model = LlamaForCausalLM.from_pretrained(model_id,
-#                                              #   load_in_8bit=True, # set these options if your GPU supports them!
-#                                              #   device_map=1#'auto',
-#                                              #   torch_dtype=torch.float16,
-#                                              #   low_cpu_mem_usage=True
-#                                              )
-#
-#     pipe = pipeline(
-#         "text-generation",
-#         model=model,
-#         tokenizer=tokenizer,
-#         max_length=2048,
-#         temperature=0,
-#         top_p=0.95,
-#         repetition_penalty=1.15
-#     )
-#
-#     local_llm = HuggingFacePipeline(pipeline=pipe)
-#
-#     return local_llm
 
-def load_model():
-    # TODO : add GPU BLAS accelerate support
-    # https://python.langchain.com/en/latest/modules/models/llms/integrations/llamacpp.html
-    model_path = "../llama.cpp/models/ko_vicuna_7b/ggml-model-q5_0.bin"
-    llm = LlamaCpp(model_path=model_path, n_ctx=8192)
-    return llm
+def load_model(model_type: str = "koAlpaca"):
+    try:
+        from transformers import AutoTokenizer, TextGenerationPipeline, BitsAndBytesConfig, AutoModelForCausalLM
+        import torch
+    except ImportError:
+        raise ModuleNotFoundError(
+            "Could not import transformers library or torch library "
+            "Please install the transformers library to "
+            "use this embedding model: pip install transformers"
+        )
+    except Exception:
+        raise NameError(f"Could not load model. Check your internet connection.")
 
+    if model_type == "koAlpaca":
+        model_id = "beomi/polyglot-ko-12.8b-safetensors"  # safetensors 컨버팅된 레포
+        bnb_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_use_double_quant=True,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_compute_dtype=torch.bfloat16
+        )
+
+        tokenizer = AutoTokenizer.from_pretrained(model_id)
+        model = AutoModelForCausalLM.from_pretrained(model_id, quantization_config=bnb_config, device_map={"": 0})
+        pipeline = TextGenerationPipeline(model=model, tokenizer=tokenizer)
+        return HuggingFacePipeline(pipeline=pipeline)
+    elif model_type == "openai":
+        try:
+            from langchain.llms import OpenAI
+        except ImportError:
+            raise ModuleNotFoundError(
+                "Could not import OpenAI library. Please install the OpenAI library."
+            )
+        return OpenAI()
+    else:
+        raise ValueError(f"Invalid model type: {model_type}")
 
 # @click.command()
 # @click.option('--device_type', default='gpu', help='device to run on, select gpu or cpu')
@@ -61,7 +63,9 @@ def load_model():
 
 @click.command()
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
-def main(device_type, ):
+@click.option('--model_type', default='koAlpaca', help='model to run on, select koAlpaca or openai')
+@click.option('--openai-token', help='openai token')
+def main(device_type, model_type, openai_token):
     # load the instructorEmbeddings
     if device_type in ['cpu', 'CPU']:
         device='cpu'
@@ -70,40 +74,47 @@ def main(device_type, ):
     else:
         device='cuda'
 
+    if model_type in ['koAlpaca', 'KoAlpaca', 'koalpaca', 'Ko-alpaca']:
+        model_type = 'koAlpaca'
+    elif model_type in ["OpenAI", "openai", "Openai"]:
+        model_type = "openai"
+        os.environ["OPENAI_API_KEY"] = openai_token
+    else:
+        raise ValueError(f"Invalid model type: {model_type}")
+
     print(f"Running on: {device}")
 
-    embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-xl",
-                                               model_kwargs={"device": device})
+    embeddings = HuggingFaceInstructEmbeddings(model_name = "BM-K/KoSimCSE-roberta-multitask", model_kwargs={"device": device})
     # load the vectorstore
     db = Chroma(persist_directory=PERSIST_DIRECTORY, embedding_function=embeddings, client_settings=CHROMA_SETTINGS)
     retriever = db.as_retriever()
     # Prepare the LLM
     # callbacks = [StreamingStdOutCallbackHandler()]
     # load the LLM for generating Natural Language responses. 
-    llm = load_model()
+    llm = load_model(model_type)
     qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True)
     # Interactive questions and answers
     while True:
-        query = input("\nEnter a query: ")
-        if query == "exit":
+        query = input("\n질문을 입력하세요: ")
+        if query in ["exit", "종료"]:
             break
 
         # Get the answer from the chain
-        res = qa(query)
+        res = qa({"query": query})
         answer, docs = res['result'], res['source_documents']
 
         # Print the result
-        print("\n\n> Question:")
+        print("\n\n> 질문:")
         print(query)
-        print("\n> Answer:")
+        print("\n> 대답:")
         print(answer)
 
         # # Print the relevant sources used for the answer
-        print("----------------------------------SOURCE DOCUMENTS---------------------------")
+        print("----------------------------------참조한 문서---------------------------")
         for document in docs:
             print("\n> " + document.metadata["source"] + ":")
             print(document.page_content)
-        print("----------------------------------SOURCE DOCUMENTS---------------------------")
+        print("----------------------------------참조한 문서---------------------------")
 
 
 if __name__ == "__main__":
