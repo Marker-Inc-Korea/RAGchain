@@ -3,7 +3,7 @@ import click
 from typing import List
 from utils import xlxs_to_csv
 from langchain.document_loaders import TextLoader, PDFMinerLoader, CSVLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter, CharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
 from langchain.docstore.document import Document
 from constants import CHROMA_SETTINGS, SOURCE_DIRECTORY, PERSIST_DIRECTORY
@@ -11,7 +11,7 @@ from langchain.embeddings import HuggingFaceInstructEmbeddings
 from hwp import HwpLoader
 
 HwpConvertOpt = 'all'#'main-only'
-HwpConvertHost = f'http://mkseoul.iptime.org:12700/upload?option={HwpConvertOpt}'
+HwpConvertHost = f'http://localhost:7000/upload?option={HwpConvertOpt}'
 
 
 def load_single_document(file_path: str) -> Document:
@@ -23,7 +23,7 @@ def load_single_document(file_path: str) -> Document:
     elif file_path.endswith(".csv"):
         loader = CSVLoader(file_path)
     elif file_path.endswith(".hwp"):
-        loader = HwpLoader(file_path, encoding="utf8", hwp_convert_path=HwpConvertHost)
+        loader = HwpLoader(file_path, hwp_convert_path=HwpConvertHost)
 
     return loader.load()[0]
 
