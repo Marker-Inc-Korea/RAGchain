@@ -16,15 +16,24 @@
 - 한국어 임베딩 [Korean-Sentence-Embedding](https://github.com/BM-K/Sentence-Embedding-Is-All-You-Need) 적용
 - HWP 파일 문서 호환 추가 ([hwp-converter-api](https://github.com/edai-club/hwp-converter-api) 사용)
 
+## Colab 데모
+콜랩에서 실행할 수 있는 데모 버전을 준비하였습니다. 아쉽게도 콜랩 버전에서 HWP 파일은 사용할 수 없습니다. 
+[여기](https://colab.research.google.com/drive/1wFV8WSfna0p1HYD_N8KmlrB69ItWczsZ?usp=sharing)에서 콜랩 데모 버전을 실행해보세요.
+<a style='display:inline' target="_blank" href="https://colab.research.google.com/drive/1wFV8WSfna0p1HYD_N8KmlrB69ItWczsZ?usp=sharing">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
+
 # 환경 설정
-해당 프로젝트를 실행하기 위해서는 다음과 같이 환경 설정을 해주셔야 합니다.
+해당 프로젝트를 실행하기 위해서 아래의 코드를 실행해주세요. 파이썬 3.10 이상이 설치된 환경에서의 실행을 추천합니다.
 
 ```shell
+git clone https://github.com/edai-club/KoPrivateGPT.git
+cd KoPrivateGPT
 pip install -r requirements.txt
 ```
 
 ## 테스트 데이터
-해당 레포에서는 [대한민국 상법](https://constitutioncenter.org/media/files/constitution.pdf)을 예시로 사용합니다.
+해당 레포에서는 [제주 제2항 기본계획(안) 보도자료](https://www.korea.kr/common/download.do?fileId=197236015&tblKey=GMN)를 예시로 사용합니다.
 
 # 직접 원하는 문서를 불러오는 법
 SOURCE_DOCUMENTS 폴더 안에 원하는 .txt, .pdf, .csv, .hwp, 혹은 .xlsx 파일을 넣어주세요.
@@ -34,8 +43,10 @@ SOURCE_DOCUMENTS 폴더 안에 원하는 .txt, .pdf, .csv, .hwp, 혹은 .xlsx �
 그리고 아래 코드를 이용하여 모든 문서를 불러옵니다. 
     
  ```shell  
-    python ingest.py
+python ingest.py
  ```
+위 코드를 실행하면 문서들을 텍스트 뭉치로 자른 뒤, 한국어 임베딩을 사용하여 벡터로 임베딩하고 그것을 chroma 벡터 DB로 저장합니다. 
+저장은 DB 폴더에 되며, 만약 모든 데이터를 삭제하고 싶다면 DB 폴더를 완전히 삭제하면 됩니다.
 
 # LLM에게 질문하는 법
 질문을 하기 위해서는 다음과 같이 실행하면 됩니다.
@@ -45,8 +56,54 @@ python run_localGPT.py
 ```
 이후 아래 명령어가 나오면, 원하는 질문을 입력하면 됩니다. 
 ```shell
-> Enter a query:
+> 질문:
 ```
+
+위 코드를 실행하면 문서들을 텍스트 뭉치로 자른 뒤, 한국어 임베딩을 사용하여 벡터로 임베딩하고 그것을 chroma 벡터 DB로 저장합니다. 저장은 DB 폴더에 되며, 만약 모든 데이터를 삭제하고 싶다면 DB 폴더를 완전히 삭제하면 됩니다. '
+조금 기다리면 인공지능의 답변이 제공되며, 해당 답변을 제공하는데에 참조한 문서 4개의 출처와 그 내용이 출력됩니다. 
+
+'exit' 혹은 '종료' 를 입력하면 실행이 종료됩니다.
+
+## OpenAI 모델 사용법
+기기의 성능이 부족해 KoAlpaca 구동에 실패하였다면, OpenAI 모델을 사용하세요.
+데이터가 OpenAI에 제공되어 완전히 private 하지는 않지만, 낮은 성능의 기기에서도 실행할 수 있습니다. 
+
+아래의 코드에 본인의 OpenAI 토큰을 넣어 구동할 수 있습니다.
+```shell
+python run_localGPT.py --model_type=openai --openai-token=<Your OPENAI TOKEN>
+```
+
+# 질문 및 답변 예시 - KoAlpaca Polyglot
+```markdown
+- 
+```
+
+
+# 시스템 요구 사항
+
+## 파이썬 버전
+이 소프트웨어를 사용하려면 Python 3.10 이상이 설치되어 있어야 합니다. 이전 버전의 Python은 컴파일되지 않을 수 있습니다.
+
+## C++ 컴파일러
+'pip install'을 하는 중에 오류가 발생하면 컴퓨터에 C++ 컴파일러를 설치해야 할 수 있습니다.
+
+### Windows 10/11의 경우
+Windows 10/11에서 C++ 컴파일러를 설치하려면 다음 단계를 따르세요:
+
+1. Visual Studio 2022를 설치합니다.
+2. 다음 컴포넌트가 선택되어 있는지 확인합니다:
+   * 범용 Windows 플랫폼 개발
+   * Windows용 C++ CMake 툴
+3. MinGW 홈페이지](https://sourceforge.net/projects/mingw/)에서 MinGW 설치 파일을 다운로드합니다.
+4. 설치 파일을 실행하고 "gcc" 컴포넌트를 선택합니다.
+
+### NVIDIA 드라이버 문제:
+이 [페이지](https://linuxconfig.org/how-to-install-the-nvidia-drivers-on-ubuntu-22-04)를 참고하여 NVIDIA 드라이버를 설치합니다.
+        
+
+# 면책 조항
+이 프로젝트는 LLM 및 벡터 임베딩을 사용하여 한국어로 질문에 답변할 수 있는 완전한 로컬 솔루션의 가능성을 검증하기 위한 시험용 프로젝트입니다. 
+프로덕션 활용을 위한 준비는 완료되지 않았으며 프로덕션에 사용할 수 없습니다.
 
 
 # KoPrivateGPT
@@ -66,6 +123,8 @@ Built with [LangChain](https://github.com/hwchase17/langchain) and [KoAlpaca](ht
 In order to set your environment up to run the code here, first install all requirements:
 
 ```shell
+git clone https://github.com/edai-club/KoPrivateGPT.git
+cd KoPrivateGPT
 pip install -r requirements.txt
 ```
 
@@ -77,7 +136,7 @@ This repo uses a [대한민국 상법](https://constitutioncenter.org/media/file
 Put any and all of your .txt, .pdf, .csv or .hwp files into the SOURCE_DOCUMENTS directory
 in the load_documents() function, replace the docs_path with the absolute path of your source_documents directory. 
 
-The current default file types are .txt, .pdf, .csv, and .xlsx, if you want to use any other file type, you will need to convert it to one of the default file types.
+The current default file types are .txt, .pdf, .csv, .xlsx, .hwp, if you want to use any other file type, you will need to convert it to one of the default file types.
 
 
 Run the following command to ingest all the data.
@@ -91,7 +150,6 @@ You can ingest as many documents as you want, and all will be accumulated in the
 If you want to start from an empty database, delete the `index`.
 
 Note: When you run this for the first time, it will download take time as it has to download the embedding model. In the subseqeunt runs, no data will leave your local enviroment and can be run without internet connection.
-
 
 
 ## Ask questions to your documents, locally!
@@ -113,9 +171,8 @@ Note: When you run this for the first time, it will need internet connection to 
 
 Type `exit` to finish the script.
 
-# Run it on CPU
-By default, localGPT will use your GPU to run both the `ingest.py` and `run_localGPT.py` scripts. But if you do not have a GPU and want to run this on CPU, now you can do that (Warning: Its going to be slow!). You will need to use `--device_type cpu`flag with both scripts. 
-
+# Run it on OpenAI
+By default, this project use KoAlpaca-Polyglot model for private use. 
 For Ingestion run the following: 
 ```shell
 python ingest.py --device_type cpu
@@ -125,13 +182,6 @@ In order to ask a question, run a command like:
 ```shell
 python run_localGPT.py --device_type cpu
 ```
-
-# How does it work?
-Selecting the right local models and the power of `LangChain` you can run the entire pipeline locally, without any data leaving your environment, and with reasonable performance.
-
-- `ingest.py` uses `LangChain` tools to parse the document and create embeddings locally using `InstructorEmbeddings`. It then stores the result in a local vector database using `Chroma` vector store. 
-- `run_localGPT.py` uses a local LLM (Vicuna-7B in this case) to understand questions and create answers. The context for the answers is extracted from the local vector store using a similarity search to locate the right piece of context from the docs.
-- You can replace this local LLM with any other LLM from the HuggingFace. Make sure whatever LLM you select is in the HF format.
 
 # System Requirements
 
