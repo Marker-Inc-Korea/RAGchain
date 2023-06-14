@@ -36,11 +36,10 @@ class HwpLoader(BaseLoader):
     ):
         """Initialize with file path."""
         self.file_path = file_path
-        self.encoding = encoding
         self.autodetect_encoding = autodetect_encoding
         self.hwp_convert_path = hwp_convert_path
 
-        r = requests.post(hwp_convert_path, data = {'file': open(file_path, 'rb')})
+        r = requests.post(hwp_convert_path, files = {'file': open(file_path, 'rb')})
 
         if r.status_code != 200:
             raise ValueError(
@@ -48,14 +47,14 @@ class HwpLoader(BaseLoader):
                 % r.status_code
             )
 
-        self.temp_text = r.content
+        self.response = r
 
     def load(self) -> List[Document]:
         """Load from file path."""
         text = ""
         try:
-            with self.temp_text as f:
-                text = f.read()
+            with self.response as r:
+                text = r.content.decode(r.apparent_encoding)
         except Exception as e:
             raise RuntimeError(f"Error loading {self.file_path}") from e
 
