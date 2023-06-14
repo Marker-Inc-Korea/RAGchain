@@ -8,6 +8,10 @@ from langchain.vectorstores import Chroma
 from langchain.docstore.document import Document
 from constants import CHROMA_SETTINGS, SOURCE_DIRECTORY, PERSIST_DIRECTORY
 from langchain.embeddings import HuggingFaceInstructEmbeddings
+from hwp import HwpLoader
+
+HwpConvertOpt = 'all'#'main-only'
+HwpConvertHost = f'http://hwp-converter:7000/upload?option={HwpConvertOpt}'
 
 
 def load_single_document(file_path: str) -> Document:
@@ -18,6 +22,9 @@ def load_single_document(file_path: str) -> Document:
         loader = PDFMinerLoader(file_path)
     elif file_path.endswith(".csv"):
         loader = CSVLoader(file_path)
+    elif file_path.endswith(".hwp"):
+        loader = HwpLoader(file_path, hwp_convert_path=HwpConvertHost)
+
     return loader.load()[0]
 
 
@@ -25,12 +32,15 @@ def load_documents(source_dir: str) -> List[Document]:
     # Loads all documents from source documents directory
     all_files = os.listdir(source_dir)
     docs = []
+
     for file_path in all_files:
         if file_path[-4:] == 'xlsx':
             for doc in xlxs_to_csv(f"{source_dir}/{file_path}"):
                 docs.append(load_single_document(doc))
-        elif file_path[-4:] in ['.txt', '.pdf', '.csv']:
+        elif file_path[-4:] in ['.txt', '.pdf', '.csv','.hwp']:
             docs.append(load_single_document(f"{source_dir}/{file_path}"))
+        else :
+            print(f"Unknown file type: {file_path}")
     return docs
     # return [load_single_document(f"{source_dir}/{file_path}") for file_path in all_files if
     #         file_path[-4:] in ['.txt', '.pdf', '.csv']]
