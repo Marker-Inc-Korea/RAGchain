@@ -4,10 +4,11 @@ from typing import List
 from utils import xlxs_to_csv
 from langchain.document_loaders import TextLoader, PDFMinerLoader, CSVLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import Chroma
+from langchain.vectorstores import Chroma, Milvus, Pinecone
 from langchain.docstore.document import Document
-from constants import CHROMA_SETTINGS, SOURCE_DIRECTORY, PERSIST_DIRECTORY
+from constants import CHROMA_SETTINGS, SOURCE_DIRECTORY, PERSIST_DIRECTORY, MILVUS_HOST, MILVUS_PORT, PINECONE_ENV, PINECONE_TOKEN
 from langchain.embeddings import HuggingFaceInstructEmbeddings
+import pinecone
 
 
 def load_single_document(file_path: str) -> Document:
@@ -60,7 +61,7 @@ def main(device_type, ):
     #  Load documents and split in chunks
     print(f"Loading documents from {SOURCE_DIRECTORY}")
     documents = load_documents(SOURCE_DIRECTORY)
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=100, chunk_overlap=20)
     texts = text_splitter.split_documents(documents)
     print(f"Loaded {len(documents)} documents from {SOURCE_DIRECTORY}")
     print(f"Split into {len(texts)} chunks of text")
@@ -69,8 +70,15 @@ def main(device_type, ):
     embeddings = HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
                                                model_kwargs={"device": device})
 
-    db = Chroma.from_documents(texts, embeddings, persist_directory=PERSIST_DIRECTORY, client_settings=CHROMA_SETTINGS)
-    db.persist()
+    # db = Chroma.from_documents(texts, embeddings, persist_directory=PERSIST_DIRECTORY, client_settings=CHROMA_SETTINGS)
+
+    pinecone.init(api_key=PINECONE_TOKEN, environment=PINECONE_ENV)
+    index_name = "localgpt-demo"
+    db = Pinecone.from_documents(texts, embeddings, index_name=index_name)
+
+    # db = Milvus.from_documents(texts, embeddings, connection_args={"host":MILVUS_HOST, "port":MILVUS_PORT, })
+
+    # db.persist()
     db = None
 
 

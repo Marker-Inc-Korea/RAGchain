@@ -1,9 +1,10 @@
+import pinecone
 from langchain.chains import RetrievalQA
 # from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
-from langchain.vectorstores import Chroma
+from langchain.vectorstores import Chroma, Pinecone
 from langchain.embeddings import HuggingFaceInstructEmbeddings
 from langchain.llms import HuggingFacePipeline
-from constants import CHROMA_SETTINGS, PERSIST_DIRECTORY
+from constants import CHROMA_SETTINGS, PERSIST_DIRECTORY, PINECONE_TOKEN, PINECONE_ENV
 import click
 
 from constants import CHROMA_SETTINGS
@@ -42,10 +43,11 @@ tokenizer_dir = "qwopqwop/KoAlpaca-Polyglot-12.8B-GPTQ"
 #     return local_llm
 
 
-def load_model():
+def load_model(device: str):
     try:
         from auto_gptq import AutoGPTQForCausalLM
-        from transformers import AutoTokenizer, TextGenerationPipeline
+        from transformers import AutoTokenizer, TextGenerationPipeline, BitsAndBytesConfig, AutoModelForCausalLM
+        import torch
     except ImportError:
         raise ModuleNotFoundError(
             "Could not import AutoGPTQ library. "
@@ -55,11 +57,22 @@ def load_model():
     except Exception:
         raise NameError(f"Could not load quantized model from path: {quantized_model_dir}")
 
-    model = AutoGPTQForCausalLM.from_quantized(quantized_model_dir, device="cuda:0")
-    tokenizer = AutoTokenizer.from_pretrained(tokenizer_dir)
-    pipeline = TextGenerationPipeline(model=model, tokenizer=tokenizer)
-    return HuggingFacePipeline(pipeline=pipeline)
+    # model = AutoGPTQForCausalLM.from_quantized(quantized_model_dir, device="cuda:0")
+    # tokenizer = AutoTokenizer.from_pretrained(tokenizer_dir)
 
+    if device == "cuda" :
+        model_id = "beomi/polyglot-ko-12.8b-safetensors"  # safetensors 컨버팅된 레포
+        bnb_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_use_double_quant=True,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_compute_dtype=torch.bfloat16
+        )
+
+        tokenizer = AutoTokenizer.from_pretrained(model_id)
+        model = AutoModelForCausalLM.from_pretrained(model_id, quantization_config=bnb_config, device_map={"": 0})
+        pipeline = TextGenerationPipeline(model=model, tokenizer=tokenizer)
+        return HuggingFacePipeline(pipeline=pipeline)
 
 # @click.command()
 # @click.option('--device_type', default='gpu', help='device to run on, select gpu or cpu')
@@ -88,7 +101,10 @@ def main(device_type, ):
 
     embeddings = HuggingFaceInstructEmbeddings(model_name = "BM-K/KoSimCSE-roberta-multitask", model_kwargs={"device": device})
     # load the vectorstore
-    db = Chroma(persist_directory=PERSIST_DIRECTORY, embedding_function=embeddings, client_settings=CHROMA_SETTINGS)
+    # db = Chroma(persist_directory=PERSIST_DIRECTORY, embedding_function=embeddings, client_settings=CHROMA_SETTINGS)
+    pinecone.init(api_key=PINECONE_TOKEN, environment=PINECONE_ENV)
+    index_name = "localgpt-demo"
+    db = Pinecone.from_existing_index(index_name, embeddings)
     retriever = db.as_retriever()
     # Prepare the LLM
     # callbacks = [StreamingStdOutCallbackHandler()]

@@ -13,3 +13,5 @@ accelerate
 bitsandbytes
 click
 openpyxl
+pymilvus
+pinecone-client
