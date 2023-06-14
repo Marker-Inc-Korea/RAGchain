@@ -11,7 +11,7 @@ from langchain.embeddings import HuggingFaceInstructEmbeddings
 from hwp import HwpLoader
 
 HwpConvertOpt = 'all'#'main-only'
-HwpConvertHost = f'http://localhost:7000/upload?option={HwpConvertOpt}'
+HwpConvertHost = f'http://hwp-converter:7000/upload?option={HwpConvertOpt}'
 
 
 def load_single_document(file_path: str) -> Document:
