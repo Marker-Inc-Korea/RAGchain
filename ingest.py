@@ -70,15 +70,8 @@ def main(device_type, ):
     embeddings = HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
                                                model_kwargs={"device": device})
 
-    # db = Chroma.from_documents(texts, embeddings, persist_directory=PERSIST_DIRECTORY, client_settings=CHROMA_SETTINGS)
-
-    pinecone.init(api_key=PINECONE_TOKEN, environment=PINECONE_ENV)
-    index_name = "localgpt-demo"
-    db = Pinecone.from_documents(texts, embeddings, index_name=index_name)
-
-    # db = Milvus.from_documents(texts, embeddings, connection_args={"host":MILVUS_HOST, "port":MILVUS_PORT, })
-
-    # db.persist()
+    db = Chroma.from_documents(texts, embeddings, persist_directory=PERSIST_DIRECTORY, client_settings=CHROMA_SETTINGS)
+    db.persist()
     db = None
 
 
