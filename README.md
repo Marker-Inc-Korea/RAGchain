@@ -31,6 +31,39 @@ cd KoPrivateGPT
 pip install -r requirements.txt
 ```
 
+## 한글파일 사용법
+### Docker
+도커를 다운 받고 hwp converter api 서버용 로컬 컨테이너를 만들어줍니다.
+- [Docker Hub](https://hub.docker.com/r/vkehfdl1/hwp-converter-api)
+```bash
+docker run -it -d --name hwp-converter -p (외부포트):7000 vkehfdl1/hwp-converter-api:1.0.0
+```
+### 터미널
+터미널에서 KoPrivateGPT 컨테이너와 hwp-converter 컨테이너를 연결합니다.
+```bash
+#docker network create <NETWORK_NAME>
+docker network create docs-convert-api-net
+#docker connect <NETWORK_NAME> <CONTAINER_NAME>
+docker connect docs-convert-api-net KoPrivateGPT
+docker connect docs-convert-api-net hwp-converter
+```
+### ingest.py
+`KoPrivateGPT/ingest.py`로 이동하여 http request 주소를 확인합니다.
+```python
+# ingest.py line 13-14
+HwpConvertOpt = 'all'# 'main-only'
+HwpConvertHost = f'http://hwp-converter:7000/upload?option={HwpConvertOpt}'
+```
+실행중인 도커 컨테이너의 이름과 내부포트를 맞춰 설정해줍니다.
+`HwpConvertOpt`를 `all` 로 설정하면 hwp파일 속 '표'의 데이터를 포함한 텍스트 데이터를 반환합니다.
+`main-only`는 hwp파일 속 '표'를 제외한 텍스트 데이터를 반환합니다.
+이후 다른 파일들과 같이 `SOURCE_DOCUMENTS` 폴더 안에 hwp 파일을 넣으면
+`ingest.py`가 동작할 때 hwp 파일을 텍스트로 처리할 수 있습니다.
+
+### 주의
+- hwpx 파일은 지원하지 않습니다. hwp 파일로 변환하여 시도해주세요.
+
+
 ## 테스트 데이터
 해당 레포에서는 [제주 제2항 기본계획(안) 보도자료](https://www.korea.kr/common/download.do?fileId=197236015&tblKey=GMN)를 예시로 사용합니다.
 
@@ -152,7 +185,7 @@ pip install -r requirements.txt
 ```
 
 ## Test dataset
-This repo uses a [대한민국 상법](https://constitutioncenter.org/media/files/constitution.pdf) as an example.
+This repo uses a [제주 제2항 기본계획(안) 보도자료](https://www.korea.kr/common/download.do?fileId=197236015&tblKey=GMN) as an example.
 
 ## Instructions for ingesting your own dataset
 
