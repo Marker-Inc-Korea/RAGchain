@@ -68,7 +68,25 @@ def load_openai_model():
 
 def load_kullm_model(device:str = "cuda"):
     if device == "cuda":
-        raise ValueError("We are now developing cuda version of KuLLM integration")
+        try:
+            from transformers import AutoTokenizer, pipeline, AutoModelForCausalLM
+            import torch
+        except ImportError:
+            raise ModuleNotFoundError(
+                "Could not import transformers library or torch library "
+                "Please install the transformers library to "
+                "use this embedding model: pip install transformers"
+            )
+        except Exception:
+            raise NameError(f"Could not load model. Check your internet connection.")
+        model_name = "nlpai-lab/kullm-polyglot-5.8b-v2"
+        model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            torch_dtype=torch.float16,
+            low_cpu_mem_usage=False,
+        ).to(device=f"cuda", non_blocking=True)
+        pipe = pipeline("text-generation", model=model, tokenizer=model_name, max_new_tokens=100)
+        return HuggingFacePipeline(pipeline=pipe)
     elif device == "cpu":
         try:
             from langchain.llms import CTransformers
