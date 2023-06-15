@@ -1,7 +1,8 @@
 import openpyxl
 import csv
 import tempfile
-
+from transformers import StoppingCriteria
+import torch
 
 def xlxs_to_csv(file_path: str, sheet_name: str = None) -> list[str]:
     """
@@ -35,3 +36,18 @@ def xlxs_to_csv(file_path: str, sheet_name: str = None) -> list[str]:
     return temp_file_name
 
 
+class StoppingCriteriaSub(StoppingCriteria):
+
+    def __init__(self, stops=[], encounters=1):
+      super().__init__()
+      self.stops = stops
+      self.ENCOUNTERS = encounters
+
+    def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor):
+      stop_count = 0
+      for stop in self.stops:
+        stop_count = (stop == input_ids[0]).sum().item()
+
+      if stop_count >= self.ENCOUNTERS:
+          return True
+      return False

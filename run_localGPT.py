@@ -8,6 +8,7 @@ import click
 import os
 
 from constants import CHROMA_SETTINGS
+from utils import StoppingCriteriaSub
 
 tokenizer_dir = "qwopqwop/KoAlpaca-Polyglot-12.8B-GPTQ"
 
@@ -15,7 +16,8 @@ tokenizer_dir = "qwopqwop/KoAlpaca-Polyglot-12.8B-GPTQ"
 def load_model(model_type: str = "koAlpaca"):
     try:
         from transformers import AutoTokenizer, pipeline, BitsAndBytesConfig, AutoModelForCausalLM, \
-            LogitsProcessorList, RepetitionPenaltyLogitsProcessor, NoRepeatNGramLogitsProcessor
+            LogitsProcessorList, RepetitionPenaltyLogitsProcessor, NoRepeatNGramLogitsProcessor, \
+            StoppingCriteria, StoppingCriteriaList
         import torch
     except ImportError:
         raise ModuleNotFoundError(
@@ -41,8 +43,12 @@ def load_model(model_type: str = "koAlpaca"):
         repetition_penalty = float(1.2)
         logits_processor = LogitsProcessorList(
             [RepetitionPenaltyLogitsProcessor(penalty=repetition_penalty), NoRepeatNGramLogitsProcessor(5)])
+        stop_words = ["!"]
+        stop_words_ids = [tokenizer(stop_word, return_tensors='pt')['input_ids'].squeeze() for stop_word in stop_words]
+        stopping_criteria = StoppingCriteriaList([StoppingCriteriaSub(stops=stop_words_ids, encounters=1)])
         pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=100,
-                        logits_processor=logits_processor)
+                        logits_processor=logits_processor, stopping_criteria=stopping_criteria,
+                        eos_token_id=2, pad_token_id=2)
         return HuggingFacePipeline(pipeline=pipe)
     elif model_type == "openai":
         try:
@@ -90,7 +96,8 @@ def main(device_type, model_type, openai_token):
 
     print(f"Running on: {device}")
 
-    embeddings = HuggingFaceInstructEmbeddings(model_name = "BM-K/KoSimCSE-roberta-multitask", model_kwargs={"device": device})
+    embeddings = HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
+                                               model_kwargs={"device": device})
     # load the vectorstore
     db = Chroma(persist_directory=PERSIST_DIRECTORY, embedding_function=embeddings, client_settings=CHROMA_SETTINGS)
     retriever = db.as_retriever()
