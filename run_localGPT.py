@@ -2,17 +2,18 @@ from langchain.chains import RetrievalQA
 # from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceInstructEmbeddings
-from langchain.llms import HuggingFacePipeline
+from langchain.llms import HuggingFacePipeline, BaseLLM
 from constants import CHROMA_SETTINGS, PERSIST_DIRECTORY
 import click
 import os
+from huggingface_hub import hf_hub_download
 
 from constants import CHROMA_SETTINGS
 
 tokenizer_dir = "qwopqwop/KoAlpaca-Polyglot-12.8B-GPTQ"
 
 
-def load_model(model_type: str = "koAlpaca"):
+def load_ko_alpaca(device: str = "cuda") -> BaseLLM:
     try:
         from transformers import AutoTokenizer, pipeline, BitsAndBytesConfig, AutoModelForCausalLM, \
             LogitsProcessorList, RepetitionPenaltyLogitsProcessor, NoRepeatNGramLogitsProcessor
@@ -26,7 +27,7 @@ def load_model(model_type: str = "koAlpaca"):
     except Exception:
         raise NameError(f"Could not load model. Check your internet connection.")
 
-    if model_type == "koAlpaca":
+    if device == "cuda":
         model_id = "beomi/polyglot-ko-12.8b-safetensors"  # safetensors 컨버팅된 레포
         bnb_config = BitsAndBytesConfig(
             load_in_4bit=True,
@@ -44,16 +45,52 @@ def load_model(model_type: str = "koAlpaca"):
         pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=100,
                         logits_processor=logits_processor)
         return HuggingFacePipeline(pipeline=pipe)
-    elif model_type == "openai":
+    elif device == "cpu":
+        # TODO : Feature/#20
+        raise ValueError("We are developing cpu version of koAlpaca model. See Feature/#20")
+    else:
+        raise ValueError("device type must be cuda or cpu")
+
+
+def load_openai_model():
+    openai_token = os.environ["OPENAI_API_KEY"]
+    if openai_token is None:
+        raise ValueError("OPENAI_API_KEY is empty.")
+    try:
+        from langchain.llms import OpenAI
+    except ImportError:
+        raise ModuleNotFoundError(
+            "Could not import OpenAI library. Please install the OpenAI library."
+            "pip install openai"
+        )
+    return OpenAI()
+
+
+def load_kullm_model(device:str = "cuda"):
+    if device == "cuda":
+        raise ValueError("We are now developing cuda version of KuLLM integration")
+    elif device == "cpu":
         try:
-            from langchain.llms import OpenAI
+            from langchain.llms import CTransformers
         except ImportError:
             raise ModuleNotFoundError(
-                "Could not import OpenAI library. Please install the OpenAI library."
+                "Could not import ctransformers library or torch library "
+                "Please install the ctransformers library to "
+                "pip install ctransformers"
             )
-        return OpenAI()
+        except Exception:
+            raise NameError("Unknown error")
+
+        save_dir = "./models"
+        if not os.path.exists(save_dir):
+            os.makedirs(save_dir)
+        repo_id = "myeolinmalchi/kullm-polyglot-12.8b-v2-GGML"
+        bin_filename = "kullm-polyglot-12.8B-v2.ggmlv3.q5_1.bin"
+        if not os.path.isfile(save_dir + "/" + bin_filename):
+            hf_hub_download(repo_id=repo_id, filename=bin_filename, local_dir=save_dir)
+        return CTransformers(model=save_dir + "/" + bin_filename, model_type="gpt_neox")
     else:
-        raise ValueError(f"Invalid model type: {model_type}")
+        raise ValueError("device type must be cuda or cpu")
 
 # @click.command()
 # @click.option('--device_type', default='gpu', help='device to run on, select gpu or cpu')
@@ -81,10 +118,12 @@ def main(device_type, model_type, openai_token):
         device='cuda'
 
     if model_type in ['koAlpaca', 'KoAlpaca', 'koalpaca', 'Ko-alpaca']:
-        model_type = 'koAlpaca'
+        llm = load_ko_alpaca(device)
     elif model_type in ["OpenAI", "openai", "Openai"]:
-        model_type = "openai"
         os.environ["OPENAI_API_KEY"] = openai_token
+        llm = load_openai_model()
+    elif model_type in ["KULLM", "KuLLM", "kullm"]:
+        llm = load_kullm_model(device)
     else:
         raise ValueError(f"Invalid model type: {model_type}")
 
@@ -97,7 +136,6 @@ def main(device_type, model_type, openai_token):
     # Prepare the LLM
     # callbacks = [StreamingStdOutCallbackHandler()]
     # load the LLM for generating Natural Language responses. 
-    llm = load_model(model_type)
     qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True)
     # Interactive questions and answers
     while True:
