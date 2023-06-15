@@ -32,6 +32,7 @@ pip install -r requirements.txt
 ```
 
 ## 한글파일 사용법
+  KoPrivateGPT 또한 도커 컨테이너로 사용하는 상황을 바탕으로 만들어졌습니다.
 ### Docker
 도커를 다운 받고 hwp converter api 서버용 로컬 컨테이너를 만들어줍니다.
 - [Docker Hub](https://hub.docker.com/r/vkehfdl1/hwp-converter-api)
@@ -43,9 +44,9 @@ docker run -it -d --name hwp-converter -p (외부포트):7000 vkehfdl1/hwp-conve
 ```bash
 #docker network create <NETWORK_NAME>
 docker network create docs-convert-api-net
-#docker connect <NETWORK_NAME> <CONTAINER_NAME>
-docker connect docs-convert-api-net KoPrivateGPT
-docker connect docs-convert-api-net hwp-converter
+#docker network connect <NETWORK_NAME> <CONTAINER_NAME>
+docker network connect docs-convert-api-net KoPrivateGPT
+docker network connect docs-convert-api-net hwp-converter
 ```
 ### ingest.py
 `KoPrivateGPT/ingest.py`로 이동하여 http request 주소를 확인합니다.
