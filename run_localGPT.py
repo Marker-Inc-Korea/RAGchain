@@ -3,6 +3,7 @@ from langchain.chains import RetrievalQA
 from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceInstructEmbeddings
 from langchain.llms import HuggingFacePipeline, BaseLLM
+from langchain.prompts import PromptTemplate
 from constants import CHROMA_SETTINGS, PERSIST_DIRECTORY
 import click
 import os
@@ -52,7 +53,7 @@ def load_ko_alpaca(device: str = "cuda") -> BaseLLM:
         raise ValueError("device type must be cuda or cpu")
 
 
-def load_openai_model():
+def load_openai_model() -> BaseLLM:
     openai_token = os.environ["OPENAI_API_KEY"]
     if openai_token is None:
         raise ValueError("OPENAI_API_KEY is empty.")
@@ -66,7 +67,7 @@ def load_openai_model():
     return OpenAI()
 
 
-def load_kullm_model(device:str = "cuda"):
+def load_kullm_model(device: str = "cuda") -> BaseLLM:
     if device == "cuda":
         try:
             from transformers import AutoTokenizer, pipeline, AutoModelForCausalLM
@@ -153,8 +154,18 @@ def main(device_type, model_type, openai_token):
     retriever = db.as_retriever()
     # Prepare the LLM
     # callbacks = [StreamingStdOutCallbackHandler()]
-    # load the LLM for generating Natural Language responses. 
-    qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True)
+    # load the LLM for generating Natural Language responses.
+    prompt_template = """주어진 정보를 바탕으로 질문에 답하세요. 답을 모른다면 답을 지어내려고 하지 말고 모른다고 답하세요. 
+    질문 이외의 상관 없는 답변을 하지 마세요. 반드시 한국어로 답변하세요.
+    
+    {context}
+    
+    질문: {question}
+    한국어 답변:"""
+    prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
+    chain_type_kwargs = {"prompt": prompt}
+    qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True,
+                                     chain_type_kwargs=chain_type_kwargs)
     # Interactive questions and answers
     while True:
         query = input("\n질문을 입력하세요: ")
