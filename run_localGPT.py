@@ -109,6 +109,11 @@ def main(device_type, model_type, openai_token):
         res = qa({"query": query})
         answer, docs = res['result'], res['source_documents']
 
+        if "question:" in answer:
+            answer = answer.split("question:")[:1]
+        elif "Question:" in answer:
+            answer = answer.split("Question:")[:1]
+
         # Print the result
         print("\n\n> 질문:")
         print(query)
