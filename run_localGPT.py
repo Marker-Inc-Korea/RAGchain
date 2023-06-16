@@ -47,8 +47,19 @@ def load_ko_alpaca(device: str = "cuda") -> BaseLLM:
                         logits_processor=logits_processor)
         return HuggingFacePipeline(pipeline=pipe)
     elif device == "cpu":
-        # TODO : Feature/#20
-        raise ValueError("We are developing cpu version of koAlpaca model. See Feature/#20")
+        try:
+            from langchain.llms import CTransformers
+        except ImportError:
+            raise ModuleNotFoundError(
+                "Could not import ctransformers library or torch library "
+                "Please install the ctransformers library to "
+                "pip install ctransformers"
+            )
+        except Exception:
+            raise NameError("Unknown error")
+        return CTransformers(model="vkehfdl1/KoAlpaca-Polyglot-12.8b-ggml", model_file="KoAlpaca-Polyglot-12.8b-ggml-model-q5_0.bin",
+                             model_type="gpt_neox")
+
     else:
         raise ValueError("device type must be cuda or cpu")
 
