@@ -117,14 +117,8 @@ def load_kullm_model(device: str = "cuda") -> BaseLLM:
         except Exception:
             raise NameError("Unknown error")
 
-        save_dir = "./models"
-        if not os.path.exists(save_dir):
-            os.makedirs(save_dir)
-        repo_id = "myeolinmalchi/kullm-polyglot-12.8b-v2-GGML"
-        bin_filename = "kullm-polyglot-12.8B-v2.ggmlv3.q5_1.bin"
-        if not os.path.isfile(save_dir + "/" + bin_filename):
-            hf_hub_download(repo_id=repo_id, filename=bin_filename, local_dir=save_dir)
-        return CTransformers(model=save_dir + "/" + bin_filename, model_type="gpt_neox")
+        return CTransformers(model="vkehfdl1/KuLLM-Polyglot-12.8b-v2-ggml", model_file="KuLLM-Polyglot-12.8b-v2-ggml-q5_0.bin",
+                             model_type="gpt_neox")
     else:
         raise ValueError("device type must be cuda or cpu")
 

@@ -12,6 +12,7 @@
 
 원래 프로젝트에서 한국에 맞게 변형한 부분은 현재까지 다음과 같습니다. 
 - 한국어 모델 [KoAlpaca](https://github.com/Beomi/KoAlpaca) 적용
+- 한국어 모델 [KuLLM](https://github.com/nlpai-lab/KULLM) 적용 (동작하나, 성능이 좋지 않아 KoAlpaca 사용을 추천합니다)
 - 한국어 임베딩 [Korean-Sentence-Embedding](https://github.com/BM-K/Sentence-Embedding-Is-All-You-Need) 적용
 - HWP 파일 문서 호환 추가 ([hwp-converter-api](https://github.com/edai-club/hwp-converter-api) 사용)
 
@@ -97,6 +98,14 @@ python run_localGPT.py
 
 'exit' 혹은 '종료' 를 입력하면 실행이 종료됩니다.
 
+### KuLLM 모델 사용법
+KuLLM 구동을 위해서는 아래 코드를 입력하세요.
+```shell
+python run_localGPT.py --model_type=KuLLM
+```
+
+현재 동작하지만, 성능이 좋지 않기 때문에 로컬 모델 사용시에서는 KoAlpaca 사용을 추천합니다. 
+
 ## OpenAI 모델 사용법
 기기의 성능이 부족해 KoAlpaca 구동에 실패하였다면, OpenAI 모델을 사용하세요.
 데이터가 OpenAI에 제공되어 완전히 private 하지는 않지만, 낮은 성능의 기기에서도 실행할 수 있습니다. 
@@ -105,6 +114,14 @@ python run_localGPT.py
 ```shell
 python run_localGPT.py --model_type=openai --openai-token=<Your OPENAI TOKEN>
 ```
+
+### CPU에서 구동 방법
+vram 부족 등의 이유로 cuda 기반의 GPU가 아닌 CPU에서 모델을 돌리고자 한다면, 아래처럼 --device_type 옵션을 사용하세요.
+```shell
+python run_localGPT.py --device_type=cpu --model_type=<model_name>
+```
+
+ggml을 이용해 양자화한 5bit 모델을 Ctransformers를 이용해 작동시킵니다.
 
 # 질문 및 답변 예시 - KoAlpaca Polyglot
 KoAlpaca 모델로 cpu에서 실행한 결과입니다. 
