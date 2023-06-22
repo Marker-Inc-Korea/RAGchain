@@ -1,3 +1,4 @@
+import dotenv
 from langchain.chains import RetrievalQA
 # from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.vectorstores import Chroma
@@ -11,28 +12,29 @@ import torch
 from transformers import pipeline, AutoModelForCausalLM
 from run_localGPT import load_ko_alpaca, load_openai_model, load_kullm_model
 
-import os
 from dotenv import load_dotenv
+import os
+
 from fastapi import FastAPI
 from langchain import ConversationChain
 from langchain.chat_models import ChatOpenAI
 
 from lanarky import LangchainRouter
 
+load_dotenv()
 
 def answer(state, state_chatbot, text):
 
     # Interactive questions and answers
 
-    query = input("\n질문을 입력하세요: ")
 
     # Get the answer from the chain
-    res = qa({"query": query})
+    res = qa({"query": text})
     answer, docs = res['result'], res['source_documents']
 
     # Print the result
     print("\n\n> 질문:")
-    print(query)
+    print(text)
     print("\n> 대답:")
     print(answer)
 
@@ -47,7 +49,6 @@ def answer(state, state_chatbot, text):
 
 device = "cpu"
 model_type = "koAlpaca"
-os.environ["OPENAI_API_KEY"] = "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"
 llm = load_openai_model()
 with gr.Blocks(css="#chatbot .overflow-y-auto{height:750px}") as demo:
     with gr.Tab("Setting"):
@@ -131,7 +132,7 @@ with gr.Blocks(css="#chatbot .overflow-y-auto{height:750px}") as demo:
             chatbot = gr.Chatbot(elem_id="chatbot")
 
         with gr.Row():
-            txt = gr.Textbox(show_label=False, placeholder="Send a message...").style(
+            txt = gr.Textbox(show_label=False, placeholder="질문을 입력하세요").style(
                 container=False
             )
 
