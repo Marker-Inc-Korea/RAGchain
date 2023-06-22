@@ -13,7 +13,19 @@ from run_localGPT import load_ko_alpaca, load_openai_model, load_kullm_model
 from dotenv import load_dotenv
 import os
 
+from utils import slice_stop_words
+
 load_dotenv()
+
+STOP_WORDS = ["#", "답변:", "응답:", "\n", "맥락:", "?"]
+
+PROMPT_TEMPLATE = """주어진 정보를 바탕으로 질문에 답하세요. 답을 모른다면 답을 지어내려고 하지 말고 모른다고 답하세요. 
+    질문 이외의 상관 없는 답변을 하지 마세요. 반드시 한국어로 답변하세요.
+
+    {context}
+
+    질문: {question}
+    한국어 답변:"""
 
 
 def ingest(files) -> str:
@@ -26,11 +38,11 @@ def ingest(files) -> str:
     return "Ingest Done"
 
 
-def answer(state, state_chatbot, text):
+def get_answer(state, state_chatbot, text):
     db = Chroma(persist_directory=PERSIST_DIRECTORY, embedding_function=embeddings,
                 client_settings=CHROMA_SETTINGS)
     retriever = db.as_retriever()
-    prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
+    prompt = PromptTemplate(template=PROMPT_TEMPLATE, input_variables=["context", "question"])
     chain_type_kwargs = {"prompt": prompt}
     qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True,
                                      chain_type_kwargs=chain_type_kwargs)
@@ -38,7 +50,7 @@ def answer(state, state_chatbot, text):
     # Get the answer from the chain
     res = qa({"query": text})
     answer, docs = res['result'], res['source_documents']
-
+    answer = slice_stop_words(answer, STOP_WORDS)
     # Print the result
     print("\n\n> 질문:")
     print(text)
@@ -95,13 +107,6 @@ with gr.Blocks(css="#chatbot .overflow-y-auto{height:750px}") as demo:
     # Prepare the LLM
     # callbacks = [StreamingStdOutCallbackHandler()]
     # load the LLM for generating Natural Language responses.
-    prompt_template = """주어진 정보를 바탕으로 질문에 답하세요. 답을 모른다면 답을 지어내려고 하지 말고 모른다고 답하세요. 
-    질문 이외의 상관 없는 답변을 하지 마세요. 반드시 한국어로 답변하세요.
-
-    {context}
-
-    질문: {question}
-    한국어 답변:"""
 
     state = gr.State(
         [
@@ -142,7 +147,7 @@ with gr.Blocks(css="#chatbot .overflow-y-auto{height:750px}") as demo:
                 container=False
             )
 
-        txt.submit(answer, [state, state_chatbot, txt], [state, state_chatbot, chatbot])
+        txt.submit(get_answer, [state, state_chatbot, txt], [state, state_chatbot, chatbot])
         txt.submit(lambda: "", None, txt)
 
 demo.launch(share=True, debug=True, server_name="0.0.0.0")
