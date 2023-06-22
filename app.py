@@ -52,7 +52,7 @@ def get_answer(state, state_chatbot, text):
     answer, docs = res['result'], res['source_documents']
     answer = slice_stop_words(answer, STOP_WORDS)
     # Print the result
-    new_state = [{"role": "이전 질문", "context": text},{"role": "이전 답변", "content": answer}]
+    new_state = [{"role": "이전 질문", "context": text}, {"role": "이전 답변", "content": answer}]
     state = state + new_state
     state_chatbot = state_chatbot + [(text, answer)]
     print("\n\n> 질문:")
@@ -69,9 +69,25 @@ def get_answer(state, state_chatbot, text):
 
     return state, state_chatbot, state_chatbot
 
+
 device = "cpu"
-model_type = "koAlpaca"
+model_type = "OpenAI"
 llm = load_openai_model()
+state = gr.State(
+    [
+        {
+            "role": "맥락",
+            "content": "KoPrivateGPT는 완전 Private DQA, LLM 기반 챗봇을 위한 시스템을 위해 만든 것입니다.",
+        },
+        {"role": "명령어", "content": "친절한 AI 챗봇 KoPrivateGPT 로서 답변을 합니다."},
+        {
+            "role": "명령어",
+            "content": "인사에는 짧고 간단한 친절한 인사로 답하고, 아래 대화에 간단하고 짧게 답해주세요.",
+        },
+    ]
+)
+state_chatbot = gr.State([])
+
 with gr.Blocks(css="#chatbot .overflow-y-auto{height:750px}") as demo:
     with gr.Tab("Setting"):
         device_type = gr.Textbox("Device Type (CPU, GPU, MPS 중 택1)")
@@ -82,58 +98,47 @@ with gr.Blocks(css="#chatbot .overflow-y-auto{height:750px}") as demo:
         elif device_type in ['gpu', 'GPU']:
             device = 'cuda'
         else:
-            #raise ValueError(f"Invalid device type: {device_type}")
+            # raise ValueError(f"Invalid device type: {device_type}")
             gr.Error(f"Invalid device type: {device_type}")
+        embeddings = HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
+                                                   model_kwargs={"device": device})
 
-    embeddings = HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
-                                               model_kwargs={"device": device})
-
-        #model_type = gr.Textbox("Model (KoAlpaca, KuLLM, OpenAI 중 택1)")
-        #openai_token = gr.Textbox("OpenAI 토큰")
-        #if model_type in ['koAlpaca', 'KoAlpaca', 'koalpaca', 'Ko-alpaca']:
+        # model_type = gr.Textbox("Model (KoAlpaca, KuLLM, OpenAI 중 택1)")
+        # openai_token = gr.Textbox("OpenAI 토큰")
+        # if model_type in ['koAlpaca', 'KoAlpaca', 'koalpaca', 'Ko-alpaca']:
         #    llm = load_ko_alpaca(device)
-        #elif model_type in ["OpenAI", "openai", "Openai"]:
+        # elif model_type in ["OpenAI", "openai", "Openai"]:
         #    os.environ["OPENAI_API_KEY"] = openai_token
         #    llm = load_openai_model()
-        #elif model_type in ["KULLM", "KuLLM", "kullm"]:
+        # elif model_type in ["KULLM", "KuLLM", "kullm"]:
         #    llm = load_kullm_model(device)
-        #else:
+        # else:
         #    #raise ValueError(f"Invalid model type: {model_type}")
         #    gr.Error(f"Invalid model type: {model_type}")
-        #gr.Markdown(f"Running on: {device} Running with: {model_type}")
-
-    upload_files = gr.Files()
-    ingest_status = gr.Textbox(value="", label="Ingest Status")
-    ingest_button = gr.Button("Ingest")
-    ingest_button.click(ingest, inputs=[upload_files], outputs=[ingest_status])
+        # gr.Markdown(f"Running on: {device} Running with: {model_type}")
+    with gr.Tab("Ingest"):
+        upload_files = gr.Files()
+        ingest_status = gr.Textbox(value="", label="Ingest Status")
+        ingest_button = gr.Button("Ingest")
+        ingest_button.click(ingest, inputs=[upload_files], outputs=[ingest_status])
 
     # Prepare the LLM
     # callbacks = [StreamingStdOutCallbackHandler()]
     # load the LLM for generating Natural Language responses.
 
-    state = gr.State(
-        [
-            {
-                "role": "맥락",
-                "content": "KoPrivateGPT는 완전 Private DQA, LLM 기반 챗봇을 위한 시스템을 위해 만든 것입니다.",
-            },
-            {"role": "명령어", "content": "친절한 AI 챗봇 KoPrivateGPT 로서 답변을 합니다."},
-            {
-                "role": "명령어",
-                "content": "인사에는 짧고 간단한 친절한 인사로 답하고, 아래 대화에 간단하고 짧게 답해주세요.",
-            },
-        ]
-    )
-    state_chatbot = gr.State([])
-    with gr.Tab("Setting"):
+    with gr.Tab("KoPrivateGPT"):
         with gr.Row():
             gr.HTML(
                 """<div style="text-align: center; max-width: 500px; margin: 0 auto;">
                 <div>
-                    <h1>ChatKoAlpaca 12.8B (v1.1b-chat-8bit)</h1>
+                """ +
+                f"<h1>KoPrivateGPT with {model_type}</h1>"
+                + """
                 </div>
                 <div>
-                    Demo runs on RTX 3090 (24GB) with 8bit quantized
+                """ +
+                f"Demo runs on {device}"
+                + """
                 </div>
             </div>"""
             )
