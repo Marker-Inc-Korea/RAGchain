@@ -1,32 +1,39 @@
-import dotenv
 from langchain.chains import RetrievalQA
-# from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceInstructEmbeddings
-from langchain.llms import HuggingFacePipeline, BaseLLM
 from langchain.prompts import PromptTemplate
 from constants import CHROMA_SETTINGS, PERSIST_DIRECTORY
 
 import gradio as gr
-import torch
-from transformers import pipeline, AutoModelForCausalLM
+
+from ingest import load_single_document
 from run_localGPT import load_ko_alpaca, load_openai_model, load_kullm_model
 
 from dotenv import load_dotenv
 import os
 
-from fastapi import FastAPI
-from langchain import ConversationChain
-from langchain.chat_models import ChatOpenAI
-
-from lanarky import LangchainRouter
-
 load_dotenv()
 
+
+def ingest(files) -> str:
+    file_paths = [f.name for f in files]
+    documents = [load_single_document(path) for path in file_paths]
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=30)
+    texts = text_splitter.split_documents(documents)
+    db = Chroma.from_documents(texts, embeddings, persist_directory=PERSIST_DIRECTORY, client_settings=CHROMA_SETTINGS)
+    db.persist()
+    return "Ingest Done"
+
+
 def answer(state, state_chatbot, text):
-
-    # Interactive questions and answers
-
+    db = Chroma(persist_directory=PERSIST_DIRECTORY, embedding_function=embeddings,
+                client_settings=CHROMA_SETTINGS)
+    retriever = db.as_retriever()
+    prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
+    chain_type_kwargs = {"prompt": prompt}
+    qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True,
+                                     chain_type_kwargs=chain_type_kwargs)
 
     # Get the answer from the chain
     res = qa({"query": text})
@@ -63,6 +70,9 @@ with gr.Blocks(css="#chatbot .overflow-y-auto{height:750px}") as demo:
             #raise ValueError(f"Invalid device type: {device_type}")
             gr.Error(f"Invalid device type: {device_type}")
 
+    embeddings = HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
+                                               model_kwargs={"device": device})
+
         #model_type = gr.Textbox("Model (KoAlpaca, KuLLM, OpenAI 중 택1)")
         #openai_token = gr.Textbox("OpenAI 토큰")
         #if model_type in ['koAlpaca', 'KoAlpaca', 'koalpaca', 'Ko-alpaca']:
@@ -77,11 +87,11 @@ with gr.Blocks(css="#chatbot .overflow-y-auto{height:750px}") as demo:
         #    gr.Error(f"Invalid model type: {model_type}")
         #gr.Markdown(f"Running on: {device} Running with: {model_type}")
 
-    embeddings = HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
-                                               model_kwargs={"device": device})
-    # load the vectorstore
-    db = Chroma(persist_directory=PERSIST_DIRECTORY, embedding_function=embeddings, client_settings=CHROMA_SETTINGS)
-    retriever = db.as_retriever()
+    upload_files = gr.Files()
+    ingest_status = gr.Textbox(value="", label="Ingest Status")
+    ingest_button = gr.Button("Ingest")
+    ingest_button.click(ingest, inputs=[upload_files], outputs=[ingest_status])
+
     # Prepare the LLM
     # callbacks = [StreamingStdOutCallbackHandler()]
     # load the LLM for generating Natural Language responses.
@@ -92,10 +102,6 @@ with gr.Blocks(css="#chatbot .overflow-y-auto{height:750px}") as demo:
 
     질문: {question}
     한국어 답변:"""
-    prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
-    chain_type_kwargs = {"prompt": prompt}
-    qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True,
-                                     chain_type_kwargs=chain_type_kwargs)
 
     state = gr.State(
         [

@@ -81,7 +81,7 @@ def load_openai_model() -> BaseLLM:
             "Could not import OpenAI library. Please install the OpenAI library."
             "pip install openai"
         )
-    return OpenAI()
+    return OpenAI(max_tokens=1024)
 
 
 def load_kullm_model(device: str = "cuda") -> BaseLLM:
