@@ -1,3 +1,5 @@
+from typing import List
+
 import openpyxl
 import csv
 import tempfile
@@ -51,3 +53,12 @@ class StoppingCriteriaSub(StoppingCriteria):
       if stop_count >= self.ENCOUNTERS:
           return True
       return False
+
+
+def slice_stop_words(input_str: str, stop_words: List[str]):
+    for stop_word in stop_words:
+        if stop_word in input_str:
+            temp_ans = input_str.split(stop_word)[0]
+            if temp_ans:
+                input_str = temp_ans
+    return input_str

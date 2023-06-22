@@ -1,41 +1,56 @@
-import dotenv
 from langchain.chains import RetrievalQA
-# from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceInstructEmbeddings
-from langchain.llms import HuggingFacePipeline, BaseLLM
 from langchain.prompts import PromptTemplate
 from constants import CHROMA_SETTINGS, PERSIST_DIRECTORY
 
 import gradio as gr
-import torch
-from transformers import pipeline, AutoModelForCausalLM
+
+from ingest import load_single_document
 from run_localGPT import load_ko_alpaca, load_openai_model, load_kullm_model
 
 from dotenv import load_dotenv
 import os
 
-#from fastapi import FastAPI
-from langchain import ConversationChain
-from langchain.chat_models import ChatOpenAI
-
-from lanarky import LangchainRouter
+from utils import slice_stop_words
 
 load_dotenv()
 
-def answer(state, state_chatbot, text):
+STOP_WORDS = ["#", "답변:", "응답:", "\n", "맥락:", "?"]
 
-    # Interactive questions and answers
-    messages = state + [{"role": "질문", "content": text}]
+PROMPT_TEMPLATE = """주어진 정보를 바탕으로 질문에 답하세요. 답을 모른다면 답을 지어내려고 하지 말고 모른다고 답하세요. 
+    질문 이외의 상관 없는 답변을 하지 마세요. 반드시 한국어로 답변하세요.
 
-    conversation_history = "\n".join(
-        [f"### {msg['role']}:\n{msg['content']}" for msg in messages]
-    )
+    {context}
+
+    질문: {question}
+    한국어 답변:"""
+
+
+def ingest(files) -> str:
+    file_paths = [f.name for f in files]
+    documents = [load_single_document(path) for path in file_paths]
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=30)
+    texts = text_splitter.split_documents(documents)
+    db = Chroma.from_documents(texts, embeddings, persist_directory=PERSIST_DIRECTORY, client_settings=CHROMA_SETTINGS)
+    db.persist()
+    return "Ingest Done"
+
+
+def get_answer(state, state_chatbot, text):
+    db = Chroma(persist_directory=PERSIST_DIRECTORY, embedding_function=embeddings,
+                client_settings=CHROMA_SETTINGS)
+    retriever = db.as_retriever()
+    prompt = PromptTemplate(template=PROMPT_TEMPLATE, input_variables=["context", "question"])
+    chain_type_kwargs = {"prompt": prompt}
+    qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True,
+                                     chain_type_kwargs=chain_type_kwargs)
+
     # Get the answer from the chain
     res = qa({"query": text})
     answer, docs = res['result'], res['source_documents']
-
-    msg = {"role": "대답", "content": answer}
+    answer = slice_stop_words(answer, STOP_WORDS)
     # Print the result
     new_state = [{"role": "이전 질문", "context": text},{"role": "이전 답변", "content": answer}]
     state = state + new_state
@@ -70,6 +85,9 @@ with gr.Blocks(css="#chatbot .overflow-y-auto{height:750px}") as demo:
             #raise ValueError(f"Invalid device type: {device_type}")
             gr.Error(f"Invalid device type: {device_type}")
 
+    embeddings = HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
+                                               model_kwargs={"device": device})
+
         #model_type = gr.Textbox("Model (KoAlpaca, KuLLM, OpenAI 중 택1)")
         #openai_token = gr.Textbox("OpenAI 토큰")
         #if model_type in ['koAlpaca', 'KoAlpaca', 'koalpaca', 'Ko-alpaca']:
@@ -84,25 +102,14 @@ with gr.Blocks(css="#chatbot .overflow-y-auto{height:750px}") as demo:
         #    gr.Error(f"Invalid model type: {model_type}")
         #gr.Markdown(f"Running on: {device} Running with: {model_type}")
 
-    embeddings = HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
-                                               model_kwargs={"device": device})
-    # load the vectorstore
-    db = Chroma(persist_directory=PERSIST_DIRECTORY, embedding_function=embeddings, client_settings=CHROMA_SETTINGS)
-    retriever = db.as_retriever()
+    upload_files = gr.Files()
+    ingest_status = gr.Textbox(value="", label="Ingest Status")
+    ingest_button = gr.Button("Ingest")
+    ingest_button.click(ingest, inputs=[upload_files], outputs=[ingest_status])
+
     # Prepare the LLM
     # callbacks = [StreamingStdOutCallbackHandler()]
     # load the LLM for generating Natural Language responses.
-    prompt_template = """주어진 정보를 바탕으로 질문에 답하세요. 답을 모른다면 답을 지어내려고 하지 말고 모른다고 답하세요. 
-    질문 이외의 상관 없는 답변을 하지 마세요. 반드시 한국어로 답변하세요.
-
-    {context}
-
-    질문: {question}
-    한국어 답변:"""
-    prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
-    chain_type_kwargs = {"prompt": prompt}
-    qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True,
-                                     chain_type_kwargs=chain_type_kwargs)
 
     state = gr.State(
         [
@@ -139,7 +146,7 @@ with gr.Blocks(css="#chatbot .overflow-y-auto{height:750px}") as demo:
                 container=False
             )
 
-        txt.submit(answer, [state, state_chatbot, txt], [state, state_chatbot, chatbot])
+        txt.submit(get_answer, [state, state_chatbot, txt], [state, state_chatbot, chatbot])
         txt.submit(lambda: "", None, txt)
 
 demo.launch(share=True, debug=True, server_name="0.0.0.0")
