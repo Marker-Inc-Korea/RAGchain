@@ -5,3 +5,4 @@
 /models
 .env
 /evaluate/DB
+/SOURCE_DOCUMENTS
