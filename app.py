@@ -52,6 +52,9 @@ def get_answer(state, state_chatbot, text):
     answer, docs = res['result'], res['source_documents']
     answer = slice_stop_words(answer, STOP_WORDS)
     # Print the result
+    new_state = [{"role": "이전 질문", "context": text},{"role": "이전 답변", "content": answer}]
+    state = state + new_state
+    state_chatbot = state_chatbot + [(text, answer)]
     print("\n\n> 질문:")
     print(text)
     print("\n> 대답:")
@@ -112,13 +115,9 @@ with gr.Blocks(css="#chatbot .overflow-y-auto{height:750px}") as demo:
         [
             {
                 "role": "맥락",
-                "content": "KoAlpaca(코알파카)는 EleutherAI에서 개발한 Polyglot-ko 라는 한국어 모델을 기반으로, 자연어 처리 연구자 Beomi가 개발한 모델입니다.",
+                "content": "KoPrivateGPT는 완전 Private DQA, LLM 기반 챗봇을 위한 시스템을 위해 만든 것입니다.",
             },
-            {
-                "role": "맥락",
-                "content": "ChatKoAlpaca(챗코알파카)는 KoAlpaca를 채팅형으로 만든 것입니다.",
-            },
-            {"role": "명령어", "content": "친절한 AI 챗봇인 ChatKoAlpaca 로서 답변을 합니다."},
+            {"role": "명령어", "content": "친절한 AI 챗봇 KoPrivateGPT 로서 답변을 합니다."},
             {
                 "role": "명령어",
                 "content": "인사에는 짧고 간단한 친절한 인사로 답하고, 아래 대화에 간단하고 짧게 답해주세요.",
