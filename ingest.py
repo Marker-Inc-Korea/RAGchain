@@ -9,6 +9,7 @@ from langchain.docstore.document import Document
 from constants import CHROMA_SETTINGS, SOURCE_DIRECTORY, PERSIST_DIRECTORY
 from langchain.embeddings import HuggingFaceInstructEmbeddings
 from hwp import HwpLoader
+from db import DB
 
 HwpConvertOpt = 'all'#'main-only'
 HwpConvertHost = f'http://hwp-converter:7000/upload?option={HwpConvertOpt}'
@@ -59,7 +60,8 @@ def embedding_open_api():
 
 @click.command()
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
-def main(device_type, ):
+@click.option('--db_type', default='chroma', help='vector database to use, select chroma or pinecone')
+def main(device_type, db_type):
     # load the instructorEmbeddings
     if device_type in ['cpu', 'CPU']:
         device='cpu'
@@ -81,8 +83,7 @@ def main(device_type, ):
     #HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
     #                                           model_kwargs={"device": device})
 
-    db = Chroma.from_documents(texts, embeddings, persist_directory=PERSIST_DIRECTORY, client_settings=CHROMA_SETTINGS)
-    db.persist()
+    db = DB(db_type, embeddings).from_documents(texts)
     db = None
 
 
