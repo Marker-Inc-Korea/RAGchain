@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 import os
 
 from utils import slice_stop_words
+from db import DB
 
 load_dotenv()
 
@@ -41,15 +42,14 @@ def ingest(files) -> str:
     documents = [load_single_document(path) for path in file_paths]
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=30)
     texts = text_splitter.split_documents(documents)
-    db = Chroma.from_documents(texts, embeddings, persist_directory=PERSIST_DIRECTORY, client_settings=CHROMA_SETTINGS)
+    db = DB('pinecone', embeddings).from_documents(texts)
     db.persist()
     db = None
     return "Ingest Done"
 
 
 def get_answer(text):
-    db = Chroma(persist_directory=PERSIST_DIRECTORY, embedding_function=embeddings,
-                client_settings=CHROMA_SETTINGS)
+    db = DB('pinecone', embeddings).load()
     retriever = db.as_retriever()
     prompt = PromptTemplate(template=PROMPT_TEMPLATE, input_variables=["context", "question"])
     chain_type_kwargs = {"prompt": prompt}

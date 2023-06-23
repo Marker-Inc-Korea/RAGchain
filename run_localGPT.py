@@ -76,7 +76,7 @@ def load_openai_model() -> BaseLLM:
             "Could not import OpenAI library. Please install the OpenAI library."
             "pip install openai"
         )
-    return OpenAI(max_tokens=1024)
+    return OpenAI(max_tokens=1024, model_name='gpt-3.5-turbo-16k')
 
 
 def load_kullm_model(device: str = "cuda") -> BaseLLM:
@@ -165,7 +165,7 @@ def main(device_type, model_type, db_type, embedding_type):
     #
     # load the vectorstore
     db = DB(db_type, embeddings).load()
-    retriever = db.as_retriever()
+    retriever = db.as_retriever(search_kwargs={"k": 4})
     # Prepare the LLM
     # callbacks = [StreamingStdOutCallbackHandler()]
     # load the LLM for generating Natural Language responses.

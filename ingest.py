@@ -4,13 +4,13 @@ from typing import List
 from utils import xlxs_to_csv
 from langchain.document_loaders import TextLoader, PDFMinerLoader, CSVLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import Chroma
 from langchain.docstore.document import Document
-from constants import CHROMA_SETTINGS, SOURCE_DIRECTORY, PERSIST_DIRECTORY
+from constants import SOURCE_DIRECTORY
 from langchain.embeddings import HuggingFaceInstructEmbeddings
 from hwp import HwpLoader
 from db import DB
 from dotenv import load_dotenv
+from tqdm import tqdm
 
 HwpConvertOpt = 'all'#'main-only'
 HwpConvertHost = f'http://hwp-converter:7000/upload?option={HwpConvertOpt}'
@@ -35,7 +35,7 @@ def load_documents(source_dir: str) -> List[Document]:
     all_files = os.listdir(source_dir)
     docs = []
 
-    for file_path in all_files:
+    for file_path in tqdm(all_files):
         if file_path[-4:] == 'xlsx':
             for doc in xlxs_to_csv(f"{source_dir}/{file_path}"):
                 docs.append(load_single_document(doc))
@@ -76,7 +76,7 @@ def main(device_type, db_type, embedding_type):
     #  Load documents and split in chunks
     print(f"Loading documents from {SOURCE_DIRECTORY}")
     documents = load_documents(SOURCE_DIRECTORY)
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=30)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     texts = text_splitter.split_documents(documents)
     print(f"Loaded {len(documents)} documents from {SOURCE_DIRECTORY}")
     print(f"Split into {len(texts)} chunks of text")
