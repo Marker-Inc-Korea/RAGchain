@@ -17,3 +17,5 @@ xformers
 openai
 torch
 ctransformers
+pinecone-client
+python-dotenv
