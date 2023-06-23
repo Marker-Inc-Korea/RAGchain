@@ -8,6 +8,7 @@ from constants import CHROMA_SETTINGS, PERSIST_DIRECTORY
 import click
 import os
 from huggingface_hub import hf_hub_download
+from ingest import embedding_open_api
 
 from constants import CHROMA_SETTINGS
 from utils import StoppingCriteriaSub
@@ -159,8 +160,9 @@ def main(device_type, model_type, openai_token):
 
     print(f"Running on: {device}")
 
-    embeddings = HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
-                                               model_kwargs={"device": device})
+    embeddings = embedding_open_api()
+    #HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
+    #                                           model_kwargs={"device": device})
     # load the vectorstore
     db = Chroma(persist_directory=PERSIST_DIRECTORY, embedding_function=embeddings, client_settings=CHROMA_SETTINGS)
     retriever = db.as_retriever()

@@ -7,7 +7,7 @@ from constants import CHROMA_SETTINGS, PERSIST_DIRECTORY
 
 import gradio as gr
 
-from ingest import load_single_document
+from ingest import load_single_document, embedding_open_api
 from run_localGPT import load_ko_alpaca, load_openai_model, load_kullm_model
 
 from dotenv import load_dotenv
@@ -31,8 +31,9 @@ device = "cuda"
 model_type = "OpenAI"
 llm = load_openai_model()
 
-embeddings = HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
-                                           model_kwargs={"device": device})
+embeddings = embedding_open_api()
+#HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
+#                                           model_kwargs={"device": device})
 
 
 def ingest(files) -> str:

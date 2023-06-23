@@ -43,6 +43,19 @@ def load_documents(source_dir: str) -> List[Document]:
             print(f"Unknown file type: {file_path}")
     return docs
 
+def embedding_open_api():
+    openai_token = os.environ["OPENAI_API_KEY"]
+    if openai_token is None:
+        raise ValueError("OPENAI_API_KEY is empty.")
+    try:
+        from langchain.embeddings import OpenAIEmbeddings
+    except ImportError:
+        raise ModuleNotFoundError(
+            "Could not import OpenAI library. Please install the OpenAI library."
+            "pip install openai"
+        )
+    return OpenAIEmbeddings(openai_api_key=openai_token)
+
 
 @click.command()
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
@@ -64,8 +77,9 @@ def main(device_type, ):
     print(f"Split into {len(texts)} chunks of text")
 
     # Create embeddings
-    embeddings = HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
-                                               model_kwargs={"device": device})
+    embeddings = embedding_open_api()
+    #HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
+    #                                           model_kwargs={"device": device})
 
     db = Chroma.from_documents(texts, embeddings, persist_directory=PERSIST_DIRECTORY, client_settings=CHROMA_SETTINGS)
     db.persist()
