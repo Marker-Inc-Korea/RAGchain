@@ -133,7 +133,8 @@ def load_kullm_model(device: str = "cuda") -> BaseLLM:
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
 @click.option('--model_type', default='koAlpaca', help='model to run on, select koAlpaca or openai')
 @click.option('--db_type', default='chroma', help='vector database to use, select chroma or pinecone')
-def main(device_type, model_type, db_type):
+@click.option('--embedding_type', default='KoSimCSE', help='embedding model to use, select OpenAI or KoSimCSE')
+def main(device_type, model_type, db_type, embedding_type):
     load_dotenv()
     # load the instructorEmbeddings
     if device_type in ['cpu', 'CPU']:
@@ -154,9 +155,14 @@ def main(device_type, model_type, db_type):
 
     print(f"Running on: {device}")
 
-    embeddings = embedding_open_api()
-    #HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
-    #                                           model_kwargs={"device": device})
+    if embedding_type in ["OpenAI", "openai", "Openai"]:
+        embeddings = embedding_open_api()
+    elif embedding_type in ["KoSimCSE", "KOSIMCSE", "kosimcse", "Ko-simcse"]:
+        embeddings = HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
+                                    model_kwargs={"device": device})
+    else:
+        raise ValueError(f"Invalid model type: {embedding_type}")
+    #
     # load the vectorstore
     db = DB(db_type, embeddings).load()
     retriever = db.as_retriever()

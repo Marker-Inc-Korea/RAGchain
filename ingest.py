@@ -10,6 +10,7 @@ from constants import CHROMA_SETTINGS, SOURCE_DIRECTORY, PERSIST_DIRECTORY
 from langchain.embeddings import HuggingFaceInstructEmbeddings
 from hwp import HwpLoader
 from db import DB
+from dotenv import load_dotenv
 
 HwpConvertOpt = 'all'#'main-only'
 HwpConvertHost = f'http://hwp-converter:7000/upload?option={HwpConvertOpt}'
@@ -61,7 +62,9 @@ def embedding_open_api():
 @click.command()
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
 @click.option('--db_type', default='chroma', help='vector database to use, select chroma or pinecone')
-def main(device_type, db_type):
+@click.option('--embedding_type', default='KoSimCSE', help='embedding model to use, select OpenAI or KoSimCSE')
+def main(device_type, db_type, embedding_type):
+    load_dotenv()
     # load the instructorEmbeddings
     if device_type in ['cpu', 'CPU']:
         device='cpu'
@@ -79,9 +82,13 @@ def main(device_type, db_type):
     print(f"Split into {len(texts)} chunks of text")
 
     # Create embeddings
-    embeddings = embedding_open_api()
-    #HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
-    #                                           model_kwargs={"device": device})
+    if embedding_type in ['OpenAI', 'openai', 'OPENAI']:
+        embeddings = embedding_open_api()
+    elif embedding_type in ["KoSimCSE", "KOSIMCSE", "kosimcse", "Ko-simcse"]:
+        embeddings = HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
+                                                   model_kwargs={"device": device})
+    else:
+        raise ValueError(f"Invalid model type: {embedding_type}")
 
     db = DB(db_type, embeddings).from_documents(texts)
     db = None
