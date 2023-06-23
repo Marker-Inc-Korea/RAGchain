@@ -1,18 +1,12 @@
 from langchain.chains import RetrievalQA
-# from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
-from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceInstructEmbeddings
 from langchain.llms import HuggingFacePipeline, BaseLLM
 from langchain.prompts import PromptTemplate
-from constants import CHROMA_SETTINGS, PERSIST_DIRECTORY
 import click
 import os
-from huggingface_hub import hf_hub_download
 
-from constants import CHROMA_SETTINGS
+from db import DB
 from utils import StoppingCriteriaSub
-
-tokenizer_dir = "qwopqwop/KoAlpaca-Polyglot-12.8B-GPTQ"
 
 
 def load_ko_alpaca(device: str = "cuda") -> BaseLLM:
@@ -138,7 +132,8 @@ def load_kullm_model(device: str = "cuda") -> BaseLLM:
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
 @click.option('--model_type', default='koAlpaca', help='model to run on, select koAlpaca or openai')
 @click.option('--openai-token', help='openai token')
-def main(device_type, model_type, openai_token):
+@click.option('--db_type', default='chroma', help='vector database to use, select chroma or pinecone')
+def main(device_type, model_type, openai_token, db_type):
     # load the instructorEmbeddings
     if device_type in ['cpu', 'CPU']:
         device='cpu'
@@ -162,7 +157,7 @@ def main(device_type, model_type, openai_token):
     embeddings = HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
                                                model_kwargs={"device": device})
     # load the vectorstore
-    db = Chroma(persist_directory=PERSIST_DIRECTORY, embedding_function=embeddings, client_settings=CHROMA_SETTINGS)
+    db = DB(db_type, embeddings).load()
     retriever = db.as_retriever()
     # Prepare the LLM
     # callbacks = [StreamingStdOutCallbackHandler()]
