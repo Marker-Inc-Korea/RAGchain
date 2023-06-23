@@ -7,7 +7,7 @@ import os
 
 from db import DB
 from utils import StoppingCriteriaSub
-
+from dotenv import load_dotenv
 
 def load_ko_alpaca(device: str = "cuda") -> BaseLLM:
     try:
@@ -67,7 +67,7 @@ def load_ko_alpaca(device: str = "cuda") -> BaseLLM:
 def load_openai_model() -> BaseLLM:
     openai_token = os.environ["OPENAI_API_KEY"]
     if openai_token is None:
-        raise ValueError("OPENAI_API_KEY is empty.")
+        raise ValueError("OPENAI_API_KEY is empty. Set OPENAI_API_KEY at .env file")
     try:
         from langchain.llms import OpenAI
     except ImportError:
@@ -131,9 +131,9 @@ def load_kullm_model(device: str = "cuda") -> BaseLLM:
 @click.command()
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
 @click.option('--model_type', default='koAlpaca', help='model to run on, select koAlpaca or openai')
-@click.option('--openai-token', help='openai token')
 @click.option('--db_type', default='chroma', help='vector database to use, select chroma or pinecone')
-def main(device_type, model_type, openai_token, db_type):
+def main(device_type, model_type, db_type):
+    load_dotenv()
     # load the instructorEmbeddings
     if device_type in ['cpu', 'CPU']:
         device='cpu'
@@ -145,7 +145,6 @@ def main(device_type, model_type, openai_token, db_type):
     if model_type in ['koAlpaca', 'KoAlpaca', 'koalpaca', 'Ko-alpaca']:
         llm = load_ko_alpaca(device)
     elif model_type in ["OpenAI", "openai", "Openai"]:
-        os.environ["OPENAI_API_KEY"] = openai_token
         llm = load_openai_model()
     elif model_type in ["KULLM", "KuLLM", "kullm"]:
         llm = load_kullm_model(device)
