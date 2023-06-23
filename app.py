@@ -86,16 +86,6 @@ with gr.Blocks(analytics_enabled=False) as demo:
                 </div>
             </div>"""
     )
-    gr.HTML(
-        """<div style="text-align: center; max-width: 1000px; margin: 0 auto;">
-    법제처 지식창고 간행물 110개 문서와 헌법, 민법, 상법, 형법, 임대차보호법 등의 법령 전문의 문서가 이미 임베딩되어 있습니다.<br>
-    <h4>질문 예시</h4>
-    <div>Q. 지방자치단체가 어떤 정책을 추진하기로 결정한 경우 이를 조례 등 자피법규로 규정해야 하나요?<br>
-Q. 대한민국 상법 상 기업의 성립 조건은 무엇인가요?<br>
-Q. 헌법에서 규정하고 있는 대한민국의 영토는 어디인가요?<br>
-Q. 임대차보호법 상 전세 계약 시에 최소 지켜야 하는 계약 기간은 어떻게 되나요?<br></div>
-    </div>"""
-    )
     with gr.Row():
         with gr.Column(scale=2):
             query = gr.Textbox(label="질문 내용", placeholder="질문을 입력하세요", interactive=True,lines=17, max_lines=17)
