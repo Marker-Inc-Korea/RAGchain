@@ -1,5 +1,4 @@
 from langchain.chains import RetrievalQA
-from langchain.embeddings import HuggingFaceInstructEmbeddings
 from langchain.llms import HuggingFacePipeline, BaseLLM
 from langchain.prompts import PromptTemplate
 import click
@@ -8,6 +7,7 @@ import os
 from db import DB
 from utils import StoppingCriteriaSub
 from dotenv import load_dotenv
+from embedding import EMBEDDING
 
 def load_ko_alpaca(device: str = "cuda") -> BaseLLM:
     try:
@@ -75,7 +75,7 @@ def load_openai_model() -> BaseLLM:
             "Could not import OpenAI library. Please install the OpenAI library."
             "pip install openai"
         )
-    return OpenAI(max_tokens=1024)
+    return OpenAI(max_tokens=1024, model_name='gpt-3.5-turbo-16k')
 
 
 def load_kullm_model(device: str = "cuda") -> BaseLLM:
@@ -132,7 +132,8 @@ def load_kullm_model(device: str = "cuda") -> BaseLLM:
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
 @click.option('--model_type', default='koAlpaca', help='model to run on, select koAlpaca or openai')
 @click.option('--db_type', default='chroma', help='vector database to use, select chroma or pinecone')
-def main(device_type, model_type, db_type):
+@click.option('--embedding_type', default='KoSimCSE', help='embedding model to use, select OpenAI or KoSimCSE.')
+def main(device_type, model_type, db_type, embedding_type):
     load_dotenv()
     # load the instructorEmbeddings
     if device_type in ['cpu', 'CPU']:
@@ -153,11 +154,11 @@ def main(device_type, model_type, db_type):
 
     print(f"Running on: {device}")
 
-    embeddings = HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
-                                               model_kwargs={"device": device})
+    embeddings = EMBEDDING(embed_type=embedding_type).embedding()
+
     # load the vectorstore
     db = DB(db_type, embeddings).load()
-    retriever = db.as_retriever()
+    retriever = db.as_retriever(search_kwargs={"k": 4})
     # Prepare the LLM
     # callbacks = [StreamingStdOutCallbackHandler()]
     # load the LLM for generating Natural Language responses.
