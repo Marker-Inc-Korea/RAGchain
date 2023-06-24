@@ -7,13 +7,12 @@ RUN alias pip=pip3
 RUN pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 RUN apt-get install -y curl git wget --fix-missing
 RUN mkdir workspace
-RUN cd workspace
+WORKDIR ./workspace
 RUN git clone https://github.com/edai-club/KoPrivateGPT.git
-RUN cd KoPrivateGPT
+WORKDIR ./KoPrivateGPT
 RUN pip3 install -r requirements.txt
-RUN cd webui
-RUN pip3 install -r requirements.txt
+RUN pip3 install -r ./webui/requirements.txt
 
 EXPOSE 7860
 
-CMD ["gradio", "app.py"]
+ENTRYPOINT ["gradio", "app.py"]
