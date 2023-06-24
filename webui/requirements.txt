@@ -3,4 +3,3 @@ torch
 transformers
 accelerate
 bitsandbytes
-lanarky

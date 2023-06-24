@@ -23,8 +23,21 @@
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
-# 환경 설정
-해당 프로젝트를 실행하기 위해서 아래의 코드를 실행해주세요. 파이썬 3.10 이상이 설치된 환경에서의 실행을 추천합니다.
+## Docker를 통한 실행법 (추천)
+아래 코드를 실행하여 도커 컨테이너를 통해 KoPrivateGPT를 실행할 수 있습니다.
+```shell
+git clone https://github.com/edai-club/KoPrivateGPT.git
+cd KoPrivateGPT
+docker compose up
+```
+이후 `http://localhost:7860`으로 접속하여 KoPrivateGPT를 사용할 수 있습니다.
+
+### 주의
+*docker compose up*을 실행하기 전에 반드시 .env.template 파일을 참고하여 .env 파일을 만들어 주세요. 
+또한, Docker를 통해 실행되는 Web UI는 현재 Pinecone 및 OpenAI 버전만 지원합니다. 
+
+# 직접 빌드하여 실행하기
+해당 프로젝트를 직접 실행하기 위해서 아래의 코드를 실행해주세요. 파이썬 3.10 이상이 설치된 환경에서의 실행을 추천합니다.
 
 ```shell
 git clone https://github.com/edai-club/KoPrivateGPT.git
@@ -65,9 +78,6 @@ HwpConvertHost = f'http://hwp-converter:7000/upload?option={HwpConvertOpt}'
 ### 주의
 - hwpx 파일은 지원하지 않습니다. hwp 파일로 변환하여 시도해주세요.
 
-
-## 테스트 데이터
-해당 레포에서는 [제주 제2항 기본계획(안) 보도자료](https://www.korea.kr/common/download.do?fileId=197236015&tblKey=GMN)를 예시로 사용합니다.
 
 # 직접 원하는 문서를 불러오는 법
 SOURCE_DOCUMENTS 폴더 안에 원하는 .txt, .pdf, .csv, .hwp, 혹은 .xlsx 파일을 넣어주세요.

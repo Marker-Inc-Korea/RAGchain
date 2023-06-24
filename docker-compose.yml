@@ -1,0 +1,25 @@
+version: '3.3'
+services:
+    ko-private-gpt:
+        ports:
+            - '7860:7860'
+        container_name: KoPrivateGPT
+        image: 'vkehfdl1/ko_private_gpt:latest'
+        command: gradio app.py
+        environment:
+          OPENAI_API_KEY: ${OPENAI_API_KEY}
+          PINECONE_API_KEY: ${PINECONE_API_KEY}
+          PINECONE_ENV: ${PINECONE_ENV}
+        deploy:
+          resources:
+            reservations:
+              devices:
+                - driver: nvidia
+                  count: all
+                  capabilities: [ gpu ]
+
+    hwp-converter:
+      ports:
+        - '7000:7000'
+      container_name: hwp-converter
+      image: 'vkehfdl1/hwp-converter-api:1.0.0'
