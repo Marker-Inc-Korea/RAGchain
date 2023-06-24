@@ -32,17 +32,17 @@ def load_single_document(file_path: str) -> Document:
 
 def load_documents(source_dir: str) -> List[Document]:
     # Loads all documents from source documents directory
-    all_files = os.listdir(source_dir)
     docs = []
-
-    for file_path in tqdm(all_files):
-        if file_path[-4:] == 'xlsx':
-            for doc in xlxs_to_csv(f"{source_dir}/{file_path}"):
-                docs.append(load_single_document(doc))
-        elif file_path[-4:] in ['.txt', '.pdf', '.csv','.hwp']:
-            docs.append(load_single_document(f"{source_dir}/{file_path}"))
-        else :
-            print(f"Unknown file type: {file_path}")
+    for (path, dir, files) in tqdm(os.walk(source_dir)):
+        for file_path in files:
+            ext = os.path.splitext(file_path)[-1].lower()
+            if ext == '.xlsx':
+                for doc in xlxs_to_csv(os.path.join(path, file_path)):
+                    docs.append(load_single_document(doc))
+            elif ext in ['.txt', '.pdf', '.csv', '.hwp']:
+                docs.append(load_single_document(os.path.join(path, file_path)))
+            else:
+                print(f"Unknown file type: {file_path}")
     return docs
 
 
