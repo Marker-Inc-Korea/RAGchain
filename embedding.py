@@ -5,7 +5,7 @@ import os
 
 class EmbeddingType(Enum):
     OPENAI = 'openai'
-    HUGGINGFACE = 'hugging_face'
+    KOSIMCSE = 'kosimcse'
 
 
 class EMBEDDING:
@@ -14,12 +14,13 @@ class EMBEDDING:
         if embed_type in ['OpenAI', 'openai', 'OPENAI', 'Openai']:
             self.embed_type = EmbeddingType.OPENAI
 
-        elif embed_type in ['HuggingFace', 'huggingface', 'Huggingface', 'hugging_face', 'Hugging_face', 'huggingFace', 'HuggingFace', 'huggingFace', 'Huggingface']:
-            self.embed_type = EmbeddingType.HUGGINGFACE
+        elif embed_type in ['KoSimCSE', 'kosimcse', 'KOSIMCSE', 'Kosimcse']:
+            self.embed_type = EmbeddingType.KOSIMCSE
         else:
             raise ValueError(f"Unknown embedding type: {embed_type}")
 
     def embedding(self):
+
         if self.embed_type == EmbeddingType.OPENAI:
             openai_token = os.getenv("OPENAI_API_KEY")
             if openai_token is None:
@@ -32,7 +33,8 @@ class EMBEDDING:
                     "pip install openai"
                 )
             return OpenAIEmbeddings(openai_api_key=openai_token)
-        elif self.embed_type == EmbeddingType.HUGGINGFACE:
+
+        elif self.embed_type == EmbeddingType.KOSIMCSE:
             try:
                 from langchain.embeddings import HuggingFaceEmbeddings
             except ImportError:

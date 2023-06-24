@@ -132,7 +132,7 @@ def load_kullm_model(device: str = "cuda") -> BaseLLM:
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
 @click.option('--model_type', default='koAlpaca', help='model to run on, select koAlpaca or openai')
 @click.option('--db_type', default='chroma', help='vector database to use, select chroma or pinecone')
-@click.option('--embedding_type', default='HuggingFace', help='embedding model to use, select OpenAI or HuggingFace.  if you choose HuggingFace, Default model is KoSimCSE')
+@click.option('--embedding_type', default='KoSimCSE', help='embedding model to use, select OpenAI or KoSimCSE.')
 def main(device_type, model_type, db_type, embedding_type):
     load_dotenv()
     # load the instructorEmbeddings

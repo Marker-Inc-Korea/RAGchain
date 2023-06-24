@@ -49,7 +49,7 @@ def load_documents(source_dir: str) -> List[Document]:
 @click.command()
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
 @click.option('--db_type', default='chroma', help='vector database to use, select chroma or pinecone')
-@click.option('--embedding_type', default='hugging_face', help='embedding model to use, select OpenAI or KoSimCSE')
+@click.option('--embedding_type', default='KoSimCSE', help='embedding model to use, select OpenAI or KoSimCSE')
 def main(device_type, db_type, embedding_type):
     load_dotenv()
     # load the instructorEmbeddings

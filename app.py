@@ -29,7 +29,7 @@ PROMPT_TEMPLATE = """주어진 정보를 바탕으로 질문에 답하세요. �
 device = "cuda"
 model_type = "OpenAI"
 llm = load_openai_model()
-embedding_type = "OpenAI"  # "HuggingFace"
+embedding_type = "OpenAI"  # "KoSimCSE"
 
 def ingest(files) -> str:
     file_paths = [f.name for f in files]
@@ -100,4 +100,4 @@ with gr.Blocks(analytics_enabled=False) as demo:
     document_sources = gr.Textbox(label="참조한 문서", placeholder="참조한 문서를 출력합니다.", interactive=False)
     question_btn.click(get_answer, inputs=[query], outputs=[answer_result, document_sources])
 
-demo.launch(share=True, debug=True, server_name="0.0.0.0")
+demo.launch(share=False, debug=True, server_name="0.0.0.0")
