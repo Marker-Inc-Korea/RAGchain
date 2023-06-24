@@ -1,28 +1,46 @@
 from enum import Enum
 from dotenv import load_dotenv
 import os
-from langchain.embeddings import OpenAIEmbeddings, HuggingFaceInstructEmbeddings
 
-class EMBEDDINGType(Enum):
+
+class EmbeddingType(Enum):
     OPENAI = 'openai'
     HUGGINGFACE = 'hugging_face'
 
 
-class EMBEDDING():
+class EMBEDDING:
     def __init__(self, embed_type: str):
         load_dotenv()
         if embed_type in ['OpenAI', 'openai', 'OPENAI', 'Openai']:
-            self.embed_type = EMBEDDINGType.OPENAI
+            self.embed_type = EmbeddingType.OPENAI
 
         elif embed_type in ['HuggingFace', 'huggingface', 'Huggingface', 'hugging_face', 'Hugging_face', 'huggingFace', 'HuggingFace', 'huggingFace', 'Huggingface']:
-            self.embed_type = EMBEDDINGType.HUGGINGFACE
+            self.embed_type = EmbeddingType.HUGGINGFACE
         else:
             raise ValueError(f"Unknown embedding type: {embed_type}")
 
     def embedding(self):
-        if self.embed_type == EMBEDDINGType.OPENAI:
-            return OpenAIEmbeddings(openai_api_key=os.getenv("OPENAI_API_KEY"))
-        elif self.embed_type == EMBEDDINGType.HUGGINGFACE:
+        if self.embed_type == EmbeddingType.OPENAI:
+            openai_token = os.getenv("OPENAI_API_KEY")
+            if openai_token is None:
+                raise ValueError("OPENAI_API_KEY is empty.")
+            try:
+                from langchain.embeddings import OpenAIEmbeddings
+            except ImportError:
+                raise ModuleNotFoundError(
+                    "Could not import OpenAIEmbeddings library. Please install OpenAI library."
+                    "pip install openai"
+                )
+            return OpenAIEmbeddings(openai_api_key=openai_token)
+        elif self.embed_type == EmbeddingType.HUGGINGFACE:
+            try:
+                from langchain.embeddings import HuggingFaceEmbeddings
+            except ImportError:
+                raise ModuleNotFoundError(
+                    "Could not import HuggingFaceEmbeddings library. Please install HuggingFace library."
+                    "pip install sentence_transformers"
+                )
+            from langchain.embeddings import HuggingFaceInstructEmbeddings
             return HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
                                           model_kwargs={"device": "cpu"})
         else:

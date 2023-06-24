@@ -69,7 +69,7 @@ def main(device_type, db_type, embedding_type):
     print(f"Split into {len(texts)} chunks of text")
 
     # Create embeddings
-    embeddings = EMBEDDING(embedding_type).embedding()
+    embeddings = EMBEDDING(embed_type=embedding_type).embedding()
 
     db = DB(db_type, embeddings).from_documents(texts)
     db = None

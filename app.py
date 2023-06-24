@@ -1,8 +1,6 @@
 from langchain.chains import RetrievalQA
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import Chroma
 from langchain.prompts import PromptTemplate
-from constants import CHROMA_SETTINGS, PERSIST_DIRECTORY
 
 import gradio as gr
 
@@ -31,23 +29,21 @@ PROMPT_TEMPLATE = """주어진 정보를 바탕으로 질문에 답하세요. �
 device = "cuda"
 model_type = "OpenAI"
 llm = load_openai_model()
-
-embeddings = EMBEDDING(embedding_type).embedding()
-
+embedding_type = "OpenAI"  # "HuggingFace"
 
 def ingest(files) -> str:
     file_paths = [f.name for f in files]
     documents = [load_single_document(path) for path in file_paths]
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=30)
     texts = text_splitter.split_documents(documents)
-    db = DB('pinecone', embeddings).from_documents(texts)
+    db = DB('pinecone', EMBEDDING(embed_type=embedding_type).embedding()).from_documents(texts)
     db.persist()
     db = None
     return "Ingest Done"
 
 
 def get_answer(text):
-    db = DB('pinecone', embeddings).load()
+    db = DB('pinecone', EMBEDDING(embed_type=embedding_type).embedding()).load()
     retriever = db.as_retriever()
     prompt = PromptTemplate(template=PROMPT_TEMPLATE, input_variables=["context", "question"])
     chain_type_kwargs = {"prompt": prompt}
@@ -104,4 +100,4 @@ with gr.Blocks(analytics_enabled=False) as demo:
     document_sources = gr.Textbox(label="참조한 문서", placeholder="참조한 문서를 출력합니다.", interactive=False)
     question_btn.click(get_answer, inputs=[query], outputs=[answer_result, document_sources])
 
-demo.launch(share=False, debug=True, server_name="0.0.0.0")
+demo.launch(share=True, debug=True, server_name="0.0.0.0")
