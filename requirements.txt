@@ -19,3 +19,4 @@ torch
 ctransformers
 pinecone-client
 python-dotenv
+tiktoken

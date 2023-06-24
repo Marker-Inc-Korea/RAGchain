@@ -14,4 +14,4 @@ RUN pip3 install -r requirements.txt
 
 EXPOSE 7860
 
-CMD ["python3", "webui/app.py"]
+CMD ["gradio", "app.py"]
