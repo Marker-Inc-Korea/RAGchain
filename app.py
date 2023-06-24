@@ -31,13 +31,13 @@ model_type = "OpenAI"
 llm = load_openai_model()
 embedding_type = "OpenAI"  # "KoSimCSE"
 
+
 def ingest(files) -> str:
     file_paths = [f.name for f in files]
     documents = [load_single_document(path) for path in file_paths]
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=30)
     texts = text_splitter.split_documents(documents)
     db = DB('pinecone', EMBEDDING(embed_type=embedding_type).embedding()).from_documents(texts)
-    db.persist()
     db = None
     return "Ingest Done"
 
