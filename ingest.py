@@ -4,12 +4,13 @@ from typing import List
 from utils import xlxs_to_csv
 from langchain.document_loaders import TextLoader, PDFMinerLoader, CSVLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import Chroma
 from langchain.docstore.document import Document
-from constants import CHROMA_SETTINGS, SOURCE_DIRECTORY, PERSIST_DIRECTORY
-from langchain.embeddings import HuggingFaceInstructEmbeddings
+from constants import SOURCE_DIRECTORY
 from hwp import HwpLoader
 from db import DB
+from dotenv import load_dotenv
+from tqdm import tqdm
+from embedding import EMBEDDING
 
 HwpConvertOpt = 'all'#'main-only'
 HwpConvertHost = f'http://hwp-converter:7000/upload?option={HwpConvertOpt}'
@@ -31,24 +32,26 @@ def load_single_document(file_path: str) -> Document:
 
 def load_documents(source_dir: str) -> List[Document]:
     # Loads all documents from source documents directory
-    all_files = os.listdir(source_dir)
     docs = []
-
-    for file_path in all_files:
-        if file_path[-4:] == 'xlsx':
-            for doc in xlxs_to_csv(f"{source_dir}/{file_path}"):
-                docs.append(load_single_document(doc))
-        elif file_path[-4:] in ['.txt', '.pdf', '.csv','.hwp']:
-            docs.append(load_single_document(f"{source_dir}/{file_path}"))
-        else :
-            print(f"Unknown file type: {file_path}")
+    for (path, dir, files) in tqdm(os.walk(source_dir)):
+        for file_path in files:
+            ext = os.path.splitext(file_path)[-1].lower()
+            if ext == '.xlsx':
+                for doc in xlxs_to_csv(os.path.join(path, file_path)):
+                    docs.append(load_single_document(doc))
+            elif ext in ['.txt', '.pdf', '.csv', '.hwp']:
+                docs.append(load_single_document(os.path.join(path, file_path)))
+            else:
+                print(f"Unknown file type: {file_path}")
     return docs
 
 
 @click.command()
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
 @click.option('--db_type', default='chroma', help='vector database to use, select chroma or pinecone')
-def main(device_type, db_type):
+@click.option('--embedding_type', default='KoSimCSE', help='embedding model to use, select OpenAI or KoSimCSE')
+def main(device_type, db_type, embedding_type):
+    load_dotenv()
     # load the instructorEmbeddings
     if device_type in ['cpu', 'CPU']:
         device='cpu'
@@ -60,14 +63,13 @@ def main(device_type, db_type):
     #  Load documents and split in chunks
     print(f"Loading documents from {SOURCE_DIRECTORY}")
     documents = load_documents(SOURCE_DIRECTORY)
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=30)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     texts = text_splitter.split_documents(documents)
     print(f"Loaded {len(documents)} documents from {SOURCE_DIRECTORY}")
     print(f"Split into {len(texts)} chunks of text")
 
     # Create embeddings
-    embeddings = HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
-                                               model_kwargs={"device": device})
+    embeddings = EMBEDDING(embed_type=embedding_type).embedding()
 
     db = DB(db_type, embeddings).from_documents(texts)
     db = None
