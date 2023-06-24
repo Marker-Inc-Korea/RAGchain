@@ -1,6 +1,8 @@
 from langchain.chains import RetrievalQA
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.vectorstores import Chroma
 from langchain.prompts import PromptTemplate
+from constants import CHROMA_SETTINGS, PERSIST_DIRECTORY
 
 import gradio as gr
 
@@ -28,8 +30,6 @@ PROMPT_TEMPLATE = """주어진 정보를 바탕으로 질문에 답하세요. �
 
 device = "cuda"
 model_type = "OpenAI"
-db_type="pinecone"
-embedding_type = "OpenAI"
 llm = load_openai_model()
 
 embeddings = EMBEDDING(embedding_type).embedding()
@@ -40,12 +40,14 @@ def ingest(files) -> str:
     documents = [load_single_document(path) for path in file_paths]
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=30)
     texts = text_splitter.split_documents(documents)
-    DB(db_type, embeddings).from_documents(texts)
+    db = DB('pinecone', embeddings).from_documents(texts)
+    db.persist()
+    db = None
     return "Ingest Done"
 
 
 def get_answer(text):
-    db = DB(db_type, embeddings).load()
+    db = DB('pinecone', embeddings).load()
     retriever = db.as_retriever()
     prompt = PromptTemplate(template=PROMPT_TEMPLATE, input_variables=["context", "question"])
     chain_type_kwargs = {"prompt": prompt}
