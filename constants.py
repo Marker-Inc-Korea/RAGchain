@@ -14,3 +14,5 @@ CHROMA_SETTINGS = Settings(
         persist_directory=PERSIST_DIRECTORY,
         anonymized_telemetry=False
 )
+
+PINECONE_INDEX_NAME = "ko-private-gpt"

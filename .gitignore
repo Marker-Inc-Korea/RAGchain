@@ -2,3 +2,6 @@
 /venv
 /.idea
 /__pycache__/
+/models
+.env
+/SOURCE_DOCUMENTS

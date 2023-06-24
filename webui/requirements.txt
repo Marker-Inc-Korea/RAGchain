@@ -1,0 +1,6 @@
+gradio
+torch
+transformers
+accelerate
+bitsandbytes
+lanarky

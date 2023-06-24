@@ -1,4 +1,4 @@
-langchain
+langchain==0.0.200
 chromadb==0.3.22
 llama-cpp-python==0.1.48
 urllib3==1.26.6
@@ -16,3 +16,6 @@ openpyxl
 xformers
 openai
 torch
+ctransformers
+pinecone-client
+python-dotenv

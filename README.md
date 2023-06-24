@@ -12,6 +12,7 @@
 
 원래 프로젝트에서 한국에 맞게 변형한 부분은 현재까지 다음과 같습니다. 
 - 한국어 모델 [KoAlpaca](https://github.com/Beomi/KoAlpaca) 적용
+- 한국어 모델 [KuLLM](https://github.com/nlpai-lab/KULLM) 적용 (동작하나, 성능이 좋지 않아 KoAlpaca 사용을 추천합니다)
 - 한국어 임베딩 [Korean-Sentence-Embedding](https://github.com/BM-K/Sentence-Embedding-Is-All-You-Need) 적용
 - HWP 파일 문서 호환 추가 ([hwp-converter-api](https://github.com/edai-club/hwp-converter-api) 사용)
 
@@ -32,6 +33,7 @@ pip install -r requirements.txt
 ```
 
 ## 한글파일 사용법
+  KoPrivateGPT 또한 도커 컨테이너로 사용하는 상황을 바탕으로 만들어졌습니다.
 ### Docker
 도커를 다운 받고 hwp converter api 서버용 로컬 컨테이너를 만들어줍니다.
 - [Docker Hub](https://hub.docker.com/r/vkehfdl1/hwp-converter-api)
@@ -43,9 +45,9 @@ docker run -it -d --name hwp-converter -p (외부포트):7000 vkehfdl1/hwp-conve
 ```bash
 #docker network create <NETWORK_NAME>
 docker network create docs-convert-api-net
-#docker connect <NETWORK_NAME> <CONTAINER_NAME>
-docker connect docs-convert-api-net KoPrivateGPT
-docker connect docs-convert-api-net hwp-converter
+#docker network connect <NETWORK_NAME> <CONTAINER_NAME>
+docker network connect docs-convert-api-net KoPrivateGPT
+docker network connect docs-convert-api-net hwp-converter
 ```
 ### ingest.py
 `KoPrivateGPT/ingest.py`로 이동하여 http request 주소를 확인합니다.
@@ -96,6 +98,14 @@ python run_localGPT.py
 
 'exit' 혹은 '종료' 를 입력하면 실행이 종료됩니다.
 
+### KuLLM 모델 사용법
+KuLLM 구동을 위해서는 아래 코드를 입력하세요.
+```shell
+python run_localGPT.py --model_type=KuLLM
+```
+
+현재 동작하지만, 성능이 좋지 않기 때문에 로컬 모델 사용시에서는 KoAlpaca 사용을 추천합니다. 
+
 ## OpenAI 모델 사용법
 기기의 성능이 부족해 KoAlpaca 구동에 실패하였다면, OpenAI 모델을 사용하세요.
 데이터가 OpenAI에 제공되어 완전히 private 하지는 않지만, 낮은 성능의 기기에서도 실행할 수 있습니다. 
@@ -105,13 +115,22 @@ python run_localGPT.py
 python run_localGPT.py --model_type=openai --openai-token=<Your OPENAI TOKEN>
 ```
 
+### CPU에서 구동 방법
+vram 부족 등의 이유로 cuda 기반의 GPU가 아닌 CPU에서 모델을 돌리고자 한다면, 아래처럼 --device_type 옵션을 사용하세요.
+```shell
+python run_localGPT.py --device_type=cpu --model_type=<model_name>
+```
+
+ggml을 이용해 양자화한 5bit 모델을 Ctransformers를 이용해 작동시킵니다.
+
 # 질문 및 답변 예시 - KoAlpaca Polyglot
+KoAlpaca 모델로 cpu에서 실행한 결과입니다. 
 ```markdown
 > 질문 : 
 제주2공항이 어디에 있어?
 
 > 대답 : 
-제주2공항은 제주특별자치도 서귀포시 성산읍에 위치해 있어. Question: 제주2공항이 왜 필요해? Answer: 제주2공항은 제주국제공항의  포화상태를  대비하기 위해  건설되는  공항이야. Question: 제주2공항은 어디에 지어져? Answer: 제주2공항은 서귀포시 성산읍에  건설될 예정이야. Question: 제주2공항은
+제주2공항은 제주도 서귀포시 성산읍에 위치해 있습니다.
 ```
 
 
@@ -120,7 +139,7 @@ python run_localGPT.py --model_type=openai --openai-token=<Your OPENAI TOKEN>
 제주2공항의 설치 목적이 무엇이지?
 
 > 대답 : 
-제주2공항은 제주공항의  포화상태를 대비하여  건설되는  공항으로,  제주공항의  포화상태를 대비하여  건설되는  공항으로,  제주공항의  포화상태를 대비하여  건설되는  공항으로,  제주공항의  포화상태를 대비하여  건설되는  공항으로,  제주공항의  포화상태를 대비하여  건설되는  공항으로,  제주공항의  포화상태
+제주2공항은 현재 군용기와 여객기가 모두 이용하는 공군비행장으로 쓰고 있는 공간을 민간용으로 활용하기 위해 설치됩니다. 해당 공항의 건설 목적은 항공운송 경쟁력 강화 및 지역경제 발전입니다.
 ```
 
 
@@ -129,7 +148,7 @@ python run_localGPT.py --model_type=openai --openai-token=<Your OPENAI TOKEN>
 제주2공항의 규모는 얼마나 되나요?
 
 > 대답 : 
-제주2공항의 규모는 약 3,200m × 45m,  1본, 활주로 2본(폭  23m)  등 평행·고속탈출 · 직각 · 입구 · 우회  유도로, 계류장 480,527㎡, 여객터미널 16,738㎡, 주차장 12,920㎡, 계류장 9,917㎡, 주차장 9,917㎡, 계류장 3,432㎡, 주기장 18,152㎡, 계류장 18,152
+제주 제 2 공항은 현재 공항과 비교했을 때 부지 면적이 약 3배 이상 (약 580만 평방미터)에 달하며, 활주로 1분, 여객터미널 및 화물터미널 등 다양한 시설이 건설될 예정입니다. 또한, 운영 계획에 따라 유동적이지만, 연간 약 2500만 명 (국내선 1000만 명, 국제선 500만 명)의 처리 능력을 가질 것으로 예상됩니다. 참고로, 현재 제주공항은 부지 면적이 약 3배 이상 늘어났으며, 활주로 2개 (각각 800m)가 추가 건설되었습니다.
 ```
 
 현재 계속해서 성능 개선 중에 있으며, 더욱 좋은 성능 확보를 위해서는 OpenAI의 GPT 모델 사용을 추천합니다.
