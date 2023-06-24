@@ -16,3 +16,5 @@ CHROMA_SETTINGS = Settings(
 )
 
 PINECONE_INDEX_NAME = "ko-private-gpt"
+
+EMBEDDED_FILES_CACHE_DIRECTORY = os.path.join(ROOT_DIRECTORY, "embedded_files_cache.pkl")
