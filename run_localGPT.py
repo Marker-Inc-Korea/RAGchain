@@ -1,14 +1,13 @@
 from langchain.chains import RetrievalQA
-from langchain.embeddings import HuggingFaceInstructEmbeddings
 from langchain.llms import HuggingFacePipeline, BaseLLM
 from langchain.prompts import PromptTemplate
 import click
 import os
-from ingest import embedding_open_api
 
 from db import DB
 from utils import StoppingCriteriaSub
 from dotenv import load_dotenv
+from embedding import EMBEDDING
 
 def load_ko_alpaca(device: str = "cuda") -> BaseLLM:
     try:
@@ -155,14 +154,8 @@ def main(device_type, model_type, db_type, embedding_type):
 
     print(f"Running on: {device}")
 
-    if embedding_type in ["OpenAI", "openai", "Openai"]:
-        embeddings = embedding_open_api()
-    elif embedding_type in ["KoSimCSE", "KOSIMCSE", "kosimcse", "Ko-simcse"]:
-        embeddings = HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
-                                    model_kwargs={"device": device})
-    else:
-        raise ValueError(f"Invalid model type: {embedding_type}")
-    #
+    embeddings = EMBEDDING(embedding_type).embedding()
+
     # load the vectorstore
     db = DB(db_type, embeddings).load()
     retriever = db.as_retriever()

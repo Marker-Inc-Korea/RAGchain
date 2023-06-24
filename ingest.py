@@ -4,13 +4,12 @@ from typing import List
 from utils import xlxs_to_csv
 from langchain.document_loaders import TextLoader, PDFMinerLoader, CSVLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import Chroma
 from langchain.docstore.document import Document
 from constants import CHROMA_SETTINGS, SOURCE_DIRECTORY, PERSIST_DIRECTORY
-from langchain.embeddings import HuggingFaceInstructEmbeddings
 from hwp import HwpLoader
 from db import DB
 from dotenv import load_dotenv
+from embedding import EMBEDDING
 
 HwpConvertOpt = 'all'#'main-only'
 HwpConvertHost = f'http://hwp-converter:7000/upload?option={HwpConvertOpt}'
@@ -45,24 +44,11 @@ def load_documents(source_dir: str) -> List[Document]:
             print(f"Unknown file type: {file_path}")
     return docs
 
-def embedding_open_api():
-    openai_token = os.environ["OPENAI_API_KEY"]
-    if openai_token is None:
-        raise ValueError("OPENAI_API_KEY is empty.")
-    try:
-        from langchain.embeddings import OpenAIEmbeddings
-    except ImportError:
-        raise ModuleNotFoundError(
-            "Could not import OpenAI library. Please install the OpenAI library."
-            "pip install openai"
-        )
-    return OpenAIEmbeddings(openai_api_key=openai_token)
-
 
 @click.command()
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
 @click.option('--db_type', default='chroma', help='vector database to use, select chroma or pinecone')
-@click.option('--embedding_type', default='KoSimCSE', help='embedding model to use, select OpenAI or KoSimCSE')
+@click.option('--embedding_type', default='hugging_face', help='embedding model to use, select OpenAI or KoSimCSE')
 def main(device_type, db_type, embedding_type):
     load_dotenv()
     # load the instructorEmbeddings
@@ -82,13 +68,7 @@ def main(device_type, db_type, embedding_type):
     print(f"Split into {len(texts)} chunks of text")
 
     # Create embeddings
-    if embedding_type in ['OpenAI', 'openai', 'OPENAI']:
-        embeddings = embedding_open_api()
-    elif embedding_type in ["KoSimCSE", "KOSIMCSE", "kosimcse", "Ko-simcse"]:
-        embeddings = HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
-                                                   model_kwargs={"device": device})
-    else:
-        raise ValueError(f"Invalid model type: {embedding_type}")
+    embeddings = EMBEDDING(embedding_type).embedding()
 
     db = DB(db_type, embeddings).from_documents(texts)
     db = None
