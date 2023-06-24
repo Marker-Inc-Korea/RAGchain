@@ -1,11 +1,14 @@
 import os
+import pickle
+from datetime import datetime
+
 import click
 from typing import List
 from utils import xlxs_to_csv
 from langchain.document_loaders import TextLoader, PDFMinerLoader, CSVLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.docstore.document import Document
-from constants import SOURCE_DIRECTORY
+from constants import SOURCE_DIRECTORY, EMBEDDED_FILES_CACHE_DIRECTORY
 from hwp import HwpLoader
 from db import DB
 from dotenv import load_dotenv
@@ -33,17 +36,43 @@ def load_single_document(file_path: str) -> Document:
 def load_documents(source_dir: str) -> List[Document]:
     # Loads all documents from source documents directory
     docs = []
+    embedded_files = get_embedded_files_cache()
     for (path, dir, files) in tqdm(os.walk(source_dir)):
-        for file_path in files:
-            ext = os.path.splitext(file_path)[-1].lower()
+        for file_name in files:
+            ext = os.path.splitext(file_name)[-1].lower()
+            full_file_path = os.path.join(path, file_name)
+            try:
+                _ = embedded_files[full_file_path]
+                continue
+            except:
+                pass
             if ext == '.xlsx':
-                for doc in xlxs_to_csv(os.path.join(path, file_path)):
+                embedded_files[full_file_path] = datetime.now()
+                for doc in xlxs_to_csv(full_file_path):
                     docs.append(load_single_document(doc))
             elif ext in ['.txt', '.pdf', '.csv', '.hwp']:
-                docs.append(load_single_document(os.path.join(path, file_path)))
+                embedded_files[full_file_path] = datetime.now()
+                docs.append(load_single_document(full_file_path))
             else:
-                print(f"Unknown file type: {file_path}")
+                print(f"Not Support file type {ext} yet.")
+    save_embedded_files_cache(embedded_files)
     return docs
+
+
+def get_embedded_files_cache():
+    # Load the embedded files cache
+    if os.path.exists(EMBEDDED_FILES_CACHE_DIRECTORY):
+        with open(EMBEDDED_FILES_CACHE_DIRECTORY, 'rb') as f:
+            embedded_files_cache = pickle.load(f)
+    else:
+        embedded_files_cache = {}
+    return embedded_files_cache
+
+
+def save_embedded_files_cache(embedded_files_cache):
+    # Save the embedded files cache
+    with open(EMBEDDED_FILES_CACHE_DIRECTORY, 'wb') as f:
+        pickle.dump(embedded_files_cache, f)
 
 
 @click.command()
@@ -63,6 +92,9 @@ def main(device_type, db_type, embedding_type):
     #  Load documents and split in chunks
     print(f"Loading documents from {SOURCE_DIRECTORY}")
     documents = load_documents(SOURCE_DIRECTORY)
+    if len(documents) <= 0:
+        print(f"Could not find any new documents in {SOURCE_DIRECTORY}")
+        return
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     texts = text_splitter.split_documents(documents)
     print(f"Loaded {len(documents)} documents from {SOURCE_DIRECTORY}")
