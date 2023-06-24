@@ -6,6 +6,10 @@ services:
         container_name: KoPrivateGPT
         image: 'vkehfdl1/ko_private_gpt:latest'
         command: gradio app.py
+        environment:
+          OPENAI_API_KEY: ${OPENAI_API_KEY}
+          PINECONE_API_KEY: ${PINECONE_API_KEY}
+          PINECONE_ENV: ${PINECONE_ENV}
         deploy:
           resources:
             reservations:
