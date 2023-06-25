@@ -7,7 +7,8 @@ import os
 from db import DB
 from utils import StoppingCriteriaSub
 from dotenv import load_dotenv
-from embedding import EMBEDDING
+from embedding import Embedding
+
 
 def load_ko_alpaca(device: str = "cuda") -> BaseLLM:
     try:
@@ -19,7 +20,7 @@ def load_ko_alpaca(device: str = "cuda") -> BaseLLM:
         raise ModuleNotFoundError(
             "Could not import transformers library or torch library "
             "Please install the transformers library to "
-            "use this embedding model: pip install transformers"
+            "use this model: pip install transformers"
         )
     except Exception:
         raise NameError(f"Could not load model. Check your internet connection.")
@@ -87,7 +88,7 @@ def load_kullm_model(device: str = "cuda") -> BaseLLM:
             raise ModuleNotFoundError(
                 "Could not import transformers library or torch library "
                 "Please install the transformers library to "
-                "use this embedding model: pip install transformers"
+                "use this model: pip install transformers"
             )
         except Exception:
             raise NameError(f"Could not load model. Check your internet connection.")
@@ -116,17 +117,6 @@ def load_kullm_model(device: str = "cuda") -> BaseLLM:
     else:
         raise ValueError("device type must be cuda or cpu")
 
-# @click.command()
-# @click.option('--device_type', default='gpu', help='device to run on, select gpu or cpu')
-# def main(device_type, ):
-#     # load the instructorEmbeddings
-#     if device_type in ['cpu', 'CPU']:
-#         device='cpu'
-#     else:
-#         device='cuda'
- 
-    
- ## for M1/M2 users:
 
 @click.command()
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
@@ -154,7 +144,7 @@ def main(device_type, model_type, db_type, embedding_type):
 
     print(f"Running on: {device}")
 
-    embeddings = EMBEDDING(embed_type=embedding_type).embedding()
+    embeddings = Embedding(embed_type=embedding_type, device_type=device_type).embedding()
 
     # load the vectorstore
     db = DB(db_type, embeddings).load()

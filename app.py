@@ -12,7 +12,7 @@ import os
 
 from utils import slice_stop_words
 from db import DB
-from embedding import EMBEDDING
+from embedding import Embedding
 
 load_dotenv()
 
@@ -37,13 +37,13 @@ def ingest(files) -> str:
     documents = [load_single_document(path) for path in file_paths]
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=30)
     texts = text_splitter.split_documents(documents)
-    db = DB('pinecone', EMBEDDING(embed_type=embedding_type).embedding()).from_documents(texts)
+    db = DB('pinecone', Embedding(embed_type=embedding_type).embedding()).from_documents(texts)
     db = None
     return "Ingest Done"
 
 
 def get_answer(text):
-    db = DB('pinecone', EMBEDDING(embed_type=embedding_type).embedding()).load()
+    db = DB('pinecone', Embedding(embed_type=embedding_type).embedding()).load()
     retriever = db.as_retriever()
     prompt = PromptTemplate(template=PROMPT_TEMPLATE, input_variables=["context", "question"])
     chain_type_kwargs = {"prompt": prompt}

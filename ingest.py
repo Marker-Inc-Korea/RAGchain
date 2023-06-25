@@ -13,7 +13,7 @@ from hwp import HwpLoader
 from db import DB
 from dotenv import load_dotenv
 from tqdm import tqdm
-from embedding import EMBEDDING
+from embedding import Embedding
 
 HwpConvertOpt = 'all'#'main-only'
 HwpConvertHost = f'http://hwp-converter:7000/upload?option={HwpConvertOpt}'
@@ -81,13 +81,6 @@ def save_embedded_files_cache(embedded_files_cache):
 @click.option('--embedding_type', default='KoSimCSE', help='embedding model to use, select OpenAI or KoSimCSE')
 def main(device_type, db_type, embedding_type):
     load_dotenv()
-    # load the instructorEmbeddings
-    if device_type in ['cpu', 'CPU']:
-        device='cpu'
-    elif device_type in ['mps', 'MPS']:
-        device='mps'
-    else:
-        device='cuda'
 
     #  Load documents and split in chunks
     print(f"Loading documents from {SOURCE_DIRECTORY}")
@@ -101,7 +94,7 @@ def main(device_type, db_type, embedding_type):
     print(f"Split into {len(texts)} chunks of text")
 
     # Create embeddings
-    embeddings = EMBEDDING(embed_type=embedding_type).embedding()
+    embeddings = Embedding(embed_type=embedding_type, device_type=device_type).embedding()
 
     db = DB(db_type, embeddings).from_documents(texts)
     db = None

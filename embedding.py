@@ -8,8 +8,8 @@ class EmbeddingType(Enum):
     KOSIMCSE = 'kosimcse'
 
 
-class EMBEDDING:
-    def __init__(self, embed_type: str):
+class Embedding:
+    def __init__(self, embed_type: str, device_type: str = 'cuda'):
         load_dotenv()
         if embed_type in ['OpenAI', 'openai', 'OPENAI', 'Openai']:
             self.embed_type = EmbeddingType.OPENAI
@@ -18,6 +18,13 @@ class EMBEDDING:
             self.embed_type = EmbeddingType.KOSIMCSE
         else:
             raise ValueError(f"Unknown embedding type: {embed_type}")
+
+        if device_type in ['cpu', 'CPU']:
+            self.device_type = 'cpu'
+        elif device_type in ['mps', 'MPS']:
+            self.device_type = 'mps'
+        else:
+            self.device_type = 'cuda'
 
     def embedding(self):
 
@@ -44,6 +51,6 @@ class EMBEDDING:
                 )
             from langchain.embeddings import HuggingFaceInstructEmbeddings
             return HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
-                                          model_kwargs={"device": "cpu"})
+                                                 model_kwargs={"device": self.device_type})
         else:
             raise ValueError(f"Unknown embedding type: {self.embed_type}")
