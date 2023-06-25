@@ -1,0 +1,31 @@
+import os
+import pathlib
+from chromadb.config import Settings
+
+
+class Options(object):
+    root_dir = pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent
+    source_dir = os.path.join(root_dir, "SOURCE_DOCUMENTS")
+    embedded_files_cache_dir = os.path.join(root_dir, "embedded_files_cache.pkl")
+
+
+class ChromaOptions(object):
+    persist_dir = os.path.join(Options.root_dir, "DB")
+    settings = Settings(
+        chroma_db_impl='duckdb+parquet',
+        persist_directory=persist_dir,
+        anonymized_telemetry=False
+    )
+
+
+class PineconeOptions(object):
+    index_name = "ko-private-gpt"
+
+
+if __name__ == "__main__":
+    print("Start~")
+    print(Options.root_dir)
+    print(Options.source_dir)
+    print(Options.embedded_files_cache_dir)
+    print(ChromaOptions.persist_dir)
+    print(PineconeOptions.index_name)

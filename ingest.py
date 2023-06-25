@@ -8,12 +8,12 @@ from utils import xlxs_to_csv
 from langchain.document_loaders import TextLoader, PDFMinerLoader, CSVLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.docstore.document import Document
-from constants import SOURCE_DIRECTORY, EMBEDDED_FILES_CACHE_DIRECTORY
 from hwp import HwpLoader
 from db import DB
 from dotenv import load_dotenv
 from tqdm import tqdm
 from embedding import EMBEDDING
+from options import Options
 
 HwpConvertOpt = 'all'#'main-only'
 HwpConvertHost = f'http://hwp-converter:7000/upload?option={HwpConvertOpt}'
@@ -61,8 +61,8 @@ def load_documents(source_dir: str) -> List[Document]:
 
 def get_embedded_files_cache():
     # Load the embedded files cache
-    if os.path.exists(EMBEDDED_FILES_CACHE_DIRECTORY):
-        with open(EMBEDDED_FILES_CACHE_DIRECTORY, 'rb') as f:
+    if os.path.exists(Options.embedded_files_cache_dir):
+        with open(Options.embedded_files_cache_dir, 'rb') as f:
             embedded_files_cache = pickle.load(f)
     else:
         embedded_files_cache = {}
@@ -71,7 +71,7 @@ def get_embedded_files_cache():
 
 def save_embedded_files_cache(embedded_files_cache):
     # Save the embedded files cache
-    with open(EMBEDDED_FILES_CACHE_DIRECTORY, 'wb') as f:
+    with open(Options.embedded_files_cache_dir, 'wb') as f:
         pickle.dump(embedded_files_cache, f)
 
 
@@ -83,21 +83,21 @@ def main(device_type, db_type, embedding_type):
     load_dotenv()
     # load the instructorEmbeddings
     if device_type in ['cpu', 'CPU']:
-        device='cpu'
+        device = 'cpu'
     elif device_type in ['mps', 'MPS']:
-        device='mps'
+        device = 'mps'
     else:
-        device='cuda'
+        device = 'cuda'
 
     #  Load documents and split in chunks
-    print(f"Loading documents from {SOURCE_DIRECTORY}")
-    documents = load_documents(SOURCE_DIRECTORY)
+    print(f"Loading documents from {Options.source_dir}")
+    documents = load_documents(Options.source_dir)
     if len(documents) <= 0:
-        print(f"Could not find any new documents in {SOURCE_DIRECTORY}")
+        print(f"Could not find any new documents in {Options.source_dir}")
         return
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     texts = text_splitter.split_documents(documents)
-    print(f"Loaded {len(documents)} documents from {SOURCE_DIRECTORY}")
+    print(f"Loaded {len(documents)} documents from {Options.source_dir}")
     print(f"Split into {len(texts)} chunks of text")
 
     # Create embeddings
