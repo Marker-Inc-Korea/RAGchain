@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 from tqdm import tqdm
 from embedding import EMBEDDING
 
-HwpConvertOpt = 'all'#'main-only'
+HwpConvertOpt = 'all'  # 'main-only'
 HwpConvertHost = f'http://hwp-converter:7000/upload?option={HwpConvertOpt}'
 
 
@@ -58,7 +58,6 @@ def load_documents(source_dir: str) -> List[Document]:
     return docs
 
 
-
 @click.command()
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
 @click.option('--db_type', default='chroma', help='vector database to use, select chroma or pinecone')
@@ -67,13 +66,13 @@ def main(device_type, db_type, embedding_type):
     load_dotenv()
     # load the instructorEmbeddings
     if device_type in ['cpu', 'CPU']:
-        device='cpu'
+        device = 'cpu'
     elif device_type in ['mps', 'MPS']:
-        device='mps'
+        device = 'mps'
     else:
-        device='cuda'
+        device = 'cuda'
 
-    #  Load documents and split in chunks
+    # Load documents and split in chunks
     print(f"Loading documents from {SOURCE_DIRECTORY}")
     documents = load_documents(SOURCE_DIRECTORY)
     if len(documents) <= 0:
