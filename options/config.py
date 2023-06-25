@@ -20,12 +20,3 @@ class ChromaOptions(object):
 
 class PineconeOptions(object):
     index_name = "ko-private-gpt"
-
-
-if __name__ == "__main__":
-    print("Start~")
-    print(Options.root_dir)
-    print(Options.source_dir)
-    print(Options.embedded_files_cache_dir)
-    print(ChromaOptions.persist_dir)
-    print(PineconeOptions.index_name)
