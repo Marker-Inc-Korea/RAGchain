@@ -8,12 +8,13 @@ from typing import List
 from dotenv import load_dotenv
 import os
 
+
 class DBType(Enum):
     CHROMA = 'chroma'
     PINECONE = 'pinecone'
 
 
-class DB():
+class DB:
     def __init__(self, db_type: str, embeddings):
         load_dotenv()
         if db_type in ['chroma', 'Chroma', 'CHROMA']:
@@ -31,13 +32,15 @@ class DB():
 
     def load(self):
         if self.db_type == DBType.CHROMA:
-            return Chroma(persist_directory=PERSIST_DIRECTORY, embedding_function=self.embeddings, client_settings=CHROMA_SETTINGS)
+            return Chroma(persist_directory=PERSIST_DIRECTORY, embedding_function=self.embeddings,
+                          client_settings=CHROMA_SETTINGS)
         elif self.db_type == DBType.PINECONE:
             return Pinecone(pinecone.Index(PINECONE_INDEX_NAME), self.embeddings.embed_query, "text")
 
     def from_documents(self, docs: List[Document]):
         if self.db_type == DBType.CHROMA:
-            result = Chroma.from_documents(docs, self.embeddings, persist_directory=PERSIST_DIRECTORY, client_settings=CHROMA_SETTINGS)
+            result = Chroma.from_documents(docs, self.embeddings, persist_directory=PERSIST_DIRECTORY,
+                                           client_settings=CHROMA_SETTINGS)
             result.persist()
             return result
         elif self.db_type == DBType.PINECONE:

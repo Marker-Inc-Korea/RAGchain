@@ -4,6 +4,8 @@ from datetime import datetime
 
 import click
 from typing import List
+
+from embedded_files_cache import EmbeddedFilesCache
 from utils import xlxs_to_csv
 from langchain.document_loaders import TextLoader, PDFMinerLoader, CSVLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -15,7 +17,7 @@ from dotenv import load_dotenv
 from tqdm import tqdm
 from embedding import Embedding
 
-HwpConvertOpt = 'all'#'main-only'
+HwpConvertOpt = 'all'  # 'main-only'
 HwpConvertHost = f'http://hwp-converter:7000/upload?option={HwpConvertOpt}'
 
 
@@ -36,43 +38,24 @@ def load_single_document(file_path: str) -> Document:
 def load_documents(source_dir: str) -> List[Document]:
     # Loads all documents from source documents directory
     docs = []
-    embedded_files = get_embedded_files_cache()
+    file_cache = EmbeddedFilesCache()
     for (path, dir, files) in tqdm(os.walk(source_dir)):
         for file_name in files:
             ext = os.path.splitext(file_name)[-1].lower()
             full_file_path = os.path.join(path, file_name)
-            try:
-                _ = embedded_files[full_file_path]
+            if file_cache.is_exist(full_file_path):
                 continue
-            except:
-                pass
             if ext == '.xlsx':
-                embedded_files[full_file_path] = datetime.now()
+                file_cache.add(full_file_path)
                 for doc in xlxs_to_csv(full_file_path):
                     docs.append(load_single_document(doc))
             elif ext in ['.txt', '.pdf', '.csv', '.hwp']:
-                embedded_files[full_file_path] = datetime.now()
+                file_cache.add(full_file_path)
                 docs.append(load_single_document(full_file_path))
             else:
                 print(f"Not Support file type {ext} yet.")
-    save_embedded_files_cache(embedded_files)
+    file_cache.save()
     return docs
-
-
-def get_embedded_files_cache():
-    # Load the embedded files cache
-    if os.path.exists(EMBEDDED_FILES_CACHE_DIRECTORY):
-        with open(EMBEDDED_FILES_CACHE_DIRECTORY, 'rb') as f:
-            embedded_files_cache = pickle.load(f)
-    else:
-        embedded_files_cache = {}
-    return embedded_files_cache
-
-
-def save_embedded_files_cache(embedded_files_cache):
-    # Save the embedded files cache
-    with open(EMBEDDED_FILES_CACHE_DIRECTORY, 'wb') as f:
-        pickle.dump(embedded_files_cache, f)
 
 
 @click.command()
@@ -82,7 +65,7 @@ def save_embedded_files_cache(embedded_files_cache):
 def main(device_type, db_type, embedding_type):
     load_dotenv()
 
-    #  Load documents and split in chunks
+    # Load documents and split in chunks
     print(f"Loading documents from {SOURCE_DIRECTORY}")
     documents = load_documents(SOURCE_DIRECTORY)
     if len(documents) <= 0:
