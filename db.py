@@ -8,12 +8,13 @@ import os
 from options import ChromaOptions, PineconeOptions
 
 
+
 class DBType(Enum):
     CHROMA = 'chroma'
     PINECONE = 'pinecone'
 
 
-class DB():
+class DB:
     def __init__(self, db_type: str, embeddings):
         load_dotenv()
         if db_type in ['chroma', 'Chroma', 'CHROMA']:
