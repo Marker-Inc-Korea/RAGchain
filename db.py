@@ -1,12 +1,12 @@
 from langchain.vectorstores import Chroma, Pinecone
-from constants import CHROMA_SETTINGS, SOURCE_DIRECTORY, PERSIST_DIRECTORY, PINECONE_INDEX_NAME
 from enum import Enum
 from langchain.schema import Document
-from langchain.embeddings.base import Embeddings
 import pinecone
 from typing import List
 from dotenv import load_dotenv
 import os
+from options import ChromaOptions, PineconeOptions
+
 
 
 class DBType(Enum):
@@ -32,16 +32,16 @@ class DB:
 
     def load(self):
         if self.db_type == DBType.CHROMA:
-            return Chroma(persist_directory=PERSIST_DIRECTORY, embedding_function=self.embeddings,
-                          client_settings=CHROMA_SETTINGS)
+            return Chroma(persist_directory=ChromaOptions.persist_dir, embedding_function=self.embeddings,
+                          client_settings=ChromaOptions.settings)
         elif self.db_type == DBType.PINECONE:
-            return Pinecone(pinecone.Index(PINECONE_INDEX_NAME), self.embeddings.embed_query, "text")
+            return Pinecone(pinecone.Index(PineconeOptions.index_name), self.embeddings.embed_query, "text")
 
     def from_documents(self, docs: List[Document]):
         if self.db_type == DBType.CHROMA:
-            result = Chroma.from_documents(docs, self.embeddings, persist_directory=PERSIST_DIRECTORY,
-                                           client_settings=CHROMA_SETTINGS)
+            result = Chroma.from_documents(docs, self.embeddings, persist_directory=ChromaOptions.persist_dir,
+                                           client_settings=ChromaOptions.settings)
             result.persist()
             return result
         elif self.db_type == DBType.PINECONE:
-            return Pinecone.from_documents(docs, self.embeddings, index_name=PINECONE_INDEX_NAME)
+            return Pinecone.from_documents(docs, self.embeddings, index_name=PineconeOptions.index_name)

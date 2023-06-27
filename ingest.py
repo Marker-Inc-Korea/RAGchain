@@ -10,11 +10,11 @@ from utils import xlxs_to_csv
 from langchain.document_loaders import TextLoader, PDFMinerLoader, CSVLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.docstore.document import Document
-from constants import SOURCE_DIRECTORY, EMBEDDED_FILES_CACHE_DIRECTORY
 from hwp import HwpLoader
 from db import DB
 from dotenv import load_dotenv
 from tqdm import tqdm
+from options import Options
 from embedding import Embedding
 
 HwpConvertOpt = 'all'  # 'main-only'
@@ -64,16 +64,18 @@ def load_documents(source_dir: str) -> List[Document]:
 @click.option('--embedding_type', default='KoSimCSE', help='embedding model to use, select OpenAI or KoSimCSE')
 def main(device_type, db_type, embedding_type):
     load_dotenv()
+   
 
-    # Load documents and split in chunks
-    print(f"Loading documents from {SOURCE_DIRECTORY}")
-    documents = load_documents(SOURCE_DIRECTORY)
+    #  Load documents and split in chunks
+    print(f"Loading documents from {Options.source_dir}")
+    documents = load_documents(Options.source_dir)
+
     if len(documents) <= 0:
-        print(f"Could not find any new documents in {SOURCE_DIRECTORY}")
+        print(f"Could not find any new documents in {Options.source_dir}")
         return
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     texts = text_splitter.split_documents(documents)
-    print(f"Loaded {len(documents)} documents from {SOURCE_DIRECTORY}")
+    print(f"Loaded {len(documents)} documents from {Options.source_dir}")
     print(f"Split into {len(texts)} chunks of text")
 
     # Create embeddings

@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 from embedding import Embedding
 
 
+
 def load_ko_alpaca(device: str = "cuda") -> BaseLLM:
     try:
         from transformers import AutoTokenizer, pipeline, BitsAndBytesConfig, AutoModelForCausalLM, \
