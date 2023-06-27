@@ -28,4 +28,4 @@ jobs:
         with:
           context: ./containers/KoPrivateGPT
           push: true
-          tags: vkehfdl1/ko_private_gpt:$(date +'%Y-%m-%d')
+          tags: vkehfdl1/ko_private_gpt:latest
