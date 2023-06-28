@@ -1,4 +1,4 @@
-from constants import EMBEDDED_FILES_CACHE_DIRECTORY
+from options import Options
 import pickle
 import os
 from datetime import datetime
@@ -11,8 +11,8 @@ class EmbeddedFilesCache:
     """
 
     def __init__(self):
-        if os.path.exists(EMBEDDED_FILES_CACHE_DIRECTORY):
-            with open(EMBEDDED_FILES_CACHE_DIRECTORY, 'rb') as f:
+        if os.path.exists(Options.embedded_files_cache_dir):
+            with open(Options.embedded_files_cache_dir, 'rb') as f:
                 self.cache = pickle.load(f)
         else:
             self.cache = {}
@@ -28,7 +28,7 @@ class EmbeddedFilesCache:
         self.cache[full_file_path] = datetime.now()
 
     def save(self):
-        with open(EMBEDDED_FILES_CACHE_DIRECTORY, 'wb') as f:
+        with open(Options.embedded_files_cache_dir, 'wb') as f:
             pickle.dump(self.cache, f)
 
     def get_all_files(self):
@@ -36,4 +36,4 @@ class EmbeddedFilesCache:
 
     @classmethod
     def delete_files(cls):
-        os.remove(EMBEDDED_FILES_CACHE_DIRECTORY)
+        os.remove(Options.embedded_files_cache_dir)
