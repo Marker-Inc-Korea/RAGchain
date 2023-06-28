@@ -3,7 +3,7 @@ import shutil
 import pinecone
 from db import DB, DBType
 from embedded_files_cache import EmbeddedFilesCache
-from constants import PERSIST_DIRECTORY, PINECONE_INDEX_NAME
+from options import ChromaOptions, PineconeOptions
 import click
 
 
@@ -13,9 +13,9 @@ def main(db_type):
     EmbeddedFilesCache.delete_files()
     db = DB(db_type, embeddings=None).db_type
     if db == DBType.CHROMA:
-        shutil.rmtree(PERSIST_DIRECTORY)
+        shutil.rmtree(ChromaOptions.persist_dir)
     elif db == DBType.PINECONE:
-        pinecone.delete_index(PINECONE_INDEX_NAME)
+        pinecone.delete_index(PineconeOptions.index_name)
     else:
         raise ValueError(f"Unknown db type: {db_type}")
     print(f"Deleted {db_type} embeddings")
