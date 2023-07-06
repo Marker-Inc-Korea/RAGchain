@@ -56,6 +56,19 @@ def load_documents(source_dir: str) -> List[Document]:
     return docs
 
 
+def split_documents(documents: List[Document]):
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+    texts = text_splitter.split_documents(documents)
+    return texts
+
+
+def ingest_texts(device_type, db_type, embedding_type, texts):
+    # Create embeddings
+    embeddings = Embedding(embed_type=embedding_type, device_type=device_type).embedding()
+    db = DB(db_type, embeddings).from_documents(texts)
+    db = None
+
+
 @click.command()
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
 @click.option('--db_type', default='chroma', help='vector database to use, select chroma or pinecone')
@@ -70,16 +83,11 @@ def main(device_type, db_type, embedding_type):
     if len(documents) <= 0:
         print(f"Could not find any new documents in {Options.source_dir}")
         return
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
-    texts = text_splitter.split_documents(documents)
+    texts = split_documents(documents)
     print(f"Loaded {len(documents)} documents from {Options.source_dir}")
     print(f"Split into {len(texts)} chunks of text")
 
-    # Create embeddings
-    embeddings = Embedding(embed_type=embedding_type, device_type=device_type).embedding()
-
-    db = DB(db_type, embeddings).from_documents(texts)
-    db = None
+    ingest_texts(device_type, db_type, embedding_type, texts)
 
 
 if __name__ == "__main__":

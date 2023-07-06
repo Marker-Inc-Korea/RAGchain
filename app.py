@@ -2,7 +2,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 import gradio as gr
 
-from ingest import load_single_document
+from ingest import load_single_document, split_documents, ingest_texts
 from model import load_model
 from dotenv import load_dotenv
 
@@ -26,10 +26,8 @@ retriever = db.as_retriever()
 def ingest(files) -> str:
     file_paths = [f.name for f in files]
     documents = [load_single_document(path) for path in file_paths]
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=30)
-    texts = text_splitter.split_documents(documents)
-    db = DB('pinecone', Embedding(embed_type=embedding_type).embedding()).from_documents(texts)
-    db = None
+    texts = split_documents(documents)
+    ingest_texts('cuda', 'pinecone', 'OpenAI', texts)
     return "Ingest Done"
 
 
