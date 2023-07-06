@@ -1,21 +1,19 @@
 import os
-import pickle
-from datetime import datetime
 
 import click
 from typing import List
 
-from embedded_files_cache import EmbeddedFilesCache
+from embed.embedded_files_cache import EmbeddedFilesCache
 from utils import xlxs_to_csv
 from langchain.document_loaders import TextLoader, PDFMinerLoader, CSVLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.docstore.document import Document
 from hwp import HwpLoader
-from db import DB
+from vectorDB import DB
 from dotenv import load_dotenv
 from tqdm import tqdm
 from options import Options
-from embedding import Embedding
+from embed.embedding import Embedding
 
 HwpConvertOpt = 'all'  # 'main-only'
 HwpConvertHost = f'http://hwp-converter:7000/upload?option={HwpConvertOpt}'
@@ -64,7 +62,6 @@ def load_documents(source_dir: str) -> List[Document]:
 @click.option('--embedding_type', default='KoSimCSE', help='embedding model to use, select OpenAI or KoSimCSE')
 def main(device_type, db_type, embedding_type):
     load_dotenv()
-   
 
     #  Load documents and split in chunks
     print(f"Loading documents from {Options.source_dir}")

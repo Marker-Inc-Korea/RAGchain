@@ -4,11 +4,10 @@ from langchain.prompts import PromptTemplate
 import click
 import os
 
-from db import DB
+from vectorDB import DB
 from utils import StoppingCriteriaSub
 from dotenv import load_dotenv
-from embedding import Embedding
-
+from embed import Embedding
 
 
 def load_ko_alpaca(device: str = "cuda") -> BaseLLM:

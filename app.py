@@ -5,14 +5,13 @@ from langchain.prompts import PromptTemplate
 import gradio as gr
 
 from ingest import load_single_document
-from run_localGPT import load_ko_alpaca, load_openai_model, load_kullm_model
+from run_localGPT import load_openai_model
 
 from dotenv import load_dotenv
-import os
 
 from utils import slice_stop_words
-from db import DB
-from embedding import Embedding
+from vectorDB import DB
+from embed import Embedding
 
 load_dotenv()
 
