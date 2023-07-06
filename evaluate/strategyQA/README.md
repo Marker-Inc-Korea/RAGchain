@@ -31,19 +31,33 @@ Ko-StrategyQA에 대한 자세한 설명은 [허깅페이스](https://huggingfac
 >>>>>>> 이하 생략 <<<<<<<<
 }
 ```
-- 위와 같이 answer에는 True 혹은 false로 LLM이 예측한 정답을 정제하여 넣어주어야 합니다. 
-- paragraphs에는 retreive한 문서의 key값 10개를 넣어주세요. 반드시 영어로 넣어주어야 인식합니다. 
-- decomposition은 SARI 측정을 위한 것으로, 현재 지원하지 않습니다. 비워두어도 괜찮습니다. 
-
+- 위와 같이 answer에는 True 혹은 false로 LLM이 예측한 정답을 정제하여 넣어주어야 합니다.
+- paragraphs에는 retreive한 문서의 key값 10개를 넣어주세요. 반드시 영어로 넣어주어야 인식합니다.
+- decomposition은 SARI 측정을 위한 것으로, 현재 지원하지 않습니다. 비워두어도 괜찮습니다.
 
 ### 평가 실행법
+
 아래의 코드를 실행합니다.
+
 ```shell
 python3 evaluate.py --pred=<prediction 파일 경로>
 ```
 
+## 평가 결과
+
+### gold paragraph
+
+- 정답 paragraph를 모두 주어 준 상태에서 평가를 진행한 결과입니다.
+
+#### prompt Engineering 없는 경우
+
+| Model         | Accuracy |
+|---------------|:--------:|
+| gpt-3.5-turbo | 0.62857  |
+
 ## 지원하는 메트릭
-현재 Recall@10과 Accuracy 메트릭을 제공하고 있습니다. 
+
+현재 Recall@10과 Accuracy 메트릭을 제공하고 있습니다.
 
 ## 출처
 

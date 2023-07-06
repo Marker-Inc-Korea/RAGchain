@@ -3,6 +3,8 @@ import json
 
 
 def _recall(relevant_paragraphs, retrieved_paragraphs):
+    if len(relevant_paragraphs) <= 0:
+        return 0.0
     result = len(set(relevant_paragraphs).intersection(retrieved_paragraphs)) / len(
         relevant_paragraphs
     )
@@ -30,6 +32,8 @@ def recall(solution: dict, pred: dict):
             score_per_annotator.append(score)
         annotator_max = max(score_per_annotator)
         result_score.append(annotator_max)
+    if len(result_score) <= 0:
+        return 0.0
     return float(sum(result_score)) / len(result_score)
 
 
@@ -43,8 +47,7 @@ def accuracy(solution: dict, pred: dict):
             print(f'{key} is not existed in prediction file.')
             continue
         total_cnt += 1
-        prediction = bool(prediction)
-        if bool(solution[key]['answer']) == prediction:
+        if solution[key]['answer'].lower() == prediction.lower():
             right_cnt += 1
 
     return float(right_cnt) / total_cnt
