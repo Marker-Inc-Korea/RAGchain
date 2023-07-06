@@ -1,6 +1,4 @@
-from langchain.chains import RetrievalQA
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.prompts import PromptTemplate
 
 import gradio as gr
 
@@ -8,26 +6,21 @@ from ingest import load_single_document
 from model import load_model
 from dotenv import load_dotenv
 
+from run_localGPT import make_qa, get_answer
 from utils import slice_stop_words
 from vectorDB import DB
 from embed import Embedding
 
 load_dotenv()
 
-STOP_WORDS = ["#", "답변:", "응답:", "\n", "맥락:", "?"]
-
-PROMPT_TEMPLATE = """주어진 정보를 바탕으로 질문에 답하세요. 답을 모른다면 답을 지어내려고 하지 말고 모른다고 답하세요. 
-    질문 이외의 상관 없는 답변을 하지 마세요. 반드시 한국어로 답변하세요.
-
-    {context}
-
-    질문: {question}
-    한국어 답변:"""
+STOP_WORDS = ["#", "답변:", "응답:", "맥락:", "?"]
 
 device = "cuda"
 model_type = "OpenAI"
 llm = load_model(model_type)
-embedding_type = "OpenAI"  # "KoSimCSE"
+embedding_type = "OpenAI"
+db = DB('pinecone', Embedding(embed_type=embedding_type).embedding()).load()
+retriever = db.as_retriever()
 
 
 def ingest(files) -> str:
@@ -40,32 +33,13 @@ def ingest(files) -> str:
     return "Ingest Done"
 
 
-def get_answer(text):
-    db = DB('pinecone', Embedding(embed_type=embedding_type).embedding()).load()
-    retriever = db.as_retriever()
-    prompt = PromptTemplate(template=PROMPT_TEMPLATE, input_variables=["context", "question"])
-    chain_type_kwargs = {"prompt": prompt}
-    qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True,
-                                     chain_type_kwargs=chain_type_kwargs)
-
+def make_answer(text):
+    qa = make_qa(llm, retriever)
     # Get the answer from the chain
-    res = qa({"query": text})
-    answer, docs = res['result'], res['source_documents']
+    q, answer, docs = get_answer(qa, text)
     answer = slice_stop_words(answer, STOP_WORDS)
-    # Print the result
-    print("\n\n> 질문:")
-    print(text)
-    print("\n> 대답:")
-    print(answer)
-
-    # # Print the relevant sources used for the answer
-    print("----------------------------------참조한 문서---------------------------")
-    for document in docs:
-        print("\n> " + document.metadata["source"] + ":")
-        print(document.page_content)
-    print("----------------------------------참조한 문서---------------------------")
-    document_sources = ",\n".join([doc.metadata["source"].split("/")[-1] for doc in docs])
-    return answer, document_sources
+    document_source = ",\n".join([doc.metadata["source"].split("/")[-1] for doc in docs])
+    return answer, document_source
 
 
 with gr.Blocks(analytics_enabled=False) as demo:
@@ -96,6 +70,6 @@ with gr.Blocks(analytics_enabled=False) as demo:
     ingest_button.click(ingest, inputs=[upload_files], outputs=[ingest_status])
 
     document_sources = gr.Textbox(label="참조한 문서", placeholder="참조한 문서를 출력합니다.", interactive=False)
-    question_btn.click(get_answer, inputs=[query], outputs=[answer_result, document_sources])
+    question_btn.click(make_answer, inputs=[query], outputs=[answer_result, document_sources])
 
 demo.launch(share=False, debug=True, server_name="0.0.0.0")
