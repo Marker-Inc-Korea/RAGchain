@@ -1,121 +1,11 @@
 from langchain.chains import RetrievalQA
-from langchain.llms import HuggingFacePipeline, BaseLLM
 from langchain.prompts import PromptTemplate
 import click
-import os
 
 from vectorDB import DB
-from utils import StoppingCriteriaSub
 from dotenv import load_dotenv
 from embed import Embedding
-
-
-def load_ko_alpaca(device: str = "cuda") -> BaseLLM:
-    try:
-        from transformers import AutoTokenizer, pipeline, BitsAndBytesConfig, AutoModelForCausalLM, \
-            LogitsProcessorList, RepetitionPenaltyLogitsProcessor, NoRepeatNGramLogitsProcessor, \
-            StoppingCriteria, StoppingCriteriaList
-        import torch
-    except ImportError:
-        raise ModuleNotFoundError(
-            "Could not import transformers library or torch library "
-            "Please install the transformers library to "
-            "use this model: pip install transformers"
-        )
-    except Exception:
-        raise NameError(f"Could not load model. Check your internet connection.")
-
-    if device == "cuda":
-        model_id = "beomi/polyglot-ko-12.8b-safetensors"  # safetensors 컨버팅된 레포
-        bnb_config = BitsAndBytesConfig(
-            load_in_4bit=True,
-            bnb_4bit_use_double_quant=True,
-            bnb_4bit_quant_type="nf4",
-            bnb_4bit_compute_dtype=torch.bfloat16
-        )
-
-        tokenizer = AutoTokenizer.from_pretrained(model_id)
-        model = AutoModelForCausalLM.from_pretrained(model_id, quantization_config=bnb_config, device_map={"": 0})
-        # define repetition penalty (not fixed)
-        repetition_penalty = float(1.2)
-        logits_processor = LogitsProcessorList(
-            [RepetitionPenaltyLogitsProcessor(penalty=repetition_penalty), NoRepeatNGramLogitsProcessor(5)])
-        stop_words = ["!"]
-        stop_words_ids = [tokenizer(stop_word, return_tensors='pt')['input_ids'].squeeze() for stop_word in stop_words]
-        stopping_criteria = StoppingCriteriaList([StoppingCriteriaSub(stops=stop_words_ids, encounters=1)])
-        pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=100,
-                        logits_processor=logits_processor, stopping_criteria=stopping_criteria,
-                        eos_token_id=2, pad_token_id=2)
-        return HuggingFacePipeline(pipeline=pipe)
-    elif device == "cpu":
-        try:
-            from langchain.llms import CTransformers
-        except ImportError:
-            raise ModuleNotFoundError(
-                "Could not import ctransformers library or torch library "
-                "Please install the ctransformers library to "
-                "pip install ctransformers"
-            )
-        except Exception:
-            raise NameError("Unknown error")
-        return CTransformers(model="vkehfdl1/KoAlpaca-Polyglot-12.8b-ggml", model_file="KoAlpaca-Polyglot-12.8b-ggml-model-q5_0.bin",
-                             model_type="gpt_neox")
-
-    else:
-        raise ValueError("device type must be cuda or cpu")
-
-
-def load_openai_model() -> BaseLLM:
-    openai_token = os.environ["OPENAI_API_KEY"]
-    if openai_token is None:
-        raise ValueError("OPENAI_API_KEY is empty. Set OPENAI_API_KEY at .env file")
-    try:
-        from langchain.llms import OpenAI
-    except ImportError:
-        raise ModuleNotFoundError(
-            "Could not import OpenAI library. Please install the OpenAI library."
-            "pip install openai"
-        )
-    return OpenAI(max_tokens=1024, model_name='gpt-3.5-turbo-16k')
-
-
-def load_kullm_model(device: str = "cuda") -> BaseLLM:
-    if device == "cuda":
-        try:
-            from transformers import AutoTokenizer, pipeline, AutoModelForCausalLM
-            import torch
-        except ImportError:
-            raise ModuleNotFoundError(
-                "Could not import transformers library or torch library "
-                "Please install the transformers library to "
-                "use this model: pip install transformers"
-            )
-        except Exception:
-            raise NameError(f"Could not load model. Check your internet connection.")
-        model_name = "nlpai-lab/kullm-polyglot-5.8b-v2"
-        model = AutoModelForCausalLM.from_pretrained(
-            model_name,
-            torch_dtype=torch.float16,
-            low_cpu_mem_usage=False,
-        ).to(device=f"cuda", non_blocking=True)
-        pipe = pipeline("text-generation", model=model, tokenizer=model_name, max_new_tokens=100)
-        return HuggingFacePipeline(pipeline=pipe)
-    elif device == "cpu":
-        try:
-            from langchain.llms import CTransformers
-        except ImportError:
-            raise ModuleNotFoundError(
-                "Could not import ctransformers library or torch library "
-                "Please install the ctransformers library to "
-                "pip install ctransformers"
-            )
-        except Exception:
-            raise NameError("Unknown error")
-
-        return CTransformers(model="vkehfdl1/KuLLM-Polyglot-12.8b-v2-ggml", model_file="KuLLM-Polyglot-12.8b-v2-ggml-q5_0.bin",
-                             model_type="gpt_neox")
-    else:
-        raise ValueError("device type must be cuda or cpu")
+from model import load_model
 
 
 @click.command()
@@ -125,24 +15,8 @@ def load_kullm_model(device: str = "cuda") -> BaseLLM:
 @click.option('--embedding_type', default='KoSimCSE', help='embedding model to use, select OpenAI or KoSimCSE.')
 def main(device_type, model_type, db_type, embedding_type):
     load_dotenv()
-    # load the instructorEmbeddings
-    if device_type in ['cpu', 'CPU']:
-        device='cpu'
-    elif device_type in ['mps', 'MPS']:
-        device='mps'
-    else:
-        device='cuda'
 
-    if model_type in ['koAlpaca', 'KoAlpaca', 'koalpaca', 'Ko-alpaca']:
-        llm = load_ko_alpaca(device)
-    elif model_type in ["OpenAI", "openai", "Openai"]:
-        llm = load_openai_model()
-    elif model_type in ["KULLM", "KuLLM", "kullm"]:
-        llm = load_kullm_model(device)
-    else:
-        raise ValueError(f"Invalid model type: {model_type}")
-
-    print(f"Running on: {device}")
+    llm = load_model(model_type, device_type=device_type)
 
     embeddings = Embedding(embed_type=embedding_type, device_type=device_type).embedding()
 

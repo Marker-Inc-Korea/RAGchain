@@ -5,8 +5,7 @@ from langchain.prompts import PromptTemplate
 import gradio as gr
 
 from ingest import load_single_document
-from run_localGPT import load_openai_model
-
+from model import load_model
 from dotenv import load_dotenv
 
 from utils import slice_stop_words
@@ -27,7 +26,7 @@ PROMPT_TEMPLATE = """주어진 정보를 바탕으로 질문에 답하세요. �
 
 device = "cuda"
 model_type = "OpenAI"
-llm = load_openai_model()
+llm = load_model(model_type)
 embedding_type = "OpenAI"  # "KoSimCSE"
 
 
