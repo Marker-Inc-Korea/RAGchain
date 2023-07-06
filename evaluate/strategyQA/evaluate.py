@@ -43,8 +43,7 @@ def accuracy(solution: dict, pred: dict):
             print(f'{key} is not existed in prediction file.')
             continue
         total_cnt += 1
-        prediction = bool(prediction)
-        if bool(solution[key]['answer']) == prediction:
+        if solution[key]['answer'] == prediction:
             right_cnt += 1
 
     return float(right_cnt) / total_cnt
