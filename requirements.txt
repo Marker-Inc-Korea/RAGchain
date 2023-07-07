@@ -20,3 +20,4 @@ ctransformers
 pinecone-client
 python-dotenv
 tiktoken
+vllm
