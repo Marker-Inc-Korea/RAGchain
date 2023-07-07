@@ -1,7 +1,6 @@
-import os
 import shutil
 import pinecone
-from db import DB, DBType
+from vectorDB import DB, DBType
 from embedded_files_cache import EmbeddedFilesCache
 from options import ChromaOptions, PineconeOptions
 import click
