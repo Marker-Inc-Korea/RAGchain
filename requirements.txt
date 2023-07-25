@@ -20,3 +20,5 @@ ctransformers
 pinecone-client
 python-dotenv
 tiktoken
+beir
+pytrec_eval
