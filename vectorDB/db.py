@@ -45,3 +45,7 @@ class DB:
             return result
         elif self.db_type == DBType.PINECONE:
             return Pinecone.from_documents(docs, self.embeddings, index_name=PineconeOptions.index_name)
+
+    def search(self, query: str, top_k: int = 5) -> List[Document]:
+        db = self.load()
+        return db.similarity_search(query=query, k=top_k)
