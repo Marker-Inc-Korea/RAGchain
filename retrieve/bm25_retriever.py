@@ -1,4 +1,4 @@
-import uuid
+import numpy as np
 from typing import List
 from langchain.schema import Document
 from rank_bm25 import BM25Okapi
@@ -16,15 +16,17 @@ class BM25Retriever(BaseRetriever):
         "tokens" : [], # 2d list of tokens
         "texts" : [], # 2d list of texts
     """
+
     def __init__(self, data=None):
         if data is None:
             self.data = {
                 "tokens": [],
-                "texts": []
+                "texts": [],
+                "metadata": [],
             }
         else:
             self.data = data
-        assert(len(self.data["tokens"]) == len(self.data["texts"]))
+        assert (len(self.data["tokens"]) == len(self.data["texts"]))
         self.tokenizer = AutoTokenizer.from_pretrained("EleutherAI/polyglot-ko-1.3b")
 
     def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Document]:
@@ -33,8 +35,9 @@ class BM25Retriever(BaseRetriever):
 
         bm25 = BM25Okapi(self.data["tokens"])
         tokenized_query = self.__tokenize([query])[0]
-        result = bm25.get_top_n(tokenized_query, self.data["texts"], n=top_k)
-        return [Document(page_content=content) for content in result]
+        scores = bm25.get_scores(tokenized_query)
+        top_n = np.argsort(scores)[::-1][:top_k]  # this code is from rank_bm25.py in rank_bm25 package
+        return [Document(page_content=self.data["texts"][i], metadata=self.data["metadata"][i]) for i in top_n]
 
     @classmethod
     def load(cls, save_path: str, *args, **kwargs):
@@ -45,19 +48,14 @@ class BM25Retriever(BaseRetriever):
         return BM25Retriever(data)
 
     def save(self, documents: List[Document], *args, **kwargs):
-        tokens = list()
-        texts = list()
         for document in tqdm(documents):
-            tokenized = self.__tokenize([document.page_content])[0]
-            tokens.append(tokenized)
-            texts.append(document.page_content)
-        self.data["tokens"].extend(tokens)
-        self.data["texts"].extend(texts)
+            self.save_one(document)
 
     def save_one(self, document: Document, *args, **kwargs):
         tokenized = self.__tokenize([document.page_content])[0]
         self.data["tokens"].append(tokenized)
         self.data["texts"].append(document.page_content)
+        self.data["metadata"].append(document.metadata)
 
     def delete(self, ids: List[str], *args, **kwargs):
         raise NotImplementedError
@@ -82,4 +80,3 @@ class BM25Retriever(BaseRetriever):
     def __tokenize(self, values: List[str]):
         tokenized = self.tokenizer(values)
         return tokenized.input_ids
-
