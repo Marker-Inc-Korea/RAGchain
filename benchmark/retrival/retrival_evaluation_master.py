@@ -4,8 +4,11 @@ from benchmark.retrival.precision import PrecisionFactory
 #from benchmark.retrival.average_precision import AveragePrecisionFactory
 from benchmark.retrival.ndcg import NDCGFactory
 from benchmark.retrival.map import MAPFactory
-#from benchmark.retrival.mrr import MRRFactory
+from benchmark.retrival.mrr import MRRFactory
 #from benchmark.retrival.pfound import PFoundFactory
+from benchmark.retrival.hole import HoleFactory
+from benchmark.retrival.recall_cap import RecallCapFactory
+from benchmark.retrival.top_k_accuracy import TopKAccuracyFactory
 from typing import List, Dict, Union, Tuple
 
 def retrival_evaluation_master(qrels: Dict[str, Dict[str, int]],
@@ -26,6 +29,14 @@ def retrival_evaluation_master(qrels: Dict[str, Dict[str, int]],
                 metric_factory = NDCGFactory(k)
             elif metric in ["MAP", "map", "Map"]:
                 metric_factory = MAPFactory(k)
+            elif metric in ["MRR", "mrr", "Mrr"]:
+                metric_factory = MRRFactory(k)
+            elif metric in ["HOLE", "hole", "Hole"]:
+                metric_factory = HoleFactory(k)
+            elif metric in ["RECALLCAP", "recallcap", "Recallcap", "RecallCap"]:
+                metric_factory = RecallCapFactory(k)
+            elif metric in ["TOPKACCURACY", "topkaccuracy", "Topkaccuracy", "TopKAccuracy", "topKAccuracy", "Accuracy", "accuracy", "ACCURACY", "Acc", "acc", "ACC"]:
+                metric_factory = TopKAccuracyFactory(k)
             else:
                 print(f"Metric {metric} not found.")
             evaluation_results.append(metric_factory.eval(qrels, results, k))

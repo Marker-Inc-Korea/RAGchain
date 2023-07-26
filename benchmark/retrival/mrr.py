@@ -9,6 +9,20 @@ class MRRFactory(BaseRetrievalEvaluationFactory):
 
         mrr = {}
         mrr[f"MRR@{k_value}"] = 0.0
-        mrr[f"MRR@{k_value}"] = round(mrr[f"Recall@{k_value}"] / len(scores), 5)
+
+        top_hits = {}
+
+        for query_id, doc_scores in results.items():
+            top_hits[query_id] = sorted(doc_scores.items(), key=lambda x: x[1], reverse=True)[:k_value]
+
+        for query_id in top_hits:
+            query_relevant_docs = set([doc_id for doc_id in qrels[query_id] if qrels[query_id][doc_id] > 0])
+
+        for rank, hit in enumerate(top_hits[query_id][0:k_value]):
+            if hit[0] in query_relevant_docs:
+                mrr[f"MRR@{k_value}"] += 1.0 / (rank + 1)
+                break
+
+        mrr[f"MRR@{k_value}"] = round(mrr[f"MRR@{k_value}"] / len(qrels), 5)
 
         return mrr
