@@ -67,7 +67,7 @@ def split_documents(documents: List[Document]):
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
 @click.option('--db_type', default='chroma', help='vector database to use, select chroma or pinecone')
 @click.option('--embedding_type', default='KoSimCSE', help='embedding model to use, select OpenAI or KoSimCSE')
-@click.option('--retriever_type', default='langchain', help='retriever type to use, select langchain or bm25')
+@click.option('--retriever_type', default='bm25', help='retriever type to use, select langchain or bm25')
 def main(device_type, db_type, embedding_type, retriever_type):
     load_dotenv()
 
@@ -89,7 +89,7 @@ def main(device_type, db_type, embedding_type, retriever_type):
         retriever = LangchainRetriever.load(db_type=db_type, embedding=embeddings)
 
     retriever.save(texts)
-
+    retriever.persist(Options.bm25_db_dir)
     file_cache.save()
 
 

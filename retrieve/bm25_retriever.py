@@ -11,27 +11,29 @@ from tqdm import tqdm
 
 class BM25Retriever(BaseRetriever):
     """
-    BM25Retriever data format example
+    Default data structure looks like this:
     {
-        "id": {"value": [3, 56, 3], "metadata": {metadata}},
-        "id2": {"value": [3, 56, 3], "metadata": {metadata}}
-    }
-    metadata must have "content" key
+        "tokens" : [], # 2d list of tokens
+        "texts" : [], # 2d list of texts
     """
-
     def __init__(self, data=None):
+        if data is None:
+            self.data = {
+                "tokens": [],
+                "texts": []
+            }
+        else:
+            self.data = data
+        assert(len(self.data["tokens"]) == len(self.data["texts"]))
         self.tokenizer = AutoTokenizer.from_pretrained("EleutherAI/polyglot-ko-1.3b")
-        self.data = data
 
     def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Document]:
         if self.data is None:
             raise ValueError("BM25Retriever.data is None. Please save data first.")
 
-        values = [value["value"] for key, value in self.data.items()]
-        contents = [value["metadata"]["content"] for key, value in self.data.items()]
-        bm25 = BM25Okapi(values)
+        bm25 = BM25Okapi(self.data["tokens"])
         tokenized_query = self.__tokenize([query])[0]
-        result = bm25.get_top_n(tokenized_query, contents, n=top_k)
+        result = bm25.get_top_n(tokenized_query, self.data["texts"], n=top_k)
         return [Document(page_content=content) for content in result]
 
     @classmethod
@@ -42,37 +44,42 @@ class BM25Retriever(BaseRetriever):
             data = pickle.load(f)
         return BM25Retriever(data)
 
-    def save(self, documents: List[Document], upsert: bool = False, *args, **kwargs):
-        # TODO : deal with id
+    def save(self, documents: List[Document], *args, **kwargs):
+        tokens = list()
+        texts = list()
         for document in tqdm(documents):
-            if not upsert:
-                continue
-            self.update_one(document)
+            tokenized = self.__tokenize([document.page_content])[0]
+            tokens.append(tokenized)
+            texts.append(document.page_content)
+        self.data["tokens"].extend(tokens)
+        self.data["texts"].extend(texts)
 
-    def save_one(self, document: Document, upsert: bool = False, *args, **kwargs):
-        if not upsert and self.__check_id(document.metadata["id"]):
-            return
-        self.update_one(document)
+    def save_one(self, document: Document, *args, **kwargs):
+        tokenized = self.__tokenize([document.page_content])[0]
+        self.data["tokens"].append(tokenized)
+        self.data["texts"].append(document.page_content)
 
     def delete(self, ids: List[str], *args, **kwargs):
-        pass
+        raise NotImplementedError
 
     def delete_one(self, id: str, *args, **kwargs):
-        pass
+        raise NotImplementedError
 
     def delete_all(self, *args, **kwargs):
-        pass
+        raise NotImplementedError
 
     def update(self, documents: List[Document], *args, **kwargs):
-        for document in tqdm(documents):
-            self.update_one(document)
+        raise NotImplementedError
 
     def update_one(self, document: Document, *args, **kwargs):
-        tokenized = self.__tokenize([document.page_content])[0]
-        self.data[document.metadata["id"]] = {"value": tokenized, "metadata": document.metadata}
+        raise NotImplementedError
+
+    def persist(self, save_path: str):
+        FileChecker(save_path).check_type(file_types=[".pkl", ".pickle"])
+        with open(save_path, 'wb') as f:
+            pickle.dump(self.data, f)
 
     def __tokenize(self, values: List[str]):
         tokenized = self.tokenizer(values)
         return tokenized.input_ids
 
-    # TODO : add persist directory
