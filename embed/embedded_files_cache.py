@@ -3,6 +3,8 @@ import pickle
 import os
 from datetime import datetime
 
+from utils import FileChecker
+
 
 class EmbeddedFilesCache:
     """
@@ -36,4 +38,7 @@ class EmbeddedFilesCache:
 
     @classmethod
     def delete_files(cls):
+        if not FileChecker(Options.embedded_files_cache_dir).is_exist():
+            print(f'file cache already deleted')
+            return
         os.remove(Options.embedded_files_cache_dir)

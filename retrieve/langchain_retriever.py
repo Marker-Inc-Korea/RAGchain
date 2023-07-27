@@ -1,7 +1,7 @@
 from typing import List, Dict, Tuple
 
 from langchain.schema import Document
-from embed import delete_embeddings
+from embed import delete_embeddings_vectordb
 from vectorDB import DB
 from .base import BaseRetriever
 from embed import Embedding
@@ -22,7 +22,7 @@ class LangchainRetriever(BaseRetriever):
 
     def delete_all(self):
         db_type = self.db.db_type
-        delete_embeddings(db_type)
+        delete_embeddings_vectordb(db_type)
 
     def update(self, documents: List[Document], *args, **kwargs):
         raise NotImplementedError("update is not implemented yet.")
