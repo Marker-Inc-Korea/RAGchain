@@ -22,6 +22,7 @@ def get_paragraph():
 def make_document(row):
     return Document(page_content=row["ko-content"], metadata={"id": row["key"]})
 
+
 def main():
     paragraph = get_paragraph()
     paragraph["document"] = paragraph.apply(make_document, axis=1)
