@@ -11,22 +11,27 @@ def _recall(relevant_paragraphs, retrieved_paragraphs):
     return result
 
 
+def strategy_qa_evidence_flatten(evidence):
+    evidence_per_annotator = list()
+    for annotator in evidence:
+        evidence_per_annotator.append(
+            set(
+                evidence_id
+                for step in annotator
+                for x in step
+                if isinstance(x, list)
+                for evidence_id in x
+            )
+        )
+    return evidence_per_annotator
+
+
 def recall(solution: dict, pred: dict):
     result_score = list()
     for key in solution.keys():
         paragraphs = pred[key]['paragraphs']
-        evidence_per_annotator = list()
+        evidence_per_annotator = strategy_qa_evidence_flatten(solution[key]['evidence'])
         score_per_annotator = list()
-        for annotator in solution[key]['evidence']:
-            evidence_per_annotator.append(
-                set(
-                    evidence_id
-                    for step in annotator
-                    for x in step
-                    if isinstance(x, list)
-                    for evidence_id in x
-                )
-            )
         for evidence in evidence_per_annotator:
             score = _recall(evidence, paragraphs)
             score_per_annotator.append(score)

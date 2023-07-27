@@ -89,7 +89,8 @@ def main(device_type, db_type, embedding_type, retriever_type):
         retriever = LangchainRetriever.load(db_type=db_type, embedding=embeddings)
 
     retriever.save(texts)
-    retriever.persist(Options.bm25_db_dir)
+    if retriever_type in ['bm25', 'BM25']:
+        retriever.persist(Options.bm25_db_dir)
     file_cache.save()
 
 
