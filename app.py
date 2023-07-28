@@ -6,7 +6,7 @@ from ingest import load_single_document, split_documents, ingest_texts
 from model import load_model
 from dotenv import load_dotenv
 
-from run_localGPT import make_qa, get_answer
+from run_localGPT import make_qa, get_answer, hyde_embeddings
 from utils import slice_stop_words
 from vectorDB import DB
 from embed import Embedding
@@ -19,7 +19,9 @@ device = "cuda"
 model_type = "OpenAI"
 llm = load_model(model_type)
 embedding_type = "OpenAI"
-db = DB('pinecone', Embedding(embed_type=embedding_type).embedding()).load()
+embeddings = Embedding(embed_type=embedding_type).embedding()
+embeddings = hyde_embeddings(llm, embeddings)
+db = DB('pinecone', embeddings).load()
 retriever = db.as_retriever()
 
 
