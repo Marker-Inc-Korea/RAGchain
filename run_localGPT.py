@@ -1,5 +1,5 @@
 from langchain import LLMChain
-from typing import Tuple, List
+from langchain.chains import HypotheticalDocumentEmbedder
 from langchain.prompts import PromptTemplate
 import click
 from langchain.schema import Document
@@ -51,6 +51,16 @@ def print_docs(docs):
     print("----------------------------------참조한 문서---------------------------")
 
 
+def hyde_embeddings(llm, base_embedding):
+    hyde_prompt = """
+    다음 질문에 대하여, 적절한 정보가 주어졌다고 가정하고 대답을 생성하세요.
+    질문: {question}
+    답변: """
+    prompt = PromptTemplate(template=hyde_prompt, input_variables=["question"])
+    llm_chain = LLMChain(llm=llm, prompt=prompt)
+    return HypotheticalDocumentEmbedder(llm_chain=llm_chain, base_embeddings=base_embedding)
+
+
 @click.command()
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
 @click.option('--model_type', default='koAlpaca', help='model to run on, select koAlpaca or openai')
@@ -67,7 +77,9 @@ def main(device_type, model_type, retriever_type, db_type, embedding_type):
         retriever = BM25Retriever.load(Options.bm25_db_dir)
     else:
         embeddings = Embedding(embed_type=embedding_type, device_type=device_type).embedding()
+        embeddings = hyde_embeddings(llm, embeddings)
         retriever = LangchainRetriever.load(db_type=db_type, embedding=embeddings)
+        
 
     while True:
         query = input("질문을 입력하세요: ")

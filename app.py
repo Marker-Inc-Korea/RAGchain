@@ -7,7 +7,7 @@ from model import load_model
 from dotenv import load_dotenv
 
 from retrieve import LangchainRetriever
-from run_localGPT import make_llm_chain, get_answer
+from run_localGPT import make_llm_chain, get_answer, hyde_embeddings
 from utils import slice_stop_words
 from vectorDB import DB
 from embed import Embedding
@@ -22,7 +22,9 @@ llm = load_model(MODEL_TYPE)
 EMBEDDING_TYPE = "OpenAI"
 DB_TYPE = "chroma"
 embeddings = Embedding(embed_type=EMBEDDING_TYPE, device_type=DEVICE).embedding()
+embeddings = hyde_embeddings(llm, embeddings)
 retriever = LangchainRetriever.load(db_type=DB_TYPE, embedding=embeddings)
+
 
 
 def ingest(files) -> str:
