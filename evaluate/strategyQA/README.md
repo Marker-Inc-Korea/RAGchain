@@ -59,9 +59,10 @@ python3 evaluate.py --pred=<prediction 파일 경로>
 
 - retriever의 성능을 측정하였습니다
 
-| Model | Recall@10 |
-|:-----:|:---------:|
-| BM25  | 0.603469  |
+|        Model         | Recall@10 |
+|:--------------------:|:---------:|
+|         BM25         | 0.603469  |
+| openai embedding DPR | 0.408843  |
 
 
 ## 지원하는 메트릭

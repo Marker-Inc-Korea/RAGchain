@@ -1,3 +1,5 @@
+from typing import Tuple, List
+
 from langchain import LLMChain
 from langchain.chains import HypotheticalDocumentEmbedder
 from langchain.prompts import PromptTemplate
@@ -79,7 +81,6 @@ def main(device_type, model_type, retriever_type, db_type, embedding_type):
         embeddings = Embedding(embed_type=embedding_type, device_type=device_type).embedding()
         embeddings = hyde_embeddings(llm, embeddings)
         retriever = LangchainRetriever.load(db_type=db_type, embedding=embeddings)
-        
 
     while True:
         query = input("질문을 입력하세요: ")

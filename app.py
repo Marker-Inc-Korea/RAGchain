@@ -1,16 +1,12 @@
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-
 import gradio as gr
-
-from ingest import load_single_document, split_documents
-from model import load_model
 from dotenv import load_dotenv
 
+from embed import Embedding
+from ingest import load_single_document, split_documents
+from model import load_model
 from retrieve import LangchainRetriever
 from run_localGPT import make_llm_chain, get_answer, hyde_embeddings
 from utils import slice_stop_words
-from vectorDB import DB
-from embed import Embedding
 
 load_dotenv()
 
@@ -24,7 +20,6 @@ DB_TYPE = "chroma"
 embeddings = Embedding(embed_type=EMBEDDING_TYPE, device_type=DEVICE).embedding()
 embeddings = hyde_embeddings(llm, embeddings)
 retriever = LangchainRetriever.load(db_type=DB_TYPE, embedding=embeddings)
-
 
 
 def ingest(files) -> str:
@@ -58,11 +53,12 @@ with gr.Blocks(analytics_enabled=False) as demo:
     )
     with gr.Row():
         with gr.Column(scale=2):
-            query = gr.Textbox(label="질문 내용", placeholder="질문을 입력하세요", interactive=True,lines=17, max_lines=17)
+            query = gr.Textbox(label="질문 내용", placeholder="질문을 입력하세요", interactive=True, lines=17, max_lines=17)
             question_btn = gr.Button("질문하기")
 
         with gr.Column(scale=3):
-            answer_result = gr.Textbox(label="답변 내용", placeholder="답변을 출력합니다.", interactive=False,lines=20, max_lines=20)
+            answer_result = gr.Textbox(label="답변 내용", placeholder="답변을 출력합니다.", interactive=False, lines=20,
+                                       max_lines=20)
 
     gr.HTML(
         """<h2 style="text-align: center;"><br>파일 업로드하기<br></h2>"""

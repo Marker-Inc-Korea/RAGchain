@@ -5,8 +5,10 @@ import click
 from huggingface_hub import hf_hub_download
 from langchain.schema import Document
 from tqdm import tqdm
+
+from embed import Embedding
 from ingest import SAVE_PATH, REPO_ID
-from retrieve import BM25Retriever
+from retrieve import BM25Retriever, LangchainRetriever
 
 
 def get_train():
@@ -29,7 +31,9 @@ def extract_keys(documents: List[Document]):
 
 @click.command()
 @click.option("--test_type", default="dev", help="dev or train")
-def main(test_type):
+@click.option("--retriever_type", default="langchain", help="retriever type to use, select langchain or bm25")
+@click.option("--suffix", default="langchain", help="suffix for prediction file")
+def main(test_type, retriever_type, suffix):
     """
         This script allows you to test data retrieval using the BM25Retriever model.
         By default, the test type is 'dev'. You can specify the test type by using the '--test_type' option.
@@ -42,7 +46,11 @@ def main(test_type):
     else:
         raise ValueError("test_type should be dev or train")
     # make retrieve
-    retriever = BM25Retriever.load(SAVE_PATH)
+    if retriever_type in ['bm25', 'BM25']:
+        retriever = BM25Retriever.load(SAVE_PATH)
+    else:
+        embeddings = Embedding(embed_type='openai', device_type='cpu').embedding()
+        retriever = LangchainRetriever.load(db_type='chroma', embedding=embeddings)
     pred = {}
     for key in tqdm(list(data.keys())):
         query = data[key]["question"]
@@ -54,7 +62,7 @@ def main(test_type):
         }
 
     # save prediction
-    with open(f"./{test_type}_pred.json", "w") as f:
+    with open(f"./{test_type}_pred_{suffix}.json", "w") as f:
         json.dump(pred, f)
 
 

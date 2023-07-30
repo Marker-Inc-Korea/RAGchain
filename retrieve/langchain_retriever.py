@@ -30,12 +30,12 @@ class LangchainRetriever(BaseRetriever):
     def update_one(self, document: Document, *args, **kwargs):
         raise NotImplementedError("update_one is not implemented yet.")
 
-    def retrieve(self, query: str, top_n: int = 5, *args, **kwargs) -> List[Document]:
-        result = self.db.search(query, top_n)
+    def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Document]:
+        result = self.db.search(query, top_k)
         return result
 
     @classmethod
-    def load(cls, db_type: str, embedding: Embedding):
+    def load(cls, db_type: str, embedding):
         db = DB(db_type, embedding)
         retriever = cls(db)
         return retriever
