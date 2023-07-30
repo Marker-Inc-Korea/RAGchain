@@ -8,7 +8,6 @@ import os
 from options import ChromaOptions, PineconeOptions
 
 
-
 class DBType(Enum):
     CHROMA = 'chroma'
     PINECONE = 'pinecone'

@@ -26,4 +26,4 @@ class OpenaiFactory(BaseModelFactory):
                 "Could not import OpenAI library. Please install the OpenAI library."
                 "pip install openai"
             )
-        return OpenAI(max_tokens=1024, model_name='gpt-3.5-turbo-16k')
+        return OpenAI(max_tokens=1024, model_name='gpt-3.5-turbo')

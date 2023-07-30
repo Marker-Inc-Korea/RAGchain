@@ -8,7 +8,9 @@ from tqdm import tqdm
 
 from embed import Embedding
 from ingest import SAVE_PATH, REPO_ID
+from model import load_model
 from retrieve import BM25Retriever, LangchainRetriever
+from run_localGPT import hyde_embeddings, make_llm_chain
 
 
 def get_train():
@@ -32,7 +34,7 @@ def extract_keys(documents: List[Document]):
 @click.command()
 @click.option("--test_type", default="dev", help="dev or train")
 @click.option("--retriever_type", default="langchain", help="retriever type to use, select langchain or bm25")
-@click.option("--suffix", default="langchain", help="suffix for prediction file")
+@click.option("--suffix", default="langchain_hyde", help="suffix for prediction file")
 def main(test_type, retriever_type, suffix):
     """
         This script allows you to test data retrieval using the BM25Retriever model.
@@ -50,6 +52,8 @@ def main(test_type, retriever_type, suffix):
         retriever = BM25Retriever.load(SAVE_PATH)
     else:
         embeddings = Embedding(embed_type='openai', device_type='cpu').embedding()
+        llm = load_model("openai")
+        embeddings = hyde_embeddings(llm, embeddings)
         retriever = LangchainRetriever.load(db_type='chroma', embedding=embeddings)
     pred = {}
     for key in tqdm(list(data.keys())):
