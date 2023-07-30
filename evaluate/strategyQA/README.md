@@ -55,6 +55,17 @@ python3 evaluate.py --pred=<prediction 파일 경로>
 |---------------|:--------:|
 | gpt-3.5-turbo | 0.62857  |
 
+### retriever test
+
+- retriever의 성능을 측정하였습니다
+
+|             Model              | Recall@10 |
+|:------------------------------:|:---------:|
+|              BM25              | 0.603469  |
+|      openai embedding DPR      | 0.408843  |
+| openai embedding DPR with HyDE | 0.498469  |
+
+
 ## 지원하는 메트릭
 
 현재 Recall@10과 Accuracy 메트릭을 제공하고 있습니다.

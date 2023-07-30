@@ -8,7 +8,6 @@ import os
 from options import ChromaOptions, PineconeOptions
 
 
-
 class DBType(Enum):
     CHROMA = 'chroma'
     PINECONE = 'pinecone'
@@ -29,6 +28,7 @@ class DB:
             raise ValueError(f"Unknown db type: {db_type}")
 
         self.embeddings = embeddings
+        self.db = self.load()
 
     def load(self):
         if self.db_type == DBType.CHROMA:
@@ -45,3 +45,6 @@ class DB:
             return result
         elif self.db_type == DBType.PINECONE:
             return Pinecone.from_documents(docs, self.embeddings, index_name=PineconeOptions.index_name)
+
+    def search(self, query: str, top_k: int = 5) -> List[Document]:
+        return self.db.similarity_search(query=query, k=top_k)
