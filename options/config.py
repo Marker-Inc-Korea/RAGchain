@@ -11,7 +11,7 @@ class Options(object):
 
 
 class ChromaOptions(object):
-    persist_dir = os.path.join(Options.root_dir, "DB")
+    persist_dir = os.path.join(Options.root_dir, "DB", "Ko-StrategyQA", "KO_SROBERTA_MULTITASK")
     if not os.path.exists(persist_dir):
         os.makedirs(persist_dir)
 

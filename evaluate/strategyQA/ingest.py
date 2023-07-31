@@ -36,7 +36,7 @@ def main(retriever_type):
         retriever.save(documents)
         retriever.persist(SAVE_PATH)
     else:
-        embeddings = Embedding(embed_type='openai', device_type='cpu').embedding()
+        embeddings = Embedding(embed_type='ko-sroberta-multitask', device_type='cuda').embedding()
         retriever = LangchainRetriever.load(db_type='chroma', embedding=embeddings)
         retriever.save(documents)
 
