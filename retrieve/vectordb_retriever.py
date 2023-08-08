@@ -31,7 +31,7 @@ class VectorDBRetriever(BaseRetriever):
     def update_one(self, document: Document, *args, **kwargs):
         raise NotImplementedError("update_one is not implemented yet.")
 
-    def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Document]:
+    def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> tuple[List[Document], List[float]]:
         result, scores = self.db.similarity_search(query, top_k)
         return result
 

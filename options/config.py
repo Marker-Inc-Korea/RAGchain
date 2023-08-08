@@ -1,6 +1,5 @@
 import os
 import pathlib
-from chromadb.config import Settings
 
 
 class Options(object):
@@ -18,4 +17,4 @@ class ChromaOptions(object):
 
 
 class PineconeOptions(object):
-    index_name = "ko-private-gpt"
+    namespace = "pinecone-namespace"
