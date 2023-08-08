@@ -4,8 +4,8 @@ import pinecone
 from langchain.schema import Document
 from dotenv import load_dotenv
 from typing import Optional, Dict, Union
-from embed import Embedding
-from vectorDB.base import BaseVectorDB
+from KoPrivateGPT.embed import Embedding
+from KoPrivateGPT.vectorDB.base import BaseVectorDB
 import os
 
 

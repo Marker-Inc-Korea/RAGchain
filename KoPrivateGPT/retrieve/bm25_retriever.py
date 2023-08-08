@@ -3,7 +3,7 @@ from typing import List
 from langchain.schema import Document
 from rank_bm25 import BM25Okapi
 from transformers import AutoTokenizer
-from retrieve.base import BaseRetriever
+from KoPrivateGPT.retrieve.base import BaseRetriever
 from utils import FileChecker
 import pickle
 from tqdm import tqdm

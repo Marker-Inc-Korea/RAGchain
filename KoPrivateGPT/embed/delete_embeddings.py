@@ -1,15 +1,15 @@
 import shutil
 import pinecone
 import os
-from embed import EmbeddedFilesCache
-from options import ChromaOptions, PineconeOptions, Options
+from KoPrivateGPT.embed import EmbeddedFilesCache
+from KoPrivateGPT.options import ChromaOptions, PineconeOptions, Options
 import click
 from utils import FileChecker
 
 
 @click.command()
 @click.option('--db_type', default='chroma', help='vector database to use, select chroma or pinecone')
-@click.option('--retriever_type', default='bm25', help='retriever type to use, select langchain or bm25')
+@click.option('--retriever_type', default='vectordb', help='retriever type to use, select vectordb or bm25')
 def main(db_type, retriever_type):
     if retriever_type in ['bm25', 'BM25']:
         delete_sparse_retrieval_index(Options.bm25_db_dir)

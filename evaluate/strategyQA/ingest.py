@@ -1,7 +1,11 @@
 from huggingface_hub import hf_hub_download
+import sys
+import os
+import pathlib
 
-from embed import Embedding
-from retrieve import BM25Retriever, VectorDBRetriever
+sys.path.append(str(pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent))
+from KoPrivateGPT.embed import Embedding
+from KoPrivateGPT.retrieve import BM25Retriever, VectorDBRetriever
 import pandas as pd
 from langchain.schema import Document
 import click

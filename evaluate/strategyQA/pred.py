@@ -1,16 +1,19 @@
 import json
 from typing import List
+import sys
+import os
+import pathlib
+
+sys.path.append(str(pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent))
 
 import click
 from huggingface_hub import hf_hub_download
 from langchain.schema import Document
 from tqdm import tqdm
 
-from embed import Embedding
+from KoPrivateGPT.embed import Embedding
 from ingest import SAVE_PATH, REPO_ID
-from model import load_model
-from retrieve import BM25Retriever, VectorDBRetriever
-from run_localGPT import hyde_embeddings, make_llm_chain
+from KoPrivateGPT.retrieve import BM25Retriever, VectorDBRetriever
 
 
 def get_train():
