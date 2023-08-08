@@ -3,7 +3,6 @@ from typing import List, Dict, Tuple
 from langchain.schema import Document
 from embed import delete_embeddings_vectordb
 from options import ChromaOptions
-from vectorDB import DB
 from vectorDB.Chroma import Chroma
 from vectorDB.base import BaseVectorDB
 from .base import BaseRetriever

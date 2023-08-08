@@ -36,9 +36,10 @@ def main(retriever_type):
         retriever.save(documents)
         retriever.persist(SAVE_PATH)
     else:
-        embeddings = Embedding(embed_type='kosimcse', device_type='mps')
+        embeddings = Embedding(embed_type='kosimcse', device_type='cuda')
         retriever = VectorDBRetriever.load(db_type='chroma', embedding=embeddings)
         retriever.save(documents)
+    print("DONE")
 
 
 if __name__ == "__main__":

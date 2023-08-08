@@ -1,7 +1,6 @@
 import shutil
 import pinecone
 import os
-from vectorDB import DB, DBType
 from embed import EmbeddedFilesCache
 from options import ChromaOptions, PineconeOptions, Options
 import click
@@ -15,15 +14,14 @@ def main(db_type, retriever_type):
     if retriever_type in ['bm25', 'BM25']:
         delete_sparse_retrieval_index(Options.bm25_db_dir)
     else:
-        db = DB(db_type, embeddings=None).db_type
-        delete_embeddings_vectordb(db)
+        delete_embeddings_vectordb(db_type)
 
 
 def delete_embeddings_vectordb(db_type):
     EmbeddedFilesCache.delete_files()
-    if db_type == DBType.CHROMA:
+    if db_type in ['chroma', 'Chroma', 'CHROMA']:
         shutil.rmtree(str(ChromaOptions.persist_dir))
-    elif db_type == DBType.PINECONE:
+    elif db_type in ['pinecone', 'Pinecone', 'PineCone', 'PINECONE']:
         pinecone.delete_index(PineconeOptions.index_name)
     else:
         raise ValueError(f"Unknown db type: {db_type}")

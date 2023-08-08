@@ -33,8 +33,8 @@ def extract_keys(documents: List[Document]):
 
 @click.command()
 @click.option("--test_type", default="dev", help="dev or train")
-@click.option("--retriever_type", default="langchain", help="retriever type to use, select langchain or bm25")
-@click.option("--suffix", default="langchain_hyde", help="suffix for prediction file")
+@click.option("--retriever_type", default="vectordb", help="retriever type to use, select vectordb or bm25")
+@click.option("--suffix", default="kosimcse", help="suffix for prediction file")
 def main(test_type, retriever_type, suffix):
     """
         This script allows you to test data retrieval using the BM25Retriever model.
@@ -51,7 +51,7 @@ def main(test_type, retriever_type, suffix):
     if retriever_type in ['bm25', 'BM25']:
         retriever = BM25Retriever.load(SAVE_PATH)
     else:
-        embeddings = Embedding(embed_type='openai', device_type='cpu')
+        embeddings = Embedding(embed_type='kosimcse', device_type='cuda')
         # llm = load_model("openai")
         # embeddings = hyde_embeddings(llm, embeddings)
         retriever = VectorDBRetriever.load(db_type='chroma', embedding=embeddings)
