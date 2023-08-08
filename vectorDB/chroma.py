@@ -24,7 +24,8 @@ class Chroma(BaseVectorDB):
         return cls(persist_dir, collection_name, embedding)
 
     def add_documents(self, docs: List[Document]):
-        embeddings = self.embedding.embed_documents(docs)
+        texts = [doc.page_content for doc in docs]
+        embeddings = self.embedding.embed_documents(texts)
         ids = []
         for doc in docs:
             if "id" in list(doc.metadata.keys()):
@@ -33,7 +34,7 @@ class Chroma(BaseVectorDB):
                 ids.append(str(uuid.uuid4()))
         self.collection.add(
             embeddings=embeddings,
-            documents=[doc.page_content for doc in docs],
+            documents=texts,
             metadatas=[doc.metadata for doc in docs],
             ids=ids
         )
