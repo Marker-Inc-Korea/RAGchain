@@ -7,7 +7,7 @@ import click
 from langchain.schema import Document
 
 from options import Options
-from retrieve import LangchainRetriever, BM25Retriever
+from retrieve import VectorDBRetriever, BM25Retriever
 from retrieve.base import BaseRetriever
 from utils import slice_stop_words
 from dotenv import load_dotenv
@@ -66,7 +66,7 @@ def hyde_embeddings(llm, base_embedding):
 @click.command()
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
 @click.option('--model_type', default='koAlpaca', help='model to run on, select koAlpaca or openai')
-@click.option('--retriever_type', default='langchain', help='retriever type to use, select langchain or bm25')
+@click.option('--retriever_type', default='vectordb', help='retriever type to use, select vectordb or bm25')
 @click.option('--db_type', default='chroma', help='vector database to use, select chroma or pinecone')
 @click.option('--embedding_type', default='KoSimCSE', help='embedding model to use, select OpenAI or KoSimCSE.')
 def main(device_type, model_type, retriever_type, db_type, embedding_type):
@@ -78,9 +78,9 @@ def main(device_type, model_type, retriever_type, db_type, embedding_type):
     if retriever_type in ['bm25', 'BM25']:
         retriever = BM25Retriever.load(Options.bm25_db_dir)
     else:
-        embeddings = Embedding(embed_type=embedding_type, device_type=device_type).embedding()
-        embeddings = hyde_embeddings(llm, embeddings)
-        retriever = LangchainRetriever.load(db_type=db_type, embedding=embeddings)
+        embeddings = Embedding(embed_type=embedding_type, device_type=device_type)
+        # embeddings = hyde_embeddings(llm, embeddings)
+        retriever = VectorDBRetriever.load(db_type=db_type, embedding=embeddings)
 
     while True:
         query = input("질문을 입력하세요: ")

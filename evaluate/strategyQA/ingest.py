@@ -1,7 +1,7 @@
 from huggingface_hub import hf_hub_download
 
 from embed import Embedding
-from retrieve import BM25Retriever, LangchainRetriever
+from retrieve import BM25Retriever, VectorDBRetriever
 import pandas as pd
 from langchain.schema import Document
 import click
@@ -26,7 +26,7 @@ def make_document(row):
 
 
 @click.command()
-@click.option('--retriever_type', default='langchain', help='retriever type to use, select langchain or bm25')
+@click.option('--retriever_type', default='vectordb', help='retriever type to use, select vectordb or bm25')
 def main(retriever_type):
     paragraph = get_paragraph()
     paragraph["document"] = paragraph.apply(make_document, axis=1)
@@ -36,9 +36,10 @@ def main(retriever_type):
         retriever.save(documents)
         retriever.persist(SAVE_PATH)
     else:
-        embeddings = Embedding(embed_type='ko-sroberta-multitask', device_type='cuda').embedding()
-        retriever = LangchainRetriever.load(db_type='chroma', embedding=embeddings)
+        embeddings = Embedding(embed_type='kosimcse', device_type='cuda')
+        retriever = VectorDBRetriever.load(db_type='chroma', embedding=embeddings)
         retriever.save(documents)
+    print("DONE")
 
 
 if __name__ == "__main__":
