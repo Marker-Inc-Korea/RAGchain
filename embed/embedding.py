@@ -6,6 +6,7 @@ import os
 class EmbeddingType(Enum):
     OPENAI = 'openai'
     KOSIMCSE = 'kosimcse'
+    KO_SROBERTA_MULTITASK = 'ko-sroberta-multitask'
 
 
 class Embedding:
@@ -16,6 +17,9 @@ class Embedding:
 
         elif embed_type in ['KoSimCSE', 'kosimcse', 'KOSIMCSE', 'Kosimcse']:
             self.embed_type = EmbeddingType.KOSIMCSE
+        elif embed_type in ['ko-sroberta-multitask', 'ko_sroberta_multitask', 'KO_SROBERTA_MULTITASK',
+                            'Ko_sroberta_multitask']:
+            self.embed_type = EmbeddingType.KO_SROBERTA_MULTITASK
         else:
             raise ValueError(f"Unknown embedding type: {embed_type}")
 
@@ -49,8 +53,17 @@ class Embedding:
                     "Could not import HuggingFaceEmbeddings library. Please install HuggingFace library."
                     "pip install sentence_transformers"
                 )
-            from langchain.embeddings import HuggingFaceInstructEmbeddings
-            return HuggingFaceInstructEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
-                                                 model_kwargs={"device": self.device_type})
+            return HuggingFaceEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
+                                         model_kwargs={"device": self.device_type})
+        elif self.embed_type == EmbeddingType.KO_SROBERTA_MULTITASK:
+            try:
+                from langchain.embeddings import HuggingFaceEmbeddings
+            except ImportError:
+                raise ModuleNotFoundError(
+                    "Could not import HuggingFaceEmbeddings library. Please install HuggingFace library."
+                    "pip install sentence_transformers"
+                )
+            return HuggingFaceEmbeddings(model_name="jhgan/ko-sroberta-multitask",
+                                         model_kwargs={"device": self.device_type})
         else:
             raise ValueError(f"Unknown embedding type: {self.embed_type}")

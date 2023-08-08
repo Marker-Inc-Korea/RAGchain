@@ -13,7 +13,7 @@ class ChromaOptions(object):
     persist_dir = os.path.join(Options.root_dir, "DB")
     if not os.path.exists(persist_dir):
         os.makedirs(persist_dir)
-    collection_name = "KOSIMCSE"  # you can modify this to change your own collection name
+    collection_name = "ko_sroberta_multitask"  # you can modify this to change your own collection name
 
 
 class PineconeOptions(object):
