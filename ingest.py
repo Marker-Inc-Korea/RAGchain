@@ -12,7 +12,7 @@ from embed.embedded_files_cache import EmbeddedFilesCache
 from embed.embedding import Embedding
 from hwp import HwpLoader
 from options import Options
-from retrieve import LangchainRetriever
+from retrieve import VectorDBRetriever
 from retrieve import BM25Retriever
 from utils import xlxs_to_csv
 
@@ -85,8 +85,8 @@ def main(device_type, db_type, embedding_type, retriever_type):
     if retriever_type in ['bm25', 'BM25']:
         retriever = BM25Retriever.load(Options.bm25_db_dir)
     else:
-        embeddings = Embedding(embed_type=embedding_type, device_type=device_type).embedding()
-        retriever = LangchainRetriever.load(db_type=db_type, embedding=embeddings)
+        embeddings = Embedding(embed_type=embedding_type, device_type=device_type)
+        retriever = VectorDBRetriever.load(db_type=db_type, embedding=embeddings)
 
     retriever.save(texts)
     if retriever_type in ['bm25', 'BM25']:

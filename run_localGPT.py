@@ -7,7 +7,7 @@ import click
 from langchain.schema import Document
 
 from options import Options
-from retrieve import LangchainRetriever, BM25Retriever
+from retrieve import VectorDBRetriever, BM25Retriever
 from retrieve.base import BaseRetriever
 from utils import slice_stop_words
 from dotenv import load_dotenv
@@ -78,9 +78,9 @@ def main(device_type, model_type, retriever_type, db_type, embedding_type):
     if retriever_type in ['bm25', 'BM25']:
         retriever = BM25Retriever.load(Options.bm25_db_dir)
     else:
-        embeddings = Embedding(embed_type=embedding_type, device_type=device_type).embedding()
-        embeddings = hyde_embeddings(llm, embeddings)
-        retriever = LangchainRetriever.load(db_type=db_type, embedding=embeddings)
+        embeddings = Embedding(embed_type=embedding_type, device_type=device_type)
+        # embeddings = hyde_embeddings(llm, embeddings)
+        retriever = VectorDBRetriever.load(db_type=db_type, embedding=embeddings)
 
     while True:
         query = input("질문을 입력하세요: ")

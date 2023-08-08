@@ -14,12 +14,7 @@ class ChromaOptions(object):
     persist_dir = os.path.join(Options.root_dir, "DB")
     if not os.path.exists(persist_dir):
         os.makedirs(persist_dir)
-
-    settings = Settings(
-        chroma_db_impl='duckdb+parquet',
-        persist_directory=persist_dir,
-        anonymized_telemetry=False
-    )
+    collection_name = "KOSIMCSE"  # you can modify this to change your own collection name
 
 
 class PineconeOptions(object):
