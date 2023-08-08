@@ -66,7 +66,7 @@ def hyde_embeddings(llm, base_embedding):
 @click.command()
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
 @click.option('--model_type', default='koAlpaca', help='model to run on, select koAlpaca or openai')
-@click.option('--retriever_type', default='langchain', help='retriever type to use, select langchain or bm25')
+@click.option('--retriever_type', default='vectordb', help='retriever type to use, select vectordb or bm25')
 @click.option('--db_type', default='chroma', help='vector database to use, select chroma or pinecone')
 @click.option('--embedding_type', default='KoSimCSE', help='embedding model to use, select OpenAI or KoSimCSE.')
 def main(device_type, model_type, retriever_type, db_type, embedding_type):

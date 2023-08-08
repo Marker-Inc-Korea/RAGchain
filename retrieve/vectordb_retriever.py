@@ -2,8 +2,9 @@ from typing import List, Dict, Tuple
 
 from langchain.schema import Document
 from embed import delete_embeddings_vectordb
-from options import ChromaOptions
-from vectorDB.Chroma import Chroma
+from options import ChromaOptions, PineconeOptions
+from vectorDB import Pinecone
+from vectorDB.chroma import Chroma
 from vectorDB.base import BaseVectorDB
 from .base import BaseRetriever
 from embed import Embedding
@@ -40,8 +41,7 @@ class VectorDBRetriever(BaseRetriever):
         if db_type in ['chroma', 'Chroma', 'CHROMA']:
             db = Chroma.load(ChromaOptions.persist_dir, ChromaOptions.collection_name, embedding)
         elif db_type in ['pinecone', 'Pinecone', 'PineCone', 'PINECONE']:
-            # TODO: Implement pinecone
-            raise NotImplementedError("pinecone is not implemented yet.")
+            db = Pinecone.load(PineconeOptions.namespace, embedding)
         else:
             raise ValueError(f"Unknown db type: {db_type}")
         retriever = cls(db)

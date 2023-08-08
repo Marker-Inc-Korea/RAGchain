@@ -1,4 +1,5 @@
 import os
+import uuid
 from typing import List, Optional
 import chromadb
 from chromadb.types import Where, WhereDocument
@@ -24,11 +25,17 @@ class Chroma(BaseVectorDB):
 
     def add_documents(self, docs: List[Document]):
         embeddings = self.embedding.embed_documents(docs)
+        ids = []
+        for doc in docs:
+            if "id" in list(doc.metadata.keys()):
+                ids.append(doc.metadata["id"])
+            else:
+                ids.append(str(uuid.uuid4()))
         self.collection.add(
             embeddings=embeddings,
             documents=[doc.page_content for doc in docs],
             metadatas=[doc.metadata for doc in docs],
-            ids=[doc.metadata["id"] for doc in docs]
+            ids=ids
         )
 
     def similarity_search(self, query: str, top_k: int = 5,

@@ -1,2 +1,2 @@
-from . import chroma
-from . import pinecone
+from .chroma import Chroma
+from .pinecone import Pinecone

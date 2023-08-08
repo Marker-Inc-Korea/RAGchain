@@ -1,3 +1,4 @@
+import uuid
 from typing import List
 import pinecone
 from langchain.schema import Document
@@ -11,12 +12,9 @@ import os
 class Pinecone(BaseVectorDB):
     def __init__(self, namespace: str, embedding: Embedding, *args, **kwargs):
         active_indexes = pinecone.list_indexes()
-        index_name = str(embedding.embed_type)
+        index_name = embedding.embed_type.value
         if index_name not in active_indexes:
             pinecone.create_index(index_name, dimension=len(self.__test_embed(embedding)), *args, **kwargs)
-        if namespace not in pinecone.list_collections():
-            pinecone.create_collection(namespace, index_name)
-
         self.index = pinecone.Index(index_name)
         self.namespace = namespace
         self.embedding = embedding.embedding()
@@ -25,23 +23,26 @@ class Pinecone(BaseVectorDB):
     def load(cls, namespace: str, embedding: Embedding):
         load_dotenv()
         pinecone.init(
-            api_key=os.getenv("PINECONE_API_KEY"),
-            environment=os.getenv("PINECONE_ENVIRONMENT")
+            api_key=os.environ["PINECONE_API_KEY"],
+            environment=os.environ["PINECONE_ENV"]
         )
         return cls(namespace, embedding)
 
     def add_documents(self, docs: List[Document]):
-        self.index.upsert(
-            vectors=[
-                {'id': doc.metadata["id"],
+        vectors = []
+        for doc in docs:
+            if 'id' not in list(doc.metadata.keys()):
+                id = str(uuid.uuid4())
+            else:
+                id = doc.metadata["id"]
+            _metadata = doc.metadata
+            _metadata['page_content'] = doc.page_content
+            vectors.append(
+                {'id': id,
                  'values': self.embedding.embed_query(doc.page_content),
-                 'metadata': {
-                     "page_content": doc.page_content,
-                     "metadata": doc.metadata
-                 }} for doc in docs
-            ],
-            namespace=self.namespace
-        )
+                 'metadata': _metadata}
+            )
+        self.index.upsert(vectors=vectors, namespace=self.namespace)
 
     def similarity_search(self, query: str, top_k: int = 5,
                           filter: Optional[Dict[str, Union[str, float, int, bool, List, dict]]] = None) -> tuple[
@@ -60,7 +61,7 @@ class Pinecone(BaseVectorDB):
         for res in response["matches"]:
             metadata = res["metadata"]
             page_content = metadata.pop("page_content")
-            docs.append(Document(page_content=page_content, metadata=metadata["metadata"]))
+            docs.append(Document(page_content=page_content, metadata=metadata))
             scores.append(res["score"])
         return docs, scores
 
