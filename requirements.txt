@@ -20,5 +20,11 @@ ctransformers
 pinecone-client
 python-dotenv
 tiktoken
+rank_bm25
+elasticsearch
+numpy
+pandas
+pyarrow
+fastparquet
 beir
 pytrec_eval

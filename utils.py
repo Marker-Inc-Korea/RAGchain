@@ -1,5 +1,5 @@
 from typing import List
-
+import os
 import openpyxl
 import csv
 import tempfile
@@ -63,3 +63,26 @@ def slice_stop_words(input_str: str, stop_words: List[str]):
             if temp_ans:
                 input_str = temp_ans
     return input_str
+
+
+class FileChecker:
+    def __init__(self, file_path: str):
+        self.file_path = file_path
+        self.file_type = os.path.splitext(file_path)[-1].lower()
+
+    def check_type(self, file_type: str = None, file_types: List[str] = None):
+        if file_types is not None:
+            checks = [self.file_type == file_type for file_type in file_types]
+            if not any(checks):
+                raise ValueError(
+                    f"FileChecker.check_file_type: file type must be one of file types, but got {self.file_type}")
+            return self
+        if self.file_type != file_type:
+            raise ValueError(f"FileChecker.check_file_type: file type must be {file_type}, but got {self.file_type}")
+        return self
+
+    def is_exist(self):
+        return os.path.exists(self.file_path)
+
+    def __str__(self):
+        return self.file_path
