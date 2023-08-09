@@ -6,13 +6,13 @@ from langchain.prompts import PromptTemplate
 import click
 from langchain.schema import Document
 
-from options import Options
-from retrieve import VectorDBRetriever, BM25Retriever
-from retrieve.base import BaseRetriever
+from KoPrivateGPT.options import Options
+from KoPrivateGPT.retrieve import VectorDBRetriever, BM25Retriever
+from KoPrivateGPT.retrieve import BaseRetriever
 from utils import slice_stop_words
 from dotenv import load_dotenv
-from embed import Embedding
-from model import load_model
+from KoPrivateGPT.embed import Embedding
+from KoPrivateGPT.model import load_model
 
 
 def make_llm_chain(llm):

@@ -5,8 +5,8 @@ import chromadb
 from chromadb.types import Where, WhereDocument
 from langchain.schema import Document
 
-from embed import Embedding
-from vectorDB.base import BaseVectorDB
+from KoPrivateGPT.embed import Embedding
+from KoPrivateGPT.vectorDB.base import BaseVectorDB
 
 
 class Chroma(BaseVectorDB):

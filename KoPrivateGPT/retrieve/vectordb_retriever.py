@@ -1,13 +1,13 @@
-from typing import List, Dict, Tuple
+from typing import List
 
 from langchain.schema import Document
-from embed import delete_embeddings_vectordb
-from options import ChromaOptions, PineconeOptions
-from vectorDB import Pinecone
-from vectorDB.chroma import Chroma
-from vectorDB.base import BaseVectorDB
+from KoPrivateGPT.embed import delete_embeddings_vectordb
+from KoPrivateGPT.options import ChromaOptions, PineconeOptions
+from KoPrivateGPT.vectorDB import Pinecone
+from KoPrivateGPT.vectorDB.chroma import Chroma
+from KoPrivateGPT.vectorDB.base import BaseVectorDB
 from .base import BaseRetriever
-from embed import Embedding
+from KoPrivateGPT.embed import Embedding
 
 
 class VectorDBRetriever(BaseRetriever):

@@ -1,4 +1,4 @@
-from options import Options
+from KoPrivateGPT.options import Options
 import pickle
 import os
 from datetime import datetime

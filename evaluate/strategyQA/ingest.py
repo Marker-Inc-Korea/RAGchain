@@ -1,7 +1,11 @@
 from huggingface_hub import hf_hub_download
+import sys
+import os
+import pathlib
 
-from embed import Embedding
-from retrieve import BM25Retriever, VectorDBRetriever
+sys.path.append(str(pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent))
+from KoPrivateGPT.embed import Embedding
+from KoPrivateGPT.retrieve import BM25Retriever, VectorDBRetriever
 import pandas as pd
 from langchain.schema import Document
 import click
@@ -26,8 +30,12 @@ def make_document(row):
 
 
 @click.command()
+@click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
+@click.option('--db_type', default='chroma', help='vector database to use, select chroma or pinecone')
+@click.option('--embedding_type', default='KoSimCSE',
+              help='embedding model to use, select OpenAI or KoSimCSE or ko-sroberta-multitask')
 @click.option('--retriever_type', default='vectordb', help='retriever type to use, select vectordb or bm25')
-def main(retriever_type):
+def main(device_type, db_type, embedding_type, retriever_type):
     paragraph = get_paragraph()
     paragraph["document"] = paragraph.apply(make_document, axis=1)
     documents = paragraph["document"].tolist()
@@ -36,8 +44,8 @@ def main(retriever_type):
         retriever.save(documents)
         retriever.persist(SAVE_PATH)
     else:
-        embeddings = Embedding(embed_type='ko-sroberta-multitask', device_type='mps')
-        retriever = VectorDBRetriever.load(db_type='chroma', embedding=embeddings)
+        embeddings = Embedding(embed_type=embedding_type, device_type=device_type)
+        retriever = VectorDBRetriever.load(db_type=db_type, embedding=embeddings)
         retriever.save(documents)
     print("DONE")
 

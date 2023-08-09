@@ -8,12 +8,12 @@ from langchain.document_loaders import TextLoader, PDFMinerLoader, CSVLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from tqdm import tqdm
 
-from embed.embedded_files_cache import EmbeddedFilesCache
-from embed.embedding import Embedding
+from KoPrivateGPT.embed.embedded_files_cache import EmbeddedFilesCache
+from KoPrivateGPT.embed import Embedding
 from hwp import HwpLoader
-from options import Options
-from retrieve import VectorDBRetriever
-from retrieve import BM25Retriever
+from KoPrivateGPT.options import Options
+from KoPrivateGPT.retrieve import VectorDBRetriever
+from KoPrivateGPT.retrieve import BM25Retriever
 from utils import xlxs_to_csv
 
 HwpConvertOpt = 'all'  # 'main-only'
@@ -66,7 +66,8 @@ def split_documents(documents: List[Document]):
 @click.command()
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
 @click.option('--db_type', default='chroma', help='vector database to use, select chroma or pinecone')
-@click.option('--embedding_type', default='KoSimCSE', help='embedding model to use, select OpenAI or KoSimCSE')
+@click.option('--embedding_type', default='KoSimCSE',
+              help='embedding model to use, select OpenAI or KoSimCSE or ko-sroberta-multitask')
 @click.option('--retriever_type', default='vectordb', help='retriever type to use, select vectordb or bm25')
 def main(device_type, db_type, embedding_type, retriever_type):
     load_dotenv()
