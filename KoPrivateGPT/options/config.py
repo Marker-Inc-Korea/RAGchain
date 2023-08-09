@@ -20,3 +20,5 @@ class ChromaOptions(object):
 
 class PineconeOptions(object):
     namespace = "pinecone-namespace"
+    index_name = "openai"
+    dimension = 1536

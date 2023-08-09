@@ -13,7 +13,7 @@ from tqdm import tqdm
 
 from KoPrivateGPT.embed import Embedding
 from ingest import SAVE_PATH, REPO_ID
-from KoPrivateGPT.retrieve import BM25Retriever, VectorDBRetriever
+from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval
 
 
 def get_train():
@@ -56,12 +56,12 @@ def main(test_type, retriever_type, suffix, device_type, embedding_type, db_type
         raise ValueError("test_type should be dev or train")
     # make retrieve
     if retriever_type in ['bm25', 'BM25']:
-        retriever = BM25Retriever.load(SAVE_PATH)
+        retriever = BM25Retrieval.load(SAVE_PATH)
     else:
         embeddings = Embedding(embed_type=embedding_type, device_type=device_type)
         # llm = load_model("openai")
         # embeddings = hyde_embeddings(llm, embeddings)
-        retriever = VectorDBRetriever.load(db_type=db_type, embedding=embeddings)
+        retriever = VectorDBRetrieval.load(db_type=db_type, embedding=embeddings)
     pred = {}
     for key in tqdm(list(data.keys())):
         query = data[key]["question"]

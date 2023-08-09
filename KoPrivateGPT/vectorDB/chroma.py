@@ -3,54 +3,39 @@ import uuid
 from typing import List, Optional
 import chromadb
 from chromadb.types import Where, WhereDocument
-from langchain.schema import Document
-
-from KoPrivateGPT.embed import Embedding
+from uuid import UUID
+from KoPrivateGPT.schema.vector import Vector
 from KoPrivateGPT.vectorDB.base import BaseVectorDB
 
 
 class Chroma(BaseVectorDB):
-    def __init__(self, persist_dir: str, collection_name: str, embedding: Embedding):
+    def __init__(self, persist_dir: str, collection_name: str):
         self.client = chromadb.PersistentClient(path=persist_dir)
-        self.embedding = embedding.embedding()
         self.collection = self.client.get_or_create_collection(name=collection_name)
 
     @classmethod
-    def load(cls, persist_dir: str, collection_name: str, embedding: Embedding):
+    def load(cls, persist_dir: str, collection_name: str):
         if not os.path.isdir(persist_dir):
             raise ValueError(f"persistent_dir must be a directory, but got {persist_dir}")
         if not os.path.exists(persist_dir):
             os.makedirs(persist_dir)
-        return cls(persist_dir, collection_name, embedding)
+        return cls(persist_dir, collection_name)
 
-    def add_documents(self, docs: List[Document]):
-        texts = [doc.page_content for doc in docs]
-        embeddings = self.embedding.embed_documents(texts)
-        ids = []
-        for doc in docs:
-            if "id" in list(doc.metadata.keys()):
-                ids.append(doc.metadata["id"])
-            else:
-                ids.append(str(uuid.uuid4()))
+    def add_vectors(self, vectors: List[Vector]):
         self.collection.add(
-            embeddings=embeddings,
-            documents=texts,
-            metadatas=[doc.metadata for doc in docs],
-            ids=ids
+            embeddings=[v.vector for v in vectors],
+            metadatas=[{"passage_id": str(v.passage_id)} for v in vectors],
+            ids=[str(v.passage_id) for v in vectors]
         )
 
-    def similarity_search(self, query: str, top_k: int = 5,
+    def similarity_search(self, query_vectors: List[float], top_k: int = 5,
                           where: Optional[Where] = None,
-                          where_document: Optional[WhereDocument] = None) -> tuple[List[Document], List[float]]:
-        query_embedding = self.embedding.embed_query(query)
+                          where_document: Optional[WhereDocument] = None) -> tuple[List[UUID], List[float]]:
         result = self.collection.query(
-            query_embeddings=query_embedding,
+            query_embeddings=query_vectors,
             n_results=top_k
         )
-        result_documents = [Document(page_content=doc, metadata=metadata) for doc, metadata in
-                            zip(result["documents"][0],
-                                result["metadatas"][0])]
-        return result_documents, result["distances"][0]
+        return [UUID(metadata['passage_id']) for metadata in result["metadatas"][0]], result["distances"][0]
 
     def delete_all(self):
         self.collection.delete()

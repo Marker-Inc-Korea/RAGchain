@@ -7,8 +7,8 @@ import click
 from langchain.schema import Document
 
 from KoPrivateGPT.options import Options
-from KoPrivateGPT.retrieve import VectorDBRetriever, BM25Retriever
-from KoPrivateGPT.retrieve import BaseRetriever
+from KoPrivateGPT.retrieval import VectorDBRetrieval, BM25Retrieval
+from KoPrivateGPT.retrieval import BaseRetriever
 from utils import slice_stop_words
 from dotenv import load_dotenv
 from KoPrivateGPT.embed import Embedding
@@ -76,11 +76,11 @@ def main(device_type, model_type, retriever_type, db_type, embedding_type):
     chain = make_llm_chain(llm)
     # load the vectorstore
     if retriever_type in ['bm25', 'BM25']:
-        retriever = BM25Retriever.load(Options.bm25_db_dir)
+        retriever = BM25Retrieval.load(Options.bm25_db_dir)
     else:
         embeddings = Embedding(embed_type=embedding_type, device_type=device_type)
         # embeddings = hyde_embeddings(llm, embeddings)
-        retriever = VectorDBRetriever.load(db_type=db_type, embedding=embeddings)
+        retriever = VectorDBRetrieval.load(db_type=db_type, embedding=embeddings)
 
     while True:
         query = input("질문을 입력하세요: ")

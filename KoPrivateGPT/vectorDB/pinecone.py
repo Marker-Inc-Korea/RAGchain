@@ -1,69 +1,61 @@
-import uuid
 from typing import List
 import pinecone
 from langchain.schema import Document
 from dotenv import load_dotenv
 from typing import Optional, Dict, Union
 from KoPrivateGPT.embed import Embedding
+from KoPrivateGPT.schema.vector import Vector
 from KoPrivateGPT.vectorDB.base import BaseVectorDB
 import os
+from uuid import UUID
 
 
 class Pinecone(BaseVectorDB):
-    def __init__(self, namespace: str, embedding: Embedding, *args, **kwargs):
+    def __init__(self, index_name: str, namespace: str, dimension: Optional[int] = None, *args, **kwargs):
         active_indexes = pinecone.list_indexes()
-        index_name = embedding.embed_type.value
         if index_name not in active_indexes:
-            pinecone.create_index(index_name, dimension=len(self.__test_embed(embedding)), *args, **kwargs)
+            if dimension is None:
+                raise ValueError("Dimension must be set when creating a new index.")
+            pinecone.create_index(index_name, dimension=dimension, *args, **kwargs)
         self.index = pinecone.Index(index_name)
         self.namespace = namespace
-        self.embedding = embedding.embedding()
 
     @classmethod
-    def load(cls, namespace: str, embedding: Embedding):
+    def load(cls, index_name: str, namespace: str, dimension: Optional[int] = None):
         load_dotenv()
         pinecone.init(
             api_key=os.environ["PINECONE_API_KEY"],
             environment=os.environ["PINECONE_ENV"]
         )
-        return cls(namespace, embedding)
+        return cls(index_name, namespace, dimension)
 
-    def add_documents(self, docs: List[Document]):
-        vectors = []
-        for doc in docs:
-            if 'id' not in list(doc.metadata.keys()):
-                id = str(uuid.uuid4())
-            else:
-                id = doc.metadata["id"]
-            _metadata = doc.metadata
-            _metadata['page_content'] = doc.page_content
-            vectors.append(
-                {'id': id,
-                 'values': self.embedding.embed_query(doc.page_content),
-                 'metadata': _metadata}
+    def add_vectors(self, vectors: List[Vector]):
+        pinecone_vectors = []
+        for v in vectors:
+            pinecone_vectors.append(
+                {'id': str(v.passage_id),
+                 'values': v.vector,
+                 'metadata': {"passage_id": str(v.passage_id)}}
             )
-        self.index.upsert(vectors=vectors, namespace=self.namespace)
+        self.index.upsert(vectors=pinecone_vectors, namespace=self.namespace)
 
-    def similarity_search(self, query: str, top_k: int = 5,
+    def similarity_search(self, query_vectors: List[float], top_k: int = 5,
                           filter: Optional[Dict[str, Union[str, float, int, bool, List, dict]]] = None) -> tuple[
-        List[Document], List[float]]:
-
-        embedded_query = self.embedding.embed_query(query)
+        List[UUID], List[float]]:
         response = self.index.query(
-            vector=embedded_query,
+            vector=query_vectors,
             namespace=self.namespace,
             top_k=top_k,
             filter=filter,
             include_metadata=True,
         )
-        docs = []
+        ids = []
         scores = []
         for res in response["matches"]:
             metadata = res["metadata"]
-            page_content = metadata.pop("page_content")
-            docs.append(Document(page_content=page_content, metadata=metadata))
+            ids.append(UUID(metadata["passage_id"]))
             scores.append(res["score"])
-        return docs, scores
+        return ids, scores
 
     def delete_all(self):
         self.index.delete(namespace=self.namespace)

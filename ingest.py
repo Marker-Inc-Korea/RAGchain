@@ -9,8 +9,8 @@ from tqdm import tqdm
 
 from KoPrivateGPT.embed import Embedding
 from KoPrivateGPT.options import Options
-from KoPrivateGPT.retrieve import VectorDBRetriever
-from KoPrivateGPT.retrieve import BM25Retriever
+from KoPrivateGPT.retrieval import VectorDBRetrieval
+from KoPrivateGPT.retrieval import BM25Retrieval
 from KoPrivateGPT.loader import FileLoader
 
 
@@ -42,10 +42,10 @@ def main(device_type, db_type, embedding_type, retriever_type):
     print(f"Split into {len(texts)} chunks of text")
 
     if retriever_type in ['bm25', 'BM25']:
-        retriever = BM25Retriever.load(Options.bm25_db_dir)
+        retriever = BM25Retrieval.load(Options.bm25_db_dir)
     else:
         embeddings = Embedding(embed_type=embedding_type, device_type=device_type)
-        retriever = VectorDBRetriever.load(db_type=db_type, embedding=embeddings)
+        retriever = VectorDBRetrieval.load(db_type=db_type, embedding=embeddings)
 
     retriever.save(texts)
     if retriever_type in ['bm25', 'BM25']:

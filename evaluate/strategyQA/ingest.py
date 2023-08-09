@@ -5,7 +5,7 @@ import pathlib
 
 sys.path.append(str(pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent))
 from KoPrivateGPT.embed import Embedding
-from KoPrivateGPT.retrieve import BM25Retriever, VectorDBRetriever
+from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval
 import pandas as pd
 from langchain.schema import Document
 import click
@@ -40,12 +40,12 @@ def main(device_type, db_type, embedding_type, retriever_type):
     paragraph["document"] = paragraph.apply(make_document, axis=1)
     documents = paragraph["document"].tolist()
     if retriever_type in ['bm25', 'BM25']:
-        retriever = BM25Retriever.load(SAVE_PATH)
+        retriever = BM25Retrieval.load(SAVE_PATH)
         retriever.save(documents)
         retriever.persist(SAVE_PATH)
     else:
         embeddings = Embedding(embed_type=embedding_type, device_type=device_type)
-        retriever = VectorDBRetriever.load(db_type=db_type, embedding=embeddings)
+        retriever = VectorDBRetrieval.load(db_type=db_type, embedding=embeddings)
         retriever.save(documents)
     print("DONE")
 

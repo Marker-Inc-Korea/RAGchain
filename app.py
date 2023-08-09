@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from KoPrivateGPT.embed import Embedding
 from ingest import load_single_document, split_documents
 from KoPrivateGPT.model import load_model
-from KoPrivateGPT.retrieve import VectorDBRetriever
+from KoPrivateGPT.retrieval import VectorDBRetrieval
 from run_localGPT import make_llm_chain, get_answer
 from utils import slice_stop_words
 
@@ -19,7 +19,7 @@ EMBEDDING_TYPE = "OpenAI"
 DB_TYPE = "chroma"
 embeddings = Embedding(embed_type=EMBEDDING_TYPE, device_type=DEVICE)
 # embeddings = hyde_embeddings(llm, embeddings)
-retriever = VectorDBRetriever.load(db_type=DB_TYPE, embedding=embeddings)
+retriever = VectorDBRetrieval.load(db_type=DB_TYPE, embedding=embeddings)
 
 
 def ingest(files) -> str:
