@@ -3,18 +3,26 @@ from typing import List
 from langchain import PromptTemplate, LLMChain
 
 from KoPrivateGPT.llm.base import BaseLLM
+from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
 from KoPrivateGPT.utils.model import load_model
 
 
 class BasicLLM(BaseLLM):
-    def __init__(self, model_type: str, device_type: str = 'cuda'):
-        self.model = load_model(model_type, device_type)
+    def __init__(self, retrieval: BaseRetrieval, model_type: str, device_type: str):
+        self.retrieval = retrieval
+        model = load_model(model_type, device_type)
+        self.chain = self._make_llm_chain(model)
 
-    def ask(self, query: str, passages: List[Passage]) -> str:
-        llm_chain = self._make_llm_chain(self.model)
+    @classmethod
+    def load(cls, retrieval: BaseRetrieval, model_type: str, device_type: str = 'cuda', *args, **kwargs):
+        llm = cls(retrieval, model_type, device_type)
+        return llm
+
+    def ask(self, query: str) -> tuple[str, List[Passage]]:
+        passages = self.retrieval.retrieve(query, top_k=4)
         contents = "\n\n".join([passage.content for passage in passages])
-        answer = llm_chain.run(context=contents, question=query)
+        answer = self.chain.run(context=contents, question=query)
         return answer
 
     def _make_llm_chain(self, llm):

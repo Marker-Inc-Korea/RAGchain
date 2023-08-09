@@ -1,12 +1,19 @@
 from abc import ABC, abstractmethod
 from typing import List
+
+from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
 
 
 class BaseLLM(ABC):
+    @classmethod
     @abstractmethod
-    def ask(self, query: str, passages: List[Passage]) -> str:
+    def load(cls, retrieval: BaseRetrieval, model_type: str, device_type: str, *args, **kwargs):
+        pass
+
+    @abstractmethod
+    def ask(self, query: str) -> tuple[str, List[Passage]]:
         """
-        Ask a question to the LLM model with passages and get answer and used passages
+        Ask a question to the LLM model and get answer and used passages
         """
         pass

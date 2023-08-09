@@ -1,13 +1,15 @@
-from typing import Tuple, List
+from typing import List
 
 from langchain import LLMChain
 from langchain.chains import HypotheticalDocumentEmbedder
 from langchain.prompts import PromptTemplate
 import click
-from langchain.schema import Document
 
-from KoPrivateGPT.options import Options
+from KoPrivateGPT.DB.pickle_db import PickleDB
+from KoPrivateGPT.llm.basic import BasicLLM
+from KoPrivateGPT.options import Options, DBOptions
 from KoPrivateGPT.retrieval import VectorDBRetrieval, BM25Retrieval
+from KoPrivateGPT.schema import Passage
 from KoPrivateGPT.utils.util import slice_stop_words
 from dotenv import load_dotenv
 from KoPrivateGPT.utils.embed import Embedding
@@ -22,12 +24,12 @@ def print_query_answer(query, answer):
     print(answer)
 
 
-def print_docs(docs):
+def print_docs(docs: List[Passage]):
     # Print the relevant sources used for the answer
     print("----------------------------------참조한 문서---------------------------")
     for document in docs:
-        print("\n> " + document.metadata["source"] + ":")
-        print(document.page_content)
+        print("\n> " + document.filepath + ":")
+        print(document.content)
     print("----------------------------------참조한 문서---------------------------")
 
 
@@ -44,30 +46,34 @@ def hyde_embeddings(llm, base_embedding):
 @click.command()
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
 @click.option('--model_type', default='koAlpaca', help='model to run on, select koAlpaca or openai')
-@click.option('--retriever_type', default='vectordb', help='retriever type to use, select vectordb or bm25')
-@click.option('--db_type', default='chroma', help='vector database to use, select chroma or pinecone')
+@click.option('--retrieval_type', default='vectordb', help='retrieval type to use, select vectordb or bm25')
+@click.option('--vectordb_type', default='chroma', help='vector database to use, select chroma or pinecone')
 @click.option('--embedding_type', default='KoSimCSE', help='embedding model to use, select OpenAI or KoSimCSE.')
-def main(device_type, model_type, retriever_type, db_type, embedding_type):
+def main(device_type, model_type, retrieval_type, vectordb_type, embedding_type):
     load_dotenv()
 
-    llm = load_model(model_type, device_type=device_type)
-    chain = make_llm_chain(llm)
-    # load the vectorstore
-    if retriever_type in ['bm25', 'BM25']:
-        retriever = BM25Retrieval.load(Options.bm25_db_dir)
+    # Load DB
+    db = PickleDB(DBOptions.save_path)
+    db.load()
+
+    # load the retrieval
+    if retrieval_type in ['bm25', 'BM25']:
+        retrieval = BM25Retrieval(Options.bm25_db_dir, db=db)
     else:
         embeddings = Embedding(embed_type=embedding_type, device_type=device_type)
-        # embeddings = hyde_embeddings(llm, embeddings)
-        retriever = VectorDBRetrieval.load(db_type=db_type, embedding=embeddings)
+        retrieval = VectorDBRetrieval(vectordb_type=vectordb_type, embedding=embeddings, db=db)
+
+    llm = BasicLLM(retrieval=retrieval, model_type=model_type, device_type=device_type)
 
     while True:
         query = input("질문을 입력하세요: ")
         if query in ["exit", "종료"]:
             break
-        answer, docs = get_answer(chain, retriever, query)
+
+        answer, passages = llm.ask(query)
         answer = slice_stop_words(answer, ["Question :", "question:"])
         print_query_answer(query, answer)
-        print_docs(docs)
+        print_docs(passages)
 
 
 if __name__ == "__main__":
