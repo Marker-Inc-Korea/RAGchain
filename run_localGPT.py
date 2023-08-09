@@ -8,32 +8,10 @@ from langchain.schema import Document
 
 from KoPrivateGPT.options import Options
 from KoPrivateGPT.retrieval import VectorDBRetrieval, BM25Retrieval
-from KoPrivateGPT.retrieval import BaseRetriever
 from KoPrivateGPT.utils.util import slice_stop_words
 from dotenv import load_dotenv
 from KoPrivateGPT.utils.embed import Embedding
 from KoPrivateGPT.utils.model import load_model
-
-
-def make_llm_chain(llm):
-    prompt_template = """주어진 정보를 바탕으로 질문에 답하세요. 답을 모른다면 답을 지어내려고 하지 말고 모른다고 답하세요. 
-                질문 이외의 상관 없는 답변을 하지 마세요. 반드시 한국어로 답변하세요.
-
-                {context}
-
-                질문: {question}
-                한국어 답변:"""
-    prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
-    chain = LLMChain(llm=llm, prompt=prompt)
-    return chain
-
-
-def get_answer(chain: LLMChain, retriever: BaseRetriever, query: str) -> Tuple[str, List[Document]]:
-    # Get the answer from the chain
-    retrieved_documents = retriever.retrieve(query, top_k=4)
-    document_texts = "\n\n".join([document.page_content for document in retrieved_documents])
-    answer = chain.run(context=document_texts, question=query)
-    return answer, retrieved_documents
 
 
 def print_query_answer(query, answer):
