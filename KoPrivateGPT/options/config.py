@@ -22,3 +22,7 @@ class PineconeOptions(object):
     namespace = "pinecone-namespace"
     index_name = "openai"
     dimension = 1536
+
+
+class DBOptions(object):
+    save_path = os.path.join(Options.root_dir, "PassageDB")

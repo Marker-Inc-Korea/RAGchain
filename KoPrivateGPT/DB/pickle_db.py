@@ -5,9 +5,12 @@ from KoPrivateGPT.schema import Passage
 import os
 import pickle
 
+from KoPrivateGPT.utils import FileChecker
+
 
 class PickleDB(BaseDB):
-    def __init__(self, save_path):
+    def __init__(self, save_path: str):
+        FileChecker(save_path).check_type(file_types=['.pickle', 'pkl'])
         self.save_path = save_path
         self.db = list()
 
@@ -20,12 +23,12 @@ class PickleDB(BaseDB):
             raise FileExistsError(f'{self.save_path} already exists')
         self.save_path = self.save_path
 
-    def load(self, *args, **kwargs):
+    def load(self):
         if not os.path.exists(self.save_path):
             raise FileNotFoundError(f'{self.save_path} does not exist')
         self.db = self._load_pickle()
 
-    def create_or_load(self, *args, **kwargs):
+    def create_or_load(self):
         if os.path.exists(self.save_path):
             self.load()
         else:
