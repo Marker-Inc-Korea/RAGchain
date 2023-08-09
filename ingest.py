@@ -4,57 +4,14 @@ from typing import List, Tuple
 import click
 from dotenv import load_dotenv
 from langchain.docstore.document import Document
-from langchain.document_loaders import TextLoader, PDFMinerLoader, CSVLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from tqdm import tqdm
 
-from KoPrivateGPT.embed.embedded_files_cache import EmbeddedFilesCache
 from KoPrivateGPT.embed import Embedding
-from hwp import HwpLoader
 from KoPrivateGPT.options import Options
 from KoPrivateGPT.retrieve import VectorDBRetriever
 from KoPrivateGPT.retrieve import BM25Retriever
-from utils import xlxs_to_csv
-
-HwpConvertOpt = 'all'  # 'main-only'
-HwpConvertHost = f'http://hwp-converter:7000/upload?option={HwpConvertOpt}'
-
-
-def load_single_document(file_path: str) -> Document:
-    # Loads a single document from a file path
-    if file_path.endswith(".txt"):
-        loader = TextLoader(file_path, encoding="utf8")
-    elif file_path.endswith(".pdf"):
-        loader = PDFMinerLoader(file_path)
-    elif file_path.endswith(".csv"):
-        loader = CSVLoader(file_path)
-    elif file_path.endswith(".hwp"):
-        loader = HwpLoader(file_path, hwp_convert_path=HwpConvertHost)
-
-    return loader.load()[0]
-
-
-def load_documents(source_dir: str, file_cache: EmbeddedFilesCache = None) -> Tuple[List[Document], EmbeddedFilesCache]:
-    # Loads all documents from source documents directory
-    if file_cache is None:
-        file_cache = EmbeddedFilesCache()
-    docs = []
-    for (path, dir, files) in tqdm(os.walk(source_dir)):
-        for file_name in files:
-            ext = os.path.splitext(file_name)[-1].lower()
-            full_file_path = os.path.join(path, file_name)
-            if file_cache.is_exist(full_file_path):
-                continue
-            if ext == '.xlsx':
-                file_cache.add(full_file_path)
-                for doc in xlxs_to_csv(full_file_path):
-                    docs.append(load_single_document(doc))
-            elif ext in ['.txt', '.pdf', '.csv', '.hwp']:
-                file_cache.add(full_file_path)
-                docs.append(load_single_document(full_file_path))
-            else:
-                print(f"Not Support file type {ext} yet.")
-    return docs, file_cache
+from KoPrivateGPT.loader import FileLoader
 
 
 def split_documents(documents: List[Document]):
@@ -72,9 +29,10 @@ def split_documents(documents: List[Document]):
 def main(device_type, db_type, embedding_type, retriever_type):
     load_dotenv()
 
-    #  Load documents and split in chunks
+    # Load documents and split in chunks
     print(f"Loading documents from {Options.source_dir}")
-    documents, file_cache = load_documents(Options.source_dir)
+    file_loader = FileLoader(Options.source_dir)
+    documents = file_loader.load()
 
     if len(documents) <= 0:
         print(f"Could not find any new documents in {Options.source_dir}")
@@ -92,7 +50,6 @@ def main(device_type, db_type, embedding_type, retriever_type):
     retriever.save(texts)
     if retriever_type in ['bm25', 'BM25']:
         retriever.persist(Options.bm25_db_dir)
-    file_cache.save()
 
 
 if __name__ == "__main__":
