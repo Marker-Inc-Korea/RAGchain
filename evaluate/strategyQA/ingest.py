@@ -4,7 +4,7 @@ import os
 import pathlib
 
 sys.path.append(str(pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent))
-from KoPrivateGPT.embed import Embedding
+from KoPrivateGPT.utils.embed import Embedding
 from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval
 import pandas as pd
 from langchain.schema import Document

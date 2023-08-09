@@ -1,13 +1,11 @@
-import os
-from typing import List, Tuple
+from typing import List
 
 import click
 from dotenv import load_dotenv
 from langchain.docstore.document import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from tqdm import tqdm
 
-from KoPrivateGPT.embed import Embedding
+from KoPrivateGPT.utils.embed import Embedding
 from KoPrivateGPT.options import Options
 from KoPrivateGPT.retrieval import VectorDBRetrieval
 from KoPrivateGPT.retrieval import BM25Retrieval

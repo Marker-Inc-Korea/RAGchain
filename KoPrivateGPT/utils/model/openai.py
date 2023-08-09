@@ -1,4 +1,4 @@
-from KoPrivateGPT.model.base_model_factory import BaseModelFactory
+from KoPrivateGPT.utils.model.base_model_factory import BaseModelFactory
 import os
 
 

@@ -3,7 +3,7 @@ import pickle
 import os
 from datetime import datetime
 
-from utils import FileChecker
+from KoPrivateGPT.utils.util import FileChecker
 
 
 class EmbeddedFilesCache:

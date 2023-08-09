@@ -1,12 +1,12 @@
 import gradio as gr
 from dotenv import load_dotenv
 
-from KoPrivateGPT.embed import Embedding
+from KoPrivateGPT.utils.embed import Embedding
 from ingest import load_single_document, split_documents
-from KoPrivateGPT.model import load_model
+from KoPrivateGPT.utils.model import load_model
 from KoPrivateGPT.retrieval import VectorDBRetrieval
 from run_localGPT import make_llm_chain, get_answer
-from utils import slice_stop_words
+from KoPrivateGPT.utils.util import slice_stop_words
 
 load_dotenv()
 

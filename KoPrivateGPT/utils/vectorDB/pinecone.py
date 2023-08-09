@@ -1,11 +1,10 @@
 from typing import List
 import pinecone
-from langchain.schema import Document
 from dotenv import load_dotenv
 from typing import Optional, Dict, Union
-from KoPrivateGPT.embed import Embedding
+from KoPrivateGPT.utils.embed import Embedding
 from KoPrivateGPT.schema.vector import Vector
-from KoPrivateGPT.vectorDB.base import BaseVectorDB
+from KoPrivateGPT.utils.vectorDB.base import BaseVectorDB
 import os
 from uuid import UUID
 

@@ -1,11 +1,10 @@
 import os
-import uuid
 from typing import List, Optional
 import chromadb
 from chromadb.types import Where, WhereDocument
 from uuid import UUID
 from KoPrivateGPT.schema.vector import Vector
-from KoPrivateGPT.vectorDB.base import BaseVectorDB
+from KoPrivateGPT.utils.vectorDB.base import BaseVectorDB
 
 
 class Chroma(BaseVectorDB):

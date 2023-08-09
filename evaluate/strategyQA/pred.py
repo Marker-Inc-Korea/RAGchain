@@ -11,7 +11,7 @@ from huggingface_hub import hf_hub_download
 from langchain.schema import Document
 from tqdm import tqdm
 
-from KoPrivateGPT.embed import Embedding
+from KoPrivateGPT.utils.embed import Embedding
 from ingest import SAVE_PATH, REPO_ID
 from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval
 

@@ -1,13 +1,12 @@
 from typing import List
 
 from langchain.schema import Document
-from KoPrivateGPT.embed import delete_embeddings_vectordb
+from KoPrivateGPT.utils.embed import delete_embeddings_vectordb
 from KoPrivateGPT.options import ChromaOptions, PineconeOptions
-from KoPrivateGPT.vectorDB import Pinecone
-from KoPrivateGPT.vectorDB.chroma import Chroma
-from KoPrivateGPT.vectorDB.base import BaseVectorDB
+from KoPrivateGPT.utils.vectorDB import Pinecone
+from KoPrivateGPT.utils.vectorDB import Chroma
 from .base import BaseRetrieval
-from KoPrivateGPT.embed import Embedding
+from KoPrivateGPT.utils.embed import Embedding
 from ..DB.base import BaseDB
 from ..schema import Passage
 from ..schema.vector import Vector

@@ -1,10 +1,10 @@
 import shutil
 import pinecone
 import os
-from KoPrivateGPT.embed import EmbeddedFilesCache
+from KoPrivateGPT.utils.embed import EmbeddedFilesCache
 from KoPrivateGPT.options import ChromaOptions, PineconeOptions, Options
 import click
-from utils import FileChecker
+from KoPrivateGPT.utils.util import FileChecker
 
 
 @click.command()

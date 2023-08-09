@@ -6,7 +6,7 @@ from transformers import AutoTokenizer
 from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
-from utils import FileChecker
+from KoPrivateGPT.utils.util import FileChecker
 import pickle
 from tqdm import tqdm
 

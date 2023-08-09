@@ -1,6 +1,6 @@
-from KoPrivateGPT.model.koalpaca import KoAlpacaFactory
-from KoPrivateGPT.model.kullm import KuLLMFactory
-from KoPrivateGPT.model.openai import OpenaiFactory
+from KoPrivateGPT.utils.model.koalpaca import KoAlpacaFactory
+from KoPrivateGPT.utils.model.kullm import KuLLMFactory
+from KoPrivateGPT.utils.model.openai import OpenaiFactory
 
 
 def load_model(model_type: str, device_type: str = 'cuda'):

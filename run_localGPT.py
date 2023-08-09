@@ -9,10 +9,10 @@ from langchain.schema import Document
 from KoPrivateGPT.options import Options
 from KoPrivateGPT.retrieval import VectorDBRetrieval, BM25Retrieval
 from KoPrivateGPT.retrieval import BaseRetriever
-from utils import slice_stop_words
+from KoPrivateGPT.utils.util import slice_stop_words
 from dotenv import load_dotenv
-from KoPrivateGPT.embed import Embedding
-from KoPrivateGPT.model import load_model
+from KoPrivateGPT.utils.embed import Embedding
+from KoPrivateGPT.utils.model import load_model
 
 
 def make_llm_chain(llm):
