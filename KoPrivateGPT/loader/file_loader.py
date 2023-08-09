@@ -21,13 +21,13 @@ class FileLoader:
         Parameters:
             filter_ext: List[str] = None
                 If not None, only files with the given extensions will be loaded.
-                filter_ext elements must not contain the dot (.) prefix.
+                filter_ext elements must contain the dot (.) prefix.
         """
         valid_ext = self.ingestable_extensions if filter_ext is None else filter_ext
         docs = []
         for (path, dir, files) in tqdm(os.walk(self.target_dir)):
             for file_name in files:
-                ext = os.path.splitext(file_name)[-1].lower()
+                ext = os.path.splitext(file_name)[-1].lower()  # this function contain dot (.) prefix
                 if filter_ext is not None and ext not in filter_ext:
                     continue
                 full_file_path = os.path.join(path, file_name)
