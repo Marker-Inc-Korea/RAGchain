@@ -25,7 +25,7 @@ class VectorDBRetrieval(BaseRetrieval):
         self.db = db
 
     def ingest(self, passages: List[Passage]):
-        embeds = self.embedding.embed_documents([Document(page_content=passage.content) for passage in passages])
+        embeds = self.embedding.embed_documents([passage.content for passage in passages])
         self.vectordb.add_vectors(
             [Vector(passage_id=passage.id, vector=embed) for passage, embed in zip(passages, embeds)])
 

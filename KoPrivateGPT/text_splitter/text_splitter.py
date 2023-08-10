@@ -23,6 +23,7 @@ class RecursiveTextSplitter(BaseTextSplitter):
             previous_passage_id = ids[i - 1] if i > 0 else None
             next_passage_id = ids[i + 1] if i < len(split_documents) - 1 else None
             passage = Passage(id=uuid,
+                              content=split_document.page_content,
                               filepath=filepath,
                               previous_passage_id=previous_passage_id,
                               next_passage_id=next_passage_id,

@@ -23,7 +23,7 @@ class BasicLLM(BaseLLM):
         passages = self.retrieval.retrieve(query, top_k=4)
         contents = "\n\n".join([passage.content for passage in passages])
         answer = self.chain.run(context=contents, question=query)
-        return answer
+        return answer, passages
 
     def _make_llm_chain(self, llm):
         prompt_template = """주어진 정보를 바탕으로 질문에 답하세요. 답을 모른다면 답을 지어내려고 하지 말고 모른다고 답하세요. 

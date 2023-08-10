@@ -10,7 +10,7 @@ from KoPrivateGPT.utils import FileChecker
 
 class PickleDB(BaseDB):
     def __init__(self, save_path: str):
-        FileChecker(save_path).check_type(file_types=['.pickle', 'pkl'])
+        FileChecker(save_path).check_type(file_types=['.pickle', '.pkl'])
         self.save_path = save_path
         self.db = list()
 
@@ -21,12 +21,15 @@ class PickleDB(BaseDB):
     def create(self):
         if os.path.exists(self.save_path):
             raise FileExistsError(f'{self.save_path} already exists')
+        if not os.path.exists(os.path.dirname(self.save_path)):
+            os.makedirs(os.path.dirname(self.save_path))
         self.save_path = self.save_path
 
     def load(self):
-        if not os.path.exists(self.save_path):
+        if not FileChecker(self.save_path).check_type(file_types=['.pickle', '.pkl']).is_exist():
             raise FileNotFoundError(f'{self.save_path} does not exist')
-        self.db = self._load_pickle()
+        with open(self.save_path, 'rb') as f:
+            self.db = pickle.load(f)
 
     def create_or_load(self):
         if os.path.exists(self.save_path):
@@ -44,11 +47,6 @@ class PickleDB(BaseDB):
 
     def search(self, filter: Dict[str, str]) -> List[Passage]:
         raise NotImplementedError("PickleDB does not support search method")
-
-    def _load_pickle(self) -> Any:
-        assert (os.path.splitext(self.save_path)[-1] == '.pickle')
-        with open(self.save_path, 'rb') as f:
-            return pickle.load(f)
 
     def _write_pickle(self):
         with open(self.save_path, 'wb') as w:

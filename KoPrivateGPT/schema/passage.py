@@ -1,3 +1,5 @@
+from typing import Optional
+
 from langchain.load.serializable import Serializable
 from langchain.schema import Document
 from pydantic import Field
@@ -9,8 +11,8 @@ class Passage(Serializable):
     id: UUID = Field(default_factory=uuid4)
     content: str
     filepath: str
-    previous_passage_id: UUID
-    next_passage_id: UUID
+    previous_passage_id: Optional[UUID]
+    next_passage_id: Optional[UUID]
     metadata_etc: dict = Field(default_factory=dict)
 
     def to_document(self) -> Document:

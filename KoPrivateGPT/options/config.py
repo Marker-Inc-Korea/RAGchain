@@ -25,4 +25,4 @@ class PineconeOptions(object):
 
 
 class DBOptions(object):
-    save_path = os.path.join(Options.root_dir, "PassageDB")
+    save_path = os.path.join(Options.root_dir, "PassageDB", "pickle_db.pkl")
