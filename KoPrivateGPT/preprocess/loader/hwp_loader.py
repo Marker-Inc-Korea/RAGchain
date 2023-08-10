@@ -2,7 +2,7 @@ import logging
 from typing import List
 
 from langchain.docstore.document import Document
-from KoPrivateGPT.loader.base import BaseLoader
+from KoPrivateGPT.preprocess.loader.base import BaseLoader
 import requests
 
 logger = logging.getLogger(__name__)

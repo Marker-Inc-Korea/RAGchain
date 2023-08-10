@@ -38,7 +38,7 @@ class FileLoader:
         return docs
 
     def _load_single_document(self, file_path: str) -> Document:
-        from KoPrivateGPT.loader import ExcelLoader, HwpLoader
+        from KoPrivateGPT.preprocess.loader import ExcelLoader, HwpLoader
         # Loads a single document from a file path
         if file_path.endswith(".txt"):
             loader = TextLoader(file_path, encoding="utf8")

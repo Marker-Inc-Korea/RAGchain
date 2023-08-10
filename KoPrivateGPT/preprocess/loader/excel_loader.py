@@ -6,7 +6,7 @@ from langchain.document_loaders import CSVLoader
 from langchain.schema import Document
 import openpyxl
 
-from KoPrivateGPT.loader.base import BaseLoader
+from KoPrivateGPT.preprocess.loader.base import BaseLoader
 
 
 class ExcelLoader(BaseLoader):

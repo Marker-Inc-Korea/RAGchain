@@ -4,7 +4,7 @@ from uuid import uuid4
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 from KoPrivateGPT.schema import Passage
-from KoPrivateGPT.text_splitter.base import BaseTextSplitter
+from KoPrivateGPT.preprocess.text_splitter.base import BaseTextSplitter
 
 
 class RecursiveTextSplitter(BaseTextSplitter):

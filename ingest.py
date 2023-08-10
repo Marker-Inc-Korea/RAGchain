@@ -6,12 +6,12 @@ from langchain.docstore.document import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 from KoPrivateGPT.DB.pickle_db import PickleDB
-from KoPrivateGPT.text_splitter import RecursiveTextSplitter
+from KoPrivateGPT.preprocess.text_splitter import RecursiveTextSplitter
 from KoPrivateGPT.utils.embed import Embedding
 from KoPrivateGPT.options import Options, DBOptions
 from KoPrivateGPT.retrieval import VectorDBRetrieval
 from KoPrivateGPT.retrieval import BM25Retrieval
-from KoPrivateGPT.loader import FileLoader
+from KoPrivateGPT.preprocess.loader import FileLoader
 
 
 def split_documents(documents: List[Document]):
