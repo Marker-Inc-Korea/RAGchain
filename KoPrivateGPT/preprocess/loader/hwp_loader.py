@@ -1,9 +1,8 @@
 import logging
-from typing import List, Optional
+from typing import List
 
 from langchain.docstore.document import Document
-from langchain.document_loaders.base import BaseLoader
-#from langchain.document_loaders.helpers import detect_file_encodings
+from KoPrivateGPT.preprocess.loader.base import BaseLoader
 import requests
 
 logger = logging.getLogger(__name__)
@@ -17,29 +16,19 @@ class HwpLoader(BaseLoader):
     and just use textLoader
 
     Args:
-        file_path: Path to the file to load.
-
-        encoding: File encoding to use. If `None`, the file will be loaded
-        with the default system encoding.
-
-        autodetect_encoding: Whether to try to autodetect the file encoding
-            if the specified encoding fails.
+        path: Path to the file to load.
     """
 
     def __init__(
         self,
-        file_path: str,
-        hwp_convert_path: str,
-        #encoding: Optional[str] = None,
-        autodetect_encoding: bool = False,
-
+            path: str,
+            hwp_host_url: str,
     ):
         """Initialize with file path."""
-        self.file_path = file_path
-        self.autodetect_encoding = autodetect_encoding
-        self.hwp_convert_path = hwp_convert_path
+        self.file_path = path
+        self.hwp_convert_path = hwp_host_url
 
-        response = requests.post(hwp_convert_path, files = {'file': open(file_path, 'rb')})
+        response = requests.post(hwp_host_url, files={'file': open(path, 'rb')})
 
         if response.status_code != 200:
             raise ValueError(

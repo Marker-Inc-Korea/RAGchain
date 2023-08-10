@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
-from enum import Enum
-from typing import List, Tuple
-from langchain.schema import Document
+from typing import List
+from uuid import UUID
+
+from KoPrivateGPT.schema.vector import Vector
 
 
 class BaseVectorDB(ABC):
@@ -11,13 +12,13 @@ class BaseVectorDB(ABC):
         pass
 
     @abstractmethod
-    def add_documents(self, docs: List[Document]):
+    def add_vectors(self, vectors: List[Vector]):
         pass
 
     @abstractmethod
-    def similarity_search(self, query: str, top_k: int = 5) -> List[Document]:
+    def similarity_search(self, query_vectors: List[float], top_k: int = 5) -> tuple[List[UUID], List[float]]:
         """
-            Return top_k documents
+            Return top_k passage_ids and similarity scores.
             At Default, you must return each similarity scores.
         """
         pass
