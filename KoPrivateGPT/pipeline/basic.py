@@ -1,24 +1,26 @@
+from typing import List
+
 from dotenv import load_dotenv
-from typing import Dict, Any, List
 
 from KoPrivateGPT.options import Options, DBOptions
 from KoPrivateGPT.pipeline.base import BasePipeline
 from KoPrivateGPT.pipeline.selector import ModuleSelector
 from KoPrivateGPT.retrieval import BM25Retrieval
 from KoPrivateGPT.schema import Passage
+from KoPrivateGPT.schema.pipeline import PipelineConfigAlias
 from KoPrivateGPT.utils import slice_stop_words
 from KoPrivateGPT.utils.embed import Embedding
 
 
 class BasicIngestPipeline(BasePipeline):
-    file_loader_type: tuple[str, Dict[str, Any]] = "file_loader", {"target_dir": Options.source_dir},
-    text_splitter_type: tuple[str, Dict[str, Any]] = "recursive_text_splitter", {"chunk_size": 500,
-                                                                                 "chunk_overlap": 50},
-    db_type: tuple[str, Dict[str, Any]] = "pickle_db", {"save_path": DBOptions.save_path},
-    retrieval_type: tuple[str, Dict[str, Any]] = "vector_db", {"vectordb_type": "chroma",
-                                                               "embedding_type": Embedding(embed_type="openai",
-                                                                                           device_type="cuda"),
-                                                               "device_type": "mps"}
+    file_loader_type: PipelineConfigAlias = "file_loader", {"target_dir": Options.source_dir},
+    text_splitter_type: PipelineConfigAlias = "recursive_text_splitter", {"chunk_size": 500,
+                                                                          "chunk_overlap": 50},
+    db_type: PipelineConfigAlias = "pickle_db", {"save_path": DBOptions.save_path},
+    retrieval_type: PipelineConfigAlias = "vector_db", {"vectordb_type": "chroma",
+                                                        "embedding_type": Embedding(embed_type="openai",
+                                                                                    device_type="cuda"),
+                                                        "device_type": "mps"}
 
     def run(self, *args, **kwargs):
         load_dotenv(verbose=False)
@@ -68,13 +70,13 @@ def print_docs(docs: List[Passage]):
 
 
 class BasicRunPipeline(BasePipeline):
-    db_type: tuple[str, Dict[str, Any]] = "pickle_db", {"save_path": DBOptions.save_path},
-    retrieval_type: tuple[str, Dict[str, Any]] = "vector_db", {"vectordb_type": "chroma",
-                                                               "embedding_type": Embedding(embed_type="openai",
-                                                                                           device_type="cuda"),
-                                                               "device_type": "mps"}
-    llm_type: tuple[str, Dict[str, Any]] = "basic_llm", {"device_type": "mps",
-                                                         "model_type": "openai"}
+    db_type: PipelineConfigAlias = "pickle_db", {"save_path": DBOptions.save_path},
+    retrieval_type: PipelineConfigAlias = "vector_db", {"vectordb_type": "chroma",
+                                                        "embedding_type": Embedding(embed_type="openai",
+                                                                                    device_type="cuda"),
+                                                        "device_type": "mps"}
+    llm_type: PipelineConfigAlias = "basic_llm", {"device_type": "mps",
+                                                  "model_type": "openai"}
 
     def run(self, *args, **kwargs):
         load_dotenv()
