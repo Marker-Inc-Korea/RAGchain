@@ -81,7 +81,7 @@ def main(pred, sol):
         prediction = json.load(f)
     with open(sol, 'r') as f:
         solution = json.load(f)
-    qrels, results = stretagyQA(solution, prediction)
+    # qrels, results = stretagyQA(solution, prediction)
 
     print(f'Metric : {retrieval_evaluation_master(qrels, results, [10])}')
 

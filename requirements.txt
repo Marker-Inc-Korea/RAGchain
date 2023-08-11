@@ -27,4 +27,6 @@ pandas
 pyarrow
 fastparquet
 beir
-pytrec_eval
+pytest
+freezegun
+PyYAML

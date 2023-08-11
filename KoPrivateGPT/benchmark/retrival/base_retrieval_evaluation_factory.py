@@ -88,7 +88,7 @@ class NDCGFactory(BaseRetrievalEvaluationFactory):
                       for i, doc_id in enumerate(top_hits[query_id]))
 
 
-            ndcg[f"NDCG@{k_value}"] += dcg / idcg if idcg > 0 else 0 
+            ndcg[f"NDCG@{k_value}"] += dcg / idcg if idcg > 0 else 0
 
         ndcg[f"NDCG@{k_value}"] = round(ndcg[f"NDCG@{k_value}"] / len(qrels), 5)
 
