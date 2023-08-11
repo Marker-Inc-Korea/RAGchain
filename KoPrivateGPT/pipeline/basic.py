@@ -7,7 +7,7 @@ from KoPrivateGPT.pipeline.base import BasePipeline
 from KoPrivateGPT.pipeline.selector import ModuleSelector
 from KoPrivateGPT.retrieval import BM25Retrieval
 from KoPrivateGPT.schema import Passage
-from KoPrivateGPT.schema.pipeline import PipelineConfigAlias
+from KoPrivateGPT.schema import PipelineConfigAlias
 from KoPrivateGPT.utils import slice_stop_words
 from KoPrivateGPT.utils.embed import Embedding
 
