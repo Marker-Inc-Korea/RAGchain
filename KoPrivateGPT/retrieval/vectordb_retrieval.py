@@ -1,13 +1,12 @@
 from typing import List, Union
 from uuid import UUID
 
-from langchain.schema import Document
-from KoPrivateGPT.utils.embed import delete_embeddings_vectordb
 from KoPrivateGPT.options import ChromaOptions, PineconeOptions
-from KoPrivateGPT.utils.vectorDB import Pinecone
-from KoPrivateGPT.utils.vectorDB import Chroma
-from .base import BaseRetrieval
 from KoPrivateGPT.utils.embed import Embedding
+from KoPrivateGPT.utils.embed import delete_embeddings_vectordb
+from KoPrivateGPT.utils.vectorDB import Chroma
+from KoPrivateGPT.utils.vectorDB import Pinecone
+from .base import BaseRetrieval
 from ..DB.base import BaseDB
 from ..schema import Passage
 from ..schema.vector import Vector

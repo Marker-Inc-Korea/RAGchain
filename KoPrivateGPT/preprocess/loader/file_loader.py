@@ -36,9 +36,9 @@ class FileLoader:
                 else:
                     print(f"Not Support file type {ext} yet.")
         if len(docs) <= 0:
-            print(f"Could not find any new documents in {Options.source_dir}")
+            print(f"Could not find any new documents in {self.target_dir}")
         else:
-            print(f"Loaded {len(docs)} documents from {Options.source_dir}")
+            print(f"Loaded {len(docs)} documents from {self.target_dir}")
         return docs
 
     def _load_single_document(self, file_path: str) -> Document:
