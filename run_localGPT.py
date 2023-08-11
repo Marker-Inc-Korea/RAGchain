@@ -4,7 +4,7 @@ from langchain.chains import HypotheticalDocumentEmbedder
 from langchain.prompts import PromptTemplate
 
 from KoPrivateGPT.options import Options
-from KoPrivateGPT.pipeline.basic import BasicRunPipeline
+from KoPrivateGPT.pipeline import BasicRunPipeline
 from KoPrivateGPT.utils.embed import Embedding
 
 
