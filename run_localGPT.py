@@ -1,3 +1,5 @@
+from typing import List
+
 import click
 from langchain import LLMChain
 from langchain.chains import HypotheticalDocumentEmbedder
@@ -5,7 +7,25 @@ from langchain.prompts import PromptTemplate
 
 from KoPrivateGPT.options import Options
 from KoPrivateGPT.pipeline import BasicRunPipeline
+from KoPrivateGPT.schema import Passage
 from KoPrivateGPT.utils.embed import Embedding
+
+
+def print_query_answer(query, answer):
+    # Print the result
+    print("\n\n> 질문:")
+    print(query)
+    print("\n> 대답:")
+    print(answer)
+
+
+def print_docs(docs: List[Passage]):
+    # Print the relevant sources used for the answer
+    print("----------------------------------참조한 문서---------------------------")
+    for document in docs:
+        print("\n> " + document.filepath + ":")
+        print(document.content)
+    print("----------------------------------참조한 문서---------------------------")
 
 
 def hyde_embeddings(llm, base_embedding):
@@ -33,7 +53,13 @@ def main(device_type, model_type, retrieval_type, vectordb_type, embedding_type)
                                          "device_type": device_type}),
         llm_type=("basic_llm", {"device_type": device_type, "model_type": model_type})
     )
-    pipeline.run()
+    while True:
+        query = input("질문을 입력하세요: ")
+        if query in ["exit", "종료"]:
+            break
+        answer, passages = pipeline.run(query)
+        print_query_answer(query, answer)
+        print_docs(passages)
 
 
 if __name__ == "__main__":

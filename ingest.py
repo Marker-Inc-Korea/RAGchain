@@ -11,7 +11,7 @@ from KoPrivateGPT.utils.embed import Embedding
 @click.option('--embedding_type', default='ko-sroberta-multitask',
               help='embedding model to use, select OpenAI or KoSimCSE or ko-sroberta-multitask')
 @click.option('--retrieval_type', default='bm25', help='retrieval type to use, select vectordb or bm25')
-def main(device_type, vectordb_type, embedding_type, retrieval_type):
+def main(device_type, vectordb_type, embedding_type, retrieval_type: str):
     pipeline = BasicIngestPipeline(
         retrieval_type=(retrieval_type, {"save_path": Options.bm25_db_dir,
                                          "vectordb_type": vectordb_type,
