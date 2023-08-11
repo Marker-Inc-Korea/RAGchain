@@ -9,7 +9,7 @@ from KoPrivateGPT.utils import FileChecker
 
 
 class PickleDB(BaseDB):
-    def __init__(self, save_path: str):
+    def __init__(self, save_path: str, *args, **kwargs):
         FileChecker(save_path).check_type(file_types=['.pickle', '.pkl'])
         self.save_path = save_path
         self.db = list()

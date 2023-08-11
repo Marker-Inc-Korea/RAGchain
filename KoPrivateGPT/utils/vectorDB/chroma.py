@@ -9,16 +9,12 @@ from KoPrivateGPT.utils.vectorDB.base import BaseVectorDB
 
 class Chroma(BaseVectorDB):
     def __init__(self, persist_dir: str, collection_name: str):
-        self.client = chromadb.PersistentClient(path=persist_dir)
-        self.collection = self.client.get_or_create_collection(name=collection_name)
-
-    @classmethod
-    def load(cls, persist_dir: str, collection_name: str):
         if not os.path.isdir(persist_dir):
             raise ValueError(f"persistent_dir must be a directory, but got {persist_dir}")
         if not os.path.exists(persist_dir):
             os.makedirs(persist_dir)
-        return cls(persist_dir, collection_name)
+        self.client = chromadb.PersistentClient(path=persist_dir)
+        self.collection = self.client.get_or_create_collection(name=collection_name)
 
     def add_vectors(self, vectors: List[Vector]):
         self.collection.add(

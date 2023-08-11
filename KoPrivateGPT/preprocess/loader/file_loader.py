@@ -8,7 +8,7 @@ from KoPrivateGPT.options import Options
 
 
 class FileLoader:
-    def __init__(self, target_dir: str):
+    def __init__(self, target_dir: str, *args, **kwargs):
         # add more extensions when if you want to add more extensions loader
         self.ingestable_extensions = ['.txt', '.pdf', '.csv', '.xlsx', '.hwp']
         if not os.path.exists(target_dir):
@@ -35,6 +35,10 @@ class FileLoader:
                     docs.append(self._load_single_document(full_file_path))
                 else:
                     print(f"Not Support file type {ext} yet.")
+        if len(docs) <= 0:
+            print(f"Could not find any new documents in {self.target_dir}")
+        else:
+            print(f"Loaded {len(docs)} documents from {self.target_dir}")
         return docs
 
     def _load_single_document(self, file_path: str) -> Document:
