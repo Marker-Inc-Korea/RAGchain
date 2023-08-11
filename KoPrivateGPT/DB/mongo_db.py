@@ -34,11 +34,11 @@ class MongoDB(BaseDB):
         else:
             self.create(collection_name)
 
-    def save(self, passages: list):
+    def save(self, passages: list[Passage]):
         for passage in passages:
             self.passage_collection.insert_one(passage.to_document().dict())
 
-    def fetch(self, ids: list) -> list:
+    def fetch(self, ids: list) -> list[Passage]:
         result = list(self.passage_collection.find({"id": {"$in": ids}}))
         return result
 
