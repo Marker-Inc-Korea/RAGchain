@@ -1,5 +1,7 @@
+from uuid import UUID
+
 import numpy as np
-from typing import List
+from typing import List, Union
 from rank_bm25 import BM25Okapi
 from transformers import AutoTokenizer
 
@@ -38,6 +40,9 @@ class BM25Retrieval(BaseRetrieval):
         self.tokenizer = AutoTokenizer.from_pretrained("EleutherAI/polyglot-ko-1.3b")
 
     def retrieve(self, query: str, db: BaseDB, top_k: int = 5, *args, **kwargs) -> List[Passage]:
+        return db.fetch(self.retrieve_id(query, top_k))
+
+    def retrieve_id(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Union[str, UUID]]:
         if self.data is None:
             raise ValueError("BM25Retriever.data is None. Please save data first.")
 
@@ -45,7 +50,7 @@ class BM25Retrieval(BaseRetrieval):
         tokenized_query = self.__tokenize([query])[0]
         scores = bm25.get_scores(tokenized_query)
         top_n = np.argsort(scores)[::-1][:top_k]  # this code is from rank_bm25.py in rank_bm25 package
-        return db.fetch([self.data['passage_id'][i] for i in top_n])
+        return [self.data['passage_id'][i] for i in top_n]
 
     def ingest(self, passages: List[Passage]):
         for passage in tqdm(passages):

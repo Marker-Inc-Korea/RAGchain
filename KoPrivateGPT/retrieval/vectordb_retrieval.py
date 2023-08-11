@@ -1,4 +1,5 @@
-from typing import List
+from typing import List, Union
+from uuid import UUID
 
 from langchain.schema import Document
 from KoPrivateGPT.utils.embed import delete_embeddings_vectordb
@@ -32,7 +33,11 @@ class VectorDBRetrieval(BaseRetrieval):
         delete_embeddings_vectordb(self.vectordb.get_db_type())
 
     def retrieve(self, query: str, db: BaseDB, top_k: int = 5, *args, **kwargs) -> List[Passage]:
-        query_vector = self.embedding.embed_query(query)
-        ids, scores = self.vectordb.similarity_search(query_vector, top_k)
+        ids = self.retrieve_id(query, top_k)
         result = db.fetch(ids)
         return result
+
+    def retrieve_id(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Union[str, UUID]]:
+        query_vector = self.embedding.embed_query(query)
+        ids, scores = self.vectordb.similarity_search(query_vector, top_k)
+        return ids
