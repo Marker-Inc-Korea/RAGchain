@@ -2,7 +2,7 @@ from typing import List
 
 from KoPrivateGPT.DB.pickle_db import PickleDB
 from KoPrivateGPT.llm.basic import BasicLLM
-from KoPrivateGPT.preprocess.loader import FileLoader
+from KoPrivateGPT.preprocess.loader import FileLoader, KoStrategyQALoader
 from KoPrivateGPT.preprocess.text_splitter import RecursiveTextSplitter
 from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval
 
@@ -49,6 +49,8 @@ class ModuleSelector:
     def select_file_loader(self, name: str):
         if name in _text_modifier("file_loader"):
             self.module = FileLoader
+        elif name in _text_modifier("ko_strategy_qa_loader"):
+            self.module = KoStrategyQALoader
         else:
             raise ValueError(f"Invalid module name: {name}")
 

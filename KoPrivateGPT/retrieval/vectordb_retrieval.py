@@ -13,7 +13,7 @@ from ..schema.vector import Vector
 
 
 class VectorDBRetrieval(BaseRetrieval):
-    def __init__(self, vectordb_type: str, embedding: Embedding, db: BaseDB, *args, **kwargs):
+    def __init__(self, vectordb_type: str, embedding: Embedding, *args, **kwargs):
         if vectordb_type in ['chroma', 'Chroma', 'CHROMA']:
             self.vectordb = Chroma(ChromaOptions.persist_dir, ChromaOptions.collection_name)
         elif vectordb_type in ['pinecone', 'Pinecone', 'PineCone', 'PINECONE']:
@@ -22,7 +22,6 @@ class VectorDBRetrieval(BaseRetrieval):
         else:
             raise ValueError(f"Unknown db type: {vectordb_type}")
         self.embedding = embedding.embedding()
-        self.db = db
 
     def ingest(self, passages: List[Passage]):
         embeds = self.embedding.embed_documents([passage.content for passage in passages])
@@ -32,8 +31,8 @@ class VectorDBRetrieval(BaseRetrieval):
     def delete_all(self):
         delete_embeddings_vectordb(self.vectordb.get_db_type())
 
-    def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Passage]:
+    def retrieve(self, query: str, db: BaseDB, top_k: int = 5, *args, **kwargs) -> List[Passage]:
         query_vector = self.embedding.embed_query(query)
         ids, scores = self.vectordb.similarity_search(query_vector, top_k)
-        result = self.db.fetch(ids)
+        result = db.fetch(ids)
         return result
