@@ -29,4 +29,5 @@ class RecursiveTextSplitter(BaseTextSplitter):
                               next_passage_id=next_passage_id,
                               metadata_etc=metadata_etc)
             passages.append(passage)
+        print(f"Split into {len(passages)} passages")
         return passages

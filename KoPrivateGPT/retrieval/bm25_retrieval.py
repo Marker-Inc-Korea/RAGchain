@@ -33,7 +33,7 @@ class BM25Retrieval(BaseRetrieval):
                 "tokens": [],
                 "passage_id": [],
             }
-        assert (len(self.data["tokens"]) == len(self.data["texts"]))
+        assert (len(self.data["tokens"]) == len(self.data["passage_id"]))
         self.save_path = save_path
         self.tokenizer = AutoTokenizer.from_pretrained("EleutherAI/polyglot-ko-1.3b")
         self.db = db
