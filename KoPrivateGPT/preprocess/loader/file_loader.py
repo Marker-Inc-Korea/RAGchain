@@ -8,7 +8,7 @@ from KoPrivateGPT.options import Options
 
 
 class FileLoader:
-    def __init__(self, target_dir: str):
+    def __init__(self, target_dir: str, *args, **kwargs):
         # add more extensions when if you want to add more extensions loader
         self.ingestable_extensions = ['.txt', '.pdf', '.csv', '.xlsx', '.hwp']
         if not os.path.exists(target_dir):

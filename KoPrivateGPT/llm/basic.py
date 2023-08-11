@@ -9,15 +9,10 @@ from KoPrivateGPT.utils.model import load_model
 
 
 class BasicLLM(BaseLLM):
-    def __init__(self, retrieval: BaseRetrieval, model_type: str, device_type: str):
+    def __init__(self, retrieval: BaseRetrieval, model_type: str, device_type: str, *args, **kwargs):
         self.retrieval = retrieval
         model = load_model(model_type, device_type)
         self.chain = self._make_llm_chain(model)
-
-    @classmethod
-    def load(cls, retrieval: BaseRetrieval, model_type: str, device_type: str = 'cuda', *args, **kwargs):
-        llm = cls(retrieval, model_type, device_type)
-        return llm
 
     def ask(self, query: str) -> tuple[str, List[Passage]]:
         passages = self.retrieval.retrieve(query, top_k=4)

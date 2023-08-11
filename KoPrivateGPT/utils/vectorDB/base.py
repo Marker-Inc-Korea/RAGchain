@@ -6,11 +6,6 @@ from KoPrivateGPT.schema.vector import Vector
 
 
 class BaseVectorDB(ABC):
-    @classmethod
-    @abstractmethod
-    def load(cls, *args, **kwargs):
-        pass
-
     @abstractmethod
     def add_vectors(self, vectors: List[Vector]):
         pass

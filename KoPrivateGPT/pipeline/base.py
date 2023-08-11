@@ -1,11 +1,9 @@
 from abc import ABC, abstractmethod
 
+from pydantic import BaseModel
 
-class BasePipeline(ABC):
-    @abstractmethod
-    def __init__(self, *args, **kwargs):
-        pass
 
+class BasePipeline(ABC, BaseModel):
     @abstractmethod
     def run(self, *args, **kwargs):
         pass

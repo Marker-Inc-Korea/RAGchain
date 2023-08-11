@@ -20,7 +20,7 @@ class BM25Retrieval(BaseRetrieval):
     }
     """
 
-    def __init__(self, save_path: str, db: BaseDB):
+    def __init__(self, save_path: str, db: BaseDB, *args, **kwargs):
         if FileChecker(save_path).check_type(file_types=[".pkl", ".pickle"]).is_exist():
             with open(save_path, 'rb') as f:
                 data = pickle.load(f)

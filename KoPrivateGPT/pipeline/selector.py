@@ -41,6 +41,7 @@ class ModuleSelector:
             self.select_llm(name)
         else:
             raise ValueError(f"Invalid module name: {self.module_name}")
+        return self
 
     def get(self, *args, **kwargs):
         return self.module(*args, **kwargs)

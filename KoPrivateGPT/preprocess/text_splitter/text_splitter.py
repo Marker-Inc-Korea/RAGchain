@@ -10,7 +10,7 @@ from KoPrivateGPT.preprocess.text_splitter.base import BaseTextSplitter
 class RecursiveTextSplitter(BaseTextSplitter):
     def __init__(self, separators: Optional[List[str]] = None,
                  keep_separator: bool = True,
-                 **kwargs: Any):
+                 *args, **kwargs):
         self.splitter = RecursiveCharacterTextSplitter(separators, keep_separator, **kwargs)
 
     def split_document(self, document: Document) -> List[Passage]:

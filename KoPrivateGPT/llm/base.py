@@ -6,11 +6,6 @@ from KoPrivateGPT.schema import Passage
 
 
 class BaseLLM(ABC):
-    @classmethod
-    @abstractmethod
-    def load(cls, retrieval: BaseRetrieval, model_type: str, device_type: str, *args, **kwargs):
-        pass
-
     @abstractmethod
     def ask(self, query: str) -> tuple[str, List[Passage]]:
         """

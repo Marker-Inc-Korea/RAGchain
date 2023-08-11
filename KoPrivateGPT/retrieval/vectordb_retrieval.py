@@ -13,12 +13,12 @@ from ..schema.vector import Vector
 
 
 class VectorDBRetrieval(BaseRetrieval):
-    def __init__(self, vectordb_type: str, embedding: Embedding, db: BaseDB):
+    def __init__(self, vectordb_type: str, embedding: Embedding, db: BaseDB, *args, **kwargs):
         if vectordb_type in ['chroma', 'Chroma', 'CHROMA']:
-            self.vectordb = Chroma.load(ChromaOptions.persist_dir, ChromaOptions.collection_name)
+            self.vectordb = Chroma(ChromaOptions.persist_dir, ChromaOptions.collection_name)
         elif vectordb_type in ['pinecone', 'Pinecone', 'PineCone', 'PINECONE']:
-            self.vectordb = Pinecone.load(PineconeOptions.index_name, PineconeOptions.namespace,
-                                          PineconeOptions.dimension)
+            self.vectordb = Pinecone(PineconeOptions.index_name, PineconeOptions.namespace,
+                                     PineconeOptions.dimension)
         else:
             raise ValueError(f"Unknown db type: {vectordb_type}")
         self.embedding = embedding.embedding()
