@@ -1,4 +1,3 @@
-from beir.retrieval import evaluation
 from abc import ABC, abstractmethod
 from typing import List, Dict, Union, Tuple
 import pytrec_eval

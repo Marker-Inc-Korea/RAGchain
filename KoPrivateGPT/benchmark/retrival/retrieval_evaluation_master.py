@@ -20,6 +20,7 @@ def retrieval_evaluation_master(qrels: Dict[str, Dict[str, int]],
     It calls the other functions and returns a dictionary with the metrics as keys and the values as values.
     :param qrels: The qrels file as a dictionary. Dict[query_id, Dict[doc_id, relevance]]
     :param results: The results file as a dictionary. Dict[query_id, Dict[doc_id, score]]
+    :k_values: The k values for which the evaluation should be done. List[int]
     results doc_id can be different from the doc_id in the qrels file.
     """
     evaluation_results = []
@@ -27,14 +28,13 @@ def retrieval_evaluation_master(qrels: Dict[str, Dict[str, int]],
                        TopKAccuracyFactory]#RecallCapFactory
 
     max_length = max(len(retrieved_docs) for retrieved_docs in results.values())
-    filtered_k_values, _ = [k for k in k_values if (max_length >= k >= 1)], [k for k in k_values if
-                                                                             (k < 1 or max_length < k)]
-    if not _:
-        print(
-            f'{_} is not used in the evaluation because it is larger than the maximum length of the retrieved documents or less than 1.')
-    print(f"evaluation will be done for the following k values: {filtered_k_values}")
+    fit_k_values = filter(lambda k : (max_length >= k >= 1), k_values)
+    
+    if k_values != fit_k_values:
+        print(f'{list(set(k_values)-set(fit_k_values))} is not used in the evaluation. please enter 1< k_value <num of length of the retrieved documents.')
+    print(f'evaluation will be done for the following k values: {fit_k_values}')
 
-    for k in filtered_k_values:
+    for k in fit_k_values:
         for metric_factory in metrics_factory:
             metric = metric_factory()
             print(str(metric))
