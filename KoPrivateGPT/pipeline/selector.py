@@ -9,7 +9,7 @@ from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval
 
 def _text_modifier(text: str) -> List[str]:
     """
-    You have to seperate each word with underbar '_'
+    You have to separate each word with underbar '_'
     """
     result = [text, text.lower(), text.capitalize(), text.upper()]
     if "_" in text:
