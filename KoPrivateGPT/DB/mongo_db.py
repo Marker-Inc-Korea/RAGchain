@@ -1,32 +1,33 @@
+from typing import List, Any
+
 import pymongo
 from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.schema import Passage
+from uuid import UUID
 
 
 class MongoDB(BaseDB):
     def __init__(self, mongo_url: str, db_name: str):
         self.mongo_url = mongo_url
         self.db_name = db_name
-        self.client = None
-        self.passage_collection = None
-        self.db = None
+        self.client = pymongo.MongoClient(self.mongo_url)
+        self.db = self.client.get_database(self.db_name)
+        self.collection = None
 
     @property
     def db_type(self) -> str:
-        return 'local'
+        return 'MongoDB'
 
     def create(self, collection_name: str):
-        self.client = pymongo.MongoClient(self.mongo_url)
-        self.db = self.client.get_database(self.db_name)
         if collection_name in self.db.list_collection_names():
-            raise FileExistsError(f'{collection_name} already exists')
+            raise ValueError(f'{collection_name} already exists')
         if collection_name not in self.db.list_collection_names():
-            self.passage_collection = self.db.create_collection(collection_name)
+            self.collection = self.db.create_collection(collection_name)
 
     def load(self, collection_name: str):
         if collection_name not in self.db.list_collection_names():
-            raise FileNotFoundError(f'{collection_name} does not exist')
-        self.passage_collection = self.db.get_collection(collection_name)
+            raise ValueError(f'{collection_name} does not exist')
+        self.collection = self.db.get_collection(collection_name)
 
     def create_or_load(self, collection_name: str):
         if collection_name in self.db.list_collection_names():
@@ -34,13 +35,13 @@ class MongoDB(BaseDB):
         else:
             self.create(collection_name)
 
-    def save(self, passages: list[Passage]):
+    def save(self, passages: List[Passage]):
         for passage in passages:
-            self.passage_collection.insert_one(passage.to_document().dict())
+            self.collection.insert_one(passage.to_json())
 
-    def fetch(self, ids: list) -> list[Passage]:
-        result = list(self.passage_collection.find({"id": {"$in": ids}}))
+    def fetch(self, ids: List[UUID]) -> List[Passage]:
+        result = list(self.collection.find({"id": {"$in": ids}}))
         return result
 
-    def search(self, filter: dict) -> list:
+    def search(self, filter: Any) -> List[Passage]:
         raise NotImplementedError("MongoDB does not support search method")
