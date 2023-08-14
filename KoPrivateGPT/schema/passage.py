@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union
 
 from langchain.load.serializable import Serializable
 from langchain.schema import Document
@@ -8,7 +8,7 @@ from uuid import UUID, uuid4
 
 class Passage(Serializable):
     """Class for storing a passage and metadatas"""
-    id: UUID = Field(default_factory=uuid4)
+    id: Union[UUID, str] = Field(default_factory=uuid4)
     content: str
     filepath: str
     previous_passage_id: Optional[UUID]

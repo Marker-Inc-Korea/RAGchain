@@ -11,6 +11,12 @@ from uuid import UUID
 
 class Pinecone(BaseVectorDB):
     def __init__(self, index_name: str, namespace: str, dimension: Optional[int] = None, *args, **kwargs):
+        load_dotenv()
+        pinecone.init(
+            api_key=os.environ["PINECONE_API_KEY"],
+            environment=os.environ["PINECONE_ENV"]
+        )
+
         active_indexes = pinecone.list_indexes()
         if index_name not in active_indexes:
             if dimension is None:
@@ -18,15 +24,6 @@ class Pinecone(BaseVectorDB):
             pinecone.create_index(index_name, dimension=dimension, *args, **kwargs)
         self.index = pinecone.Index(index_name)
         self.namespace = namespace
-
-    @classmethod
-    def load(cls, index_name: str, namespace: str, dimension: Optional[int] = None):
-        load_dotenv()
-        pinecone.init(
-            api_key=os.environ["PINECONE_API_KEY"],
-            environment=os.environ["PINECONE_ENV"]
-        )
-        return cls(index_name, namespace, dimension)
 
     def add_vectors(self, vectors: List[Vector]):
         pinecone_vectors = []

@@ -1,5 +1,7 @@
+from uuid import UUID
+
 import numpy as np
-from typing import List
+from typing import List, Union
 from rank_bm25 import BM25Okapi
 from transformers import AutoTokenizer
 
@@ -20,7 +22,7 @@ class BM25Retrieval(BaseRetrieval):
     }
     """
 
-    def __init__(self, save_path: str, db: BaseDB):
+    def __init__(self, save_path: str, *args, **kwargs):
         if FileChecker(save_path).check_type(file_types=[".pkl", ".pickle"]).is_exist():
             with open(save_path, 'rb') as f:
                 data = pickle.load(f)
@@ -33,12 +35,14 @@ class BM25Retrieval(BaseRetrieval):
                 "tokens": [],
                 "passage_id": [],
             }
-        assert (len(self.data["tokens"]) == len(self.data["texts"]))
+        assert (len(self.data["tokens"]) == len(self.data["passage_id"]))
         self.save_path = save_path
         self.tokenizer = AutoTokenizer.from_pretrained("EleutherAI/polyglot-ko-1.3b")
-        self.db = db
 
-    def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Passage]:
+    def retrieve(self, query: str, db: BaseDB, top_k: int = 5, *args, **kwargs) -> List[Passage]:
+        return db.fetch(self.retrieve_id(query, top_k))
+
+    def retrieve_id(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Union[str, UUID]]:
         if self.data is None:
             raise ValueError("BM25Retriever.data is None. Please save data first.")
 
@@ -46,7 +50,7 @@ class BM25Retrieval(BaseRetrieval):
         tokenized_query = self.__tokenize([query])[0]
         scores = bm25.get_scores(tokenized_query)
         top_n = np.argsort(scores)[::-1][:top_k]  # this code is from rank_bm25.py in rank_bm25 package
-        return self.db.fetch([self.data['passage_id'][i] for i in top_n])
+        return [self.data['passage_id'][i] for i in top_n]
 
     def ingest(self, passages: List[Passage]):
         for passage in tqdm(passages):
