@@ -48,8 +48,6 @@ def hyde_embeddings(llm, base_embedding):
               help='embedding model to use, select OpenAI or ''KoSimCSE.')
 def main(device_type, model_type, retrieval_type, vectordb_type, embedding_type):
     pipeline = BasicRunPipeline(
-        db_type=("mongo_db", {"mongo_url": MongoDBOptions.mongo_url, "db_name": MongoDBOptions.db_name,
-                              "collection_name": MongoDBOptions.collection_name}),
         retrieval_type=(retrieval_type, {"save_path": Options.bm25_db_dir,
                                          "vectordb_type": vectordb_type,
                                          "embedding_type": Embedding(embed_type=embedding_type,

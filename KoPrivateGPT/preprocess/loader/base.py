@@ -5,7 +5,7 @@ from langchain.schema import Document
 
 class BaseLoader(ABC):
     @abstractmethod
-    def __init__(self, *args, **kwargs):
+    def __init__(self, path: str, *args, **kwargs):
         pass
 
     @abstractmethod
