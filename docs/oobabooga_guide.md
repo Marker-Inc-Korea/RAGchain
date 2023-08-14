@@ -1,3 +1,7 @@
+# This guide is under construction!
+
+# 이 가이드는 작업중입니다.
+
 # 우바부가 openAI API 서버 실행하기
 
 우바부가는 웹 UI와 로컬 모델 실행을 쉽게 할 수 있는 라이브러리입니다.

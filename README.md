@@ -94,7 +94,6 @@ KoPrivateGPT는 OpenAI API 기반으로 제작되었으며, OpenAI API-ish한 �
 로컬 모델을 사용하는 방법에 따른 가이드는 아래와 같습니다.
 
 - [vLLM 가이드](./docs/vLLM_guide.md)
-- [우바부가 가이드]()
 
 그 외에도 [LocalAI](https://localai.io/basics/getting_started/), [LiteLLM](https://github.com/BerriAI/litellm) 서버 역시 사용할 수
 있습니다.
