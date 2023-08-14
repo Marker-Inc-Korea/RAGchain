@@ -1,5 +1,6 @@
 from typing import List
 
+from KoPrivateGPT.DB.mongo_db import MongoDB
 from KoPrivateGPT.DB.pickle_db import PickleDB
 from KoPrivateGPT.llm.basic import BasicLLM
 from KoPrivateGPT.preprocess.loader import FileLoader, KoStrategyQALoader
@@ -64,6 +65,8 @@ class ModuleSelector:
     def select_db(self, name: str):
         if name in _text_modifier("pickle_db"):
             self.module = PickleDB
+        elif name in _text_modifier("mongo_db"):
+            self.module = MongoDB
         else:
             raise ValueError(f"Invalid module name: {name}")
 

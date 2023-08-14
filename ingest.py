@@ -1,6 +1,7 @@
 import click
 
 from KoPrivateGPT.options import Options
+from KoPrivateGPT.options.config import MongoDBOptions
 from KoPrivateGPT.pipeline import BasicIngestPipeline
 from KoPrivateGPT.utils.embed import Embedding
 
