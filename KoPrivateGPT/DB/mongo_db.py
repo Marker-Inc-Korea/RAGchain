@@ -40,7 +40,11 @@ class MongoDB(BaseDB):
 
     def save(self, passages: List[Passage]):
         for passage in passages:
-            passage_to_dict = passage.dict(by_alias=True)
+            passage_to_dict = {
+                "_id": passage.id, "content": passage.content, "filepath": passage.filepath,
+                "previous_passage_id": passage.previous_passage_id, "next_passage_id": passage.next_passage_id,
+                "metadata_etc": passage.metadata_etc
+            }
             self.collection.insert_one(passage_to_dict)
 
     def fetch(self, ids: List[UUID]) -> List[Passage]:
