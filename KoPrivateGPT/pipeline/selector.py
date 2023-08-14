@@ -5,6 +5,7 @@ from KoPrivateGPT.llm.basic import BasicLLM
 from KoPrivateGPT.preprocess.loader import FileLoader, KoStrategyQALoader
 from KoPrivateGPT.preprocess.text_splitter import RecursiveTextSplitter
 from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval
+from KoPrivateGPT.llm.rerank import RerankLLM
 
 
 def _text_modifier(text: str) -> List[str]:
@@ -77,5 +78,7 @@ class ModuleSelector:
     def select_llm(self, name: str):
         if name in _text_modifier("basic_llm"):
             self.module = BasicLLM
+        elif name in _text_modifier("rerank_llm"):
+            self.module = RerankLLM
         else:
             raise ValueError(f"Invalid module name: {name}")
