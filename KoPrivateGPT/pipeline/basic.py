@@ -81,8 +81,8 @@ class BasicRunPipeline(BasePipeline):
                  retrieval_type: PipelineConfigAlias = ("vector_db", {"vectordb_type": "chroma",
                                                                       "embedding": Embedding(embed_type="openai",
                                                                                              device_type="cuda")}),
-                 llm_type: PipelineConfigAlias = ("basic_llm", {"device_type": "mps",
-                                                                "model_type": "openai"})):
+                 llm_type: PipelineConfigAlias = ("basic_llm", {"model_name": "gpt-3.5-turbo",
+                                                                "api_base": None})):
         load_dotenv()
         self.db_type = db_type
         self.retrieval_type = retrieval_type
