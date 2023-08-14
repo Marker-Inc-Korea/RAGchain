@@ -40,18 +40,19 @@ def hyde_embeddings(llm, base_embedding):
 
 @click.command()
 @click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
-@click.option('--model_type', default='koAlpaca', help='model to run on, select koAlpaca or openai')
 @click.option('--retrieval_type', default='vectordb', help='retrieval type to use, select vectordb or bm25')
 @click.option('--vectordb_type', default='chroma', help='vector database to use, select chroma or pinecone')
 @click.option('--embedding_type', default='KoSimCSE', help='embedding model to use, select OpenAI or KoSimCSE.')
-def main(device_type, model_type, retrieval_type, vectordb_type, embedding_type):
+@click.option('--model_name', default='gpt-3.5-turbo', help='model name to use.')
+@click.option('--api_base', default=None, help='api base to use.')
+def main(device_type, retrieval_type, vectordb_type, embedding_type, model_name, api_base):
     pipeline = BasicRunPipeline(
         retrieval_type=(retrieval_type, {"save_path": Options.bm25_db_dir,
                                          "vectordb_type": vectordb_type,
                                          "embedding_type": Embedding(embed_type=embedding_type,
                                                                      device_type=device_type),
                                          "device_type": device_type}),
-        llm_type=("basic_llm", {"device_type": device_type, "model_type": model_type})
+        llm_type=("basic_llm", {"model_name": model_name, "api_base": api_base})
     )
     while True:
         query = input("질문을 입력하세요: ")
