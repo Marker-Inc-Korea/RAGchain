@@ -6,8 +6,8 @@ import os
 from typing import List
 
 from KoPrivateGPT.llm.basic import BasicLLM
-from KoPrivateGPT.reranker.base import BaseReranker
-from KoPrivateGPT.reranker.llm.rank_gpt import permutation_pipeline, sliding_windows
+from KoPrivateGPT.utils.reranker.base import BaseReranker
+from KoPrivateGPT.utils.reranker.llm.rank_gpt import permutation_pipeline, sliding_windows
 from KoPrivateGPT.schema import Passage
 
 
