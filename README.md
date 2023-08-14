@@ -1,5 +1,7 @@
 # KoPrivateGPT
 
+English Version of README is [here](./docs/README_en.md). Please follow the link to read the English version of README.
+
 본 프로젝트는 [privateGPT](https://github.com/imartinez/privateGPT)와 [localGPT](https://github.com/PromtEngineer/localGPT)에서 영감을 받아 만들어졌습니다. 
 
 해당 프로젝트들은 여러 문서들을 벡터 DB에 저장을 하여, 문서 내용에 대해 LLM과 대화할 수 있는 프로젝트입니다. 오픈소스 Document Q&A라고 보시면 됩니다.
@@ -16,12 +18,19 @@
 - 한국어 임베딩 [Korean-Sentence-Embedding](https://github.com/BM-K/Sentence-Embedding-Is-All-You-Need) 적용
 - HWP 파일 문서 호환 추가 ([hwp-converter-api](https://github.com/edai-club/hwp-converter-api) 사용)
 
-## Colab 데모
-콜랩에서 실행할 수 있는 데모 버전을 준비하였습니다. 아쉽게도 콜랩 버전에서 HWP 파일은 사용할 수 없습니다. 
-[여기](https://colab.research.google.com/drive/1wFV8WSfna0p1HYD_N8KmlrB69ItWczsZ?usp=sharing)에서 콜랩 데모 버전을 실행해보세요.
-<a style='display:inline' target="_blank" href="https://colab.research.google.com/drive/1wFV8WSfna0p1HYD_N8KmlrB69ItWczsZ?usp=sharing">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
-</a>
+[//]: # (## Colab 데모)
+
+[//]: # (콜랩에서 실행할 수 있는 데모 버전을 준비하였습니다. 아쉽게도 콜랩 버전에서 HWP 파일은 사용할 수 없습니다. )
+
+[//]: # ([여기]&#40;https://colab.research.google.com/drive/1wFV8WSfna0p1HYD_N8KmlrB69ItWczsZ?usp=sharing&#41;에서 콜랩 데모 버전을 실행해보세요.)
+
+[//]: # (<a style='display:inline' target="_blank" href="https://colab.research.google.com/drive/1wFV8WSfna0p1HYD_N8KmlrB69ItWczsZ?usp=sharing">)
+
+[//]: # (  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>)
+
+[//]: # (</a>)
+
+[//]: TODO : Edit Colab Demo for latest version.
 
 ## Docker를 통한 실행법 (추천)
 아래 코드를 실행하여 도커 컨테이너를 통해 KoPrivateGPT를 실행할 수 있습니다.
@@ -77,6 +86,18 @@ HwpConvertHost = f'http://hwp-converter:7000/upload?option={HwpConvertOpt}'
 
 ### 주의
 - hwpx 파일은 지원하지 않습니다. hwp 파일로 변환하여 시도해주세요.
+
+# 로컬 모델 사용법
+
+KoPrivateGPT는 OpenAI API 기반으로 제작되었으며, OpenAI API-ish한 모든 로컬 모델들을 사용할 수 있습니다.
+사용을 위해서는 api_base에 원하는 url로 바꾸어서 넣어주세요.
+로컬 모델을 사용하는 방법에 따른 가이드는 아래와 같습니다.
+
+- [vLLM 가이드](./docs/vLLM_guide.md)
+- [우바부가 가이드]()
+
+그 외에도 [LocalAI](https://localai.io/basics/getting_started/), [LiteLLM](https://github.com/BerriAI/litellm) 서버 역시 사용할 수
+있습니다.
 
 
 # 직접 원하는 문서를 불러오는 법
@@ -205,103 +226,3 @@ Windows 10/11에서 C++ 컴파일러를 설치하려면 다음 단계를 따르�
 # 면책 조항
 이 프로젝트는 LLM 및 벡터 임베딩을 사용하여 한국어로 질문에 답변할 수 있는 완전한 로컬 솔루션의 가능성을 검증하기 위한 시험용 프로젝트입니다. 
 프로덕션 활용을 위한 준비는 완료되지 않았으며 프로덕션에 사용할 수 없습니다.
-
-
-# KoPrivateGPT
-
-This project was inspired by the original [privateGPT](https://github.com/imartinez/privateGPT) and [localGPT](https://github.com/PromtEngineer/localGPT). Most of the description here is inspired by the original privateGPT and original localGPT.
-
-In this model, I have replaced the GPT4ALL model with KoAlpaca-Polyglot model, and we are using the Korean Sentence Embeddings instead of LlamaEmbeddings as used in the original privateGPT.
-
-Plus, we add HWP converter for ingesting HWP files that crucial to Korean businessmen and women.
-
-Ask questions to your documents without an internet connection, using the power of LLMs. 100% private, no data leaves your execution environment at any point. You can ingest documents and ask questions without an internet connection!
-(For better performance, you can also use OpenAI's GPT model. However, this requires an internet connection and does not guarantee privacy.)
-
-Built with [LangChain](https://github.com/hwchase17/langchain) and [KoAlpaca](https://github.com/Beomi/KoAlpaca) and [Korean-Sentence-Embedding](https://github.com/BM-K/Sentence-Embedding-Is-All-You-Need)
-
-
-# Environment Setup
-In order to set your environment up to run the code here, first install all requirements:
-
-```shell
-git clone https://github.com/edai-club/KoPrivateGPT.git
-cd KoPrivateGPT
-pip install -r requirements.txt
-```
-
-## Test dataset
-This repo uses a [제주 제2항 기본계획(안) 보도자료](https://www.korea.kr/common/download.do?fileId=197236015&tblKey=GMN) as an example.
-
-## Instructions for ingesting your own dataset
-
-Put any and all of your .txt, .pdf, .csv or .hwp files into the SOURCE_DOCUMENTS directory
-in the load_documents() function, replace the docs_path with the absolute path of your source_documents directory. 
-
-The current default file types are .txt, .pdf, .csv, .xlsx, .hwp, if you want to use any other file type, you will need to convert it to one of the default file types.
-
-Run the following command to ingest all the data.
-
-```shell
-python ingest.py
-```
-
-It will create an index containing the local vectorstore. Will take time, depending on the size of your documents.
-You can ingest as many documents as you want, and all will be accumulated in the local embeddings database. 
-If you want to start from an empty database, delete the `index`.
-
-Note: When you run this for the first time, it will download take time as it has to download the embedding model. In the subseqeunt runs, no data will leave your local enviroment and can be run without internet connection.
-
-
-## Ask questions to your documents, locally!
-In order to ask a question, run a command like:
-
-```shell
-python run_localGPT.py
-```
-
-And wait for the script to require your input. 
-
-```shell
-> 질문:
-```
-
-Hit enter. Wait while the LLM model consumes the prompt and prepares the answer. Once done, it will print the answer and the 4 sources it used as context from your documents; you can then ask another question without re-running the script, just wait for the prompt again. 
-
-Note: When you run this for the first time, it will need internet connection to download the KoAlpaca model. After that you can turn off your internet connection, and the script inference would still work. No data gets out of your local environment.
-
-Type `exit` to finish the script.
-
-## Use OpenAI Model
-If your device is not capable of run KoAlpaca, use OpenAI model. 
-Using OpenAI Model is not private, but it can run any device with low performance and have better performance.
-
-Type your OpenAI API Token in the below code. 
-```shell
-python run_localGPT.py --model_type=openai --openai-token=<Your OPENAI TOKEN>
-```
-
-# System Requirements
-
-## Python Version
-To use this software, you must have Python 3.10 or later installed. Earlier versions of Python will not compile.
-
-## C++ Compiler
-If you encounter an error while building a wheel during the `pip install` process, you may need to install a C++ compiler on your computer.
-
-### For Windows 10/11
-To install a C++ compiler on Windows 10/11, follow these steps:
-
-1. Install Visual Studio 2022.
-2. Make sure the following components are selected:
-   * Universal Windows Platform development
-   * C++ CMake tools for Windows
-3. Download the MinGW installer from the [MinGW website](https://sourceforge.net/projects/mingw/).
-4. Run the installer and select the "gcc" component.
-
-### NVIDIA Driver's Issues:
-Follow this [page](https://linuxconfig.org/how-to-install-the-nvidia-drivers-on-ubuntu-22-04) to install NVIDIA Drivers.
-        
-
-# Disclaimer
-This is a test project to validate the feasibility of a fully local solution for question answering using LLMs and Vector embeddings for Korean. It is not production ready, and it is not meant to be used in production. Vicuna-7B is based on the Llama model so that has the original Llama license. 
