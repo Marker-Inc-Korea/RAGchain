@@ -15,8 +15,7 @@ class BasicLLM(BaseLLM):
         self.retrieval = retrieval
         self.db = db
         self.model_name = model_name
-        self.api_base = api_base
-        self.set_model()
+        BasicLLM.set_model(api_base)
 
     def ask(self, query: str) -> tuple[str, List[Passage]]:
         passages = self.retrieval.retrieve(query, self.db, top_k=4)
@@ -40,8 +39,9 @@ class BasicLLM(BaseLLM):
             {"role": "assistant", "content": "다음은 질문에 대한 한국어 답변입니다. "}
         ]
 
-    def set_model(self):
-        if self.api_base is None:
+    @staticmethod
+    def set_model(api_base: str):
+        if api_base is None:
             from dotenv import load_dotenv
             env_loaded = load_dotenv()
             if not env_loaded:
@@ -49,4 +49,4 @@ class BasicLLM(BaseLLM):
             openai.api_key = os.environ["OPENAI_API_KEY"]
         else:
             openai.api_key = "EMPTY"
-            openai.api_base = self.api_base
+            openai.api_base = api_base
