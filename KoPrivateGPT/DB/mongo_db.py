@@ -48,8 +48,12 @@ class MongoDB(BaseDB):
             self.collection.insert_one(passage_to_dict)
 
     def fetch(self, ids: List[UUID]) -> List[Passage]:
-        result = list(self.collection.find({"id": {"$in": ids}}))
-        return result
+        passage_list = []
+        for find_id in ids:
+            dict_passage = self.collection.find_one({"_id": find_id})
+            passage = Passage.from_dict(data=dict_passage)
+            passage_list.append(passage)
+        return passage_list
 
     def search(self, filter: Any) -> List[Passage]:
         raise NotImplementedError("MongoDB does not support search method")

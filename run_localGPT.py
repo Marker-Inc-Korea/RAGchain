@@ -40,15 +40,16 @@ def hyde_embeddings(llm, base_embedding):
 
 
 @click.command()
-@click.option('--device_type', default='cuda', help='device to run on, select gpu, cpu or mps')
-@click.option('--model_type', default='koAlpaca', help='model to run on, select koAlpaca or openai')
-@click.option('--retrieval_type', default='vectordb', help='retrieval type to use, select vectordb or bm25')
+@click.option('--device_type', default='mps', help='device to run on, select gpu, cpu or mps')
+@click.option('--model_type', default='openai', help='model to run on, select koAlpaca or openai')
+@click.option('--retrieval_type', default='bm25', help='retrieval type to use, select vectordb or bm25')
 @click.option('--vectordb_type', default='chroma', help='vector database to use, select chroma or pinecone')
-@click.option('--embedding_type', default='KoSimCSE', help='embedding model to use, select OpenAI or KoSimCSE.')
+@click.option('--embedding_type', default='ko_sroberta_multitask',
+              help='embedding model to use, select OpenAI or ''KoSimCSE.')
 def main(device_type, model_type, retrieval_type, vectordb_type, embedding_type):
     pipeline = BasicRunPipeline(
-        db_type=("mongo_db", {"mongo_url": MongoDBOptions.mongo_url, "db_name": MongoDBOptions.db_name
-                             , "collection_name": MongoDBOptions.collection_name}),
+        db_type=("mongo_db", {"mongo_url": MongoDBOptions.mongo_url, "db_name": MongoDBOptions.db_name,
+                              "collection_name": MongoDBOptions.collection_name}),
         retrieval_type=(retrieval_type, {"save_path": Options.bm25_db_dir,
                                          "vectordb_type": vectordb_type,
                                          "embedding_type": Embedding(embed_type=embedding_type,
