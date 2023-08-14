@@ -26,7 +26,7 @@ ingest_pipeline = BasicIngestPipeline(file_loader_type=("file_loader", {}),
 
 
 def ingest(files) -> str:
-    # TODO : add file cache for gradio version
+    # TODO : add file cache for gradio version : Feature/#94
     dir_name = os.path.dirname(files[0].name)
     ingest_pipeline.run(target_dir=dir_name)
     return "Ingest Done"
