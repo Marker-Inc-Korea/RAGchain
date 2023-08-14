@@ -23,3 +23,13 @@ class Passage(Serializable):
         metadata['previous_passage_id'] = self.previous_passage_id
         metadata['next_passage_id'] = self.next_passage_id
         return Document(page_content=self.content, metadata=metadata)
+
+    def to_dict(self):
+        return {
+            "_id": self.id,
+            "content": self.content,
+            "filepath": self.filepath,
+            "previous_passage_id": self.previous_passage_id,
+            "next_passage_id": self.next_passage_id,
+            "metadata_etc": self.metadata_etc
+        }

@@ -3,7 +3,8 @@ from uuid import UUID
 
 from dotenv import load_dotenv
 
-from KoPrivateGPT.options import Options, DBOptions
+from KoPrivateGPT.options import Options, PickleDBOptions
+from KoPrivateGPT.options.config import MongoDBOptions
 from KoPrivateGPT.pipeline.base import BasePipeline
 from KoPrivateGPT.pipeline.selector import ModuleSelector
 from KoPrivateGPT.schema import Passage
@@ -16,7 +17,9 @@ class BasicIngestPipeline(BasePipeline):
     def __init__(self, file_loader_type: PipelineConfigAlias = ("file_loader", {"target_dir": Options.source_dir}),
                  text_splitter_type: PipelineConfigAlias = ("recursive_text_splitter", {"chunk_size": 500,
                                                                                         "chunk_overlap": 50}),
-                 db_type: PipelineConfigAlias = ("pickle_db", {"save_path": DBOptions.save_path}),
+                 db_type: PipelineConfigAlias = ("mongo_db", {"mongo_url": MongoDBOptions.mongo_url,
+                                                              "db_name": MongoDBOptions.db_name,
+                                                              "collection_name": MongoDBOptions.collection_name}),
                  retrieval_type: PipelineConfigAlias = ("vector_db", {"vectordb_type": "chroma",
                                                                       "embedding": Embedding(embed_type="openai",
                                                                                              device_type="cuda")})):
@@ -77,7 +80,9 @@ class BasicDatasetPipeline(BasePipeline):
 
 
 class BasicRunPipeline(BasePipeline):
-    def __init__(self, db_type: PipelineConfigAlias = ("pickle_db", {"save_path": DBOptions.save_path}),
+    def __init__(self, db_type: PipelineConfigAlias = ("mongo_db", {"mongo_url": MongoDBOptions.mongo_url,
+                                                                    "db_name": MongoDBOptions.db_name,
+                                                                    "collection_name": MongoDBOptions.collection_name}),
                  retrieval_type: PipelineConfigAlias = ("vector_db", {"vectordb_type": "chroma",
                                                                       "embedding": Embedding(embed_type="openai",
                                                                                              device_type="cuda")}),

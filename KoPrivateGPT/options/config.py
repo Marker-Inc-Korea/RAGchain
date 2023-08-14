@@ -1,6 +1,8 @@
 import os
 import pathlib
 
+from dotenv import load_dotenv
+
 
 class Options(object):
     root_dir = pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent
@@ -24,5 +26,12 @@ class PineconeOptions(object):
     dimension = 1536
 
 
-class DBOptions(object):
+class PickleDBOptions(object):
     save_path = os.path.join(Options.root_dir, "PassageDB", "pickle_db.pkl")
+
+
+class MongoDBOptions(object):
+    load_dotenv(verbose=False)
+    mongo_url = os.getenv("MONGO_URL")
+    db_name = os.getenv("MONGO_DB_NAME")
+    collection_name = os.getenv("MONGO_COLLECTION_NAME")
