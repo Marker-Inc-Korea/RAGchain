@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+
 from KoPrivateGPT.utils.model.base_model_factory import BaseModelFactory
 import os
 
@@ -16,6 +18,7 @@ class OpenaiFactory(BaseModelFactory):
         return self.__load_model_openai()
 
     def __load_model_openai(self):
+        load_dotenv()
         openai_token = os.environ["OPENAI_API_KEY"]
         if openai_token is None:
             raise ValueError("OPENAI_API_KEY is empty. Set OPENAI_API_KEY at .env file")
