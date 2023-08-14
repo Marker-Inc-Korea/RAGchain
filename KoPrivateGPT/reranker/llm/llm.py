@@ -7,7 +7,7 @@ from typing import List
 
 from KoPrivateGPT.llm.basic import BasicLLM
 from KoPrivateGPT.reranker.base import BaseReranker
-from KoPrivateGPT.reranker.llm.rank_gpt import permutation_pipeline
+from KoPrivateGPT.reranker.llm.rank_gpt import permutation_pipeline, sliding_windows
 from KoPrivateGPT.schema import Passage
 
 
@@ -24,7 +24,10 @@ class LLMReranker(BaseReranker):
         return self.make_passages(new_items, passages)
 
     def rerank_sliding_window(self, query: str, passages: List[Passage], window_size: int) -> List[Passage]:
-        pass
+        items = self.make_item(query, passages)
+        new_items = sliding_windows(item=items, model_name=self.model_name, api_base=self.api_base,
+                                    api_key=os.getenv("OPENAI_API_KEY"), window_size=window_size)
+        return self.make_passages(new_items, passages)
 
     def make_item(self, query: str, passages: List[Passage]) -> dict:
         hits_list = [{'content': passage.content} for passage in passages]
