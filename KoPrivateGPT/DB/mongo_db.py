@@ -7,7 +7,7 @@ from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.schema import Passage
 from uuid import UUID
 
-from KoPrivateGPT.schema.db_path import DBPath
+from KoPrivateGPT.schema.db_path import DBOrigin
 
 
 class MongoDB(BaseDB):
@@ -64,6 +64,6 @@ class MongoDB(BaseDB):
             raise ValueError(f'{self.db_name} does not exists')
         self.db = self.client.get_database(self.db_name)
 
-    def get_db_path(self) -> DBPath:
+    def get_db_origin(self) -> DBOrigin:
         db_path = {'mongo_url': self.mongo_url, 'db_name': self.db_name, 'collection_name': self.collection_name}
-        return DBPath(db_type=self.db_type, db_path=db_path)
+        return DBOrigin(db_type=self.db_type, db_path=db_path)

@@ -3,7 +3,7 @@ from typing import List, Union, Any
 from KoPrivateGPT.schema import Passage
 from uuid import UUID
 
-from KoPrivateGPT.schema.db_path import DBPath
+from KoPrivateGPT.schema.db_path import DBOrigin
 
 
 class BaseDB(ABC):
@@ -37,5 +37,5 @@ class BaseDB(ABC):
         pass
 
     @abstractmethod
-    def get_db_path(self) -> DBPath:
+    def get_db_origin(self) -> DBOrigin:
         pass

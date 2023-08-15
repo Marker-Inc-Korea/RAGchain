@@ -5,11 +5,12 @@ from KoPrivateGPT.schema import Passage
 import os
 import pickle
 
-from KoPrivateGPT.schema.db_path import DBPath
+from KoPrivateGPT.schema.db_path import DBOrigin
 from KoPrivateGPT.utils import FileChecker
 
 
 class PickleDB(BaseDB):
+
     def __init__(self, save_path: str, *args, **kwargs):
         FileChecker(save_path).check_type(file_types=['.pickle', '.pkl'])
         self.save_path = save_path
@@ -53,5 +54,5 @@ class PickleDB(BaseDB):
         with open(self.save_path, 'wb') as w:
             pickle.dump(self.db, w)
 
-    def get_db_path(self) -> DBPath:
-        return DBPath(db_type=self.db_type, db_path={'save_path': self.save_path})
+    def get_db_origin(self) -> DBOrigin:
+        return DBOrigin(db_type=self.db_type, db_path={'save_path': self.save_path})
