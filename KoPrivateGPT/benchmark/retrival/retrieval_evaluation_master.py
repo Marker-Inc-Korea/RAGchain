@@ -1,5 +1,4 @@
-from base_retrieval_evaluation_factory import RecallFactory, PrecisionFactory, NDCGFactory, MAPFactory, MRRFactory, \
-    HoleFactory, TopKAccuracyFactory #RecallCapFactory
+from base_retrieval_evaluation_factory import RecallFactory, RRFactory, PrecisionFactory, NDCGFactory, DCGFactory, HoleFactory, TopKAccuracyFactory, IDCGFactory, IndDCGFactory, IndIDCGFactory, APFactory, CGFactory
 
 # from benchmark.retrival.f1 import F1Factory
 # from benchmark.retrival.average_precision import AveragePrecisionFactory
@@ -23,30 +22,25 @@ def retrieval_evaluation_master(qrels: Dict[str, Dict[str, int]],
     :k_values: The k values for which the evaluation should be done. List[int]
     results doc_id can be different from the doc_id in the qrels file.
     """
-    evaluation_results = []
-    metrics_factory = [RecallFactory, PrecisionFactory, NDCGFactory, MAPFactory, MRRFactory, HoleFactory,
-                       TopKAccuracyFactory]#RecallCapFactory
 
-    max_length = max(len(retrieved_docs) for retrieved_docs in results.values())
-    fit_k_values = filter(lambda k : (max_length >= k >= 1), k_values)
-    
-    if k_values != fit_k_values:
-        print(f'{list(set(k_values)-set(fit_k_values))} is not used in the evaluation. please enter 1< k_value <num of length of the retrieved documents.')
-    print(f'evaluation will be done for the following k values: {fit_k_values}')
+    metrics_factories = [RecallFactory, RRFactory, PrecisionFactory, NDCGFactory, DCGFactory, HoleFactory, TopKAccuracyFactory, IDCGFactory, IndDCGFactory, IndIDCGFactory, APFactory, CGFactory]
 
-    for k in fit_k_values:
-        for metric_factory in metrics_factory:
-            metric = metric_factory()
-            print(str(metric))
-            evaluation_results.append(metric.retrieval_metric_function(qrels, results, k))
+    score_dict = dict()
+    for k in k_values:
+        score_dict = score_dict | strategyQA(qrels, results, metrics_factories, k)
 
-    return evaluation_results
+    mean_scores = {key: sum(value) / len(value) for key, value in score_dict.items()}
+    return mean_scores
 
-def stretagyQA(solution: dict, pred: dict):
-    qrels = dict()
-    results = dict()
+def strategyQA(solution: dict, pred: dict, metrics_factories: list, k_value: int):
+    '''
+    k shuld be smaller than the number of paragraphs in the prediction
+    '''
+    final_score = {f'{metric_factory.__name__[:-7]}@{str(k_value)}' : list() for metric_factory in metrics_factories}
     for key in solution.keys():
         paragraphs = pred[key]['paragraphs']
+        if len(paragraphs) < k_value:
+            break
         evidence_per_annotator = list()
         for annotator in solution[key]['evidence']:
             evidence_per_annotator.append(
@@ -58,17 +52,18 @@ def stretagyQA(solution: dict, pred: dict):
                     for evidence_id in x
                 )
             )
-        for _, evidence in enumerate(evidence_per_annotator):
-            qrel_dict = {}
-            paragraph_dict = {}
-            for e in evidence:
-                qrel_dict[e] = 1
-            for p in paragraphs:
-                paragraph_dict[p] = 1/len(paragraphs)
-            qrels[str(key)+f"_{_}"] = qrel_dict
-            results[str(key)+f"_{_}"] = paragraph_dict
+        score_per_annotator = list()
 
-    return qrels, results
+        for metric_factory in metrics_factories:
+            for evidence in evidence_per_annotator:
+                metric = metric_factory()
+                score = metric.eval(solution = {key: 1 for key in evidence}, pred = {key: 1.0 for key in paragraphs[0:k_value]}, k = k_value) if len(evidence) > 0 else 0
+                score_per_annotator.append(score)
+            annotator_max = max(score_per_annotator)
+            final_score[f'{metric_factory.__name__[:-7]}@{str(k_value)}'].append(annotator_max)
+        
+
+    return final_score
 
 @click.command()
 @click.option('--pred', type=click.Path(exists=True), help='prediction file')
@@ -81,9 +76,8 @@ def main(pred, sol):
         prediction = json.load(f)
     with open(sol, 'r') as f:
         solution = json.load(f)
-    # qrels, results = stretagyQA(solution, prediction)
 
-    print(f'Metric : {retrieval_evaluation_master(qrels, results, [10])}')
+    print(f'Metric : {retrieval_evaluation_master(solution, prediction, [1,5,10])}')
 
 
 if __name__ == '__main__':
