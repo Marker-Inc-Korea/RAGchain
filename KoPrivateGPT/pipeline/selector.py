@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from KoPrivateGPT.DB.mongo_db import MongoDB
 from KoPrivateGPT.DB.pickle_db import PickleDB
@@ -9,7 +9,7 @@ from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval
 from KoPrivateGPT.llm.rerank import RerankLLM
 
 
-def text_modifier(text: str) -> List[str]:
+def text_modifier(text: str, modify_words: Optional[tuple[str]] = ()) -> List[str]:
     """
     You have to separate each word with underbar '_'
     """
@@ -22,6 +22,7 @@ def text_modifier(text: str) -> List[str]:
         result.append("".join(text_list))
         result.append("".join([text.capitalize() for text in text_list]))
         result.append("".join([text.upper() for text in text_list]))
+    result.append(modify_words)
     return result
 
 
