@@ -12,7 +12,7 @@ def retrieval_evaluation_master(qrels: Dict[str, Dict[str, int]],
                                 results: Dict[str, Dict[str, float]],
                                 k_values: List[int]) -> List[dict[str, float]]:
     """
-    This function is the master function for the retrival evaluation.
+    This function is the master function for the retrieval evaluation.
     It calls the other functions and returns a dictionary with the metrics as keys and the values as values.
     :param qrels: The qrels file as a dictionary. Dict[query_id, Dict[doc_id, relevance]]
     :param results: The results file as a dictionary. Dict[query_id, Dict[doc_id, score]]
