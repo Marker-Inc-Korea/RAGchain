@@ -1,7 +1,7 @@
 from enum import Enum
 from dotenv import load_dotenv
 import os
-from KoPrivateGPT.pipeline.selector import text_modifier
+from KoPrivateGPT.utils import text_modifier
 
 
 class EmbeddingType(Enum):

@@ -16,7 +16,7 @@ class PickleDB(BaseDB):
 
     @property
     def db_type(self) -> str:
-        return 'local'
+        return 'pickle_db'
 
     def create(self):
         if os.path.exists(self.save_path):

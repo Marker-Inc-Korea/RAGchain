@@ -16,7 +16,7 @@ DEVICE = "mps"
 MODEL_NAME = "gpt-3.5-turbo"
 EMBEDDING_TYPE = "OpenAI"
 DB_TYPE = "chroma"
-embeddings = EmbeddingFactory(embed_type=EMBEDDING_TYPE, device_type=DEVICE)
+embeddings = EmbeddingFactory(embed_type=EMBEDDING_TYPE, device_type=DEVICE).get()
 
 GRADIO_DB_PATH = os.path.join(Options.root_dir, )
 answer_pipeline = BasicRunPipeline(retrieval_type=("bm25", {"save_path": Options.bm25_db_dir}),

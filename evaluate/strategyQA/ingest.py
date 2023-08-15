@@ -28,7 +28,7 @@ def main(device_type, vectordb_type, embedding_type, retrieval_type):
                                                                      "vectordb_type": vectordb_type,
                                                                      "embedding": EmbeddingFactory(
                                                                          embed_type=embedding_type,
-                                                                         device_type=device_type)
+                                                                         device_type=device_type).get()
                                                                      }))
     pipeline.run()
     print("DONE")

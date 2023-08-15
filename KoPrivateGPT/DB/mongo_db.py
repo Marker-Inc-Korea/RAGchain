@@ -19,7 +19,7 @@ class MongoDB(BaseDB):
 
     @property
     def db_type(self) -> str:
-        return 'MongoDB'
+        return 'mongo_db'
 
     def create(self):
         self.set_db()

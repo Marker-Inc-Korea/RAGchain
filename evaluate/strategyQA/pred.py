@@ -51,7 +51,7 @@ def main(test_type, retrieval_type, suffix, device_type, embedding_type, vectord
     retrieval = ModuleSelector("retrieval").select(retrieval_type).get(**{
         "save_path": SAVE_PATH,
         "vectordb_type": vectordb_type,
-        "embedding": EmbeddingFactory(embed_type=embedding_type, device_type=device_type)
+        "embedding": EmbeddingFactory(embed_type=embedding_type, device_type=device_type).get()
     })
     pred = {}
     for key in tqdm(list(data.keys())):

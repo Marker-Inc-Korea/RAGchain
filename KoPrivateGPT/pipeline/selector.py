@@ -7,23 +7,7 @@ from KoPrivateGPT.preprocess.loader import FileLoader, KoStrategyQALoader
 from KoPrivateGPT.preprocess.text_splitter import RecursiveTextSplitter
 from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval
 from KoPrivateGPT.llm.rerank import RerankLLM
-
-
-def text_modifier(text: str, modify_words: Optional[tuple[str]] = ()) -> List[str]:
-    """
-    You have to separate each word with underbar '_'
-    """
-    result = [text, text.lower(), text.capitalize(), text.upper()]
-    if "_" in text:
-        text_list = text.split("_")
-        result.append("-".join(text_list))
-        result.append("_".join([text.capitalize() for text in text_list]))
-        result.append("-".join([text.capitalize() for text in text_list]))
-        result.append("".join(text_list))
-        result.append("".join([text.capitalize() for text in text_list]))
-        result.append("".join([text.upper() for text in text_list]))
-    result.append(modify_words)
-    return result
+from KoPrivateGPT.utils import text_modifier
 
 
 class ModuleSelector:

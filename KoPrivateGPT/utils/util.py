@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 import os
 from transformers import StoppingCriteria
 import torch
@@ -7,18 +7,18 @@ import torch
 class StoppingCriteriaSub(StoppingCriteria):
 
     def __init__(self, stops=[], encounters=1):
-      super().__init__()
-      self.stops = stops
-      self.ENCOUNTERS = encounters
+        super().__init__()
+        self.stops = stops
+        self.ENCOUNTERS = encounters
 
     def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor):
-      stop_count = 0
-      for stop in self.stops:
-        stop_count = (stop == input_ids[0]).sum().item()
+        stop_count = 0
+        for stop in self.stops:
+            stop_count = (stop == input_ids[0]).sum().item()
 
-      if stop_count >= self.ENCOUNTERS:
-          return True
-      return False
+        if stop_count >= self.ENCOUNTERS:
+            return True
+        return False
 
 
 def slice_stop_words(input_str: str, stop_words: List[str]):
@@ -28,6 +28,23 @@ def slice_stop_words(input_str: str, stop_words: List[str]):
             if temp_ans:
                 input_str = temp_ans
     return input_str
+
+
+def text_modifier(text: str, modify_words: Optional[tuple[str]] = ()) -> List[str]:
+    """
+    You have to separate each word with underbar '_'
+    """
+    result = [text, text.lower(), text.capitalize(), text.upper()]
+    if "_" in text:
+        text_list = text.split("_")
+        result.append("-".join(text_list))
+        result.append("_".join([text.capitalize() for text in text_list]))
+        result.append("-".join([text.capitalize() for text in text_list]))
+        result.append("".join(text_list))
+        result.append("".join([text.capitalize() for text in text_list]))
+        result.append("".join([text.upper() for text in text_list]))
+    result.append(modify_words)
+    return result
 
 
 class FileChecker:
