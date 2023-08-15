@@ -19,7 +19,7 @@ class VectorDBRetrieval(BaseRetrieval):
     def __init__(self, vectordb_type: str, embedding: Embeddings, *args, **kwargs):
         if vectordb_type in text_modifier('chroma'):
             self.vectordb = Chroma(ChromaOptions.persist_dir, ChromaOptions.collection_name)
-        elif vectordb_type in text_modifier('pinecone', modify_words=('PineCone',)):
+        elif vectordb_type in text_modifier('pinecone', modify_words=['PineCone']):
             self.vectordb = Pinecone(PineconeOptions.index_name, PineconeOptions.namespace,
                                      PineconeOptions.dimension)
         else:

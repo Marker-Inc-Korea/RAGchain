@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Tuple
 import os
 from transformers import StoppingCriteria
 import torch
@@ -30,7 +30,7 @@ def slice_stop_words(input_str: str, stop_words: List[str]):
     return input_str
 
 
-def text_modifier(text: str, modify_words: Optional[tuple[str]] = ()) -> List[str]:
+def text_modifier(text: str, modify_words: Optional[List[str]] = None) -> List[str]:
     """
     You have to separate each word with underbar '_'
     """
@@ -43,7 +43,8 @@ def text_modifier(text: str, modify_words: Optional[tuple[str]] = ()) -> List[st
         result.append("".join(text_list))
         result.append("".join([text.capitalize() for text in text_list]))
         result.append("".join([text.upper() for text in text_list]))
-    result.append(modify_words)
+    if modify_words is not None:
+        result.append(modify_words)
     return result
 
 

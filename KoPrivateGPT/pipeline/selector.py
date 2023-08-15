@@ -1,12 +1,10 @@
-from typing import List, Optional
-
 from KoPrivateGPT.DB.mongo_db import MongoDB
 from KoPrivateGPT.DB.pickle_db import PickleDB
 from KoPrivateGPT.llm.basic import BasicLLM
+from KoPrivateGPT.llm.rerank import RerankLLM
 from KoPrivateGPT.preprocess.loader import FileLoader, KoStrategyQALoader
 from KoPrivateGPT.preprocess.text_splitter import RecursiveTextSplitter
 from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval
-from KoPrivateGPT.llm.rerank import RerankLLM
 from KoPrivateGPT.utils import text_modifier
 
 

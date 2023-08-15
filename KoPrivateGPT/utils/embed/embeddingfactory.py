@@ -16,7 +16,8 @@ class EmbeddingFactory:
         if embed_type in text_modifier('openai'):
             self.embed_type = EmbeddingType.OPENAI
 
-        elif embed_type in text_modifier('kosimcse'):
+        elif embed_type in text_modifier('kosimcse',
+                                         modify_words=['KoSimCSE', 'KoSimcse', 'koSimCSE', 'kosimCSE']):
             self.embed_type = EmbeddingType.KOSIMCSE
         elif embed_type in text_modifier('ko_sroberta_multitask'):
             self.embed_type = EmbeddingType.KO_SROBERTA_MULTITASK
