@@ -15,8 +15,7 @@ class BasicLLM(BaseLLM):
         self.retrieval = retrieval
         self.db = db
         self.model_name = model_name
-        self.api_base = api_base
-        self.set_model()
+        self.set_model(api_base)
 
     def ask(self, query: str) -> tuple[str, List[Passage]]:
         passages = self.retrieval.retrieve(query, self.db, top_k=4)
@@ -26,7 +25,8 @@ class BasicLLM(BaseLLM):
         answer = completion["choices"][0]["message"]["content"]
         return answer, passages
 
-    def get_messages(self, context: str, question: str) -> List[dict]:
+    @staticmethod
+    def get_messages(context: str, question: str) -> List[dict]:
         system_prompt = f"""주어진 정보를 바탕으로 질문에 답하세요. 답을 모른다면 답을 지어내려고 하지 말고 모른다고 답하세요. 
                     질문 이외의 상관 없는 답변을 하지 마세요. 반드시 한국어로 답변하세요."""
         user_prompt = f"""정보 : 
@@ -40,8 +40,9 @@ class BasicLLM(BaseLLM):
             {"role": "assistant", "content": "다음은 질문에 대한 한국어 답변입니다. "}
         ]
 
-    def set_model(self):
-        if self.api_base is None:
+    @staticmethod
+    def set_model(api_base: str):
+        if api_base is None:
             from dotenv import load_dotenv
             env_loaded = load_dotenv()
             if not env_loaded:
@@ -49,4 +50,4 @@ class BasicLLM(BaseLLM):
             openai.api_key = os.environ["OPENAI_API_KEY"]
         else:
             openai.api_key = "EMPTY"
-            openai.api_base = self.api_base
+            openai.api_base = api_base
