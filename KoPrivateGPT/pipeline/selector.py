@@ -81,7 +81,7 @@ class ModuleSelector:
     def select_llm(self, name: str):
         if name in text_modifier("basic_llm"):
             self.module = BasicLLM
-        elif name in _text_modifier("rerank_llm"):
+        elif name in text_modifier("rerank_llm"):
             self.module = RerankLLM
         else:
             raise ValueError(f"Invalid module name: {name}")
