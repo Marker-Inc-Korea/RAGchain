@@ -25,7 +25,7 @@ class EmbeddingFactory:
 
         if device_type in text_modifier('cpu'):
             self.device_type = 'cpu'
-        elif device_type in ['mps', 'MPS']:
+        elif device_type in text_modifier('mps'):
             self.device_type = 'mps'
         else:
             self.device_type = 'cuda'
