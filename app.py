@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 from KoPrivateGPT.options import Options
 from KoPrivateGPT.pipeline import BasicIngestPipeline, BasicRunPipeline
-from KoPrivateGPT.utils.embed import Embedding
+from KoPrivateGPT.utils.embed import EmbeddingFactory
 from KoPrivateGPT.utils.util import slice_stop_words
 
 load_dotenv()
@@ -16,7 +16,7 @@ DEVICE = "mps"
 MODEL_NAME = "gpt-3.5-turbo"
 EMBEDDING_TYPE = "OpenAI"
 DB_TYPE = "chroma"
-embeddings = Embedding(embed_type=EMBEDDING_TYPE, device_type=DEVICE)
+embeddings = EmbeddingFactory(embed_type=EMBEDDING_TYPE, device_type=DEVICE).get()
 
 GRADIO_DB_PATH = os.path.join(Options.root_dir, )
 answer_pipeline = BasicRunPipeline(retrieval_type=("bm25", {"save_path": Options.bm25_db_dir}),

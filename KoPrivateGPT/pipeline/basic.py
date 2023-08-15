@@ -1,16 +1,15 @@
 from typing import List
-from uuid import UUID
 
 from dotenv import load_dotenv
 
-from KoPrivateGPT.options import Options, PickleDBOptions
+from KoPrivateGPT.options import Options
 from KoPrivateGPT.options.config import MongoDBOptions
 from KoPrivateGPT.pipeline.base import BasePipeline
 from KoPrivateGPT.pipeline.selector import ModuleSelector
 from KoPrivateGPT.schema import Passage
 from KoPrivateGPT.schema import PipelineConfigAlias
 from KoPrivateGPT.utils import slice_stop_words
-from KoPrivateGPT.utils.embed import Embedding
+from KoPrivateGPT.utils.embed import EmbeddingFactory
 
 
 class BasicIngestPipeline(BasePipeline):
@@ -20,9 +19,10 @@ class BasicIngestPipeline(BasePipeline):
                  db_type: PipelineConfigAlias = ("mongo_db", {"mongo_url": MongoDBOptions.mongo_url,
                                                               "db_name": MongoDBOptions.db_name,
                                                               "collection_name": MongoDBOptions.collection_name}),
-                 retrieval_type: PipelineConfigAlias = ("vector_db", {"vectordb_type": "chroma",
-                                                                      "embedding": Embedding(embed_type="openai",
-                                                                                             device_type="cuda")})):
+                 retrieval_type: PipelineConfigAlias = ("vector_db",
+                                                        {"vectordb_type": "chroma",
+                                                         "embedding": EmbeddingFactory(embed_type="openai",
+                                                                                       device_type="cuda").get()})):
         self.file_loader_type = file_loader_type
         self.text_splitter_type = text_splitter_type
         self.db_type = db_type
@@ -83,9 +83,10 @@ class BasicRunPipeline(BasePipeline):
     def __init__(self, db_type: PipelineConfigAlias = ("mongo_db", {"mongo_url": MongoDBOptions.mongo_url,
                                                                     "db_name": MongoDBOptions.db_name,
                                                                     "collection_name": MongoDBOptions.collection_name}),
-                 retrieval_type: PipelineConfigAlias = ("vector_db", {"vectordb_type": "chroma",
-                                                                      "embedding": Embedding(embed_type="openai",
-                                                                                             device_type="cuda")}),
+                 retrieval_type: PipelineConfigAlias = ("vector_db",
+                                                        {"vectordb_type": "chroma",
+                                                         "embedding": EmbeddingFactory(embed_type="openai",
+                                                                                       device_type="cuda").get()}),
                  llm_type: PipelineConfigAlias = ("basic_llm", {"model_name": "gpt-3.5-turbo",
                                                                 "api_base": None})):
         load_dotenv()
