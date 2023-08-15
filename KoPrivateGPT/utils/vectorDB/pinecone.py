@@ -2,7 +2,7 @@ from typing import List
 import pinecone
 from dotenv import load_dotenv
 from typing import Optional, Dict, Union
-from KoPrivateGPT.utils.embed import Embedding
+from KoPrivateGPT.utils.embed import EmbeddingFactory
 from KoPrivateGPT.schema.vector import Vector
 from KoPrivateGPT.utils.vectorDB.base import BaseVectorDB
 import os
@@ -59,6 +59,6 @@ class Pinecone(BaseVectorDB):
     def get_db_type(self) -> str:
         return "pinecone"
 
-    def __test_embed(self, embedding: Embedding) -> List[float]:
+    def __test_embed(self, embedding: EmbeddingFactory) -> List[float]:
         test_query = "test"
-        return embedding.embedding().embed_query(test_query)
+        return embedding.get().embed_query(test_query)

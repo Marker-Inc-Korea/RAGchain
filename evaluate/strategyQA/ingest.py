@@ -5,7 +5,7 @@ sys.path.append(str(pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))
 import click
 
 from KoPrivateGPT.pipeline.basic import BasicDatasetPipeline
-from KoPrivateGPT.utils.embed import Embedding
+from KoPrivateGPT.utils.embed import EmbeddingFactory
 
 
 REPO_ID = "NomaDamas/Ko-StrategyQA"
@@ -26,7 +26,7 @@ def main(device_type, vectordb_type, embedding_type, retrieval_type):
     pipeline = BasicDatasetPipeline(file_loader_type=("ko_strategy_qa_loader", {}),
                                     retrieval_type=(retrieval_type, {"save_path": SAVE_PATH,
                                                                      "vectordb_type": vectordb_type,
-                                                                     "embedding": Embedding(
+                                                                     "embedding": EmbeddingFactory(
                                                                          embed_type=embedding_type,
                                                                          device_type=device_type)
                                                                      }))

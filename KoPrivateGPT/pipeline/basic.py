@@ -10,7 +10,7 @@ from KoPrivateGPT.pipeline.selector import ModuleSelector
 from KoPrivateGPT.schema import Passage
 from KoPrivateGPT.schema import PipelineConfigAlias
 from KoPrivateGPT.utils import slice_stop_words
-from KoPrivateGPT.utils.embed import Embedding
+from KoPrivateGPT.utils.embed import EmbeddingFactory
 
 
 class BasicIngestPipeline(BasePipeline):
@@ -21,8 +21,8 @@ class BasicIngestPipeline(BasePipeline):
                                                               "db_name": MongoDBOptions.db_name,
                                                               "collection_name": MongoDBOptions.collection_name}),
                  retrieval_type: PipelineConfigAlias = ("vector_db", {"vectordb_type": "chroma",
-                                                                      "embedding": Embedding(embed_type="openai",
-                                                                                             device_type="cuda")})):
+                                                                      "embedding": EmbeddingFactory(embed_type="openai",
+                                                                                                    device_type="cuda")})):
         self.file_loader_type = file_loader_type
         self.text_splitter_type = text_splitter_type
         self.db_type = db_type
@@ -84,8 +84,8 @@ class BasicRunPipeline(BasePipeline):
                                                                     "db_name": MongoDBOptions.db_name,
                                                                     "collection_name": MongoDBOptions.collection_name}),
                  retrieval_type: PipelineConfigAlias = ("vector_db", {"vectordb_type": "chroma",
-                                                                      "embedding": Embedding(embed_type="openai",
-                                                                                             device_type="cuda")}),
+                                                                      "embedding": EmbeddingFactory(embed_type="openai",
+                                                                                                    device_type="cuda")}),
                  llm_type: PipelineConfigAlias = ("basic_llm", {"model_name": "gpt-3.5-turbo",
                                                                 "api_base": None})):
         load_dotenv()

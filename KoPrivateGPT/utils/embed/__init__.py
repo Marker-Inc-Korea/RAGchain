@@ -1,3 +1,3 @@
-from .embedding import Embedding, EmbeddingType
+from .embeddingfactory import EmbeddingFactory, EmbeddingType
 from .embedded_files_cache import EmbeddedFilesCache
 from .delete_embeddings import delete_embeddings_vectordb

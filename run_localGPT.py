@@ -8,7 +8,7 @@ from langchain.prompts import PromptTemplate
 from KoPrivateGPT.options import Options
 from KoPrivateGPT.pipeline import BasicRunPipeline
 from KoPrivateGPT.schema import Passage
-from KoPrivateGPT.utils.embed import Embedding
+from KoPrivateGPT.utils.embed import EmbeddingFactory
 
 
 def print_query_answer(query, answer):
@@ -49,8 +49,8 @@ def main(device_type, retrieval_type, vectordb_type, embedding_type, model_name,
     pipeline = BasicRunPipeline(
         retrieval_type=(retrieval_type, {"save_path": Options.bm25_db_dir,
                                          "vectordb_type": vectordb_type,
-                                         "embedding_type": Embedding(embed_type=embedding_type,
-                                                                     device_type=device_type),
+                                         "embedding_type": EmbeddingFactory(embed_type=embedding_type,
+                                                                            device_type=device_type),
                                          "device_type": device_type}),
         llm_type=("basic_llm", {"model_name": model_name, "api_base": api_base})
     )

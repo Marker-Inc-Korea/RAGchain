@@ -2,7 +2,7 @@ from typing import List, Union
 from uuid import UUID
 
 from KoPrivateGPT.options import ChromaOptions, PineconeOptions
-from KoPrivateGPT.utils.embed import Embedding
+from KoPrivateGPT.utils.embed import EmbeddingFactory
 from KoPrivateGPT.utils.embed import delete_embeddings_vectordb
 from KoPrivateGPT.utils.vectorDB import Chroma
 from KoPrivateGPT.utils.vectorDB import Pinecone
@@ -13,7 +13,7 @@ from ..schema.vector import Vector
 
 
 class VectorDBRetrieval(BaseRetrieval):
-    def __init__(self, vectordb_type: str, embedding: Embedding, *args, **kwargs):
+    def __init__(self, vectordb_type: str, embedding: EmbeddingFactory, *args, **kwargs):
         if vectordb_type in ['chroma', 'Chroma', 'CHROMA']:
             self.vectordb = Chroma(ChromaOptions.persist_dir, ChromaOptions.collection_name)
         elif vectordb_type in ['pinecone', 'Pinecone', 'PineCone', 'PINECONE']:
@@ -21,7 +21,7 @@ class VectorDBRetrieval(BaseRetrieval):
                                      PineconeOptions.dimension)
         else:
             raise ValueError(f"Unknown db type: {vectordb_type}")
-        self.embedding = embedding.embedding()
+        self.embedding = embedding.get()
 
     def ingest(self, passages: List[Passage]):
         embeds = self.embedding.embed_documents([passage.content for passage in passages])

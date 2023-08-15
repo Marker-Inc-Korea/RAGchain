@@ -1,6 +1,7 @@
 from enum import Enum
 from dotenv import load_dotenv
 import os
+from KoPrivateGPT.pipeline.selector import text_modifier
 
 
 class EmbeddingType(Enum):
@@ -9,29 +10,27 @@ class EmbeddingType(Enum):
     KO_SROBERTA_MULTITASK = 'ko-sroberta-multitask'
 
 
-class Embedding:
+class EmbeddingFactory:
     def __init__(self, embed_type: str, device_type: str = 'cuda'):
         load_dotenv()
-        if embed_type in ['OpenAI', 'openai', 'OPENAI', 'Openai']:
+        if embed_type in text_modifier('openai'):
             self.embed_type = EmbeddingType.OPENAI
 
-        elif embed_type in ['KoSimCSE', 'kosimcse', 'KOSIMCSE', 'Kosimcse']:
+        elif embed_type in text_modifier('kosimcse'):
             self.embed_type = EmbeddingType.KOSIMCSE
-        elif embed_type in ['ko-sroberta-multitask', 'ko_sroberta_multitask', 'KO_SROBERTA_MULTITASK',
-                            'Ko_sroberta_multitask']:
+        elif embed_type in text_modifier('ko_sroberta_multitask'):
             self.embed_type = EmbeddingType.KO_SROBERTA_MULTITASK
         else:
             raise ValueError(f"Unknown embedding type: {embed_type}")
 
-        if device_type in ['cpu', 'CPU']:
+        if device_type in text_modifier('cpu'):
             self.device_type = 'cpu'
         elif device_type in ['mps', 'MPS']:
             self.device_type = 'mps'
         else:
             self.device_type = 'cuda'
 
-    def embedding(self):
-
+    def get(self):
         if self.embed_type == EmbeddingType.OPENAI:
             openai_token = os.getenv("OPENAI_API_KEY")
             if openai_token is None:
