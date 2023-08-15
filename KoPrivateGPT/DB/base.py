@@ -3,6 +3,8 @@ from typing import List, Union, Any
 from KoPrivateGPT.schema import Passage
 from uuid import UUID
 
+from KoPrivateGPT.schema.db_path import DBPath
+
 
 class BaseDB(ABC):
     @property
@@ -32,4 +34,8 @@ class BaseDB(ABC):
 
     @abstractmethod
     def search(self, filter: Any) -> List[Passage]:
+        pass
+
+    @abstractmethod
+    def get_db_path(self) -> DBPath:
         pass

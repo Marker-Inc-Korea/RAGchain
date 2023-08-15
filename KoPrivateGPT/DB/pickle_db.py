@@ -5,6 +5,7 @@ from KoPrivateGPT.schema import Passage
 import os
 import pickle
 
+from KoPrivateGPT.schema.db_path import DBPath
 from KoPrivateGPT.utils import FileChecker
 
 
@@ -51,3 +52,6 @@ class PickleDB(BaseDB):
     def _write_pickle(self):
         with open(self.save_path, 'wb') as w:
             pickle.dump(self.db, w)
+
+    def get_db_path(self) -> DBPath:
+        return DBPath(db_type=self.db_type, db_path={'save_path': self.save_path})
