@@ -10,9 +10,26 @@ from KoPrivateGPT.schema import Passage
 from KoPrivateGPT.schema import PipelineConfigAlias
 from KoPrivateGPT.utils import slice_stop_words
 from KoPrivateGPT.utils.embed import EmbeddingFactory
+from KoPrivateGPT.utils.file_cache import FileCache
 
 
 class BasicIngestPipeline(BasePipeline):
+    """
+    Class representing a basic ingest pipeline.
+
+    This class handles the ingestion process of documents into a database and retrieval system.
+
+    Attributes:
+        file_loader_type (PipelineConfigAlias): The type and configuration of the file loader module.
+        text_splitter_type (PipelineConfigAlias): The type and configuration of the text splitter module.
+        db_type (PipelineConfigAlias): The type and configuration of the database module.
+        retrieval_type (PipelineConfigAlias): The type and configuration of the retrieval module.
+        ignore_existed_file (bool): A flag indicating whether to ignore already ingested files.
+
+    Methods:
+        run: Runs the pipeline to ingest documents.
+
+    """
     def __init__(self, file_loader_type: PipelineConfigAlias = ("file_loader", {"target_dir": Options.source_dir}),
                  text_splitter_type: PipelineConfigAlias = ("recursive_text_splitter", {"chunk_size": 500,
                                                                                         "chunk_overlap": 50}),
@@ -22,11 +39,13 @@ class BasicIngestPipeline(BasePipeline):
                  retrieval_type: PipelineConfigAlias = ("vector_db",
                                                         {"vectordb_type": "chroma",
                                                          "embedding": EmbeddingFactory(embed_type="openai",
-                                                                                       device_type="cuda").get()})):
+                                                                                       device_type="cuda").get()}),
+                 ignore_existed_file: bool = True):
         self.file_loader_type = file_loader_type
         self.text_splitter_type = text_splitter_type
         self.db_type = db_type
         self.retrieval_type = retrieval_type
+        self.ignore_existed_file = ignore_existed_file
         load_dotenv(verbose=False)
 
     def run(self, target_dir=None, *args, **kwargs):
@@ -36,7 +55,15 @@ class BasicIngestPipeline(BasePipeline):
         else:
             file_loader = ModuleSelector("file_loader").select(self.file_loader_type[0]).get(**self.file_loader_type[1])
         documents = file_loader.load()
+
+        db = ModuleSelector("db").select(self.db_type[0]).get(**self.db_type[1])
+
+        if self.ignore_existed_file:
+            file_cache = FileCache(db)
+            documents = file_cache.delete_duplicate(documents)
+
         if len(documents) <= 0:
+            print("No file to ingest")
             return
 
         # Text Splitter
@@ -47,7 +74,6 @@ class BasicIngestPipeline(BasePipeline):
         print(f"Split into {len(passages)} passages")
 
         # Save passages to DB
-        db = ModuleSelector("db").select(self.db_type[0]).get(**self.db_type[1])
         db.create_or_load()
         db.save(passages)
 
