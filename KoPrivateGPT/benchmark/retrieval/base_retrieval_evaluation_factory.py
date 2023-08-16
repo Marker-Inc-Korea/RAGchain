@@ -7,11 +7,18 @@ from operator import itemgetter
 
 
 class BaseRetrievalEvaluationFactory(ABC):
+    def __init__(self):
+        self._metric_name = None
+
+    @property
+    def metric_name(self):
+        return str(self._metric_name)
 
     def eval(self, solution: Dict[str, int],
              pred: Dict[str, float],
              k: int) -> float:
         assert k > 0, "k must be greater than 0"
+        assert len(pred) >= k, "k must be less than or equal to the number of predictions"
         metric = self.retrieval_metric_function(solution, pred, k)
 
         return metric
@@ -24,6 +31,9 @@ class BaseRetrievalEvaluationFactory(ABC):
 
 
 class APFactory(BaseRetrievalEvaluationFactory):
+    def __init__(self):
+        self._metric_name = "AP"
+
     def retrieval_metric_function(self, solution: Dict[str, int],
                                   pred: Dict[str, float],
                                   k_value: int = 1) -> float:
@@ -45,6 +55,9 @@ class APFactory(BaseRetrievalEvaluationFactory):
 
 
 class NDCGFactory(BaseRetrievalEvaluationFactory):
+    def __init__(self):
+        self._metric_name = "NDCG"
+
     def retrieval_metric_function(self, solution: Dict[str, int],
                                   pred: Dict[str, float],
                                   k_value: int = 1) -> float:
@@ -65,6 +78,9 @@ class NDCGFactory(BaseRetrievalEvaluationFactory):
 
 
 class CGFactory(BaseRetrievalEvaluationFactory):
+    def __init__(self):
+        self._metric_name = "CG"
+
     def retrieval_metric_function(self, solution: Dict[str, int],
                                   pred: Dict[str, float],
                                   k_value: int = 1) -> float:
@@ -81,6 +97,9 @@ class CGFactory(BaseRetrievalEvaluationFactory):
 
 
 class IndDCGFactory(BaseRetrievalEvaluationFactory):
+    def __init__(self):
+        self._metric_name = "Ind_DCG"
+
     def retrieval_metric_function(self, solution: Dict[str, int],
                                   pred: Dict[str, float],
                                   k_value: int = 1) -> float:
@@ -98,6 +117,9 @@ class IndDCGFactory(BaseRetrievalEvaluationFactory):
 
 
 class DCGFactory(BaseRetrievalEvaluationFactory):
+    def __init__(self):
+        self._metric_name = "DCG"
+
     def retrieval_metric_function(self, solution: Dict[str, int],
                                   pred: Dict[str, float],
                                   k_value: int = 1) -> float:
@@ -115,6 +137,9 @@ class DCGFactory(BaseRetrievalEvaluationFactory):
 
 
 class IndIDCGFactory(BaseRetrievalEvaluationFactory):
+    def __init__(self):
+        self._metric_name = "Ind_IDCG"
+
     def retrieval_metric_function(self, solution: Dict[str, int],
                                   pred: Dict[str, float],
                                   k_value: int = 1) -> float:
@@ -132,6 +157,8 @@ class IndIDCGFactory(BaseRetrievalEvaluationFactory):
 
 
 class IDCGFactory(BaseRetrievalEvaluationFactory):
+    def __init__(self):
+        self._metric_name = "IDCG"
     def retrieval_metric_function(self, solution: Dict[str, int],
                                   pred: Dict[str, float],
                                   k_value: int = 1) -> float:
@@ -148,6 +175,9 @@ class IDCGFactory(BaseRetrievalEvaluationFactory):
 
 
 class RecallFactory(BaseRetrievalEvaluationFactory):
+    def __init__(self):
+        self._metric_name = "Recall"
+
     def retrieval_metric_function(self, solution: Dict[str, int],
                                   pred: Dict[str, float],
                                   k_value: int = 1) -> float:
@@ -159,13 +189,15 @@ class RecallFactory(BaseRetrievalEvaluationFactory):
 
         relevant_retrieved_docs = [doc_id for doc_id in top_hits if doc_id in query_relevant_docs]
 
-        assert len(query_relevant_docs) > 0, "pred must have at least one document"
         recall += len(relevant_retrieved_docs) / len(query_relevant_docs)
 
         return recall
 
 
 class PrecisionFactory(BaseRetrievalEvaluationFactory):
+    def __init__(self):
+        self._metric_name = "Precision"
+
     def retrieval_metric_function(self, solution: Dict[str, int],
                                   pred: Dict[str, float],
                                   k_value: int = 1) -> float:
@@ -183,6 +215,9 @@ class PrecisionFactory(BaseRetrievalEvaluationFactory):
 
 
 class RRFactory(BaseRetrievalEvaluationFactory):
+    def __init__(self):
+        self._metric_name = "RR"
+
     def retrieval_metric_function(self, solution: Dict[str, int],
                                   pred: Dict[str, float],
                                   k_value: int = 1) -> float:
@@ -205,6 +240,9 @@ class RRFactory(BaseRetrievalEvaluationFactory):
 
 
 class HoleFactory(BaseRetrievalEvaluationFactory):
+    def __init__(self):
+        self._metric_name = "Hole"
+
     def retrieval_metric_function(self, solution: Dict[str, int],
                                   pred: Dict[str, float],
                                   k_value: int = 1) -> float:
@@ -221,6 +259,8 @@ class HoleFactory(BaseRetrievalEvaluationFactory):
 
 
 class TopKAccuracyFactory(BaseRetrievalEvaluationFactory):
+    def __init__(self):
+        self._metric_name = "TopK_Accuracy"
     def retrieval_metric_function(self, solution: Dict[str, int],
                                   pred: Dict[str, float],
                                   k_value: int = 1) -> float:

@@ -35,7 +35,8 @@ def retrieval_evaluation_master(qrels: Dict[str, Dict[str, int]],
 def main(pred, sol):
     if not pred.endswith('.json'):
         raise ValueError('prediction file must be json file.')
-
+    if not sol.endswith('.json'):
+        raise ValueError('solution file must be json file.')
     with open(pred, 'r') as f:
         prediction = json.load(f)
     with open(sol, 'r') as f:
