@@ -1,4 +1,4 @@
-from typing import List, Any
+from typing import List, Any, Dict
 
 import pymongo
 from bson import Binary, UuidRepresentation
@@ -53,8 +53,14 @@ class MongoDB(BaseDB):
             passage_list.append(passage)
         return passage_list
 
-    def search(self, filter: Any) -> List[Passage]:
-        raise NotImplementedError("MongoDB does not support search method")
+    def search(self, filter_dict: Dict[str, Any]) -> List[Passage]:
+        """
+        With this function, you can use mongoDB's find function.
+        :params filter_dict: dict, query dict for mongoDB's find function.
+        :return: List[Passage], list of Passage extract from the result of filter_dict query to MongoDB.
+        """
+        cursor = self.collection.find(filter_dict)
+        return [Passage(**passage) for passage in cursor]
 
     def set_db(self):
         self.client = pymongo.MongoClient(self.mongo_url, uuidRepresentation='standard')

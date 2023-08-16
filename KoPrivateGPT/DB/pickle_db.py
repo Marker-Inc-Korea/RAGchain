@@ -12,7 +12,7 @@ class PickleDB(BaseDB):
     def __init__(self, save_path: str, *args, **kwargs):
         FileChecker(save_path).check_type(file_types=['.pickle', '.pkl'])
         self.save_path = save_path
-        self.db = list()
+        self.db: List[Passage] = list()
 
     @property
     def db_type(self) -> str:
@@ -45,8 +45,26 @@ class PickleDB(BaseDB):
         result = list(filter(lambda x: x.id in ids, self.db))
         return result
 
-    def search(self, filter: Dict[str, str]) -> List[Passage]:
-        raise NotImplementedError("PickleDB does not support search method")
+    def search(self, filter_dict: Dict[str, Any]) -> List[Passage]:
+        """
+        This function is an implicit AND operation,
+        which is return Passage that matches all values to corresponding keys in filter_dict.
+        When the match value is not exist, return empty list.
+        """
+
+        def is_default_elem(filter_key: str) -> bool:
+            return filter_key in ['content', 'filepath']
+
+        result = list(
+            filter(
+                lambda x: all(
+                    getattr(x, key) == value if is_default_elem(key) else x.metadata_etc.get(key) == value
+                    for key, value in filter_dict.items()
+                ),
+                self.db
+            )
+        )
+        return result
 
     def _write_pickle(self):
         with open(self.save_path, 'wb') as w:
