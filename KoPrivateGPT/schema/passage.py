@@ -33,3 +33,11 @@ class Passage(Serializable):
             "next_passage_id": self.next_passage_id,
             "metadata_etc": self.metadata_etc
         }
+
+    def __eq__(self, other):
+        if isinstance(other, Passage):
+            return self.id == other.id
+        return False
+
+    def __hash__(self):
+        return hash(self.id)

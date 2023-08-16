@@ -1,4 +1,4 @@
-from typing import List, Any
+from typing import List, Any, Dict
 
 import pymongo
 from bson import Binary, UuidRepresentation
@@ -53,7 +53,7 @@ class MongoDB(BaseDB):
             passage_list.append(passage)
         return passage_list
 
-    def search(self, filter: Any) -> List[Passage]:
+    def search(self, filter_dict: Dict[str, Any]) -> List[Passage]:
         raise NotImplementedError("MongoDB does not support search method")
 
     def set_db(self):
