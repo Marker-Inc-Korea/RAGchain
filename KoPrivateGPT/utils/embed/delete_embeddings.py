@@ -1,7 +1,12 @@
+"""
+Warnings! This file is deprecated.
+We will add proper way to delete retrieval embeddings, DB contents, linker files, etc.
+TODO : Add proper way to delete retrieval embeddings, DB contents, linker files, etc. - Feature/#118
+"""
+
 import shutil
 import pinecone
 import os
-from KoPrivateGPT.utils.embed import EmbeddedFilesCache
 from KoPrivateGPT.options import ChromaOptions, PineconeOptions, Options
 import click
 from KoPrivateGPT.utils.util import FileChecker
@@ -18,7 +23,6 @@ def main(db_type, retriever_type):
 
 
 def delete_embeddings_vectordb(db_type):
-    EmbeddedFilesCache.delete_files()
     if db_type in ['chroma', 'Chroma', 'CHROMA']:
         shutil.rmtree(str(ChromaOptions.persist_dir))
     elif db_type in ['pinecone', 'Pinecone', 'PineCone', 'PINECONE']:
@@ -33,7 +37,6 @@ def delete_sparse_retrieval_index(save_path: str):
         print(f'Could not find sparse retrieval index: {save_path}')
         return
     os.remove(save_path)
-    EmbeddedFilesCache.delete_files()
     print(f"Deleted sparse retrieval index: {save_path}")
 
 
