@@ -1,7 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List, Dict, Union, Tuple
-import pytrec_eval
-import json
+from typing import Dict
 import math
 from operator import itemgetter
 
