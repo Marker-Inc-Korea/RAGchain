@@ -27,7 +27,7 @@ def basic_retrieval_evaluation(qrels: Dict[str, Dict[str, int]],
         for convert_key in Key_dict.keys():
             if convert_key in score_dict.keys():
                 score_dict[Key_dict[convert_key]] = score_dict.pop(convert_key)
-    mean_scores = {key: sum(value) / len(value) for key, value in score_dict.items()}
+    mean_scores = {key: round(sum(value) / len(value), 5) for key, value in score_dict.items()}
     return mean_scores
 
 def stretagyqa_retrieval_evaluation(qrels: Dict[str, Dict[str, int]],
@@ -46,12 +46,12 @@ def stretagyqa_retrieval_evaluation(qrels: Dict[str, Dict[str, int]],
     for k in k_values:
         score_dict = score_dict | strategyQA(qrels, results, metrics_factories, k)
 
-    mean_scores = {key: sum(value) / len(value) for key, value in score_dict.items()}
+    mean_scores = {key: round(sum(value) / len(value), 5) for key, value in score_dict.items()}
     return mean_scores
 
 def strategyQA(solution: dict, pred: dict, metrics_factories: list, k: int) -> dict:
     '''
-    k shuld be smaller than the number of paragraphs in the prediction
+    k should be smaller than the number of paragraphs in the prediction
     '''
     final_score = {f'{metric_factory().metric_name}@{str(k)}': list() for metric_factory in metrics_factories}
     for key in solution.keys():
@@ -69,9 +69,9 @@ def strategyQA(solution: dict, pred: dict, metrics_factories: list, k: int) -> d
                     for evidence_id in x
                 )
             )
-        score_per_annotator = list()
 
         for metric_factory in metrics_factories:
+            score_per_annotator = list()
             for evidence in evidence_per_annotator:
                 metric = metric_factory()
                 score = metric.eval(solution={key: 1 for key in evidence},
@@ -93,7 +93,6 @@ def strategyQA(solution: dict, pred: dict, metrics_factories: list, k: int) -> d
 @click.command()
 @click.option('--pred', type=click.Path(exists=True), help='prediction file')
 @click.option('--sol', type=click.Path(exists=True), help='solution file')
-@click.option('--dataset', type=click.Path(exists=True), help='solution file')
 def main(pred, sol):
     if not pred.endswith('.json'):
         raise ValueError('prediction file must be json file.')
