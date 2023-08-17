@@ -1,4 +1,4 @@
-from metrics import RecallFactory, RRFactory, PrecisionFactory, NDCGFactory, DCGFactory, HoleFactory, TopKAccuracyFactory, IDCGFactory, IndDCGFactory, IndIDCGFactory, APFactory, CGFactory
+from metrics import RecallFactory, RRFactory, PrecisionFactory, NDCGFactory, DCGFactory, HoleFactory, TopKAccuracyFactory, IDCGFactory, IndDCGFactory, IndIDCGFactory, APFactory, CGFactory, ExactlyMatchFactory, F1Factory
 
 from typing import List, Dict
 
@@ -15,7 +15,7 @@ def basic_retrieval_evaluation(qrels: Dict[str, Dict[str, int]],
     results doc_id can be different from the doc_id in the qrels file.
     """
 
-    metrics_factories = [RecallFactory, RRFactory, PrecisionFactory, NDCGFactory, DCGFactory, HoleFactory, TopKAccuracyFactory, IDCGFactory, IndDCGFactory, IndIDCGFactory, APFactory, CGFactory]
+    metrics_factories = [RecallFactory, RRFactory, PrecisionFactory, NDCGFactory, DCGFactory, HoleFactory, TopKAccuracyFactory, IDCGFactory, IndDCGFactory, IndIDCGFactory, APFactory, CGFactory, ExactlyMatchFactory, F1Factory]
 
     score_dict = dict()
     for k in k_values:
