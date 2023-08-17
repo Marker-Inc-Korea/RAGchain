@@ -4,7 +4,7 @@ import math
 from operator import itemgetter
 
 
-class BaseRetrievalEvaluationFactory(ABC):
+class BaseRetrievalMetricFactory(ABC):
     def __init__(self):
         self._metric_name = None
 
@@ -28,7 +28,7 @@ class BaseRetrievalEvaluationFactory(ABC):
         pass
 
 
-class APFactory(BaseRetrievalEvaluationFactory):
+class APFactory(BaseRetrievalMetricFactory):
     def __init__(self):
         self._metric_name = "AP"
 
@@ -52,7 +52,7 @@ class APFactory(BaseRetrievalEvaluationFactory):
         return ap
 
 
-class NDCGFactory(BaseRetrievalEvaluationFactory):
+class NDCGFactory(BaseRetrievalMetricFactory):
     def __init__(self):
         self._metric_name = "NDCG"
 
@@ -75,7 +75,7 @@ class NDCGFactory(BaseRetrievalEvaluationFactory):
         return ndcg
 
 
-class CGFactory(BaseRetrievalEvaluationFactory):
+class CGFactory(BaseRetrievalMetricFactory):
     def __init__(self):
         self._metric_name = "CG"
 
@@ -94,7 +94,7 @@ class CGFactory(BaseRetrievalEvaluationFactory):
         return cg
 
 
-class IndDCGFactory(BaseRetrievalEvaluationFactory):
+class IndDCGFactory(BaseRetrievalMetricFactory):
     def __init__(self):
         self._metric_name = "Ind_DCG"
 
@@ -114,7 +114,7 @@ class IndDCGFactory(BaseRetrievalEvaluationFactory):
         return dcg_ind
 
 
-class DCGFactory(BaseRetrievalEvaluationFactory):
+class DCGFactory(BaseRetrievalMetricFactory):
     def __init__(self):
         self._metric_name = "DCG"
 
@@ -134,7 +134,7 @@ class DCGFactory(BaseRetrievalEvaluationFactory):
         return dcg
 
 
-class IndIDCGFactory(BaseRetrievalEvaluationFactory):
+class IndIDCGFactory(BaseRetrievalMetricFactory):
     def __init__(self):
         self._metric_name = "Ind_IDCG"
 
@@ -154,7 +154,7 @@ class IndIDCGFactory(BaseRetrievalEvaluationFactory):
         return idcg_ind
 
 
-class IDCGFactory(BaseRetrievalEvaluationFactory):
+class IDCGFactory(BaseRetrievalMetricFactory):
     def __init__(self):
         self._metric_name = "IDCG"
     def retrieval_metric_function(self, solution: Dict[str, int],
@@ -172,7 +172,7 @@ class IDCGFactory(BaseRetrievalEvaluationFactory):
         return idcg
 
 
-class RecallFactory(BaseRetrievalEvaluationFactory):
+class RecallFactory(BaseRetrievalMetricFactory):
     def __init__(self):
         self._metric_name = "Recall"
 
@@ -192,7 +192,7 @@ class RecallFactory(BaseRetrievalEvaluationFactory):
         return recall
 
 
-class PrecisionFactory(BaseRetrievalEvaluationFactory):
+class PrecisionFactory(BaseRetrievalMetricFactory):
     def __init__(self):
         self._metric_name = "Precision"
 
@@ -212,7 +212,7 @@ class PrecisionFactory(BaseRetrievalEvaluationFactory):
         return precision
 
 
-class RRFactory(BaseRetrievalEvaluationFactory):
+class RRFactory(BaseRetrievalMetricFactory):
     def __init__(self):
         self._metric_name = "RR"
 
@@ -237,7 +237,7 @@ class RRFactory(BaseRetrievalEvaluationFactory):
         return rr
 
 
-class HoleFactory(BaseRetrievalEvaluationFactory):
+class HoleFactory(BaseRetrievalMetricFactory):
     def __init__(self):
         self._metric_name = "Hole"
 
@@ -256,7 +256,7 @@ class HoleFactory(BaseRetrievalEvaluationFactory):
         return hole
 
 
-class TopKAccuracyFactory(BaseRetrievalEvaluationFactory):
+class TopKAccuracyFactory(BaseRetrievalMetricFactory):
     def __init__(self):
         self._metric_name = "TopK_Accuracy"
     def retrieval_metric_function(self, solution: Dict[str, int],
