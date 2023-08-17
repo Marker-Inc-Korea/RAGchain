@@ -53,6 +53,7 @@ class EmbeddingFactory:
                     "Could not import HuggingFaceEmbeddings library. Please install HuggingFace library."
                     "pip install sentence_transformers"
                 )
+            os.environ['TOKENIZERS_PARALLELISM'] = 'true'
             return HuggingFaceEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
                                          model_kwargs={"device": self.device_type})
         elif self.embed_type == EmbeddingType.KO_SROBERTA_MULTITASK:
@@ -63,6 +64,7 @@ class EmbeddingFactory:
                     "Could not import HuggingFaceEmbeddings library. Please install HuggingFace library."
                     "pip install sentence_transformers"
                 )
+            os.environ['TOKENIZERS_PARALLELISM'] = 'true'
             return HuggingFaceEmbeddings(model_name="jhgan/ko-sroberta-multitask",
                                          model_kwargs={"device": self.device_type})
         else:
