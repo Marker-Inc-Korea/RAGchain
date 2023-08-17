@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict, Any
 
 from dotenv import load_dotenv
 
@@ -7,7 +7,6 @@ from KoPrivateGPT.options.config import MongoDBOptions
 from KoPrivateGPT.pipeline.base import BasePipeline
 from KoPrivateGPT.pipeline.selector import ModuleSelector
 from KoPrivateGPT.schema import Passage
-from KoPrivateGPT.schema import PipelineConfigAlias
 from KoPrivateGPT.utils import slice_stop_words
 from KoPrivateGPT.utils.embed import EmbeddingFactory
 from KoPrivateGPT.utils.file_cache import FileCache
@@ -20,26 +19,28 @@ class BasicIngestPipeline(BasePipeline):
     This class handles the ingestion process of documents into a database and retrieval system.
 
     Attributes:
-        file_loader_type (PipelineConfigAlias): The type and configuration of the file loader module.
-        text_splitter_type (PipelineConfigAlias): The type and configuration of the text splitter module.
-        db_type (PipelineConfigAlias): The type and configuration of the database module.
-        retrieval_type (PipelineConfigAlias): The type and configuration of the retrieval module.
+        file_loader_type (tuple[str, Dict[str, Any]]): The type and configuration of the file loader module.
+        text_splitter_type (tuple[str, Dict[str, Any]]): The type and configuration of the text splitter module.
+        db_type (tuple[str, Dict[str, Any]]): The type and configuration of the database module.
+        retrieval_type (tuple[str, Dict[str, Any]]): The type and configuration of the retrieval module.
         ignore_existed_file (bool): A flag indicating whether to ignore already ingested files.
 
     Methods:
         run: Runs the pipeline to ingest documents.
 
     """
-    def __init__(self, file_loader_type: PipelineConfigAlias = ("file_loader", {"target_dir": Options.source_dir}),
-                 text_splitter_type: PipelineConfigAlias = ("recursive_text_splitter", {"chunk_size": 500,
-                                                                                        "chunk_overlap": 50}),
-                 db_type: PipelineConfigAlias = ("mongo_db", {"mongo_url": MongoDBOptions.mongo_url,
-                                                              "db_name": MongoDBOptions.db_name,
-                                                              "collection_name": MongoDBOptions.collection_name}),
-                 retrieval_type: PipelineConfigAlias = ("vector_db",
-                                                        {"vectordb_type": "chroma",
-                                                         "embedding": EmbeddingFactory(embed_type="openai",
-                                                                                       device_type="cuda").get()}),
+
+    def __init__(self,
+                 file_loader_type: tuple[str, Dict[str, Any]] = ("file_loader", {"target_dir": Options.source_dir}),
+                 text_splitter_type: tuple[str, Dict[str, Any]] = ("recursive_text_splitter", {"chunk_size": 500,
+                                                                                               "chunk_overlap": 50}),
+                 db_type: tuple[str, Dict[str, Any]] = ("mongo_db", {"mongo_url": MongoDBOptions.mongo_url,
+                                                                     "db_name": MongoDBOptions.db_name,
+                                                                     "collection_name": MongoDBOptions.collection_name}),
+                 retrieval_type: tuple[str, Dict[str, Any]] = ("vector_db",
+                                                               {"vectordb_type": "chroma",
+                                                                "embedding": EmbeddingFactory(embed_type="openai",
+                                                                                              device_type="cuda").get()}),
                  ignore_existed_file: bool = True):
         self.file_loader_type = file_loader_type
         self.text_splitter_type = text_splitter_type
@@ -85,7 +86,7 @@ class BasicIngestPipeline(BasePipeline):
 
 
 class BasicDatasetPipeline(BasePipeline):
-    def __init__(self, file_loader_type: PipelineConfigAlias, retrieval_type: PipelineConfigAlias):
+    def __init__(self, file_loader_type: tuple[str, Dict[str, Any]], retrieval_type: tuple[str, Dict[str, Any]]):
         self.file_loader_type = file_loader_type
         self.retrieval_type = retrieval_type
         load_dotenv(verbose=False)
@@ -106,15 +107,15 @@ class BasicDatasetPipeline(BasePipeline):
 
 
 class BasicRunPipeline(BasePipeline):
-    def __init__(self, db_type: PipelineConfigAlias = ("mongo_db", {"mongo_url": MongoDBOptions.mongo_url,
-                                                                    "db_name": MongoDBOptions.db_name,
-                                                                    "collection_name": MongoDBOptions.collection_name}),
-                 retrieval_type: PipelineConfigAlias = ("vector_db",
-                                                        {"vectordb_type": "chroma",
-                                                         "embedding": EmbeddingFactory(embed_type="openai",
-                                                                                       device_type="cuda").get()}),
-                 llm_type: PipelineConfigAlias = ("basic_llm", {"model_name": "gpt-3.5-turbo",
-                                                                "api_base": None})):
+    def __init__(self, db_type: tuple[str, Dict[str, Any]] = ("mongo_db", {"mongo_url": MongoDBOptions.mongo_url,
+                                                                           "db_name": MongoDBOptions.db_name,
+                                                                           "collection_name": MongoDBOptions.collection_name}),
+                 retrieval_type: tuple[str, Dict[str, Any]] = ("vector_db",
+                                                               {"vectordb_type": "chroma",
+                                                                "embedding": EmbeddingFactory(embed_type="openai",
+                                                                                              device_type="cuda").get()}),
+                 llm_type: tuple[str, Dict[str, Any]] = ("basic_llm", {"model_name": "gpt-3.5-turbo",
+                                                                       "api_base": None})):
         load_dotenv()
         self.db_type = db_type
         self.retrieval_type = retrieval_type
