@@ -36,7 +36,8 @@ def make_answer(text):
     answer, passages = answer_pipeline.run(text)
     answer = slice_stop_words(answer, STOP_WORDS)
     document_source = ",\n".join([doc.filepath.split("/")[-1] for doc in passages])
-    return answer, document_source
+    content = "\n-------------------------------------------------\n".join([doc.content for doc in passages])
+    return answer, document_source, content
 
 
 with gr.Blocks(analytics_enabled=False) as demo:
@@ -68,6 +69,8 @@ with gr.Blocks(analytics_enabled=False) as demo:
     ingest_button.click(ingest, inputs=[upload_files], outputs=[ingest_status])
 
     document_sources = gr.Textbox(label="참조한 문서", placeholder="참조한 문서를 출력합니다.", interactive=False)
-    question_btn.click(make_answer, inputs=[query], outputs=[answer_result, document_sources])
+    contents = gr.Textbox(label="참조한 문서 내용", placeholder="참조한 문서 내용을 출력합니다.", interactive=False)
+    question_btn.click(make_answer, inputs=[query], outputs=[answer_result, document_sources, contents])
+
 
 demo.launch(share=False, debug=True, server_name="0.0.0.0")
