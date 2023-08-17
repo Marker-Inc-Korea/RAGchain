@@ -14,7 +14,7 @@ STOP_WORDS = ["#", "답변:", "응답:", "맥락:", "?"]
 
 DEVICE = "mps"
 MODEL_NAME = "gpt-3.5-turbo"
-EMBEDDING_TYPE = "OpenAI"
+EMBEDDING_TYPE = "openai"
 DB_TYPE = "chroma"
 embeddings = EmbeddingFactory(embed_type=EMBEDDING_TYPE, device_type=DEVICE).get()
 
