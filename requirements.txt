@@ -27,6 +27,9 @@ pandas~=2.0.3
 pyarrow
 fastparquet
 pydantic~=1.10.12
+pytest
+freezegun
+PyYAML
 
 gradio~=3.39.0
 tqdm~=4.65.0
