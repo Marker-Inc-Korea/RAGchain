@@ -72,9 +72,9 @@ docker network connect docs-convert-api-net KoPrivateGPT
 docker network connect docs-convert-api-net hwp-converter
 ```
 ### ingest.py
-`KoPrivateGPT/ingest.py`로 이동하여 http request 주소를 확인합니다.
+`KoPrivateGPT/KoPrivateGPT/options/config.py`로 이동하여 http request 주소를 확인합니다.
 ```python
-# ingest.py line 13-14
+# KoPrivateGPT/KoPrivateGPT/options/config.py line 12-13
 HwpConvertOpt = 'all'# 'main-only'
 HwpConvertHost = f'http://hwp-converter:7000/upload?option={HwpConvertOpt}'
 ```
