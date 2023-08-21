@@ -53,15 +53,20 @@ def setting(device, embed, db, retrieval):
         answer_pipeline = BasicRunPipeline(retrieval_type=chroma,
                                            llm_type=("basic_llm", {"model_name": MODEL_NAME, "api_base": None}))
         pre_retrieval = chroma
-    else:
+    elif retrieval == "vector_db-pinecone":
         answer_pipeline = BasicRunPipeline(retrieval_type=pinecone)
+        pre_retrieval = pinecone
+    else:
+        raise ValueError("retrieval type is not valid")
 
     if db == "pickle_db":
         ingest_pipeline = BasicIngestPipeline(file_loader_type=("file_loader", {}), db_type=pickle,
                                               retrieval_type=pre_retrieval)
-    else:
+    elif db == "mongo_db":
         ingest_pipeline = BasicIngestPipeline(file_loader_type=("file_loader", {}), db_type=mongo,
                                               retrieval_type=pre_retrieval)
+    else:
+        raise ValueError("db type is not valid")
 
     return 'setting done'
 
@@ -95,7 +100,7 @@ with gr.Blocks(analytics_enabled=False) as demo:
         with gr.Column(scale=2):
             db_type = gr.Dropdown(
                 label="DB Type",
-                choices=["pickle", "mongodb"],
+                choices=["pickle_db", "mongo_db"],
                 info="DB 타입을 설정하세요",
                 interactive=True
             )
