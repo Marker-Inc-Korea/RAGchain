@@ -273,3 +273,46 @@ class TopKAccuracyFactory(BaseRetrievalMetricFactory):
                 break
 
         return top_k_acc
+
+
+class ExactlyMatchFactory(BaseRetrievalMetricFactory):
+    def __init__(self):
+        self._metric_name = "EM"
+    def retrieval_metric_function(self, solution: Dict[str, int],
+                                  pred: Dict[str, float],
+                                  k_value: int = 1) -> float:
+        EM = 0.0
+
+        top_hits = [item[0] for item in sorted(pred.items(), key=lambda item: item[1], reverse=True)[:k_value]]
+
+        query_relevant_docs = set([doc_id for doc_id in solution if solution[doc_id] > 0])
+        if set(solution.keys()) == set(pred.keys())
+                EM += 1.0
+
+        return EM
+
+
+class F1Factory(BaseRetrievalMetricFactory):
+    def __init__(self):
+        self._metric_name = "F1_score"
+
+    def retrieval_metric_function(self, solution: Dict[str, int],
+                                  pred: Dict[str, float],
+                                  k_value: int = 1) -> float:
+        recall = 0.0
+        precision = 0.0
+        f1 = 0.0
+
+        top_hits = [item[0] for item in sorted(pred.items(), key=lambda item: item[1], reverse=True)[:k_value]]
+
+        query_relevant_docs = set([doc_id for doc_id in solution if solution[doc_id] > 0])
+
+        relevant_retrieved_docs = [doc_id for doc_id in top_hits if doc_id in query_relevant_docs]
+
+        recall += len(relevant_retrieved_docs) / len(query_relevant_docs)
+
+        precision += len(relevant_retrieved_docs) / len(top_hits) if len(top_hits) > 0 else 0
+
+        f1 += 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
+
+        return f1
