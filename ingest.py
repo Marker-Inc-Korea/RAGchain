@@ -1,9 +1,9 @@
 import click
 
-from KoPrivateGPT.options import Options
+from KoPrivateGPT.options import Options, PickleDBOptions
 from KoPrivateGPT.options.config import MongoDBOptions
 from KoPrivateGPT.pipeline import BasicIngestPipeline
-from KoPrivateGPT.utils.embed import Embedding
+from KoPrivateGPT.utils.embed import EmbeddingFactory
 
 
 @click.command()
@@ -12,13 +12,22 @@ from KoPrivateGPT.utils.embed import Embedding
 @click.option('--embedding_type', default='ko-sroberta-multitask',
               help='embedding model to use, select OpenAI or KoSimCSE or ko-sroberta-multitask')
 @click.option('--retrieval_type', default='bm25', help='retrieval type to use, select vectordb or bm25')
-def main(device_type, vectordb_type, embedding_type, retrieval_type: str):
+@click.option('--db_type', default='mongo_db', help='db type to use, select pickle_db or mongo_db')
+def main(device_type, vectordb_type, embedding_type, retrieval_type: str, db_type: str):
     pipeline = BasicIngestPipeline(
-        retrieval_type=(retrieval_type, {"save_path": Options.bm25_db_dir,
-                                         "vectordb_type": vectordb_type,
-                                         "embedding_type": Embedding(embed_type=embedding_type,
-                                                                     device_type=device_type),
-                                         "device_type": device_type})
+        retrieval_type=(retrieval_type, {
+            "save_path": Options.bm25_db_dir,
+            "vectordb_type": vectordb_type,
+            "embedding_type": EmbeddingFactory(embed_type=embedding_type,
+                                               device_type=device_type).get(),
+            "device_type": device_type
+        }),
+        db_type=(db_type, {
+            'save_path': PickleDBOptions.save_path,
+            "mongo_url": MongoDBOptions.mongo_url,
+            "db_name": MongoDBOptions.db_name,
+            "collection_name": MongoDBOptions.collection_name
+        })
     )
     pipeline.run()
 

@@ -1,6 +1,5 @@
 langchain~=0.0.200
 chromadb==0.4.5
-llama-cpp-python
 urllib3
 pdfminer.six==20221105
 InstructorEmbedding
@@ -16,17 +15,18 @@ openpyxl~=3.1.2
 xformers
 openai
 torch~=2.0.1
-ctransformers
 pinecone-client
 python-dotenv~=1.0.0
 tiktoken
 rank_bm25
-elasticsearch
 numpy~=1.25.1
 pandas~=2.0.3
 pyarrow
 fastparquet
 pydantic~=1.10.12
+pytest
+freezegun
+PyYAML
 
 gradio~=3.39.0
 tqdm~=4.65.0
