@@ -80,13 +80,13 @@ class QueryDecomposition:
         """
         res = self.generate(self.decompose_prompt.format(query))
         if res.lower().strip() == "the question needs no decomposition.":
-            return [query]
+            return []
         try:
             questions = [l for l in res.splitlines() if l != ""]
             questions = [q.split(':')[1].strip() for q in questions]
             return questions
         except:
-            return [query]
+            return []
 
     def generate(self, prompt, max_tokens=250, temperature=0):
         response = openai.Completion.create(

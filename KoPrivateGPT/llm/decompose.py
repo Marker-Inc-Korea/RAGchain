@@ -15,3 +15,29 @@ numpages = {10},
 location = {Dublin, Ireland}
 }
 """
+from typing import List
+
+from KoPrivateGPT.DB.base import BaseDB
+from KoPrivateGPT.llm.base import BaseLLM
+from KoPrivateGPT.llm.basic import BasicLLM
+from KoPrivateGPT.retrieval.base import BaseRetrieval
+from KoPrivateGPT.schema import Passage
+
+
+class DecomposeLLM(BaseLLM):
+    def __init__(self,
+                 retrieval: BaseRetrieval,
+                 db: BaseDB,
+                 model_name: str = "gpt-3.5-turbo",
+                 api_base: str = None,
+                 decompose_model_name: str = "text-davinci-03",
+                 retrieve_size: int = 5,
+                 *args, **kwargs):
+        self.retrieval = retrieval
+        self.db = db
+        self.model_name = model_name
+        self.decompose_model_name = decompose_model_name
+        BasicLLM.set_model(api_base)
+
+    def ask(self, query: str) -> tuple[str, List[Passage]]:
+        pass
