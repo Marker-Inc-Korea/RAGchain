@@ -15,6 +15,7 @@ numpages = {10},
 location = {Dublin, Ireland}
 }
 """
+from collections import OrderedDict
 from copy import deepcopy
 from typing import List
 
@@ -74,6 +75,7 @@ class ViscondeLLM(BaseLLM):
             self.prompt = prompt
         else:
             self.prompt = self.qasper_prompt
+        self.reranker = MonoT5Reranker()
 
     def ask(self, query: str) -> tuple[str, List[Passage]]:
         decompose = QueryDecomposition(model_name=self.decompose_model_name, api_base=self.api_base)
@@ -82,19 +84,20 @@ class ViscondeLLM(BaseLLM):
         if len(decompose_query) <= 0:
             is_decomposed = False
 
-        reranker = MonoT5Reranker()
         passage_list = []
         if is_decomposed:
             # use decomposed query
             for query in decompose_query:
                 hits = self.retrieval.retrieve(query, self.db, top_k=self.retrieve_size)
                 passage_list.extend(hits)
-            passage_list = reranker.rerank(query, passage_list)
+            passage_list = self.reranker.rerank(query, passage_list)
         else:
             hits = self.retrieval.retrieve(query, self.db, top_k=self.retrieve_size)
             passage_list.extend(hits)
 
-        final_passages = passage_list[:self.use_passage_count]
+        # remove duplicate elements while preserving order
+        remove_duplicated = list(OrderedDict.fromkeys(passage_list))
+        final_passages = remove_duplicated[:self.use_passage_count]
         input_prompt = deepcopy(self.prompt)
         for i, passage in enumerate(final_passages):
             input_prompt += f"[Document {i + 1}]: {passage.content}\n\n"
