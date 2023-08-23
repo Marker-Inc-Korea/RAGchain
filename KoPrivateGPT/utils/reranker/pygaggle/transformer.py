@@ -10,8 +10,8 @@ from transformers import (AutoTokenizer,
                           AutoModelForSeq2SeqLM,
                           T5ForConditionalGeneration)
 
-from model import greedy_decode, QueryDocumentBatchTokenizer, QueryDocumentBatch, T5BatchTokenizer
 from .base import Query, Text, Reranker
+from .model import greedy_decode, QueryDocumentBatchTokenizer, QueryDocumentBatch, T5BatchTokenizer
 
 __all__ = ['MonoT5']
 

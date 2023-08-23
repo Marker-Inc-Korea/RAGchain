@@ -4,7 +4,7 @@ from typing import List, Mapping, Union, Optional, Iterable, Tuple
 import torch
 from transformers import PreTrainedTokenizer
 
-from KoPrivateGPT.utils.reranker.pygaggle.base import Query, Text
+from ..base import Query, Text
 
 TokenizerReturnType = Mapping[str, Union[torch.Tensor, List[int],
 List[List[int]],
