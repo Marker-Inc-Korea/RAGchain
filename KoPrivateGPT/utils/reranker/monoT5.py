@@ -3,8 +3,6 @@ from typing import List
 from KoPrivateGPT.schema import Passage
 from KoPrivateGPT.utils.reranker.base import BaseReranker
 
-from pygaggle.rerank.transformer import MonoT5
-
 
 class MonoT5(BaseReranker):
 
