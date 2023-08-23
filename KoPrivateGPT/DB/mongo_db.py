@@ -1,13 +1,14 @@
+import json
 from typing import List, Any, Dict
 
 import pymongo
-from bson import Binary, UuidRepresentation
 
 from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.schema import Passage
 from uuid import UUID
 
-from KoPrivateGPT.schema.db_path import DBOrigin
+from KoPrivateGPT.schema.db_origin import DBOrigin
+from KoPrivateGPT.utils.linker.redisdbSingleton import RedisDBSingleton
 
 
 class MongoDB(BaseDB):
@@ -18,6 +19,7 @@ class MongoDB(BaseDB):
         self.db_name = db_name
         self.collection_name = collection_name
         self.collection = None
+        self.redis_db = RedisDBSingleton()
 
     @property
     def db_type(self) -> str:
@@ -44,8 +46,13 @@ class MongoDB(BaseDB):
 
     def save(self, passages: List[Passage]):
         for passage in passages:
+            # save to mongoDB
             passage_to_dict = passage.to_dict()
             self.collection.insert_one(passage_to_dict)
+            # save to redisDB
+            db_origin = self.get_db_origin()
+            db_origin_json = db_origin.to_json()
+            self.redis_db.client.json().set(str(passage.id), '$', db_origin_json)
 
     def fetch(self, ids: List[UUID]) -> List[Passage]:
         passage_list = []
@@ -70,6 +77,6 @@ class MongoDB(BaseDB):
             raise ValueError(f'{self.db_name} does not exists')
         self.db = self.client.get_database(self.db_name)
 
-    def get_db_origin(self) -> DBOrigin:
+    def get_db_origin(self):
         db_path = {'mongo_url': self.mongo_url, 'db_name': self.db_name, 'collection_name': self.collection_name}
         return DBOrigin(db_type=self.db_type, db_path=db_path)

@@ -1,9 +1,10 @@
+import json
 from abc import ABC, abstractmethod
 from typing import List, Union, Any, Dict
 from KoPrivateGPT.schema import Passage
 from uuid import UUID
 
-from KoPrivateGPT.schema.db_path import DBOrigin
+from KoPrivateGPT.schema.db_origin import DBOrigin
 
 
 class BaseDB(ABC):
@@ -44,5 +45,5 @@ class BaseDB(ABC):
         pass
 
     @abstractmethod
-    def get_db_origin(self) -> DBOrigin:
+    def get_db_origin(self):
         pass
