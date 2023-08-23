@@ -4,7 +4,7 @@ from KoPrivateGPT.schema import Passage
 from KoPrivateGPT.utils.reranker.base import BaseReranker
 
 
-class MonoT5(BaseReranker):
+class MonoT5Reranker(BaseReranker):
 
     def rerank(self, query: str, passages: List[Passage]) -> List[Passage]:
         pass
