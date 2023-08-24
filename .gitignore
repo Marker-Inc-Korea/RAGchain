@@ -7,3 +7,4 @@
 /SOURCE_DOCUMENTS
 embedded_files_cache.pkl
 *.pkl
+./tests/.env
