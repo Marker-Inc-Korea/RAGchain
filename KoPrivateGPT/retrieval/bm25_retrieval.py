@@ -6,8 +6,10 @@ from rank_bm25 import BM25Okapi
 from transformers import AutoTokenizer
 
 from KoPrivateGPT.DB.base import BaseDB
+from KoPrivateGPT.pipeline.selector import ModuleSelector
 from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
+from KoPrivateGPT.utils.linker import RedisDBSingleton
 from KoPrivateGPT.utils.util import FileChecker
 import pickle
 from tqdm import tqdm
@@ -38,9 +40,28 @@ class BM25Retrieval(BaseRetrieval):
         assert (len(self.data["tokens"]) == len(self.data["passage_id"]))
         self.save_path = save_path
         self.tokenizer = AutoTokenizer.from_pretrained("EleutherAI/polyglot-ko-1.3b")
+        self.redis_db = RedisDBSingleton()
 
-    def retrieve(self, query: str, db: BaseDB, top_k: int = 5, *args, **kwargs) -> List[Passage]:
-        return db.fetch(self.retrieve_id(query, top_k))
+    def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Passage]:
+        # Todo: split functions that one function does only one thing
+        ids = self.retrieve_id(query, top_k)
+        db_origin_list = self.redis_db.get_json(ids)
+        # check db type and split ids (related to issue #115)
+        mongo_db_ids = [ids[i] for i, db_origin in enumerate(db_origin_list) if db_origin.db_type == "mongo_db"]
+        pickle_db_ids = [ids[i] for i, db_origin in enumerate(db_origin_list) if db_origin.db_type == "pickle_db"]
+        # check how many db types are used and fetch data from each db
+        passage_list = []
+        if mongo_db_ids:
+            mongo_db = ModuleSelector("db").select("mongo_db").get(**db_origin_list[0].db_path)
+            mongo_db.load()
+            mongo_db_passage_list = mongo_db.fetch(mongo_db_ids)
+            passage_list.append(mongo_db_passage_list)
+        if pickle_db_ids:
+            pickle_db = ModuleSelector("db").select("pickle_db").get(**db_origin_list[0].db_path)
+            pickle_db.load()
+            pickle_db_passage_list = pickle_db.fetch(pickle_db_ids)
+            passage_list.append(pickle_db_passage_list)
+        return passage_list
 
     def retrieve_id(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Union[str, UUID]]:
         if self.data is None:

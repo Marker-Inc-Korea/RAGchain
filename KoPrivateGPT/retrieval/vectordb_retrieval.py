@@ -13,6 +13,7 @@ from ..DB.base import BaseDB
 from ..schema import Passage
 from ..schema.vector import Vector
 from KoPrivateGPT.utils import text_modifier
+from ..utils.linker import RedisDBSingleton
 
 
 class VectorDBRetrieval(BaseRetrieval):
@@ -25,6 +26,7 @@ class VectorDBRetrieval(BaseRetrieval):
         else:
             raise ValueError(f"Unknown db type: {vectordb_type}")
         self.embedding = embedding
+        self.redis_db = RedisDBSingleton()
 
     def ingest(self, passages: List[Passage]):
         embeds = self.embedding.embed_documents([passage.content for passage in passages])
@@ -34,8 +36,9 @@ class VectorDBRetrieval(BaseRetrieval):
     def delete_all(self):
         delete_embeddings_vectordb(self.vectordb.get_db_type())
 
-    def retrieve(self, query: str, db: BaseDB, top_k: int = 5, *args, **kwargs) -> List[Passage]:
+    def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Passage]:
         ids = self.retrieve_id(query, top_k)
+
         result = db.fetch(ids)
         return result
 

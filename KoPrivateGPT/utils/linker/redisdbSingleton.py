@@ -1,3 +1,4 @@
+from uuid import UUID
 import redis
 import os
 from dotenv import load_dotenv
@@ -24,3 +25,7 @@ class RedisDBSingleton:
             db=db_name,
             decode_responses=True
         )
+
+    def get_json(self, ids: list[UUID]):
+        return [self.client.json().get(find_id) for find_id in ids]
+
