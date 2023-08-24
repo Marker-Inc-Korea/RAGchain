@@ -1,9 +1,9 @@
 from typing import Optional, Union
+from uuid import UUID, uuid4
 
 from langchain.load.serializable import Serializable
 from langchain.schema import Document
 from pydantic import Field
-from uuid import UUID, uuid4
 
 
 class Passage(Serializable):
@@ -41,3 +41,11 @@ class Passage(Serializable):
 
     def __hash__(self):
         return hash(self.id)
+
+    def is_exactly_same(self, other):
+        return self.id == other.id and \
+            self.content == other.content and \
+            self.filepath == other.filepath and \
+            self.previous_passage_id == other.previous_passage_id and \
+            self.next_passage_id == other.next_passage_id and \
+            self.metadata_etc == other.metadata_etc
