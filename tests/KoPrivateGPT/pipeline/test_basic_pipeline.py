@@ -42,7 +42,8 @@ def test_basic_ingest_pipeline(basic_run_pipeline):
     if not os.path.exists(file_dir):
         os.makedirs(file_dir)
     ingest_pipeline = BasicIngestPipeline(
-        file_loader_type=("file_loader", {"target_dir": file_dir}),
+        file_loader_type=("file_loader", {"target_dir": file_dir,
+                                          "hwp_host_url": os.getenv('HWP_CONVERTER_HOST')}),
         db_type=("mongo_db", mongodb_config),
         retrieval_type=("bm25", {"save_path": bm25_path})
     )
