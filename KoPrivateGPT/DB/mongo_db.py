@@ -58,6 +58,8 @@ class MongoDB(BaseDB):
         passage_list = []
         for find_id in ids:
             dict_passage = self.collection.find_one({"_id": find_id})
+            if dict_passage is None:
+                raise ValueError(f'{find_id} This _id does not exist in {self.collection_name} collection')
             passage = Passage(id=dict_passage['_id'], **dict_passage)
             passage_list.append(passage)
         return passage_list
