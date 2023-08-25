@@ -3,7 +3,7 @@ from typing import List
 from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.schema import Passage
 
-test_passages: List[Passage] = [
+TEST_PASSAGES: List[Passage] = [
     Passage(
         id='test_id_1',
         content='This is test number 1',
@@ -31,12 +31,12 @@ test_passages: List[Passage] = [
 ]
 
 
-def test_fetch(instance: BaseDB):
-    instance.save(test_passages)
-    fetch_passages = instance.fetch([passage.id for passage in test_passages])
-    assert len(fetch_passages) == len(test_passages)
+def fetch_test_base(instance: BaseDB):
+    instance.save(TEST_PASSAGES)
+    fetch_passages = instance.fetch([passage.id for passage in TEST_PASSAGES])
+    assert len(fetch_passages) == len(TEST_PASSAGES)
     for passage in fetch_passages:
-        assert passage in test_passages
+        assert passage in TEST_PASSAGES
 
-    one_passage = instance.fetch([test_passages[0].id])
-    assert one_passage[0].is_exactly_same(test_passages[0])
+    one_passage = instance.fetch([TEST_PASSAGES[0].id])
+    assert one_passage[0].is_exactly_same(TEST_PASSAGES[0])
