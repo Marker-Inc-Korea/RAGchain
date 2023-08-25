@@ -1,14 +1,14 @@
+import os
 from typing import List
+from typing import Optional, Dict, Union
+from uuid import UUID
+
 import pinecone
 from dotenv import load_dotenv
-from typing import Optional, Dict, Union
-
 from langchain.embeddings.base import Embeddings
 
 from KoPrivateGPT.schema.vector import Vector
 from KoPrivateGPT.utils.vectorDB.base import BaseVectorDB
-import os
-from uuid import UUID
 
 
 class Pinecone(BaseVectorDB):
@@ -39,7 +39,7 @@ class Pinecone(BaseVectorDB):
 
     def similarity_search(self, query_vectors: List[float], top_k: int = 5,
                           filter: Optional[Dict[str, Union[str, float, int, bool, List, dict]]] = None) -> tuple[
-        List[UUID], List[float]]:
+        List[Union[UUID, str]], List[float]]:
         response = self.index.query(
             vector=query_vectors,
             namespace=self.namespace,
@@ -51,7 +51,7 @@ class Pinecone(BaseVectorDB):
         scores = []
         for res in response["matches"]:
             metadata = res["metadata"]
-            ids.append(UUID(metadata["passage_id"]))
+            ids.append(self._str_to_uuid(metadata["passage_id"]))
             scores.append(res["score"])
         return ids, scores
 
