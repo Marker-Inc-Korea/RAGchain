@@ -1,17 +1,6 @@
 import os
 
 import pytest
-from dotenv import load_dotenv
-
-
-@pytest.fixture(autouse=True, scope="session")
-def load_env():
-    load_dotenv(dotenv_path='./.env')
-    valid_env_keys = ['OPENAI_API_KEY', 'PINECONE_API_KEY', 'PINECONE_ENV', 'MONGO_URL',
-                      'MONGO_DB_NAME', 'MONGO_COLLECTION_NAME', 'REDIS_HOST',
-                      'REDIS_PORT', 'REDIS_PW', 'HWP_CONVERTER_HOST']
-    for key in valid_env_keys:
-        assert bool(os.getenv(key)) is True
 
 
 @pytest.fixture(autouse=True, scope="session")
