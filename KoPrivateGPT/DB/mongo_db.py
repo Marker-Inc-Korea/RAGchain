@@ -71,7 +71,7 @@ class MongoDB(BaseDB):
         :return: List[Passage], list of Passage extract from the result of filter_dict query to MongoDB.
         """
         cursor = self.collection.find(filter_dict)
-        return [Passage(**passage) for passage in cursor]
+        return [Passage(id=passage['_id'], **passage) for passage in cursor]
 
     def set_db(self):
         self.client = pymongo.MongoClient(self.mongo_url, uuidRepresentation='standard')

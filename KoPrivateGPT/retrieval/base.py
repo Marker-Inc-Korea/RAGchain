@@ -30,42 +30,49 @@ class BaseRetrieval(ABC):
     @staticmethod
     def split_ids(ids: List[UUID], db_origin_list):
         """
-        mongo_db_ids = [ids[i] for i, db_origin in enumerate(db_origin_list) if db_origin[i].db_type == "mongo_db"]
-        pickle_db_ids = [ids[i] for i, db_origin in enumerate(db_origin_list) if db_origin[i].db_type == "pickle_db"]
+        mongo_db_ids = [ids[i] for i in range(len(db_origin_list)) if db_origin_list[i]['db_type'] == "mongo_db"]
+        pickle_db_ids = [ids[i] for i in range(len(db_origin_list)) if db_origin_list[i]['db_type'] == "pickle_db"]
         """
         mongo_db_ids = []
+        mongo_db_path = []
         pickle_db_ids = []
+        pickle_db_path = []
         for i in range(len(db_origin_list)):
             if db_origin_list[i]['db_type'] == "mongo_db":
                 mongo_db_ids.append(ids[i])
+                mongo_db_path.append(db_origin_list[i]['db_path'])
             elif db_origin_list[i]['db_type'] == "pickle_db":
                 pickle_db_ids.append(ids[i])
+                pickle_db_path.append(db_origin_list[i]['db_path'])
             else:
                 pass
-        return mongo_db_ids, pickle_db_ids
+        return mongo_db_ids, mongo_db_path, pickle_db_ids, pickle_db_path
 
     def fetch_data(self, ids: List[UUID]) -> List[Passage]:
         self.redis_db = RedisDBSingleton()
         db_origin_list = self.redis_db.get_json(ids)
-        # Sometimes redis doesn't find the id, so we need to filter None.
+        # Sometimes redis doesn't find the id, so we need to filter that db_origin is None.
         final_db_origin = [db_origin for db_origin in db_origin_list if db_origin is not None]
-        mongo_db_ids, pickle_db_ids = self.split_ids(ids, final_db_origin)
-        passage_list = []
-        self.fetch_mongo_data(mongo_db_ids, final_db_origin, passage_list)
-        self.fetch_pickle_data(pickle_db_ids, final_db_origin, passage_list)
+        mongo_db_ids, mongo_db_path, pickle_db_ids, pickle_db_path = self.split_ids(ids, final_db_origin)
+        passage_list = self.fetch_each_db(mongo_db_ids, pickle_db_ids, mongo_db_path, pickle_db_path)
         return passage_list
 
-    def fetch_mongo_data(self, mongo_db_ids: List[UUID], db_origin_list, passage_list):
-        if mongo_db_ids:
-            # TODO: Because db_path is different, modify it to create only the minimum number of mongoDB objects.
-            self.mongo_db = MongoDB(**db_origin_list[0]['db_path'])
-            self.mongo_db.load()
-            mongo_db_passage_list = self.mongo_db.fetch(mongo_db_ids)
-            passage_list.append(mongo_db_passage_list)
+    def fetch_mongo_data(self, mongo_db_ids: List[UUID], mongo_db_path) -> List[Passage]:
+        self.mongo_db = MongoDB(**mongo_db_path[0])
+        self.mongo_db.load()
+        return self.mongo_db.fetch(mongo_db_ids)
 
-    def fetch_pickle_data(self, pickle_db_ids: List[UUID], db_origin_list, passage_list):
-        if pickle_db_ids:
-            self.pickle_db = PickleDB(**db_origin_list[0]['db_path'])
-            self.pickle_db.load()
-            pickle_db_passage_list = self.pickle_db.fetch(pickle_db_ids)
-            passage_list.append(pickle_db_passage_list)
+    def fetch_pickle_data(self, pickle_db_ids: List[UUID], pickle_db_path) -> List[Passage]:
+        self.pickle_db = PickleDB(**pickle_db_path[0])
+        self.pickle_db.load()
+        return self.pickle_db.fetch(pickle_db_ids)
+
+    def fetch_each_db(self, mongo_db_ids, pickle_db_ids, mongo_db_path, pickle_db_path) -> List[Passage]:
+        if not pickle_db_ids:
+            passage_list = self.fetch_mongo_data(mongo_db_ids, mongo_db_path)
+        elif not mongo_db_ids:
+            passage_list = self.fetch_pickle_data(pickle_db_ids, pickle_db_path)
+        else:
+            passage_list = self.fetch_mongo_data(mongo_db_ids, mongo_db_path) + self.fetch_pickle_data(pickle_db_ids,
+                                                                                                       pickle_db_path)
+        return passage_list
