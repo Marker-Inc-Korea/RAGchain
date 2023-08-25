@@ -1,3 +1,4 @@
+import json
 from uuid import UUID
 
 import numpy as np
@@ -43,24 +44,8 @@ class BM25Retrieval(BaseRetrieval):
         self.redis_db = RedisDBSingleton()
 
     def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Passage]:
-        # Todo: split functions that one function does only one thing
         ids = self.retrieve_id(query, top_k)
-        db_origin_list = self.redis_db.get_json(ids)
-        # check db type and split ids (related to issue #115)
-        mongo_db_ids = [ids[i] for i, db_origin in enumerate(db_origin_list) if db_origin.db_type == "mongo_db"]
-        pickle_db_ids = [ids[i] for i, db_origin in enumerate(db_origin_list) if db_origin.db_type == "pickle_db"]
-        # check how many db types are used and fetch data from each db
-        passage_list = []
-        if mongo_db_ids:
-            mongo_db = ModuleSelector("db").select("mongo_db").get(**db_origin_list[0].db_path)
-            mongo_db.load()
-            mongo_db_passage_list = mongo_db.fetch(mongo_db_ids)
-            passage_list.append(mongo_db_passage_list)
-        if pickle_db_ids:
-            pickle_db = ModuleSelector("db").select("pickle_db").get(**db_origin_list[0].db_path)
-            pickle_db.load()
-            pickle_db_passage_list = pickle_db.fetch(pickle_db_ids)
-            passage_list.append(pickle_db_passage_list)
+        passage_list = self.fetch_data(ids)
         return passage_list
 
     def retrieve_id(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Union[str, UUID]]:
@@ -91,3 +76,33 @@ class BM25Retrieval(BaseRetrieval):
     def __tokenize(self, values: List[str]):
         tokenized = self.tokenizer(values)
         return tokenized.input_ids
+
+    @staticmethod
+    def split_ids(ids: List[UUID], db_origin_list: List[json]):
+        mongo_db_ids = [ids[i] for i, db_origin in enumerate(db_origin_list) if db_origin.db_type == "mongo_db"]
+        pickle_db_ids = [ids[i] for i, db_origin in enumerate(db_origin_list) if db_origin.db_type == "pickle_db"]
+        return mongo_db_ids, pickle_db_ids
+
+    def fetch_data(self, ids: List[UUID]) -> List[Passage]:
+        db_origin_list = self.redis_db.get_json(ids)
+        mongo_db_ids, pickle_db_ids = self.split_ids(ids, db_origin_list)
+        passage_list = []
+        self.fetch_mongo_data(mongo_db_ids, db_origin_list, passage_list)
+        self.fetch_pickle_data(pickle_db_ids, db_origin_list, passage_list)
+        return passage_list
+
+    @staticmethod
+    def fetch_mongo_data(mongo_db_ids: List[UUID], db_origin_list, passage_list):
+        if mongo_db_ids:
+            mongo_db = ModuleSelector("db").select("mongo_db").get(**db_origin_list[0].db_path)
+            mongo_db.load()
+            mongo_db_passage_list = mongo_db.fetch(mongo_db_ids)
+            passage_list.append(mongo_db_passage_list)
+
+    @staticmethod
+    def fetch_pickle_data(pickle_db_ids: List[UUID], db_origin_list, passage_list):
+        if pickle_db_ids:
+            pickle_db = ModuleSelector("db").select("pickle_db").get(**db_origin_list[0].db_path)
+            pickle_db.load()
+            pickle_db_passage_list = pickle_db.fetch(pickle_db_ids)
+            passage_list.append(pickle_db_passage_list)
