@@ -13,7 +13,8 @@ def mongo_db():
         db_name=os.getenv('MONGO_DB_NAME'),
         collection_name=os.getenv('MONGO_COLLECTION_NAME'))
     yield mongo_db
-    # TODO : delete MongoDB collection
+    mongo_db.collection.drop()
+    assert mongo_db.collection_name not in mongo_db.db.list_collection_names()
 
 
 def test_create_or_load(mongo_db):
