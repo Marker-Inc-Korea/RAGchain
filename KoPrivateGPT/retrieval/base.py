@@ -57,6 +57,7 @@ class BaseRetrieval(ABC):
 
     def fetch_mongo_data(self, mongo_db_ids: List[UUID], db_origin_list, passage_list):
         if mongo_db_ids:
+            # TODO: Because db_path is different, modify it to create only the minimum number of mongoDB objects.
             self.mongo_db = MongoDB(**db_origin_list[0]['db_path'])
             self.mongo_db.load()
             mongo_db_passage_list = self.mongo_db.fetch(mongo_db_ids)
