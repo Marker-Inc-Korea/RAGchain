@@ -1,10 +1,12 @@
+import os
 from typing import List, Union
 from uuid import UUID
 
+from dotenv import load_dotenv
 from langchain.embeddings.base import Embeddings
 
 from KoPrivateGPT.options import ChromaOptions, PineconeOptions
-
+from KoPrivateGPT.utils import text_modifier
 from KoPrivateGPT.utils.embed import delete_embeddings_vectordb
 from KoPrivateGPT.utils.vectorDB import Chroma
 from KoPrivateGPT.utils.vectorDB import Pinecone
@@ -12,7 +14,6 @@ from .base import BaseRetrieval
 from ..DB.base import BaseDB
 from ..schema import Passage
 from ..schema.vector import Vector
-from KoPrivateGPT.utils import text_modifier
 
 
 class VectorDBRetrieval(BaseRetrieval):
@@ -20,8 +21,12 @@ class VectorDBRetrieval(BaseRetrieval):
         if vectordb_type in text_modifier('chroma'):
             self.vectordb = Chroma(ChromaOptions.persist_dir, ChromaOptions.collection_name)
         elif vectordb_type in text_modifier('pinecone', modify_words=['PineCone']):
-            self.vectordb = Pinecone(PineconeOptions.index_name, PineconeOptions.namespace,
-                                     PineconeOptions.dimension)
+            load_dotenv()
+            self.vectordb = Pinecone(api_key=os.getenv('PINECONE_API_KEY'),
+                                     environment=os.getenv('PINECONE_ENV'),
+                                     index_name=PineconeOptions.index_name,
+                                     namespace=PineconeOptions.namespace,
+                                     dimension=PineconeOptions.dimension)
         else:
             raise ValueError(f"Unknown db type: {vectordb_type}")
         self.embedding = embedding

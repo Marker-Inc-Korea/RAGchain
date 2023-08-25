@@ -1,10 +1,8 @@
-import os
 from typing import List
 from typing import Optional, Dict, Union
 from uuid import UUID
 
 import pinecone
-from dotenv import load_dotenv
 from langchain.embeddings.base import Embeddings
 
 from KoPrivateGPT.schema.vector import Vector
@@ -12,11 +10,11 @@ from KoPrivateGPT.utils.vectorDB.base import BaseVectorDB
 
 
 class Pinecone(BaseVectorDB):
-    def __init__(self, index_name: str, namespace: str, dimension: Optional[int] = None, *args, **kwargs):
-        load_dotenv()
+    def __init__(self, api_key: str, environment: str,
+                 index_name: str, namespace: str, dimension: Optional[int] = None, *args, **kwargs):
         pinecone.init(
-            api_key=os.environ["PINECONE_API_KEY"],
-            environment=os.environ["PINECONE_ENV"]
+            api_key=api_key,
+            environment=environment
         )
 
         active_indexes = pinecone.list_indexes()
