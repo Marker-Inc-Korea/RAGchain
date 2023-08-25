@@ -4,7 +4,7 @@ import pytest
 
 import test_base_retrieval
 
-chroma_path = os.path.join(test_base_retrieval.root_dir, "resources", "chroma")
+chroma_path = os.path.join(test_base_retrieval.root_dir, "resources", "chroma_retrieval_test")
 
 
 @pytest.fixture

@@ -23,6 +23,7 @@ class Pinecone(BaseVectorDB):
                 raise ValueError("Dimension must be set when creating a new index.")
             pinecone.create_index(index_name, dimension=dimension, *args, **kwargs)
         self.index = pinecone.Index(index_name)
+        self.index_name = index_name
         self.namespace = namespace
 
     def add_vectors(self, vectors: List[Vector]):
@@ -53,8 +54,11 @@ class Pinecone(BaseVectorDB):
             scores.append(res["score"])
         return ids, scores
 
+    def delete(self, ids: List[Union[str, UUID]]):
+        self.index.delete(ids=[str(_id) for _id in ids], namespace=self.namespace)
+
     def delete_all(self):
-        self.index.delete(namespace=self.namespace)
+        pinecone.delete_index(self.index_name)
 
     def get_db_type(self) -> str:
         return "pinecone"
