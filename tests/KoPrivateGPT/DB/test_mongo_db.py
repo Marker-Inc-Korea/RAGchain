@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-import test_base
+import test_base_db
 from KoPrivateGPT.DB import MongoDB
 
 
@@ -24,7 +24,7 @@ def test_create_or_load(mongo_db):
 
 
 def test_fetch(mongo_db):
-    test_base.fetch_test_base(mongo_db)
+    test_base_db.fetch_test_base(mongo_db)
 
 
 def test_db_type(mongo_db):

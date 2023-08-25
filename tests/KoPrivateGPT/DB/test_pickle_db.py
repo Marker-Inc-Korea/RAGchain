@@ -4,7 +4,7 @@ import pathlib
 import pytest
 
 from KoPrivateGPT.DB import PickleDB
-from test_base import fetch_test_base
+from test_base_db import fetch_test_base
 
 
 @pytest.fixture(scope='module')
