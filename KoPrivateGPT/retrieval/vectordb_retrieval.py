@@ -13,11 +13,11 @@ from ..DB.base import BaseDB
 from ..schema import Passage
 from ..schema.vector import Vector
 from KoPrivateGPT.utils import text_modifier
-from ..utils.linker import RedisDBSingleton
 
 
 class VectorDBRetrieval(BaseRetrieval):
     def __init__(self, vectordb_type: str, embedding: Embeddings, *args, **kwargs):
+        super().__init__()
         if vectordb_type in text_modifier('chroma'):
             self.vectordb = Chroma(ChromaOptions.persist_dir, ChromaOptions.collection_name)
         elif vectordb_type in text_modifier('pinecone', modify_words=['PineCone']):
@@ -26,7 +26,6 @@ class VectorDBRetrieval(BaseRetrieval):
         else:
             raise ValueError(f"Unknown db type: {vectordb_type}")
         self.embedding = embedding
-        self.redis_db = RedisDBSingleton()
 
     def ingest(self, passages: List[Passage]):
         embeds = self.embedding.embed_documents([passage.content for passage in passages])
@@ -38,9 +37,8 @@ class VectorDBRetrieval(BaseRetrieval):
 
     def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Passage]:
         ids = self.retrieve_id(query, top_k)
-
-        result = db.fetch(ids)
-        return result
+        passage_list = self.fetch_data(ids)
+        return passage_list
 
     def retrieve_id(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Union[str, UUID]]:
         query_vector = self.embedding.embed_query(query)

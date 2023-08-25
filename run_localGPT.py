@@ -54,13 +54,7 @@ def main(device_type, retrieval_type: str, vectordb_type, embedding_type, model_
                                          "embedding_type": EmbeddingFactory(embed_type=embedding_type,
                                                                             device_type=device_type).get(),
                                          "device_type": device_type}),
-        llm_type=("basic_llm", {"model_name": model_name, "api_base": api_base}),
-        db_type=(db_type, {
-            'save_path': PickleDBOptions.save_path,
-            "mongo_url": MongoDBOptions.mongo_url,
-            "db_name": MongoDBOptions.db_name,
-            "collection_name": MongoDBOptions.collection_name
-        })
+        llm_type=("basic_llm", {"model_name": model_name, "api_base": api_base})
     )
     while True:
         query = input("질문을 입력하세요: ")
