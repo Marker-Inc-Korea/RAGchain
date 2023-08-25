@@ -11,8 +11,8 @@ class Passage(Serializable):
     id: Union[UUID, str] = Field(default_factory=uuid4)
     content: str
     filepath: str
-    previous_passage_id: Optional[UUID]
-    next_passage_id: Optional[UUID]
+    previous_passage_id: Optional[Union[UUID, str]]
+    next_passage_id: Optional[Union[UUID, str]]
     metadata_etc: dict = Field(default_factory=dict)
 
     def to_document(self) -> Document:
