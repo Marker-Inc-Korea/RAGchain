@@ -27,5 +27,7 @@ class RedisDBSingleton:
         )
 
     def get_json(self, ids: list[UUID]):
-        return [self.client.json().get(find_id) for find_id in ids]
+        # redis only accept str type key
+        str_ids = [str(find_id) for find_id in ids]
+        return [self.client.json().get(find_id) for find_id in str_ids]
 

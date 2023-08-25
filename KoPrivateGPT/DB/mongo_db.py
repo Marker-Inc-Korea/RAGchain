@@ -58,7 +58,7 @@ class MongoDB(BaseDB):
         passage_list = []
         for find_id in ids:
             dict_passage = self.collection.find_one({"_id": find_id})
-            passage = Passage(**dict_passage)
+            passage = Passage(id=dict_passage['_id'], **dict_passage)
             passage_list.append(passage)
         return passage_list
 

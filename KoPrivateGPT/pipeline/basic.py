@@ -120,7 +120,7 @@ class BasicRunPipeline(BasePipeline):
     def run(self, query: str, *args, **kwargs) -> tuple[str, List[Passage]]:
         retrieval_step = ModuleSelector("retrieval").select(self.retrieval_type[0])
         retrieval = retrieval_step.get(**self.retrieval_type[1])
-        llm = ModuleSelector("llm").select(self.llm_type[0]).get(**self.llm_type[1], db=db, retrieval=retrieval)
+        llm = ModuleSelector("llm").select(self.llm_type[0]).get(**self.llm_type[1], retrieval=retrieval)
         answer, passages = llm.ask(query)
         answer = slice_stop_words(answer, ["Question :", "question:"])
         return answer, passages
