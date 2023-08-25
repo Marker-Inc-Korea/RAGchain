@@ -18,6 +18,8 @@ class ModuleSelector:
             self.select_file_loader(name)
         elif self.module_name in text_modifier("text_splitter"):
             self.select_text_splitter(name)
+        elif self.module_name in text_modifier("db"):
+            self.select_db(name)
         elif self.module_name in text_modifier("retrieval"):
             self.select_retrieval(name)
         elif self.module_name in text_modifier("llm"):
@@ -40,6 +42,14 @@ class ModuleSelector:
     def select_text_splitter(self, name: str):
         if name in text_modifier("recursive_text_splitter"):
             self.module = RecursiveTextSplitter
+        else:
+            raise ValueError(f"Invalid module name: {name}")
+
+    def select_db(self, name: str):
+        if name in text_modifier("mongo_db"):
+            self.module = MongoDB
+        elif name in text_modifier("pickle_db"):
+            self.module = PickleDB
         else:
             raise ValueError(f"Invalid module name: {name}")
 
