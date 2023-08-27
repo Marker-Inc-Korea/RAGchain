@@ -3,27 +3,17 @@ from uuid import UUID
 
 from langchain.embeddings.base import Embeddings
 
-from KoPrivateGPT.options import ChromaOptions, PineconeOptions
-
 from KoPrivateGPT.utils.embed import delete_embeddings_vectordb
-from KoPrivateGPT.utils.vectorDB import Chroma
-from KoPrivateGPT.utils.vectorDB import Pinecone
 from .base import BaseRetrieval
 from ..DB.base import BaseDB
 from ..schema import Passage
 from ..schema.vector import Vector
-from KoPrivateGPT.utils import text_modifier
+from ..utils.vectorDB.base import BaseVectorDB
 
 
 class VectorDBRetrieval(BaseRetrieval):
-    def __init__(self, vectordb_type: str, embedding: Embeddings, *args, **kwargs):
-        if vectordb_type in text_modifier('chroma'):
-            self.vectordb = Chroma(ChromaOptions.persist_dir, ChromaOptions.collection_name)
-        elif vectordb_type in text_modifier('pinecone', modify_words=['PineCone']):
-            self.vectordb = Pinecone(PineconeOptions.index_name, PineconeOptions.namespace,
-                                     PineconeOptions.dimension)
-        else:
-            raise ValueError(f"Unknown db type: {vectordb_type}")
+    def __init__(self, vectordb: BaseVectorDB, embedding: Embeddings, *args, **kwargs):
+        self.vectordb = vectordb
         self.embedding = embedding
 
     def ingest(self, passages: List[Passage]):
