@@ -44,7 +44,10 @@ class BasicIngestPipeline(BasePipeline):
     def run(self, target_dir=None, *args, **kwargs):
         # File Loader
         if target_dir is not None:
-            file_loader = ModuleSelector("file_loader").select(self.file_loader_type[0]).get(target_dir=target_dir)
+            file_loader = ModuleSelector("file_loader").select(self.file_loader_type[0]).get(target_dir=target_dir,
+                                                                                             hwp_host_url=
+                                                                                             self.file_loader_type[1][
+                                                                                                 'hwp_host_url'])
         else:
             file_loader = ModuleSelector("file_loader").select(self.file_loader_type[0]).get(**self.file_loader_type[1])
         documents = file_loader.load()

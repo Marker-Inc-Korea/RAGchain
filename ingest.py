@@ -1,9 +1,9 @@
 import click
 
-from KoPrivateGPT.options import Options, PickleDBOptions
-from KoPrivateGPT.options.config import MongoDBOptions
 from KoPrivateGPT.pipeline import BasicIngestPipeline
 from KoPrivateGPT.utils.embed import EmbeddingFactory
+from config import MongoDBOptions
+from config import Options, PickleDBOptions
 
 
 @click.command()
@@ -15,6 +15,10 @@ from KoPrivateGPT.utils.embed import EmbeddingFactory
 @click.option('--db_type', default='mongo_db', help='db type to use, select pickle_db or mongo_db')
 def main(device_type, vectordb_type, embedding_type, retrieval_type: str, db_type: str):
     pipeline = BasicIngestPipeline(
+        file_loader_type=("file_loader", {
+            "target_dir": Options.source_dir,
+            "hwp_host_url": Options.HwpConvertHost
+        }),
         retrieval_type=(retrieval_type, {
             "save_path": Options.bm25_db_dir,
             "vectordb_type": vectordb_type,

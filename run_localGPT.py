@@ -5,11 +5,14 @@ from langchain import LLMChain
 from langchain.chains import HypotheticalDocumentEmbedder
 from langchain.prompts import PromptTemplate
 
-from KoPrivateGPT.options import Options, PickleDBOptions
-from KoPrivateGPT.options.config import MongoDBOptions
 from KoPrivateGPT.pipeline import BasicRunPipeline
 from KoPrivateGPT.schema import Passage
 from KoPrivateGPT.utils.embed import EmbeddingFactory
+from KoPrivateGPT.utils.util import text_modifier
+from KoPrivateGPT.utils.vectorDB import Chroma, Pinecone
+from config import ChromaOptions, PineconeOptions
+from config import MongoDBOptions
+from config import Options, PickleDBOptions
 
 
 def print_query_answer(query, answer):
@@ -48,9 +51,18 @@ def hyde_embeddings(llm, base_embedding):
 @click.option('--api_base', default=None, help='api base to use.')
 @click.option('--db_type', default='mongo_db', help='db type to use, select pickle_db or mongo_db')
 def main(device_type, retrieval_type: str, vectordb_type, embedding_type, model_name, api_base, db_type: str):
+    if vectordb_type == text_modifier('chroma'):
+        vectordb = Chroma(ChromaOptions.persist_dir, ChromaOptions.collection_name)
+    elif vectordb_type == text_modifier('pinecone'):
+        vectordb = Pinecone(PineconeOptions.index_name,
+                            PineconeOptions.namespace,
+                            PineconeOptions.dimension)
+    else:
+        raise ValueError("vectordb type is not valid")
+
     pipeline = BasicRunPipeline(
         retrieval_type=(retrieval_type, {"save_path": Options.bm25_db_dir,
-                                         "vectordb_type": vectordb_type,
+                                         "vectordb": vectordb,
                                          "embedding_type": EmbeddingFactory(embed_type=embedding_type,
                                                                             device_type=device_type).get(),
                                          "device_type": device_type}),

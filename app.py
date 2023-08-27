@@ -3,10 +3,11 @@ import os
 import gradio as gr
 from dotenv import load_dotenv
 
-from KoPrivateGPT.options import Options, ChromaOptions, PineconeOptions, PickleDBOptions, MongoDBOptions
 from KoPrivateGPT.pipeline import BasicIngestPipeline, BasicRunPipeline
 from KoPrivateGPT.utils.embed import EmbeddingFactory
 from KoPrivateGPT.utils.util import slice_stop_words
+from KoPrivateGPT.utils.vectorDB import Chroma, Pinecone
+from config import Options, ChromaOptions, PineconeOptions, PickleDBOptions, MongoDBOptions
 
 load_dotenv()
 
@@ -40,33 +41,39 @@ def setting(device, embed, db, retrieval):
     mongo = ("mongo_db", {"mongo_url": MongoDBOptions.mongo_url,
                           "db_name": MongoDBOptions.db_name,
                           "collection_name": MongoDBOptions.collection_name})
-    chroma = ("vector_db", {"vectordb_type": "chroma",
+    chroma = ("vector_db", {"vectordb": Chroma(ChromaOptions.persist_dir, ChromaOptions.collection_name),
                             "embedding": EmbeddingFactory(embed_type=embed, device_type=device).get()})
-    pinecone = ("vector_db", {"vectordb_type": "pinecone",
+    pinecone = ("vector_db", {"vectordb": Pinecone(PineconeOptions.index_name,
+                                                   PineconeOptions.namespace,
+                                                   PineconeOptions.dimension),
                               "embedding": EmbeddingFactory(embed_type=embed, device_type=device).get()})
+
+    if db == "pickle_db":
+        pre_db = pickle
+    elif db == "mongo_db":
+        pre_db = mongo
+    else:
+        raise ValueError("db type is not valid")
 
     if retrieval == "bm25":
         answer_pipeline = BasicRunPipeline(retrieval_type=bm25,
+                                           db_type=pre_db,
                                            llm_type=("basic_llm", {"model_name": MODEL_NAME, "api_base": None}))
         pre_retrieval = bm25
     elif retrieval == "vector_db-chroma":
         answer_pipeline = BasicRunPipeline(retrieval_type=chroma,
-                                           llm_type=("basic_llm", {"model_name": MODEL_NAME, "api_base": None}))
+                                           llm_type=("basic_llm", {"model_name": MODEL_NAME, "api_base": None}),
+                                           db_type=pre_db)
         pre_retrieval = chroma
     elif retrieval == "vector_db-pinecone":
-        answer_pipeline = BasicRunPipeline(retrieval_type=pinecone)
+        answer_pipeline = BasicRunPipeline(retrieval_type=pinecone, db_type=pre_db)
         pre_retrieval = pinecone
     else:
         raise ValueError("retrieval type is not valid")
 
-    if db == "pickle_db":
-        ingest_pipeline = BasicIngestPipeline(file_loader_type=("file_loader", {}), db_type=pickle,
-                                              retrieval_type=pre_retrieval)
-    elif db == "mongo_db":
-        ingest_pipeline = BasicIngestPipeline(file_loader_type=("file_loader", {}), db_type=mongo,
-                                              retrieval_type=pre_retrieval)
-    else:
-        raise ValueError("db type is not valid")
+    ingest_pipeline = BasicIngestPipeline(file_loader_type=("file_loader", {"hwp_host_url": Options.HwpConvertHost}),
+                                          db_type=pre_db,
+                                          retrieval_type=pre_retrieval)
 
     return 'setting done'
 
