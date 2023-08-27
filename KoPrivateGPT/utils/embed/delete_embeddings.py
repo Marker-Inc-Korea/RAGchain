@@ -4,11 +4,13 @@ We will add proper way to delete retrieval embeddings, DB contents, linker files
 TODO : Add proper way to delete retrieval embeddings, DB contents, linker files, etc. - Feature/#118
 """
 
-import shutil
-import pinecone
 import os
-from KoPrivateGPT.options import ChromaOptions, PineconeOptions, Options
+import shutil
+
 import click
+import pinecone
+
+from KoPrivateGPT.options import ChromaOptions, PineconeOptions, Options
 from KoPrivateGPT.utils.util import FileChecker
 
 
@@ -16,6 +18,7 @@ from KoPrivateGPT.utils.util import FileChecker
 @click.option('--db_type', default='chroma', help='vector database to use, select chroma or pinecone')
 @click.option('--retriever_type', default='vectordb', help='retriever type to use, select vectordb or bm25')
 def main(db_type, retriever_type):
+    raise RuntimeError("This function is deprecated and not working properly. We will solve this issue at Feature/#118")
     if retriever_type in ['bm25', 'BM25']:
         delete_sparse_retrieval_index(Options.bm25_db_dir)
     else:
@@ -23,6 +26,7 @@ def main(db_type, retriever_type):
 
 
 def delete_embeddings_vectordb(db_type):
+    raise RuntimeError("This function is deprecated and not working properly. We will solve this issue at Feature/#118")
     if db_type in ['chroma', 'Chroma', 'CHROMA']:
         shutil.rmtree(str(ChromaOptions.persist_dir))
     elif db_type in ['pinecone', 'Pinecone', 'PineCone', 'PINECONE']:
@@ -33,6 +37,7 @@ def delete_embeddings_vectordb(db_type):
 
 
 def delete_sparse_retrieval_index(save_path: str):
+    raise RuntimeError("This function is deprecated and not working properly. We will solve this issue at Feature/#118")
     if not FileChecker(save_path).check_type(file_types=['.pkl', '.pickle']).is_exist():
         print(f'Could not find sparse retrieval index: {save_path}')
         return
