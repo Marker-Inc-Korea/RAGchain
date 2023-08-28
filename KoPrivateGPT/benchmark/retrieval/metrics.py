@@ -1,7 +1,7 @@
-from abc import ABC, abstractmethod
-from typing import Dict
 import math
+from abc import ABC, abstractmethod
 from operator import itemgetter
+from typing import Dict
 
 
 class BaseRetrievalMetricFactory(ABC):
@@ -157,6 +157,7 @@ class IndIDCGFactory(BaseRetrievalMetricFactory):
 class IDCGFactory(BaseRetrievalMetricFactory):
     def __init__(self):
         self._metric_name = "IDCG"
+
     def retrieval_metric_function(self, solution: Dict[str, int],
                                   pred: Dict[str, float],
                                   k_value: int = 1) -> float:
@@ -259,6 +260,7 @@ class HoleFactory(BaseRetrievalMetricFactory):
 class TopKAccuracyFactory(BaseRetrievalMetricFactory):
     def __init__(self):
         self._metric_name = "TopK_Accuracy"
+
     def retrieval_metric_function(self, solution: Dict[str, int],
                                   pred: Dict[str, float],
                                   k_value: int = 1) -> float:
@@ -278,6 +280,7 @@ class TopKAccuracyFactory(BaseRetrievalMetricFactory):
 class ExactlyMatchFactory(BaseRetrievalMetricFactory):
     def __init__(self):
         self._metric_name = "EM"
+
     def retrieval_metric_function(self, solution: Dict[str, int],
                                   pred: Dict[str, float],
                                   k_value: int = 1) -> float:
@@ -286,8 +289,8 @@ class ExactlyMatchFactory(BaseRetrievalMetricFactory):
         top_hits = [item[0] for item in sorted(pred.items(), key=lambda item: item[1], reverse=True)[:k_value]]
 
         query_relevant_docs = set([doc_id for doc_id in solution if solution[doc_id] > 0])
-        if set(solution.keys()) == set(pred.keys())
-                EM += 1.0
+        if set(solution.keys()) == set(pred.keys()):
+            EM += 1.0
 
         return EM
 

@@ -1,7 +1,9 @@
-from typing import List, Optional, Tuple
 import os
-from transformers import StoppingCriteria
+from typing import List, Optional
+
+import openai
 import torch
+from transformers import StoppingCriteria
 
 
 class StoppingCriteriaSub(StoppingCriteria):
@@ -28,6 +30,18 @@ def slice_stop_words(input_str: str, stop_words: List[str]):
             if temp_ans:
                 input_str = temp_ans
     return input_str
+
+
+def set_api_base(api_base: str):
+    if api_base is None:
+        from dotenv import load_dotenv
+        env_loaded = load_dotenv()
+        if not env_loaded:
+            raise ValueError("Please set OPENAI_API_KEY in .env file")
+        openai.api_key = os.environ["OPENAI_API_KEY"]
+    else:
+        openai.api_key = "EMPTY"
+        openai.api_base = api_base
 
 
 def text_modifier(text: str, modify_words: Optional[List[str]] = None) -> List[str]:

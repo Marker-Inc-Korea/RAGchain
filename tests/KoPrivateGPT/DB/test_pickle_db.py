@@ -4,7 +4,7 @@ import pathlib
 import pytest
 
 from KoPrivateGPT.DB import PickleDB
-from test_base_db import fetch_test_base
+from test_base_db import fetch_test_base, TEST_PASSAGES
 
 
 @pytest.fixture(scope='module')
@@ -16,6 +16,7 @@ def pickle_db():
         save_path=pickle_db_path
     )
     pickle_db.create_or_load()
+    pickle_db.save(TEST_PASSAGES)
     yield pickle_db
     os.remove(pickle_db_path)
 

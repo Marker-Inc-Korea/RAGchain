@@ -5,9 +5,10 @@ import openai
 from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.llm.base import BaseLLM
 from KoPrivateGPT.llm.basic import BasicLLM
-from KoPrivateGPT.utils.reranker.base import BaseReranker
 from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
+from KoPrivateGPT.utils import set_api_base
+from KoPrivateGPT.utils.reranker.base import BaseReranker
 
 
 class RerankLLM(BaseLLM):
@@ -17,7 +18,7 @@ class RerankLLM(BaseLLM):
         self.retrieval = retrieval
         self.reranker = reranker
         self.model_name = model_name
-        BasicLLM.set_model(api_base)
+        set_api_base(api_base)
         assert (retrieve_size > use_passage_count)
         assert (retrieve_size > 0)
         assert (use_passage_count > 0)

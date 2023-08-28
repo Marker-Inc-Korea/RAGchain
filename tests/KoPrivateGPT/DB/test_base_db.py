@@ -32,7 +32,6 @@ TEST_PASSAGES: List[Passage] = [
 
 
 def fetch_test_base(instance: BaseDB):
-    instance.save(TEST_PASSAGES)
     fetch_passages = instance.fetch([passage.id for passage in TEST_PASSAGES])
     assert len(fetch_passages) == len(TEST_PASSAGES)
     for passage in fetch_passages:

@@ -15,3 +15,12 @@ def test_load_passage():
     for passage in TEST_PASSAGES:
         assert isinstance(passage, Passage)
         assert isinstance(passage.id, UUID) or isinstance(passage.id, str)
+
+
+def validate_ids(retrieved_ids, top_k):
+    assert len(retrieved_ids) == top_k
+    for _id in retrieved_ids:
+        assert isinstance(_id, str) or isinstance(_id, UUID)
+        fetch_result = list(filter(lambda x: getattr(x, 'id') == _id, TEST_PASSAGES))
+        assert len(fetch_result) == 1
+        assert fetch_result[0].id == _id
