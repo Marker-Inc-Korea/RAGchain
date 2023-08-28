@@ -2,8 +2,7 @@ from typing import List
 
 import click
 
-from KoPrivateGPT.options import Options, PickleDBOptions
-from KoPrivateGPT.options.config import MongoDBOptions
+from KoPrivateGPT.options import Options
 from KoPrivateGPT.pipeline import BasicRunPipeline
 from KoPrivateGPT.schema import Passage
 from KoPrivateGPT.utils.embed import EmbeddingFactory

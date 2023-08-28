@@ -42,12 +42,14 @@ class BaseRetrieval(ABC):
         fetch_list = []
         for item in final_db_origin.items():
             # make tuple to dict
-            item.key = dict(item.key)
+            # item[0] = (db_origin:tuple), item[1] = (index:list)
+            db_origin = dict(item[0])
+            dict_db_path = dict(db_origin['db_path'])
             # make db instance
-            self.create_db_instance(str(item.key['db_type']), **dict(item.key['db_path']))
+            self.create_db_instance(db_origin['db_type'], dict_db_path)
             self.db.load()
             # make each id list
-            each_ids = [ids[i] for i in item.value]
+            each_ids = [ids[i] for i in item[1]]
             # fetch data
             fetch_data = (self.db.fetch(each_ids))
             fetch_list.append(fetch_data)
@@ -56,12 +58,12 @@ class BaseRetrieval(ABC):
 
     def create_db_instance(self, db_type: str, db_path: dict):
         """
-        selector's ModuleSelector can't import because of circular import.
+        selector-ModuleSelector cant import because of circular import.
         """
         if db_type == "mongo_db":
-            self.db = MongoDB(**dict(db_path))
+            self.db = MongoDB(**db_path)
         elif db_type == "pickle_db":
-            self.db = PickleDB(**dict(db_path))
+            self.db = PickleDB(**db_path)
         else:
             raise ValueError(f"Unknown db type: {db_type}")
 
@@ -72,17 +74,22 @@ class BaseRetrieval(ABC):
         db_origin = {"db_type": "mongo_db",
             "db_path": {"mongo_url": "...", "db_name": "...", "collection_name": "..."}}
         check_dict = {(("db_type": "mongo_db"),
-            (('mongo_url': "..."), ('db_name': "..."), ('collection_name': "..."))): [0,  2], ...}
+            ('db_path',(('mongo_url': "..."), ('db_name': "..."), ('collection_name': "...")))): [0,  2], ...}
         """
-        check_dict = {}
-        for i, db_path in enumerate(db_origin_list):
-            # dict-key is not hashable, so we need to change dict to tuple.
-            db_path = tuple(db_path.items())
-            if db_path in check_dict:
-                check_dict[db_path].append(i)
+        check_duplicate = []
+        result = {}
+        for index, db_origin in enumerate(db_origin_list):
+            # db_origin(dict) to tuple
+            tuple_db_origin = tuple(db_origin.items())
+            # replace db_path(dict) to tuple
+            tuple_final = tuple([(key, tuple(value.items())) if key == "db_path" else (key, value)
+                                 for key, value in tuple_db_origin])
+            if db_origin in check_duplicate:
+                result[tuple_final].append(index)
             else:
-                check_dict[db_path] = [i]
-        return check_dict
+                check_duplicate.append(db_origin)
+                result[tuple_final] = [index]
+        return result
 
     @staticmethod
     def flatten_list(nested_list):
