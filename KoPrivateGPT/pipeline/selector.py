@@ -1,5 +1,4 @@
-from KoPrivateGPT.DB.mongo_db import MongoDB
-from KoPrivateGPT.DB.pickle_db import PickleDB
+from KoPrivateGPT.DB import MongoDB, PickleDB
 from KoPrivateGPT.llm.basic import BasicLLM
 from KoPrivateGPT.llm.rerank import RerankLLM
 from KoPrivateGPT.llm.visconde import ViscondeLLM

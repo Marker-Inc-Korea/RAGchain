@@ -1,9 +1,8 @@
-import json
 from abc import ABC, abstractmethod
-from typing import List, Union, Any, Dict
-from KoPrivateGPT.schema import Passage
+from typing import List, Any, Dict
 from uuid import UUID
 
+from KoPrivateGPT.schema import Passage
 from KoPrivateGPT.schema.db_origin import DBOrigin
 
 

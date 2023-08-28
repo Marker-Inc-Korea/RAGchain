@@ -46,7 +46,7 @@ def hyde_embeddings(llm, base_embedding):
 @click.option('--embedding_type', default='ko_sroberta_multitask', help='embedding model to use, select OpenAI or KoSimCSE.')
 @click.option('--model_name', default='gpt-3.5-turbo', help='model name to use.')
 @click.option('--api_base', default=None, help='api base to use.')
-def main(device_type, retrieval_type: str, vectordb_type, embedding_type, model_name, api_base, db_type: str):
+def main(device_type, retrieval_type: str, vectordb_type, embedding_type, model_name, api_base):
     pipeline = BasicRunPipeline(
         retrieval_type=(retrieval_type, {"save_path": Options.bm25_db_dir,
                                          "vectordb_type": vectordb_type,
