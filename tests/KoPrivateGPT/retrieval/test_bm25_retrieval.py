@@ -1,5 +1,4 @@
 import os
-from uuid import UUID
 
 import pytest
 
@@ -21,11 +20,6 @@ def test_bm25_retrieval(bm25_retrieval):
     bm25_retrieval.ingest(test_base_retrieval.TEST_PASSAGES)
     top_k = 6
     retrieved_ids = bm25_retrieval.retrieve_id(query='What is visconde structure?', top_k=top_k)
-    assert len(retrieved_ids) == top_k
-    for _id in retrieved_ids:
-        assert isinstance(_id, str) or isinstance(_id, UUID)
-        fetch_result = list(filter(lambda x: getattr(x, 'id') == _id, test_base_retrieval.TEST_PASSAGES))
-        assert len(fetch_result) == 1
-        assert fetch_result[0].id == _id
+    test_base_retrieval.validate_ids(retrieved_ids, top_k)
 
     # TODO : test retrieve method after making DB linker

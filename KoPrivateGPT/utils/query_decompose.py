@@ -16,9 +16,10 @@ location = {Dublin, Ireland}
 }
 """
 from typing import List
+
 import openai
 
-from KoPrivateGPT.llm.basic import BasicLLM
+from KoPrivateGPT.utils import set_api_base
 
 
 class QueryDecomposition:
@@ -70,7 +71,7 @@ class QueryDecomposition:
 
     def __init__(self, model_name: str = "text-davinci-003", api_base: str = None):
         self.model_name = model_name
-        BasicLLM.set_model(api_base)
+        set_api_base(api_base)
 
     def decompose(self, query: str) -> List[str]:
         """

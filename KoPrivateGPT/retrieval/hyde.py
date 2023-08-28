@@ -5,24 +5,24 @@ from uuid import UUID
 import openai
 
 from KoPrivateGPT.DB.base import BaseDB
-from KoPrivateGPT.llm.basic import BasicLLM
 from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
+from KoPrivateGPT.utils import set_api_base
 
 logger = logging.getLogger(__name__)
 
 
 class HyDERetrieval(BaseRetrieval):
-    BASIC_PROMPT = "Please write a passage to answer the question"
+    BASIC_SYSTEM_PROMPT = "Please write a passage to answer the question"
 
     def __init__(self,
                  retrieval: BaseRetrieval,
-                 prompt: str = None,
+                 system_prompt: str = None,
                  model_name: str = "gpt-3.5-turbo", api_base: str = None, *args, **kwargs):
         self.retrieval = retrieval
-        self.prompt = self.make_prompt(self.BASIC_PROMPT) if prompt is None else self.make_prompt(prompt)
+        self.system_prompt = self.BASIC_SYSTEM_PROMPT if system_prompt is None else system_prompt
         self.model_name = model_name
-        BasicLLM.set_model(api_base)
+        set_api_base(api_base)
 
     def retrieve(self, query: str, db: BaseDB, top_k: int = 5, *args, **kwargs) -> List[Passage]:
         # TODO : use linker for this!
@@ -34,8 +34,11 @@ class HyDERetrieval(BaseRetrieval):
         self.retrieval.ingest(passages)
 
     def retrieve_id(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Union[str, UUID]]:
-        prompt = self.prompt.format(query)
-        completion = openai.ChatCompletion.create(model=self.model_name, prompt=prompt, temperature=0.7)
+        user_prompt = f"Question: {query}\nPassage:"
+        completion = openai.ChatCompletion.create(model=self.model_name, messages=[
+            {"role": "system", "content": self.system_prompt},
+            {"role": "user", "content": user_prompt}
+        ], temperature=0.7)
         hyde_answer = completion["choices"][0]["message"]["content"]
         # logging
         logger.info(f"HyDE answer : {hyde_answer}")

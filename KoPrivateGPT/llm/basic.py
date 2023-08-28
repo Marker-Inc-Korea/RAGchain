@@ -1,4 +1,3 @@
-import os
 from typing import List
 
 import openai
@@ -7,6 +6,7 @@ from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.llm.base import BaseLLM
 from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
+from KoPrivateGPT.utils import set_api_base
 
 
 class BasicLLM(BaseLLM):
@@ -15,7 +15,7 @@ class BasicLLM(BaseLLM):
         self.retrieval = retrieval
         self.db = db
         self.model_name = model_name
-        self.set_model(api_base)
+        set_api_base(api_base)
 
     def ask(self, query: str) -> tuple[str, List[Passage]]:
         passages = self.retrieval.retrieve(query, self.db, top_k=4)
@@ -39,15 +39,3 @@ class BasicLLM(BaseLLM):
             {"role": "user", "content": user_prompt},
             {"role": "assistant", "content": "다음은 질문에 대한 한국어 답변입니다. "}
         ]
-
-    @staticmethod
-    def set_model(api_base: str):
-        if api_base is None:
-            from dotenv import load_dotenv
-            env_loaded = load_dotenv()
-            if not env_loaded:
-                raise ValueError("Please set OPENAI_API_KEY in .env file")
-            openai.api_key = os.environ["OPENAI_API_KEY"]
-        else:
-            openai.api_key = "EMPTY"
-            openai.api_base = api_base
