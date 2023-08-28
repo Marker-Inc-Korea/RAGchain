@@ -2,6 +2,7 @@ from KoPrivateGPT.DB.mongo_db import MongoDB
 from KoPrivateGPT.DB.pickle_db import PickleDB
 from KoPrivateGPT.llm.basic import BasicLLM
 from KoPrivateGPT.llm.rerank import RerankLLM
+from KoPrivateGPT.llm.visconde import ViscondeLLM
 from KoPrivateGPT.preprocess.loader import FileLoader, KoStrategyQALoader
 from KoPrivateGPT.preprocess.text_splitter import RecursiveTextSplitter
 from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval
@@ -66,5 +67,7 @@ class ModuleSelector:
             self.module = BasicLLM
         elif name in text_modifier("rerank_llm"):
             self.module = RerankLLM
+        elif name in text_modifier("visconde_llm"):
+            self.module = ViscondeLLM
         else:
             raise ValueError(f"Invalid module name: {name}")
