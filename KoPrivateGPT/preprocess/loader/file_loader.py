@@ -1,15 +1,17 @@
 import os
 from typing import List
-from tqdm import tqdm
-from langchain.schema import Document
+
 from langchain.document_loaders import TextLoader, PDFMinerLoader, CSVLoader
+from langchain.schema import Document
+from tqdm import tqdm
 
 from KoPrivateGPT.options import Options
 
 
 class FileLoader:
-    def __init__(self, target_dir: str, *args, **kwargs):
+    def __init__(self, target_dir: str, hwp_host_url: str = Options.HwpConvertHost, *args, **kwargs):
         # add more extensions when if you want to add more extensions loader
+        self.hwp_host_url = hwp_host_url
         self.ingestable_extensions = ['.txt', '.pdf', '.csv', '.xlsx', '.hwp']
         if not os.path.exists(target_dir):
             raise ValueError(f"Target directory {target_dir} does not exist.")
@@ -53,6 +55,6 @@ class FileLoader:
         elif file_path.endswith(".xlsx"):
             loader = ExcelLoader(file_path)
         elif file_path.endswith(".hwp"):
-            loader = HwpLoader(file_path, hwp_host_url=Options.HwpConvertHost)
+            loader = HwpLoader(file_path, hwp_host_url=self.hwp_host_url)
 
         return loader.load()[0]

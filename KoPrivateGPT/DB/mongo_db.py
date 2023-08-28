@@ -1,11 +1,10 @@
 from typing import List, Any, Dict
+from uuid import UUID
 
 import pymongo
-from bson import Binary, UuidRepresentation
 
 from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.schema import Passage
-from uuid import UUID
 
 
 class MongoDB(BaseDB):
@@ -49,7 +48,7 @@ class MongoDB(BaseDB):
         passage_list = []
         for find_id in ids:
             dict_passage = self.collection.find_one({"_id": find_id})
-            passage = Passage(**dict_passage)
+            passage = Passage(id=dict_passage['_id'], **dict_passage)
             passage_list.append(passage)
         return passage_list
 
@@ -60,7 +59,7 @@ class MongoDB(BaseDB):
         :return: List[Passage], list of Passage extract from the result of filter_dict query to MongoDB.
         """
         cursor = self.collection.find(filter_dict)
-        return [Passage(**passage) for passage in cursor]
+        return [Passage(id=passage['_id'], **passage) for passage in cursor]
 
     def set_db(self):
         self.client = pymongo.MongoClient(self.mongo_url, uuidRepresentation='standard')

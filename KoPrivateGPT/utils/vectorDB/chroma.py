@@ -1,8 +1,10 @@
 import os
-from typing import List, Optional
+from typing import List, Optional, Union
+from uuid import UUID
+
 import chromadb
 from chromadb.types import Where, WhereDocument
-from uuid import UUID
+
 from KoPrivateGPT.schema.vector import Vector
 from KoPrivateGPT.utils.vectorDB.base import BaseVectorDB
 
@@ -25,12 +27,13 @@ class Chroma(BaseVectorDB):
 
     def similarity_search(self, query_vectors: List[float], top_k: int = 5,
                           where: Optional[Where] = None,
-                          where_document: Optional[WhereDocument] = None) -> tuple[List[UUID], List[float]]:
+                          where_document: Optional[WhereDocument] = None) -> tuple[List[Union[UUID, str]], List[float]]:
         result = self.collection.query(
             query_embeddings=query_vectors,
             n_results=top_k
         )
-        return [UUID(metadata['passage_id']) for metadata in result["metadatas"][0]], result["distances"][0]
+        return [self._str_to_uuid(metadata['passage_id']) for metadata in result["metadatas"][0]], result["distances"][
+            0]
 
     def delete_all(self):
         self.collection.delete()
