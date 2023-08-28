@@ -1,22 +1,20 @@
 from typing import List
-import pinecone
-from dotenv import load_dotenv
 from typing import Optional, Dict, Union
+from uuid import UUID
 
+import pinecone
 from langchain.embeddings.base import Embeddings
 
 from KoPrivateGPT.schema.vector import Vector
 from KoPrivateGPT.utils.vectorDB.base import BaseVectorDB
-import os
-from uuid import UUID
 
 
 class Pinecone(BaseVectorDB):
-    def __init__(self, index_name: str, namespace: str, dimension: Optional[int] = None, *args, **kwargs):
-        load_dotenv()
+    def __init__(self, api_key: str, environment: str,
+                 index_name: str, namespace: str, dimension: Optional[int] = None, *args, **kwargs):
         pinecone.init(
-            api_key=os.environ["PINECONE_API_KEY"],
-            environment=os.environ["PINECONE_ENV"]
+            api_key=api_key,
+            environment=environment
         )
 
         active_indexes = pinecone.list_indexes()
@@ -25,6 +23,7 @@ class Pinecone(BaseVectorDB):
                 raise ValueError("Dimension must be set when creating a new index.")
             pinecone.create_index(index_name, dimension=dimension, *args, **kwargs)
         self.index = pinecone.Index(index_name)
+        self.index_name = index_name
         self.namespace = namespace
 
     def add_vectors(self, vectors: List[Vector]):
@@ -39,7 +38,7 @@ class Pinecone(BaseVectorDB):
 
     def similarity_search(self, query_vectors: List[float], top_k: int = 5,
                           filter: Optional[Dict[str, Union[str, float, int, bool, List, dict]]] = None) -> tuple[
-        List[UUID], List[float]]:
+        List[Union[UUID, str]], List[float]]:
         response = self.index.query(
             vector=query_vectors,
             namespace=self.namespace,
@@ -51,12 +50,15 @@ class Pinecone(BaseVectorDB):
         scores = []
         for res in response["matches"]:
             metadata = res["metadata"]
-            ids.append(UUID(metadata["passage_id"]))
+            ids.append(self._str_to_uuid(metadata["passage_id"]))
             scores.append(res["score"])
         return ids, scores
 
+    def delete(self, ids: List[Union[str, UUID]]):
+        self.index.delete(ids=[str(_id) for _id in ids], namespace=self.namespace)
+
     def delete_all(self):
-        self.index.delete(namespace=self.namespace)
+        pinecone.delete_index(self.index_name)
 
     def get_db_type(self) -> str:
         return "pinecone"

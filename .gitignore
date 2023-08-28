@@ -7,3 +7,6 @@
 /SOURCE_DOCUMENTS
 embedded_files_cache.pkl
 *.pkl
+./tests/.env
+pytest.ini
+!/tests/resources/sample_passages.pkl
