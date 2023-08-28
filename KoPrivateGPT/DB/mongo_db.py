@@ -1,10 +1,10 @@
 from typing import List, Any, Dict
+from uuid import UUID
 
 import pymongo
 
 from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.schema import Passage
-from uuid import UUID
 
 from KoPrivateGPT.schema.db_origin import DBOrigin
 from KoPrivateGPT.utils.linker.redisdbSingleton import RedisDBSingleton
