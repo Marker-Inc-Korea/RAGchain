@@ -1,7 +1,6 @@
 import json
 
 from langchain.load.serializable import Serializable
-from pydantic import Field
 
 
 class DBOrigin(Serializable):
