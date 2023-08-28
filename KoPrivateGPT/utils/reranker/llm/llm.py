@@ -5,17 +5,17 @@ I modified the code to fit the KoPrivateGPT framework.
 import os
 from typing import List
 
-from KoPrivateGPT.llm.basic import BasicLLM
+from KoPrivateGPT.schema import Passage
+from KoPrivateGPT.utils import set_api_base
 from KoPrivateGPT.utils.reranker.base import BaseReranker
 from KoPrivateGPT.utils.reranker.llm.rank_gpt import permutation_pipeline, sliding_windows
-from KoPrivateGPT.schema import Passage
 
 
 class LLMReranker(BaseReranker):
     def __init__(self, model_name: str = "gpt-3.5-turbo", api_base: str = None, *args, **kwargs):
         self.model_name = model_name
         self.api_base = api_base
-        BasicLLM.set_model(api_base)
+        set_api_base(api_base)
 
     def rerank(self, query: str, passages: List[Passage]) -> List[Passage]:
         items = self.make_item(query, passages)
