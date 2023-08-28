@@ -43,7 +43,9 @@ def setting(device, embed, db, retrieval):
                           "collection_name": MongoDBOptions.collection_name})
     chroma = ("vector_db", {"vectordb": Chroma(ChromaOptions.persist_dir, ChromaOptions.collection_name),
                             "embedding": EmbeddingFactory(embed_type=embed, device_type=device).get()})
-    pinecone = ("vector_db", {"vectordb": Pinecone(PineconeOptions.index_name,
+    pinecone = ("vector_db", {"vectordb": Pinecone(os.getenv('PINECONE_API_KEY'),
+                                                   os.getenv('PINECONE_ENV'),
+                                                   PineconeOptions.index_name,
                                                    PineconeOptions.namespace,
                                                    PineconeOptions.dimension),
                               "embedding": EmbeddingFactory(embed_type=embed, device_type=device).get()})

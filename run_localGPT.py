@@ -1,6 +1,8 @@
+import os
 from typing import List
 
 import click
+from dotenv import load_dotenv
 from langchain import LLMChain
 from langchain.chains import HypotheticalDocumentEmbedder
 from langchain.prompts import PromptTemplate
@@ -42,30 +44,38 @@ def hyde_embeddings(llm, base_embedding):
     return HypotheticalDocumentEmbedder(llm_chain=llm_chain, base_embeddings=base_embedding)
 
 
-@click.command()
-@click.option('--device_type', default='mps', help='device to run on, select gpu, cpu or mps')
-@click.option('--retrieval_type', default='bm25', help='retrieval type to use, select vectordb or bm25')
-@click.option('--vectordb_type', default='chroma', help='vector database to use, select chroma or pinecone')
-@click.option('--embedding_type', default='ko_sroberta_multitask', help='embedding model to use, select OpenAI or KoSimCSE.')
-@click.option('--model_name', default='gpt-3.5-turbo', help='model name to use.')
-@click.option('--api_base', default=None, help='api base to use.')
-@click.option('--db_type', default='mongo_db', help='db type to use, select pickle_db or mongo_db')
-def main(device_type, retrieval_type: str, vectordb_type, embedding_type, model_name, api_base, db_type: str):
+def select_vectordb(vectordb_type: str):
+    load_dotenv()
     if vectordb_type == text_modifier('chroma'):
         vectordb = Chroma(ChromaOptions.persist_dir, ChromaOptions.collection_name)
     elif vectordb_type == text_modifier('pinecone'):
-        vectordb = Pinecone(PineconeOptions.index_name,
+        vectordb = Pinecone(os.getenv('PINECONE_API_KEY'),
+                            os.getenv('PINECONE_ENV'),
+                            PineconeOptions.index_name,
                             PineconeOptions.namespace,
                             PineconeOptions.dimension)
     else:
         raise ValueError("vectordb type is not valid")
+    return vectordb
 
+
+@click.command()
+@click.option('--device_type', default='mps', help='device to run on, select gpu, cpu or mps')
+@click.option('--retrieval_type', default='bm25', help='retrieval type to use, select vectordb or bm25')
+@click.option('--vectordb_type', default='chroma', help='vector database to use, select chroma or pinecone')
+@click.option('--embedding_type', default='ko_sroberta_multitask',
+              help='embedding model to use, select OpenAI or KoSimCSE.')
+@click.option('--model_name', default='gpt-3.5-turbo', help='model name to use.')
+@click.option('--api_base', default=None, help='api base to use.')
+@click.option('--db_type', default='mongo_db', help='db type to use, select pickle_db or mongo_db')
+def main(device_type, retrieval_type: str, vectordb_type, embedding_type, model_name, api_base, db_type: str):
+    vectordb = select_vectordb(vectordb_type)
     pipeline = BasicRunPipeline(
         retrieval_type=(retrieval_type, {"save_path": Options.bm25_db_dir,
                                          "vectordb": vectordb,
-                                         "embedding_type": EmbeddingFactory(embed_type=embedding_type,
-                                                                            device_type=device_type).get(),
-                                         "device_type": device_type}),
+                                         "embedding": EmbeddingFactory(embed_type=embedding_type,
+                                                                       device_type=device_type).get()
+                                         }),
         llm_type=("basic_llm", {"model_name": model_name, "api_base": api_base}),
         db_type=(db_type, {
             'save_path': PickleDBOptions.save_path,
