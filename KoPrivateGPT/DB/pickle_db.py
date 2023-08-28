@@ -43,8 +43,13 @@ class PickleDB(BaseDB):
             self.create()
 
     def save(self, passages: List[Passage]):
+        # save to pickleDB
         self.db.extend(passages)
         self._write_pickle()
+        # save to redisDB
+        db_origin = self.get_db_origin()
+        db_origin_json = db_origin.to_json()
+        [self.redis_db.client.json().set(str(passage.id), '$', db_origin_json) for passage in passages]
 
     def fetch(self, ids: List[UUID]) -> List[Passage]:
         result = list(filter(lambda x: x.id in ids, self.db))
@@ -75,5 +80,5 @@ class PickleDB(BaseDB):
         with open(self.save_path, 'wb') as w:
             pickle.dump(self.db, w)
 
-    def get_db_origin(self):
+    def get_db_origin(self) -> DBOrigin:
         return DBOrigin(db_type=self.db_type, db_path={'save_path': self.save_path})

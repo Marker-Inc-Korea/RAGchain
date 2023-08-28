@@ -45,10 +45,14 @@ class BaseRetrieval(ABC):
         return mongo_db_ids, mongo_db_path, pickle_db_ids, pickle_db_path
 
     def fetch_data(self, ids: List[UUID]) -> List[Passage]:
-        self.redis_db = RedisDBSingleton()
         db_origin_list = self.redis_db.get_json(ids)
         # Sometimes redis doesn't find the id, so we need to filter that db_origin is None.
-        final_db_origin = [db_origin for db_origin in db_origin_list if db_origin is not None]
+        final_db_origin = []
+        for db_origin in db_origin_list:
+            if db_origin is None:
+                raise ValueError(f"Redis doesn't find the id: {ids}")
+            else:
+                final_db_origin.append(db_origin)
         mongo_db_ids, mongo_db_path, pickle_db_ids, pickle_db_path = self.split_db_type(ids, final_db_origin)
         passage_list = self.fetch_each_db(mongo_db_ids, pickle_db_ids, mongo_db_path, pickle_db_path)
         return passage_list
@@ -78,10 +82,16 @@ class BaseRetrieval(ABC):
 
     def fetch_pickle_data(self, pickle_db_ids: List[UUID], pickle_db_path) -> List[Passage]:
         check_dict = self.duplicate_path_check(pickle_db_path)
-
-        self.pickle_db = PickleDB(**pickle_db_path[0])
-        self.pickle_db.load()
-        return self.pickle_db.fetch(pickle_db_ids)
+        fetch_list = []
+        for db_path, index_list in check_dict.items():
+            real_pickle_db_ids = []
+            for i in index_list:
+                real_pickle_db_ids = [pickle_db_ids[i]]
+            self.mongo_db = MongoDB(**dict(db_path))
+            self.mongo_db.load()
+            fetch_list.append(self.mongo_db.fetch(real_pickle_db_ids))
+        passage_list = self.flatten_list(fetch_list)
+        return passage_list
 
     @staticmethod
     def duplicate_path_check(db_path: List) -> dict[tuple, list[Any]]:

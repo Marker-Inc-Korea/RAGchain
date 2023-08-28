@@ -45,5 +45,5 @@ class BaseDB(ABC):
         pass
 
     @abstractmethod
-    def get_db_origin(self):
+    def get_db_origin(self) -> DBOrigin:
         pass

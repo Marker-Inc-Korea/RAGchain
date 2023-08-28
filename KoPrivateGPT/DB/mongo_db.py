@@ -79,6 +79,6 @@ class MongoDB(BaseDB):
             raise ValueError(f'{self.db_name} does not exists')
         self.db = self.client.get_database(self.db_name)
 
-    def get_db_origin(self):
+    def get_db_origin(self) -> DBOrigin:
         db_path = {'mongo_url': self.mongo_url, 'db_name': self.db_name, 'collection_name': self.collection_name}
         return DBOrigin(db_type=self.db_type, db_path=db_path)

@@ -28,7 +28,7 @@ def main(device_type, vectordb_type, embedding_type, retrieval_type: str, db_typ
             "db_name": MongoDBOptions.db_name,
             "collection_name": MongoDBOptions.collection_name
         }),
-        ignore_existed_file=False
+        ignore_existed_file=True
     )
     pipeline.run()
 

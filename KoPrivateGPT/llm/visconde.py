@@ -55,7 +55,6 @@ class ViscondeLLM(BaseLLM):
 
     def __init__(self,
                  retrieval: BaseRetrieval,
-                 db: BaseDB,
                  model_name: str = "text-davinci-003",
                  api_base: str = None,
                  decompose_model_name: str = "text-davinci-003",
@@ -64,7 +63,6 @@ class ViscondeLLM(BaseLLM):
                  prompt: str = None,
                  *args, **kwargs):
         self.retrieval = retrieval
-        self.db = db
         self.model_name = model_name
         self.decompose_model_name = decompose_model_name
         BasicLLM.set_model(api_base)
@@ -88,11 +86,11 @@ class ViscondeLLM(BaseLLM):
         if is_decomposed:
             # use decomposed query
             for query in decompose_query:
-                hits = self.retrieval.retrieve(query, self.db, top_k=self.retrieve_size)
+                hits = self.retrieval.retrieve(query, top_k=self.retrieve_size)
                 passage_list.extend(hits)
             passage_list = self.reranker.rerank(query, passage_list)
         else:
-            hits = self.retrieval.retrieve(query, self.db, top_k=self.retrieve_size)
+            hits = self.retrieval.retrieve(query, top_k=self.retrieve_size)
             passage_list.extend(hits)
 
         # remove duplicate elements while preserving order

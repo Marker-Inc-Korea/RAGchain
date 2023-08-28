@@ -1,3 +1,4 @@
+from typing import Union
 from uuid import UUID
 import redis
 import os
@@ -26,7 +27,7 @@ class RedisDBSingleton:
             decode_responses=True
         )
 
-    def get_json(self, ids: list[UUID]):
+    def get_json(self, ids: list[Union[UUID, str]]):
         # redis only accept str type key
         str_ids = [str(find_id) for find_id in ids]
         return [self.client.json().get(find_id) for find_id in str_ids]
