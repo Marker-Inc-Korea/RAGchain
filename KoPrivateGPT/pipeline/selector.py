@@ -6,6 +6,7 @@ from KoPrivateGPT.llm.visconde import ViscondeLLM
 from KoPrivateGPT.preprocess.loader import FileLoader, KoStrategyQALoader
 from KoPrivateGPT.preprocess.text_splitter import RecursiveTextSplitter
 from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval
+from KoPrivateGPT.retrieval.hyde import HyDERetrieval
 from KoPrivateGPT.utils import text_modifier
 
 
@@ -59,6 +60,8 @@ class ModuleSelector:
             self.module = BM25Retrieval
         elif name in text_modifier("vector_db"):
             self.module = VectorDBRetrieval
+        elif name in text_modifier("hyde"):
+            self.module = HyDERetrieval
         else:
             raise ValueError(f"Invalid module name: {name}")
 
