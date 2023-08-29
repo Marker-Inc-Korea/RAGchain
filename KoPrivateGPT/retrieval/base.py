@@ -27,7 +27,7 @@ class BaseRetrieval(ABC):
     def fetch_data(self, ids: List[UUID]) -> List[Passage]:
         db_origin_list = self.redis_db.get_json(ids)
         # Sometimes redis doesn't find the id, so we need to filter that db_origin is None.
-        filter_db_origin = self.none_filter(db_origin_list)
+        filter_db_origin = list(filter(lambda db_origin: db_origin is not None, db_origin_list))
         # Check duplicated db instance
         final_db_origin = self.duplicate_check(filter_db_origin)
         # fetch data from each db
@@ -73,7 +73,7 @@ class BaseRetrieval(ABC):
         For example,
         db_origin = {"db_type": "mongo_db",
             "db_path": {"mongo_url": "...", "db_name": "...", "collection_name": "..."}}
-        check_dict = {(("db_type": "mongo_db"),
+        result = {(("db_type": "mongo_db"),
             ('db_path',(('mongo_url': "..."), ('db_name': "..."), ('collection_name': "...")))): [0,  2], ...}
         """
         check_duplicate = []
@@ -84,6 +84,7 @@ class BaseRetrieval(ABC):
             # replace db_path(dict) to tuple
             tuple_final = tuple([(key, tuple(value.items())) if key == "db_path" else (key, value)
                                  for key, value in tuple_db_origin])
+            # check duplicated db instance with equal method
             if db_origin in check_duplicate:
                 result[tuple_final].append(index)
             else:
@@ -97,13 +98,3 @@ class BaseRetrieval(ABC):
         for item in nested_list:
             final_list.extend(item)
         return final_list
-
-    @staticmethod
-    def none_filter(db_origin_list: List[Dict]) -> List[Dict]:
-        final_db_origin = []
-        for db_origin in db_origin_list:
-            if db_origin is None:
-                raise ValueError("Redis doesn't find the id")
-            else:
-                final_db_origin.append(db_origin)
-        return final_db_origin

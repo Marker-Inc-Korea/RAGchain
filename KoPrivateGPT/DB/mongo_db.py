@@ -50,8 +50,8 @@ class MongoDB(BaseDB):
             self.collection.insert_one(passage_to_dict)
             # save to redisDB
             db_origin = self.get_db_origin()
-            db_origin_json = db_origin.to_json()
-            self.redis_db.client.json().set(str(passage.id), '$', db_origin_json)
+            db_origin_dict = db_origin.to_dict()
+            self.redis_db.client.json().set(str(passage.id), '$', db_origin_dict)
 
     def fetch(self, ids: List[UUID]) -> List[Passage]:
         passage_list = []

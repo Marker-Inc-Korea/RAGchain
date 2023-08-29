@@ -1,5 +1,3 @@
-import json
-
 from langchain.load.serializable import Serializable
 
 
@@ -8,7 +6,7 @@ class DBOrigin(Serializable):
     db_type: str
     db_path: dict
 
-    def to_json(self) -> json:
+    def to_dict(self) -> dict:
         return {
             "db_type": self.db_type,
             "db_path": self.db_path

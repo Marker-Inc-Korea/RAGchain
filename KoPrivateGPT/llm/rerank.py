@@ -2,7 +2,6 @@ from typing import List
 
 import openai
 
-from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.llm.base import BaseLLM
 from KoPrivateGPT.llm.basic import BasicLLM
 from KoPrivateGPT.retrieval.base import BaseRetrieval

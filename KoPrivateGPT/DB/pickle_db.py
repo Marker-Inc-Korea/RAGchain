@@ -47,8 +47,8 @@ class PickleDB(BaseDB):
         self._write_pickle()
         # save to redisDB
         db_origin = self.get_db_origin()
-        db_origin_json = db_origin.to_json()
-        [self.redis_db.client.json().set(str(passage.id), '$', db_origin_json) for passage in passages]
+        db_origin_dict = db_origin.to_dict()
+        [self.redis_db.client.json().set(str(passage.id), '$', db_origin_dict) for passage in passages]
 
     def fetch(self, ids: List[UUID]) -> List[Passage]:
         result = list(filter(lambda x: x.id in ids, self.db))
