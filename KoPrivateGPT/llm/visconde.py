@@ -25,7 +25,8 @@ from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.llm.base import BaseLLM
 from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
-from KoPrivateGPT.utils import QueryDecomposition, set_api_base
+from KoPrivateGPT.utils import set_api_base
+from KoPrivateGPT.utils.query_decompose import QueryDecomposition
 from KoPrivateGPT.utils.reranker import MonoT5Reranker
 
 
