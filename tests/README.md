@@ -5,6 +5,12 @@
 First, you must request pytest.ini file from the project owner.
 Or make your own pytest.ini file with pytest_template.ini file.
 
+Then, install developing local package with this command.
+
+```bash
+python setup.py develop
+```
+
 Then, run the following command in the root directory of the project.
 
 ```bash
