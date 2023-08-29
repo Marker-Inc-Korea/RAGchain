@@ -1,3 +1,4 @@
+import itertools
 from abc import ABC, abstractmethod
 from typing import List, Union, Dict
 from uuid import UUID
@@ -53,7 +54,8 @@ class BaseRetrieval(ABC):
             # fetch data
             fetch_data = (self.db.fetch(each_ids))
             fetch_list.append(fetch_data)
-        passage_list = self.flatten_list(fetch_list)
+        passage_list = list(itertools.chain.from_iterable(fetch_list))
+        # passage_list = self.flatten_list(fetch_list)
         return passage_list
 
     def create_db_instance(self, db_type: str, db_path: dict):
@@ -91,10 +93,3 @@ class BaseRetrieval(ABC):
                 check_duplicate.append(db_origin)
                 result[tuple_final] = [index]
         return result
-
-    @staticmethod
-    def flatten_list(nested_list):
-        final_list = []
-        for item in nested_list:
-            final_list.extend(item)
-        return final_list
