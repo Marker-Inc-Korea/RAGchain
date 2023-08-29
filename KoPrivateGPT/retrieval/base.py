@@ -10,6 +10,7 @@ from KoPrivateGPT.utils.linker import RedisDBSingleton
 
 class BaseRetrieval(ABC):
     def __init__(self):
+        self.check_duplicate = []
         self.db = None
         self.redis_db = RedisDBSingleton()
 
@@ -54,8 +55,8 @@ class BaseRetrieval(ABC):
             # fetch data
             fetch_data = (self.db.fetch(each_ids))
             fetch_list.append(fetch_data)
+        # make flatten list(passage_list) from fetch_list
         passage_list = list(itertools.chain.from_iterable(fetch_list))
-        # passage_list = self.flatten_list(fetch_list)
         return passage_list
 
     def create_db_instance(self, db_type: str, db_path: dict):
@@ -69,8 +70,7 @@ class BaseRetrieval(ABC):
         else:
             raise ValueError(f"Unknown db type: {db_type}")
 
-    @staticmethod
-    def duplicate_check(db_origin_list: list[dict]) -> dict[tuple, list[int]]:
+    def duplicate_check(self, db_origin_list: list[dict]) -> dict[tuple, list[int]]:
         """
         For example,
         db_origin = {"db_type": "mongo_db",
@@ -78,7 +78,6 @@ class BaseRetrieval(ABC):
         result = {(("db_type": "mongo_db"),
             ('db_path',(('mongo_url': "..."), ('db_name': "..."), ('collection_name': "...")))): [0,  2], ...}
         """
-        check_duplicate = []
         result = {}
         for index, db_origin in enumerate(db_origin_list):
             # db_origin(dict) to tuple
@@ -87,9 +86,9 @@ class BaseRetrieval(ABC):
             tuple_final = tuple([(key, tuple(value.items())) if key == "db_path" else (key, value)
                                  for key, value in tuple_db_origin])
             # check duplicated db instance with equal method
-            if db_origin in check_duplicate:
+            if db_origin in self.check_duplicate:
                 result[tuple_final].append(index)
             else:
-                check_duplicate.append(db_origin)
+                self.check_duplicate.append(db_origin)
                 result[tuple_final] = [index]
         return result
