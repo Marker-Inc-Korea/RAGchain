@@ -34,3 +34,7 @@ def test_evidence_extractor(evidence_extractor):
     logger.info(f'Evidence: {evidence}')
     assert bool(evidence) is True
     assert "We compare our approaches with related approaches of pivoting, multilingual NMT (MNMT) BIBREF19, and cross-lingual transfer without pretraining BIBREF16." in evidence
+    irrelevant_question = 'what is the purpose of KoPrivateGPT project?'
+    evidence = evidence_extractor.extract(irrelevant_question, TEST_PASSAGES)
+    logger.info(f'Irrelevant Evidence: {evidence}')
+    assert 'No Fragment' in evidence

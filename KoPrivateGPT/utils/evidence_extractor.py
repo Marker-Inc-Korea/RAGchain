@@ -8,7 +8,7 @@ from KoPrivateGPT.utils.util import set_api_base
 # This prompt is originated from RETA-LLM
 BASIC_SYSTEM_PROMPT = """From the given document, please select and output the relevant document fragments which are related to the query.
 Note that the output must be fragments of the original document, not a summary of the document. 
-If there is no fragment related to the query in the document, please output nothing.
+If there is no fragment related to the query in the document, please output 'No Fragment'.
 """
 
 
