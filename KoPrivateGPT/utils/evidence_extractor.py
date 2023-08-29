@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List
 
 import openai
 
@@ -18,12 +18,12 @@ class EvidenceExtractor:
         self.model_name = model_name
         set_api_base(api_base)
 
-    def extract(self, question: str, passages: List[Passage], model_kwargs: Optional[dict]) -> str:
+    def extract(self, question: str, passages: List[Passage], model_kwargs: dict = {}) -> str:
         content_str = "\n".join([passage.content for passage in passages])
         user_prompt = f"Document content: {content_str}\n\nquery: {question}]\n\nrelevant document fragments:"
         completion = openai.ChatCompletion.create(
             model=self.model_name,
-            message=[
+            messages=[
                 {"role": "system", "content": self.system_prompt},
                 {"role": "user", "content": user_prompt}
             ],
