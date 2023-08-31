@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 from langchain.embeddings.base import Embeddings
 
 from KoPrivateGPT.options import ChromaOptions, PineconeOptions
-from KoPrivateGPT.utils import text_modifier
 from KoPrivateGPT.utils.embed import delete_embeddings_vectordb
+from KoPrivateGPT.utils.util import text_modifier
 from KoPrivateGPT.utils.vectorDB import Chroma
 from KoPrivateGPT.utils.vectorDB import Pinecone
 from .base import BaseRetrieval

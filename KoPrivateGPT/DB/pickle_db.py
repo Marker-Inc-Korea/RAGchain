@@ -5,6 +5,7 @@ from uuid import UUID
 
 from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.schema import Passage
+from KoPrivateGPT.utils.util import FileChecker
 from KoPrivateGPT.schema.db_origin import DBOrigin
 from KoPrivateGPT.utils import FileChecker
 from KoPrivateGPT.utils.linker import RedisDBSingleton

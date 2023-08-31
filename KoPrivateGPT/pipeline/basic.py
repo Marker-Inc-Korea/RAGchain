@@ -7,9 +7,9 @@ from KoPrivateGPT.options.config import MongoDBOptions
 from KoPrivateGPT.pipeline.base import BasePipeline
 from KoPrivateGPT.pipeline.selector import ModuleSelector
 from KoPrivateGPT.schema import Passage
-from KoPrivateGPT.utils import slice_stop_words
 from KoPrivateGPT.utils.embed import EmbeddingFactory
 from KoPrivateGPT.utils.file_cache import FileCache
+from KoPrivateGPT.utils.util import slice_stop_words
 
 
 class BasicIngestPipeline(BasePipeline):

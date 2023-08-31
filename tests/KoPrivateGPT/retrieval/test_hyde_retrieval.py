@@ -21,7 +21,8 @@ def hyde_retrieval():
 def test_hyde_retrieval(hyde_retrieval):
     hyde_retrieval.ingest(test_base_retrieval.TEST_PASSAGES)
     top_k = 4
-    retrieved_ids = hyde_retrieval.retrieve_id(query='What is visconde structure?', top_k=top_k)
+    retrieved_ids = hyde_retrieval.retrieve_id(query='What is visconde structure?', top_k=top_k,
+                                               model_kwargs={'max_tokens': 64})
     test_base_retrieval.validate_ids(retrieved_ids, top_k)
 
     # TODO : test retrieve method after making DB linker
