@@ -6,6 +6,9 @@ import pymongo
 from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.schema import Passage
 
+from KoPrivateGPT.schema.db_origin import DBOrigin
+from KoPrivateGPT.utils.linker.redisdbSingleton import RedisDBSingleton
+
 
 class MongoDB(BaseDB):
     def __init__(self, mongo_url: str, db_name: str, collection_name: str, *args, **kwargs):
@@ -15,6 +18,7 @@ class MongoDB(BaseDB):
         self.db_name = db_name
         self.collection_name = collection_name
         self.collection = None
+        self.redis_db = RedisDBSingleton()
 
     @property
     def db_type(self) -> str:
@@ -41,13 +45,20 @@ class MongoDB(BaseDB):
 
     def save(self, passages: List[Passage]):
         for passage in passages:
+            # save to mongoDB
             passage_to_dict = passage.to_dict()
             self.collection.insert_one(passage_to_dict)
+            # save to redisDB
+            db_origin = self.get_db_origin()
+            db_origin_dict = db_origin.to_dict()
+            self.redis_db.client.json().set(str(passage.id), '$', db_origin_dict)
 
     def fetch(self, ids: List[UUID]) -> List[Passage]:
         passage_list = []
         for find_id in ids:
             dict_passage = self.collection.find_one({"_id": find_id})
+            if dict_passage is None:
+                raise ValueError(f'{find_id} This _id does not exist in {self.collection_name} collection')
             passage = Passage(id=dict_passage['_id'], **dict_passage)
             passage_list.append(passage)
         return passage_list
@@ -66,3 +77,7 @@ class MongoDB(BaseDB):
         if self.db_name not in self.client.list_database_names():
             raise ValueError(f'{self.db_name} does not exists')
         self.db = self.client.get_database(self.db_name)
+
+    def get_db_origin(self) -> DBOrigin:
+        db_path = {'mongo_url': self.mongo_url, 'db_name': self.db_name, 'collection_name': self.collection_name}
+        return DBOrigin(db_type=self.db_type, db_path=db_path)

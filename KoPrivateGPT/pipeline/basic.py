@@ -107,26 +107,20 @@ class BasicDatasetPipeline(BasePipeline):
 
 
 class BasicRunPipeline(BasePipeline):
-    def __init__(self, db_type: tuple[str, Dict[str, Any]] = ("mongo_db", {"mongo_url": MongoDBOptions.mongo_url,
-                                                                           "db_name": MongoDBOptions.db_name,
-                                                                           "collection_name": MongoDBOptions.collection_name}),
-                 retrieval_type: tuple[str, Dict[str, Any]] = ("vector_db",
+    def __init__(self, retrieval_type: tuple[str, Dict[str, Any]] = ("vector_db",
                                                                {"vectordb_type": "chroma",
                                                                 "embedding": EmbeddingFactory(embed_type="openai",
                                                                                               device_type="cuda").get()}),
                  llm_type: tuple[str, Dict[str, Any]] = ("basic_llm", {"model_name": "gpt-3.5-turbo",
                                                                        "api_base": None})):
         load_dotenv()
-        self.db_type = db_type
         self.retrieval_type = retrieval_type
         self.llm_type = llm_type
 
     def run(self, query: str, *args, **kwargs) -> tuple[str, List[Passage]]:
-        db = ModuleSelector("db").select(self.db_type[0]).get(**self.db_type[1])
-        db.load()
         retrieval_step = ModuleSelector("retrieval").select(self.retrieval_type[0])
         retrieval = retrieval_step.get(**self.retrieval_type[1])
-        llm = ModuleSelector("llm").select(self.llm_type[0]).get(**self.llm_type[1], db=db, retrieval=retrieval)
+        llm = ModuleSelector("llm").select(self.llm_type[0]).get(**self.llm_type[1], retrieval=retrieval)
         answer, passages = llm.ask(query)
         answer = slice_stop_words(answer, ["Question :", "question:"])
         return answer, passages

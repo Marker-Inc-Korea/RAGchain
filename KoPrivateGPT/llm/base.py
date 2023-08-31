@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
 
-from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
 
 

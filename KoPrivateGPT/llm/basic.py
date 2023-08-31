@@ -2,7 +2,6 @@ from typing import List
 
 import openai
 
-from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.llm.base import BaseLLM
 from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
@@ -10,15 +9,14 @@ from KoPrivateGPT.utils.util import set_api_base
 
 
 class BasicLLM(BaseLLM):
-    def __init__(self, retrieval: BaseRetrieval, db: BaseDB, model_name: str = "gpt-3.5-turbo", api_base: str = None,
+    def __init__(self, retrieval: BaseRetrieval, model_name: str = "gpt-3.5-turbo", api_base: str = None,
                  *args, **kwargs):
         self.retrieval = retrieval
-        self.db = db
         self.model_name = model_name
         set_api_base(api_base)
 
     def ask(self, query: str) -> tuple[str, List[Passage]]:
-        passages = self.retrieval.retrieve(query, self.db, top_k=4)
+        passages = self.retrieval.retrieve(query, top_k=4)
         contents = "\n\n".join([passage.content for passage in passages])
         completion = openai.ChatCompletion.create(model=self.model_name, messages=self.get_messages(contents, query),
                                                   temperature=0.5)

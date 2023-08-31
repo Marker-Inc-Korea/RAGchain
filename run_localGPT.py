@@ -2,8 +2,7 @@ from typing import List
 
 import click
 
-from KoPrivateGPT.options import Options, PickleDBOptions
-from KoPrivateGPT.options.config import MongoDBOptions
+from KoPrivateGPT.options import Options
 from KoPrivateGPT.pipeline import BasicRunPipeline
 from KoPrivateGPT.schema import Passage
 from KoPrivateGPT.utils.embed import EmbeddingFactory
@@ -34,21 +33,14 @@ def print_docs(docs: List[Passage]):
               help='embedding model to use, select OpenAI or KoSimCSE.')
 @click.option('--model_name', default='gpt-3.5-turbo', help='model name to use.')
 @click.option('--api_base', default=None, help='api base to use.')
-@click.option('--db_type', default='mongo_db', help='db type to use, select pickle_db or mongo_db')
-def main(device_type, retrieval_type: str, vectordb_type, embedding_type, model_name, api_base, db_type: str):
+def main(device_type, retrieval_type: str, vectordb_type, embedding_type, model_name, api_base):
     pipeline = BasicRunPipeline(
         retrieval_type=(retrieval_type, {"save_path": Options.bm25_db_dir,
                                          "vectordb_type": vectordb_type,
                                          "embedding_type": EmbeddingFactory(embed_type=embedding_type,
                                                                             device_type=device_type).get(),
                                          "device_type": device_type}),
-        llm_type=("basic_llm", {"model_name": model_name, "api_base": api_base}),
-        db_type=(db_type, {
-            'save_path': PickleDBOptions.save_path,
-            "mongo_url": MongoDBOptions.mongo_url,
-            "db_name": MongoDBOptions.db_name,
-            "collection_name": MongoDBOptions.collection_name
-        })
+        llm_type=("basic_llm", {"model_name": model_name, "api_base": api_base})
     )
     while True:
         query = input("질문을 입력하세요: ")

@@ -1,5 +1,4 @@
-from KoPrivateGPT.DB.mongo_db import MongoDB
-from KoPrivateGPT.DB.pickle_db import PickleDB
+from KoPrivateGPT.DB import MongoDB, PickleDB
 from KoPrivateGPT.llm.basic import BasicLLM
 from KoPrivateGPT.llm.rerank import RerankLLM
 from KoPrivateGPT.llm.visconde import ViscondeLLM
@@ -47,10 +46,10 @@ class ModuleSelector:
             raise ValueError(f"Invalid module name: {name}")
 
     def select_db(self, name: str):
-        if name in text_modifier("pickle_db"):
-            self.module = PickleDB
-        elif name in text_modifier("mongo_db"):
+        if name in text_modifier("mongo_db"):
             self.module = MongoDB
+        elif name in text_modifier("pickle_db"):
+            self.module = PickleDB
         else:
             raise ValueError(f"Invalid module name: {name}")
 

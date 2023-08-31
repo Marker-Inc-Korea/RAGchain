@@ -2,7 +2,6 @@ from typing import List
 
 import openai
 
-from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.llm.base import BaseLLM
 from KoPrivateGPT.llm.basic import BasicLLM
 from KoPrivateGPT.retrieval.base import BaseRetrieval
@@ -12,11 +11,10 @@ from KoPrivateGPT.utils.util import set_api_base
 
 
 class RerankLLM(BaseLLM):
-    def __init__(self, retrieval: BaseRetrieval, db: BaseDB, reranker: BaseReranker, model_name: str = "gpt-3.5-turbo",
+    def __init__(self, retrieval: BaseRetrieval, reranker: BaseReranker, model_name: str = "gpt-3.5-turbo",
                  api_base: str = None, retrieve_size: int = 10, use_passage_count: int = 3,
                  window_size: int = 10, *args, **kwargs):
         self.retrieval = retrieval
-        self.db = db
         self.reranker = reranker
         self.model_name = model_name
         set_api_base(api_base)
@@ -29,7 +27,7 @@ class RerankLLM(BaseLLM):
         self.window_size = window_size
 
     def ask(self, query: str) -> tuple[str, List[Passage]]:
-        passages = self.retrieval.retrieve(query, self.db, top_k=self.retrieve_size)
+        passages = self.retrieval.retrieve(query, top_k=self.retrieve_size)
 
         if self.retrieve_size <= self.window_size:
             reranked_passages = self.reranker.rerank(query, passages)

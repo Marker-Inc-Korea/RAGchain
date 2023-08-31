@@ -1,3 +1,4 @@
+import json
 from uuid import UUID
 
 import numpy as np
@@ -8,6 +9,7 @@ from transformers import AutoTokenizer
 from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
+from KoPrivateGPT.utils.linker import RedisDBSingleton
 from KoPrivateGPT.utils.util import FileChecker
 import pickle
 from tqdm import tqdm
@@ -23,24 +25,31 @@ class BM25Retrieval(BaseRetrieval):
     """
 
     def __init__(self, save_path: str, *args, **kwargs):
-        if FileChecker(save_path).check_type(file_types=[".pkl", ".pickle"]).is_exist():
-            with open(save_path, 'rb') as f:
-                data = pickle.load(f)
-            assert ('tokens' and 'passage_id' in list(data.keys()))
-            self.data = data
-        else:
-            if not FileChecker(save_path).check_type(file_types=[".pkl", ".pickle"]):
-                raise ValueError("input save_path is not pickle file.")
-            self.data = {
-                "tokens": [],
-                "passage_id": [],
-            }
+        super().__init__()
+        self.data = self.load_data(save_path)
         assert (len(self.data["tokens"]) == len(self.data["passage_id"]))
         self.save_path = save_path
         self.tokenizer = AutoTokenizer.from_pretrained("EleutherAI/polyglot-ko-1.3b")
 
-    def retrieve(self, query: str, db: BaseDB, top_k: int = 5, *args, **kwargs) -> List[Passage]:
-        return db.fetch(self.retrieve_id(query, top_k))
+    @staticmethod
+    def load_data(save_path: str):
+        if FileChecker(save_path).check_type(file_types=[".pkl", ".pickle"]).is_exist():
+            with open(save_path, 'rb') as f:
+                data = pickle.load(f)
+            assert ('tokens' and 'passage_id' in list(data.keys()))
+            return data
+        else:
+            if not FileChecker(save_path).check_type(file_types=[".pkl", ".pickle"]):
+                raise ValueError("input save_path is not pickle file.")
+            return {
+                "tokens": [],
+                "passage_id": [],
+            }
+
+    def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Passage]:
+        ids = self.retrieve_id(query, top_k)
+        passage_list = self.fetch_data(ids)
+        return passage_list
 
     def retrieve_id(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Union[str, UUID]]:
         if self.data is None:
