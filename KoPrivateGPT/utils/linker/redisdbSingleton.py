@@ -32,3 +32,8 @@ class RedisDBSingleton:
         str_ids = [str(find_id) for find_id in ids]
         return [self.client.json().get(find_id) for find_id in str_ids]
 
+    def connection_check(self):
+        return self.client.ping()
+
+    def flush_db(self):
+        self.client.flushdb()
