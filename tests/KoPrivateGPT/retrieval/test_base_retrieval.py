@@ -4,6 +4,7 @@ import pickle
 from typing import List, Union
 from uuid import UUID
 
+from DB import PickleDB
 from KoPrivateGPT.schema import Passage
 
 root_dir = pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent
@@ -16,6 +17,13 @@ def test_load_passage():
     for passage in TEST_PASSAGES:
         assert isinstance(passage, Passage)
         assert isinstance(passage.id, UUID) or isinstance(passage.id, str)
+
+
+def ready_pickle_db(pickle_path: str):
+    db = PickleDB(save_path=pickle_path)
+    db.create_or_load()
+    db.save(TEST_PASSAGES)
+    return db
 
 
 def validate_ids(retrieved_ids: List[Union[str, UUID]], top_k: int):

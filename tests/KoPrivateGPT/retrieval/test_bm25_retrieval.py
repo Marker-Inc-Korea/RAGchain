@@ -3,7 +3,6 @@ import os
 import pytest
 
 import test_base_retrieval
-from KoPrivateGPT.DB import PickleDB
 from KoPrivateGPT.retrieval import BM25Retrieval
 
 
@@ -14,9 +13,7 @@ def bm25_retrieval():
     if not os.path.exists(os.path.dirname(bm25_path)):
         os.makedirs(os.path.dirname(bm25_path))
     bm25_retrieval = BM25Retrieval(save_path=bm25_path)
-    db = PickleDB(save_path=pickle_path)
-    db.create_or_load()
-    db.save(test_base_retrieval.TEST_PASSAGES)
+    test_base_retrieval.ready_pickle_db(pickle_path)
     yield bm25_retrieval
     # teardown
     if os.path.exists(bm25_path):
