@@ -23,7 +23,6 @@ mongodb_config = {
 @pytest.fixture
 def basic_run_pipeline():
     pipeline = BasicRunPipeline(
-        db_type=("mongo_db", mongodb_config),
         retrieval_type=("bm25", {"save_path": bm25_path})
     )
     yield pipeline
