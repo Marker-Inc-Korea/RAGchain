@@ -3,11 +3,10 @@ from uuid import UUID
 
 from langchain.embeddings.base import Embeddings
 
+from KoPrivateGPT.retrieval.base import BaseRetrieval
+from KoPrivateGPT.schema import Passage, Vector
 from KoPrivateGPT.utils.embed import delete_embeddings_vectordb
-from .base import BaseRetrieval
-from ..schema import Passage
-from ..schema.vector import Vector
-from ..utils.vectorDB.base import BaseVectorDB
+from KoPrivateGPT.utils.vectorDB.base import BaseVectorDB
 
 
 class VectorDBRetrieval(BaseRetrieval):
