@@ -29,6 +29,7 @@ def print_docs(docs: List[Passage]):
         print(document.content)
     print("----------------------------------참조한 문서---------------------------")
 
+
 def select_vectordb(vectordb_type: str):
     load_dotenv()
     if vectordb_type == text_modifier('chroma'):

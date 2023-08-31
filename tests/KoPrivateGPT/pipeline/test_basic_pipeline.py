@@ -34,7 +34,8 @@ def basic_run_pipeline():
     assert mongodb_collection_name not in mongo_db.db.list_collection_names()
 
     # teardown bm25
-    os.remove(bm25_path)
+    if os.path.exists(bm25_path):
+        os.remove(bm25_path)
 
 
 def test_basic_ingest_pipeline(basic_run_pipeline):

@@ -10,7 +10,6 @@ import shutil
 import click
 import pinecone
 
-from KoPrivateGPT.options import ChromaOptions, PineconeOptions, Options
 from KoPrivateGPT.utils.util import FileChecker
 
 
