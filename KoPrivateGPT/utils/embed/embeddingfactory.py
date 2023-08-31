@@ -1,7 +1,9 @@
-from enum import Enum
-from dotenv import load_dotenv
 import os
-from KoPrivateGPT.utils import text_modifier
+from enum import Enum
+
+from dotenv import load_dotenv
+
+from KoPrivateGPT.utils.util import text_modifier
 
 
 class EmbeddingType(Enum):

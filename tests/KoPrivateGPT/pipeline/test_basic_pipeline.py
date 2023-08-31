@@ -23,13 +23,12 @@ mongodb_config = {
 @pytest.fixture
 def basic_run_pipeline():
     pipeline = BasicRunPipeline(
-        db_type=("mongo_db", mongodb_config),
         retrieval_type=("bm25", {"save_path": bm25_path})
     )
     yield pipeline
     # teardown mongo db
     mongo_db = MongoDB(**mongodb_config)
-    mongo_db.load()
+    mongo_db.create_or_load()
     assert mongo_db.collection_name == mongodb_collection_name
     mongo_db.collection.drop()
     assert mongodb_collection_name not in mongo_db.db.list_collection_names()

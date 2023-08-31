@@ -1,12 +1,11 @@
-from KoPrivateGPT.DB.mongo_db import MongoDB
-from KoPrivateGPT.DB.pickle_db import PickleDB
+from KoPrivateGPT.DB import MongoDB, PickleDB
 from KoPrivateGPT.llm.basic import BasicLLM
 from KoPrivateGPT.llm.rerank import RerankLLM
 from KoPrivateGPT.llm.visconde import ViscondeLLM
 from KoPrivateGPT.preprocess.loader import FileLoader, KoStrategyQALoader
 from KoPrivateGPT.preprocess.text_splitter import RecursiveTextSplitter
-from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval
-from KoPrivateGPT.utils import text_modifier
+from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval, HyDERetrieval
+from KoPrivateGPT.utils.util import text_modifier
 
 
 class ModuleSelector:
@@ -47,10 +46,10 @@ class ModuleSelector:
             raise ValueError(f"Invalid module name: {name}")
 
     def select_db(self, name: str):
-        if name in text_modifier("pickle_db"):
-            self.module = PickleDB
-        elif name in text_modifier("mongo_db"):
+        if name in text_modifier("mongo_db"):
             self.module = MongoDB
+        elif name in text_modifier("pickle_db"):
+            self.module = PickleDB
         else:
             raise ValueError(f"Invalid module name: {name}")
 
@@ -59,6 +58,8 @@ class ModuleSelector:
             self.module = BM25Retrieval
         elif name in text_modifier("vector_db"):
             self.module = VectorDBRetrieval
+        elif name in text_modifier("hyde"):
+            self.module = HyDERetrieval
         else:
             raise ValueError(f"Invalid module name: {name}")
 

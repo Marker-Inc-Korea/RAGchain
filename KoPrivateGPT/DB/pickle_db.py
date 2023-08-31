@@ -1,18 +1,22 @@
-from typing import Any, List, Dict
-from uuid import UUID
-from KoPrivateGPT.DB.base import BaseDB
-from KoPrivateGPT.schema import Passage
 import os
 import pickle
+from typing import Any, List, Dict
+from uuid import UUID
 
-from KoPrivateGPT.utils import FileChecker
+from KoPrivateGPT.DB.base import BaseDB
+from KoPrivateGPT.schema import Passage
+from KoPrivateGPT.schema.db_origin import DBOrigin
+from KoPrivateGPT.utils.linker import RedisDBSingleton
+from KoPrivateGPT.utils.util import FileChecker
 
 
 class PickleDB(BaseDB):
+
     def __init__(self, save_path: str, *args, **kwargs):
         FileChecker(save_path).check_type(file_types=['.pickle', '.pkl'])
         self.save_path = save_path
         self.db: List[Passage] = list()
+        self.redis_db = RedisDBSingleton()
 
     @property
     def db_type(self) -> str:
@@ -38,8 +42,13 @@ class PickleDB(BaseDB):
             self.create()
 
     def save(self, passages: List[Passage]):
+        # save to pickleDB
         self.db.extend(passages)
         self._write_pickle()
+        # save to redisDB
+        db_origin = self.get_db_origin()
+        db_origin_dict = db_origin.to_dict()
+        [self.redis_db.client.json().set(str(passage.id), '$', db_origin_dict) for passage in passages]
 
     def fetch(self, ids: List[UUID]) -> List[Passage]:
         result = list(filter(lambda x: x.id in ids, self.db))
@@ -69,3 +78,6 @@ class PickleDB(BaseDB):
     def _write_pickle(self):
         with open(self.save_path, 'wb') as w:
             pickle.dump(self.db, w)
+
+    def get_db_origin(self) -> DBOrigin:
+        return DBOrigin(db_type=self.db_type, db_path={'save_path': self.save_path})

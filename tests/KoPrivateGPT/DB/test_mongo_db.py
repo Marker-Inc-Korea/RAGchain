@@ -14,6 +14,7 @@ def mongo_db():
         db_name=os.getenv('MONGO_DB_NAME'),
         collection_name=os.getenv('MONGO_COLLECTION_NAME'))
     mongo_db.create_or_load()
+    mongo_db.save(test_base_db.TEST_PASSAGES)
     yield mongo_db
     mongo_db.collection.drop()
     assert mongo_db.collection_name not in mongo_db.db.list_collection_names()

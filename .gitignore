@@ -10,3 +10,4 @@ embedded_files_cache.pkl
 ./tests/.env
 pytest.ini
 !/tests/resources/sample_passages.pkl
+/KoPrivateGPT.egg-info

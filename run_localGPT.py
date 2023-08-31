@@ -3,9 +3,6 @@ from typing import List
 
 import click
 from dotenv import load_dotenv
-from langchain import LLMChain
-from langchain.chains import HypotheticalDocumentEmbedder
-from langchain.prompts import PromptTemplate
 
 from KoPrivateGPT.pipeline import BasicRunPipeline
 from KoPrivateGPT.schema import Passage
@@ -13,8 +10,7 @@ from KoPrivateGPT.utils.embed import EmbeddingFactory
 from KoPrivateGPT.utils.util import text_modifier
 from KoPrivateGPT.utils.vectorDB import Chroma, Pinecone
 from config import ChromaOptions, PineconeOptions
-from config import MongoDBOptions
-from config import Options, PickleDBOptions
+from config import Options
 
 
 def print_query_answer(query, answer):
@@ -32,17 +28,6 @@ def print_docs(docs: List[Passage]):
         print("\n> " + document.filepath + ":")
         print(document.content)
     print("----------------------------------참조한 문서---------------------------")
-
-
-def hyde_embeddings(llm, base_embedding):
-    hyde_prompt = """
-    다음 질문에 대하여, 적절한 정보가 주어졌다고 가정하고 대답을 생성하세요.
-    질문: {question}
-    답변: """
-    prompt = PromptTemplate(template=hyde_prompt, input_variables=["question"])
-    llm_chain = LLMChain(llm=llm, prompt=prompt)
-    return HypotheticalDocumentEmbedder(llm_chain=llm_chain, base_embeddings=base_embedding)
-
 
 def select_vectordb(vectordb_type: str):
     load_dotenv()
@@ -67,8 +52,7 @@ def select_vectordb(vectordb_type: str):
               help='embedding model to use, select OpenAI or KoSimCSE.')
 @click.option('--model_name', default='gpt-3.5-turbo', help='model name to use.')
 @click.option('--api_base', default=None, help='api base to use.')
-@click.option('--db_type', default='mongo_db', help='db type to use, select pickle_db or mongo_db')
-def main(device_type, retrieval_type: str, vectordb_type, embedding_type, model_name, api_base, db_type: str):
+def main(device_type, retrieval_type: str, vectordb_type, embedding_type, model_name, api_base):
     vectordb = select_vectordb(vectordb_type)
     pipeline = BasicRunPipeline(
         retrieval_type=(retrieval_type, {"save_path": Options.bm25_db_dir,
@@ -77,12 +61,6 @@ def main(device_type, retrieval_type: str, vectordb_type, embedding_type, model_
                                                                        device_type=device_type).get()
                                          }),
         llm_type=("basic_llm", {"model_name": model_name, "api_base": api_base}),
-        db_type=(db_type, {
-            'save_path': PickleDBOptions.save_path,
-            "mongo_url": MongoDBOptions.mongo_url,
-            "db_name": MongoDBOptions.db_name,
-            "collection_name": MongoDBOptions.collection_name
-        })
     )
     while True:
         query = input("질문을 입력하세요: ")

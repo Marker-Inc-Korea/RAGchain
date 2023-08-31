@@ -12,6 +12,7 @@ def test_module_selector():
 
     assert ModuleSelector("retrieval").select("bm25").module.__name__ == "BM25Retrieval"
     assert ModuleSelector("retrieval").select("vector_db").module.__name__ == "VectorDBRetrieval"
+    assert ModuleSelector("retrieval").select("hyde").module.__name__ == "HyDERetrieval"
 
     assert ModuleSelector("llm").select("basic_llm").module.__name__ == "BasicLLM"
     assert ModuleSelector("llm").select("rerank_llm").module.__name__ == "RerankLLM"

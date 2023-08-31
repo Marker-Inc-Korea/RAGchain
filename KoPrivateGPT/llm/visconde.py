@@ -23,11 +23,11 @@ import openai
 
 from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.llm.base import BaseLLM
-from KoPrivateGPT.llm.basic import BasicLLM
 from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
-from KoPrivateGPT.utils import QueryDecomposition
+from KoPrivateGPT.utils.query_decompose import QueryDecomposition
 from KoPrivateGPT.utils.reranker import MonoT5Reranker
+from KoPrivateGPT.utils.util import set_api_base
 
 
 class ViscondeLLM(BaseLLM):
@@ -67,7 +67,7 @@ class ViscondeLLM(BaseLLM):
         self.db = db
         self.model_name = model_name
         self.decompose_model_name = decompose_model_name
-        BasicLLM.set_model(api_base)
+        set_api_base(api_base)
         self.api_base = api_base
         self.retrieve_size = retrieve_size
         self.use_passage_count = use_passage_count

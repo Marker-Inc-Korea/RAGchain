@@ -13,11 +13,11 @@ bitsandbytes
 click~=8.1.6
 openpyxl~=3.1.2
 xformers
-openai
+openai~=0.27.8
 torch~=2.0.1
 pinecone-client
 python-dotenv~=1.0.0
-tiktoken
+tiktoken~=0.4.0
 rank_bm25
 numpy~=1.25.1
 pandas~=2.0.3
@@ -33,3 +33,5 @@ tqdm~=4.65.0
 pymongo~=4.4.1
 requests~=2.31.0
 pytest-env
+
+redis~=5.0.0
