@@ -4,9 +4,7 @@ import os
 import pytest
 
 import test_base_llm
-from DB import PickleDB
 from llm.basic import BasicLLM
-from retrieval import BM25Retrieval
 
 logger = logging.getLogger(__name__)
 bm25_path = os.path.join(test_base_llm.root_dir, "resources", "bm25", "test_basic_llm.pkl")
@@ -15,11 +13,8 @@ pickle_path = os.path.join(test_base_llm.root_dir, "resources", "pickle", "test_
 
 @pytest.fixture
 def basic_llm():
-    db = PickleDB(save_path=pickle_path)
-    db.create_or_load()
-    db.save(test_base_llm.TEST_PASSAGES)
-    retrieval = BM25Retrieval(save_path=bm25_path)
-    retrieval.ingest(test_base_llm.TEST_PASSAGES)
+    test_base_llm.ready_pickle_db(pickle_path)
+    retrieval = test_base_llm.ready_bm25_retrieval(bm25_path)
     llm = BasicLLM(retrieval=retrieval)
     yield llm
     # teardown bm25
