@@ -1,11 +1,11 @@
-from typing import Any, List, Dict
-from uuid import UUID
-from KoPrivateGPT.DB.base import BaseDB
-from KoPrivateGPT.schema import Passage
 import os
 import pickle
+from typing import Any, List, Dict
+from uuid import UUID
 
-from KoPrivateGPT.utils import FileChecker
+from KoPrivateGPT.DB.base import BaseDB
+from KoPrivateGPT.schema import Passage
+from KoPrivateGPT.utils.util import FileChecker
 
 
 class PickleDB(BaseDB):

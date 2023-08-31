@@ -19,7 +19,7 @@ from typing import List
 
 import openai
 
-from KoPrivateGPT.utils import set_api_base
+from KoPrivateGPT.utils.util import set_api_base
 
 
 class QueryDecomposition:

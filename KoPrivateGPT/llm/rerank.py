@@ -7,8 +7,8 @@ from KoPrivateGPT.llm.base import BaseLLM
 from KoPrivateGPT.llm.basic import BasicLLM
 from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
-from KoPrivateGPT.utils import set_api_base
 from KoPrivateGPT.utils.reranker.base import BaseReranker
+from KoPrivateGPT.utils.util import set_api_base
 
 
 class RerankLLM(BaseLLM):
