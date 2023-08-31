@@ -19,12 +19,14 @@ class RedisDBSingleton:
         host = os.getenv("REDIS_HOST")
         port = os.getenv("REDIS_PORT")
         db_name = os.getenv("REDIS_DB_NAME")
+        password = os.getenv("REDIS_PW")
 
         self.client = redis.Redis(
             host=host,
             port=port,
             db=db_name,
-            decode_responses=True
+            decode_responses=True,
+            password=password
         )
 
     def get_json(self, ids: list[Union[UUID, str]]):
