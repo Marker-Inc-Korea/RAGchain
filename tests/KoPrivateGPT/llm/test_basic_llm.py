@@ -25,12 +25,7 @@ def basic_llm():
         os.remove(pickle_path)
 
 
-def test_ask(basic_llm):
+def test_basic_llm_ask(basic_llm):
     answer, passages = basic_llm.ask("What is reranker role?")
-    assert bool(answer)
     logger.info(f"Answer: {answer}")
-    assert len(passages) == 4
-
-    solution_ids = [passage.id for passage in test_base_llm.TEST_PASSAGES]
-    for passage in passages:
-        assert passage.id in solution_ids
+    test_base_llm.validate_answer(answer, passages)

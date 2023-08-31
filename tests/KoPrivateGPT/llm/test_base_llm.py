@@ -30,3 +30,12 @@ def ready_bm25_retrieval(bm25_path: str):
     retrieval = BM25Retrieval(save_path=bm25_path)
     retrieval.ingest(TEST_PASSAGES)
     return retrieval
+
+
+def validate_answer(answer: str, passages: list, passage_cnt: int = 4):
+    assert bool(answer)
+    assert len(passages) == passage_cnt
+
+    solution_ids = [passage.id for passage in TEST_PASSAGES]
+    for passage in passages:
+        assert passage.id in solution_ids
