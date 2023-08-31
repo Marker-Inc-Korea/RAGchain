@@ -4,9 +4,9 @@ import shutil
 import pytest
 
 import test_base_retrieval
-from retrieval import VectorDBRetrieval
-from utils.embed import EmbeddingFactory
-from utils.vectorDB import Chroma
+from KoPrivateGPT.retrieval import VectorDBRetrieval
+from KoPrivateGPT.utils.embed import EmbeddingFactory
+from KoPrivateGPT.utils.vectorDB import Chroma
 
 
 @pytest.fixture

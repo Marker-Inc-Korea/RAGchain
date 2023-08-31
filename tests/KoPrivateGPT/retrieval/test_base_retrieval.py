@@ -4,7 +4,7 @@ import pickle
 from typing import List, Union
 from uuid import UUID
 
-from DB import PickleDB
+from KoPrivateGPT.DB import PickleDB
 from KoPrivateGPT.schema import Passage
 
 root_dir = pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent
