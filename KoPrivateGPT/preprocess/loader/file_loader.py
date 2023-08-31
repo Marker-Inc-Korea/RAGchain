@@ -5,11 +5,9 @@ from langchain.document_loaders import TextLoader, PDFMinerLoader, CSVLoader
 from langchain.schema import Document
 from tqdm import tqdm
 
-from KoPrivateGPT.options import Options
-
 
 class FileLoader:
-    def __init__(self, target_dir: str, hwp_host_url: str = Options.HwpConvertHost, *args, **kwargs):
+    def __init__(self, target_dir: str, hwp_host_url: str, *args, **kwargs):
         # add more extensions when if you want to add more extensions loader
         self.hwp_host_url = hwp_host_url
         self.ingestable_extensions = ['.txt', '.pdf', '.csv', '.xlsx', '.hwp']

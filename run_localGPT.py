@@ -1,11 +1,16 @@
+import os
 from typing import List
 
 import click
+from dotenv import load_dotenv
 
-from KoPrivateGPT.options import Options
 from KoPrivateGPT.pipeline import BasicRunPipeline
 from KoPrivateGPT.schema import Passage
 from KoPrivateGPT.utils.embed import EmbeddingFactory
+from KoPrivateGPT.utils.util import text_modifier
+from KoPrivateGPT.utils.vectorDB import Chroma, Pinecone
+from config import ChromaOptions, PineconeOptions
+from config import Options
 
 
 def print_query_answer(query, answer):
@@ -25,6 +30,21 @@ def print_docs(docs: List[Passage]):
     print("----------------------------------참조한 문서---------------------------")
 
 
+def select_vectordb(vectordb_type: str):
+    load_dotenv()
+    if vectordb_type == text_modifier('chroma'):
+        vectordb = Chroma(ChromaOptions.persist_dir, ChromaOptions.collection_name)
+    elif vectordb_type == text_modifier('pinecone'):
+        vectordb = Pinecone(os.getenv('PINECONE_API_KEY'),
+                            os.getenv('PINECONE_ENV'),
+                            PineconeOptions.index_name,
+                            PineconeOptions.namespace,
+                            PineconeOptions.dimension)
+    else:
+        raise ValueError("vectordb type is not valid")
+    return vectordb
+
+
 @click.command()
 @click.option('--device_type', default='mps', help='device to run on, select gpu, cpu or mps')
 @click.option('--retrieval_type', default='bm25', help='retrieval type to use, select vectordb or bm25')
@@ -34,13 +54,14 @@ def print_docs(docs: List[Passage]):
 @click.option('--model_name', default='gpt-3.5-turbo', help='model name to use.')
 @click.option('--api_base', default=None, help='api base to use.')
 def main(device_type, retrieval_type: str, vectordb_type, embedding_type, model_name, api_base):
+    vectordb = select_vectordb(vectordb_type)
     pipeline = BasicRunPipeline(
         retrieval_type=(retrieval_type, {"save_path": Options.bm25_db_dir,
-                                         "vectordb_type": vectordb_type,
-                                         "embedding_type": EmbeddingFactory(embed_type=embedding_type,
-                                                                            device_type=device_type).get(),
-                                         "device_type": device_type}),
-        llm_type=("basic_llm", {"model_name": model_name, "api_base": api_base})
+                                         "vectordb": vectordb,
+                                         "embedding": EmbeddingFactory(embed_type=embedding_type,
+                                                                       device_type=device_type).get()
+                                         }),
+        llm_type=("basic_llm", {"model_name": model_name, "api_base": api_base}),
     )
     while True:
         query = input("질문을 입력하세요: ")

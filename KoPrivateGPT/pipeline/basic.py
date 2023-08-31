@@ -2,12 +2,9 @@ from typing import List, Dict, Any
 
 from dotenv import load_dotenv
 
-from KoPrivateGPT.options import Options
-from KoPrivateGPT.options.config import MongoDBOptions
 from KoPrivateGPT.pipeline.base import BasePipeline
 from KoPrivateGPT.pipeline.selector import ModuleSelector
 from KoPrivateGPT.schema import Passage
-from KoPrivateGPT.utils.embed import EmbeddingFactory
 from KoPrivateGPT.utils.file_cache import FileCache
 from KoPrivateGPT.utils.util import slice_stop_words
 
@@ -31,16 +28,11 @@ class BasicIngestPipeline(BasePipeline):
     """
 
     def __init__(self,
-                 file_loader_type: tuple[str, Dict[str, Any]] = ("file_loader", {"target_dir": Options.source_dir}),
+                 file_loader_type: tuple[str, Dict[str, Any]],
+                 db_type: tuple[str, Dict[str, Any]],
+                 retrieval_type: tuple[str, Dict[str, Any]],
                  text_splitter_type: tuple[str, Dict[str, Any]] = ("recursive_text_splitter", {"chunk_size": 500,
                                                                                                "chunk_overlap": 50}),
-                 db_type: tuple[str, Dict[str, Any]] = ("mongo_db", {"mongo_url": MongoDBOptions.mongo_url,
-                                                                     "db_name": MongoDBOptions.db_name,
-                                                                     "collection_name": MongoDBOptions.collection_name}),
-                 retrieval_type: tuple[str, Dict[str, Any]] = ("vector_db",
-                                                               {"vectordb_type": "chroma",
-                                                                "embedding": EmbeddingFactory(embed_type="openai",
-                                                                                              device_type="cuda").get()}),
                  ignore_existed_file: bool = True):
         self.file_loader_type = file_loader_type
         self.text_splitter_type = text_splitter_type
@@ -52,7 +44,10 @@ class BasicIngestPipeline(BasePipeline):
     def run(self, target_dir=None, *args, **kwargs):
         # File Loader
         if target_dir is not None:
-            file_loader = ModuleSelector("file_loader").select(self.file_loader_type[0]).get(target_dir=target_dir)
+            file_loader = ModuleSelector("file_loader").select(self.file_loader_type[0]).get(target_dir=target_dir,
+                                                                                             hwp_host_url=
+                                                                                             self.file_loader_type[1][
+                                                                                                 'hwp_host_url'])
         else:
             file_loader = ModuleSelector("file_loader").select(self.file_loader_type[0]).get(**self.file_loader_type[1])
         documents = file_loader.load()
@@ -107,10 +102,8 @@ class BasicDatasetPipeline(BasePipeline):
 
 
 class BasicRunPipeline(BasePipeline):
-    def __init__(self, retrieval_type: tuple[str, Dict[str, Any]] = ("vector_db",
-                                                               {"vectordb_type": "chroma",
-                                                                "embedding": EmbeddingFactory(embed_type="openai",
-                                                                                              device_type="cuda").get()}),
+    def __init__(self,
+                 retrieval_type: tuple[str, Dict[str, Any]],
                  llm_type: tuple[str, Dict[str, Any]] = ("basic_llm", {"model_name": "gpt-3.5-turbo",
                                                                        "api_base": None})):
         load_dotenv()
