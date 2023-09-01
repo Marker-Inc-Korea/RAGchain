@@ -1,6 +1,6 @@
 import itertools
 from abc import ABC, abstractmethod
-from typing import List, Union, Dict
+from typing import List, Union
 from uuid import UUID
 
 from KoPrivateGPT.DB import MongoDB, PickleDB
@@ -26,7 +26,7 @@ class BaseRetrieval(ABC):
     def retrieve_id(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Union[str, UUID]]:
         pass
 
-    def fetch_data(self, ids: List[UUID]) -> List[Passage]:
+    def fetch_data(self, ids: List[Union[UUID, str]]) -> List[Passage]:
         db_origin_list = self.redis_db.get_json(ids)
         # Sometimes redis doesn't find the id, so we need to filter that db_origin is None.
         filter_db_origin = list(filter(lambda db_origin: db_origin is not None, db_origin_list))
@@ -36,7 +36,7 @@ class BaseRetrieval(ABC):
         passage_list = self.fetch_each_db(final_db_origin, ids)
         return passage_list
 
-    def fetch_each_db(self, final_db_origin: dict[tuple, list[int]], ids: List[UUID]):
+    def fetch_each_db(self, final_db_origin: dict[tuple, list[int]], ids: List[Union[UUID, str]]):
         """
         check_dict = {(("db_type": "mongo_db"),
             (('mongo_url': "~"), ('db_name': "~"), ('collection_name': "~"))): [0,  2], ...}

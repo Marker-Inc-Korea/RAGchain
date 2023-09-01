@@ -4,7 +4,6 @@ from uuid import UUID
 
 import openai
 
-from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
 from KoPrivateGPT.utils.util import set_api_base
@@ -15,20 +14,18 @@ logger = logging.getLogger(__name__)
 class HyDERetrieval(BaseRetrieval):
     BASIC_SYSTEM_PROMPT = "Please write a passage to answer the question"
 
-    def __init__(self,
-                 retrieval: BaseRetrieval,
-                 system_prompt: str = None,
-                 model_name: str = "gpt-3.5-turbo", api_base: str = None, *args, **kwargs):
+    def __init__(self, retrieval: BaseRetrieval, system_prompt: str = None, model_name: str = "gpt-3.5-turbo",
+                 api_base: str = None, *args, **kwargs):
+        super().__init__()
         self.retrieval = retrieval
         self.system_prompt = self.BASIC_SYSTEM_PROMPT if system_prompt is None else system_prompt
         self.model_name = model_name
         set_api_base(api_base)
 
-    def retrieve(self, query: str, db: BaseDB, top_k: int = 5, model_kwargs: Optional[dict] = {}, *args, **kwargs) -> \
-    List[Passage]:
-        # TODO : use linker for this!
+    def retrieve(self, query: str, top_k: int = 5, model_kwargs: Optional[dict] = {}, *args, **kwargs) -> \
+            List[Passage]:
         ids = self.retrieve_id(query, top_k, model_kwargs, *args, **kwargs)
-        result = db.fetch(ids)
+        result = self.retrieval.fetch_data(ids)
         return result
 
     def ingest(self, passages: List[Passage]):

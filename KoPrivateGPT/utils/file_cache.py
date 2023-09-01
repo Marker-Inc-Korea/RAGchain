@@ -11,7 +11,7 @@ class FileCache:
         self.db.create_or_load()
 
     def delete_duplicate(self, documents: List[Document]) -> List[Document]:
-        for document in documents:
+        for document in documents.copy():
             result = self.db.search({'filepath': document.metadata['source']})
             if len(result) > 0:
                 documents.remove(document)
