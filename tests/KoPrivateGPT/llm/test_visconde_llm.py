@@ -4,7 +4,7 @@ import os
 import pytest
 
 import test_base_llm
-from llm.visconde import ViscondeLLM
+from KoPrivateGPT.llm.visconde import ViscondeLLM
 
 logger = logging.getLogger(__name__)
 bm25_path = os.path.join(test_base_llm.root_dir, "resources", "bm25", "test_visconde_llm.pkl")
