@@ -1,11 +1,10 @@
 import os
-import pathlib
 
 from dotenv import load_dotenv
 
 
 class Options(object):
-    root_dir = pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent
+    root_dir = os.path.dirname(os.path.realpath(__file__))
     source_dir = os.path.join(root_dir, "SOURCE_DOCUMENTS")
     embedded_files_cache_dir = os.path.join(root_dir, "embedded_files_cache.pkl")
     bm25_db_dir = os.path.join(root_dir, "bm25_db.pkl")

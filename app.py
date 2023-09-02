@@ -4,10 +4,9 @@ import gradio as gr
 from dotenv import load_dotenv
 
 from KoPrivateGPT.pipeline import BasicIngestPipeline, BasicRunPipeline
-from KoPrivateGPT.utils.embed import EmbeddingFactory
 from KoPrivateGPT.utils.util import slice_stop_words
-from KoPrivateGPT.utils.vectorDB import Chroma, Pinecone
-from config import Options, ChromaOptions, PineconeOptions, PickleDBOptions, MongoDBOptions
+from config import Options, PickleDBOptions, MongoDBOptions
+from run_localGPT import select_vectordb
 
 load_dotenv()
 
@@ -41,14 +40,6 @@ def setting(device, embed, db, retrieval):
     mongo = ("mongo_db", {"mongo_url": MongoDBOptions.mongo_url,
                           "db_name": MongoDBOptions.db_name,
                           "collection_name": MongoDBOptions.collection_name})
-    chroma = ("vector_db", {"vectordb": Chroma(ChromaOptions.persist_dir, ChromaOptions.collection_name),
-                            "embedding": EmbeddingFactory(embed_type=embed, device_type=device).get()})
-    pinecone = ("vector_db", {"vectordb": Pinecone(os.getenv('PINECONE_API_KEY'),
-                                                   os.getenv('PINECONE_ENV'),
-                                                   PineconeOptions.index_name,
-                                                   PineconeOptions.namespace,
-                                                   PineconeOptions.dimension),
-                              "embedding": EmbeddingFactory(embed_type=embed, device_type=device).get()})
 
     if db == "pickle_db":
         pre_db = pickle
@@ -59,17 +50,17 @@ def setting(device, embed, db, retrieval):
 
     if retrieval == "bm25":
         answer_pipeline = BasicRunPipeline(retrieval_type=bm25,
-                                           db_type=pre_db,
                                            llm_type=("basic_llm", {"model_name": MODEL_NAME, "api_base": None}))
         pre_retrieval = bm25
     elif retrieval == "vector_db-chroma":
-        answer_pipeline = BasicRunPipeline(retrieval_type=chroma,
-                                           llm_type=("basic_llm", {"model_name": MODEL_NAME, "api_base": None}),
-                                           db_type=pre_db)
-        pre_retrieval = chroma
+        vectordb_instance = select_vectordb('chroma', embedding_type=embed, device_type=device)
+        answer_pipeline = BasicRunPipeline(retrieval_type=vectordb_instance,
+                                           llm_type=("basic_llm", {"model_name": MODEL_NAME, "api_base": None}))
+        pre_retrieval = vectordb_instance
     elif retrieval == "vector_db-pinecone":
-        answer_pipeline = BasicRunPipeline(retrieval_type=pinecone, db_type=pre_db)
-        pre_retrieval = pinecone
+        vectordb_instance = select_vectordb('pinecone', embedding_type=embed, device_type=device)
+        answer_pipeline = BasicRunPipeline(retrieval_type=vectordb_instance)
+        pre_retrieval = vectordb_instance
     else:
         raise ValueError("retrieval type is not valid")
 

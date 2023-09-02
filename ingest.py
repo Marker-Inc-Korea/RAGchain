@@ -1,10 +1,9 @@
 import click
 
 from KoPrivateGPT.pipeline import BasicIngestPipeline
-from KoPrivateGPT.utils.embed import EmbeddingFactory
 from config import MongoDBOptions
 from config import Options, PickleDBOptions
-from .run_localGPT import select_vectordb
+from run_localGPT import select_vectordb
 
 
 @click.command()
@@ -15,7 +14,7 @@ from .run_localGPT import select_vectordb
 @click.option('--retrieval_type', default='bm25', help='retrieval type to use, select vectordb or bm25')
 @click.option('--db_type', default='mongo_db', help='db type to use, select pickle_db or mongo_db')
 def main(device_type, vectordb_type, embedding_type, retrieval_type: str, db_type: str):
-    vectordb = select_vectordb(vectordb_type)
+    vectordb = select_vectordb(vectordb_type, embedding_type, device_type)
     pipeline = BasicIngestPipeline(
         file_loader_type=("file_loader", {
             "target_dir": Options.source_dir,
@@ -23,9 +22,7 @@ def main(device_type, vectordb_type, embedding_type, retrieval_type: str, db_typ
         }),
         retrieval_type=(retrieval_type, {
             "save_path": Options.bm25_db_dir,
-            "vectordb": vectordb,
-            "embedding": EmbeddingFactory(embed_type=embedding_type,
-                                          device_type=device_type).get()
+            "vectordb": vectordb
         }),
         db_type=(db_type, {
             'save_path': PickleDBOptions.save_path,
