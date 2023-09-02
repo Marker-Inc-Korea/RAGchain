@@ -4,8 +4,8 @@ import os
 import pytest
 
 import test_base_llm
-from llm.rerank import RerankLLM
-from utils.reranker import MonoT5Reranker
+from KoPrivateGPT.llm.rerank import RerankLLM
+from KoPrivateGPT.utils.reranker import MonoT5Reranker
 
 logger = logging.getLogger(__name__)
 bm25_path = os.path.join(test_base_llm.root_dir, "resources", "bm25", "test_rerank_llm.pkl")
