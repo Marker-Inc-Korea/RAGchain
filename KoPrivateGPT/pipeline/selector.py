@@ -3,6 +3,9 @@ from KoPrivateGPT.llm.basic import BasicLLM
 from KoPrivateGPT.llm.rerank import RerankLLM
 from KoPrivateGPT.llm.visconde import ViscondeLLM
 from KoPrivateGPT.preprocess.loader import FileLoader, KoStrategyQALoader
+from KoPrivateGPT.preprocess.loader.excel_loader import ExcelLoader
+from KoPrivateGPT.preprocess.loader.hwp_loader import HwpLoader
+from KoPrivateGPT.preprocess.loader.pdf_link_loader import PdfLinkLoader
 from KoPrivateGPT.preprocess.text_splitter import RecursiveTextSplitter
 from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval, HyDERetrieval
 from KoPrivateGPT.utils.util import text_modifier
@@ -36,6 +39,12 @@ class ModuleSelector:
             self.module = FileLoader
         elif name in text_modifier("ko_strategy_qa_loader"):
             self.module = KoStrategyQALoader
+        elif name in text_modifier("execl_loader"):
+            self.module = ExcelLoader
+        elif name in text_modifier("hwp_loader"):
+            self.module = HwpLoader
+        elif name in text_modifier("pdf_link_loader"):
+            self.module = PdfLinkLoader
         else:
             raise ValueError(f"Invalid module name: {name}")
 
