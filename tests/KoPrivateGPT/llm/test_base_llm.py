@@ -3,9 +3,9 @@ import pathlib
 import pickle
 from uuid import UUID
 
-from DB import PickleDB
+from KoPrivateGPT.DB import PickleDB
 from KoPrivateGPT.schema import Passage
-from retrieval import BM25Retrieval
+from KoPrivateGPT.retrieval import BM25Retrieval
 
 root_dir = pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent
 with open(os.path.join(root_dir, "resources", "sample_passages.pkl"), 'rb') as r:

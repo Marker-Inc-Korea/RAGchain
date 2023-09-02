@@ -5,8 +5,10 @@ from langchain.document_loaders import TextLoader, PDFMinerLoader, CSVLoader
 from langchain.schema import Document
 from tqdm import tqdm
 
+from KoPrivateGPT.preprocess.loader.base import BaseLoader
 
-class FileLoader:
+
+class FileLoader(BaseLoader):
     def __init__(self, target_dir: str, hwp_host_url: str, *args, **kwargs):
         # add more extensions when if you want to add more extensions loader
         self.hwp_host_url = hwp_host_url

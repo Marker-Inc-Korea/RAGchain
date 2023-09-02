@@ -33,10 +33,9 @@ class BaseRetrieval(ABC):
         # Check duplicated db origin in one retrieval.
         final_db_origin = self.duplicate_check(filter_db_origin)
         # fetch data from each db
-        passage_list = self.fetch_each_db(final_db_origin, ids)
-        return passage_list
+        return self.fetch_each_db(final_db_origin, ids)
 
-    def fetch_each_db(self, final_db_origin: dict[tuple, list[int]], ids: List[Union[UUID, str]]):
+    def fetch_each_db(self, final_db_origin: dict[tuple, list[int]], ids: List[Union[UUID, str]]) -> List[Passage]:
         """
         check_dict = {(("db_type": "mongo_db"),
             (('mongo_url': "~"), ('db_name': "~"), ('collection_name': "~"))): [0,  2], ...}
@@ -56,8 +55,7 @@ class BaseRetrieval(ABC):
             fetch_data = (db.fetch(each_ids))
             fetch_list.append(fetch_data)
         # make flatten list(passage_list) from fetch_list
-        passage_list = list(itertools.chain.from_iterable(fetch_list))
-        return passage_list
+        return list(itertools.chain.from_iterable(fetch_list))
 
     def is_created(self, db_type: str, db_path: dict):
         if not self.db_instance_list:

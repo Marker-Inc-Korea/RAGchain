@@ -4,7 +4,7 @@ import os
 import pytest
 
 import test_base_llm
-from llm.basic import BasicLLM
+from KoPrivateGPT.llm.basic import BasicLLM
 
 logger = logging.getLogger(__name__)
 bm25_path = os.path.join(test_base_llm.root_dir, "resources", "bm25", "test_basic_llm.pkl")

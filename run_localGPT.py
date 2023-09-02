@@ -32,9 +32,9 @@ def print_docs(docs: List[Passage]):
 
 def select_vectordb(vectordb_type: str):
     load_dotenv()
-    if vectordb_type == text_modifier('chroma'):
+    if vectordb_type in text_modifier('chroma'):
         vectordb = Chroma(ChromaOptions.persist_dir, ChromaOptions.collection_name)
-    elif vectordb_type == text_modifier('pinecone'):
+    elif vectordb_type in text_modifier('pinecone'):
         vectordb = Pinecone(os.getenv('PINECONE_API_KEY'),
                             os.getenv('PINECONE_ENV'),
                             PineconeOptions.index_name,
