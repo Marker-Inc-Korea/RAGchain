@@ -131,6 +131,7 @@ def test_is_created(just_bm25_retrieval):
     second_instance = just_bm25_retrieval.is_created(db_type=TEST_DB_ORIGIN[0]['db_type'],
                                                      db_path=TEST_DB_ORIGIN[0]['db_path'])
     assert second_instance == just_bm25_retrieval.db_instance_list[0]
+    assert second_instance == first_instance
     # 3. db_instance_list is not empty, db_origin does not already exist
     third_instance = just_bm25_retrieval.is_created(db_type=TEST_DB_ORIGIN[1]['db_type'],
                                                     db_path=TEST_DB_ORIGIN[1]['db_path'])
@@ -156,24 +157,36 @@ TEST_RESULT_PASSAGES = [TEST_PASSAGES[0], TEST_PASSAGES[1]]
 TEST_IDS = [TEST_PASSAGES[0].id, TEST_PASSAGES[1].id]
 
 
-def test_fetch_each_db(just_bm25_retrieval):
-    # Create db_instance
+@pytest.fixture
+def just_mongo_db():
     mongo_db = MongoDB(
         mongo_url=os.getenv('MONGO_URL'),
         db_name=os.getenv('MONGO_DB_NAME'),
         collection_name='test_retrieval')
     mongo_db.create_or_load()
-    mongo_db.save(TEST_PASSAGES_2)
-    # Create another db_instance
-    mongo_db_2 = MongoDB(
+    yield mongo_db
+    # teardown
+    mongo_db.collection.drop()
+    assert mongo_db.collection_name not in mongo_db.db.list_collection_names()
+
+
+@pytest.fixture
+def just_mongo_db_2():
+    mongo_db = MongoDB(
         mongo_url=os.getenv('MONGO_URL'),
         db_name=os.getenv('MONGO_DB_NAME'),
         collection_name='test_retrieval_2')
-    mongo_db_2.create_or_load()
-    mongo_db_2.save(TEST_PASSAGES_3)
-    # Test
-    assert just_bm25_retrieval.fetch_each_db(TEST_DB_ORIGIN_RESULT_2, TEST_IDS) == TEST_RESULT_PASSAGES
+    mongo_db.create_or_load()
+    yield mongo_db
+    # teardown
     mongo_db.collection.drop()
     assert mongo_db.collection_name not in mongo_db.db.list_collection_names()
-    mongo_db_2.collection.drop()
-    assert mongo_db_2.collection_name not in mongo_db_2.db.list_collection_names()
+
+
+def test_fetch_each_db(just_mongo_db, just_mongo_db_2, just_bm25_retrieval):
+    # Create db_instance
+    just_mongo_db.save(TEST_PASSAGES_2)
+    # Create another db_instance
+    just_mongo_db_2.save(TEST_PASSAGES_3)
+    # Test
+    assert just_bm25_retrieval.fetch_each_db(TEST_DB_ORIGIN_RESULT_2, TEST_IDS) == TEST_RESULT_PASSAGES
