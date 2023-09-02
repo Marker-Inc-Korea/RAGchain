@@ -1,9 +1,10 @@
 import logging
 from typing import List
 
-from langchain.docstore.document import Document
-from KoPrivateGPT.preprocess.loader.base import BaseLoader
 import requests
+from langchain.docstore.document import Document
+
+from KoPrivateGPT.preprocess.loader.base import BaseLoader
 
 logger = logging.getLogger(__name__)
 
@@ -20,15 +21,24 @@ class HwpLoader(BaseLoader):
     """
 
     def __init__(
-        self,
+            self,
             path: str,
             hwp_host_url: str,
+            retry_connection: int = 4
     ):
         """Initialize with file path."""
         self.file_path = path
         self.hwp_convert_path = hwp_host_url
 
-        response = requests.post(hwp_host_url, files={'file': open(path, 'rb')})
+        assert retry_connection >= 1
+        retry_cnt = 0
+        while True:
+            if retry_cnt >= retry_connection:
+                break
+            response = requests.post(hwp_host_url, files={'file': open(path, 'rb')})
+            if response.status_code == 200:
+                break
+            retry_cnt += 1
 
         if response.status_code != 200:
             raise ValueError(
