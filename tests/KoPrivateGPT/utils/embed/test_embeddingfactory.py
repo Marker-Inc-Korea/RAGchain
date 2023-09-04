@@ -17,3 +17,7 @@ def test_embedding_factory():
     ko_sroberta_multitask_embedding = EmbeddingFactory(embed_type='ko_sroberta_multitask').get()
     assert isinstance(ko_sroberta_multitask_embedding, HuggingFaceEmbeddings)
     assert ko_sroberta_multitask_embedding.model_name == "jhgan/ko-sroberta-multitask"
+
+    multilingual_e5_embedding = EmbeddingFactory(embed_type='multilingual_e5').get()
+    assert isinstance(multilingual_e5_embedding, HuggingFaceEmbeddings)
+    assert multilingual_e5_embedding.model_name == "intfloat/multilingual-e5-large"
