@@ -10,6 +10,7 @@ class EmbeddingType(Enum):
     OPENAI = 'openai'
     KOSIMCSE = 'kosimcse'
     KO_SROBERTA_MULTITASK = 'ko-sroberta-multitask'
+    MULTILINGUAL_E5 = 'multilingual-e5'
 
 
 class EmbeddingFactory:
@@ -23,6 +24,8 @@ class EmbeddingFactory:
             self.embed_type = EmbeddingType.KOSIMCSE
         elif embed_type in text_modifier('ko_sroberta_multitask'):
             self.embed_type = EmbeddingType.KO_SROBERTA_MULTITASK
+        elif embed_type in text_modifier('multilingual_e5'):
+            self.embed_type = EmbeddingType.MULTILINGUAL_E5
         else:
             raise ValueError(f"Unknown embedding type: {embed_type}")
 
@@ -48,26 +51,26 @@ class EmbeddingFactory:
             return OpenAIEmbeddings(openai_api_key=openai_token)
 
         elif self.embed_type == EmbeddingType.KOSIMCSE:
-            try:
-                from langchain.embeddings import HuggingFaceEmbeddings
-            except ImportError:
-                raise ModuleNotFoundError(
-                    "Could not import HuggingFaceEmbeddings library. Please install HuggingFace library."
-                    "pip install sentence_transformers"
-                )
-            os.environ['TOKENIZERS_PARALLELISM'] = 'true'
-            return HuggingFaceEmbeddings(model_name="BM-K/KoSimCSE-roberta-multitask",
-                                         model_kwargs={"device": self.device_type})
+            return self.__set_huggingface_embeddings("BM-K/KoSimCSE-roberta-multitask",
+                                                     {"device": self.device_type})
         elif self.embed_type == EmbeddingType.KO_SROBERTA_MULTITASK:
-            try:
-                from langchain.embeddings import HuggingFaceEmbeddings
-            except ImportError:
-                raise ModuleNotFoundError(
-                    "Could not import HuggingFaceEmbeddings library. Please install HuggingFace library."
-                    "pip install sentence_transformers"
-                )
-            os.environ['TOKENIZERS_PARALLELISM'] = 'true'
-            return HuggingFaceEmbeddings(model_name="jhgan/ko-sroberta-multitask",
-                                         model_kwargs={"device": self.device_type})
+            return self.__set_huggingface_embeddings("jhgan/ko-sroberta-multitask",
+                                                     {"device": self.device_type})
+        elif self.embed_type == EmbeddingType.MULTILINGUAL_E5:
+            return self.__set_huggingface_embeddings("intfloat/multilingual-e5-large",
+                                                     {"device": self.device_type})
         else:
             raise ValueError(f"Unknown embedding type: {self.embed_type}")
+
+    @staticmethod
+    def __set_huggingface_embeddings(model_name: str, model_kwargs: dict):
+        try:
+            from langchain.embeddings import HuggingFaceEmbeddings
+        except ImportError:
+            raise ModuleNotFoundError(
+                "Could not import HuggingFaceEmbeddings library. Please install HuggingFace library."
+                "pip install sentence_transformers"
+            )
+        os.environ['TOKENIZERS_PARALLELISM'] = 'true'
+        return HuggingFaceEmbeddings(model_name=model_name,
+                                     model_kwargs=model_kwargs)
