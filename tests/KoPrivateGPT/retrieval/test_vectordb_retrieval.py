@@ -1,12 +1,13 @@
 import os
 import shutil
 
+import chromadb
 import pytest
+from langchain.vectorstores import Chroma
 
 import test_base_retrieval
 from KoPrivateGPT.retrieval import VectorDBRetrieval
 from KoPrivateGPT.utils.embed import EmbeddingFactory
-from KoPrivateGPT.utils.vectorDB import Chroma
 
 
 @pytest.fixture
@@ -18,13 +19,14 @@ def vectordb_retrieval():
     chroma_path = os.path.join(test_base_retrieval.root_dir, "resources", "test_vectordb_retrieval_chroma")
     if not os.path.exists(chroma_path):
         os.makedirs(chroma_path)
-    chroma = Chroma(persist_dir=chroma_path, collection_name='test_vectordb_retrieval')
-    retrieval = VectorDBRetrieval(vectordb=chroma, embedding=EmbeddingFactory('openai').get())
+    chroma = Chroma(client=chromadb.PersistentClient(path=chroma_path),
+                    collection_name='test_vectordb_retrieval',
+                    embedding_function=EmbeddingFactory('openai').get())
+    retrieval = VectorDBRetrieval(vectordb=chroma)
     yield retrieval
     # teardown
     if os.path.exists(pickle_path):
         os.remove(pickle_path)
-    chroma.delete_all()
     if os.path.exists(chroma_path):
         shutil.rmtree(chroma_path)
 

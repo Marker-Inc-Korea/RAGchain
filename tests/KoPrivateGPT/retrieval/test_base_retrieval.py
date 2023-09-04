@@ -10,8 +10,6 @@ from KoPrivateGPT.DB import PickleDB, MongoDB
 from KoPrivateGPT.retrieval import BM25Retrieval
 from KoPrivateGPT.schema import Passage
 
-from KoPrivateGPT.retrieval.base import BaseRetrieval
-
 root_dir = pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent
 with open(os.path.join(root_dir, "resources", "sample_passages.pkl"), 'rb') as r:
     TEST_PASSAGES = pickle.load(r)
@@ -88,7 +86,7 @@ TEST_DB_ORIGIN = [{
 TEST_DB_ORIGIN_RESULT = {(('db_type', 'mongo_db'), ('db_path', (('mongo_url', 'test_url_1'),
                                                                 ('db_name', 'test_db_name_1'),
                                                                 ('collection_name', 'test_collection_name_1')))): [0, 3],
-                         (('db_type', 'pickle_db'), ('db_path', (('save_path', 'test'),))): [1],
+                         (('db_type', 'pickle_db'), ('db_path', (('save_path', 'test.pkl'),))): [1],
                          (('db_type', 'mongo_db'), ('db_path', (('mongo_url', 'test_url_2'),
                                                                  ('db_name', 'test_db_name_2'),
                                                                  ('collection_name', 'test_collection_name_2')))): [2]}

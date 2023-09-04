@@ -1,14 +1,16 @@
 import os
 from typing import List
 
+import chromadb
 import click
+import pinecone
 from dotenv import load_dotenv
+from langchain.vectorstores import Chroma, Pinecone
 
 from KoPrivateGPT.pipeline import BasicRunPipeline
 from KoPrivateGPT.schema import Passage
 from KoPrivateGPT.utils.embed import EmbeddingFactory
 from KoPrivateGPT.utils.util import text_modifier
-from KoPrivateGPT.utils.vectorDB import Chroma, Pinecone
 from config import ChromaOptions, PineconeOptions
 from config import Options
 
@@ -30,16 +32,30 @@ def print_docs(docs: List[Passage]):
     print("----------------------------------참조한 문서---------------------------")
 
 
-def select_vectordb(vectordb_type: str):
+def select_vectordb(vectordb_type: str, embedding_type: str, device_type: str):
     load_dotenv()
+    embedding_func = EmbeddingFactory(embed_type=embedding_type, device_type=device_type).get()
+    chroma = Chroma(
+        client=chromadb.PersistentClient(path=ChromaOptions.persist_dir),
+        collection_name=ChromaOptions.collection_name,
+        embedding_function=embedding_func)
     if vectordb_type in text_modifier('chroma'):
-        vectordb = Chroma(ChromaOptions.persist_dir, ChromaOptions.collection_name)
+        vectordb = chroma
     elif vectordb_type in text_modifier('pinecone'):
-        vectordb = Pinecone(os.getenv('PINECONE_API_KEY'),
-                            os.getenv('PINECONE_ENV'),
-                            PineconeOptions.index_name,
-                            PineconeOptions.namespace,
-                            PineconeOptions.dimension)
+        pinecone.init(api_key=os.getenv('PINECONE_API_KEY'), environment=os.getenv('PINECONE_ENV'))
+        if PineconeOptions.index_name not in pinecone.list_indexes():
+            pinecone.create_index(
+                name=PineconeOptions.index_name,
+                metric='cosine',
+                dimension=PineconeOptions.dimension
+            )
+        pinecone_instance = Pinecone(
+            index=PineconeOptions.index_name,
+            namespace=PineconeOptions.namespace,
+            embedding_function=embedding_func,
+            text_key="text"
+        )
+        vectordb = pinecone_instance
     else:
         raise ValueError("vectordb type is not valid")
     return vectordb
@@ -54,13 +70,10 @@ def select_vectordb(vectordb_type: str):
 @click.option('--model_name', default='gpt-3.5-turbo', help='model name to use.')
 @click.option('--api_base', default=None, help='api base to use.')
 def main(device_type, retrieval_type: str, vectordb_type, embedding_type, model_name, api_base):
-    vectordb = select_vectordb(vectordb_type)
+    vectordb = select_vectordb(vectordb_type, embedding_type, device_type)
     pipeline = BasicRunPipeline(
         retrieval_type=(retrieval_type, {"save_path": Options.bm25_db_dir,
-                                         "vectordb": vectordb,
-                                         "embedding": EmbeddingFactory(embed_type=embedding_type,
-                                                                       device_type=device_type).get()
-                                         }),
+                                         "vectordb": vectordb}),
         llm_type=("basic_llm", {"model_name": model_name, "api_base": api_base}),
     )
     while True:
