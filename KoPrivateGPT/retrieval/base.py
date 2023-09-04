@@ -26,6 +26,10 @@ class BaseRetrieval(ABC):
     def retrieve_id(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Union[str, UUID]]:
         pass
 
+    @abstractmethod
+    def delete(self, ids: List[Union[str, UUID]]):
+        pass
+
     def fetch_data(self, ids: List[Union[UUID, str]]) -> List[Passage]:
         db_origin_list = self.redis_db.get_json(ids)
         # Sometimes redis doesn't find the id, so we need to filter that db_origin is None.

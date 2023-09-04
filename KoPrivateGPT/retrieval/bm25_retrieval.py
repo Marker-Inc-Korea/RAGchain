@@ -1,18 +1,15 @@
-import json
+import pickle
+from typing import List, Union
 from uuid import UUID
 
 import numpy as np
-from typing import List, Union
 from rank_bm25 import BM25Okapi
+from tqdm import tqdm
 from transformers import AutoTokenizer
 
-from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
-from KoPrivateGPT.utils.linker import RedisDBSingleton
 from KoPrivateGPT.utils.util import FileChecker
-import pickle
-from tqdm import tqdm
 
 
 class BM25Retrieval(BaseRetrieval):
@@ -65,6 +62,15 @@ class BM25Retrieval(BaseRetrieval):
         for passage in tqdm(passages):
             self._save_one(passage)
         self.persist(self.save_path)
+
+    def delete(self, ids: List[Union[str, UUID]]):
+        for _id in ids:
+            self._delete_one(_id)
+
+    def _delete_one(self, _id: Union[str, UUID]):
+        index = self.data["passage_id"].index(_id)
+        del self.data["tokens"][index]
+        del self.data["passage_id"][index]
 
     def _save_one(self, passage: Passage):
         tokenized = self.__tokenize([passage.content])[0]

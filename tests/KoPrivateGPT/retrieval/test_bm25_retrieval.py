@@ -29,3 +29,10 @@ def test_bm25_retrieval(bm25_retrieval):
     test_base_retrieval.validate_ids(retrieved_ids, top_k)
     retrieved_passages = bm25_retrieval.retrieve(query='What is visconde structure?', top_k=top_k)
     test_base_retrieval.validate_passages(retrieved_passages, top_k)
+    # test delete
+    bm25_retrieval.delete(retrieved_ids)
+    retrieved_all_ids = bm25_retrieval.retrieve_id(query='What is visconde structure?',
+                                                   top_k=len(test_base_retrieval.TEST_PASSAGES) - top_k)
+    assert len(retrieved_all_ids) == len(test_base_retrieval.TEST_PASSAGES) - top_k
+    for deleted_id in retrieved_ids:
+        assert deleted_id not in retrieved_all_ids
