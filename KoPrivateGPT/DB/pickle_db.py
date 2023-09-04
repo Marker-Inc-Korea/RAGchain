@@ -1,6 +1,6 @@
 import os
 import pickle
-from typing import Any, List, Dict
+from typing import Any, List, Dict, Union
 from uuid import UUID
 
 from KoPrivateGPT.DB.base import BaseDB
@@ -50,7 +50,7 @@ class PickleDB(BaseDB):
         db_origin_dict = db_origin.to_dict()
         [self.redis_db.client.json().set(str(passage.id), '$', db_origin_dict) for passage in passages]
 
-    def fetch(self, ids: List[UUID]) -> List[Passage]:
+    def fetch(self, ids: List[Union[UUID, str]]) -> List[Passage]:
         result = list(filter(lambda x: x.id in ids, self.db))
         return result
 
@@ -81,3 +81,10 @@ class PickleDB(BaseDB):
 
     def get_db_origin(self) -> DBOrigin:
         return DBOrigin(db_type=self.db_type, db_path={'save_path': self.save_path})
+
+    def delete(self, ids: List[Union[str, UUID]]):
+        for i, passage in enumerate(self.db):
+            if passage.id in ids:
+                delete_id = passage.id
+                self.redis_db.client.json().delete(str(delete_id), '$')
+                del self.db[i]

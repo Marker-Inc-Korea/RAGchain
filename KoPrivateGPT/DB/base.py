@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List, Any, Dict
+from typing import List, Any, Dict, Union
 from uuid import UUID
 
 from KoPrivateGPT.schema import Passage
@@ -29,7 +29,7 @@ class BaseDB(ABC):
         pass
 
     @abstractmethod
-    def fetch(self, ids: List[UUID]) -> List[Passage]:
+    def fetch(self, ids: List[Union[UUID, str]]) -> List[Passage]:
         pass
 
     @abstractmethod
@@ -40,6 +40,13 @@ class BaseDB(ABC):
             :param filter_dict: Dict[str, str]
             The key of filter_dict must be key that you want to search.
             Search function search Passage that matches value.
+        """
+        pass
+
+    @abstractmethod
+    def delete(self, ids: List[Union[str, UUID]]):
+        """
+        Delete Passage from DB and DB linker using ids.
         """
         pass
 

@@ -1,11 +1,10 @@
-from typing import List, Any, Dict
+from typing import List, Any, Dict, Union
 from uuid import UUID
 
 import pymongo
 
 from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.schema import Passage
-
 from KoPrivateGPT.schema.db_origin import DBOrigin
 from KoPrivateGPT.utils.linker.redisdbSingleton import RedisDBSingleton
 
@@ -53,7 +52,7 @@ class MongoDB(BaseDB):
             db_origin_dict = db_origin.to_dict()
             self.redis_db.client.json().set(str(passage.id), '$', db_origin_dict)
 
-    def fetch(self, ids: List[UUID]) -> List[Passage]:
+    def fetch(self, ids: List[Union[UUID, str]]) -> List[Passage]:
         passage_list = []
         for find_id in ids:
             dict_passage = self.collection.find_one({"_id": find_id})
@@ -81,3 +80,8 @@ class MongoDB(BaseDB):
     def get_db_origin(self) -> DBOrigin:
         db_path = {'mongo_url': self.mongo_url, 'db_name': self.db_name, 'collection_name': self.collection_name}
         return DBOrigin(db_type=self.db_type, db_path=db_path)
+
+    def delete(self, ids: List[Union[str, UUID]]):
+        for delete_id in ids:
+            self.collection.delete_one({"_id": delete_id})
+            self.redis_db.client.json().delete(str(delete_id), '$')
