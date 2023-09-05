@@ -30,25 +30,41 @@ from KoPrivateGPT.utils.util import set_api_base
 
 
 class ViscondeLLM(BaseLLM):
-    qasper_prompt = """For each example, explain how each document is used to answer the question:
+    strategyqa_prompt = """For each example, use the documents to create an \"Answer\" and an \"Explanation\" to the \"Question\". Just answer yes or no.
     
     Example 1:
     
-    [Document 1]: In this section we describe a number of experiments targeted to compare the performance of popular named entity recognition algorithms on our data. We trained and evaluated Stanford NER, spaCy 2.0, and a recurrent model similar to BIBREF13 , BIBREF14 that uses bidirectional LSTM cells for character-based feature extraction and CRF, described in Guillaume Genthial's Sequence Tagging with Tensorflow blog post BIBREF15 .
+    [Document 1]: 
+    Title: San Tropez (song). 
+    Content: \"San Tropez\" is the fourth track from the album Meddle by the band Pink Floyd. 
+    This song was one of several to be considered for the band's \"best of\" album, Echoes: The Best of Pink Floyd.
     
-    [Document 2]: Stanford NER is conditional random fields (CRF) classifier based on lexical and contextual features such as the current word, character-level n-grams of up to length 6 at its beginning and the end, previous and next words, word shape and sequence features BIBREF16 .
+    [Document 2]: 
+    Title: French Riviera. 
+    Content: The French Riviera (known in French as the Côte d'Azur [kot daˈzyʁ]; Occitan: Còsta d'Azur [
+    ˈkɔstɔ daˈzyɾ]; literal translation \"Azure Coast\") is the Mediterranean coastline of the southeast corner of 
+    France. There is no official boundary, but it is usually considered to extend from Cassis, Toulon or Saint-Tropez 
+    on the west to Menton at the France–Italy border in the east, where the Italian Riviera joins. The coast is 
+    entirely within the Provence-Alpes-Côte d'Azur (Région Sud) region of France. The Principality of Monaco is a 
+    semi-enclave within the region, surrounded on three sides by France and fronting the Mediterranean.
     
-    [Document 3]: spaCy 2.0 uses a CNN-based transition system for named entity recognition. For each token, a Bloom embedding is calculated based on its lowercase form, prefix, suffix and shape, then using residual CNNs, a contextual representation of that token is extracted that potentially draws information from up to 4 tokens from each side BIBREF17 . Each update of the transition system's configuration is a classification task that uses the contextual representation of the top token on the stack, preceding and succeeding tokens, first two tokens of the buffer, and their leftmost, second leftmost, rightmost, second rightmost children. The valid transition with the highest score is applied to the system. This approach reportedly performs within 1% of the current state-of-the-art for English . In our experiments, we tried out 50-, 100-, 200- and 300-dimensional pre-trained GloVe embeddings. Due to time constraints, we did not tune the rest of hyperparameters and used their default values.
+    [Document 3]: 
+    Title: Moon Jae-in. 
+    Content: Moon also promised transparency in his presidency, moving the presidential residence from the palatial and 
+    isolated Blue House to an existing government complex in downtown Seoul.
     
-    [Document 4]: In order to evaluate the models trained on generated data, we manually annotated a named entities dataset comprising 53453 tokens and 2566 sentences selected from over 250 news texts from ilur.am. This dataset is comparable in size with the test sets of other languages (Table TABREF10 ). Included sentences are from political, sports, local and world news (Figures FIGREF8 , FIGREF9 ), covering the period between August 2012 and July 2018. The dataset provides annotations for 3 popular named entity classes: people (PER), organizations (ORG), and locations (LOC), and is released in CoNLL03 format with IOB tagging scheme. Tokens and sentences were segmented according to the UD standards for the Armenian language BIBREF11 .
+    [Document 4]: 
+    Title: Saint-Tropez. 
+    Content: Saint-Tropez (US: /ˌsæn troʊˈpeɪ/ SAN-troh-PAY, French: [sɛ̃ tʁɔpe]; Occitan: Sant-Tropetz , pronounced [san(t) tʀuˈpes]) is a town on the French Riviera, 
+    68 kilometres (42 miles) west of Nice and 100 kilometres (62 miles) east of Marseille in the Var department of 
+    the Provence-Alpes-Côte d'Azur region of Occitania, Southern France.
     
-    [Document 5]: The main model that we focused on was the recurrent model with a CRF top layer, and the above-mentioned methods served mostly as baselines. The distinctive feature of this approach is the way contextual word embeddings are formed. For each token separately, to capture its word shape features, character-based representation is extracted using a bidirectional LSTM BIBREF18 . This representation gets concatenated with a distributional word vector such as GloVe, forming an intermediate word embedding. Using another bidirectional LSTM cell on these intermediate word embeddings, the contextual representation of tokens is obtained (Figure FIGREF17 ). Finally, a CRF layer labels the sequence of these contextual representations. In our experiments, we used Guillaume Genthial's implementation of the algorithm. We set the size of character-based biLSTM to 100 and the size of second biLSTM network to 300
-    
-    Question: what ner models were evaluated?
-    
-    Answer: Stanford NER algorithm, the spaCy 2.0 algorithm, recurrent model with a CRF top layer.
-    
-    Example 2:
+
+    Question: Did Pink Floyd have a song about the French Riviera?
+    Explanation: According to [Document 1], \"San Tropez\" is a song by Pink Floyd about 
+    the French Riviera. This is further supported by [Document 4], which states that Saint-Tropez is a town on the French Riviera. 
+    Therefore, the answer is yes
+    Answer: yes.
     
     """
 
@@ -71,7 +87,7 @@ class ViscondeLLM(BaseLLM):
         if prompt is not None:
             self.prompt = prompt
         else:
-            self.prompt = self.qasper_prompt
+            self.prompt = self.strategyqa_prompt
         self.reranker = MonoT5Reranker()
 
     def ask(self, query: str) -> tuple[str, List[Passage]]:

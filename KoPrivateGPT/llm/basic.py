@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Callable
 
 import openai
 
@@ -10,15 +10,17 @@ from KoPrivateGPT.utils.util import set_api_base
 
 class BasicLLM(BaseLLM):
     def __init__(self, retrieval: BaseRetrieval, model_name: str = "gpt-3.5-turbo", api_base: str = None,
+                 prompt_func: Callable[[str, str], List[dict]] = None,
                  *args, **kwargs):
         self.retrieval = retrieval
         self.model_name = model_name
         set_api_base(api_base)
+        self.get_message = self.get_messages if prompt_func is None else prompt_func
 
     def ask(self, query: str) -> tuple[str, List[Passage]]:
         passages = self.retrieval.retrieve(query, top_k=4)
         contents = "\n\n".join([passage.content for passage in passages])
-        completion = openai.ChatCompletion.create(model=self.model_name, messages=self.get_messages(contents, query),
+        completion = openai.ChatCompletion.create(model=self.model_name, messages=self.get_message(contents, query),
                                                   temperature=0.5)
         answer = completion["choices"][0]["message"]["content"]
         return answer, passages
