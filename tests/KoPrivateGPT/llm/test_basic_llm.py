@@ -1,5 +1,6 @@
 import logging
 import os
+from typing import List
 
 import pytest
 
@@ -11,11 +12,19 @@ bm25_path = os.path.join(test_base_llm.root_dir, "resources", "bm25", "test_basi
 pickle_path = os.path.join(test_base_llm.root_dir, "resources", "pickle", "test_basic_llm.pkl")
 
 
+def basic_en_prompt(context: str, question: str) -> List[dict]:
+    return [
+        {"role": "system", "content": "Please answer the question based on the given documents."},
+        {"role": "user", "content": f"Document:\n{context}\n\nQuestion: {question}\n"},
+        {"role": "assistant", "content": "The following is an answer to the question."}
+    ]
+
+
 @pytest.fixture
 def basic_llm():
     test_base_llm.ready_pickle_db(pickle_path)
     retrieval = test_base_llm.ready_bm25_retrieval(bm25_path)
-    llm = BasicLLM(retrieval=retrieval)
+    llm = BasicLLM(retrieval=retrieval, prompt_func=basic_en_prompt)
     yield llm
     # teardown bm25
     if os.path.exists(bm25_path):

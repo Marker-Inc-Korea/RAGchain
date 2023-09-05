@@ -12,7 +12,7 @@ pickle_path = os.path.join(test_base_llm.root_dir, "resources", "pickle", "test_
 
 
 @pytest.fixture
-def basic_llm():
+def visconde_llm():
     test_base_llm.ready_pickle_db(pickle_path)
     retrieval = test_base_llm.ready_bm25_retrieval(bm25_path)
     llm = ViscondeLLM(retrieval=retrieval, retrieve_size=20, use_passage_count=4)
@@ -25,7 +25,7 @@ def basic_llm():
         os.remove(pickle_path)
 
 
-def test_basic_llm_ask(basic_llm):
-    answer, passages = basic_llm.ask("Is reranker and retriever have same role?")
+def test_visconde_llm_ask(visconde_llm):
+    answer, passages = visconde_llm.ask("Is reranker and retriever have same role?")
     logger.info(f"Answer: {answer}")
     test_base_llm.validate_answer(answer, passages)
