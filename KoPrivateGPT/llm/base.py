@@ -26,37 +26,43 @@ class BaseLLM(ABC):
         self.retrieved_passages = self.retrieval.retrieve(query, top_k, *args, **kwargs)
         return self.retrieved_passages
 
-    def generate_chat(self, messages: List[dict], model: str,
+    @staticmethod
+    def generate_chat(messages: List[dict], model: str,
                       stream: bool = False,
                       stream_func: callable = None,
                       *args, **kwargs) -> str:
-        return self.__generate(openai.ChatCompletion,
-                               messages, model, stream, stream_func, *args, **kwargs)
-
-    def generate(self, messages: List[dict], model: str,
-                 stream: bool = False,
-                 stream_func: callable = None,
-                 *args, **kwargs) -> str:
-        return self.__generate(openai.Completion,
-                               messages, model, stream, stream_func, *args, **kwargs)
-
-    @staticmethod
-    def __generate(completion,
-                   messages: List[dict], model: str,
-                   stream: bool = False,
-                   stream_func: callable = None,
-                   *args, **kwargs) -> str:
-        response = completion.create(*args, **kwargs,
-                                     model=model,
-                                     messages=messages,
-                                     stream=stream)
-        answer: List[str] = []
+        response = openai.ChatCompletion.create(*args, **kwargs,
+                                                model=model,
+                                                messages=messages,
+                                                stream=stream)
+        answer: str = ''
         if stream:
             for chunk in response:
                 content = chunk["choices"][0].get("delta", {}).get("content")
                 if content is not None:
                     stream_func(content)
-                    answer.append(content)
+                    answer += content
         else:
             answer = response["choices"][0]["message"]["content"]
-        return ''.join(answer)
+        return answer
+
+    @staticmethod
+    def generate(prompt: str, model: str,
+                 stream: bool = False,
+                 stream_func: callable = None,
+                 *args, **kwargs) -> str:
+        response = openai.Completion.create(
+            model=model,
+            prompt=prompt,
+            stream=stream,
+            *args, **kwargs
+        )
+        answer: str = ''
+        if stream:
+            for event in response:
+                text = event['choices'][0]['text']
+                stream_func(text)
+                answer += text
+        else:
+            answer = response["choices"][0]["text"]
+        return answer

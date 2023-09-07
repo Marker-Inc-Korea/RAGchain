@@ -15,7 +15,8 @@ pickle_path = os.path.join(test_base_llm.root_dir, "resources", "pickle", "test_
 def visconde_llm():
     test_base_llm.ready_pickle_db(pickle_path)
     retrieval = test_base_llm.ready_bm25_retrieval(bm25_path)
-    llm = ViscondeLLM(retrieval=retrieval, retrieve_size=20, use_passage_count=4)
+    llm = ViscondeLLM(retrieval=retrieval, retrieve_size=20, use_passage_count=4,
+                      stream_func=lambda x: logger.info(x))
     yield llm
     # teardown bm25
     if os.path.exists(bm25_path):
@@ -27,5 +28,11 @@ def visconde_llm():
 
 def test_visconde_llm_ask(visconde_llm):
     answer, passages = visconde_llm.ask("Is reranker and retriever have same role?")
+    logger.info(f"Answer: {answer}")
+    test_base_llm.validate_answer(answer, passages)
+
+
+def test_visconde_llm_ask_stream(visconde_llm):
+    answer, passages = visconde_llm.ask("Is reranker and retriever have same role?", stream=True)
     logger.info(f"Answer: {answer}")
     test_base_llm.validate_answer(answer, passages)
