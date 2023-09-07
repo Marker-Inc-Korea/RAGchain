@@ -11,19 +11,29 @@ from KoPrivateGPT.utils.util import set_api_base
 class BasicLLM(BaseLLM):
     def __init__(self, retrieval: BaseRetrieval, model_name: str = "gpt-3.5-turbo", api_base: str = None,
                  prompt_func: Callable[[str, str], List[dict]] = None,
+                 stream_func: Callable[[str], None] = None,
                  *args, **kwargs):
         self.retrieval = retrieval
         self.model_name = model_name
         set_api_base(api_base)
         self.get_message = self.get_messages if prompt_func is None else prompt_func
+        self.stream_func = stream_func
 
-    def ask(self, query: str) -> tuple[str, List[Passage]]:
+    def ask(self, query: str, stream: bool = False) -> tuple[str, List[Passage]]:
         passages = self.retrieval.retrieve(query, top_k=4)
         contents = "\n\n".join([passage.content for passage in passages])
         completion = openai.ChatCompletion.create(model=self.model_name, messages=self.get_message(contents, query),
-                                                  temperature=0.5)
-        answer = completion["choices"][0]["message"]["content"]
-        return answer, passages
+                                                  temperature=0.5, stream=stream)
+        answer: List[str] = []
+        if stream:
+            for chunk in completion:
+                content = chunk["choices"][0].get("delta", {}).get("content")
+                if content is not None:
+                    self.stream_func(content)
+                    answer.append(content)
+        else:
+            answer = completion["choices"][0]["message"]["content"]
+        return ''.join(answer), passages
 
     @staticmethod
     def get_messages(context: str, question: str) -> List[dict]:
