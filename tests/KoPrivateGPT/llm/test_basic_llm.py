@@ -38,8 +38,14 @@ def test_basic_llm_ask(basic_llm):
     answer, passages = basic_llm.ask(query="What is reranker role?")
     logger.info(f"Answer: {answer}")
     test_base_llm.validate_answer(answer, passages)
+    query = "What is retriever role?"
+    basic_llm.retrieve(query, top_k=3)
+    answer, passages = basic_llm.ask(query=query, run_retrieve=False)
+    logger.info(f"Answer: {answer}")
+    test_base_llm.validate_answer(answer, passages, passage_cnt=3)
 
 
 def test_basic_llm_ask_stream(basic_llm):
     answer, passages = basic_llm.ask("What is reranker role?", stream=True)
     logger.info(f"Answer: {answer}")
+    test_base_llm.validate_answer(answer, passages)

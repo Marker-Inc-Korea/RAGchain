@@ -1,7 +1,5 @@
 from typing import List, Callable
 
-import openai
-
 from KoPrivateGPT.llm.base import BaseLLM
 from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
@@ -13,27 +11,22 @@ class BasicLLM(BaseLLM):
                  prompt_func: Callable[[str, str], List[dict]] = None,
                  stream_func: Callable[[str], None] = None,
                  *args, **kwargs):
-        self.retrieval = retrieval
+        super().__init__(retrieval)
         self.model_name = model_name
         set_api_base(api_base)
         self.get_message = self.get_messages if prompt_func is None else prompt_func
         self.stream_func = stream_func
 
-    def ask(self, query: str, stream: bool = False) -> tuple[str, List[Passage]]:
-        passages = self.retrieval.retrieve(query, top_k=4)
+    def ask(self, query: str, stream: bool = False, run_retrieve: bool = True) -> tuple[str, List[Passage]]:
+        passages = self.retrieved_passages if len(
+            self.retrieved_passages) > 0 and not run_retrieve else self.retrieval.retrieve(query, top_k=4)
         contents = "\n\n".join([passage.content for passage in passages])
-        completion = openai.ChatCompletion.create(model=self.model_name, messages=self.get_message(contents, query),
-                                                  temperature=0.5, stream=stream)
-        answer: List[str] = []
-        if stream:
-            for chunk in completion:
-                content = chunk["choices"][0].get("delta", {}).get("content")
-                if content is not None:
-                    self.stream_func(content)
-                    answer.append(content)
-        else:
-            answer = completion["choices"][0]["message"]["content"]
-        return ''.join(answer), passages
+        answer = self.generate_chat(messages=self.get_message(contents, query),
+                                    model=self.model_name,
+                                    stream=stream,
+                                    stream_func=self.stream_func,
+                                    temperature=0.5)
+        return answer, passages
 
     @staticmethod
     def get_messages(context: str, question: str) -> List[dict]:
