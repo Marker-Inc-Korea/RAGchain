@@ -17,9 +17,7 @@ location = {Dublin, Ireland}
 """
 from collections import OrderedDict
 from copy import deepcopy
-from typing import List
-
-import openai
+from typing import List, Callable
 
 from KoPrivateGPT.llm.base import BaseLLM
 from KoPrivateGPT.retrieval.base import BaseRetrieval
@@ -76,8 +74,9 @@ class ViscondeLLM(BaseLLM):
                  retrieve_size: int = 50,
                  use_passage_count: int = 3,
                  prompt: str = None,
+                 stream_func: Callable[[str], None] = None,
                  *args, **kwargs):
-        self.retrieval = retrieval
+        super().__init__(retrieval)
         self.model_name = model_name
         self.decompose_model_name = decompose_model_name
         set_api_base(api_base)
@@ -89,24 +88,29 @@ class ViscondeLLM(BaseLLM):
         else:
             self.prompt = self.strategyqa_prompt
         self.reranker = MonoT5Reranker()
+        self.stream_func = stream_func
 
-    def ask(self, query: str) -> tuple[str, List[Passage]]:
+    def ask(self, query: str, stream: bool = False, run_retrieve: bool = True) -> tuple[str, List[Passage]]:
         decompose = QueryDecomposition(model_name=self.decompose_model_name, api_base=self.api_base)
         decompose_query: List[str] = decompose.decompose(query)
         is_decomposed = True
         if len(decompose_query) <= 0:
             is_decomposed = False
 
-        passage_list = []
-        if is_decomposed:
-            # use decomposed query
-            for query in decompose_query:
+        if not run_retrieve and len(self.retrieved_passages) > 0:
+            passage_list = self.retrieved_passages
+        else:
+            passage_list = []
+            if is_decomposed:
+                # use decomposed query
+                for query in decompose_query:
+                    hits = self.retrieval.retrieve(query, top_k=self.retrieve_size)
+                    passage_list.extend(hits)
+                passage_list = self.reranker.rerank(query, passage_list)
+            else:
                 hits = self.retrieval.retrieve(query, top_k=self.retrieve_size)
                 passage_list.extend(hits)
-            passage_list = self.reranker.rerank(query, passage_list)
-        else:
-            hits = self.retrieval.retrieve(query, top_k=self.retrieve_size)
-            passage_list.extend(hits)
+            self.retrieved_passages = passage_list
 
         # remove duplicate elements while preserving order
         remove_duplicated = list(OrderedDict.fromkeys(passage_list))
@@ -116,14 +120,9 @@ class ViscondeLLM(BaseLLM):
             input_prompt += f"[Document {i + 1}]: {passage.content}\n\n"
         input_prompt += f"Question: {query}\n\nAnswer: "
 
-        answer = self.generate(input_prompt)
+        answer = self.generate(input_prompt, self.model_name,
+                               stream=stream,
+                               stream_func=self.stream_func,
+                               max_tokens=1024,
+                               temperature=0.2)
         return answer, final_passages
-
-    def generate(self, prompt: str, max_tokens=1024, temperature=0):
-        response = openai.Completion.create(
-            model=self.model_name,
-            prompt=prompt,
-            temperature=temperature,
-            max_tokens=max_tokens,
-        )
-        return response["choices"][0]["text"]
