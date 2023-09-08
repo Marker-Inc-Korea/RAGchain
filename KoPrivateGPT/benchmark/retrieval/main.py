@@ -18,12 +18,18 @@ def basic_retrieval_evaluation(qrels: Dict[str, Dict[str, int]],
     metrics_factories = [RecallFactory, RRFactory, PrecisionFactory, NDCGFactory, DCGFactory, HoleFactory, TopKAccuracyFactory, IDCGFactory, IndDCGFactory, IndIDCGFactory, APFactory, CGFactory, ExactlyMatchFactory, F1Factory]
 
     score_dict = dict()
+    if set(qrels.keys()) - set(results.keys()):
+        print(f"{set(qrels.keys()) - set(results.keys())}")
+        raise ValueError('The qrels and results files do not contain the same queries.')
+
     for k in k_values:
         for metric_factory in metrics_factories:
-            score_dict[f'{metric_factory().metric_name}@{str(k)}'] = metric_factory().eval(qrels, results, k=k)
+            score_dict[f'{metric_factory().metric_name}@{str(k)}'] = list()
+            for query_id in qrels.keys():
+                score_dict[f'{metric_factory().metric_name}@{str(k)}'].append(metric_factory().eval(qrels[query_id], results[query_id], k=k))
         Key_dict = {f'{RRFactory().metric_name}@{str(k)}': f'MRR@{str(k)}',
-                    f'{APFactory().metric_name}@{str(k)}': f'MAP@{str(k)}'
-                    }
+                        f'{APFactory().metric_name}@{str(k)}': f'MAP@{str(k)}'
+                        }
         for convert_key in Key_dict.keys():
             if convert_key in score_dict.keys():
                 score_dict[Key_dict[convert_key]] = score_dict.pop(convert_key)
@@ -106,7 +112,6 @@ def main(pred, sol):
 
     # print(f'Metric : {basic_retrieval_evaluation(solution, prediction, [1, 5, 10])}')
     print(f'Metric : {stretagyqa_retrieval_evaluation(solution, prediction, [1, 5, 10])}')
-
 
 if __name__ == '__main__':
     main()
