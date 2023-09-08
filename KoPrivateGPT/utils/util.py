@@ -40,7 +40,6 @@ def set_api_base(api_base: str):
             raise ValueError("Please set OPENAI_API_KEY in .env file")
         openai.api_key = os.environ["OPENAI_API_KEY"]
     else:
-        openai.api_key = "EMPTY"
         openai.api_base = api_base
 
 
