@@ -1,4 +1,4 @@
-from metrics import RecallFactory, RRFactory, PrecisionFactory, NDCGFactory, DCGFactory, HoleFactory, TopKAccuracyFactory, IDCGFactory, IndDCGFactory, IndIDCGFactory, APFactory, CGFactory, ExactlyMatchFactory, F1Factory
+from KoPrivateGPT.benchmark.retrieval.metrics import RecallFactory, RRFactory, PrecisionFactory, NDCGFactory, DCGFactory, HoleFactory, TopKAccuracyFactory, IDCGFactory, IndDCGFactory, IndIDCGFactory, APFactory, CGFactory, ExactlyMatchFactory, F1Factory
 
 from typing import List, Dict
 
@@ -28,11 +28,12 @@ def basic_retrieval_evaluation(qrels: Dict[str, Dict[str, int]],
             for query_id in qrels.keys():
                 score_dict[f'{metric_factory().metric_name}@{str(k)}'].append(metric_factory().eval(qrels[query_id], results[query_id], k=k))
         Key_dict = {f'{RRFactory().metric_name}@{str(k)}': f'MRR@{str(k)}',
-                        f'{APFactory().metric_name}@{str(k)}': f'MAP@{str(k)}'
-                        }
+                    f'{APFactory().metric_name}@{str(k)}': f'MAP@{str(k)}'
+                    }
         for convert_key in Key_dict.keys():
             if convert_key in score_dict.keys():
                 score_dict[Key_dict[convert_key]] = score_dict.pop(convert_key)
+
     mean_scores = {key: round(sum(value) / len(value), 5) for key, value in score_dict.items()}
     return mean_scores
 
@@ -40,7 +41,7 @@ def stretagyqa_retrieval_evaluation(qrels: Dict[str, Dict[str, int]],
                                     results: Dict[str, Dict[str, float]],
                                     k_values: List[int]) -> List[dict[str, float]]:
     """
-    :param qrels: The qrels file as a dictionary. Dict[query_id, Dict[doc_id, relevance]]
+    :param qrels: The qrels file as a dictionary.  note. "https://github.com/eladsegal/strategyqa/blob/main/data/strategyqa/dev.json"
     :param results: The results file as a dictionary. Dict[query_id, Dict[doc_id, score]]
     :k_values: The k values for which the evaluation should be done. List[int]
     results doc_id can be different from the doc_id in the qrels file.
@@ -57,7 +58,12 @@ def stretagyqa_retrieval_evaluation(qrels: Dict[str, Dict[str, int]],
 
 def strategyQA(solution: dict, pred: dict, metrics_factories: list, k: int) -> dict:
     '''
-    k should be smaller than the number of paragraphs in the prediction
+    @article{geva2021strategyqa,
+      title = {{Did Aristotle Use a Laptop? A Question Answering Benchmark with Implicit Reasoning Strategies}},
+      author = {Geva, Mor and Khashabi, Daniel and Segal, Elad and Khot, Tushar and Roth, Dan and Berant, Jonathan},
+      journal = {Transactions of the Association for Computational Linguistics (TACL)},
+      year = {2021},
+    }
     '''
     final_score = {f'{metric_factory().metric_name}@{str(k)}': list() for metric_factory in metrics_factories}
     for key in solution.keys():
