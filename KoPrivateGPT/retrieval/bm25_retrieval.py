@@ -1,18 +1,15 @@
-import json
+import pickle
+from typing import List, Union
 from uuid import UUID
 
 import numpy as np
-from typing import List, Union
 from rank_bm25 import BM25Okapi
+from tqdm import tqdm
 from transformers import AutoTokenizer
 
-from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
-from KoPrivateGPT.utils.linker import RedisDBSingleton
 from KoPrivateGPT.utils.util import FileChecker
-import pickle
-from tqdm import tqdm
 
 
 class BM25Retrieval(BaseRetrieval):
@@ -52,19 +49,26 @@ class BM25Retrieval(BaseRetrieval):
         return passage_list
 
     def retrieve_id(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Union[str, UUID]]:
+        ids, scores = self.retrieve_id_with_scores(query, top_k)
+        return ids
+
+    def ingest(self, passages: List[Passage]):
+        for passage in tqdm(passages):
+            self._save_one(passage)
+        self.persist(self.save_path)
+
+    def retrieve_id_with_scores(self, query: str, top_k: int = 5, *args, **kwargs) -> tuple[
+        List[Union[str, UUID]], List[float]]:
         if self.data is None:
             raise ValueError("BM25Retriever.data is None. Please save data first.")
 
         bm25 = BM25Okapi(self.data["tokens"])
         tokenized_query = self.__tokenize([query])[0]
         scores = bm25.get_scores(tokenized_query)
-        top_n = np.argsort(scores)[::-1][:top_k]  # this code is from rank_bm25.py in rank_bm25 package
-        return [self.data['passage_id'][i] for i in top_n]
-
-    def ingest(self, passages: List[Passage]):
-        for passage in tqdm(passages):
-            self._save_one(passage)
-        self.persist(self.save_path)
+        sorted_scores = sorted(scores, reverse=True)
+        top_n_index = np.argsort(scores)[::-1][:top_k]  # this code is from rank_bm25.py in rank_bm25 package
+        ids = [self.data['passage_id'][i] for i in top_n_index]
+        return ids, sorted_scores[:top_k]
 
     def _save_one(self, passage: Passage):
         tokenized = self.__tokenize([passage.content])[0]
