@@ -26,6 +26,13 @@ class VectorDBRetrieval(BaseRetrieval):
         docs = self.vectordb.similarity_search(query=query, k=top_k)
         return [self.__str_to_uuid(doc.metadata.get('passage_id')) for doc in docs]
 
+    def retrieve_id_with_scores(self, query: str, top_k: int = 5, *args, **kwargs) -> tuple[
+        List[Union[str, UUID]], List[float]]:
+        results = self.vectordb.similarity_search_with_relevance_scores(query=query, k=top_k)
+        docs = [result[0] for result in results]
+        scores = [result[1] for result in results]
+        return [self.__str_to_uuid(doc.metadata.get('passage_id')) for doc in docs], scores
+
     @staticmethod
     def __str_to_uuid(input_str: str) -> Union[str, UUID]:
         try:
