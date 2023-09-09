@@ -33,6 +33,11 @@ class HyDERetrieval(BaseRetrieval):
 
     def retrieve_id(self, query: str, top_k: int = 5, model_kwargs: Optional[dict] = {}, *args, **kwargs) -> List[
         Union[str, UUID]]:
+        ids, scores = self.retrieve_id_with_scores(query, top_k, model_kwargs, *args, **kwargs)
+        return ids
+
+    def retrieve_id_with_scores(self, query: str, top_k: int = 5, model_kwargs: Optional[dict] = {}, *args, **kwargs) -> \
+    tuple[List[Union[str, UUID]], List[float]]:
         user_prompt = f"Question: {query}\nPassage:"
         completion = openai.ChatCompletion.create(model=self.model_name, messages=[
             {"role": "system", "content": self.system_prompt},
@@ -41,7 +46,7 @@ class HyDERetrieval(BaseRetrieval):
         hyde_answer = completion["choices"][0]["message"]["content"]
         # logging
         logger.info(f"HyDE answer : {hyde_answer}")
-        return self.retrieval.retrieve_id(query=hyde_answer, top_k=top_k, *args, **kwargs)
+        return self.retrieval.retrieve_id_with_scores(query=hyde_answer, top_k=top_k, *args, **kwargs)
 
     @staticmethod
     def make_prompt(prompt: str):
