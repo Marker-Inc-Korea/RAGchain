@@ -4,7 +4,7 @@ from uuid import UUID
 import numpy as np
 
 from KoPrivateGPT.retrieval.base import BaseRetrieval
-from schema import Passage
+from KoPrivateGPT.schema import Passage
 
 
 class HybridRetrieval(BaseRetrieval):
@@ -52,6 +52,7 @@ class HybridRetrieval(BaseRetrieval):
             scores.append(ids[key])
 
         # min-max normalization
+        scores = list(filter(lambda x: len(x) == len(self.weights), scores))
         scores = np.array(scores)
         scores = np.apply_along_axis(self.min_max_normalization, axis=0, arr=scores)
 

@@ -32,7 +32,7 @@ def hybrid_retrieval():
         collection_name='test_hybrid_retrieval',
         embedding_function=EmbeddingFactory('openai').get()
     ))
-    hybrid_retrieval = HybridRetrieval(retrievals=[bm25_retrieval, vectordb_retrieval], weights=[0.3, 0.7])
+    hybrid_retrieval = HybridRetrieval(retrievals=[bm25_retrieval, vectordb_retrieval], weights=[0.3, 0.7], p=50)
     yield hybrid_retrieval
     if os.path.exists(pickle_path):
         os.remove(pickle_path)
