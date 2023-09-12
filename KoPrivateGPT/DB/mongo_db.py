@@ -5,7 +5,6 @@ import pymongo
 
 from KoPrivateGPT.DB.base import BaseDB
 from KoPrivateGPT.schema import Passage
-
 from KoPrivateGPT.schema.db_origin import DBOrigin
 from KoPrivateGPT.utils.linker.redisdbSingleton import RedisDBSingleton
 
@@ -54,14 +53,8 @@ class MongoDB(BaseDB):
             self.redis_db.client.json().set(str(passage.id), '$', db_origin_dict)
 
     def fetch(self, ids: List[UUID]) -> List[Passage]:
-        passage_list = []
-        for find_id in ids:
-            dict_passage = self.collection.find_one({"_id": find_id})
-            if dict_passage is None:
-                raise ValueError(f'{find_id} This _id does not exist in {self.collection_name} collection')
-            passage = Passage(id=dict_passage['_id'], **dict_passage)
-            passage_list.append(passage)
-        return passage_list
+        dict_passages = list(self.collection.find({"_id": {"$in": ids}}))
+        return [Passage(id=dict_passage['_id'], **dict_passage) for dict_passage in dict_passages]
 
     def search(self, filter_dict: Dict[str, Any]) -> List[Passage]:
         """
