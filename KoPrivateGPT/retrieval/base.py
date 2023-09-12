@@ -1,4 +1,4 @@
-import itertools
+import concurrent.futures
 from abc import ABC, abstractmethod
 from typing import List, Union
 from uuid import UUID
@@ -45,22 +45,25 @@ class BaseRetrieval(ABC):
         check_dict = {(("db_type": "mongo_db"),
             (('mongo_url': "~"), ('db_name': "~"), ('collection_name': "~"))): [0,  2], ...}
         """
-        fetch_list = []
-        for item in final_db_origin.items():
-            # make tuple to dict
-            # item[0] = db_origin:tuple, item[1] = index:list
-            db_origin = dict(item[0])
-            dict_db_path = dict(db_origin['db_path'])
-            # make db instance
-            db = self.is_created(db_origin['db_type'], dict_db_path)
-            db.load()
-            # make each id list
-            each_ids = [ids[i] for i in item[1]]
-            # fetch data
-            fetch_data = (db.fetch(each_ids))
-            fetch_list.append(fetch_data)
-        # make flatten list(passage_list) from fetch_list
-        return list(itertools.chain.from_iterable(fetch_list))
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            futures = [executor.submit(self.fetch_data_from_db_origin, ids, dict(db_origin), target_ids)
+                       for db_origin, target_ids in final_db_origin.items()]
+        result = []
+        for future in futures:
+            result.extend(future.result())
+        return result
+
+    def fetch_data_from_db_origin(self, ids: List[Union[UUID, str]], db_origin: dict, target_ids: List[int]) -> List[
+        Passage]:
+        db_path = dict(db_origin['db_path'])
+        # make db instance
+        db = self.is_created(db_origin['db_type'], db_path)
+        db.load()
+        # make each id list
+        each_ids = [ids[i] for i in target_ids]
+        # fetch data
+        fetch_data = db.fetch(each_ids)
+        return fetch_data
 
     def is_created(self, db_type: str, db_path: dict):
         if not self.db_instance_list:
