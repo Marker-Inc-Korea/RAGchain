@@ -17,7 +17,8 @@ class BasicLLM(BaseLLM):
         self.get_message = self.get_messages if prompt_func is None else prompt_func
         self.stream_func = stream_func
 
-    def ask(self, query: str, stream: bool = False, run_retrieve: bool = True) -> tuple[str, List[Passage]]:
+    def ask(self, query: str, stream: bool = False, run_retrieve: bool = True, *args, **kwargs) -> tuple[
+        str, List[Passage]]:
         passages = self.retrieved_passages if len(
             self.retrieved_passages) > 0 and not run_retrieve else self.retrieval.retrieve(query, top_k=4)
         contents = "\n\n".join([passage.content for passage in passages])
@@ -25,7 +26,7 @@ class BasicLLM(BaseLLM):
                                     model=self.model_name,
                                     stream=stream,
                                     stream_func=self.stream_func,
-                                    temperature=0.5)
+                                    *args, **kwargs)
         return answer, passages
 
     @staticmethod
