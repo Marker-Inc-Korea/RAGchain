@@ -90,7 +90,8 @@ class ViscondeLLM(BaseLLM):
         self.reranker = MonoT5Reranker()
         self.stream_func = stream_func
 
-    def ask(self, query: str, stream: bool = False, run_retrieve: bool = True) -> tuple[str, List[Passage]]:
+    def ask(self, query: str, stream: bool = False, run_retrieve: bool = True, *args, **kwargs) -> tuple[
+        str, List[Passage]]:
         decompose = QueryDecomposition(model_name=self.decompose_model_name, api_base=self.api_base)
         decompose_query: List[str] = decompose.decompose(query)
         is_decomposed = True
@@ -124,5 +125,6 @@ class ViscondeLLM(BaseLLM):
                                stream=stream,
                                stream_func=self.stream_func,
                                max_tokens=1024,
-                               temperature=0.2)
+                               temperature=0.2,
+                               *args, **kwargs)
         return answer, final_passages
