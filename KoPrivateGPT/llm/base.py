@@ -40,10 +40,11 @@ class BaseLLM(ABC):
         answer: str = ''
         if stream:
             for chunk in response:
-                content = chunk["choices"][0].get("delta", {}).get("content")
-                if content is not None:
-                    stream_func(content)
-                    answer += content
+                if len(chunk["choices"]) > 0:
+                    content = chunk["choices"][0].get("delta", {}).get("content")
+                    if content is not None:
+                        stream_func(content)
+                        answer += content
         else:
             answer = response["choices"][0]["message"]["content"]
         return answer
@@ -62,9 +63,10 @@ class BaseLLM(ABC):
         answer: str = ''
         if stream:
             for event in response:
-                text = event['choices'][0]['text']
-                stream_func(text)
-                answer += text
+                if len(event['choices']) > 0:
+                    text = event['choices'][0]['text']
+                    stream_func(text)
+                    answer += text
         else:
             answer = response["choices"][0]["text"]
         return answer
