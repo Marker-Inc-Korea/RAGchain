@@ -125,5 +125,3 @@ class BasicRunPipeline(ConversationPipeline):
         # save the query and answer in the conversation memory list
         chat_history.append((query, answer))
         return answer, passages
-
-
