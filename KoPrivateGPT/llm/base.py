@@ -13,7 +13,7 @@ class BaseLLM(ABC):
         self.retrieved_passages: List[Passage] = []
 
     @abstractmethod
-    def ask(self, query: str, stream: bool = False, run_retrieve: bool = True) -> tuple[str, List[Passage]]:
+    def ask(self, query: str, chat_history: List, stream: bool = False, run_retrieve: bool = True) -> tuple[str, List[Passage]]:
         """
         Ask a question to the LLM model and get answer and used passages
         """

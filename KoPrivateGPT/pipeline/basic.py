@@ -3,6 +3,7 @@ from typing import List, Dict, Any
 from dotenv import load_dotenv
 
 from KoPrivateGPT.pipeline.base import BasePipeline
+from KoPrivateGPT.pipeline.conversation import ConversationPipeline
 from KoPrivateGPT.pipeline.selector import ModuleSelector
 from KoPrivateGPT.schema import Passage
 from KoPrivateGPT.utils.file_cache import FileCache
@@ -109,11 +110,32 @@ class BasicRunPipeline(BasePipeline):
         load_dotenv()
         self.retrieval_type = retrieval_type
         self.llm_type = llm_type
+        self.chat_history = []
 
     def run(self, query: str, *args, **kwargs) -> tuple[str, List[Passage]]:
         retrieval_step = ModuleSelector("retrieval").select(self.retrieval_type[0])
         retrieval = retrieval_step.get(**self.retrieval_type[1])
         llm = ModuleSelector("llm").select(self.llm_type[0]).get(**self.llm_type[1], retrieval=retrieval)
-        answer, passages = llm.ask(query)
+        # If you've already had a conversation, add the previous conversation to your query
+        if len(self.chat_history) > 0:
+            chat_history = self.transform_chat_history(self.chat_history)
+        else:
+            chat_history = []
+        answer, passages = llm.ask(query=query, chat_history=chat_history)
         answer = slice_stop_words(answer, ["Question :", "question:"])
+        # save the query and answer in the conversation memory list
+        self.chat_history.append((query, answer))
         return answer, passages
+
+    @staticmethod
+    def transform_chat_history(chat_history: List[tuple[str, str]]) -> List[dict]:
+        """
+        [('test_query1', 'test_answer1'), ('test_query2', 'test_answer2')]
+        -> [{"role": "user", "content": "test_query1"}, {"role": "assistant", "content": "test_answer1"},
+        {"role": "user", "content": "test_query2"}, {"role": "assistant", "content": "test_answer2"}]
+        """
+        output_list = []
+        for item in chat_history:
+            output_list.append({"role": "user", "content": item[0]})
+            output_list.append({"role": "assistant", "content": item[1]})
+        return output_list
