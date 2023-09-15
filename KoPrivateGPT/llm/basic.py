@@ -22,11 +22,11 @@ class BasicLLM(BaseLLM):
         passages = self.retrieved_passages if len(
             self.retrieved_passages) > 0 and not run_retrieve else self.retrieval.retrieve(query, top_k=4)
         contents = "\n\n".join([passage.content for passage in passages])
-        answer = self.generate_chat(messages=self.get_message(contents, query),
+        answer = self.generate_chat(messages=self.chat_history[-self.chat_offset:] + self.get_message(contents, query),
                                     model=self.model_name,
                                     stream=stream,
-                                    stream_func=self.stream_func,
-                                    *args, **kwargs)
+                                    stream_func=self.stream_func,*args, **kwargs)
+        self.add_chat_history(query, answer)
         return answer, passages
 
     @staticmethod
@@ -38,8 +38,10 @@ class BasicLLM(BaseLLM):
 
             질문: {question}
             """
-        return [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt},
-            {"role": "assistant", "content": "다음은 질문에 대한 한국어 답변입니다. "}
-        ]
+        main_messages = [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt},
+                {"role": "assistant", "content": "다음은 질문에 대한 한국어 답변입니다. "}
+             ]
+        return main_messages
+
