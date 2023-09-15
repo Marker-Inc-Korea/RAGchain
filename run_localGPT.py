@@ -76,11 +76,12 @@ def main(device_type, retrieval_type: str, vectordb_type, embedding_type, model_
                                          "vectordb": vectordb}),
         llm_type=("basic_llm", {"model_name": model_name, "api_base": api_base}),
     )
+    chat_history = []
     while True:
         query = input("질문을 입력하세요: ")
         if query in ["exit", "종료"]:
             break
-        answer, passages = pipeline.run(query)
+        answer, passages = pipeline.run(query, chat_history)
         print_query_answer(query, answer)
         print_docs(passages)
 
