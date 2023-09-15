@@ -116,5 +116,4 @@ class BasicRunPipeline(BasePipeline):
     def run(self, query: str, *args, **kwargs) -> tuple[str, List[Passage]]:
         answer, passages = self.llm.ask(query=query)
         answer = slice_stop_words(answer, ["Question :", "question:"])
-        # save the query and answer in the conversation memory list
         return answer, passages
