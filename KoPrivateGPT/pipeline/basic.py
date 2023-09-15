@@ -102,7 +102,7 @@ class BasicDatasetPipeline(BasePipeline):
         retrieval.ingest(passages)
 
 
-class BasicRunPipeline(ConversationPipeline):
+class BasicRunPipeline(BasePipeline):
     def __init__(self,
                  retrieval_type: tuple[str, Dict[str, Any]],
                  llm_type: tuple[str, Dict[str, Any]] = ("basic_llm", {"model_name": "gpt-3.5-turbo",
@@ -111,17 +111,11 @@ class BasicRunPipeline(ConversationPipeline):
         self.retrieval_type = retrieval_type
         self.llm_type = llm_type
 
-    def run(self, query: str, chat_history: List, *args, **kwargs) -> tuple[str, List[Passage]]:
+    def run(self, query: str, *args, **kwargs) -> tuple[str, List[Passage]]:
         retrieval_step = ModuleSelector("retrieval").select(self.retrieval_type[0])
         retrieval = retrieval_step.get(**self.retrieval_type[1])
         llm = ModuleSelector("llm").select(self.llm_type[0]).get(**self.llm_type[1], retrieval=retrieval)
-        # If you've already had a chat history, add the previous conversation to your query
-        if len(chat_history) > 0:
-            transform_chat_history = self.transform_chat_history(chat_history)
-        else:
-            transform_chat_history = []
-        answer, passages = llm.ask(query=query, chat_history=transform_chat_history)
+        answer, passages = llm.ask(query=query)
         answer = slice_stop_words(answer, ["Question :", "question:"])
         # save the query and answer in the conversation memory list
-        chat_history.append((query, answer))
         return answer, passages
