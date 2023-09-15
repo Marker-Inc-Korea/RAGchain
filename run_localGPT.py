@@ -80,6 +80,9 @@ def main(device_type, retrieval_type: str, vectordb_type, embedding_type, model_
         query = input("질문을 입력하세요: ")
         if query in ["exit", "종료"]:
             break
+        elif query in ["clear", "초기화"]:
+            pipeline.llm.clear_chat_history()
+            continue
         answer, passages = pipeline.run(query)
         print_query_answer(query, answer)
         print_docs(passages)

@@ -47,9 +47,11 @@ class BasicLLM(BaseLLM):
                 {"role": "assistant", "content": "다음은 질문에 대한 한국어 답변입니다. "}
              ]
         if len(self.chat_history) > 0:
-            return self.slice_chat_history(self.chat_offset) + main_messages
+            return self.chat_history[-self.chat_offset:] + main_messages
         else:
             return main_messages
 
-    def slice_chat_history(self, offset: int) -> List[dict]:
-        return self.chat_history[-offset:]
+    def clear_chat_history(self):
+        store_chat_history = self.chat_history
+        self.chat_history.clear()
+        return store_chat_history
