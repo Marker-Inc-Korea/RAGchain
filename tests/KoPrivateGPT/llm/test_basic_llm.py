@@ -57,5 +57,8 @@ def test_basic_llm_chat_history(basic_llm):
     assert basic_llm.chat_history[1] == {"role": "assistant", "content": answer}
     basic_llm.ask("What is retriever role?")
     assert len(basic_llm.chat_history) == 4
+    basic_llm.ask("What is llm role?")
+    basic_llm.ask("What is reranker role?")
+    assert basic_llm.chat_history[-basic_llm.chat_offset:][0] == {"role": "user", "content": "What is retriever role?"}
     basic_llm.clear_chat_history()
     assert len(basic_llm.chat_history) == 0

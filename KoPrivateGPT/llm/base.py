@@ -68,3 +68,12 @@ class BaseLLM(ABC):
         else:
             answer = response["choices"][0]["text"]
         return answer
+
+    def add_chat_history(self, query: str, answer: str):
+        self.chat_history.append({"role": "user", "content": query})
+        self.chat_history.append({"role": "assistant", "content": answer})
+
+    def clear_chat_history(self):
+        store_chat_history = self.chat_history
+        self.chat_history.clear()
+        return store_chat_history
