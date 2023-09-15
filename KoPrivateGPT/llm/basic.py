@@ -17,15 +17,15 @@ class BasicLLM(BaseLLM):
         self.get_message = self.get_messages if prompt_func is None else prompt_func
         self.stream_func = stream_func
 
-    def ask(self, query: str, stream: bool = False, run_retrieve: bool = True) -> tuple[str, List[Passage]]:
+    def ask(self, query: str, stream: bool = False, run_retrieve: bool = True, *args, **kwargs) -> tuple[
+        str, List[Passage]]:
         passages = self.retrieved_passages if len(
             self.retrieved_passages) > 0 and not run_retrieve else self.retrieval.retrieve(query, top_k=4)
         contents = "\n\n".join([passage.content for passage in passages])
         answer = self.generate_chat(messages=self.chat_history[-self.chat_offset:] + self.get_message(contents, query),
                                     model=self.model_name,
                                     stream=stream,
-                                    stream_func=self.stream_func,
-                                    temperature=0.5)
+                                    stream_func=self.stream_func,*args, **kwargs)
         self.add_chat_history(query, answer)
         return answer, passages
 
