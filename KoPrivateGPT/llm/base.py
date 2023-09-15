@@ -9,6 +9,8 @@ from KoPrivateGPT.schema import Passage
 
 
 class BaseLLM(ABC):
+    stream_end_token: str = '<|endofstream|>'
+
     def __init__(self, retrieval: BaseRetrieval):
         self.retrieval = retrieval
         self.retrieved_passages: List[Passage] = []
@@ -16,9 +18,11 @@ class BaseLLM(ABC):
         self.chat_offset: int = 6
 
     @abstractmethod
-    def ask(self, query: str, stream: bool = False, run_retrieve: bool = True) -> tuple[str, List[Passage]]:
+    def ask(self, query: str, stream: bool = False, run_retrieve: bool = True, *args, **kwargs) -> tuple[
+        str, List[Passage]]:
         """
-        Ask a question to the LLM model and get answer and used passages
+        Ask a question to the LLM model and get answer and used passages.
+        *args, **kwargs is optional parameter for openai api llm
         """
         pass
 
@@ -29,11 +33,15 @@ class BaseLLM(ABC):
         self.retrieved_passages = self.retrieval.retrieve(query, top_k, *args, **kwargs)
         return self.retrieved_passages
 
-    @staticmethod
-    def generate_chat(messages: List[dict], model: str,
+    @classmethod
+    def generate_chat(cls, messages: List[dict], model: str,
                       stream: bool = False,
                       stream_func: callable = None,
                       *args, **kwargs) -> str:
+        """
+        If stream is true, run stream_func for each response.
+        And return cls.stream_end_token when stream is end.
+        """
         response = openai.ChatCompletion.create(*args, **kwargs,
                                                 model=model,
                                                 messages=messages,
@@ -41,19 +49,25 @@ class BaseLLM(ABC):
         answer: str = ''
         if stream:
             for chunk in response:
-                content = chunk["choices"][0].get("delta", {}).get("content")
-                if content is not None:
-                    stream_func(content)
-                    answer += content
+                if len(chunk["choices"]) > 0:
+                    content = chunk["choices"][0].get("delta", {}).get("content")
+                    if content is not None:
+                        stream_func(content)
+                        answer += content
+            stream_func(cls.stream_end_token)
         else:
             answer = response["choices"][0]["message"]["content"]
         return answer
 
-    @staticmethod
-    def generate(prompt: str, model: str,
+    @classmethod
+    def generate(cls, prompt: str, model: str,
                  stream: bool = False,
                  stream_func: callable = None,
                  *args, **kwargs) -> str:
+        """
+        If stream is true, run stream_func for each response.
+        And return cls.stream_end_token when stream is end.
+        """
         response = openai.Completion.create(
             model=model,
             prompt=prompt,
@@ -63,9 +77,11 @@ class BaseLLM(ABC):
         answer: str = ''
         if stream:
             for event in response:
-                text = event['choices'][0]['text']
-                stream_func(text)
-                answer += text
+                if len(event['choices']) > 0:
+                    text = event['choices'][0]['text']
+                    stream_func(text)
+                    answer += text
+            stream_func(cls.stream_end_token)
         else:
             answer = response["choices"][0]["text"]
         return answer

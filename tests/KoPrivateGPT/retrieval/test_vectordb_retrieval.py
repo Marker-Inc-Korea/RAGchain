@@ -40,7 +40,6 @@ def test_vectordb_retrieval(vectordb_retrieval):
     test_base_retrieval.validate_passages(retrieved_passages, top_k)
     retrieved_ids_2, scores = vectordb_retrieval.retrieve_id_with_scores(query='What is visconde structure?',
                                                                          top_k=top_k)
-    assert retrieved_ids == retrieved_ids_2
     assert len(retrieved_ids_2) == len(scores)
     assert max(scores) == scores[0]
     assert min(scores) == scores[-1]

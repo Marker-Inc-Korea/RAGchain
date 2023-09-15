@@ -1,7 +1,9 @@
+import concurrent.futures
 from typing import List, Union
 from uuid import UUID
 
 import numpy as np
+import pandas as pd
 
 from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
@@ -34,32 +36,21 @@ class HybridRetrieval(BaseRetrieval):
 
     def retrieve_id_with_scores(self, query: str, top_k: int = 5, *args, **kwargs) -> tuple[
         List[Union[str, UUID]], List[float]]:
-        ids = {}
-        for retrieval in self.retrievals:
-            _ids, _scores = retrieval.retrieve_id_with_scores(query, top_k=self.p, *args, **kwargs)
-            if len(ids) == 0:
-                for i in range(len(_ids)):
-                    ids[str(_ids[i])] = [_scores[i]]
-            else:
-                for i in range(len(_ids)):
-                    try:
-                        ids[str(_ids[i])].append(_scores[i])
-                    except KeyError:
-                        pass  # ignore no key at first retrieval
-        keys = list(ids.keys())
-        scores = []
-        for key in keys:
-            scores.append(ids[key])
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            futures = [executor.submit(self.retrieve_id_with_scores_parallel, retrieval, query, self.p, *args, **kwargs)
+                       for retrieval in self.retrievals]
+        scores_df = pd.concat([future.result() for future in futures], axis=1, join="inner")
 
-        # min-max normalization
-        scores = list(filter(lambda x: len(x) == len(self.weights), scores))
-        scores = np.array(scores)
-        scores = np.apply_along_axis(self.min_max_normalization, axis=0, arr=scores)
+        normalized_scores = (scores_df - scores_df.min()) / (scores_df.max() - scores_df.min())
+        normalized_scores['weighted_sum'] = normalized_scores.mul(self.weights).sum(axis=1)
+        normalized_scores = normalized_scores.sort_values(by='weighted_sum', ascending=False)
+        return (list(map(self.__str_to_uuid, normalized_scores.index[:top_k].tolist())),
+                normalized_scores['weighted_sum'][:top_k].tolist())
 
-        # weighted sum
-        weighted_scores = np.sum(scores * np.array(self.weights), axis=1)
-        top_k_index = np.argsort(weighted_scores)[::-1][:top_k]
-        return [self.__str_to_uuid(elem) for elem in np.array(keys)[top_k_index]], weighted_scores[top_k_index]
+    def retrieve_id_with_scores_parallel(self, retrieval: BaseRetrieval, query: str, top_k: int, *args,
+                                         **kwargs) -> pd.Series:
+        ids, scores = retrieval.retrieve_id_with_scores(query, top_k=top_k, *args, **kwargs)
+        return pd.Series(dict(zip(list(map(str, ids)), scores)))
 
     @staticmethod
     def min_max_normalization(arr: np.ndarray):
