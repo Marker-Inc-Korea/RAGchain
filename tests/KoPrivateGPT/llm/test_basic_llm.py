@@ -51,3 +51,17 @@ def test_basic_llm_ask_stream(basic_llm):
     answer, passages = basic_llm.ask("What is reranker role?", stream=True)
     logger.info(f"Answer: {answer}")
     test_base_llm.validate_answer(answer, passages)
+
+
+def test_basic_llm_chat_history(basic_llm):
+    answer, passages = basic_llm.ask("What is reranker role?")
+    assert basic_llm.chat_history[0] == {"role": "user", "content": "What is reranker role?"}
+    assert basic_llm.chat_history[1] == {"role": "assistant", "content": answer}
+    basic_llm.ask("What is retriever role?")
+    assert len(basic_llm.chat_history) == 4
+    basic_llm.ask("What is llm role?")
+    basic_llm.ask("What is reranker role?")
+    assert basic_llm.chat_history[-basic_llm.chat_offset:][0] == {"role": "user", "content": "What is retriever role?"}
+    store_chat_history = basic_llm.clear_chat_history()
+    assert len(basic_llm.chat_history) == 0
+    assert len(store_chat_history) == 8

@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
+import copy
 
 import openai
 
@@ -13,6 +14,8 @@ class BaseLLM(ABC):
     def __init__(self, retrieval: BaseRetrieval):
         self.retrieval = retrieval
         self.retrieved_passages: List[Passage] = []
+        self.chat_history: List[dict] = []
+        self.chat_offset: int = 6
 
     @abstractmethod
     def ask(self, query: str, stream: bool = False, run_retrieve: bool = True, *args, **kwargs) -> tuple[
@@ -82,3 +85,13 @@ class BaseLLM(ABC):
         else:
             answer = response["choices"][0]["text"]
         return answer
+
+    def add_chat_history(self, query: str, answer: str):
+        self.chat_history.append({"role": "user", "content": query})
+        self.chat_history.append({"role": "assistant", "content": answer})
+
+    def clear_chat_history(self):
+        store_chat_history = copy.deepcopy(self.chat_history)
+        self.chat_history.clear()
+        return store_chat_history
+
