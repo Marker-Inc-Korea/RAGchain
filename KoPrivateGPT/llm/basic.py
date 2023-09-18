@@ -8,7 +8,7 @@ from KoPrivateGPT.utils.util import set_api_base
 
 class BasicLLM(BaseLLM):
     def __init__(self, retrieval: BaseRetrieval, model_name: str = "gpt-3.5-turbo", api_base: str = None,
-                 prompt_func: Callable[[str, str], List[dict]] = None,
+                 prompt_func: Callable[[List[Passage], str], List[dict]] = None,
                  stream_func: Callable[[str], None] = None,
                  *args, **kwargs):
         super().__init__(retrieval)
@@ -21,8 +21,7 @@ class BasicLLM(BaseLLM):
         str, List[Passage]]:
         passages = self.retrieved_passages if len(
             self.retrieved_passages) > 0 and not run_retrieve else self.retrieval.retrieve(query, top_k=4)
-        contents = "\n\n".join([passage.content for passage in passages])
-        answer = self.generate_chat(messages=self.chat_history[-self.chat_offset:] + self.get_message(contents, query),
+        answer = self.generate_chat(messages=self.chat_history[-self.chat_offset:] + self.get_message(passages, query),
                                     model=self.model_name,
                                     stream=stream,
                                     stream_func=self.stream_func,*args, **kwargs)
@@ -30,11 +29,12 @@ class BasicLLM(BaseLLM):
         return answer, passages
 
     @staticmethod
-    def get_messages(context: str, question: str) -> List[dict]:
+    def get_messages(passages: List[Passage], question: str) -> List[dict]:
+        context_str = "\n\n".join([passage.content for passage in passages])
         system_prompt = f"""주어진 정보를 바탕으로 질문에 답하세요. 답을 모른다면 답을 지어내려고 하지 말고 모른다고 답하세요. 
                     질문 이외의 상관 없는 답변을 하지 마세요. 반드시 한국어로 답변하세요."""
         user_prompt = f"""정보 : 
-            {context}
+            {context_str}
 
             질문: {question}
             """

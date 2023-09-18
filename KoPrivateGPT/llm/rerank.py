@@ -12,7 +12,7 @@ class RerankLLM(BaseLLM):
     def __init__(self, retrieval: BaseRetrieval, reranker: BaseReranker, model_name: str = "gpt-3.5-turbo",
                  api_base: str = None, retrieve_size: int = 10, use_passage_count: int = 3,
                  window_size: int = 10,
-                 prompt_func: Callable[[str, str], List[dict]] = None,
+                 prompt_func: Callable[[List[Passage], str], List[dict]] = None,
                  stream_func: Callable[[str], None] = None,
                  *args, **kwargs):
         super().__init__(retrieval)
@@ -39,8 +39,7 @@ class RerankLLM(BaseLLM):
         else:
             reranked_passages = self.reranker.rerank_sliding_window(query, passages, self.window_size)
         final_passages = reranked_passages[:self.use_passage_count]
-        contents = "\n\n".join([passage.content for passage in final_passages])
-        answer = self.generate_chat(messages=self.get_message(contents, query),
+        answer = self.generate_chat(messages=self.get_message(final_passages, query),
                                     model=self.model_name,
                                     stream=stream,
                                     stream_func=self.stream_func,
