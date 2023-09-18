@@ -6,13 +6,15 @@ import pytest
 
 import test_base_llm
 from KoPrivateGPT.llm.basic import BasicLLM
+from KoPrivateGPT.schema import Passage
 
 logger = logging.getLogger(__name__)
 bm25_path = os.path.join(test_base_llm.root_dir, "resources", "bm25", "test_basic_llm.pkl")
 pickle_path = os.path.join(test_base_llm.root_dir, "resources", "pickle", "test_basic_llm.pkl")
 
 
-def basic_en_prompt(context: str, question: str) -> List[dict]:
+def basic_en_prompt(passages: List[Passage], question: str) -> List[dict]:
+    context = "\n\n".join([passage.content for passage in passages])
     return [
         {"role": "system", "content": "Please answer the question based on the given documents."},
         {"role": "user", "content": f"Document:\n{context}\n\nQuestion: {question}\n"},
