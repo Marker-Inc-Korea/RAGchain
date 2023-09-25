@@ -42,7 +42,7 @@ class HyDERetrieval(BaseRetrieval):
         completion = openai.ChatCompletion.create(model=self.model_name, messages=[
             {"role": "system", "content": self.system_prompt},
             {"role": "user", "content": user_prompt}
-        ], temperature=0.7, **model_kwargs)
+        ], **model_kwargs)
         hyde_answer = completion["choices"][0]["message"]["content"]
         # logging
         logger.info(f"HyDE answer : {hyde_answer}")
