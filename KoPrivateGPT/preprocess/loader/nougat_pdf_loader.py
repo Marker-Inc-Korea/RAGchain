@@ -1,6 +1,6 @@
 import tempfile
 from pathlib import Path
-from typing import List
+from typing import List, Iterator
 from urllib.parse import urljoin, urlencode
 
 import requests
@@ -26,6 +26,15 @@ class NougatPDFLoader(BasePDFLoader):
         :param start: Start page number to load. Optional.
         :param stop: Stop page number to load. Optional.
         """
+        return list(self.lazy_load(split_section=split_section, split_table=split_table, *args, **kwargs))
+
+    def lazy_load(self, split_section: bool = True, split_table: bool = True, *args, **kwargs) -> Iterator[Document]:
+        """
+                :param split_section: If True, split the document by section.
+                :param split_table: If True, split the document by table.
+                :param start: Start page number to load. Optional.
+                :param stop: Stop page number to load. Optional.
+                """
         request_url = urljoin(self.nougat_host, "predict/") + '?' + urlencode(kwargs)
         file = {
             'file': open(self.file_path, 'rb')
@@ -40,4 +49,5 @@ class NougatPDFLoader(BasePDFLoader):
         with tempfile.NamedTemporaryFile() as temp_path:
             Path(temp_path.name).write_text(result)
             loader = MathpixMarkdownLoader(temp_path.name)
-            return loader.load(split_section=split_section, split_table=split_table)
+            for doc in loader.lazy_load(split_section=split_section, split_table=split_table):
+                yield doc

@@ -13,34 +13,29 @@ class MathpixMarkdownLoader(BaseLoader):
         self.filepath = filepath
 
     def load(self, split_section: bool = True, split_table: bool = True) -> List[Document]:
+        return list(self.lazy_load(split_section=split_section, split_table=split_table))
+
+    def lazy_load(self, split_section: bool = True, split_table: bool = True) -> Iterator[Document]:
         with open(self.filepath, 'r') as f:
             content = f.read()
-        result = [Document(page_content=content, metadata={"source": self.filepath, "content_type": "text"})]
 
-        if split_section:
-            section_result = []
-            split_sections = self.split_section(content)
-            for section in split_sections:
-                section_result.append(Document(page_content=section, metadata={"source": self.filepath,
-                                                                               "content_type": "text"}))
-            result = section_result
+        if not split_section and not split_table:
+            yield Document(page_content=content, metadata={"source": self.filepath, "content_type": "text"})
+        else:
+            split_sections: List[str] = [content]
+            if split_section:
+                split_sections = self.split_section(content)
+                if not split_table:
+                    for section in split_sections:
+                        yield Document(page_content=section, metadata={"source": self.filepath, "content_type": "text"})
 
-        if split_table:
-            table_result = []
-            for document in result:
-                contents = self.split_table(document.page_content)
-                for i, content in enumerate(contents):
-                    if i % 2 == 0:
-                        table_result.append(Document(page_content=content, metadata={"source": self.filepath,
-                                                                                     "content_type": "text"}))
-                    else:
-                        table_result.append(Document(page_content=content, metadata={"source": self.filepath,
-                                                                                     "content_type": "table"}))
-            result = table_result
-        return result
-
-    def lazy_load(self) -> Iterator[Document]:
-        raise NotImplementedError
+            if split_table:
+                for document in split_sections:
+                    contents: List[str] = self.split_table(document)
+                    for content in contents:
+                        page_type = "table" if content.startswith('\\\\begin{table}') else "text"
+                        yield Document(page_content=content,
+                                       metadata={"source": self.filepath, "content_type": page_type})
 
     @staticmethod
     def split_section(content: str) -> List[str]:
