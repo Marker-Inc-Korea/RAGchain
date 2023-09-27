@@ -27,3 +27,10 @@ def test_nougat_pdf_loader(nougat_pdf_loader):
             assert doc.page_content.startswith("\\\\begin{table}")
         else:
             assert bool(doc.page_content)
+
+    docs = nougat_pdf_loader.load(split_section=True, split_table=False,
+                                  start=1, stop=2)
+    assert len(docs) == 9
+    for doc in docs:
+        assert bool(doc.page_content)
+        assert doc.metadata["content_type"] == "text"

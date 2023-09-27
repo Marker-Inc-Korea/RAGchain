@@ -19,7 +19,13 @@ class NougatPDFLoader(BasePDFLoader):
             raise ValueError(f"Could not connect to Nougat server: {nougat_host}")
         self.nougat_host = nougat_host
 
-    def load(self, *args, **kwargs) -> List[Document]:
+    def load(self, split_section: bool = True, split_table: bool = True, *args, **kwargs) -> List[Document]:
+        """
+        :param split_section: If True, split the document by section.
+        :param split_table: If True, split the document by table.
+        :param start: Start page number to load. Optional.
+        :param stop: Stop page number to load. Optional.
+        """
         request_url = urljoin(self.nougat_host, "predict/") + '?' + urlencode(kwargs)
         file = {
             'file': open(self.file_path, 'rb')
@@ -34,4 +40,4 @@ class NougatPDFLoader(BasePDFLoader):
         with tempfile.NamedTemporaryFile() as temp_path:
             Path(temp_path.name).write_text(result)
             loader = MathpixMarkdownLoader(temp_path.name)
-            return loader.load()
+            return loader.load(split_section=split_section, split_table=split_table)
