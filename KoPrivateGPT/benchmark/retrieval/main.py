@@ -1,4 +1,4 @@
-from KoPrivateGPT.benchmark.retrieval.metrics import RecallFactory, RRFactory, PrecisionFactory, NDCGFactory, DCGFactory, HoleFactory, TopKAccuracyFactory, IDCGFactory, IndDCGFactory, IndIDCGFactory, APFactory, CGFactory, ExactlyMatchFactory, F1Factory
+from KoPrivateGPT.benchmark.retrieval.metrics import Recall, RR, Precision, NDCG, DCG, Hole, TopKAccuracy, IDCG, IndDCG, IndIDCG, AP, CG, ExactlyMatch, F1
 
 from typing import List, Dict
 
@@ -15,7 +15,7 @@ def basic_retrieval_evaluation(qrels: Dict[str, Dict[str, int]],
     results doc_id can be different from the doc_id in the qrels file.
     """
 
-    metrics_factories = [RecallFactory, RRFactory, PrecisionFactory, NDCGFactory, DCGFactory, HoleFactory, TopKAccuracyFactory, IDCGFactory, IndDCGFactory, IndIDCGFactory, APFactory, CGFactory, ExactlyMatchFactory, F1Factory]
+    metrics_factories = [Recall, RR, Precision, NDCG, DCG, Hole, TopKAccuracy, IDCG, IndDCG, IndIDCG, AP, CG, ExactlyMatch, F1]
 
     score_dict = dict()
     if set(qrels.keys()) - set(results.keys()):
@@ -27,8 +27,8 @@ def basic_retrieval_evaluation(qrels: Dict[str, Dict[str, int]],
             score_dict[f'{metric_factory().metric_name}@{str(k)}'] = list()
             for query_id in qrels.keys():
                 score_dict[f'{metric_factory().metric_name}@{str(k)}'].append(metric_factory().eval(qrels[query_id], results[query_id], k=k))
-        Key_dict = {f'{RRFactory().metric_name}@{str(k)}': f'MRR@{str(k)}',
-                    f'{APFactory().metric_name}@{str(k)}': f'MAP@{str(k)}'
+        Key_dict = {f'{RR().metric_name}@{str(k)}': f'MRR@{str(k)}',
+                    f'{AP().metric_name}@{str(k)}': f'MAP@{str(k)}'
                     }
         for convert_key in Key_dict.keys():
             if convert_key in score_dict.keys():
@@ -47,7 +47,7 @@ def stretagyqa_retrieval_evaluation(qrels: Dict[str, Dict[str, int]],
     results doc_id can be different from the doc_id in the qrels file.
     """
 
-    metrics_factories = [RecallFactory, RRFactory, PrecisionFactory, NDCGFactory, DCGFactory, HoleFactory, TopKAccuracyFactory, IDCGFactory, IndDCGFactory, IndIDCGFactory, APFactory, CGFactory]
+    metrics_factories = [Recall, RR, Precision, NDCG, DCG, Hole, TopKAccuracy, IDCG, IndDCG, IndIDCG, AP, CG, ExactlyMatch, F1]
 
     score_dict = dict()
     for k in k_values:
@@ -93,8 +93,8 @@ def strategyQA(solution: dict, pred: dict, metrics_factories: list, k: int) -> d
             annotator_max = max(score_per_annotator)
             final_score[f'{metric.metric_name}@{str(k)}'].append(annotator_max)
 
-    Key_dict = {f'{RRFactory().metric_name}@{str(k)}': f'MRR@{str(k)}',
-            f'{APFactory().metric_name}@{str(k)}': f'MAP@{str(k)}'
+    Key_dict = {f'{RR().metric_name}@{str(k)}': f'MRR@{str(k)}',
+            f'{AP().metric_name}@{str(k)}': f'MAP@{str(k)}'
             }
     for convert_key in Key_dict.keys():
         if convert_key in final_score.keys():
