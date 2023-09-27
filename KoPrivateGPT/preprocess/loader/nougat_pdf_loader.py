@@ -30,11 +30,11 @@ class NougatPDFLoader(BasePDFLoader):
 
     def lazy_load(self, split_section: bool = True, split_table: bool = True, *args, **kwargs) -> Iterator[Document]:
         """
-                :param split_section: If True, split the document by section.
-                :param split_table: If True, split the document by table.
-                :param start: Start page number to load. Optional.
-                :param stop: Stop page number to load. Optional.
-                """
+        :param split_section: If True, split the document by section.
+        :param split_table: If True, split the document by table.
+        :param start: Start page number to load. Optional.
+        :param stop: Stop page number to load. Optional.
+        """
         request_url = urljoin(self.nougat_host, "predict/") + '?' + urlencode(kwargs)
         file = {
             'file': open(self.file_path, 'rb')
