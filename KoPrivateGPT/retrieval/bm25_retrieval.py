@@ -21,12 +21,25 @@ class BM25Retrieval(BaseRetrieval):
     }
     """
 
-    def __init__(self, save_path: str, *args, **kwargs):
+    def __init__(self, save_path: str,
+                 tokenizer_name: str = "gpt2",
+                 *args, **kwargs):
+        """
+        Initialize a new instance of the BM25Retrieval class.
+
+        :param save_path: A string representing the path to the saved BM25 data. Must be .pkl or .pickle file.
+        :param tokenizer_name: The name of the tokenizer to be used. Must be huggingface tokenizer name.
+        Default is "gpt2".
+        :param args: Additional positional arguments.
+        :param kwargs: Additional keyword arguments.
+
+        :returns: None
+        """
         super().__init__()
         self.data = self.load_data(save_path)
         assert (len(self.data["tokens"]) == len(self.data["passage_id"]))
         self.save_path = save_path
-        self.tokenizer = AutoTokenizer.from_pretrained("EleutherAI/polyglot-ko-1.3b")
+        self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
 
     @staticmethod
     def load_data(save_path: str):
