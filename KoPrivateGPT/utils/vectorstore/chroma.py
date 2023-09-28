@@ -16,5 +16,6 @@ class ChromaSlim(Chroma, SlimVectorStore):
         self._collection.upsert(
             embeddings=embeddings,
             metadatas=metadatas,
-            ids=[str(passage.id) for passage in passages]
+            ids=[str(passage.id) for passage in passages],
+            documents=["" for _ in range(len(passages))]
         )

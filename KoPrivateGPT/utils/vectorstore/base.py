@@ -16,5 +16,6 @@ class SlimVectorStore(ABC):
         """
         Embed multiple passages
         Must include "passage_id" at metadatas.
+        Must include empty string at document contents.
         """
         pass
