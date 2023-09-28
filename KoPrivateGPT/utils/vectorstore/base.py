@@ -5,15 +5,16 @@ from KoPrivateGPT.schema import Passage
 
 
 class SlimVectorStore(ABC):
-    def embed_passage(self, passage: Passage):
+    def add_passage(self, passage: Passage):
         """
         Embed a passage
         """
-        self.embed_passages([passage])
+        self.add_passages([passage])
 
     @abstractmethod
-    def embed_passages(self, passages: List[Passage]):
+    def add_passages(self, passages: List[Passage]):
         """
         Embed multiple passages
+        Must include "passage_id" at metadatas.
         """
         pass
