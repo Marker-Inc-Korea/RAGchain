@@ -5,7 +5,7 @@ import pytest
 from dotenv import load_dotenv
 
 from KoPrivateGPT.utils.embed import EmbeddingFactory
-from KoPrivateGPT.utils.vectorstore.pinecone import PineconeSlim
+from KoPrivateGPT.utils.vectorstore import PineconeSlim
 from base import PASSAGES
 
 
