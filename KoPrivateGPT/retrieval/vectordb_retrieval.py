@@ -6,6 +6,7 @@ from langchain.vectorstores import VectorStore
 
 from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
+from KoPrivateGPT.utils.vectorstore.base import SlimVectorStore
 
 
 class VectorDBRetrieval(BaseRetrieval):
@@ -14,8 +15,12 @@ class VectorDBRetrieval(BaseRetrieval):
         self.vectordb = vectordb
 
     def ingest(self, passages: List[Passage]):
-        self.vectordb.add_documents(
-            [Document(page_content=passage.content, metadata={'passage_id': str(passage.id)}) for passage in passages])
+        if isinstance(self.vectordb, SlimVectorStore):
+            self.vectordb.add_passages(passages)
+        else:
+            self.vectordb.add_documents(
+                [Document(page_content=passage.content, metadata={'passage_id': str(passage.id)}) for passage in
+                 passages])
 
     def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Passage]:
         ids = self.retrieve_id(query, top_k)

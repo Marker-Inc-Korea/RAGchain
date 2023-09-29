@@ -12,7 +12,7 @@ class ChromaSlim(Chroma, SlimVectorStore):
         if self._embedding_function is not None:
             contents = [passage.content for passage in passages]
             embeddings = self._embedding_function.embed_documents(contents)
-        metadatas = [{"passage_id": passage.id} for passage in passages]
+        metadatas = [{"passage_id": str(passage.id)} for passage in passages]
         self._collection.upsert(
             embeddings=embeddings,
             metadatas=metadatas,
