@@ -14,13 +14,18 @@ class PineconeSlim(Pinecone, SlimVectorStore):
         if namespace is None:
             namespace = self._namespace
         # Embed and make metadatas
-        docs = []
+        vectors = []
         for passage in passages:
             embedding = self._embedding_function(passage.content)
-            docs.append((passage.id, embedding, {'passage_id': passage.id}))
+            vectors.append({
+                'id': str(passage.id),
+                'values': embedding,
+                'metadata': {'passage_id': str(passage.id),
+                             self._text_key: ""}
+            })
 
         self._index.upsert(
-            vectors=docs,
+            vectors=vectors,
             namespace=namespace,
             batch_size=batch_size,
             **kwargs
