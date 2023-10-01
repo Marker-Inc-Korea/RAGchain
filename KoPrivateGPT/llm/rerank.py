@@ -2,9 +2,9 @@ from typing import List, Callable
 
 from KoPrivateGPT.llm.base import BaseLLM
 from KoPrivateGPT.llm.basic import BasicLLM
+from KoPrivateGPT.reranker.base import BaseReranker
 from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
-from KoPrivateGPT.utils.reranker.base import BaseReranker
 from KoPrivateGPT.utils.util import set_api_base
 
 
