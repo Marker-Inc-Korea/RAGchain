@@ -2,9 +2,8 @@ from typing import List
 
 import pandas as pd
 from huggingface_hub import hf_hub_download
+from langchain.document_loaders.base import BaseLoader
 from langchain.schema import Document
-
-from KoPrivateGPT.preprocess.loader.base import BaseLoader
 
 
 class KoStrategyQALoader(BaseLoader):
