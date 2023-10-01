@@ -1,6 +1,7 @@
 from typing import List, Dict, Any
 
 from dotenv import load_dotenv
+from langchain.document_loaders.base import BaseLoader
 
 from KoPrivateGPT.pipeline.base import BasePipeline
 from KoPrivateGPT.pipeline.selector import ModuleSelector
@@ -16,7 +17,7 @@ class BasicIngestPipeline(BasePipeline):
     This class handles the ingestion process of documents into a database and retrieval system.
 
     Attributes:
-        file_loader_type (tuple[str, Dict[str, Any]]): The type and configuration of the file loader module.
+        file_loader (langchain.document_loaders.base.BaseLoader): The file loader instance want to use.
         text_splitter_type (tuple[str, Dict[str, Any]]): The type and configuration of the text splitter module.
         db_type (tuple[str, Dict[str, Any]]): The type and configuration of the database module.
         retrieval_type (tuple[str, Dict[str, Any]]): The type and configuration of the retrieval module.
@@ -28,13 +29,13 @@ class BasicIngestPipeline(BasePipeline):
     """
 
     def __init__(self,
-                 file_loader_type: tuple[str, Dict[str, Any]],
+                 file_loader: BaseLoader,
                  db_type: tuple[str, Dict[str, Any]],
                  retrieval_type: tuple[str, Dict[str, Any]],
                  text_splitter_type: tuple[str, Dict[str, Any]] = ("recursive_text_splitter", {"chunk_size": 500,
                                                                                                "chunk_overlap": 50}),
                  ignore_existed_file: bool = True):
-        self.file_loader_type = file_loader_type
+        self.file_loader = file_loader
         self.text_splitter_type = text_splitter_type
         self.db_type = db_type
         self.retrieval_type = retrieval_type
@@ -44,13 +45,8 @@ class BasicIngestPipeline(BasePipeline):
     def run(self, target_dir=None, *args, **kwargs):
         # File Loader
         if target_dir is not None:
-            file_loader = ModuleSelector("file_loader").select(self.file_loader_type[0]).get(target_dir=target_dir,
-                                                                                             hwp_host_url=
-                                                                                             self.file_loader_type[1][
-                                                                                                 'hwp_host_url'])
-        else:
-            file_loader = ModuleSelector("file_loader").select(self.file_loader_type[0]).get(**self.file_loader_type[1])
-        documents = file_loader.load()
+            self.file_loader.target_dir = target_dir
+        documents = self.file_loader.load()
 
         db = ModuleSelector("db").select(self.db_type[0]).get(**self.db_type[1])
 
@@ -81,15 +77,14 @@ class BasicIngestPipeline(BasePipeline):
 
 
 class BasicDatasetPipeline(BasePipeline):
-    def __init__(self, file_loader_type: tuple[str, Dict[str, Any]], retrieval_type: tuple[str, Dict[str, Any]]):
-        self.file_loader_type = file_loader_type
+    def __init__(self, file_loader: BaseLoader, retrieval_type: tuple[str, Dict[str, Any]]):
+        self.file_loader = file_loader
         self.retrieval_type = retrieval_type
         load_dotenv(verbose=False)
 
     def run(self, *args, **kwargs):
         # File Loader
-        file_loader = ModuleSelector("file_loader").select(self.file_loader_type[0]).get(**self.file_loader_type[1])
-        documents = file_loader.load()
+        documents = self.file_loader.load()
         if len(documents) <= 0:
             return
 

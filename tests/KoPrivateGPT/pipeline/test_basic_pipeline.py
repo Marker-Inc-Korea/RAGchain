@@ -6,6 +6,7 @@ import pytest
 
 from KoPrivateGPT.DB import MongoDB
 from KoPrivateGPT.pipeline.basic import BasicIngestPipeline, BasicRunPipeline
+from KoPrivateGPT.preprocess.loader import FileLoader
 
 log = logging.getLogger(__name__)
 
@@ -25,8 +26,7 @@ def basic_run_pipeline():
     if not os.path.exists(file_dir):
         os.makedirs(file_dir)
     ingest_pipeline = BasicIngestPipeline(
-        file_loader_type=("file_loader", {"target_dir": file_dir,
-                                          "hwp_host_url": os.getenv('HWP_CONVERTER_HOST')}),
+        file_loader=FileLoader(file_dir, os.getenv('HWP_CONVERTER_HOST')),
         db_type=("mongo_db", mongodb_config),
         retrieval_type=("bm25", {"save_path": bm25_path})
     )
