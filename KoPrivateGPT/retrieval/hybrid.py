@@ -13,13 +13,27 @@ class HybridRetrieval(BaseRetrieval):
     def __init__(self, retrievals: List[BaseRetrieval],
                  weights: List[float],
                  p: int = 500,
+                 method: str = 'cc',
                  *args, **kwargs):
+        """
+
+        Initializes a HybridRetrieval object.
+
+        Parameters:
+        - retrievals (List[BaseRetrieval]): A list of BaseRetrieval objects.
+        - weights (List[float]): A list of weights corresponding to each retrieval method. The weights should sum up to 1.0.
+        - p (int, optional): The number of passages to retrieve from each retrieval method. Smaller p will result in
+        faster process time, but may result lack of retrieved passages. Default is 500.
+        - method (str, optional): The method used to combine the retrieval results. Choose between cc and rrf, which is
+        convex combination and reciprocal rank fusion respectively. Default is 'cc'.
+        """
         super().__init__()
         self.retrievals = retrievals
         assert sum(weights) == 1.0, "weights should be sum to 1.0"
         assert len(weights) > 1, "weights should be more than 1"
         self.weights = weights
         self.p = p
+        self.method = method
 
     def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Passage]:
         ids = self.retrieve_id(query, top_k, *args, **kwargs)
@@ -42,7 +56,13 @@ class HybridRetrieval(BaseRetrieval):
         scores_df = pd.concat([future.result() for future in futures], axis=1, join="inner")
 
         normalized_scores = (scores_df - scores_df.min()) / (scores_df.max() - scores_df.min())
-        normalized_scores['weighted_sum'] = normalized_scores.mul(self.weights).sum(axis=1)
+        if self.method == 'cc':
+            normalized_scores['weighted_sum'] = normalized_scores.mul(self.weights).sum(axis=1)
+        elif self.method == 'rrf':
+            normalized_scores['weighted_sum'] = normalized_scores.apply(lambda row: self.__rrf_row(row, self.weights),
+                                                                        axis=1)
+        else:
+            raise ValueError("method should be either 'cc' or 'rrf'")
         normalized_scores = normalized_scores.sort_values(by='weighted_sum', ascending=False)
         return (list(map(self.__str_to_uuid, normalized_scores.index[:top_k].tolist())),
                 normalized_scores['weighted_sum'][:top_k].tolist())
@@ -62,3 +82,11 @@ class HybridRetrieval(BaseRetrieval):
             return UUID(input_str)
         except:
             return input_str
+
+    @staticmethod
+    def __rrf_row(row, weights):
+        assert len(row) == len(weights)
+        result = 0
+        for i in range(len(row)):
+            result += (1 / (weights[i] + row[i]))
+        return result
