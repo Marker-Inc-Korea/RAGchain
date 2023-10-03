@@ -1,0 +1,149 @@
+# Yes, BM25 is a Strong Baseline for Legal Case Retrieval
+
+ Guilherme Moraes Rosa
+
+NeuralMind
+
+University of Campinas (Unicamp)
+
+Ruan Chaves Rodrigues
+
+NeuralMind
+
+Federal University of Goias (UFG)
+
+Roberto de Alencar Lotufo
+
+NeuralMind
+
+University of Campinas (Unicamp)
+
+Rodrigo Nogueira
+
+NeuralMind
+
+University of Campinas (Unicamp)
+
+###### Abstract.
+
+We describe our single submission to task 1 of COLIEE 2021. Our vanilla BM25 got second place, well above the median of submissions. Code is available at [https://github.com/neuralmind-ai/coliee](https://github.com/neuralmind-ai/coliee).
+
+2021
+
+## 1. Introduction
+
+The Competition on Legal Information Extraction/Entailment (COLIEE) [8, 9, 14, 15] is an annual competition to evaluate automatic systems on case and statute law tasks.
+
+In this paper, we describe our submission to the legal case retrieval task of COLIEE 2021. The goal of this task is to explore and evaluate the performance of legal document retrieval technologies. It consists of retrieving from a corpus the cases that support or are relevant to the decision of a new case. These relevant cases are referred to as \"noticed cases\".
+
+## 2. Related Work
+
+Some successful NLP approaches to the legal domain use a combination of data-driven methods and hand-crafted rules [20]. For example, in task 1 of COLIEE 2019, Gain et al. [6] used a combination of techniques, such as Doc2Vec and BM25. Leburn-Dingalo et al. [10] used a learning to rank approach with features generated from models such as BM25 and TF-IDE. For task 1 of COLIEE 2020, Mandal et al. [12] applied filtered-bag-of-ngrams and BM25.
+
+Gomes and Ladeira [7] compared TF-IDF, BM25 and Word2Vec models for jurisprudence retrieval. The results indicated that the Word2Vec Skip-Gram model trained on a specialized legal corpus and BM25 yield similar performance. Althammer et al. [1] investigate BERT [5] for document retrieval in the patent domain and found that BERT model does not yet achieve performance improvements for patent document retrieval compared to the BM25 baseline.
+
+Pradeep et al. [13] showed that BM25 is above the median of competition submissions in TREC 2020 Health Misinformation and Precision Medicine Tracks.
+
+## 3. The Task
+
+The dataset for task 1 is composed of predominantly Federal Court of Canada case laws, and it is provided as a pool of cases containing 4415 documents. The input is an unseen legal case, and the output is the relevant cases extracted from the pool that support the decision of the input case. The training set includes 650 query cases and 3311 relevant cases with an average of 5.094 labels per example. In the test set, only the query cases are given, 250 documents in total. We also show the statistics of this dataset in Table 1.
+
+The micro F1-score is the official metric in this task:
+
+\\[\\text{F1}=(2\\times P\\times R)/(P+R), \\tag{1}\\]
+
+where \\(P\\) is the number of correctly retrieved cases for all queries, divided by the number of retrieved cases for all queries, and \\(R\\) is the number of correctly retrieved cases for all queries divided by the number of relevant cases for all queries.
+
+## 4. Our Method: BM25
+
+BM25 [4, 17] is an algorithm developed in the 1990s based on a probabilistic interpretation of how terms contribute to the relevance of a document and uses easily computed statistical properties such as functions of term frequencies, document frequencies and document lengths. The algorithm is a weighting scheme in the vector space model characterized as unsupervised, although it contains the free parameters \\(k_{1}\\) and \\(b\\) that can be tuned to improve results.
+
+BM25 score between a query \\(q\\) and a document \\(d\\) is derived from a sum of contributions from each query term that appears in the document and it is defined as
+
+\\begin{table}
+\\begin{tabular}{l|r|r} \\hline \\hline  & **Train** & **Test** \\\\ \\hline Number of base cases & 650 & 250 \\\\ Number of candidate cases & 4415 & 4415 \\\\ Number of relevant cases & 3311 & 900 \\\\ Avg. relevant cases per base case & 5.1 & 3.6 \\\\ \\hline \\hline \\end{tabular}
+\\end{table}
+Table 1. COLIEE 2021 task 1 data statistics.
+
+\\[\\text{BM25}(q,d)=\\\\ \\sum_{t\\in q\
+eq d}\\log\\frac{N-\\text{df}(t)+0.5}{\\text{df}(t)+0.5} \\cdot\\frac{\\text{tf}(t,d)\\cdot(k_{1}+1)}{\\text{tf}(t,d)+k_{1}\\cdot\\left(1-b+b \\cdot\\frac{I_{t}}{L}\\right)} \\tag{2}\\]
+
+The first part of the equation (the log term) is the inverse document frequency (idf): \\(N\\) is the total number of documents in the corpus, and \\(df(t)\\) refers to the document frequency or the number of documents that term \\(t\\) appears. In the second part, \\(tf(t,d)\\) represents the number of times term \\(t\\) appears in document \\(d\\) or its term frequency. The denominator performs length normalization since collections usually have documents with different lengths. \\(ld\\) refers to the length of document \\(d\\) while \\(L\\) is the average document length across all documents in the collection. As said before, \\(k_{1}\\) and \\(b\\) are free parameters.
+
+Until today, BM25 still provides competitive performance in comparison with modern approaches on text ranking tasks.
+
+We use BM25 from Pyserini, which is a Python library designed to help research in the field of information retrieval. It includes sparse and dense representations (Pyserini, 2018). Pyserini was created to provide easy-to-use information retrieval systems that could be combined in a multi-stage ranking architecture in an efficient and reproducible manner. The library is self-contained as a standard Python package and comes with queries, pre-built indexes, relevance judgments, and evaluation scripts for many used IR test collections such as MS MARCO (Bordes and Rafter, 2018), TREC (Rafter, 2018; Rafter et al., 2019; Rafter et al., 2020) and more. In this work, we use retrieval with sparse representations and it is provided via integration with Anserini (Rafter et al., 2019), which is built on Lucene (Luce, 2018).
+
+To apply BM25 to task 1, we first index all base and candidate cases present in the dataset. Before indexing, we segment each document into segments of texts using a context window of 10 sentences with overlapping strides of 5 sentences. We refer to these segments as candidate case segments.
+
+In task 1, queries are base cases, which are also long documents. In our experiments, we found that using shorter queries improves efficiency and effectiveness. Thus, we apply to the base cases the same segmentation procedure described during the indexing step, creating, as we refer to, base case segments. We then use BM25 to retrieve candidate case segments for each base case segment. We denote \\(s(b_{i},c_{j})\\) as the BM25 score of the \\(i\\)-th segment of the base case \\(b\\) and the \\(j\\)-th segment of the candidate case \\(c\\).
+
+The relevance score \\(s(b,c)\\) for a (base case, candidate case) pair is the maximum score among all their base case segment and candidate case segment pairs:
+
+\\[s(b,c)=\\max_{i,j}s(b_{i},c_{j}) \\tag{3}\\]
+
+We then rank the candidates of each base case according to these relevance scores and use the method described in Section 4.1 to select the candidate cases that will comprise our final answer.
+
+Due to the large number of segments produced from base cases, retrieving the base cases of the test set takes more than 24 hours on a 4-core machine. Thus, we also evaluate our system using only the first \\(N\\) segments. Table 2 summarizes our three best hyperparameters. The models are named using the format BM25-(\\(N\\), window size, stride). We achieve the best result using all base case segments, a window size of 10 sentences, and a stride of 5 sentences. However, due to the high computational cost of scoring all segments, our submitted system uses only the first 25 windows of each base case, i.e., \\(N=25\\).
+
+### Answer Selection
+
+Given a base case \\(b\\), BM25 estimates a relevance score \\(s(b,c)\\) for each candidate case \\(c\\) retrieved from the corpus using the method explained above. To select the final set of candidate cases, we apply three rules:
+
+* Select candidates whose relevance scores are above a threshold \\(\\alpha\\);
+* Select the top \\(\\beta\\) candidate cases with respect to their relevance scores;
+* Select candidate cases whose scores are at least \\(\\gamma\\) of the highest relevance score.
+
+We use an exhaustive grid search to find the best values for \\(\\alpha\\), \\(\\beta\\), \\(\\gamma\\) on the first 100 examples of the 2021 training dataset. We swept \\(\\alpha=[0,0.1,...,0.9]\\), \\(\\beta=[1,5...,200]\\), and \\(\\gamma=[0,0.1,...,0.9,0.95,0.99,\\) 0.995,..., 0.9999].
+
+Note that our hyperparameter search includes the possibility of not using the first or third strategies if \\(\\alpha=0\\) or \\(\\gamma=0\\) are chosen, respectively.
+
+## 5 Results
+
+Results are shown in Table 3. Our vanilla BM25 is a good baseline for the task as it achieves second place in the competition and its F1 score is well above the median of submissions. This result is not a surprise since it agrees with results from other competitions, such as the Health Misinformation and Precision Medicine tracks of TREC 2020 (Rafter et al., 2019). The advantage of our approach is the simplicity of our method, requiring only the document's segmentation and the grid search. One of the disadvantages is the time spent during the retrieval of segmented documents.
+
+## 6 Conclusion
+
+We showed that our simple BM25 approach is a strong baseline for the legal case retrieval task.
+
+\\begin{table}
+\\begin{tabular}{l|c|c|c} \\hline \\hline
+**Method** & **F1** & **Precision** & **Recall** \\\\ \\hline BM25-(10, 10, 5) & 0.1040 & 0.0785 & 0.1560 \\\\ BM25-(25, 10, 10) & 0.1203 & 0.0997 & 0.1516 \\\\ BM25-(All, 10, 5) & 0.1386 & 0.1027 & 0.2134 \\\\ \\hline \\hline \\end{tabular}
+\\end{table}
+Table 2: Task 1 results on the 2021 dev set.
+
+\\begin{table}
+\\begin{tabular}{l|c|c|c} \\hline \\hline
+**Results** & **F1** & **Precision** & **Recall** \\\\ \\hline Median of submissions & 0.0279 & - & - \\\\
+3rd best submission of 2021 & 0.0456 & - & - \\\\ Best submission of 2021 & 0.1917 & - & - \\\\ \\hline BM25 (ours) & 0.0937 & 0.0729 & 0.1311 \\\\ \\hline \\hline \\end{tabular}
+\\end{table}
+Table 3: Task 1 results on the 2021 test set.
+
+
+
+#### Acknowledgments.
+
+This research was funded by a grant from Fundacacao de Amparo a Pesquisa do Estado de Sao Paulo (FAPESP) 2020/09753-5.
+
+## References
+
+* S. Athanmer, S. Hofakter, and A. Hanbury (2020)Cross-domain retrieval in the legal and patent domains: a reproducibility study. arXiv preprint arXiv:2012.11405. Cited by: SS1.
+* P. Bajaj, D. Campos, N. Craswell, L. Deng, J. Gao, X. Liu, R. Majumder, A. McNamara, B. Mirra, T. Nguyen, M. Rosenberg, X. Song, A. Stoica, S. Thwar, and T. Wang (2018)MS MARCO: A human generated machine reading comprehension dataset. arXiv:1611.02968v1. Cited by: SS1.
+* A. Bialecki, R. Muir, and G. Ingersoll (2012)Apache lucene 4. Proceedings of the SIGIR 2012 Workshop on Open Source Information Retrieval. Cited by: SS1.
+* F. Crestani, M. Lalmas, C. J. van Rijsbergen, and I. Campbell (1999)Is this document relevant?. probably: A survey of probabilistic models in information retrieval. ACM Computing Surveys30 (4), pp. 258-252. Cited by: SS1.
+* J. Devlin, M. Chang, K. Lee, and K. Toutanova (2019)BERT: pre-training of deep bidirectional transformers for language understanding. In Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers), pp. 4171-4186. Cited by: SS1.
+* B. Gain, D. Jorgudynay, T. Sahl, and A. E. (2019)ITIP@COLIEE 2019: legal information retrieval using bm25 and BERT. Proceedings of the 6th Competition on Legal Information Extraction/Entailment. COLIEE 2019. Cited by: SS1.
+* T. Gomes and M. Loidera (2020)A new conceptual framework for enhancing legal information retrieval at the Brazilian Superior Court of Justice. MEDES '20: Proceedings of the 12th International Conference on Management of Digital Ecosystems. Cited by: SS1.
+* Y. Kano, M. Kim, R. Goebel, and K. Satoh (2017)Overview of COLIEE 2017. In COLIEE 2017 (EPC Series in Computing, Vol. 47), pp. 1-8. Cited by: SS1.
+* Y. Kano, M. Kim, M. Yoshida, Y. Lu, J. Rabelo, N. Kiyota, R. Goebel, and K. Satoh (2018)COLIEE-2018: evaluation of the competition on legal information extraction and entailment. In JSAI International Symposium on Artificial Intelligence, pp. 177-192. Cited by: SS1.
+* T. Lebrun-Dingalo, E. Thuma, N. Motogheva, and M. Mudgeon (2020)Ub botswana at COLIEE 2020 case new retrieval. COLIEE (2020). Cited by: SS1.
+* J. Lin, X. Ma, S. Lin, J. Yang, R. Pradeep, and R. Nogotera (2021)Psysriin: an easy-to-use Python toolkit to support replicable IR research with sparse and dense representations. arXiv preprint arXiv:2102.10073. Cited by: SS1.
+* A. Mandal, S. Ghosh, K. Ghosh, and S. Mandal (2020)Significance of textual representation in legal case retrieval and entailment. COLIEE (2020). Cited by: SS1.
+* R. Pradeep, X. Ma, X. Zhang, H. Cui, R. Xu, R. Nogotera, and J. Lin ([n.])H2OKO4 at TREC 2020: when all you get a hammer. Deep Learning. Note: Health Misinformation-processing and Precision Medicine. Corpus 5, 43 ([n. d.]), pp.. Cited by: SS1.
+* J. Rabelo, M. Kim, R. Goebel, M. Yoshioka, Y. Kano, and K. Satoh (2019)A summary of the COLIEE 2019 competition. In JSAI International Symposium on Artificial Intelligence, Vol. 34-49. Cited by: SS1.
+* J. Rabelo, M. Kim, R. Goebel, M. Yoshioka, Y. Kano, and K. Satoh (2020)COLIEE 2020: methods for legal document retrieval and entailment. Cited by: SS1.
+* K. Roberts, D. Demner-Fushman, E. Voorhees, W. Hersh, S. Bedrick, A. J. Lazar, and S. Pant (2019)Overview of the TREC 2019 Precision Medicine Track. The... text REtzivel conference : TREC. Text REtzivel Conference 26. Cited by: SS1.
+* S. Robertson, S. Walker, S. Jones, M. Hancock-Beaulieu, and M. Gatford (1994)Okapi at TREC. 3. Proceedings of the 3rd Text REtzivel Conference (TREC-3). pages 106-126, Gaithering, Maryland. Cited by: SS1.
+* P. Yang, H. Fang, and J. Lin (2017)Anserini: enabling the use of lucene for information retrieval research. SIGIR '17: Proceedings of the 40th International ACM SIGIR Conference on Research and Development in Information Retrieval, pages 1253-1265. Cited by: SS1.
+* E. Zhang, N. Gupta, R. Nogueira, K. Cho, and J. Lin (2020)Rapidly deploying a neural search engine for the COVID-19 open research dataset. In Proceedings of the 1st Workshop on NLP for COVID-19 at ACL, Cited by: SS1.
+* H. Zhong, C. Xiao, C. Tu, T. Zhang, Z. Liu, and M. Sun (2020)How does NLP benefit legal system: a summary of legal artificial intelligence. arXiv:2004.12158. Cited by: SS1.
