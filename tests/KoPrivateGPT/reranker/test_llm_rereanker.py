@@ -1,7 +1,7 @@
 import pytest
 
 import test_base_reranker
-from KoPrivateGPT.utils.reranker import LLMReranker
+from KoPrivateGPT.reranker import LLMReranker
 
 
 @pytest.fixture

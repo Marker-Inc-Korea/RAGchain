@@ -20,10 +20,10 @@ from copy import deepcopy
 from typing import List, Callable
 
 from KoPrivateGPT.llm.base import BaseLLM
+from KoPrivateGPT.reranker import MonoT5Reranker
 from KoPrivateGPT.retrieval.base import BaseRetrieval
 from KoPrivateGPT.schema import Passage
 from KoPrivateGPT.utils.query_decompose import QueryDecomposition
-from KoPrivateGPT.utils.reranker import MonoT5Reranker
 from KoPrivateGPT.utils.util import set_api_base
 
 

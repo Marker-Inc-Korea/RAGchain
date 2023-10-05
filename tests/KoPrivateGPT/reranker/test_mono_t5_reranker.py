@@ -1,7 +1,7 @@
 import pytest
 
 import test_base_reranker
-from KoPrivateGPT.utils.reranker import MonoT5Reranker
+from KoPrivateGPT.reranker import MonoT5Reranker
 
 
 @pytest.fixture

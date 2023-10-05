@@ -4,10 +4,9 @@ Please go to https://github.com/sunnweiwei/RankGPT if you need more information.
 """
 
 import copy
-from tqdm import tqdm
 import time
+
 import openai
-import json
 import tiktoken
 
 

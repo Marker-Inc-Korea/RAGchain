@@ -6,9 +6,9 @@ import os
 from typing import List
 
 from KoPrivateGPT.schema import Passage
-from KoPrivateGPT.utils.reranker.base import BaseReranker
-from KoPrivateGPT.utils.reranker.llm.rank_gpt import permutation_pipeline, sliding_windows
 from KoPrivateGPT.utils.util import set_api_base
+from reranker.base import BaseReranker
+from reranker.llm.rank_gpt import permutation_pipeline, sliding_windows
 
 
 class LLMReranker(BaseReranker):
