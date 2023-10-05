@@ -56,3 +56,8 @@ def test_hybrid_retrieval(hybrid_retrieval):
     assert len(retrieved_ids_2) == len(scores)
     assert max(scores) == scores[0]
     assert min(scores) == scores[-1]
+
+
+def test_hybrid_retrieval_rrf(hybrid_retrieval):
+    hybrid_retrieval.method = 'rrf'
+    test_hybrid_retrieval(hybrid_retrieval)
