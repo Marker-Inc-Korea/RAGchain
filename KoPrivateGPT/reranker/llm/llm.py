@@ -5,10 +5,10 @@ I modified the code to fit the KoPrivateGPT framework.
 import os
 from typing import List
 
+from KoPrivateGPT.reranker.base import BaseReranker
+from KoPrivateGPT.reranker.llm.rank_gpt import permutation_pipeline, sliding_windows
 from KoPrivateGPT.schema import Passage
 from KoPrivateGPT.utils.util import set_api_base
-from reranker.base import BaseReranker
-from reranker.llm.rank_gpt import permutation_pipeline, sliding_windows
 
 
 class LLMReranker(BaseReranker):
