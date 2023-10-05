@@ -4,7 +4,7 @@ import torch
 from transformers import T5ForConditionalGeneration, T5Tokenizer
 
 from KoPrivateGPT.reranker.base import BaseReranker
-from schema import Passage
+from KoPrivateGPT.schema import Passage
 
 
 class UPRReranker(BaseReranker):
