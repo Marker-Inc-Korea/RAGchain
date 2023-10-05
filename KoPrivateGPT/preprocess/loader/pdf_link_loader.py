@@ -3,9 +3,8 @@ from typing import List
 
 import requests
 from langchain.document_loaders import PDFMinerLoader
+from langchain.document_loaders.base import BaseLoader
 from langchain.schema import Document
-
-from KoPrivateGPT.preprocess.loader.base import BaseLoader
 
 
 class PdfLinkLoader(BaseLoader):

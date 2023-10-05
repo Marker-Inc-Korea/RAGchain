@@ -4,6 +4,7 @@ import gradio as gr
 from dotenv import load_dotenv
 
 from KoPrivateGPT.pipeline import BasicIngestPipeline, BasicRunPipeline
+from KoPrivateGPT.preprocess.loader import FileLoader
 from KoPrivateGPT.utils.util import slice_stop_words
 from config import Options, PickleDBOptions, MongoDBOptions
 from run_localGPT import select_vectordb
@@ -64,7 +65,7 @@ def setting(device, embed, db, retrieval):
     else:
         raise ValueError("retrieval type is not valid")
 
-    ingest_pipeline = BasicIngestPipeline(file_loader_type=("file_loader", {"hwp_host_url": Options.HwpConvertHost}),
+    ingest_pipeline = BasicIngestPipeline(file_loader=FileLoader("", hwp_host_url=Options.HwpConvertHost),
                                           db_type=pre_db,
                                           retrieval_type=pre_retrieval)
 

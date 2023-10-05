@@ -1,7 +1,7 @@
 from typing import List
 
 from KoPrivateGPT.schema import Passage
-from KoPrivateGPT.utils.reranker.base import BaseReranker
+from reranker.base import BaseReranker
 from .base import Query, Text
 from .transformer import MonoT5
 

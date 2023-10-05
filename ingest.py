@@ -1,6 +1,7 @@
 import click
 
 from KoPrivateGPT.pipeline import BasicIngestPipeline
+from KoPrivateGPT.preprocess.loader import FileLoader
 from config import MongoDBOptions
 from config import Options, PickleDBOptions
 from run_localGPT import select_vectordb
@@ -16,10 +17,7 @@ from run_localGPT import select_vectordb
 def main(device_type, vectordb_type, embedding_type, retrieval_type: str, db_type: str):
     vectordb = select_vectordb(vectordb_type, embedding_type, device_type)
     pipeline = BasicIngestPipeline(
-        file_loader_type=("file_loader", {
-            "target_dir": Options.source_dir,
-            "hwp_host_url": Options.HwpConvertHost
-        }),
+        file_loader=FileLoader(Options.source_dir, Options.HwpConvertHost),
         retrieval_type=(retrieval_type, {
             "save_path": Options.bm25_db_dir,
             "vectordb": vectordb

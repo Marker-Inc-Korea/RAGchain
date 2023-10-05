@@ -1,5 +1,5 @@
 import concurrent.futures
-from typing import List, Union
+from typing import List, Union, Optional
 from uuid import UUID
 
 import numpy as np
@@ -11,15 +11,38 @@ from KoPrivateGPT.schema import Passage
 
 class HybridRetrieval(BaseRetrieval):
     def __init__(self, retrievals: List[BaseRetrieval],
-                 weights: List[float],
+                 weights: Optional[List[float]] = None,
                  p: int = 500,
+                 method: str = 'cc',
+                 rrf_k: int = 60,
                  *args, **kwargs):
+        """
+
+        Initializes a HybridRetrieval object.
+
+        Parameters:
+        - retrievals (List[BaseRetrieval]): A list of BaseRetrieval objects.
+        - weights (List[float], optional): A list of weights corresponding to each retrieval method.
+        The weights should sum up to 1.0.
+        - p (int, optional): The number of passages to retrieve from each retrieval method. Smaller p will result in
+        faster process time, but may result lack of retrieved passages. Default is 500.
+        - method (str, optional): The method used to combine the retrieval results. Choose between cc and rrf, which is
+        convex combination and reciprocal rank fusion respectively. Default is 'cc'.
+        - rrf_k (int, optional): k parameter for reciprocal rank fusion. Default is 60.
+        """
         super().__init__()
         self.retrievals = retrievals
-        assert sum(weights) == 1.0, "weights should be sum to 1.0"
-        assert len(weights) > 1, "weights should be more than 1"
         self.weights = weights
+        self.rrf_k = rrf_k
+        if method == 'cc':
+            assert sum(weights) == 1.0, "weights should be sum to 1.0"
+            assert len(weights) > 1, "weights should be more than 1"
+        elif method == 'rrf':
+            pass
+        else:
+            raise ValueError("method should be either 'cc' or 'rrf'")
         self.p = p
+        self.method = method
 
     def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Passage]:
         ids = self.retrieve_id(query, top_k, *args, **kwargs)
@@ -39,13 +62,24 @@ class HybridRetrieval(BaseRetrieval):
         with concurrent.futures.ThreadPoolExecutor() as executor:
             futures = [executor.submit(self.retrieve_id_with_scores_parallel, retrieval, query, self.p, *args, **kwargs)
                        for retrieval in self.retrievals]
-        scores_df = pd.concat([future.result() for future in futures], axis=1, join="inner")
 
-        normalized_scores = (scores_df - scores_df.min()) / (scores_df.max() - scores_df.min())
-        normalized_scores['weighted_sum'] = normalized_scores.mul(self.weights).sum(axis=1)
-        normalized_scores = normalized_scores.sort_values(by='weighted_sum', ascending=False)
-        return (list(map(self.__str_to_uuid, normalized_scores.index[:top_k].tolist())),
-                normalized_scores['weighted_sum'][:top_k].tolist())
+        if self.method == 'cc':
+            scores_df = pd.concat([future.result() for future in futures], axis=1, join="inner")
+            normalized_scores = (scores_df - scores_df.min()) / (scores_df.max() - scores_df.min())
+            normalized_scores['weighted_sum'] = normalized_scores.mul(self.weights).sum(axis=1)
+            normalized_scores = normalized_scores.sort_values(by='weighted_sum', ascending=False)
+            return (list(map(self.__str_to_uuid, normalized_scores.index[:top_k].tolist())),
+                    normalized_scores['weighted_sum'][:top_k].tolist())
+        elif self.method == 'rrf':
+            scores_df = pd.concat([future.result() for future in futures], axis=1)
+            rank_df = scores_df.rank(ascending=False, method='min')
+            rank_df = rank_df.fillna(0)
+            rank_df['rrf'] = rank_df.apply(self.__rrf_calculate, axis=1)
+            rank_df = rank_df.sort_values(by='rrf', ascending=False)
+            return (list(map(self.__str_to_uuid, rank_df.index[:top_k].tolist())),
+                    rank_df['rrf'][:top_k].tolist())
+        else:
+            raise ValueError("method should be either 'cc' or 'rrf'")
 
     def retrieve_id_with_scores_parallel(self, retrieval: BaseRetrieval, query: str, top_k: int, *args,
                                          **kwargs) -> pd.Series:
@@ -62,3 +96,11 @@ class HybridRetrieval(BaseRetrieval):
             return UUID(input_str)
         except:
             return input_str
+
+    def __rrf_calculate(self, row):
+        result = 0
+        for r in row:
+            if r == 0:
+                continue
+            result += 1 / (r + self.rrf_k)
+        return result
