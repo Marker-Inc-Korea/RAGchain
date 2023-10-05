@@ -24,12 +24,15 @@ class UPRReranker(BaseReranker):
         self.shard_size = shard_size
 
     def rerank(self, query: str, passages: List[Passage]) -> List[Passage]:
-        pass
+        input_contexts = [f"{passage.filepath} {passage.content}" for passage in passages]
+        indexes, _ = self.calculate_likelihood(query, input_contexts)
+        reranked_passages = [passages[idx] for idx in indexes]
+        return reranked_passages
 
     def rerank_sliding_window(self, query: str, passages: List[Passage], window_size: int) -> List[Passage]:
         raise NotImplementedError("UPR reranker does not support sliding window reranking.")
 
-    def calculate_likelihood(self, question: str, contexts: List[str]) -> tuple[List[float], List[float]]:
+    def calculate_likelihood(self, question: str, contexts: List[str]) -> tuple[List[int], List[float]]:
         prompts = [f"{self.prefix_prompt} {context} {self.suffix_prompt}" for context in contexts]
         # tokenize contexts and instruction prompts
         context_tokens = self.tokenizer(prompts,
@@ -72,4 +75,4 @@ class UPRReranker(BaseReranker):
 
         topk_scores, indexes = torch.topk(-torch.cat(sharded_nll_list), k=len(context_tensor))
 
-        return indexes, topk_scores
+        return indexes.tolist(), topk_scores.tolist()
