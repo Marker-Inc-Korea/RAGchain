@@ -6,6 +6,7 @@ import pytest
 
 from KoPrivateGPT.DB import MongoDB
 from KoPrivateGPT.pipeline.basic import BasicIngestPipeline, BasicRunPipeline
+from KoPrivateGPT.preprocess.loader import FileLoader
 
 log = logging.getLogger(__name__)
 
@@ -22,6 +23,14 @@ mongodb_config = {
 
 @pytest.fixture
 def basic_run_pipeline():
+    if not os.path.exists(file_dir):
+        os.makedirs(file_dir)
+    ingest_pipeline = BasicIngestPipeline(
+        file_loader=FileLoader(file_dir, os.getenv('HWP_CONVERTER_HOST')),
+        db_type=("mongo_db", mongodb_config),
+        retrieval_type=("bm25", {"save_path": bm25_path})
+    )
+    ingest_pipeline.run()
     pipeline = BasicRunPipeline(
         retrieval_type=("bm25", {"save_path": bm25_path})
     )
@@ -39,15 +48,6 @@ def basic_run_pipeline():
 
 
 def test_basic_pipeline(basic_run_pipeline):
-    if not os.path.exists(file_dir):
-        os.makedirs(file_dir)
-    ingest_pipeline = BasicIngestPipeline(
-        file_loader_type=("file_loader", {"target_dir": file_dir,
-                                          "hwp_host_url": os.getenv('HWP_CONVERTER_HOST')}),
-        db_type=("mongo_db", mongodb_config),
-        retrieval_type=("bm25", {"save_path": bm25_path})
-    )
-    ingest_pipeline.run()
     assert os.path.exists(bm25_path)
     query = "What is the purpose of KoPrivateGPT project? And what inspired it?"
     log.info(f"query: {query}")

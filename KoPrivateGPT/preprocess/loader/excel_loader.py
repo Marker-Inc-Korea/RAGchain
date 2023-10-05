@@ -1,12 +1,11 @@
-import tempfile
-from typing import List, Optional
 import csv
+import tempfile
+from typing import List, Optional, Iterator
 
-from langchain.document_loaders import CSVLoader
-from langchain.schema import Document
 import openpyxl
-
-from KoPrivateGPT.preprocess.loader.base import BaseLoader
+from langchain.document_loaders import CSVLoader
+from langchain.document_loaders.base import BaseLoader
+from langchain.schema import Document
 
 
 class ExcelLoader(BaseLoader):
@@ -17,15 +16,16 @@ class ExcelLoader(BaseLoader):
         self.wb = wb if sheet_name is None else [wb[sheet_name]]
 
     def load(self) -> List[Document]:
+        return list(self.lazy_load())
+
+    def lazy_load(self) -> Iterator[Document]:
         csv_filepaths = self.__xlxs_to_csv()
-        docs = []
         for filepath, sheet_name in zip(csv_filepaths, self.wb.sheetnames):
             temp_loader = CSVLoader(filepath)
             document = temp_loader.load()[0]
             document.metadata['source'] = self.path
             document.metadata['sheet_name'] = sheet_name
-            docs.append(document)
-        return docs
+            yield document
 
     def __xlxs_to_csv(self) -> List[str]:
         temp_file_name = []
