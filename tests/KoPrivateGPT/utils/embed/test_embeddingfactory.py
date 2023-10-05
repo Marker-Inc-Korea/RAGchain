@@ -21,3 +21,7 @@ def test_embedding_factory():
     multilingual_e5_embedding = EmbeddingFactory(embed_type='multilingual_e5').get()
     assert isinstance(multilingual_e5_embedding, HuggingFaceEmbeddings)
     assert multilingual_e5_embedding.model_name == "intfloat/multilingual-e5-large"
+
+    contriever_embedding = EmbeddingFactory(embed_type='contriever').get()
+    assert isinstance(contriever_embedding, HuggingFaceEmbeddings)
+    assert contriever_embedding.model_name == "facebook/mcontriever-msmarco"

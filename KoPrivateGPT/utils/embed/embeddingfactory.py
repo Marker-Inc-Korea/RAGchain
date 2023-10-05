@@ -11,6 +11,7 @@ class EmbeddingType(Enum):
     KOSIMCSE = 'kosimcse'
     KO_SROBERTA_MULTITASK = 'ko-sroberta-multitask'
     MULTILINGUAL_E5 = 'multilingual-e5'
+    CONTRIEVER = 'contriever'
 
 
 class EmbeddingFactory:
@@ -26,6 +27,8 @@ class EmbeddingFactory:
             self.embed_type = EmbeddingType.KO_SROBERTA_MULTITASK
         elif embed_type in text_modifier('multilingual_e5'):
             self.embed_type = EmbeddingType.MULTILINGUAL_E5
+        elif embed_type in text_modifier('contriever'):
+            self.embed_type = EmbeddingType.CONTRIEVER
         else:
             raise ValueError(f"Unknown embedding type: {embed_type}")
 
@@ -58,6 +61,9 @@ class EmbeddingFactory:
                                                      {"device": self.device_type})
         elif self.embed_type == EmbeddingType.MULTILINGUAL_E5:
             return self.__set_huggingface_embeddings("intfloat/multilingual-e5-large",
+                                                     {"device": self.device_type})
+        elif self.embed_type == EmbeddingType.CONTRIEVER:
+            return self.__set_huggingface_embeddings("facebook/mcontriever-msmarco",
                                                      {"device": self.device_type})
         else:
             raise ValueError(f"Unknown embedding type: {self.embed_type}")
