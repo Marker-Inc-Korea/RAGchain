@@ -4,7 +4,7 @@ import torch
 import torch.nn.functional as F
 
 from KoPrivateGPT.reranker.base import BaseReranker
-from schema import Passage
+from KoPrivateGPT.schema import Passage
 from .modeling_enc_t5 import EncT5ForSequenceClassification
 from .tokenization_enc_t5 import EncT5Tokenizer
 
