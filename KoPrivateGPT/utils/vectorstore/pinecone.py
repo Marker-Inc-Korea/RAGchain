@@ -16,7 +16,7 @@ class PineconeSlim(Pinecone, SlimVectorStore):
         # Embed and make metadatas
         vectors = []
         for passage in passages:
-            embedding = self._embedding_function(passage.content)
+            embedding = self._embedding.embed_query(passage.content)
             vectors.append({
                 'id': str(passage.id),
                 'values': embedding,
