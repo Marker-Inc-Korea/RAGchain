@@ -14,6 +14,40 @@ root_dir = pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.
 with open(os.path.join(root_dir, "resources", "sample_passages.pkl"), 'rb') as r:
     TEST_PASSAGES = pickle.load(r)
 
+SEARCH_TEST_PASSAGES: List[Passage] = [
+    Passage(
+        id='test_id_1_search',
+        content='This is test number 1',
+        filepath='./test/first_file.txt',
+        previous_passage_id=None,
+        next_passage_id='test_id_2',
+        metadata_etc={'test': 'test1'}
+    ),
+    Passage(
+        id='test_id_2_search',
+        content='This is test number 2',
+        filepath='./test/second_file.txt',
+        previous_passage_id='test_id_1',
+        next_passage_id='test_id_3',
+        metadata_etc={'test': 'test2'}
+    ),
+    Passage(
+        id='test_id_3_search',
+        content='This is test number 3',
+        filepath='./test/second_file.txt',
+        previous_passage_id='test_id_2',
+        next_passage_id='test_id_4',
+        metadata_etc={'test': 'test3'}
+    ),
+    Passage(
+        id='test_id_4_search',
+        content='This is test number 3',
+        filepath='./test/third_file.txt',
+        previous_passage_id='test_id_3',
+        next_passage_id=None,
+        metadata_etc={'test': 'test3'}
+    )
+]
 
 def test_load_passage():
     assert len(TEST_PASSAGES) > 0
@@ -26,6 +60,7 @@ def ready_pickle_db(pickle_path: str):
     db = PickleDB(save_path=pickle_path)
     db.create_or_load()
     db.save(TEST_PASSAGES)
+    db.save(SEARCH_TEST_PASSAGES)
     return db
 
 

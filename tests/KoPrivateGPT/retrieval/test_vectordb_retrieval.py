@@ -75,3 +75,12 @@ def vectordb_retrieval_test(retrieval: VectorDBRetrieval):
     assert len(retrieved_ids_2) == len(scores)
     assert max(scores) == scores[0]
     assert min(scores) == scores[-1]
+
+    retrieval.ingest(test_base_retrieval.SEARCH_TEST_PASSAGES)
+    retrieved_passages = retrieval.retrieve_with_filter(
+        query='What is visconde structure?',
+        top_k=top_k,
+        content=['This is test number 1', 'This is test number 3']
+    )
+    assert len(retrieved_passages) == 3
+    assert 'test_id_1_search' in [passage.id for passage in retrieved_passages]
