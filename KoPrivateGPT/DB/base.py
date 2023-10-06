@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List, Any, Dict
+from typing import List, Union, Optional
 from uuid import UUID
 
 from KoPrivateGPT.schema import Passage
@@ -33,13 +33,17 @@ class BaseDB(ABC):
         pass
 
     @abstractmethod
-    def search(self, filter_dict: Dict[str, Any]) -> List[Passage]:
+    def search(self,
+               id: Optional[List[Union[UUID, str]]] = None,
+               content: Optional[List[str]] = None,
+               filepath: Optional[List[str]] = None,
+               **kwargs
+               ) -> List[Passage]:
         """
             Search Passage from DB using filter Dict.
-            This function can search Passage using 'content', 'filepath' and 'metadata_etc' key.
-            :param filter_dict: Dict[str, str]
-            The key of filter_dict must be key that you want to search.
-            Search function search Passage that matches value.
+            This function can search Passage using 'id', 'content', 'filepath' and 'metadata_etc'.
+            You can add more search condition in metadata_etc using **kwargs.
+            This function is an implicit AND operation.
         """
         pass
 

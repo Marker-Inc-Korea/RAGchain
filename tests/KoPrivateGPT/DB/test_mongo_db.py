@@ -33,11 +33,4 @@ def test_db_type(mongo_db):
 
 
 def test_search(mongo_db):
-    test_result_1 = mongo_db.search({'filepath': './test/second_file.txt'})
-    assert len(test_result_1) == 2
-    assert 'test_id_2' in [passage.id for passage in test_result_1]
-    assert 'test_id_3' in [passage.id for passage in test_result_1]
-
-    test_result_2 = mongo_db.search({'metadata_etc.test': 'test1'})
-    assert len(test_result_2) == 1
-    assert 'test_id_1' == test_result_2[0].id
+    test_base_db.search_test_base(mongo_db)
