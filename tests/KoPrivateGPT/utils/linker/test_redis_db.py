@@ -1,8 +1,6 @@
 import pytest
-import redis as redis
 
 from KoPrivateGPT.utils.linker import RedisDBSingleton
-
 
 TEST_IDS = ['test_id_1']
 
@@ -27,4 +25,3 @@ def redis_db():
 
 def test_get_json(redis_db):
     assert redis_db.get_json(TEST_IDS) == [TEST_DB_ORIGIN]
-
