@@ -4,7 +4,7 @@ import pathlib
 import pytest
 
 from KoPrivateGPT.DB import PickleDB
-from test_base_db import fetch_test_base, TEST_PASSAGES
+from test_base_db import fetch_test_base, TEST_PASSAGES, search_test_base
 
 
 @pytest.fixture(scope='module')
@@ -34,11 +34,4 @@ def test_db_type(pickle_db):
 
 
 def test_search(pickle_db):
-    test_result_1 = pickle_db.search({'filepath': './test/second_file.txt'})
-    assert len(test_result_1) == 2
-    assert 'test_id_2' in [passage.id for passage in test_result_1]
-    assert 'test_id_3' in [passage.id for passage in test_result_1]
-
-    test_result_2 = pickle_db.search({'test': 'test1'})
-    assert len(test_result_2) == 1
-    assert 'test_id_1' == test_result_2[0].id
+    search_test_base(pickle_db)

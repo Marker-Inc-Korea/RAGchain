@@ -1,6 +1,6 @@
 import os
 import pickle
-from typing import Any, List, Dict
+from typing import List, Optional, Union
 from uuid import UUID
 
 from KoPrivateGPT.DB.base import BaseDB
@@ -54,7 +54,11 @@ class PickleDB(BaseDB):
         result = list(filter(lambda x: x.id in ids, self.db))
         return result
 
-    def search(self, filter_dict: Dict[str, Any]) -> List[Passage]:
+    def search(self,
+               id: Optional[List[Union[UUID, str]]] = None,
+               content: Optional[List[str]] = None,
+               filepath: Optional[List[str]] = None,
+               **kwargs) -> List[Passage]:
         """
         This function is an implicit AND operation,
         which is return Passage that matches all values to corresponding keys in filter_dict.
@@ -62,12 +66,23 @@ class PickleDB(BaseDB):
         """
 
         def is_default_elem(filter_key: str) -> bool:
-            return filter_key in ['content', 'filepath']
+            return filter_key in ['id', 'content', 'filepath']
+
+        filter_dict = dict()
+        if id is not None:
+            filter_dict['id'] = id
+        if content is not None:
+            filter_dict['content'] = content
+        if filepath is not None:
+            filter_dict['filepath'] = filepath
+        if kwargs is not None and len(kwargs) > 0:
+            for key, value in kwargs.items():
+                filter_dict[key] = value
 
         result = list(
             filter(
                 lambda x: all(
-                    getattr(x, key) == value if is_default_elem(key) else x.metadata_etc.get(key) == value
+                    getattr(x, key) in value if is_default_elem(key) else x.metadata_etc.get(key) in value
                     for key, value in filter_dict.items()
                 ),
                 self.db
