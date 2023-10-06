@@ -1,7 +1,8 @@
+import os
 from typing import Union
 from uuid import UUID
+
 import redis
-import os
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -9,6 +10,7 @@ load_dotenv()
 
 class RedisDBSingleton:
     __instance = None
+    _is_initialized = False
 
     def __new__(cls, *args, **kwargs):
         if not cls.__instance:
@@ -16,6 +18,9 @@ class RedisDBSingleton:
         return cls.__instance
 
     def __init__(self):
+        if self._is_initialized:
+            return
+
         host = os.getenv("REDIS_HOST")
         port = os.getenv("REDIS_PORT")
         db_name = os.getenv("REDIS_DB_NAME")
@@ -28,6 +33,7 @@ class RedisDBSingleton:
             decode_responses=True,
             password=password
         )
+        self._is_initialized = True
 
     def get_json(self, ids: list[Union[UUID, str]]):
         # redis only accept str type key
@@ -39,3 +45,6 @@ class RedisDBSingleton:
 
     def flush_db(self):
         self.client.flushdb()
+
+    def __del__(self):
+        self.client.close()
