@@ -2,14 +2,14 @@ import os
 import pathlib
 import sys
 
-from KoPrivateGPT.preprocess.loader import KoStrategyQALoader
-
 sys.path.append(str(pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent))
 import click
-
+from KoPrivateGPT.preprocess.loader import KoStrategyQALoader
+from KoPrivateGPT.retrieval import VectorDBRetrieval, BM25Retrieval
+from KoPrivateGPT.utils.util import text_modifier
+from config import Options
+from run_localGPT import select_vectordb
 from KoPrivateGPT.pipeline.basic import BasicDatasetPipeline
-from KoPrivateGPT.utils.embed import EmbeddingFactory
-
 
 REPO_ID = "NomaDamas/Ko-StrategyQA"
 SAVE_PATH = "./ko-strategy-qa_paragraphs_bm25.pkl"
@@ -26,13 +26,15 @@ SAVE_PATH = "./ko-strategy-qa_paragraphs_bm25.pkl"
               help='embedding model to use, select OpenAI or KoSimCSE or ko-sroberta-multitask')
 @click.option('--retrieval_type', default='vectordb', help='retriever type to use, select vectordb or bm25')
 def main(device_type, vectordb_type, embedding_type, retrieval_type):
+    vectordb = select_vectordb(vectordb_type, embedding_type, device_type)
+    if retrieval_type in text_modifier('bm25'):
+        retrieval = BM25Retrieval(save_path=Options.bm25_db_dir)
+    elif retrieval_type in text_modifier('vectordb'):
+        retrieval = VectorDBRetrieval(vectordb=vectordb)
+    else:
+        raise ValueError("retrieval type is not valid")
     pipeline = BasicDatasetPipeline(file_loader=KoStrategyQALoader(),
-                                    retrieval_type=(retrieval_type, {"save_path": SAVE_PATH,
-                                                                     "vectordb_type": vectordb_type,
-                                                                     "embedding": EmbeddingFactory(
-                                                                         embed_type=embedding_type,
-                                                                         device_type=device_type).get()
-                                                                     }))
+                                    retrieval=retrieval)
     pipeline.run()
     print("DONE")
 

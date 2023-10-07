@@ -3,8 +3,11 @@ import os
 import gradio as gr
 from dotenv import load_dotenv
 
+from KoPrivateGPT.DB import MongoDB, PickleDB
+from KoPrivateGPT.llm.basic import BasicLLM
 from KoPrivateGPT.pipeline import BasicIngestPipeline, BasicRunPipeline
 from KoPrivateGPT.preprocess.loader import FileLoader
+from KoPrivateGPT.retrieval import BM25Retrieval
 from KoPrivateGPT.utils.util import slice_stop_words
 from config import Options, PickleDBOptions, MongoDBOptions
 from run_localGPT import select_vectordb
@@ -36,11 +39,9 @@ def setting(device, embed, db, retrieval):
 
     MODEL_NAME = model_dict["basic_llm"]  # TODO : add rerank_llm model
 
-    bm25 = ("bm25", {"save_path": Options.bm25_db_dir})
-    pickle = ("pickle_db", {"save_path": PickleDBOptions.save_path})
-    mongo = ("mongo_db", {"mongo_url": MongoDBOptions.mongo_url,
-                          "db_name": MongoDBOptions.db_name,
-                          "collection_name": MongoDBOptions.collection_name})
+    bm25 = BM25Retrieval(Options.bm25_db_dir)
+    pickle = PickleDB(PickleDBOptions.save_path)
+    mongo = MongoDB(MongoDBOptions.mongo_url, MongoDBOptions.db_name, MongoDBOptions.collection_name)
 
     if db == "pickle_db":
         pre_db = pickle
@@ -50,24 +51,24 @@ def setting(device, embed, db, retrieval):
         raise ValueError("db type is not valid")
 
     if retrieval == "bm25":
-        answer_pipeline = BasicRunPipeline(retrieval_type=bm25,
-                                           llm_type=("basic_llm", {"model_name": MODEL_NAME, "api_base": None}))
+        answer_pipeline = BasicRunPipeline(retrieval=bm25,
+                                           llm=BasicLLM(bm25, model_name=MODEL_NAME, api_base=None))
         pre_retrieval = bm25
     elif retrieval == "vector_db-chroma":
         vectordb_instance = select_vectordb('chroma', embedding_type=embed, device_type=device)
-        answer_pipeline = BasicRunPipeline(retrieval_type=vectordb_instance,
-                                           llm_type=("basic_llm", {"model_name": MODEL_NAME, "api_base": None}))
+        answer_pipeline = BasicRunPipeline(retrieval=vectordb_instance,
+                                           llm=BasicLLM(bm25, model_name=MODEL_NAME, api_base=None))
         pre_retrieval = vectordb_instance
     elif retrieval == "vector_db-pinecone":
         vectordb_instance = select_vectordb('pinecone', embedding_type=embed, device_type=device)
-        answer_pipeline = BasicRunPipeline(retrieval_type=vectordb_instance)
+        answer_pipeline = BasicRunPipeline(retrieval=vectordb_instance)
         pre_retrieval = vectordb_instance
     else:
         raise ValueError("retrieval type is not valid")
 
     ingest_pipeline = BasicIngestPipeline(file_loader=FileLoader("", hwp_host_url=Options.HwpConvertHost),
-                                          db_type=pre_db,
-                                          retrieval_type=pre_retrieval)
+                                          db=pre_db,
+                                          retrieval=pre_retrieval)
 
     return 'setting done'
 

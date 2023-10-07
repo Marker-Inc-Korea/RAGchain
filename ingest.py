@@ -1,7 +1,10 @@
 import click
 
+from KoPrivateGPT.DB import MongoDB, PickleDB
 from KoPrivateGPT.pipeline import BasicIngestPipeline
 from KoPrivateGPT.preprocess.loader import FileLoader
+from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval
+from KoPrivateGPT.utils.util import text_modifier
 from config import MongoDBOptions
 from config import Options, PickleDBOptions
 from run_localGPT import select_vectordb
@@ -16,18 +19,25 @@ from run_localGPT import select_vectordb
 @click.option('--db_type', default='mongo_db', help='db type to use, select pickle_db or mongo_db')
 def main(device_type, vectordb_type, embedding_type, retrieval_type: str, db_type: str):
     vectordb = select_vectordb(vectordb_type, embedding_type, device_type)
+    if retrieval_type in text_modifier('bm25'):
+        retrieval = BM25Retrieval(save_path=Options.bm25_db_dir)
+    elif retrieval_type in text_modifier('vectordb'):
+        retrieval = VectorDBRetrieval(vectordb=vectordb)
+    else:
+        raise ValueError("retrieval type is not valid")
+
+    if db_type in text_modifier('mongo_db'):
+        db = MongoDB(MongoDBOptions.mongo_url,
+                     MongoDBOptions.db_name,
+                     MongoDBOptions.collection_name)
+    elif db_type in text_modifier('pickle_db'):
+        db = PickleDB(PickleDBOptions.save_path)
+    else:
+        raise ValueError("db type is not valid")
     pipeline = BasicIngestPipeline(
         file_loader=FileLoader(Options.source_dir, Options.HwpConvertHost),
-        retrieval_type=(retrieval_type, {
-            "save_path": Options.bm25_db_dir,
-            "vectordb": vectordb
-        }),
-        db_type=(db_type, {
-            'save_path': PickleDBOptions.save_path,
-            "mongo_url": MongoDBOptions.mongo_url,
-            "db_name": MongoDBOptions.db_name,
-            "collection_name": MongoDBOptions.collection_name
-        })
+        retrieval=retrieval,
+        db=db
     )
     pipeline.run()
 

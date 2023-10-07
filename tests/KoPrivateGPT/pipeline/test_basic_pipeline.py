@@ -7,6 +7,7 @@ import pytest
 from KoPrivateGPT.DB import MongoDB
 from KoPrivateGPT.pipeline.basic import BasicIngestPipeline, BasicRunPipeline
 from KoPrivateGPT.preprocess.loader import FileLoader
+from KoPrivateGPT.retrieval import BM25Retrieval
 
 log = logging.getLogger(__name__)
 
@@ -27,12 +28,12 @@ def basic_run_pipeline():
         os.makedirs(file_dir)
     ingest_pipeline = BasicIngestPipeline(
         file_loader=FileLoader(file_dir, os.getenv('HWP_CONVERTER_HOST')),
-        db_type=("mongo_db", mongodb_config),
-        retrieval_type=("bm25", {"save_path": bm25_path})
+        db=MongoDB(**mongodb_config),
+        retrieval=BM25Retrieval(bm25_path)
     )
     ingest_pipeline.run()
     pipeline = BasicRunPipeline(
-        retrieval_type=("bm25", {"save_path": bm25_path})
+        retrieval=BM25Retrieval(bm25_path)
     )
     yield pipeline
     # teardown mongo db
