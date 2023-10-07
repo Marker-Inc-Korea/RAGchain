@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>KoPrivateGPT.reranker.llm package &mdash; KoPrivateGPT documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css"/>
+    <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <script src="_static/jquery.js?v=5d32c60e"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html"/>
+    <link rel="search" title="Search" href="search.html"/>
+</head>
+
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+        <div class="wy-side-scroll">
+            <div class="wy-side-nav-search">
+
+
+                <a href="index.html" class="icon icon-home">
+                    KoPrivateGPT
+                </a>
+                <div role="search">
+                    <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+                        <input type="text" name="q" placeholder="Search docs" aria-label="Search docs"/>
+                        <input type="hidden" name="check_keywords" value="yes"/>
+                        <input type="hidden" name="area" value="default"/>
+                    </form>
+                </div>
+            </div>
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+                <!-- Local TOC -->
+                <div class="local-toc">
+                    <ul>
+                        <li><a class="reference internal" href="#">KoPrivateGPT.reranker.llm package</a>
+                            <ul>
+                                <li><a class="reference internal" href="#submodules">Submodules</a></li>
+                                <li><a class="reference internal" href="#module-KoPrivateGPT.reranker.llm.llm">KoPrivateGPT.reranker.llm.llm
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.reranker.llm.llm.LLMReranker"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">LLMReranker</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.reranker.llm.llm.LLMReranker.find_passages"><code
+                                                        class="docutils literal notranslate"><span class="pre">LLMReranker.find_passages()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.reranker.llm.llm.LLMReranker.make_item"><code
+                                                        class="docutils literal notranslate"><span class="pre">LLMReranker.make_item()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.reranker.llm.llm.LLMReranker.make_passages"><code
+                                                        class="docutils literal notranslate"><span class="pre">LLMReranker.make_passages()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.reranker.llm.llm.LLMReranker.rerank"><code
+                                                        class="docutils literal notranslate"><span class="pre">LLMReranker.rerank()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.reranker.llm.llm.LLMReranker.rerank_sliding_window"><code
+                                                        class="docutils literal notranslate"><span class="pre">LLMReranker.rerank_sliding_window()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="reference internal" href="#module-KoPrivateGPT.reranker.llm.rank_gpt">KoPrivateGPT.reranker.llm.rank_gpt
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.reranker.llm.rank_gpt.SafeOpenai"><code
+                                                class="docutils literal notranslate"><span class="pre">SafeOpenai</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.reranker.llm.rank_gpt.SafeOpenai.chat"><code
+                                                        class="docutils literal notranslate"><span class="pre">SafeOpenai.chat()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.reranker.llm.rank_gpt.SafeOpenai.text"><code
+                                                        class="docutils literal notranslate"><span class="pre">SafeOpenai.text()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.reranker.llm.rank_gpt.clean_response"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">clean_response()</span></code></a></li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.reranker.llm.rank_gpt.create_permutation_instruction"><code
+                                                class="docutils literal notranslate"><span class="pre">create_permutation_instruction()</span></code></a>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.reranker.llm.rank_gpt.get_post_prompt"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">get_post_prompt()</span></code></a></li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.reranker.llm.rank_gpt.get_prefix_prompt"><code
+                                                class="docutils literal notranslate"><span class="pre">get_prefix_prompt()</span></code></a>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.reranker.llm.rank_gpt.max_tokens"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">max_tokens()</span></code></a></li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.reranker.llm.rank_gpt.num_tokens_from_messages"><code
+                                                class="docutils literal notranslate"><span class="pre">num_tokens_from_messages()</span></code></a>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.reranker.llm.rank_gpt.permutation_pipeline"><code
+                                                class="docutils literal notranslate"><span class="pre">permutation_pipeline()</span></code></a>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.reranker.llm.rank_gpt.receive_permutation"><code
+                                                class="docutils literal notranslate"><span class="pre">receive_permutation()</span></code></a>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.reranker.llm.rank_gpt.remove_duplicate"><code
+                                                class="docutils literal notranslate"><span class="pre">remove_duplicate()</span></code></a>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.reranker.llm.rank_gpt.run_llm"><code
+                                                class="docutils literal notranslate"><span class="pre">run_llm()</span></code></a>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.reranker.llm.rank_gpt.sliding_windows"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">sliding_windows()</span></code></a></li>
+                                    </ul>
+                                </li>
+                                <li><a class="reference internal" href="#module-KoPrivateGPT.reranker.llm">Module
+                                    contents</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+        <nav class="wy-nav-top" aria-label="Mobile navigation menu">
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="index.html">KoPrivateGPT</a>
+        </nav>
+
+        <div class="wy-nav-content">
+            <div class="rst-content">
+                <div role="navigation" aria-label="Page navigation">
+                    <ul class="wy-breadcrumbs">
+                        <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+                        <li class="breadcrumb-item active">KoPrivateGPT.reranker.llm package</li>
+                        <li class="wy-breadcrumbs-aside">
+                            <a href="_sources/KoPrivateGPT.reranker.llm.rst.txt" rel="nofollow"> View page source</a>
+                        </li>
+                    </ul>
+                    <hr/>
+                </div>
+                <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+                    <div itemprop="articleBody">
+
+                        <section id="koprivategpt-reranker-llm-package">
+                            <h1>KoPrivateGPT.reranker.llm package<a class="headerlink"
+                                                                    href="#koprivategpt-reranker-llm-package"
+                                                                    title="Link to this heading"></a></h1>
+                            <section id="submodules">
+                                <h2>Submodules<a class="headerlink" href="#submodules"
+                                                 title="Link to this heading"></a></h2>
+                            </section>
+                            <section id="module-KoPrivateGPT.reranker.llm.llm">
+                                <span id="koprivategpt-reranker-llm-llm-module"></span>
+                                <h2>KoPrivateGPT.reranker.llm.llm module<a class="headerlink"
+                                                                           href="#module-KoPrivateGPT.reranker.llm.llm"
+                                                                           title="Link to this heading"></a></h2>
+                                <p>The original code is from [RankGPT](<a class="reference external"
+                                                                          href="https://github.com/sunnweiwei/RankGPT">https://github.com/sunnweiwei/RankGPT</a>).
+                                    I modified the code to fit the KoPrivateGPT framework.</p>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py" id="KoPrivateGPT.reranker.llm.llm.LLMReranker">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.reranker.llm.llm.</span></span><span
+                                            class="sig-name descname"><span class="pre">LLMReranker</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">model_name</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">str</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">'gpt-3.5-turbo'</span></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">api_base</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">str</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="o"><span class="pre">*</span></span><span class="n"><span
+                                            class="pre">args</span></span></em>, <em class="sig-param"><span
+                                            class="o"><span class="pre">**</span></span><span class="n"><span
+                                            class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink" href="#KoPrivateGPT.reranker.llm.llm.LLMReranker"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="KoPrivateGPT.reranker.html#KoPrivateGPT.reranker.base.BaseReranker"
+                                                     title="KoPrivateGPT.reranker.base.BaseReranker"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseReranker</span></code></a>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.reranker.llm.llm.LLMReranker.find_passages">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">find_passages</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">target_passages</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><a
+                                                    class="reference internal"
+                                                    href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.passage.Passage"
+                                                    title="KoPrivateGPT.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                                                    class="p"><span class="pre">]</span></span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">content</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">str</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#KoPrivateGPT.reranker.llm.llm.LLMReranker.find_passages"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.reranker.llm.llm.LLMReranker.make_item">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">make_item</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">query</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">str</span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span class="pre">passages</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><a
+                                                    class="reference internal"
+                                                    href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.passage.Passage"
+                                                    title="KoPrivateGPT.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                                                    class="p"><span class="pre">]</span></span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">dict</span></span></span><a class="headerlink"
+                                                                                            href="#KoPrivateGPT.reranker.llm.llm.LLMReranker.make_item"
+                                                                                            title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.reranker.llm.llm.LLMReranker.make_passages">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">make_passages</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">items</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">dict</span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span class="pre">original_passages</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><a
+                                                    class="reference internal"
+                                                    href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.passage.Passage"
+                                                    title="KoPrivateGPT.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                                                    class="p"><span class="pre">]</span></span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><a
+                                                    class="reference internal"
+                                                    href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.passage.Passage"
+                                                    title="KoPrivateGPT.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                                                    class="p"><span class="pre">]</span></span></span></span><a
+                                                    class="headerlink"
+                                                    href="#KoPrivateGPT.reranker.llm.llm.LLMReranker.make_passages"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.reranker.llm.llm.LLMReranker.rerank">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">rerank</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">query</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">str</span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span class="pre">passages</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><a
+                                                    class="reference internal"
+                                                    href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.passage.Passage"
+                                                    title="KoPrivateGPT.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                                                    class="p"><span class="pre">]</span></span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><a
+                                                    class="reference internal"
+                                                    href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.passage.Passage"
+                                                    title="KoPrivateGPT.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                                                    class="p"><span class="pre">]</span></span></span></span><a
+                                                    class="headerlink"
+                                                    href="#KoPrivateGPT.reranker.llm.llm.LLMReranker.rerank"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>Reranks a list of passages based on a specific ranking algorithm.</p>
+                                                <dl class="field-list simple">
+                                                    <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                                                    <dd class="field-odd">
+                                                        <ul class="simple">
+                                                            <li><p><strong>passages</strong> (<em>List</em><em>[</em><a
+                                                                    class="reference internal"
+                                                                    href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.passage.Passage"
+                                                                    title="KoPrivateGPT.schema.passage.Passage"><em>Passage</em></a><em>]</em>)
+                                                                – A list of Passage objects representing the passages to
+                                                                be reranked.</p></li>
+                                                            <li><p><strong>query</strong> – str: The query that was used
+                                                                for retrieving the passages.</p></li>
+                                                        </ul>
+                                                    </dd>
+                                                    <dt class="field-even">Returns<span class="colon">:</span></dt>
+                                                    <dd class="field-even"><p>The reranked list of passages.</p>
+                                                    </dd>
+                                                    <dt class="field-odd">Return type<span class="colon">:</span></dt>
+                                                    <dd class="field-odd"><p>List[<a class="reference internal"
+                                                                                     href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.passage.Passage"
+                                                                                     title="KoPrivateGPT.schema.passage.Passage">Passage</a>]
+                                                    </p>
+                                                    </dd>
+                                                </dl>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.reranker.llm.llm.LLMReranker.rerank_sliding_window">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">rerank_sliding_window</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">query</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">str</span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span class="pre">passages</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><a
+                                                    class="reference internal"
+                                                    href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.passage.Passage"
+                                                    title="KoPrivateGPT.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                                                    class="p"><span class="pre">]</span></span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">window_size</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">int</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><a
+                                                    class="reference internal"
+                                                    href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.passage.Passage"
+                                                    title="KoPrivateGPT.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                                                    class="p"><span class="pre">]</span></span></span></span><a
+                                                    class="headerlink"
+                                                    href="#KoPrivateGPT.reranker.llm.llm.LLMReranker.rerank_sliding_window"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>Reranks a list of passages based on a specific ranking algorithm with
+                                                sliding window.
+                                                This function is useful when the model input token size is limited like
+                                                LLMs.
+                                                Parameters:
+                                                :param passages: (List[Passage]): The list of passages to be reranked.
+                                                :param query: str: The query that was used for retrieving the passages.
+                                                :param window_size: (int): The size of the sliding window used for
+                                                reranking.</p>
+                                                <dl class="field-list simple">
+                                                    <dt class="field-odd">Returns<span class="colon">:</span></dt>
+                                                    <dd class="field-odd"><p>List[Passage]: The reranked list of
+                                                        passages.</p>
+                                                    </dd>
+                                                </dl>
+                                            </dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-KoPrivateGPT.reranker.llm.rank_gpt">
+                                <span id="koprivategpt-reranker-llm-rank-gpt-module"></span>
+                                <h2>KoPrivateGPT.reranker.llm.rank_gpt module<a class="headerlink"
+                                                                                href="#module-KoPrivateGPT.reranker.llm.rank_gpt"
+                                                                                title="Link to this heading"></a></h2>
+                                <p>This code is from RankGPT repo and modified a little bit for integration.
+                                    Please go to <a class="reference external"
+                                                    href="https://github.com/sunnweiwei/RankGPT">https://github.com/sunnweiwei/RankGPT</a>
+                                    if you need more information.</p>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py" id="KoPrivateGPT.reranker.llm.rank_gpt.SafeOpenai">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.reranker.llm.rank_gpt.</span></span><span
+                                            class="sig-name descname"><span class="pre">SafeOpenai</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">keys</span></span><span class="o"><span
+                                            class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">start_id</span></span><span class="o"><span
+                                                class="pre">=</span></span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">proxy</span></span><span class="o"><span
+                                            class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">api_base</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">str</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink" href="#KoPrivateGPT.reranker.llm.rank_gpt.SafeOpenai"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+                                            class="pre">object</span></code></p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.reranker.llm.rank_gpt.SafeOpenai.chat">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">chat</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="o"><span class="pre">*</span></span><span class="n"><span
+                                                    class="pre">args</span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">return_text</span></span><span
+                                                    class="o"><span class="pre">=</span></span><span
+                                                    class="default_value"><span class="pre">False</span></span></em>,
+                                                <em class="sig-param"><span class="n"><span
+                                                        class="pre">reduce_length</span></span><span class="o"><span
+                                                        class="pre">=</span></span><span class="default_value"><span
+                                                        class="pre">False</span></span></em>, <em
+                                                    class="sig-param"><span class="o"><span class="pre">**</span></span><span
+                                                    class="n"><span class="pre">kwargs</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#KoPrivateGPT.reranker.llm.rank_gpt.SafeOpenai.chat"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.reranker.llm.rank_gpt.SafeOpenai.text">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">text</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="o"><span class="pre">*</span></span><span class="n"><span
+                                                    class="pre">args</span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">return_text</span></span><span
+                                                    class="o"><span class="pre">=</span></span><span
+                                                    class="default_value"><span class="pre">False</span></span></em>,
+                                                <em class="sig-param"><span class="n"><span
+                                                        class="pre">reduce_length</span></span><span class="o"><span
+                                                        class="pre">=</span></span><span class="default_value"><span
+                                                        class="pre">False</span></span></em>, <em
+                                                    class="sig-param"><span class="o"><span class="pre">**</span></span><span
+                                                    class="n"><span class="pre">kwargs</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#KoPrivateGPT.reranker.llm.rank_gpt.SafeOpenai.text"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py function">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.reranker.llm.rank_gpt.clean_response">
+                                        <span class="sig-prename descclassname"><span class="pre">KoPrivateGPT.reranker.llm.rank_gpt.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">clean_response</span></span><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n"><span
+                                            class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span
+                                            class="w"> </span><span class="n"><span
+                                            class="pre">str</span></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink" href="#KoPrivateGPT.reranker.llm.rank_gpt.clean_response"
+                                            title="Link to this definition"></a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py function">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.reranker.llm.rank_gpt.create_permutation_instruction">
+                                        <span class="sig-prename descclassname"><span class="pre">KoPrivateGPT.reranker.llm.rank_gpt.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">create_permutation_instruction</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">item</span></span><span class="o"><span
+                                            class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,
+                                        <em class="sig-param"><span class="n"><span class="pre">rank_start</span></span><span
+                                                class="o"><span class="pre">=</span></span><span
+                                                class="default_value"><span class="pre">0</span></span></em>, <em
+                                            class="sig-param"><span class="n"><span
+                                            class="pre">rank_end</span></span><span class="o"><span class="pre">=</span></span><span
+                                            class="default_value"><span class="pre">100</span></span></em>, <em
+                                            class="sig-param"><span class="n"><span class="pre">model_name</span></span><span
+                                            class="o"><span class="pre">=</span></span><span class="default_value"><span
+                                            class="pre">'gpt-3.5-turbo'</span></span></em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#KoPrivateGPT.reranker.llm.rank_gpt.create_permutation_instruction"
+                                                                         title="Link to this definition"></a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py function">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.reranker.llm.rank_gpt.get_post_prompt">
+                                        <span class="sig-prename descclassname"><span class="pre">KoPrivateGPT.reranker.llm.rank_gpt.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">get_post_prompt</span></span><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n"><span class="pre">query</span></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">num</span></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink"
+                                            href="#KoPrivateGPT.reranker.llm.rank_gpt.get_post_prompt"
+                                            title="Link to this definition"></a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py function">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.reranker.llm.rank_gpt.get_prefix_prompt">
+                                        <span class="sig-prename descclassname"><span class="pre">KoPrivateGPT.reranker.llm.rank_gpt.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">get_prefix_prompt</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span
+                                            class="pre">num</span></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink"
+                                            href="#KoPrivateGPT.reranker.llm.rank_gpt.get_prefix_prompt"
+                                            title="Link to this definition"></a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py function">
+                                    <dt class="sig sig-object py" id="KoPrivateGPT.reranker.llm.rank_gpt.max_tokens">
+                                        <span class="sig-prename descclassname"><span class="pre">KoPrivateGPT.reranker.llm.rank_gpt.</span></span><span
+                                            class="sig-name descname"><span class="pre">max_tokens</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">model</span></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink" href="#KoPrivateGPT.reranker.llm.rank_gpt.max_tokens"
+                                            title="Link to this definition"></a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py function">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.reranker.llm.rank_gpt.num_tokens_from_messages">
+                                        <span class="sig-prename descclassname"><span class="pre">KoPrivateGPT.reranker.llm.rank_gpt.</span></span><span
+                                            class="sig-name descname"><span class="pre">num_tokens_from_messages</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">messages</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">model</span></span><span class="o"><span
+                                            class="pre">=</span></span><span class="default_value"><span class="pre">'gpt-3.5-turbo-0301'</span></span></em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#KoPrivateGPT.reranker.llm.rank_gpt.num_tokens_from_messages"
+                                                                         title="Link to this definition"></a></dt>
+                                    <dd><p>Returns the number of tokens used by a list of messages.</p>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py function">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.reranker.llm.rank_gpt.permutation_pipeline">
+                                        <span class="sig-prename descclassname"><span class="pre">KoPrivateGPT.reranker.llm.rank_gpt.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">permutation_pipeline</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">item</span></span><span class="o"><span
+                                            class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,
+                                        <em class="sig-param"><span class="n"><span class="pre">rank_start</span></span><span
+                                                class="o"><span class="pre">=</span></span><span
+                                                class="default_value"><span class="pre">0</span></span></em>, <em
+                                            class="sig-param"><span class="n"><span
+                                            class="pre">rank_end</span></span><span class="o"><span class="pre">=</span></span><span
+                                            class="default_value"><span class="pre">100</span></span></em>, <em
+                                            class="sig-param"><span class="n"><span class="pre">model_name</span></span><span
+                                            class="o"><span class="pre">=</span></span><span class="default_value"><span
+                                            class="pre">'gpt-3.5-turbo'</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">api_key</span></span><span class="o"><span
+                                            class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">api_base</span></span><span class="o"><span
+                                                class="pre">=</span></span><span class="default_value"><span
+                                                class="pre">None</span></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink"
+                                            href="#KoPrivateGPT.reranker.llm.rank_gpt.permutation_pipeline"
+                                            title="Link to this definition"></a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py function">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.reranker.llm.rank_gpt.receive_permutation">
+                                        <span class="sig-prename descclassname"><span class="pre">KoPrivateGPT.reranker.llm.rank_gpt.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">receive_permutation</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">item</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">permutation</span></span></em>, <em
+                                            class="sig-param"><span class="n"><span class="pre">rank_start</span></span><span
+                                            class="o"><span class="pre">=</span></span><span class="default_value"><span
+                                            class="pre">0</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">rank_end</span></span><span class="o"><span
+                                            class="pre">=</span></span><span class="default_value"><span
+                                            class="pre">100</span></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink"
+                                            href="#KoPrivateGPT.reranker.llm.rank_gpt.receive_permutation"
+                                            title="Link to this definition"></a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py function">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.reranker.llm.rank_gpt.remove_duplicate">
+                                        <span class="sig-prename descclassname"><span class="pre">KoPrivateGPT.reranker.llm.rank_gpt.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">remove_duplicate</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">response</span></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink"
+                                            href="#KoPrivateGPT.reranker.llm.rank_gpt.remove_duplicate"
+                                            title="Link to this definition"></a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py function">
+                                    <dt class="sig sig-object py" id="KoPrivateGPT.reranker.llm.rank_gpt.run_llm">
+                                        <span class="sig-prename descclassname"><span class="pre">KoPrivateGPT.reranker.llm.rank_gpt.</span></span><span
+                                            class="sig-name descname"><span class="pre">run_llm</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">messages</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">api_key</span></span><span class="o"><span
+                                            class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">api_base</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">str</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">model_name</span></span><span class="o"><span
+                                            class="pre">=</span></span><span class="default_value"><span class="pre">'gpt-3.5-turbo'</span></span></em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#KoPrivateGPT.reranker.llm.rank_gpt.run_llm"
+                                                                         title="Link to this definition"></a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py function">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.reranker.llm.rank_gpt.sliding_windows">
+                                        <span class="sig-prename descclassname"><span class="pre">KoPrivateGPT.reranker.llm.rank_gpt.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">sliding_windows</span></span><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n"><span class="pre">item</span></span><span
+                                            class="o"><span class="pre">=</span></span><span class="default_value"><span
+                                            class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">rank_start</span></span><span class="o"><span
+                                            class="pre">=</span></span><span class="default_value"><span
+                                            class="pre">0</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">rank_end</span></span><span class="o"><span
+                                            class="pre">=</span></span><span class="default_value"><span
+                                            class="pre">100</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">window_size</span></span><span class="o"><span
+                                            class="pre">=</span></span><span class="default_value"><span
+                                            class="pre">20</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">step</span></span><span class="o"><span
+                                            class="pre">=</span></span><span class="default_value"><span
+                                            class="pre">10</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">model_name</span></span><span class="o"><span
+                                            class="pre">=</span></span><span class="default_value"><span class="pre">'gpt-3.5-turbo'</span></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">api_key</span></span><span class="o"><span
+                                                class="pre">=</span></span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">api_base</span></span><span class="o"><span
+                                            class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#KoPrivateGPT.reranker.llm.rank_gpt.sliding_windows"
+                                                                         title="Link to this definition"></a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-KoPrivateGPT.reranker.llm">
+                                <span id="module-contents"></span>
+                                <h2>Module contents<a class="headerlink" href="#module-KoPrivateGPT.reranker.llm"
+                                                      title="Link to this heading"></a></h2>
+                            </section>
+                        </section>
+
+
+                    </div>
+                </div>
+                <footer>
+
+                    <hr/>
+
+                    <div role="contentinfo">
+                        <p>&#169; Copyright 2023, NomaDamas.</p>
+                    </div>
+
+                    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+                    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+                    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+                </footer>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    jQuery(function () {
+        SphinxRtdTheme.Navigation.enable(true);
+    });
+</script>
+
+</body>
+</html>

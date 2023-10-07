@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>KoPrivateGPT.DB package &mdash; KoPrivateGPT documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css"/>
+    <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <script src="_static/jquery.js?v=5d32c60e"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html"/>
+    <link rel="search" title="Search" href="search.html"/>
+</head>
+
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+        <div class="wy-side-scroll">
+            <div class="wy-side-nav-search">
+
+
+                <a href="index.html" class="icon icon-home">
+                    KoPrivateGPT
+                </a>
+                <div role="search">
+                    <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+                        <input type="text" name="q" placeholder="Search docs" aria-label="Search docs"/>
+                        <input type="hidden" name="check_keywords" value="yes"/>
+                        <input type="hidden" name="area" value="default"/>
+                    </form>
+                </div>
+            </div>
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+                <!-- Local TOC -->
+                <div class="local-toc">
+                    <ul>
+                        <li><a class="reference internal" href="#">KoPrivateGPT.DB package</a>
+                            <ul>
+                                <li><a class="reference internal" href="#submodules">Submodules</a></li>
+                                <li><a class="reference internal" href="#module-KoPrivateGPT.DB.base">KoPrivateGPT.DB.base
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal" href="#KoPrivateGPT.DB.base.BaseDB"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">BaseDB</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.base.BaseDB.create"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseDB.create()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.base.BaseDB.create_or_load"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseDB.create_or_load()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.base.BaseDB.db_type"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseDB.db_type</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.base.BaseDB.fetch"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseDB.fetch()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.base.BaseDB.get_db_origin"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseDB.get_db_origin()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.base.BaseDB.load"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseDB.load()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.base.BaseDB.save"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseDB.save()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.base.BaseDB.search"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseDB.search()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="reference internal" href="#module-KoPrivateGPT.DB.mongo_db">KoPrivateGPT.DB.mongo_db
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal" href="#KoPrivateGPT.DB.mongo_db.MongoDB"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">MongoDB</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.mongo_db.MongoDB.create"><code
+                                                        class="docutils literal notranslate"><span class="pre">MongoDB.create()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.mongo_db.MongoDB.create_or_load"><code
+                                                        class="docutils literal notranslate"><span class="pre">MongoDB.create_or_load()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.mongo_db.MongoDB.db_type"><code
+                                                        class="docutils literal notranslate"><span class="pre">MongoDB.db_type</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.mongo_db.MongoDB.fetch"><code
+                                                        class="docutils literal notranslate"><span class="pre">MongoDB.fetch()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.mongo_db.MongoDB.get_db_origin"><code
+                                                        class="docutils literal notranslate"><span class="pre">MongoDB.get_db_origin()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.mongo_db.MongoDB.load"><code
+                                                        class="docutils literal notranslate"><span class="pre">MongoDB.load()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.mongo_db.MongoDB.save"><code
+                                                        class="docutils literal notranslate"><span class="pre">MongoDB.save()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.mongo_db.MongoDB.search"><code
+                                                        class="docutils literal notranslate"><span class="pre">MongoDB.search()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.mongo_db.MongoDB.set_db"><code
+                                                        class="docutils literal notranslate"><span class="pre">MongoDB.set_db()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="reference internal" href="#module-KoPrivateGPT.DB.pickle_db">KoPrivateGPT.DB.pickle_db
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.DB.pickle_db.PickleDB"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">PickleDB</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.pickle_db.PickleDB.create"><code
+                                                        class="docutils literal notranslate"><span class="pre">PickleDB.create()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.pickle_db.PickleDB.create_or_load"><code
+                                                        class="docutils literal notranslate"><span class="pre">PickleDB.create_or_load()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.pickle_db.PickleDB.db_type"><code
+                                                        class="docutils literal notranslate"><span class="pre">PickleDB.db_type</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.pickle_db.PickleDB.fetch"><code
+                                                        class="docutils literal notranslate"><span class="pre">PickleDB.fetch()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.pickle_db.PickleDB.get_db_origin"><code
+                                                        class="docutils literal notranslate"><span class="pre">PickleDB.get_db_origin()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.pickle_db.PickleDB.load"><code
+                                                        class="docutils literal notranslate"><span class="pre">PickleDB.load()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.pickle_db.PickleDB.save"><code
+                                                        class="docutils literal notranslate"><span class="pre">PickleDB.save()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.DB.pickle_db.PickleDB.search"><code
+                                                        class="docutils literal notranslate"><span class="pre">PickleDB.search()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="reference internal" href="#module-KoPrivateGPT.DB">Module contents</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+        <nav class="wy-nav-top" aria-label="Mobile navigation menu">
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="index.html">KoPrivateGPT</a>
+        </nav>
+
+        <div class="wy-nav-content">
+            <div class="rst-content">
+                <div role="navigation" aria-label="Page navigation">
+                    <ul class="wy-breadcrumbs">
+                        <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+                        <li class="breadcrumb-item active">KoPrivateGPT.DB package</li>
+                        <li class="wy-breadcrumbs-aside">
+                            <a href="_sources/KoPrivateGPT.DB.rst.txt" rel="nofollow"> View page source</a>
+                        </li>
+                    </ul>
+                    <hr/>
+                </div>
+                <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+                    <div itemprop="articleBody">
+
+                        <section id="koprivategpt-db-package">
+                            <h1>KoPrivateGPT.DB package<a class="headerlink" href="#koprivategpt-db-package"
+                                                          title="Link to this heading"></a></h1>
+                            <section id="submodules">
+                                <h2>Submodules<a class="headerlink" href="#submodules"
+                                                 title="Link to this heading"></a></h2>
+                            </section>
+                            <section id="module-KoPrivateGPT.DB.base">
+                                <span id="koprivategpt-db-base-module"></span>
+                                <h2>KoPrivateGPT.DB.base module<a class="headerlink" href="#module-KoPrivateGPT.DB.base"
+                                                                  title="Link to this heading"></a></h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py" id="KoPrivateGPT.DB.base.BaseDB">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span
+                                            class="pre">KoPrivateGPT.DB.base.</span></span><span
+                                            class="sig-name descname"><span class="pre">BaseDB</span></span><a
+                                            class="headerlink" href="#KoPrivateGPT.DB.base.BaseDB"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+                                            class="pre">ABC</span></code></p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="KoPrivateGPT.DB.base.BaseDB.create">
+                                                <em class="property"><span class="pre">abstract</span><span
+                                                        class="w"> </span></em><span class="sig-name descname"><span
+                                                    class="pre">create</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="o"><span
+                                                    class="pre">*</span></span><span class="n"><span
+                                                    class="pre">args</span></span></em>, <em class="sig-param"><span
+                                                    class="o"><span class="pre">**</span></span><span class="n"><span
+                                                    class="pre">kwargs</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#KoPrivateGPT.DB.base.BaseDB.create"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.DB.base.BaseDB.create_or_load">
+                                                <em class="property"><span class="pre">abstract</span><span
+                                                        class="w"> </span></em><span class="sig-name descname"><span
+                                                    class="pre">create_or_load</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="o"><span class="pre">*</span></span><span class="n"><span
+                                                    class="pre">args</span></span></em>, <em class="sig-param"><span
+                                                    class="o"><span class="pre">**</span></span><span class="n"><span
+                                                    class="pre">kwargs</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#KoPrivateGPT.DB.base.BaseDB.create_or_load"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py property">
+                                            <dt class="sig sig-object py" id="KoPrivateGPT.DB.base.BaseDB.db_type">
+                                                <em class="property"><span class="pre">abstract</span><span
+                                                        class="w"> </span><span class="pre">property</span><span
+                                                        class="w"> </span></em><span class="sig-name descname"><span
+                                                    class="pre">db_type</span></span><em class="property"><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="pre">str</span></em><a
+                                                    class="headerlink" href="#KoPrivateGPT.DB.base.BaseDB.db_type"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="KoPrivateGPT.DB.base.BaseDB.fetch">
+                                                <em class="property"><span class="pre">abstract</span><span
+                                                        class="w"> </span></em><span class="sig-name descname"><span
+                                                    class="pre">fetch</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">ids</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">List</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">UUID</span><span
+                                                    class="p"><span class="pre">]</span></span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><a
+                                                    class="reference internal"
+                                                    href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.passage.Passage"
+                                                    title="KoPrivateGPT.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                                                    class="p"><span class="pre">]</span></span></span></span><a
+                                                    class="headerlink" href="#KoPrivateGPT.DB.base.BaseDB.fetch"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.DB.base.BaseDB.get_db_origin">
+                                                <em class="property"><span class="pre">abstract</span><span
+                                                        class="w"> </span></em><span class="sig-name descname"><span
+                                                    class="pre">get_db_origin</span></span><span
+                                                    class="sig-paren">(</span><span class="sig-paren">)</span> <span
+                                                    class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><a class="reference internal"
+                                                                                   href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.db_origin.DBOrigin"
+                                                                                   title="KoPrivateGPT.schema.db_origin.DBOrigin"><span
+                                                    class="pre">DBOrigin</span></a></span></span><a class="headerlink"
+                                                                                                    href="#KoPrivateGPT.DB.base.BaseDB.get_db_origin"
+                                                                                                    title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="KoPrivateGPT.DB.base.BaseDB.load">
+                                                <em class="property"><span class="pre">abstract</span><span
+                                                        class="w"> </span></em><span class="sig-name descname"><span
+                                                    class="pre">load</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="o"><span
+                                                    class="pre">*</span></span><span class="n"><span
+                                                    class="pre">args</span></span></em>, <em class="sig-param"><span
+                                                    class="o"><span class="pre">**</span></span><span class="n"><span
+                                                    class="pre">kwargs</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#KoPrivateGPT.DB.base.BaseDB.load"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="KoPrivateGPT.DB.base.BaseDB.save">
+                                                <em class="property"><span class="pre">abstract</span><span
+                                                        class="w"> </span></em><span class="sig-name descname"><span
+                                                    class="pre">save</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span class="pre">passages</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><a
+                                                    class="reference internal"
+                                                    href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.passage.Passage"
+                                                    title="KoPrivateGPT.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                                                    class="p"><span class="pre">]</span></span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#KoPrivateGPT.DB.base.BaseDB.save"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="KoPrivateGPT.DB.base.BaseDB.search">
+                                                <em class="property"><span class="pre">abstract</span><span
+                                                        class="w"> </span></em><span class="sig-name descname"><span
+                                                    class="pre">search</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span class="pre">id</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">UUID</span><span class="w"> </span><span class="p"><span
+                                                    class="pre">|</span></span><span class="w"> </span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">]</span></span><span class="w"> </span><span
+                                                    class="p"><span class="pre">|</span></span><span
+                                                    class="w"> </span><span class="pre">None</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">None</span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">content</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">List</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">str</span><span
+                                                    class="p"><span class="pre">]</span></span><span
+                                                    class="w"> </span><span class="p"><span
+                                                    class="pre">|</span></span><span class="w"> </span><span
+                                                    class="pre">None</span></span><span class="w"> </span><span
+                                                    class="o"><span class="pre">=</span></span><span
+                                                    class="w"> </span><span class="default_value"><span
+                                                    class="pre">None</span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">filepath</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">]</span></span><span class="w"> </span><span
+                                                    class="p"><span class="pre">|</span></span><span
+                                                    class="w"> </span><span class="pre">None</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">None</span></span></em>, <em
+                                                    class="sig-param"><span class="o"><span class="pre">**</span></span><span
+                                                    class="n"><span class="pre">kwargs</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><a
+                                                    class="reference internal"
+                                                    href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.passage.Passage"
+                                                    title="KoPrivateGPT.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                                                    class="p"><span class="pre">]</span></span></span></span><a
+                                                    class="headerlink" href="#KoPrivateGPT.DB.base.BaseDB.search"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>Search Passage from DB using filter Dict.
+                                                This function can search Passage using ‘id’, ‘content’, ‘filepath’ and
+                                                ‘metadata_etc’.
+                                                You can add more search condition in metadata_etc using <a
+                                                        href="#id1"><span class="problematic" id="id2">**</span></a>kwargs.
+                                                This function is an implicit AND operation.</p>
+                                            </dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-KoPrivateGPT.DB.mongo_db">
+                                <span id="koprivategpt-db-mongo-db-module"></span>
+                                <h2>KoPrivateGPT.DB.mongo_db module<a class="headerlink"
+                                                                      href="#module-KoPrivateGPT.DB.mongo_db"
+                                                                      title="Link to this heading"></a></h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py" id="KoPrivateGPT.DB.mongo_db.MongoDB">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.DB.mongo_db.</span></span><span
+                                            class="sig-name descname"><span class="pre">MongoDB</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">mongo_url</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">str</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">db_name</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">str</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">collection_name</span></span><span
+                                            class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                                            class="n"><span class="pre">str</span></span></em>, <em
+                                            class="sig-param"><span class="o"><span class="pre">*</span></span><span
+                                            class="n"><span class="pre">args</span></span></em>, <em
+                                            class="sig-param"><span class="o"><span class="pre">**</span></span><span
+                                            class="n"><span class="pre">kwargs</span></span></em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#KoPrivateGPT.DB.mongo_db.MongoDB"
+                                                                         title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal" href="#KoPrivateGPT.DB.base.BaseDB"
+                                                     title="KoPrivateGPT.DB.base.BaseDB"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseDB</span></code></a>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="KoPrivateGPT.DB.mongo_db.MongoDB.create">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">create</span></span><span class="sig-paren">(</span><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#KoPrivateGPT.DB.mongo_db.MongoDB.create"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.DB.mongo_db.MongoDB.create_or_load">
+                                                <span class="sig-name descname"><span class="pre">create_or_load</span></span><span
+                                                    class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                                    class="headerlink"
+                                                    href="#KoPrivateGPT.DB.mongo_db.MongoDB.create_or_load"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py property">
+                                            <dt class="sig sig-object py" id="KoPrivateGPT.DB.mongo_db.MongoDB.db_type">
+                                                <em class="property"><span class="pre">property</span><span
+                                                        class="w"> </span></em><span class="sig-name descname"><span
+                                                    class="pre">db_type</span></span><em class="property"><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="pre">str</span></em><a
+                                                    class="headerlink" href="#KoPrivateGPT.DB.mongo_db.MongoDB.db_type"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="KoPrivateGPT.DB.mongo_db.MongoDB.fetch">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">fetch</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">ids</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">List</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">UUID</span><span
+                                                    class="p"><span class="pre">]</span></span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><a
+                                                    class="reference internal"
+                                                    href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.passage.Passage"
+                                                    title="KoPrivateGPT.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                                                    class="p"><span class="pre">]</span></span></span></span><a
+                                                    class="headerlink" href="#KoPrivateGPT.DB.mongo_db.MongoDB.fetch"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.DB.mongo_db.MongoDB.get_db_origin">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">get_db_origin</span></span><span
+                                                    class="sig-paren">(</span><span class="sig-paren">)</span> <span
+                                                    class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><a class="reference internal"
+                                                                                   href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.db_origin.DBOrigin"
+                                                                                   title="KoPrivateGPT.schema.db_origin.DBOrigin"><span
+                                                    class="pre">DBOrigin</span></a></span></span><a class="headerlink"
+                                                                                                    href="#KoPrivateGPT.DB.mongo_db.MongoDB.get_db_origin"
+                                                                                                    title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="KoPrivateGPT.DB.mongo_db.MongoDB.load">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">load</span></span><span
+                                                    class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                                    class="headerlink" href="#KoPrivateGPT.DB.mongo_db.MongoDB.load"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="KoPrivateGPT.DB.mongo_db.MongoDB.save">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">save</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">passages</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><a
+                                                    class="reference internal"
+                                                    href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.passage.Passage"
+                                                    title="KoPrivateGPT.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                                                    class="p"><span class="pre">]</span></span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#KoPrivateGPT.DB.mongo_db.MongoDB.save"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="KoPrivateGPT.DB.mongo_db.MongoDB.search">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">search</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span class="pre">id</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">UUID</span><span class="w"> </span><span class="p"><span
+                                                    class="pre">|</span></span><span class="w"> </span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">]</span></span><span class="w"> </span><span
+                                                    class="p"><span class="pre">|</span></span><span
+                                                    class="w"> </span><span class="pre">None</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">None</span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">content</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">List</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">str</span><span
+                                                    class="p"><span class="pre">]</span></span><span
+                                                    class="w"> </span><span class="p"><span
+                                                    class="pre">|</span></span><span class="w"> </span><span
+                                                    class="pre">None</span></span><span class="w"> </span><span
+                                                    class="o"><span class="pre">=</span></span><span
+                                                    class="w"> </span><span class="default_value"><span
+                                                    class="pre">None</span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">filepath</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">]</span></span><span class="w"> </span><span
+                                                    class="p"><span class="pre">|</span></span><span
+                                                    class="w"> </span><span class="pre">None</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">None</span></span></em>, <em
+                                                    class="sig-param"><span class="o"><span class="pre">**</span></span><span
+                                                    class="n"><span class="pre">kwargs</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><a
+                                                    class="reference internal"
+                                                    href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.passage.Passage"
+                                                    title="KoPrivateGPT.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                                                    class="p"><span class="pre">]</span></span></span></span><a
+                                                    class="headerlink" href="#KoPrivateGPT.DB.mongo_db.MongoDB.search"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>With this function, you can use mongoDB’s find function.
+                                                :params filter_dict: dict, query dict for mongoDB’s find function.
+                                                :return: List[Passage], list of Passage extract from the result of
+                                                filter_dict query to MongoDB.</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="KoPrivateGPT.DB.mongo_db.MongoDB.set_db">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">set_db</span></span><span class="sig-paren">(</span><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#KoPrivateGPT.DB.mongo_db.MongoDB.set_db"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-KoPrivateGPT.DB.pickle_db">
+                                <span id="koprivategpt-db-pickle-db-module"></span>
+                                <h2>KoPrivateGPT.DB.pickle_db module<a class="headerlink"
+                                                                       href="#module-KoPrivateGPT.DB.pickle_db"
+                                                                       title="Link to this heading"></a></h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py" id="KoPrivateGPT.DB.pickle_db.PickleDB">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.DB.pickle_db.</span></span><span
+                                            class="sig-name descname"><span class="pre">PickleDB</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">save_path</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">str</span></span></em>, <em class="sig-param"><span
+                                            class="o"><span class="pre">*</span></span><span class="n"><span
+                                            class="pre">args</span></span></em>, <em class="sig-param"><span
+                                            class="o"><span class="pre">**</span></span><span class="n"><span
+                                            class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink" href="#KoPrivateGPT.DB.pickle_db.PickleDB"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal" href="#KoPrivateGPT.DB.base.BaseDB"
+                                                     title="KoPrivateGPT.DB.base.BaseDB"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseDB</span></code></a>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.DB.pickle_db.PickleDB.create">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">create</span></span><span class="sig-paren">(</span><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#KoPrivateGPT.DB.pickle_db.PickleDB.create"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.DB.pickle_db.PickleDB.create_or_load">
+                                                <span class="sig-name descname"><span class="pre">create_or_load</span></span><span
+                                                    class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                                    class="headerlink"
+                                                    href="#KoPrivateGPT.DB.pickle_db.PickleDB.create_or_load"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py property">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.DB.pickle_db.PickleDB.db_type">
+                                                <em class="property"><span class="pre">property</span><span
+                                                        class="w"> </span></em><span class="sig-name descname"><span
+                                                    class="pre">db_type</span></span><em class="property"><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="pre">str</span></em><a
+                                                    class="headerlink"
+                                                    href="#KoPrivateGPT.DB.pickle_db.PickleDB.db_type"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="KoPrivateGPT.DB.pickle_db.PickleDB.fetch">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">fetch</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">ids</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">List</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">UUID</span><span
+                                                    class="p"><span class="pre">]</span></span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><a
+                                                    class="reference internal"
+                                                    href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.passage.Passage"
+                                                    title="KoPrivateGPT.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                                                    class="p"><span class="pre">]</span></span></span></span><a
+                                                    class="headerlink" href="#KoPrivateGPT.DB.pickle_db.PickleDB.fetch"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.DB.pickle_db.PickleDB.get_db_origin">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">get_db_origin</span></span><span
+                                                    class="sig-paren">(</span><span class="sig-paren">)</span> <span
+                                                    class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><a class="reference internal"
+                                                                                   href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.db_origin.DBOrigin"
+                                                                                   title="KoPrivateGPT.schema.db_origin.DBOrigin"><span
+                                                    class="pre">DBOrigin</span></a></span></span><a class="headerlink"
+                                                                                                    href="#KoPrivateGPT.DB.pickle_db.PickleDB.get_db_origin"
+                                                                                                    title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="KoPrivateGPT.DB.pickle_db.PickleDB.load">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">load</span></span><span
+                                                    class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                                    class="headerlink" href="#KoPrivateGPT.DB.pickle_db.PickleDB.load"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="KoPrivateGPT.DB.pickle_db.PickleDB.save">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">save</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">passages</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><a
+                                                    class="reference internal"
+                                                    href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.passage.Passage"
+                                                    title="KoPrivateGPT.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                                                    class="p"><span class="pre">]</span></span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#KoPrivateGPT.DB.pickle_db.PickleDB.save"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.DB.pickle_db.PickleDB.search">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">search</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span class="pre">id</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">UUID</span><span class="w"> </span><span class="p"><span
+                                                    class="pre">|</span></span><span class="w"> </span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">]</span></span><span class="w"> </span><span
+                                                    class="p"><span class="pre">|</span></span><span
+                                                    class="w"> </span><span class="pre">None</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">None</span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">content</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">List</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">str</span><span
+                                                    class="p"><span class="pre">]</span></span><span
+                                                    class="w"> </span><span class="p"><span
+                                                    class="pre">|</span></span><span class="w"> </span><span
+                                                    class="pre">None</span></span><span class="w"> </span><span
+                                                    class="o"><span class="pre">=</span></span><span
+                                                    class="w"> </span><span class="default_value"><span
+                                                    class="pre">None</span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">filepath</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">]</span></span><span class="w"> </span><span
+                                                    class="p"><span class="pre">|</span></span><span
+                                                    class="w"> </span><span class="pre">None</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">None</span></span></em>, <em
+                                                    class="sig-param"><span class="o"><span class="pre">**</span></span><span
+                                                    class="n"><span class="pre">kwargs</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><a
+                                                    class="reference internal"
+                                                    href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.passage.Passage"
+                                                    title="KoPrivateGPT.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                                                    class="p"><span class="pre">]</span></span></span></span><a
+                                                    class="headerlink" href="#KoPrivateGPT.DB.pickle_db.PickleDB.search"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>This function is an implicit AND operation,
+                                                which is return Passage that matches all values to corresponding keys in
+                                                filter_dict.
+                                                When the match value is not exist, return empty list.</p>
+                                            </dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-KoPrivateGPT.DB">
+                                <span id="module-contents"></span>
+                                <h2>Module contents<a class="headerlink" href="#module-KoPrivateGPT.DB"
+                                                      title="Link to this heading"></a></h2>
+                            </section>
+                        </section>
+
+
+                    </div>
+                </div>
+                <footer>
+
+                    <hr/>
+
+                    <div role="contentinfo">
+                        <p>&#169; Copyright 2023, NomaDamas.</p>
+                    </div>
+
+                    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+                    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+                    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+                </footer>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    jQuery(function () {
+        SphinxRtdTheme.Navigation.enable(true);
+    });
+</script>
+
+</body>
+</html>
