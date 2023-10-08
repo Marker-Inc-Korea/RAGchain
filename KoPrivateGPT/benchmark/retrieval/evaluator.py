@@ -52,12 +52,12 @@ def basic_retrieval_evaluation(qrels: Dict[str, List[str]], preds: Dict[str, Lis
     return mean_scores
 
 
-def stretagyqa_retrieval_evaluation(qrels: Dict[str, Dict[str, int]],
-                                    results: Dict[str, Dict[str, float]],
+def stretagyqa_retrieval_evaluation(qrels: List[dict],
+                                    preds: dict,
                                     k_values: List[int]) -> List[dict[str, float]]:
     """
-    :param qrels: The qrels file as a dictionary.  note. "https://github.com/eladsegal/strategyqa/blob/main/data/strategyqa/dev.json"
-    :param results: The results file as a dictionary. Dict[query_id, Dict[doc_id, score]]
+    :param qrels: The qrels file as a dictionary.
+    :param preds: The results file as a dictionary.
     :k_values: The k values for which the evaluation should be done. List[int]
     results doc_id can be different from the doc_id in the qrels file.
     """
@@ -68,21 +68,14 @@ def stretagyqa_retrieval_evaluation(qrels: Dict[str, Dict[str, int]],
 
     score_dict = dict()
     for k in k_values:
-        score_dict = score_dict | strategyQA(qrels, results, binary_metrics, k)
+        score_dict = score_dict | stretagyqa_k_eval(qrels, preds, binary_metrics, k)
 
     mean_scores = {key: round(sum(value) / len(value), 5) for key, value in score_dict.items()}
     return mean_scores
 
 
-def strategyQA(solution: dict, pred: dict, metrics: list, k: int) -> dict:
-    '''
-    @article{geva2021strategyqa,
-      title = {{Did Aristotle Use a Laptop? A Question Answering Benchmark with Implicit Reasoning Strategies}},
-      author = {Geva, Mor and Khashabi, Daniel and Segal, Elad and Khot, Tushar and Roth, Dan and Berant, Jonathan},
-      journal = {Transactions of the Association for Computational Linguistics (TACL)},
-      year = {2021},
-    }
-    '''
+def stretagyqa_k_eval(solution: dict, pred: dict, metrics: list, k: int) -> dict:
+
     final_score = {f'{metric.metric_name}@{str(k)}': list() for metric in metrics}
     for key in solution.keys():
         paragraphs = pred[key]['paragraphs']
@@ -105,8 +98,7 @@ def strategyQA(solution: dict, pred: dict, metrics: list, k: int) -> dict:
             for evidence in evidence_per_annotator:
 
                 score = metric.eval(solution={key: 1 for key in evidence},
-                                    pred={key: 1.0 for key in paragraphs[0:k]}, k=k) if len(
-                    evidence) > 0 else 0
+                                    pred={key: 1.0 for key in paragraphs[0:k]}, k=k) if len(evidence) > 0 else 0
                 score_per_annotator.append(score)
             annotator_max = max(score_per_annotator)
             final_score[f'{metric.metric_name}@{str(k)}'].append(annotator_max)
@@ -130,17 +122,16 @@ def check_retrieval_eval(qrels: Dict[str, List[str]], preds: Dict[str, List[str]
 
     if set(preds.keys()) - set(qrels.keys()):
         print("Warning: prediction Dictionary contain more query_ids than qrels. the mismatched ids will be ignored.")
-
-    over_preds = [query_id for query_id, retrieved_docs in preds_relevance.items() if
-                  len(retrieved_docs) < max(k_values)]
-    min_length_preds = min([len(retrieved_docs) for retrieved_docs in preds_relevance.values()])
+    print(preds)
+    over_preds = [query_id for query_id, retrieved_docs in preds.iteritems() if (len(retrieved_docs) <= max(k_values))]
+    min_length_preds = min([len(retrieved_docs) for retrieved_docs in preds.values()])
 
     if over_preds:
         raise ValueError(
             f'current min length of preds : {min_length_preds}, each number of retrieved docs need to be larger than k_value')
 
-    if qrels_relevance or preds_relevance:
-        if qrels_relevance and preds_relevance:
+    if bool(qrels_relevance) or bool(preds_relevance):
+        if bool(qrels_relevance) and bool(preds_relevance):
             if set(qrels.keys()) - set(qrels_relevance.keys()):
                 raise ValueError('qrels_relevance need to contain a whole query_ids in qrels.')
 
@@ -154,7 +145,7 @@ def check_retrieval_eval(qrels: Dict[str, List[str]], preds: Dict[str, List[str]
                 print("Warning: preds_relevance contain more query_ids than preds. the mismatched ids will be ignored.")
             return True
         else:
-            if qrels_relevance:
+            if bool(qrels_relevance):
                 raise ValueError('please check preds_relevance')
             else:
                 raise ValueError('please check qrels_relevance')

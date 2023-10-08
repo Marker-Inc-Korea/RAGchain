@@ -2,7 +2,7 @@ import math
 from abc import ABC, abstractmethod
 from operator import itemgetter
 from typing import Dict
-
+import warnings
 
 class BaseRetrievalMetric(ABC):
     def __init__(self):
@@ -17,6 +17,7 @@ class BaseRetrievalMetric(ABC):
              k: int) -> float:
         assert k > 0, "k must be greater than 0"
         assert len(pred) >= k, "k must be less than or equal to the number of predictions"
+        #warnings.warn("num of preds which score bigger than 0 is less than k")
         metric = self.retrieval_metric_function(solution, pred, k)
 
         return metric
@@ -30,12 +31,13 @@ class BaseRetrievalMetric(ABC):
 
 class AP(BaseRetrievalMetric):
     def __init__(self):
+        super().__init__()
         self._metric_name = "AP"
 
     def retrieval_metric_function(self, solution: Dict[str, int],
                                   pred: Dict[str, float],
                                   k_value: int = 1) -> float:
-        ap = 0.0
+        temp_sum = 0.0
 
         top_hits = [item[0] for item in sorted(pred.items(), key=lambda item: item[1], reverse=True)[:k_value]]
 
@@ -47,7 +49,9 @@ class AP(BaseRetrievalMetric):
             if doc_id in query_relevant_docs:
                 count_relevant += 1
                 precision_at_relevant_doc = count_relevant / (index + 1)
-                ap += precision_at_relevant_doc
+                temp_sum += precision_at_relevant_doc
+
+        ap = temp_sum / count_relevant if count_relevant > 0 else 0.0
 
         return ap
 
