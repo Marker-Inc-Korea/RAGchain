@@ -28,7 +28,7 @@ def pinecone_slim():
     index = pinecone.Index(index_name)
     pinecone_instance = PineconeSlim(
         index=index,
-        embedding_function=EmbeddingFactory('openai').get().embed_query,
+        embedding=EmbeddingFactory('openai').get(),
         text_key="text",
         namespace="test_pinecone_slim"
     )
