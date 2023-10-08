@@ -7,7 +7,9 @@ import pinecone
 from dotenv import load_dotenv
 from langchain.vectorstores import Chroma, Pinecone
 
+from KoPrivateGPT.llm.basic import BasicLLM
 from KoPrivateGPT.pipeline import BasicRunPipeline
+from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval
 from KoPrivateGPT.schema import Passage
 from KoPrivateGPT.utils.embed import EmbeddingFactory
 from KoPrivateGPT.utils.util import text_modifier
@@ -52,7 +54,7 @@ def select_vectordb(vectordb_type: str, embedding_type: str, device_type: str):
         pinecone_instance = Pinecone(
             index=PineconeOptions.index_name,
             namespace=PineconeOptions.namespace,
-            embedding_function=embedding_func,
+            embedding=embedding_func,
             text_key="text"
         )
         vectordb = pinecone_instance
@@ -71,10 +73,15 @@ def select_vectordb(vectordb_type: str, embedding_type: str, device_type: str):
 @click.option('--api_base', default=None, help='api base to use.')
 def main(device_type, retrieval_type: str, vectordb_type, embedding_type, model_name, api_base):
     vectordb = select_vectordb(vectordb_type, embedding_type, device_type)
+    if retrieval_type in text_modifier('bm25'):
+        retrieval = BM25Retrieval(save_path=Options.bm25_db_dir)
+    elif retrieval_type in text_modifier('vectordb'):
+        retrieval = VectorDBRetrieval(vectordb=vectordb)
+    else:
+        raise ValueError("retrieval type is not valid")
     pipeline = BasicRunPipeline(
-        retrieval_type=(retrieval_type, {"save_path": Options.bm25_db_dir,
-                                         "vectordb": vectordb}),
-        llm_type=("basic_llm", {"model_name": model_name, "api_base": api_base}),
+        retrieval=retrieval,
+        llm=BasicLLM(retrieval, model_name=model_name, api_base=api_base)
     )
     while True:
         query = input("질문을 입력하세요: ")

@@ -2,15 +2,19 @@ import json
 import os
 import pathlib
 import sys
+
+from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval
+from KoPrivateGPT.utils.util import text_modifier
+from config import Options
+from run_localGPT import select_vectordb
+
 sys.path.append(str(pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent))
-from KoPrivateGPT.pipeline.selector import ModuleSelector
 
 import click
 from huggingface_hub import hf_hub_download
 from tqdm import tqdm
 
-from KoPrivateGPT.utils.embed import EmbeddingFactory
-from ingest import SAVE_PATH, REPO_ID
+from ingest import REPO_ID
 
 
 def get_train():
@@ -48,11 +52,13 @@ def main(test_type, retrieval_type, suffix, device_type, embedding_type, vectord
     else:
         raise ValueError("test_type should be dev or train")
     # make retrieval
-    retrieval = ModuleSelector("retrieval").select(retrieval_type).get(**{
-        "save_path": SAVE_PATH,
-        "vectordb_type": vectordb_type,
-        "embedding": EmbeddingFactory(embed_type=embedding_type, device_type=device_type).get()
-    })
+    vectordb = select_vectordb(vectordb_type, embedding_type, device_type)
+    if retrieval_type in text_modifier('bm25'):
+        retrieval = BM25Retrieval(save_path=Options.bm25_db_dir)
+    elif retrieval_type in text_modifier('vectordb'):
+        retrieval = VectorDBRetrieval(vectordb=vectordb)
+    else:
+        raise ValueError("retrieval type is not valid")
     pred = {}
     for key in tqdm(list(data.keys())):
         query = data[key]["question"]
