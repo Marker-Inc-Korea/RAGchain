@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>KoPrivateGPT.benchmark.retrieval package &mdash; KoPrivateGPT documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css"/>
+    <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <script src="_static/jquery.js?v=5d32c60e"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html"/>
+    <link rel="search" title="Search" href="search.html"/>
+</head>
+
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+        <div class="wy-side-scroll">
+            <div class="wy-side-nav-search">
+
+
+                <a href="index.html" class="icon icon-home">
+                    KoPrivateGPT
+                </a>
+                <div role="search">
+                    <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+                        <input type="text" name="q" placeholder="Search docs" aria-label="Search docs"/>
+                        <input type="hidden" name="check_keywords" value="yes"/>
+                        <input type="hidden" name="area" value="default"/>
+                    </form>
+                </div>
+            </div>
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+                <!-- Local TOC -->
+                <div class="local-toc">
+                    <ul>
+                        <li><a class="reference internal" href="#">KoPrivateGPT.benchmark.retrieval package</a>
+                            <ul>
+                                <li><a class="reference internal" href="#submodules">Submodules</a></li>
+                                <li><a class="reference internal" href="#module-KoPrivateGPT.benchmark.retrieval.main">KoPrivateGPT.benchmark.retrieval.main
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.benchmark.retrieval.main.basic_retrieval_evaluation"><code
+                                                class="docutils literal notranslate"><span class="pre">basic_retrieval_evaluation()</span></code></a>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.benchmark.retrieval.main.strategyQA"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">strategyQA()</span></code></a></li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.benchmark.retrieval.main.stretagyqa_retrieval_evaluation"><code
+                                                class="docutils literal notranslate"><span class="pre">stretagyqa_retrieval_evaluation()</span></code></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="reference internal"
+                                       href="#module-KoPrivateGPT.benchmark.retrieval.metrics">KoPrivateGPT.benchmark.retrieval.metrics
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.benchmark.retrieval.metrics.APFactory"><code
+                                                class="docutils literal notranslate"><span class="pre">APFactory</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.benchmark.retrieval.metrics.APFactory.retrieval_metric_function"><code
+                                                        class="docutils literal notranslate"><span class="pre">APFactory.retrieval_metric_function()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"><code
+                                                class="docutils literal notranslate"><span class="pre">BaseRetrievalMetricFactory</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory.eval"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseRetrievalMetricFactory.eval()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory.metric_name"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseRetrievalMetricFactory.metric_name</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory.retrieval_metric_function"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseRetrievalMetricFactory.retrieval_metric_function()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.benchmark.retrieval.metrics.CGFactory"><code
+                                                class="docutils literal notranslate"><span class="pre">CGFactory</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.benchmark.retrieval.metrics.CGFactory.retrieval_metric_function"><code
+                                                        class="docutils literal notranslate"><span class="pre">CGFactory.retrieval_metric_function()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.benchmark.retrieval.metrics.DCGFactory"><code
+                                                class="docutils literal notranslate"><span class="pre">DCGFactory</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.benchmark.retrieval.metrics.DCGFactory.retrieval_metric_function"><code
+                                                        class="docutils literal notranslate"><span class="pre">DCGFactory.retrieval_metric_function()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.benchmark.retrieval.metrics.ExactlyMatchFactory"><code
+                                                class="docutils literal notranslate"><span class="pre">ExactlyMatchFactory</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.benchmark.retrieval.metrics.ExactlyMatchFactory.retrieval_metric_function"><code
+                                                        class="docutils literal notranslate"><span class="pre">ExactlyMatchFactory.retrieval_metric_function()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.benchmark.retrieval.metrics.F1Factory"><code
+                                                class="docutils literal notranslate"><span class="pre">F1Factory</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.benchmark.retrieval.metrics.F1Factory.retrieval_metric_function"><code
+                                                        class="docutils literal notranslate"><span class="pre">F1Factory.retrieval_metric_function()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.benchmark.retrieval.metrics.HoleFactory"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">HoleFactory</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.benchmark.retrieval.metrics.HoleFactory.retrieval_metric_function"><code
+                                                        class="docutils literal notranslate"><span class="pre">HoleFactory.retrieval_metric_function()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.benchmark.retrieval.metrics.IDCGFactory"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">IDCGFactory</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.benchmark.retrieval.metrics.IDCGFactory.retrieval_metric_function"><code
+                                                        class="docutils literal notranslate"><span class="pre">IDCGFactory.retrieval_metric_function()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.benchmark.retrieval.metrics.IndDCGFactory"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">IndDCGFactory</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.benchmark.retrieval.metrics.IndDCGFactory.retrieval_metric_function"><code
+                                                        class="docutils literal notranslate"><span class="pre">IndDCGFactory.retrieval_metric_function()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.benchmark.retrieval.metrics.IndIDCGFactory"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">IndIDCGFactory</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.benchmark.retrieval.metrics.IndIDCGFactory.retrieval_metric_function"><code
+                                                        class="docutils literal notranslate"><span class="pre">IndIDCGFactory.retrieval_metric_function()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.benchmark.retrieval.metrics.NDCGFactory"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">NDCGFactory</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.benchmark.retrieval.metrics.NDCGFactory.retrieval_metric_function"><code
+                                                        class="docutils literal notranslate"><span class="pre">NDCGFactory.retrieval_metric_function()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.benchmark.retrieval.metrics.PrecisionFactory"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">PrecisionFactory</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.benchmark.retrieval.metrics.PrecisionFactory.retrieval_metric_function"><code
+                                                        class="docutils literal notranslate"><span class="pre">PrecisionFactory.retrieval_metric_function()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.benchmark.retrieval.metrics.RRFactory"><code
+                                                class="docutils literal notranslate"><span class="pre">RRFactory</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.benchmark.retrieval.metrics.RRFactory.retrieval_metric_function"><code
+                                                        class="docutils literal notranslate"><span class="pre">RRFactory.retrieval_metric_function()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.benchmark.retrieval.metrics.RecallFactory"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">RecallFactory</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.benchmark.retrieval.metrics.RecallFactory.retrieval_metric_function"><code
+                                                        class="docutils literal notranslate"><span class="pre">RecallFactory.retrieval_metric_function()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.benchmark.retrieval.metrics.TopKAccuracyFactory"><code
+                                                class="docutils literal notranslate"><span class="pre">TopKAccuracyFactory</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.benchmark.retrieval.metrics.TopKAccuracyFactory.retrieval_metric_function"><code
+                                                        class="docutils literal notranslate"><span class="pre">TopKAccuracyFactory.retrieval_metric_function()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="reference internal" href="#module-KoPrivateGPT.benchmark.retrieval">Module
+                                    contents</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+        <nav class="wy-nav-top" aria-label="Mobile navigation menu">
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="index.html">KoPrivateGPT</a>
+        </nav>
+
+        <div class="wy-nav-content">
+            <div class="rst-content">
+                <div role="navigation" aria-label="Page navigation">
+                    <ul class="wy-breadcrumbs">
+                        <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+                        <li class="breadcrumb-item active">KoPrivateGPT.benchmark.retrieval package</li>
+                        <li class="wy-breadcrumbs-aside">
+                            <a href="_sources/KoPrivateGPT.benchmark.retrieval.rst.txt" rel="nofollow"> View page
+                                source</a>
+                        </li>
+                    </ul>
+                    <hr/>
+                </div>
+                <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+                    <div itemprop="articleBody">
+
+                        <section id="koprivategpt-benchmark-retrieval-package">
+                            <h1>KoPrivateGPT.benchmark.retrieval package<a class="headerlink"
+                                                                           href="#koprivategpt-benchmark-retrieval-package"
+                                                                           title="Link to this heading"></a></h1>
+                            <section id="submodules">
+                                <h2>Submodules<a class="headerlink" href="#submodules"
+                                                 title="Link to this heading"></a></h2>
+                            </section>
+                            <section id="module-KoPrivateGPT.benchmark.retrieval.main">
+                                <span id="koprivategpt-benchmark-retrieval-main-module"></span>
+                                <h2>KoPrivateGPT.benchmark.retrieval.main module<a class="headerlink"
+                                                                                   href="#module-KoPrivateGPT.benchmark.retrieval.main"
+                                                                                   title="Link to this heading"></a>
+                                </h2>
+                                <dl class="py function">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.benchmark.retrieval.main.basic_retrieval_evaluation">
+                                        <span class="sig-prename descclassname"><span class="pre">KoPrivateGPT.benchmark.retrieval.main.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">basic_retrieval_evaluation</span></span><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n"><span class="pre">qrels</span></span><span
+                                            class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                                            class="n"><span class="pre">Dict</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">,</span></span><span class="w"> </span><span
+                                            class="pre">Dict</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">,</span></span><span class="w"> </span><span
+                                            class="pre">int</span><span class="p"><span class="pre">]</span></span><span
+                                            class="p"><span class="pre">]</span></span></span></em>, <em
+                                            class="sig-param"><span class="n"><span
+                                            class="pre">results</span></span><span class="p"><span class="pre">:</span></span><span
+                                            class="w"> </span><span class="n"><span class="pre">Dict</span><span
+                                            class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                                            class="p"><span class="pre">,</span></span><span class="w"> </span><span
+                                            class="pre">Dict</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">,</span></span><span class="w"> </span><span
+                                            class="pre">float</span><span class="p"><span
+                                            class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">k_values</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+                                                class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span
+                                            class="sig-paren">)</span> <span class="sig-return"><span
+                                            class="sig-return-icon">&#x2192;</span> <span
+                                            class="sig-return-typehint"><span class="pre">List</span><span
+                                            class="p"><span class="pre">[</span></span><span
+                                            class="pre">dict</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">,</span></span><span class="w"> </span><span
+                                            class="pre">float</span><span class="p"><span
+                                            class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a
+                                            class="headerlink"
+                                            href="#KoPrivateGPT.benchmark.retrieval.main.basic_retrieval_evaluation"
+                                            title="Link to this definition"></a></dt>
+                                    <dd>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                                            <dd class="field-odd">
+                                                <ul class="simple">
+                                                    <li><p><strong>qrels</strong> – The qrels file as a dictionary.
+                                                        Dict[query_id, Dict[doc_id, relevance]]</p></li>
+                                                    <li><p><strong>results</strong> – The results file as a dictionary.
+                                                        Dict[query_id, Dict[doc_id, score]]</p></li>
+                                                </ul>
+                                            </dd>
+                                            <dt class="field-even">K_values<span class="colon">:</span></dt>
+                                            <dd class="field-even"><p>The k values for which the evaluation should be
+                                                done. List[int]</p>
+                                            </dd>
+                                        </dl>
+                                        <p>results doc_id can be different from the doc_id in the qrels file.</p>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py function">
+                                    <dt class="sig sig-object py" id="KoPrivateGPT.benchmark.retrieval.main.strategyQA">
+                                        <span class="sig-prename descclassname"><span class="pre">KoPrivateGPT.benchmark.retrieval.main.</span></span><span
+                                            class="sig-name descname"><span class="pre">strategyQA</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">solution</span></span><span class="p"><span class="pre">:</span></span><span
+                                            class="w"> </span><span class="n"><span class="pre">dict</span></span></em>,
+                                        <em class="sig-param"><span class="n"><span class="pre">pred</span></span><span
+                                                class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                                                class="n"><span class="pre">dict</span></span></em>, <em
+                                            class="sig-param"><span class="n"><span class="pre">metrics_factories</span></span><span
+                                            class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                                            class="n"><span class="pre">list</span></span></em>, <em
+                                            class="sig-param"><span class="n"><span class="pre">k</span></span><span
+                                            class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                                            class="n"><span class="pre">int</span></span></em><span
+                                            class="sig-paren">)</span> <span class="sig-return"><span
+                                            class="sig-return-icon">&#x2192;</span> <span
+                                            class="sig-return-typehint"><span class="pre">dict</span></span></span><a
+                                            class="headerlink" href="#KoPrivateGPT.benchmark.retrieval.main.strategyQA"
+                                            title="Link to this definition"></a></dt>
+                                    <dd>
+                                        <dl class="simple">
+                                            <dt>&#64;article{geva2021strategyqa,</dt>
+                                            <dd><p>title = {{Did Aristotle Use a Laptop? A Question Answering Benchmark
+                                                with Implicit Reasoning Strategies}},
+                                                author = {Geva, Mor and Khashabi, Daniel and Segal, Elad and Khot,
+                                                Tushar and Roth, Dan and Berant, Jonathan},
+                                                journal = {Transactions of the Association for Computational Linguistics
+                                                (TACL)},
+                                                year = {2021},</p>
+                                            </dd>
+                                        </dl>
+                                        <p>}</p>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py function">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.benchmark.retrieval.main.stretagyqa_retrieval_evaluation">
+                                        <span class="sig-prename descclassname"><span class="pre">KoPrivateGPT.benchmark.retrieval.main.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">stretagyqa_retrieval_evaluation</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">qrels</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">Dict</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">,</span></span><span class="w"> </span><span
+                                            class="pre">Dict</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">,</span></span><span class="w"> </span><span
+                                            class="pre">int</span><span class="p"><span class="pre">]</span></span><span
+                                            class="p"><span class="pre">]</span></span></span></em>, <em
+                                            class="sig-param"><span class="n"><span
+                                            class="pre">results</span></span><span class="p"><span class="pre">:</span></span><span
+                                            class="w"> </span><span class="n"><span class="pre">Dict</span><span
+                                            class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                                            class="p"><span class="pre">,</span></span><span class="w"> </span><span
+                                            class="pre">Dict</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">,</span></span><span class="w"> </span><span
+                                            class="pre">float</span><span class="p"><span
+                                            class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">k_values</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+                                                class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span
+                                            class="sig-paren">)</span> <span class="sig-return"><span
+                                            class="sig-return-icon">&#x2192;</span> <span
+                                            class="sig-return-typehint"><span class="pre">List</span><span
+                                            class="p"><span class="pre">[</span></span><span
+                                            class="pre">dict</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">,</span></span><span class="w"> </span><span
+                                            class="pre">float</span><span class="p"><span
+                                            class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a
+                                            class="headerlink"
+                                            href="#KoPrivateGPT.benchmark.retrieval.main.stretagyqa_retrieval_evaluation"
+                                            title="Link to this definition"></a></dt>
+                                    <dd>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                                            <dd class="field-odd">
+                                                <ul class="simple">
+                                                    <li><p><strong>qrels</strong> – The qrels file as a dictionary.
+                                                        note. “<a class="reference external"
+                                                                  href="https://github.com/eladsegal/strategyqa/blob/main/data/strategyqa/dev.json">https://github.com/eladsegal/strategyqa/blob/main/data/strategyqa/dev.json</a>”
+                                                    </p></li>
+                                                    <li><p><strong>results</strong> – The results file as a dictionary.
+                                                        Dict[query_id, Dict[doc_id, score]]</p></li>
+                                                </ul>
+                                            </dd>
+                                            <dt class="field-even">K_values<span class="colon">:</span></dt>
+                                            <dd class="field-even"><p>The k values for which the evaluation should be
+                                                done. List[int]</p>
+                                            </dd>
+                                        </dl>
+                                        <p>results doc_id can be different from the doc_id in the qrels file.</p>
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-KoPrivateGPT.benchmark.retrieval.metrics">
+                                <span id="koprivategpt-benchmark-retrieval-metrics-module"></span>
+                                <h2>KoPrivateGPT.benchmark.retrieval.metrics module<a class="headerlink"
+                                                                                      href="#module-KoPrivateGPT.benchmark.retrieval.metrics"
+                                                                                      title="Link to this heading"></a>
+                                </h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.benchmark.retrieval.metrics.APFactory">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.benchmark.retrieval.metrics.</span></span><span
+                                            class="sig-name descname"><span class="pre">APFactory</span></span><a
+                                            class="headerlink"
+                                            href="#KoPrivateGPT.benchmark.retrieval.metrics.APFactory"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"
+                                                     title="KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrievalMetricFactory</span></code></a>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.benchmark.retrieval.metrics.APFactory.retrieval_metric_function">
+                                                <span class="sig-name descname"><span class="pre">retrieval_metric_function</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">solution</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">Dict</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">,</span></span><span class="w"> </span><span
+                                                    class="pre">int</span><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">pred</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Dict</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">str</span><span
+                                                    class="p"><span class="pre">,</span></span><span
+                                                    class="w"> </span><span class="pre">float</span><span
+                                                    class="p"><span class="pre">]</span></span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">k_value</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">int</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">1</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">float</span></span></span><a class="headerlink"
+                                                                                             href="#KoPrivateGPT.benchmark.retrieval.metrics.APFactory.retrieval_metric_function"
+                                                                                             title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.benchmark.retrieval.metrics.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">BaseRetrievalMetricFactory</span></span><a class="headerlink"
+                                                                                                   href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"
+                                                                                                   title="Link to this definition"></a>
+                                    </dt>
+                                    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+                                            class="pre">ABC</span></code></p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory.eval">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">eval</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">solution</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">Dict</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">,</span></span><span class="w"> </span><span
+                                                    class="pre">int</span><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">pred</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Dict</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">str</span><span
+                                                    class="p"><span class="pre">,</span></span><span
+                                                    class="w"> </span><span class="pre">float</span><span
+                                                    class="p"><span class="pre">]</span></span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">k</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">int</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">float</span></span></span><a class="headerlink"
+                                                                                             href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory.eval"
+                                                                                             title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py property">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory.metric_name">
+                                                <em class="property"><span class="pre">property</span><span
+                                                        class="w"> </span></em><span class="sig-name descname"><span
+                                                    class="pre">metric_name</span></span><a class="headerlink"
+                                                                                            href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory.metric_name"
+                                                                                            title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory.retrieval_metric_function">
+                                                <em class="property"><span class="pre">abstract</span><span
+                                                        class="w"> </span></em><span class="sig-name descname"><span
+                                                    class="pre">retrieval_metric_function</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">solution</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">Dict</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">,</span></span><span class="w"> </span><span
+                                                    class="pre">int</span><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">pred</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Dict</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">str</span><span
+                                                    class="p"><span class="pre">,</span></span><span
+                                                    class="w"> </span><span class="pre">float</span><span
+                                                    class="p"><span class="pre">]</span></span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">k_value</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">int</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">1</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">float</span></span></span><a class="headerlink"
+                                                                                             href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory.retrieval_metric_function"
+                                                                                             title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.benchmark.retrieval.metrics.CGFactory">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.benchmark.retrieval.metrics.</span></span><span
+                                            class="sig-name descname"><span class="pre">CGFactory</span></span><a
+                                            class="headerlink"
+                                            href="#KoPrivateGPT.benchmark.retrieval.metrics.CGFactory"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"
+                                                     title="KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrievalMetricFactory</span></code></a>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.benchmark.retrieval.metrics.CGFactory.retrieval_metric_function">
+                                                <span class="sig-name descname"><span class="pre">retrieval_metric_function</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">solution</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">Dict</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">,</span></span><span class="w"> </span><span
+                                                    class="pre">int</span><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">pred</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Dict</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">str</span><span
+                                                    class="p"><span class="pre">,</span></span><span
+                                                    class="w"> </span><span class="pre">float</span><span
+                                                    class="p"><span class="pre">]</span></span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">k_value</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">int</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">1</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">float</span></span></span><a class="headerlink"
+                                                                                             href="#KoPrivateGPT.benchmark.retrieval.metrics.CGFactory.retrieval_metric_function"
+                                                                                             title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.benchmark.retrieval.metrics.DCGFactory">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.benchmark.retrieval.metrics.</span></span><span
+                                            class="sig-name descname"><span class="pre">DCGFactory</span></span><a
+                                            class="headerlink"
+                                            href="#KoPrivateGPT.benchmark.retrieval.metrics.DCGFactory"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"
+                                                     title="KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrievalMetricFactory</span></code></a>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.benchmark.retrieval.metrics.DCGFactory.retrieval_metric_function">
+                                                <span class="sig-name descname"><span class="pre">retrieval_metric_function</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">solution</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">Dict</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">,</span></span><span class="w"> </span><span
+                                                    class="pre">int</span><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">pred</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Dict</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">str</span><span
+                                                    class="p"><span class="pre">,</span></span><span
+                                                    class="w"> </span><span class="pre">float</span><span
+                                                    class="p"><span class="pre">]</span></span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">k_value</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">int</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">1</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">float</span></span></span><a class="headerlink"
+                                                                                             href="#KoPrivateGPT.benchmark.retrieval.metrics.DCGFactory.retrieval_metric_function"
+                                                                                             title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.benchmark.retrieval.metrics.ExactlyMatchFactory">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.benchmark.retrieval.metrics.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">ExactlyMatchFactory</span></span><a class="headerlink"
+                                                                                            href="#KoPrivateGPT.benchmark.retrieval.metrics.ExactlyMatchFactory"
+                                                                                            title="Link to this definition"></a>
+                                    </dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"
+                                                     title="KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrievalMetricFactory</span></code></a>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.benchmark.retrieval.metrics.ExactlyMatchFactory.retrieval_metric_function">
+                                                <span class="sig-name descname"><span class="pre">retrieval_metric_function</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">solution</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">Dict</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">,</span></span><span class="w"> </span><span
+                                                    class="pre">int</span><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">pred</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Dict</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">str</span><span
+                                                    class="p"><span class="pre">,</span></span><span
+                                                    class="w"> </span><span class="pre">float</span><span
+                                                    class="p"><span class="pre">]</span></span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">k_value</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">int</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">1</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">float</span></span></span><a class="headerlink"
+                                                                                             href="#KoPrivateGPT.benchmark.retrieval.metrics.ExactlyMatchFactory.retrieval_metric_function"
+                                                                                             title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.benchmark.retrieval.metrics.F1Factory">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.benchmark.retrieval.metrics.</span></span><span
+                                            class="sig-name descname"><span class="pre">F1Factory</span></span><a
+                                            class="headerlink"
+                                            href="#KoPrivateGPT.benchmark.retrieval.metrics.F1Factory"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"
+                                                     title="KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrievalMetricFactory</span></code></a>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.benchmark.retrieval.metrics.F1Factory.retrieval_metric_function">
+                                                <span class="sig-name descname"><span class="pre">retrieval_metric_function</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">solution</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">Dict</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">,</span></span><span class="w"> </span><span
+                                                    class="pre">int</span><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">pred</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Dict</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">str</span><span
+                                                    class="p"><span class="pre">,</span></span><span
+                                                    class="w"> </span><span class="pre">float</span><span
+                                                    class="p"><span class="pre">]</span></span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">k_value</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">int</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">1</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">float</span></span></span><a class="headerlink"
+                                                                                             href="#KoPrivateGPT.benchmark.retrieval.metrics.F1Factory.retrieval_metric_function"
+                                                                                             title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.benchmark.retrieval.metrics.HoleFactory">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.benchmark.retrieval.metrics.</span></span><span
+                                            class="sig-name descname"><span class="pre">HoleFactory</span></span><a
+                                            class="headerlink"
+                                            href="#KoPrivateGPT.benchmark.retrieval.metrics.HoleFactory"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"
+                                                     title="KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrievalMetricFactory</span></code></a>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.benchmark.retrieval.metrics.HoleFactory.retrieval_metric_function">
+                                                <span class="sig-name descname"><span class="pre">retrieval_metric_function</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">solution</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">Dict</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">,</span></span><span class="w"> </span><span
+                                                    class="pre">int</span><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">pred</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Dict</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">str</span><span
+                                                    class="p"><span class="pre">,</span></span><span
+                                                    class="w"> </span><span class="pre">float</span><span
+                                                    class="p"><span class="pre">]</span></span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">k_value</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">int</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">1</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">float</span></span></span><a class="headerlink"
+                                                                                             href="#KoPrivateGPT.benchmark.retrieval.metrics.HoleFactory.retrieval_metric_function"
+                                                                                             title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.benchmark.retrieval.metrics.IDCGFactory">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.benchmark.retrieval.metrics.</span></span><span
+                                            class="sig-name descname"><span class="pre">IDCGFactory</span></span><a
+                                            class="headerlink"
+                                            href="#KoPrivateGPT.benchmark.retrieval.metrics.IDCGFactory"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"
+                                                     title="KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrievalMetricFactory</span></code></a>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.benchmark.retrieval.metrics.IDCGFactory.retrieval_metric_function">
+                                                <span class="sig-name descname"><span class="pre">retrieval_metric_function</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">solution</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">Dict</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">,</span></span><span class="w"> </span><span
+                                                    class="pre">int</span><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">pred</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Dict</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">str</span><span
+                                                    class="p"><span class="pre">,</span></span><span
+                                                    class="w"> </span><span class="pre">float</span><span
+                                                    class="p"><span class="pre">]</span></span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">k_value</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">int</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">1</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">float</span></span></span><a class="headerlink"
+                                                                                             href="#KoPrivateGPT.benchmark.retrieval.metrics.IDCGFactory.retrieval_metric_function"
+                                                                                             title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.benchmark.retrieval.metrics.IndDCGFactory">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.benchmark.retrieval.metrics.</span></span><span
+                                            class="sig-name descname"><span class="pre">IndDCGFactory</span></span><a
+                                            class="headerlink"
+                                            href="#KoPrivateGPT.benchmark.retrieval.metrics.IndDCGFactory"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"
+                                                     title="KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrievalMetricFactory</span></code></a>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.benchmark.retrieval.metrics.IndDCGFactory.retrieval_metric_function">
+                                                <span class="sig-name descname"><span class="pre">retrieval_metric_function</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">solution</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">Dict</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">,</span></span><span class="w"> </span><span
+                                                    class="pre">int</span><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">pred</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Dict</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">str</span><span
+                                                    class="p"><span class="pre">,</span></span><span
+                                                    class="w"> </span><span class="pre">float</span><span
+                                                    class="p"><span class="pre">]</span></span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">k_value</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">int</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">1</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">float</span></span></span><a class="headerlink"
+                                                                                             href="#KoPrivateGPT.benchmark.retrieval.metrics.IndDCGFactory.retrieval_metric_function"
+                                                                                             title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.benchmark.retrieval.metrics.IndIDCGFactory">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.benchmark.retrieval.metrics.</span></span><span
+                                            class="sig-name descname"><span class="pre">IndIDCGFactory</span></span><a
+                                            class="headerlink"
+                                            href="#KoPrivateGPT.benchmark.retrieval.metrics.IndIDCGFactory"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"
+                                                     title="KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrievalMetricFactory</span></code></a>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.benchmark.retrieval.metrics.IndIDCGFactory.retrieval_metric_function">
+                                                <span class="sig-name descname"><span class="pre">retrieval_metric_function</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">solution</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">Dict</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">,</span></span><span class="w"> </span><span
+                                                    class="pre">int</span><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">pred</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Dict</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">str</span><span
+                                                    class="p"><span class="pre">,</span></span><span
+                                                    class="w"> </span><span class="pre">float</span><span
+                                                    class="p"><span class="pre">]</span></span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">k_value</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">int</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">1</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">float</span></span></span><a class="headerlink"
+                                                                                             href="#KoPrivateGPT.benchmark.retrieval.metrics.IndIDCGFactory.retrieval_metric_function"
+                                                                                             title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.benchmark.retrieval.metrics.NDCGFactory">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.benchmark.retrieval.metrics.</span></span><span
+                                            class="sig-name descname"><span class="pre">NDCGFactory</span></span><a
+                                            class="headerlink"
+                                            href="#KoPrivateGPT.benchmark.retrieval.metrics.NDCGFactory"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"
+                                                     title="KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrievalMetricFactory</span></code></a>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.benchmark.retrieval.metrics.NDCGFactory.retrieval_metric_function">
+                                                <span class="sig-name descname"><span class="pre">retrieval_metric_function</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">solution</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">Dict</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">,</span></span><span class="w"> </span><span
+                                                    class="pre">int</span><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">pred</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Dict</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">str</span><span
+                                                    class="p"><span class="pre">,</span></span><span
+                                                    class="w"> </span><span class="pre">float</span><span
+                                                    class="p"><span class="pre">]</span></span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">k_value</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">int</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">1</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">float</span></span></span><a class="headerlink"
+                                                                                             href="#KoPrivateGPT.benchmark.retrieval.metrics.NDCGFactory.retrieval_metric_function"
+                                                                                             title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.benchmark.retrieval.metrics.PrecisionFactory">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.benchmark.retrieval.metrics.</span></span><span
+                                            class="sig-name descname"><span class="pre">PrecisionFactory</span></span><a
+                                            class="headerlink"
+                                            href="#KoPrivateGPT.benchmark.retrieval.metrics.PrecisionFactory"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"
+                                                     title="KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrievalMetricFactory</span></code></a>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.benchmark.retrieval.metrics.PrecisionFactory.retrieval_metric_function">
+                                                <span class="sig-name descname"><span class="pre">retrieval_metric_function</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">solution</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">Dict</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">,</span></span><span class="w"> </span><span
+                                                    class="pre">int</span><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">pred</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Dict</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">str</span><span
+                                                    class="p"><span class="pre">,</span></span><span
+                                                    class="w"> </span><span class="pre">float</span><span
+                                                    class="p"><span class="pre">]</span></span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">k_value</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">int</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">1</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">float</span></span></span><a class="headerlink"
+                                                                                             href="#KoPrivateGPT.benchmark.retrieval.metrics.PrecisionFactory.retrieval_metric_function"
+                                                                                             title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.benchmark.retrieval.metrics.RRFactory">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.benchmark.retrieval.metrics.</span></span><span
+                                            class="sig-name descname"><span class="pre">RRFactory</span></span><a
+                                            class="headerlink"
+                                            href="#KoPrivateGPT.benchmark.retrieval.metrics.RRFactory"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"
+                                                     title="KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrievalMetricFactory</span></code></a>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.benchmark.retrieval.metrics.RRFactory.retrieval_metric_function">
+                                                <span class="sig-name descname"><span class="pre">retrieval_metric_function</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">solution</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">Dict</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">,</span></span><span class="w"> </span><span
+                                                    class="pre">int</span><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">pred</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Dict</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">str</span><span
+                                                    class="p"><span class="pre">,</span></span><span
+                                                    class="w"> </span><span class="pre">float</span><span
+                                                    class="p"><span class="pre">]</span></span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">k_value</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">int</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">1</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">float</span></span></span><a class="headerlink"
+                                                                                             href="#KoPrivateGPT.benchmark.retrieval.metrics.RRFactory.retrieval_metric_function"
+                                                                                             title="Link to this definition"></a>
+                                            </dt>
+                                            <dd><p>Reciprocal Rank (RR) is the reciprocal of the rank of the first
+                                                relevant item.
+                                                Mean of RR in whole querys is MRR.</p>
+                                            </dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.benchmark.retrieval.metrics.RecallFactory">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.benchmark.retrieval.metrics.</span></span><span
+                                            class="sig-name descname"><span class="pre">RecallFactory</span></span><a
+                                            class="headerlink"
+                                            href="#KoPrivateGPT.benchmark.retrieval.metrics.RecallFactory"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"
+                                                     title="KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrievalMetricFactory</span></code></a>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.benchmark.retrieval.metrics.RecallFactory.retrieval_metric_function">
+                                                <span class="sig-name descname"><span class="pre">retrieval_metric_function</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">solution</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">Dict</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">,</span></span><span class="w"> </span><span
+                                                    class="pre">int</span><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">pred</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Dict</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">str</span><span
+                                                    class="p"><span class="pre">,</span></span><span
+                                                    class="w"> </span><span class="pre">float</span><span
+                                                    class="p"><span class="pre">]</span></span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">k_value</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">int</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">1</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">float</span></span></span><a class="headerlink"
+                                                                                             href="#KoPrivateGPT.benchmark.retrieval.metrics.RecallFactory.retrieval_metric_function"
+                                                                                             title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.benchmark.retrieval.metrics.TopKAccuracyFactory">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.benchmark.retrieval.metrics.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">TopKAccuracyFactory</span></span><a class="headerlink"
+                                                                                            href="#KoPrivateGPT.benchmark.retrieval.metrics.TopKAccuracyFactory"
+                                                                                            title="Link to this definition"></a>
+                                    </dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"
+                                                     title="KoPrivateGPT.benchmark.retrieval.metrics.BaseRetrievalMetricFactory"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrievalMetricFactory</span></code></a>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.benchmark.retrieval.metrics.TopKAccuracyFactory.retrieval_metric_function">
+                                                <span class="sig-name descname"><span class="pre">retrieval_metric_function</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">solution</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">Dict</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">,</span></span><span class="w"> </span><span
+                                                    class="pre">int</span><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">pred</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Dict</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">str</span><span
+                                                    class="p"><span class="pre">,</span></span><span
+                                                    class="w"> </span><span class="pre">float</span><span
+                                                    class="p"><span class="pre">]</span></span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">k_value</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">int</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">1</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">float</span></span></span><a class="headerlink"
+                                                                                             href="#KoPrivateGPT.benchmark.retrieval.metrics.TopKAccuracyFactory.retrieval_metric_function"
+                                                                                             title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-KoPrivateGPT.benchmark.retrieval">
+                                <span id="module-contents"></span>
+                                <h2>Module contents<a class="headerlink" href="#module-KoPrivateGPT.benchmark.retrieval"
+                                                      title="Link to this heading"></a></h2>
+                            </section>
+                        </section>
+
+
+                    </div>
+                </div>
+                <footer>
+
+                    <hr/>
+
+                    <div role="contentinfo">
+                        <p>&#169; Copyright 2023, NomaDamas.</p>
+                    </div>
+
+                    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+                    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+                    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+                </footer>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    jQuery(function () {
+        SphinxRtdTheme.Navigation.enable(true);
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>KoPrivateGPT.utils package &mdash; KoPrivateGPT documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css"/>
+    <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <script src="_static/jquery.js?v=5d32c60e"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html"/>
+    <link rel="search" title="Search" href="search.html"/>
+</head>
+
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+        <div class="wy-side-scroll">
+            <div class="wy-side-nav-search">
+
+
+                <a href="index.html" class="icon icon-home">
+                    KoPrivateGPT
+                </a>
+                <div role="search">
+                    <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+                        <input type="text" name="q" placeholder="Search docs" aria-label="Search docs"/>
+                        <input type="hidden" name="check_keywords" value="yes"/>
+                        <input type="hidden" name="area" value="default"/>
+                    </form>
+                </div>
+            </div>
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+                <!-- Local TOC -->
+                <div class="local-toc">
+                    <ul>
+                        <li><a class="reference internal" href="#">KoPrivateGPT.utils package</a>
+                            <ul>
+                                <li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+                                <li><a class="reference internal" href="#submodules">Submodules</a></li>
+                                <li><a class="reference internal" href="#module-KoPrivateGPT.utils.evidence_extractor">KoPrivateGPT.utils.evidence_extractor
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.utils.evidence_extractor.EvidenceExtractor"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">EvidenceExtractor</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.utils.evidence_extractor.EvidenceExtractor.extract"><code
+                                                        class="docutils literal notranslate"><span class="pre">EvidenceExtractor.extract()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="reference internal" href="#module-KoPrivateGPT.utils.file_cache">KoPrivateGPT.utils.file_cache
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.utils.file_cache.FileCache"><code
+                                                class="docutils literal notranslate"><span class="pre">FileCache</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.utils.file_cache.FileCache.delete_duplicate"><code
+                                                        class="docutils literal notranslate"><span class="pre">FileCache.delete_duplicate()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="reference internal" href="#module-KoPrivateGPT.utils.query_decompose">KoPrivateGPT.utils.query_decompose
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.utils.query_decompose.QueryDecomposition"><code
+                                                class="docutils literal notranslate"><span class="pre">QueryDecomposition</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.utils.query_decompose.QueryDecomposition.decompose"><code
+                                                        class="docutils literal notranslate"><span class="pre">QueryDecomposition.decompose()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.utils.query_decompose.QueryDecomposition.decompose_prompt"><code
+                                                        class="docutils literal notranslate"><span class="pre">QueryDecomposition.decompose_prompt</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.utils.query_decompose.QueryDecomposition.generate"><code
+                                                        class="docutils literal notranslate"><span class="pre">QueryDecomposition.generate()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="reference internal" href="#module-KoPrivateGPT.utils.util">KoPrivateGPT.utils.util
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.utils.util.FileChecker"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">FileChecker</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.utils.util.FileChecker.check_type"><code
+                                                        class="docutils literal notranslate"><span class="pre">FileChecker.check_type()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#KoPrivateGPT.utils.util.FileChecker.is_exist"><code
+                                                        class="docutils literal notranslate"><span class="pre">FileChecker.is_exist()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.utils.util.StoppingCriteriaSub"><code
+                                                class="docutils literal notranslate"><span class="pre">StoppingCriteriaSub</span></code></a>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.utils.util.set_api_base"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">set_api_base()</span></code></a></li>
+                                        <li><a class="reference internal"
+                                               href="#KoPrivateGPT.utils.util.slice_stop_words"><code
+                                                class="docutils literal notranslate"><span class="pre">slice_stop_words()</span></code></a>
+                                        </li>
+                                        <li><a class="reference internal" href="#KoPrivateGPT.utils.util.text_modifier"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">text_modifier()</span></code></a></li>
+                                    </ul>
+                                </li>
+                                <li><a class="reference internal" href="#module-KoPrivateGPT.utils">Module contents</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+        <nav class="wy-nav-top" aria-label="Mobile navigation menu">
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="index.html">KoPrivateGPT</a>
+        </nav>
+
+        <div class="wy-nav-content">
+            <div class="rst-content">
+                <div role="navigation" aria-label="Page navigation">
+                    <ul class="wy-breadcrumbs">
+                        <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+                        <li class="breadcrumb-item active">KoPrivateGPT.utils package</li>
+                        <li class="wy-breadcrumbs-aside">
+                            <a href="_sources/KoPrivateGPT.utils.rst.txt" rel="nofollow"> View page source</a>
+                        </li>
+                    </ul>
+                    <hr/>
+                </div>
+                <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+                    <div itemprop="articleBody">
+
+                        <section id="koprivategpt-utils-package">
+                            <h1>KoPrivateGPT.utils package<a class="headerlink" href="#koprivategpt-utils-package"
+                                                             title="Link to this heading"></a></h1>
+                            <section id="subpackages">
+                                <h2>Subpackages<a class="headerlink" href="#subpackages"
+                                                  title="Link to this heading"></a></h2>
+                                <div class="toctree-wrapper compound">
+                                    <ul>
+                                        <li class="toctree-l1"><a class="reference internal"
+                                                                  href="KoPrivateGPT.utils.embed.html">KoPrivateGPT.utils.embed
+                                            package</a>
+                                            <ul>
+                                                <li class="toctree-l2"><a class="reference internal"
+                                                                          href="KoPrivateGPT.utils.embed.html#submodules">Submodules</a>
+                                                </li>
+                                                <li class="toctree-l2"><a class="reference internal"
+                                                                          href="KoPrivateGPT.utils.embed.html#module-KoPrivateGPT.utils.embed.delete_embeddings">KoPrivateGPT.utils.embed.delete_embeddings
+                                                    module</a>
+                                                    <ul>
+                                                        <li class="toctree-l3"><a class="reference internal"
+                                                                                  href="KoPrivateGPT.utils.embed.html#KoPrivateGPT.utils.embed.delete_embeddings.delete_embeddings_vectordb"><code
+                                                                class="docutils literal notranslate"><span class="pre">delete_embeddings_vectordb()</span></code></a>
+                                                        </li>
+                                                        <li class="toctree-l3"><a class="reference internal"
+                                                                                  href="KoPrivateGPT.utils.embed.html#KoPrivateGPT.utils.embed.delete_embeddings.delete_sparse_retrieval_index"><code
+                                                                class="docutils literal notranslate"><span class="pre">delete_sparse_retrieval_index()</span></code></a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="toctree-l2"><a class="reference internal"
+                                                                          href="KoPrivateGPT.utils.embed.html#module-KoPrivateGPT.utils.embed.embeddingfactory">KoPrivateGPT.utils.embed.embeddingfactory
+                                                    module</a>
+                                                    <ul>
+                                                        <li class="toctree-l3"><a class="reference internal"
+                                                                                  href="KoPrivateGPT.utils.embed.html#KoPrivateGPT.utils.embed.embeddingfactory.EmbeddingFactory"><code
+                                                                class="docutils literal notranslate"><span class="pre">EmbeddingFactory</span></code></a>
+                                                            <ul>
+                                                                <li class="toctree-l4"><a class="reference internal"
+                                                                                          href="KoPrivateGPT.utils.embed.html#KoPrivateGPT.utils.embed.embeddingfactory.EmbeddingFactory.get"><code
+                                                                        class="docutils literal notranslate"><span
+                                                                        class="pre">EmbeddingFactory.get()</span></code></a>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="toctree-l3"><a class="reference internal"
+                                                                                  href="KoPrivateGPT.utils.embed.html#KoPrivateGPT.utils.embed.embeddingfactory.EmbeddingType"><code
+                                                                class="docutils literal notranslate"><span class="pre">EmbeddingType</span></code></a>
+                                                            <ul>
+                                                                <li class="toctree-l4"><a class="reference internal"
+                                                                                          href="KoPrivateGPT.utils.embed.html#KoPrivateGPT.utils.embed.embeddingfactory.EmbeddingType.CONTRIEVER"><code
+                                                                        class="docutils literal notranslate"><span
+                                                                        class="pre">EmbeddingType.CONTRIEVER</span></code></a>
+                                                                </li>
+                                                                <li class="toctree-l4"><a class="reference internal"
+                                                                                          href="KoPrivateGPT.utils.embed.html#KoPrivateGPT.utils.embed.embeddingfactory.EmbeddingType.KOSIMCSE"><code
+                                                                        class="docutils literal notranslate"><span
+                                                                        class="pre">EmbeddingType.KOSIMCSE</span></code></a>
+                                                                </li>
+                                                                <li class="toctree-l4"><a class="reference internal"
+                                                                                          href="KoPrivateGPT.utils.embed.html#KoPrivateGPT.utils.embed.embeddingfactory.EmbeddingType.KO_SROBERTA_MULTITASK"><code
+                                                                        class="docutils literal notranslate"><span
+                                                                        class="pre">EmbeddingType.KO_SROBERTA_MULTITASK</span></code></a>
+                                                                </li>
+                                                                <li class="toctree-l4"><a class="reference internal"
+                                                                                          href="KoPrivateGPT.utils.embed.html#KoPrivateGPT.utils.embed.embeddingfactory.EmbeddingType.MULTILINGUAL_E5"><code
+                                                                        class="docutils literal notranslate"><span
+                                                                        class="pre">EmbeddingType.MULTILINGUAL_E5</span></code></a>
+                                                                </li>
+                                                                <li class="toctree-l4"><a class="reference internal"
+                                                                                          href="KoPrivateGPT.utils.embed.html#KoPrivateGPT.utils.embed.embeddingfactory.EmbeddingType.OPENAI"><code
+                                                                        class="docutils literal notranslate"><span
+                                                                        class="pre">EmbeddingType.OPENAI</span></code></a>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="toctree-l2"><a class="reference internal"
+                                                                          href="KoPrivateGPT.utils.embed.html#module-KoPrivateGPT.utils.embed">Module
+                                                    contents</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="toctree-l1"><a class="reference internal"
+                                                                  href="KoPrivateGPT.utils.linker.html">KoPrivateGPT.utils.linker
+                                            package</a>
+                                            <ul>
+                                                <li class="toctree-l2"><a class="reference internal"
+                                                                          href="KoPrivateGPT.utils.linker.html#submodules">Submodules</a>
+                                                </li>
+                                                <li class="toctree-l2"><a class="reference internal"
+                                                                          href="KoPrivateGPT.utils.linker.html#module-KoPrivateGPT.utils.linker.redisdbSingleton">KoPrivateGPT.utils.linker.redisdbSingleton
+                                                    module</a>
+                                                    <ul>
+                                                        <li class="toctree-l3"><a class="reference internal"
+                                                                                  href="KoPrivateGPT.utils.linker.html#KoPrivateGPT.utils.linker.redisdbSingleton.RedisDBSingleton"><code
+                                                                class="docutils literal notranslate"><span class="pre">RedisDBSingleton</span></code></a>
+                                                            <ul>
+                                                                <li class="toctree-l4"><a class="reference internal"
+                                                                                          href="KoPrivateGPT.utils.linker.html#KoPrivateGPT.utils.linker.redisdbSingleton.RedisDBSingleton.connection_check"><code
+                                                                        class="docutils literal notranslate"><span
+                                                                        class="pre">RedisDBSingleton.connection_check()</span></code></a>
+                                                                </li>
+                                                                <li class="toctree-l4"><a class="reference internal"
+                                                                                          href="KoPrivateGPT.utils.linker.html#KoPrivateGPT.utils.linker.redisdbSingleton.RedisDBSingleton.flush_db"><code
+                                                                        class="docutils literal notranslate"><span
+                                                                        class="pre">RedisDBSingleton.flush_db()</span></code></a>
+                                                                </li>
+                                                                <li class="toctree-l4"><a class="reference internal"
+                                                                                          href="KoPrivateGPT.utils.linker.html#KoPrivateGPT.utils.linker.redisdbSingleton.RedisDBSingleton.get_json"><code
+                                                                        class="docutils literal notranslate"><span
+                                                                        class="pre">RedisDBSingleton.get_json()</span></code></a>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="toctree-l2"><a class="reference internal"
+                                                                          href="KoPrivateGPT.utils.linker.html#module-KoPrivateGPT.utils.linker">Module
+                                                    contents</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="toctree-l1"><a class="reference internal"
+                                                                  href="KoPrivateGPT.utils.vectorstore.html">KoPrivateGPT.utils.vectorstore
+                                            package</a>
+                                            <ul>
+                                                <li class="toctree-l2"><a class="reference internal"
+                                                                          href="KoPrivateGPT.utils.vectorstore.html#submodules">Submodules</a>
+                                                </li>
+                                                <li class="toctree-l2"><a class="reference internal"
+                                                                          href="KoPrivateGPT.utils.vectorstore.html#module-KoPrivateGPT.utils.vectorstore.base">KoPrivateGPT.utils.vectorstore.base
+                                                    module</a>
+                                                    <ul>
+                                                        <li class="toctree-l3"><a class="reference internal"
+                                                                                  href="KoPrivateGPT.utils.vectorstore.html#KoPrivateGPT.utils.vectorstore.base.SlimVectorStore"><code
+                                                                class="docutils literal notranslate"><span class="pre">SlimVectorStore</span></code></a>
+                                                            <ul>
+                                                                <li class="toctree-l4"><a class="reference internal"
+                                                                                          href="KoPrivateGPT.utils.vectorstore.html#KoPrivateGPT.utils.vectorstore.base.SlimVectorStore.add_passage"><code
+                                                                        class="docutils literal notranslate"><span
+                                                                        class="pre">SlimVectorStore.add_passage()</span></code></a>
+                                                                </li>
+                                                                <li class="toctree-l4"><a class="reference internal"
+                                                                                          href="KoPrivateGPT.utils.vectorstore.html#KoPrivateGPT.utils.vectorstore.base.SlimVectorStore.add_passages"><code
+                                                                        class="docutils literal notranslate"><span
+                                                                        class="pre">SlimVectorStore.add_passages()</span></code></a>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="toctree-l2"><a class="reference internal"
+                                                                          href="KoPrivateGPT.utils.vectorstore.html#module-KoPrivateGPT.utils.vectorstore.chroma">KoPrivateGPT.utils.vectorstore.chroma
+                                                    module</a>
+                                                    <ul>
+                                                        <li class="toctree-l3"><a class="reference internal"
+                                                                                  href="KoPrivateGPT.utils.vectorstore.html#KoPrivateGPT.utils.vectorstore.chroma.ChromaSlim"><code
+                                                                class="docutils literal notranslate"><span class="pre">ChromaSlim</span></code></a>
+                                                            <ul>
+                                                                <li class="toctree-l4"><a class="reference internal"
+                                                                                          href="KoPrivateGPT.utils.vectorstore.html#KoPrivateGPT.utils.vectorstore.chroma.ChromaSlim.add_passages"><code
+                                                                        class="docutils literal notranslate"><span
+                                                                        class="pre">ChromaSlim.add_passages()</span></code></a>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="toctree-l2"><a class="reference internal"
+                                                                          href="KoPrivateGPT.utils.vectorstore.html#module-KoPrivateGPT.utils.vectorstore.pinecone">KoPrivateGPT.utils.vectorstore.pinecone
+                                                    module</a>
+                                                    <ul>
+                                                        <li class="toctree-l3"><a class="reference internal"
+                                                                                  href="KoPrivateGPT.utils.vectorstore.html#KoPrivateGPT.utils.vectorstore.pinecone.PineconeSlim"><code
+                                                                class="docutils literal notranslate"><span class="pre">PineconeSlim</span></code></a>
+                                                            <ul>
+                                                                <li class="toctree-l4"><a class="reference internal"
+                                                                                          href="KoPrivateGPT.utils.vectorstore.html#KoPrivateGPT.utils.vectorstore.pinecone.PineconeSlim.add_passages"><code
+                                                                        class="docutils literal notranslate"><span
+                                                                        class="pre">PineconeSlim.add_passages()</span></code></a>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="toctree-l2"><a class="reference internal"
+                                                                          href="KoPrivateGPT.utils.vectorstore.html#module-KoPrivateGPT.utils.vectorstore">Module
+                                                    contents</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </section>
+                            <section id="submodules">
+                                <h2>Submodules<a class="headerlink" href="#submodules"
+                                                 title="Link to this heading"></a></h2>
+                            </section>
+                            <section id="module-KoPrivateGPT.utils.evidence_extractor">
+                                <span id="koprivategpt-utils-evidence-extractor-module"></span>
+                                <h2>KoPrivateGPT.utils.evidence_extractor module<a class="headerlink"
+                                                                                   href="#module-KoPrivateGPT.utils.evidence_extractor"
+                                                                                   title="Link to this heading"></a>
+                                </h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.utils.evidence_extractor.EvidenceExtractor">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.utils.evidence_extractor.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">EvidenceExtractor</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">system_prompt</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">str</span><span class="w"> </span><span class="p"><span
+                                            class="pre">|</span></span><span class="w"> </span><span
+                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">None</span></span></em>, <em
+                                            class="sig-param"><span class="n"><span class="pre">model_name</span></span><span
+                                            class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                                            class="n"><span class="pre">str</span></span><span class="w"> </span><span
+                                            class="o"><span class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">'gpt-3.5-turbo'</span></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">api_base</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">str</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink"
+                                            href="#KoPrivateGPT.utils.evidence_extractor.EvidenceExtractor"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+                                            class="pre">object</span></code></p>
+                                        <p>EvidenceExtractor is a class that extracts relevant document fragments based
+                                            on a given question and a list of passages.</p>
+                                        <p>Methods:
+                                            - __init__(self, system_prompt: str = None, model_name: str =
+                                            “gpt-3.5-turbo”, api_base: str = None):</p>
+                                        <blockquote>
+                                            <div><p>Initializes the EvidenceExtractor instance with the given
+                                                system_prompt, model_name, and api_base.</p>
+                                            </div>
+                                        </blockquote>
+                                        <ul class="simple">
+                                            <li><p>extract(self, question: str, passages: List[Passage], model_kwargs:
+                                                dict = {}) -&gt; str:
+                                                Extracts relevant document fragments based on the given question and
+                                                list of passages.</p></li>
+                                        </ul>
+                                        <p>Example usage:</p>
+                                        <dl class="simple">
+                                            <dt>passages = [</dt>
+                                            <dd><p>Passage(content=”Lorem ipsum dolor sit amet”),
+                                                Passage(content=”Consectetur adipiscing elit”),
+                                                Passage(content=”Sed do eiusmod tempor incididunt ut labore et dolore
+                                                magna aliqua”)</p>
+                                            </dd>
+                                        </dl>
+                                        <p>]</p>
+                                        <p>question = “What is Lorem ipsum?”
+                                            extractor = EvidenceExtractor()
+                                            result = extractor.extract(question, passages)</p>
+                                        <p>print(result)</p>
+                                        <p>Output:
+                                            “This is the relevant document fragment that answers the question.”</p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.utils.evidence_extractor.EvidenceExtractor.extract">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">extract</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">question</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span
+                                                    class="pre">str</span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">passages</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><a
+                                                    class="reference internal"
+                                                    href="KoPrivateGPT.schema.html#KoPrivateGPT.schema.passage.Passage"
+                                                    title="KoPrivateGPT.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                                                    class="p"><span class="pre">]</span></span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">model_kwargs</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">dict</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">{}</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">str</span></span></span><a class="headerlink"
+                                                                                           href="#KoPrivateGPT.utils.evidence_extractor.EvidenceExtractor.extract"
+                                                                                           title="Link to this definition"></a>
+                                            </dt>
+                                            <dd><p>Extract method extracts relevant document fragments based on a
+                                                question and a list of passages.</p>
+                                                <p>Parameters:
+                                                    - question (str): The question for which relevant document fragments
+                                                    need to be extracted.
+                                                    - passages (List[Passage]): A list of Passage objects that contain
+                                                    the content of the documents.
+                                                    - model_kwargs (dict): Optional keyword arguments to be passed to
+                                                    the model for customization.</p>
+                                                <p>Returns:
+                                                    - str: The extracted relevant document fragments.</p>
+                                            </dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-KoPrivateGPT.utils.file_cache">
+                                <span id="koprivategpt-utils-file-cache-module"></span>
+                                <h2>KoPrivateGPT.utils.file_cache module<a class="headerlink"
+                                                                           href="#module-KoPrivateGPT.utils.file_cache"
+                                                                           title="Link to this heading"></a></h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py" id="KoPrivateGPT.utils.file_cache.FileCache">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.utils.file_cache.</span></span><span
+                                            class="sig-name descname"><span class="pre">FileCache</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">db</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                                            class="reference internal"
+                                            href="KoPrivateGPT.DB.html#KoPrivateGPT.DB.base.BaseDB"
+                                            title="KoPrivateGPT.DB.base.BaseDB"><span
+                                            class="pre">BaseDB</span></a></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink" href="#KoPrivateGPT.utils.file_cache.FileCache"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+                                            class="pre">object</span></code></p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.utils.file_cache.FileCache.delete_duplicate">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">delete_duplicate</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">documents</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><span class="pre">Document</span><span
+                                                    class="p"><span class="pre">]</span></span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><span class="pre">Document</span><span
+                                                    class="p"><span class="pre">]</span></span></span></span><a
+                                                    class="headerlink"
+                                                    href="#KoPrivateGPT.utils.file_cache.FileCache.delete_duplicate"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-KoPrivateGPT.utils.query_decompose">
+                                <span id="koprivategpt-utils-query-decompose-module"></span>
+                                <h2>KoPrivateGPT.utils.query_decompose module<a class="headerlink"
+                                                                                href="#module-KoPrivateGPT.utils.query_decompose"
+                                                                                title="Link to this heading"></a></h2>
+                                <p>This code is inspired by Visconde paper and its github repo.
+                                    &#64;inproceedings{10.1007/978-3-031-28238-6_44,
+                                    author = {Pereira, Jayr and Fidalgo, Robson and Lotufo, Roberto and Nogueira,
+                                    Rodrigo},
+                                    title = {Visconde: Multi-Document QA With&amp;nbsp;GPT-3 And&amp;nbsp;Neural
+                                    Reranking},
+                                    year = {2023},
+                                    isbn = {978-3-031-28237-9},
+                                    publisher = {Springer-Verlag},
+                                    address = {Berlin, Heidelberg},
+                                    url = {<a class="reference external"
+                                              href="https://doi.org/10.1007/978-3-031-28238-6_44">https://doi.org/10.1007/978-3-031-28238-6_44</a>},
+                                    doi = {10.1007/978-3-031-28238-6_44},
+                                    booktitle = {Advances in Information Retrieval: 45th European Conference on
+                                    Information Retrieval, ECIR 2023, Dublin, Ireland, April 2–6, 2023, Proceedings,
+                                    Part II},
+                                    pages = {534–543},
+                                    numpages = {10},
+                                    location = {Dublin, Ireland}
+                                    }</p>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="KoPrivateGPT.utils.query_decompose.QueryDecomposition">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.utils.query_decompose.</span></span><span
+                                            class="sig-name descname"><span class="pre">QueryDecomposition</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">model_name</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">str</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span
+                                            class="pre">'text-davinci-003'</span></span></em>, <em
+                                            class="sig-param"><span class="n"><span
+                                            class="pre">api_base</span></span><span class="p"><span class="pre">:</span></span><span
+                                            class="w"> </span><span class="n"><span class="pre">str</span><span
+                                            class="w"> </span><span class="p"><span class="pre">|</span></span><span
+                                            class="w"> </span><span class="pre">None</span></span><span
+                                            class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                            class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#KoPrivateGPT.utils.query_decompose.QueryDecomposition"
+                                                                         title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+                                            class="pre">object</span></code></p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.utils.query_decompose.QueryDecomposition.decompose">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">decompose</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">query</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">str</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">]</span></span></span></span><a class="headerlink"
+                                                                                                href="#KoPrivateGPT.utils.query_decompose.QueryDecomposition.decompose"
+                                                                                                title="Link to this definition"></a>
+                                            </dt>
+                                            <dd><p>decompose query to little piece of questions.
+                                                :param query: str, query to decompose.
+                                                :return: List[str], list of decomposed query. Return empty list if query
+                                                is not decomposable.</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py attribute">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.utils.query_decompose.QueryDecomposition.decompose_prompt">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">decompose_prompt</span></span><em
+                                                    class="property"><span class="w"> </span><span class="p"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="pre">'Decompose</span> <span class="pre">a</span> <span
+                                                    class="pre">question</span> <span class="pre">in</span> <span
+                                                    class="pre">self-contained</span> <span
+                                                    class="pre">sub-questions.</span> <span class="pre">Use</span> <span
+                                                    class="pre">&quot;The</span> <span class="pre">question</span> <span
+                                                    class="pre">needs</span> <span class="pre">no</span> <span
+                                                    class="pre">decomposition&quot;</span> <span class="pre">when</span>
+                                                <span class="pre">no</span> <span class="pre">decomposition</span> <span
+                                                        class="pre">is</span> <span class="pre">needed.\n</span>&#160;&#160;&#160;
+                                                <span class="pre">\n</span>&#160;&#160;&#160; <span
+                                                        class="pre">Example</span> <span class="pre">1:\n</span>&#160;&#160;&#160;
+                                                <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Question:</span>
+                                                <span class="pre">Is</span> <span class="pre">Hamlet</span> <span
+                                                        class="pre">more</span> <span class="pre">common</span> <span
+                                                        class="pre">on</span> <span class="pre">IMDB</span> <span
+                                                        class="pre">than</span> <span class="pre">Comedy</span> <span
+                                                        class="pre">of</span> <span class="pre">Errors?\n</span>&#160;&#160;&#160;
+                                                <span class="pre">Decompositions:</span> <span class="pre">\n</span>&#160;&#160;&#160;
+                                                <span class="pre">1:</span> <span class="pre">How</span> <span
+                                                        class="pre">many</span> <span class="pre">listings</span> <span
+                                                        class="pre">of</span> <span class="pre">Hamlet</span> <span
+                                                        class="pre">are</span> <span class="pre">there</span> <span
+                                                        class="pre">on</span> <span class="pre">IMDB?\n</span>&#160;&#160;&#160;
+                                                <span class="pre">2:</span> <span class="pre">How</span> <span
+                                                        class="pre">many</span> <span class="pre">listing</span> <span
+                                                        class="pre">of</span> <span class="pre">Comedy</span> <span
+                                                        class="pre">of</span> <span class="pre">Errors</span> <span
+                                                        class="pre">is</span> <span class="pre">there</span> <span
+                                                        class="pre">on</span> <span class="pre">IMDB?\n</span>&#160;&#160;&#160;
+                                                <span class="pre">\n</span>&#160;&#160;&#160; <span
+                                                        class="pre">Example</span> <span class="pre">2:\n</span>&#160;&#160;&#160;
+                                                <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Question:</span>
+                                                <span class="pre">Are</span> <span class="pre">birds</span> <span
+                                                        class="pre">important</span> <span class="pre">to</span> <span
+                                                        class="pre">badminton?\n</span>&#160;&#160;&#160; <span
+                                                        class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Decompositions:\n</span>&#160;&#160;&#160;
+                                                <span class="pre">The</span> <span class="pre">question</span> <span
+                                                        class="pre">needs</span> <span class="pre">no</span> <span
+                                                        class="pre">decomposition\n</span>&#160;&#160;&#160; <span
+                                                        class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Example</span>
+                                                <span class="pre">3:\n</span>&#160;&#160;&#160; <span
+                                                        class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Question:</span>
+                                                <span class="pre">Is</span> <span class="pre">it</span> <span
+                                                        class="pre">legal</span> <span class="pre">for</span> <span
+                                                        class="pre">a</span> <span class="pre">licensed</span> <span
+                                                        class="pre">child</span> <span class="pre">driving</span> <span
+                                                        class="pre">Mercedes-Benz</span> <span class="pre">to</span>
+                                                <span class="pre">be</span> <span class="pre">employed</span> <span
+                                                        class="pre">in</span> <span class="pre">US?\n</span>&#160;&#160;&#160;
+                                                <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Decompositions:\n</span>&#160;&#160;&#160;
+                                                <span class="pre">1:</span> <span class="pre">What</span> <span
+                                                        class="pre">is</span> <span class="pre">the</span> <span
+                                                        class="pre">minimum</span> <span class="pre">driving</span>
+                                                <span class="pre">age</span> <span class="pre">in</span> <span
+                                                        class="pre">the</span> <span class="pre">US?\n</span>&#160;&#160;&#160;
+                                                <span class="pre">2:</span> <span class="pre">What</span> <span
+                                                        class="pre">is</span> <span class="pre">the</span> <span
+                                                        class="pre">minimum</span> <span class="pre">age</span> <span
+                                                        class="pre">for</span> <span class="pre">someone</span> <span
+                                                        class="pre">to</span> <span class="pre">be</span> <span
+                                                        class="pre">employed</span> <span class="pre">in</span> <span
+                                                        class="pre">the</span> <span class="pre">US?\n</span>&#160;&#160;&#160;
+                                                <span class="pre">\n</span>&#160;&#160;&#160; <span
+                                                        class="pre">Example</span> <span class="pre">4:\n</span>&#160;&#160;&#160;
+                                                <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Question:</span>
+                                                <span class="pre">Are</span> <span class="pre">all</span> <span
+                                                        class="pre">cucumbers</span> <span class="pre">the</span> <span
+                                                        class="pre">same</span> <span class="pre">texture?\n</span>&#160;&#160;&#160;
+                                                <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Decompositions:\n</span>&#160;&#160;&#160;
+                                                <span class="pre">The</span> <span class="pre">question</span> <span
+                                                        class="pre">needs</span> <span class="pre">no</span> <span
+                                                        class="pre">decomposition\n</span>&#160;&#160;&#160; <span
+                                                        class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Example</span>
+                                                <span class="pre">5:\n</span>&#160;&#160;&#160; <span
+                                                        class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Question:</span>
+                                                <span class="pre">Hydrogen\'s</span> <span class="pre">atomic</span>
+                                                <span class="pre">number</span> <span class="pre">squared</span> <span
+                                                        class="pre">exceeds</span> <span class="pre">number</span> <span
+                                                        class="pre">of</span> <span class="pre">Spice</span> <span
+                                                        class="pre">Girls?\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160;
+                                                <span class="pre">Decompositions:\n</span>&#160;&#160;&#160; <span
+                                                        class="pre">1:</span> <span class="pre">What</span> <span
+                                                        class="pre">is</span> <span class="pre">the</span> <span
+                                                        class="pre">atomic</span> <span class="pre">number</span> <span
+                                                        class="pre">of</span> <span class="pre">hydrogen?\n</span>&#160;&#160;&#160;
+                                                <span class="pre">2:</span> <span class="pre">How</span> <span
+                                                        class="pre">many</span> <span class="pre">Spice</span> <span
+                                                        class="pre">Girls</span> <span class="pre">are</span> <span
+                                                        class="pre">there?\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160;
+                                                <span class="pre">Example</span> <span class="pre">6:\n</span>&#160;&#160;&#160;
+                                                <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Question:</span>
+                                                <span class="pre">{0}\n</span>&#160;&#160;&#160; <span
+                                                        class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Decompositions:&quot;\n</span>&#160;&#160;&#160;
+                                                <span class="pre">'</span></em><a class="headerlink"
+                                                                                  href="#KoPrivateGPT.utils.query_decompose.QueryDecomposition.decompose_prompt"
+                                                                                  title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.utils.query_decompose.QueryDecomposition.generate">
+                                                <span class="sig-name descname"><span class="pre">generate</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">prompt</span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">max_tokens</span></span><span class="o"><span
+                                                    class="pre">=</span></span><span class="default_value"><span
+                                                    class="pre">250</span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">temperature</span></span><span
+                                                    class="o"><span class="pre">=</span></span><span
+                                                    class="default_value"><span class="pre">0</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#KoPrivateGPT.utils.query_decompose.QueryDecomposition.generate"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-KoPrivateGPT.utils.util">
+                                <span id="koprivategpt-utils-util-module"></span>
+                                <h2>KoPrivateGPT.utils.util module<a class="headerlink"
+                                                                     href="#module-KoPrivateGPT.utils.util"
+                                                                     title="Link to this heading"></a></h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py" id="KoPrivateGPT.utils.util.FileChecker">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span
+                                            class="pre">KoPrivateGPT.utils.util.</span></span><span
+                                            class="sig-name descname"><span class="pre">FileChecker</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">file_path</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">str</span></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink" href="#KoPrivateGPT.utils.util.FileChecker"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+                                            class="pre">object</span></code></p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.utils.util.FileChecker.check_type">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">check_type</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">file_type</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">str</span><span
+                                                    class="w"> </span><span class="p"><span
+                                                    class="pre">|</span></span><span class="w"> </span><span
+                                                    class="pre">None</span></span><span class="w"> </span><span
+                                                    class="o"><span class="pre">=</span></span><span
+                                                    class="w"> </span><span class="default_value"><span
+                                                    class="pre">None</span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">file_types</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">List</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">str</span><span
+                                                    class="p"><span class="pre">]</span></span><span
+                                                    class="w"> </span><span class="p"><span
+                                                    class="pre">|</span></span><span class="w"> </span><span
+                                                    class="pre">None</span></span><span class="w"> </span><span
+                                                    class="o"><span class="pre">=</span></span><span
+                                                    class="w"> </span><span class="default_value"><span
+                                                    class="pre">None</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#KoPrivateGPT.utils.util.FileChecker.check_type"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="KoPrivateGPT.utils.util.FileChecker.is_exist">
+                                                <span class="sig-name descname"><span class="pre">is_exist</span></span><span
+                                                    class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                                    class="headerlink"
+                                                    href="#KoPrivateGPT.utils.util.FileChecker.is_exist"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py" id="KoPrivateGPT.utils.util.StoppingCriteriaSub">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span
+                                            class="pre">KoPrivateGPT.utils.util.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">StoppingCriteriaSub</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">stops</span></span><span class="o"><span
+                                            class="pre">=</span></span><span class="default_value"><span
+                                            class="pre">[]</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">encounters</span></span><span class="o"><span
+                                            class="pre">=</span></span><span class="default_value"><span
+                                            class="pre">1</span></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink" href="#KoPrivateGPT.utils.util.StoppingCriteriaSub"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+                                            class="pre">StoppingCriteria</span></code></p>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py function">
+                                    <dt class="sig sig-object py" id="KoPrivateGPT.utils.util.set_api_base">
+                                        <span class="sig-prename descclassname"><span class="pre">KoPrivateGPT.utils.util.</span></span><span
+                                            class="sig-name descname"><span class="pre">set_api_base</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">api_base</span></span><span class="p"><span class="pre">:</span></span><span
+                                            class="w"> </span><span class="n"><span
+                                            class="pre">str</span></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink" href="#KoPrivateGPT.utils.util.set_api_base"
+                                            title="Link to this definition"></a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py function">
+                                    <dt class="sig sig-object py" id="KoPrivateGPT.utils.util.slice_stop_words">
+                                        <span class="sig-prename descclassname"><span class="pre">KoPrivateGPT.utils.util.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">slice_stop_words</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">input_str</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">str</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">stop_words</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink" href="#KoPrivateGPT.utils.util.slice_stop_words"
+                                            title="Link to this definition"></a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py function">
+                                    <dt class="sig sig-object py" id="KoPrivateGPT.utils.util.text_modifier">
+                                        <span class="sig-prename descclassname"><span class="pre">KoPrivateGPT.utils.util.</span></span><span
+                                            class="sig-name descname"><span class="pre">text_modifier</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">text</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">str</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">modify_words</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span><span class="w"> </span><span class="p"><span
+                                            class="pre">|</span></span><span class="w"> </span><span
+                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">None</span></span></em><span
+                                            class="sig-paren">)</span> <span class="sig-return"><span
+                                            class="sig-return-icon">&#x2192;</span> <span
+                                            class="sig-return-typehint"><span class="pre">List</span><span
+                                            class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                                            class="p"><span class="pre">]</span></span></span></span><a
+                                            class="headerlink" href="#KoPrivateGPT.utils.util.text_modifier"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>You have to separate each word with underbar ‘_’</p>
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-KoPrivateGPT.utils">
+                                <span id="module-contents"></span>
+                                <h2>Module contents<a class="headerlink" href="#module-KoPrivateGPT.utils"
+                                                      title="Link to this heading"></a></h2>
+                            </section>
+                        </section>
+
+
+                    </div>
+                </div>
+                <footer>
+
+                    <hr/>
+
+                    <div role="contentinfo">
+                        <p>&#169; Copyright 2023, NomaDamas.</p>
+                    </div>
+
+                    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+                    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+                    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+                </footer>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    jQuery(function () {
+        SphinxRtdTheme.Navigation.enable(true);
+    });
+</script>
+
+</body>
+</html>
