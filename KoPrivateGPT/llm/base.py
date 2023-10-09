@@ -1,6 +1,6 @@
+import copy
 from abc import ABC, abstractmethod
 from typing import List
-import copy
 
 import openai
 
@@ -9,9 +9,19 @@ from KoPrivateGPT.schema import Passage
 
 
 class BaseLLM(ABC):
+    """
+
+    This class represents a LLM base class.
+    It supports chat history and stream feature. Plus, it supports custom prompts, too.
+
+    Attributes:
+    - stream_end_token (str): The token used to indicate the end of a stream. Returns this token when stream is end.
+
+    """
     stream_end_token: str = '<|endofstream|>'
 
     def __init__(self, retrieval: BaseRetrieval):
+        """Initializes the LLM instance with a retrieval module."""
         self.retrieval = retrieval
         self.retrieved_passages: List[Passage] = []
         self.chat_history: List[dict] = []
@@ -22,7 +32,11 @@ class BaseLLM(ABC):
         str, List[Passage]]:
         """
         Ask a question to the LLM model and get answer and used passages.
-        *args, **kwargs is optional parameter for openai api llm
+        :param query: question
+        :param stream: if stream is true, use stream feature. Default is False.
+        :param run_retrieve: if run_retrieve is true, run retrieval module, so it returns new passages. Default is True.
+        :param args: optional parameter for openai api llm
+        :param kwargs: optional parameter for openai api llm
         """
         pass
 
@@ -39,6 +53,7 @@ class BaseLLM(ABC):
                       stream_func: callable = None,
                       *args, **kwargs) -> str:
         """
+        Call chat_completion api at remote LLM server and return the answer.
         If stream is true, run stream_func for each response.
         And return cls.stream_end_token when stream is end.
         """
@@ -65,6 +80,7 @@ class BaseLLM(ABC):
                  stream_func: callable = None,
                  *args, **kwargs) -> str:
         """
+        Call completion api at remote LLM server and return the answer.
         If stream is true, run stream_func for each response.
         And return cls.stream_end_token when stream is end.
         """
@@ -87,11 +103,16 @@ class BaseLLM(ABC):
         return answer
 
     def add_chat_history(self, query: str, answer: str):
+        """
+        Adds a query and its corresponding answer to the chat history.
+        """
         self.chat_history.append({"role": "user", "content": query})
         self.chat_history.append({"role": "assistant", "content": answer})
 
     def clear_chat_history(self):
+        """
+        Clears the chat history and returns a copy of the cleared history.
+        """
         store_chat_history = copy.deepcopy(self.chat_history)
         self.chat_history.clear()
         return store_chat_history
-
