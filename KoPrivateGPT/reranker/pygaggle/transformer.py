@@ -5,13 +5,10 @@ https://github.com/castorini/pygaggle/blob/master/pygaggle/rerank/transformer.py
 from copy import deepcopy
 from typing import List
 
-try:
-    import torch
-    from transformers import (AutoTokenizer,
-                              AutoModelForSeq2SeqLM,
-                              T5ForConditionalGeneration)
-except ImportError:
-    raise ImportError("Please install transformers and torch")
+import torch
+from transformers import (AutoTokenizer,
+                          AutoModelForSeq2SeqLM,
+                          T5ForConditionalGeneration)
 
 from .base import Query, Text, Reranker
 from .model import greedy_decode, QueryDocumentBatchTokenizer, QueryDocumentBatch, T5BatchTokenizer

@@ -1,10 +1,7 @@
 from typing import List
 
-try:
-    import torch
-    import torch.nn.functional as F
-except ImportError:
-    raise ImportError("Please install torch")
+import torch
+import torch.nn.functional as F
 
 from KoPrivateGPT.reranker.base import BaseReranker
 from KoPrivateGPT.schema import Passage
