@@ -1,7 +1,10 @@
 from typing import Union, Tuple
 
-import torch
-from transformers import PreTrainedModel
+try:
+    import torch
+    from transformers import PreTrainedModel
+except ImportError:
+    raise ImportError("Please install transformers and torch")
 
 __all__ = ['greedy_decode']
 

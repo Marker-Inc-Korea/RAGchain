@@ -1,7 +1,10 @@
 from typing import List
 
-import torch
-from transformers import T5ForConditionalGeneration, T5Tokenizer
+try:
+    import torch
+    from transformers import T5ForConditionalGeneration, T5Tokenizer
+except ImportError:
+    raise ImportError("Please install transformers and torch")
 
 from KoPrivateGPT.reranker.base import BaseReranker
 from KoPrivateGPT.schema import Passage
