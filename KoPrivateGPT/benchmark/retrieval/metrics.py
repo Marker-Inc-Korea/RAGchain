@@ -2,9 +2,9 @@ import math
 from abc import ABC, abstractmethod
 from operator import itemgetter
 from typing import Dict
+import warnings
 
-
-class BaseRetrievalMetricFactory(ABC):
+class BaseRetrievalMetric(ABC):
     def __init__(self):
         self._metric_name = None
 
@@ -17,6 +17,7 @@ class BaseRetrievalMetricFactory(ABC):
              k: int) -> float:
         assert k > 0, "k must be greater than 0"
         assert len(pred) >= k, "k must be less than or equal to the number of predictions"
+
         metric = self.retrieval_metric_function(solution, pred, k)
 
         return metric
@@ -25,17 +26,19 @@ class BaseRetrievalMetricFactory(ABC):
     def retrieval_metric_function(self, solution: Dict[str, int],
                                   pred: Dict[str, float],
                                   k_value: int = 1) -> float:
+
         pass
 
 
-class APFactory(BaseRetrievalMetricFactory):
+class AP(BaseRetrievalMetric):
     def __init__(self):
+        super().__init__()
         self._metric_name = "AP"
 
     def retrieval_metric_function(self, solution: Dict[str, int],
                                   pred: Dict[str, float],
                                   k_value: int = 1) -> float:
-        ap = 0.0
+        temp_sum = 0.0
 
         top_hits = [item[0] for item in sorted(pred.items(), key=lambda item: item[1], reverse=True)[:k_value]]
 
@@ -47,12 +50,14 @@ class APFactory(BaseRetrievalMetricFactory):
             if doc_id in query_relevant_docs:
                 count_relevant += 1
                 precision_at_relevant_doc = count_relevant / (index + 1)
-                ap += precision_at_relevant_doc
+                temp_sum += precision_at_relevant_doc
+
+        ap = temp_sum / count_relevant if count_relevant > 0 else 0.0
 
         return ap
 
 
-class NDCGFactory(BaseRetrievalMetricFactory):
+class NDCG(BaseRetrievalMetric):
     def __init__(self):
         self._metric_name = "NDCG"
 
@@ -75,7 +80,7 @@ class NDCGFactory(BaseRetrievalMetricFactory):
         return ndcg
 
 
-class CGFactory(BaseRetrievalMetricFactory):
+class CG(BaseRetrievalMetric):
     def __init__(self):
         self._metric_name = "CG"
 
@@ -94,7 +99,7 @@ class CGFactory(BaseRetrievalMetricFactory):
         return cg
 
 
-class IndDCGFactory(BaseRetrievalMetricFactory):
+class IndDCG(BaseRetrievalMetric):
     def __init__(self):
         self._metric_name = "Ind_DCG"
 
@@ -114,7 +119,7 @@ class IndDCGFactory(BaseRetrievalMetricFactory):
         return dcg_ind
 
 
-class DCGFactory(BaseRetrievalMetricFactory):
+class DCG(BaseRetrievalMetric):
     def __init__(self):
         self._metric_name = "DCG"
 
@@ -134,7 +139,7 @@ class DCGFactory(BaseRetrievalMetricFactory):
         return dcg
 
 
-class IndIDCGFactory(BaseRetrievalMetricFactory):
+class IndIDCG(BaseRetrievalMetric):
     def __init__(self):
         self._metric_name = "Ind_IDCG"
 
@@ -154,7 +159,7 @@ class IndIDCGFactory(BaseRetrievalMetricFactory):
         return idcg_ind
 
 
-class IDCGFactory(BaseRetrievalMetricFactory):
+class IDCG(BaseRetrievalMetric):
     def __init__(self):
         self._metric_name = "IDCG"
 
@@ -173,7 +178,7 @@ class IDCGFactory(BaseRetrievalMetricFactory):
         return idcg
 
 
-class RecallFactory(BaseRetrievalMetricFactory):
+class Recall(BaseRetrievalMetric):
     def __init__(self):
         self._metric_name = "Recall"
 
@@ -193,7 +198,7 @@ class RecallFactory(BaseRetrievalMetricFactory):
         return recall
 
 
-class PrecisionFactory(BaseRetrievalMetricFactory):
+class Precision(BaseRetrievalMetric):
     def __init__(self):
         self._metric_name = "Precision"
 
@@ -213,7 +218,7 @@ class PrecisionFactory(BaseRetrievalMetricFactory):
         return precision
 
 
-class RRFactory(BaseRetrievalMetricFactory):
+class RR(BaseRetrievalMetric):
     def __init__(self):
         self._metric_name = "RR"
 
@@ -238,7 +243,7 @@ class RRFactory(BaseRetrievalMetricFactory):
         return rr
 
 
-class HoleFactory(BaseRetrievalMetricFactory):
+class Hole(BaseRetrievalMetric):
     def __init__(self):
         self._metric_name = "Hole"
 
@@ -257,7 +262,7 @@ class HoleFactory(BaseRetrievalMetricFactory):
         return hole
 
 
-class TopKAccuracyFactory(BaseRetrievalMetricFactory):
+class TopKAccuracy(BaseRetrievalMetric):
     def __init__(self):
         self._metric_name = "TopK_Accuracy"
 
@@ -277,7 +282,7 @@ class TopKAccuracyFactory(BaseRetrievalMetricFactory):
         return top_k_acc
 
 
-class ExactlyMatchFactory(BaseRetrievalMetricFactory):
+class ExactlyMatch(BaseRetrievalMetric):
     def __init__(self):
         self._metric_name = "EM"
 
@@ -295,7 +300,7 @@ class ExactlyMatchFactory(BaseRetrievalMetricFactory):
         return EM
 
 
-class F1Factory(BaseRetrievalMetricFactory):
+class F1(BaseRetrievalMetric):
     def __init__(self):
         self._metric_name = "F1_score"
 
