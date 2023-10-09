@@ -31,14 +31,15 @@ basic_retrieval_eval_values = [
                  {"1": [1, 2, 3], "1": [2, 4, 5], "3": [3, 5, 2]}, {"1": [1, 2, 3], "2": [3, 5, 2]},
                  marks=pytest.mark.xfail)
 ]
-
+root_dir = pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent.parent
 basic_retrieval_eval_value_ids = [f'{order}' for order in range(len(basic_retrieval_eval_values))]
-# "true" or "false" -> True or False (json -> python)
 
-with open('../../../resources/retrieval_files/ko-strategy-qa_dev.json', 'r') as f:
+test_strategyqa_gold_small_json_path = os.path.join(root_dir, "resources", "retrieval_files", "ko-strategy-qa_dev.json")
+with open(test_strategyqa_gold_small_json_path, 'r') as f:
     strategyqa_gold_small_json = json.load(f)
 
-with open('../../../resources/retrieval_files/dev_pred.json', 'r') as f:
+test_strategyqa_predictions_small_json_path = os.path.join(root_dir, "resources", "retrieval_files", "dev_pred.json")
+with open(test_strategyqa_predictions_small_json_path, 'r') as f:
     strategyqa_predictions_small = json.load(f)
 
 stretagy_qa_values = [
