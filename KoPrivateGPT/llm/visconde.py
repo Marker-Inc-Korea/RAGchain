@@ -28,6 +28,14 @@ from KoPrivateGPT.utils.util import set_api_base
 
 
 class ViscondeLLM(BaseLLM):
+    """
+    Visconde LLM module for question answering with retrieved passages.
+    Visconde supports query decomposition and monoT5 reranking.
+    Query Decomposition is a method of decomposing q multi-hop question to multiple questions.
+    And retrieval module retrieve passages for each decomposed question.
+    Then, monoT5 reranker rerank all passages, and select use_passage_count passages for llm question answering.
+    It supports stream, but don't support chat history features because it uses completion api.
+    """
     strategyqa_prompt = """For each example, use the documents to create an \"Answer\" and an \"Explanation\" to the \"Question\". Just answer yes or no.
     
     Example 1:
@@ -76,6 +84,18 @@ class ViscondeLLM(BaseLLM):
                  prompt: str = None,
                  stream_func: Callable[[str], None] = None,
                  *args, **kwargs):
+        """
+        Initializes an instance of the ViscondeLLM class.
+
+        :param retrieval: An instance of the Retrieval module used for retrieving passages.
+        :param model_name: The name or identifier of the llm model to be used. Default is "text-davinci-003".
+        :param api_base: The base URL of the llm API endpoint. Default is None.
+        :param decompose_model_name: The name or identifier of the query decomposition model to be used. Default is "text-davinci-003".
+        :param retrieve_size: The number of passages to be retrieved before reranking. Default is 50.
+        :param use_passage_count: The number of passages to be used for llm question answering. Default is 3.
+        :param prompt: The prompt to be used for llm question answering. Default is ViscondeLLM.strategyqa_prompt.
+        :param stream_func: A callable function used for streaming generated responses. You have to implement if you want to use stream. This stream_func will be called when the stream is received. Default is None.
+        """
         super().__init__(retrieval)
         self.model_name = model_name
         self.decompose_model_name = decompose_model_name
@@ -92,6 +112,17 @@ class ViscondeLLM(BaseLLM):
 
     def ask(self, query: str, stream: bool = False, run_retrieve: bool = True, *args, **kwargs) -> tuple[
         str, List[Passage]]:
+        """
+        Ask a question to the LLM model and get answer and used passages.
+        :param query: question
+        :param stream: if stream is true, use stream feature. Default is False.
+        :param run_retrieve: if run_retrieve is true, run retrieval module. If False, don't run retrieval module and use retrieved_passages instead. Default is True.
+        :param args: optional parameter for llm api (openai style)
+        :param kwargs: optional parameter for llm api (openai style)
+
+        :return answer: The answer to the question that llm generated.
+        :return passages: The list of passages used to generate the answer.
+        """
         decompose = QueryDecomposition(model_name=self.decompose_model_name, api_base=self.api_base)
         decompose_query: List[str] = decompose.decompose(query)
         is_decomposed = True

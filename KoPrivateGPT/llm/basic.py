@@ -27,25 +27,13 @@ class BasicLLM(BaseLLM):
                  stream_func: Callable[[str], None] = None,
                  *args, **kwargs):
         """
+        Initializes an instance of the BasicLLM class.
 
-            Initializes an instance of the BasicLLM class.
-
-            Parameters:
-                retrieval (BaseRetrieval): An instance of the BaseRetrieval class used for retrieving passages.
-                model_name (str, optional): The name or identifier of the llm model to be used. Default is "gpt-3.5-turbo".
-                api_base (str, optional): The base URL of the llm API endpoint. Default is None.
-                prompt_func (Callable[[List[Passage], str], List[dict]], optional): A callable function used for
-                generating prompts based on passages and user query. The input of prompt_func will be the list of
-                retrieved passages and user query. The output of prompt_func should be a list of dictionaries with
-                "role" and "content" keys, which is openai style chat prompts.
-                Default is BasicLLM.get_messages.
-                stream_func (Callable[[str], None], optional): A callable function used for streaming generated responses.
-                You have to implement if you want to use stream. This stream_func will be called when the stream is received.
-                Default is None.
-
-            Returns:
-                None
-
+        :param retrieval: An instance of the Retrieval module used for retrieving passages.
+        :param model_name: The name or identifier of the llm model to be used. Default is "gpt-3.5-turbo".
+        :param api_base: The base URL of the llm API endpoint. Default is None.
+        :param prompt_func: A callable function used for generating prompts based on passages and user query. The input of prompt_func will be the list of retrieved passages and user query. The output of prompt_func should be a list of dictionaries with "role" and "content" keys, which is openai style chat prompts. Default is BasicLLM.get_messages.
+        :param stream_func: A callable function used for streaming generated responses. You have to implement if you want to use stream. This stream_func will be called when the stream is received. Default is None.
         """
         super().__init__(retrieval)
         self.model_name = model_name
@@ -63,9 +51,8 @@ class BasicLLM(BaseLLM):
         :param args: optional parameter for llm api (openai style)
         :param kwargs: optional parameter for llm api (openai style)
 
-        Returns:
-            answer (str): The answer to the question that llm generated.
-            passages (List[Passage]): The list of passages used to generate the answer.
+        :return answer: The answer to the question that llm generated.
+        :return passages: The list of passages used to generate the answer.
         """
         passages = self.retrieved_passages if len(
             self.retrieved_passages) > 0 and not run_retrieve else self.retrieval.retrieve(query, top_k=4)
