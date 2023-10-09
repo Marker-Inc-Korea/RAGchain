@@ -35,7 +35,7 @@ setup(
         'sentence-transformers',
         'huggingface_hub',
         'transformers',
-        'torch==2.0.1',
+        'torch',
         'pyarrow',
         'fastparquet'
     ],
