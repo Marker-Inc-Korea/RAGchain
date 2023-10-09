@@ -10,7 +10,17 @@ from KoPrivateGPT.utils.vectorstore.base import SlimVectorStore
 
 
 class VectorDBRetrieval(BaseRetrieval):
+    """
+    VectorDBRetrieval is a retrieval class that uses VectorDB as a backend.
+    First, embed the passage content using embedding model.
+    Then, store the embedded vector in VectorDB.
+    When retrieving, embed the query and search the most similar vectors in VectorDB.
+    Lastly, return the passages that have the most similar vectors.
+    """
     def __init__(self, vectordb: VectorStore, *args, **kwargs):
+        """
+        :param vectordb: VectorStore instance. You can all langchain VectorStore classes, also you can use SlimVectorStore for better storage efficiency.
+        """
         super().__init__()
         self.vectordb = vectordb
 

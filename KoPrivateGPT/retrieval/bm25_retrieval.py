@@ -14,6 +14,7 @@ from KoPrivateGPT.utils.util import FileChecker
 
 class BM25Retrieval(BaseRetrieval):
     """
+    BM25Retrieval class for BM25 retrieval. Save bm25 representation as pkl file and retrieve it.
     Default data structure looks like this:
     {
         "tokens" : [], # 2d list of tokens
@@ -89,6 +90,9 @@ class BM25Retrieval(BaseRetrieval):
         self.data["passage_id"].append(passage.id)
 
     def persist(self, save_path: str):
+        """
+        Persist data to save_path as pickle file.
+        """
         FileChecker(save_path).check_type(file_types=[".pkl", ".pickle"])
         with open(save_path, 'wb') as f:
             pickle.dump(self.data, f)
