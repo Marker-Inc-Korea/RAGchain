@@ -8,6 +8,9 @@ from langchain.schema import Document
 
 
 class PdfLinkLoader(BaseLoader):
+    """
+    Load PDF from a link
+    """
 
     def __init__(self, link: str, *args, **kwargs):
         if not self.valid_url(link):

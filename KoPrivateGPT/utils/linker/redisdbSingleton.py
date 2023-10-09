@@ -9,6 +9,10 @@ load_dotenv()
 
 
 class RedisDBSingleton:
+    """
+    RedisDBSingleton is a singleton class that manages redis.
+    We use redis to link DB and passage ids that stores in retrievals.
+    """
     __instance = None
     _is_initialized = False
 

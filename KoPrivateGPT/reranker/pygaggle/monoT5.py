@@ -7,6 +7,10 @@ from .transformer import MonoT5
 
 
 class MonoT5Reranker(BaseReranker):
+    """
+    Rerank the passages using MonoT5 model.
+    The model will be downloaded from HuggingFace model hub.
+    """
     def __init__(self,
                  model_name: str = 'castorini/monot5-3b-msmarco-10k',
                  use_amp: bool = False,

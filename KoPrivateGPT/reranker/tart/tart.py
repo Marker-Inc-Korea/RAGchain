@@ -10,7 +10,15 @@ from .tokenization_enc_t5 import EncT5Tokenizer
 
 
 class TARTReranker(BaseReranker):
+    """
+    TARTReranker is a reranker based on TART (https://github.com/facebookresearch/tart).
+    You can rerank the passages with the instruction using TARTReranker.
+    """
     def __init__(self, instruction: str):
+        """
+        The default model is facebook/tart-full-flan-t5-xl.
+        :param instruction: The instruction for reranking.
+        """
         self.instruction = instruction
         model_name = "facebook/tart-full-flan-t5-xl"
         self.model = EncT5ForSequenceClassification.from_pretrained(model_name)

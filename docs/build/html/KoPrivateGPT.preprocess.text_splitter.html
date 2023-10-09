@@ -8,6 +8,7 @@
     <title>KoPrivateGPT.preprocess.text_splitter package &mdash; KoPrivateGPT documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css"/>
+    <link rel="canonical" href="https://nomadamas.github.io/KoPrivateGPT/KoPrivateGPT.preprocess.text_splitter.html"/>
     <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
     <![endif]-->
@@ -141,6 +142,9 @@
                                             title="Link to this definition"></a></dt>
                                     <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
                                             class="pre">ABC</span></code></p>
+                                        <p>Base class for text splitters.
+                                            At this framework, we use our own text splitter instead of the one from
+                                            langchain.</p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.preprocess.text_splitter.base.BaseTextSplitter.split_document">
@@ -162,7 +166,8 @@
                                                     class="headerlink"
                                                     href="#KoPrivateGPT.preprocess.text_splitter.base.BaseTextSplitter.split_document"
                                                     title="Link to this definition"></a></dt>
-                                            <dd></dd>
+                                            <dd><p>Split a document into passages.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -189,7 +194,11 @@
                                                                                                 href="#KoPrivateGPT.preprocess.text_splitter.base.BaseTextSplitter.split_documents"
                                                                                                 title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd><p>Split a list of documents into passages.
+                                                The return passages will be 2d list, where the first dimension is the
+                                                document index,
+                                                and the second dimension is the passage index.</p>
+                                            </dd>
                                         </dl>
 
                                     </dd>
@@ -237,6 +246,10 @@
                                                      title="KoPrivateGPT.preprocess.text_splitter.base.BaseTextSplitter"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">BaseTextSplitter</span></code></a>
                                     </p>
+                                        <p>Split a document into passages by recursively splitting on a list of
+                                            separators.
+                                            You can specify a window_size and overlap_size to split the document into
+                                            overlapping passages.</p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.preprocess.text_splitter.text_splitter.RecursiveTextSplitter.split_document">
@@ -256,7 +269,8 @@
                                                     class="headerlink"
                                                     href="#KoPrivateGPT.preprocess.text_splitter.text_splitter.RecursiveTextSplitter.split_document"
                                                     title="Link to this definition"></a></dt>
-                                            <dd></dd>
+                                            <dd><p>Split a document.</p>
+                                            </dd>
                                         </dl>
 
                                     </dd>

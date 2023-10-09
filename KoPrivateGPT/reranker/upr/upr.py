@@ -8,6 +8,10 @@ from KoPrivateGPT.schema import Passage
 
 
 class UPRReranker(BaseReranker):
+    """
+    UPRReranker is a reranker based on UPR (https://github.com/DevSinghSachan/unsupervised-passage-reranking).
+    The language model will make a question based on the passage and rerank the passages by the likelihood of the question.
+    """
     def __init__(self,
                  model_name: str = "t5-large",
                  prefix_prompt: str = "Passage: ",
@@ -15,6 +19,14 @@ class UPRReranker(BaseReranker):
                  use_bf16: bool = False,
                  use_gpu: bool = False,
                  shard_size: int = 16):
+        """
+        :param model_name: The name of the model. The default model is t5-large.
+        :param prefix_prompt: The prefix prompt for the language model that generates question for reranking. Default is "Passage: ".
+        :param suffix_prompt: The suffix prompt for the language model that generates question for reranking. Default is "Please write a question based on this passage.".
+        :param use_bf16: Whether to use bfloat16 for the model. Default is False.
+        :param use_gpu: Whether to use GPU for the model. Default is False.
+        :param shard_size: The shard size for the model. The larger the shard size, the faster the reranking speed. But it will consume more memory and compute power. Default is 16.
+        """
         self.prefix_prompt = prefix_prompt
         self.suffix_prompt = suffix_prompt
         self.model = T5ForConditionalGeneration.from_pretrained(model_name,

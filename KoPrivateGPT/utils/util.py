@@ -62,11 +62,23 @@ def text_modifier(text: str, modify_words: Optional[List[str]] = None) -> List[s
 
 
 class FileChecker:
+    """
+    FileChecker is a class to check file type and existence.
+    """
     def __init__(self, file_path: str):
+        """
+        :param file_path: str, file path to check.
+        """
         self.file_path = file_path
         self.file_type = os.path.splitext(file_path)[-1].lower()
 
     def check_type(self, file_type: str = None, file_types: List[str] = None):
+        """
+        :param file_type: str, file type to check. Default is None. You must use this when you want to check only one file type.
+        When you use this, you don't need to use file_types.
+        :param file_types: List[str], file types to check. Default is None. You must use this when you want to check multiple file types.
+        When you use this, you don't need to use file_type.
+        """
         if file_types is not None:
             checks = [self.file_type == file_type for file_type in file_types]
             if not any(checks):
@@ -78,6 +90,10 @@ class FileChecker:
         return self
 
     def is_exist(self):
+        """
+        check file existence.
+        :return: bool, True if file exists, else False.
+        """
         return os.path.exists(self.file_path)
 
     def __str__(self):

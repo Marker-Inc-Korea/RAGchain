@@ -10,6 +10,10 @@ from KoPrivateGPT.schema import Passage
 
 
 class HybridRetrieval(BaseRetrieval):
+    """
+    Hybrid Retrieval class for retrieve passages from multiple retrievals.
+    You can combine retrieval scores with rrf algorithm or convex combination algorithm.
+    """
     def __init__(self, retrievals: List[BaseRetrieval],
                  weights: Optional[List[float]] = None,
                  p: int = 500,
@@ -20,15 +24,14 @@ class HybridRetrieval(BaseRetrieval):
 
         Initializes a HybridRetrieval object.
 
-        Parameters:
-        - retrievals (List[BaseRetrieval]): A list of BaseRetrieval objects.
-        - weights (List[float], optional): A list of weights corresponding to each retrieval method.
+        :param retrievals: A list of BaseRetrieval objects. Must be more than 1.
+        :param weights: A list of weights corresponding to each retrieval method.
         The weights should sum up to 1.0.
-        - p (int, optional): The number of passages to retrieve from each retrieval method. Smaller p will result in
+        :param p: The number of passages to retrieve from each retrieval method. Smaller p will result in
         faster process time, but may result lack of retrieved passages. Default is 500.
-        - method (str, optional): The method used to combine the retrieval results. Choose between cc and rrf, which is
+        :param method: The method used to combine the retrieval results. Choose between cc and rrf, which is
         convex combination and reciprocal rank fusion respectively. Default is 'cc'.
-        - rrf_k (int, optional): k parameter for reciprocal rank fusion. Default is 60.
+        :param rrf_k: k parameter for reciprocal rank fusion. Default is 60.
         """
         super().__init__()
         self.retrievals = retrievals

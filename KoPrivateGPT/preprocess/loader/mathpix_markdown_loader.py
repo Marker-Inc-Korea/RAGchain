@@ -7,15 +7,35 @@ from langchain.schema import Document
 
 
 class MathpixMarkdownLoader(BaseLoader):
+    """
+    Load mathpix markdown file.
+    mathpix markdown is .mmd file which is a markdown file for science papers.
+    This class supports to split the file into sections and tables of science papers.
+    """
     def __init__(self, filepath: str):
+        """
+        :param filepath: The path of mathpix markdown file. The file should be .mmd file.
+        """
         if not os.path.exists(filepath):
             raise ValueError(f"File {filepath} does not exist.")
         self.filepath = filepath
 
     def load(self, split_section: bool = True, split_table: bool = True) -> List[Document]:
+        """
+        :param split_section: If True, split the file into sections. Default is True.
+        :param split_table: If True, split the file into tables. Default is True.
+        :return: List of Document. If split_section and split_table are True, the list contains multiple Documents.
+        The order of each section and table are the same as the order of the file.
+        """
         return list(self.lazy_load(split_section=split_section, split_table=split_table))
 
     def lazy_load(self, split_section: bool = True, split_table: bool = True) -> Iterator[Document]:
+        """
+        :param split_section: If True, split the file into sections. Default is True.
+        :param split_table: If True, split the file into tables. Default is True.
+        :return: Iterator of Document. If split_section and split_table are True, return contains multiple Documents.
+        The order of each section and table are the same as the order of the file.
+        """
         with open(self.filepath, 'r') as f:
             content = f.read()
 
@@ -39,6 +59,9 @@ class MathpixMarkdownLoader(BaseLoader):
 
     @staticmethod
     def split_section(content: str) -> List[str]:
+        """
+        Split section from mathpix markdown content by '#'.
+        """
         split_text = re.split('(#+ )', content)
         split_text.pop(0)
         result = [split_text[i] + split_text[i + 1] for i in range(0, len(split_text), 2)]

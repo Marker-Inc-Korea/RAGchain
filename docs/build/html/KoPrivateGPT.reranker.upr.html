@@ -8,6 +8,7 @@
     <title>KoPrivateGPT.reranker.upr package &mdash; KoPrivateGPT documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css"/>
+    <link rel="canonical" href="https://nomadamas.github.io/KoPrivateGPT/KoPrivateGPT.reranker.upr.html"/>
     <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
     <![endif]-->
@@ -164,6 +165,10 @@
                                                      title="KoPrivateGPT.reranker.base.BaseReranker"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">BaseReranker</span></code></a>
                                     </p>
+                                        <p>UPRReranker is a reranker based on UPR (<a class="reference external"
+                                                                                      href="https://github.com/DevSinghSachan/unsupervised-passage-reranking">https://github.com/DevSinghSachan/unsupervised-passage-reranking</a>).
+                                            The language model will make a question based on the passage and rerank the
+                                            passages by the likelihood of the question.</p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.reranker.upr.upr.UPRReranker.calculate_likelihood">
@@ -289,15 +294,21 @@
                                             <dd><p>Reranks a list of passages based on a specific ranking algorithm with
                                                 sliding window.
                                                 This function is useful when the model input token size is limited like
-                                                LLMs.
-                                                Parameters:
-                                                :param passages: (List[Passage]): The list of passages to be reranked.
-                                                :param query: str: The query that was used for retrieving the passages.
-                                                :param window_size: (int): The size of the sliding window used for
-                                                reranking.</p>
+                                                LLMs.</p>
                                                 <dl class="field-list simple">
-                                                    <dt class="field-odd">Returns<span class="colon">:</span></dt>
-                                                    <dd class="field-odd"><p>List[Passage]: The reranked list of
+                                                    <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                                                    <dd class="field-odd">
+                                                        <ul class="simple">
+                                                            <li><p><strong>passages</strong> – (List[Passage]): The list
+                                                                of passages to be reranked.</p></li>
+                                                            <li><p><strong>query</strong> – str: The query that was used
+                                                                for retrieving the passages.</p></li>
+                                                            <li><p><strong>window_size</strong> – (int): The size of the
+                                                                sliding window used for reranking.</p></li>
+                                                        </ul>
+                                                    </dd>
+                                                    <dt class="field-even">Returns<span class="colon">:</span></dt>
+                                                    <dd class="field-even"><p>List[Passage]: The reranked list of
                                                         passages.</p>
                                                     </dd>
                                                 </dl>

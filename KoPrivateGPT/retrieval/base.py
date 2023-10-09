@@ -10,25 +10,40 @@ from KoPrivateGPT.utils.linker import RedisDBSingleton
 
 
 class BaseRetrieval(ABC):
+    """
+    Base Retrieval class for all retrieval classes.
+    """
     def __init__(self):
         self.db_instance_list: List[BaseDB] = []
         self.redis_db = RedisDBSingleton()
 
     @abstractmethod
     def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Passage]:
+        """
+        retrieve passages at ingested vector representation of passages.
+        """
         pass
 
     @abstractmethod
     def ingest(self, passages: List[Passage]):
+        """
+        ingest passages to vector representation of passages.
+        """
         pass
 
     @abstractmethod
     def retrieve_id(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Union[str, UUID]]:
+        """
+        retrieve passage ids at ingested vector representation of passages.
+        """
         pass
 
     @abstractmethod
     def retrieve_id_with_scores(self, query: str, top_k: int = 5, *args, **kwargs) -> tuple[
         List[Union[str, UUID]], List[float]]:
+        """
+        retrieve passage ids and similarity scores at ingested vector representation of passages.
+        """
         pass
 
     def retrieve_with_filter(self, query: str, top_k: int = 5,
@@ -62,6 +77,10 @@ class BaseRetrieval(ABC):
         return result_passages
 
     def fetch_data(self, ids: List[Union[UUID, str]]) -> List[Passage]:
+        """
+        fetch passages from each db. This can fetch data from multiple db.
+        :param ids: list of passage ids
+        """
         db_origin_list = self.redis_db.get_json(ids)
         # Sometimes redis doesn't find the id, so we need to filter that db_origin is None.
         filter_db_origin = list(filter(lambda db_origin: db_origin is not None, db_origin_list))
@@ -75,6 +94,13 @@ class BaseRetrieval(ABC):
                     filepath: Optional[List[str]] = None,
                     **kwargs
                     ) -> List[Passage]:
+        """
+        search passages from each db with given filters. This can search data from multiple db.
+        :param ids: list of passage ids
+        :param content: content list to filter
+        :param filepath: filepath list to filter
+        :param kwargs: metadata_etc to filter. Put metadata_etc key as kwargs key and metadata_etc value as kwargs value.
+        """
         db_origin_list = self.redis_db.get_json(ids)
         filter_db_origin = list(filter(lambda db_origin: db_origin is not None, db_origin_list))
         final_db_origin = self.duplicate_check(filter_db_origin)
@@ -154,6 +180,7 @@ class BaseRetrieval(ABC):
     @staticmethod
     def create_db(db_type: str, db_path: dict) -> BaseDB:
         """
+        You must implement this when you create new DB class.
         selector-ModuleSelector cant import because of circular import.
         """
         if db_type == "mongo_db":

@@ -7,6 +7,9 @@ from KoPrivateGPT.utils.vectorstore.base import SlimVectorStore
 
 
 class PineconeSlim(Pinecone, SlimVectorStore):
+    """
+    Pinecone vector store stores only passage_id and vector.
+    """
     def add_passages(self, passages: List[Passage],
                      namespace: Optional[str] = None,
                      batch_size: int = 32,

@@ -8,6 +8,7 @@
     <title>KoPrivateGPT.preprocess.loader package &mdash; KoPrivateGPT documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css"/>
+    <link rel="canonical" href="https://nomadamas.github.io/KoPrivateGPT/KoPrivateGPT.preprocess.loader.html"/>
     <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
     <![endif]-->
@@ -316,6 +317,7 @@
                                                                          title="Link to this definition"></a></dt>
                                     <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
                                             class="pre">BaseLoader</span></code></p>
+                                        <p>Load a document from an Excel file.</p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.preprocess.loader.excel_loader.ExcelLoader.lazy_load">
@@ -384,6 +386,8 @@
                                             title="Link to this definition"></a></dt>
                                     <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
                                             class="pre">BaseLoader</span></code></p>
+                                        <p>Loads documents from a directory.
+                                            You can load .txt, .pdf, .csv, .xlsx, .hwp files.</p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.preprocess.loader.file_loader.FileLoader.lazy_load">
@@ -411,7 +415,9 @@
                                                                                                     href="#KoPrivateGPT.preprocess.loader.file_loader.FileLoader.lazy_load"
                                                                                                     title="Link to this definition"></a>
                                             </dt>
-                                            <dd><p>A lazy loader for Documents.</p>
+                                            <dd><p>Lazily load all files in the target directory.
+                                                :param filter_ext: If not None, only files with the given extensions
+                                                will be loaded. filter_ext elements must contain the dot (.) prefix.</p>
                                             </dd>
                                         </dl>
 
@@ -441,18 +447,8 @@
                                                     href="#KoPrivateGPT.preprocess.loader.file_loader.FileLoader.load"
                                                     title="Link to this definition"></a></dt>
                                             <dd><p>Load all files in the target directory.
-                                                Parameters:</p>
-                                                <blockquote>
-                                                    <div>
-                                                        <dl class="simple">
-                                                            <dt>filter_ext: List[str] = None</dt>
-                                                            <dd><p>If not None, only files with the given extensions
-                                                                will be loaded.
-                                                                filter_ext elements must contain the dot (.) prefix.</p>
-                                                            </dd>
-                                                        </dl>
-                                                    </div>
-                                                </blockquote>
+                                                :param filter_ext: If not None, only files with the given extensions
+                                                will be loaded. filter_ext elements must contain the dot (.) prefix.</p>
                                             </dd>
                                         </dl>
 
@@ -490,13 +486,10 @@
                                     <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
                                             class="pre">BaseLoader</span></code></p>
                                         <p>Load Hwp files.</p>
-                                        <p>Hwp to text using hwp-converter-api</p>
-                                        <p>and just use textLoader</p>
-                                        <dl class="simple">
-                                            <dt>Args:</dt>
-                                            <dd><p>path: Path to the file to load.</p>
-                                            </dd>
-                                        </dl>
+                                        <p>Hwp to text using hwp-converter-api.
+                                            You can use hwp-converter-api at <a class="reference external"
+                                                                                href="https://github.com/NomaDamas/hwp-converter-api">https://github.com/NomaDamas/hwp-converter-api</a>
+                                        </p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.preprocess.loader.hwp_loader.HwpLoader.async_request">
@@ -524,7 +517,7 @@
                                                     class="headerlink"
                                                     href="#KoPrivateGPT.preprocess.loader.hwp_loader.HwpLoader.lazy_load"
                                                     title="Link to this definition"></a></dt>
-                                            <dd><p>A lazy loader for Documents.</p>
+                                            <dd><p>Load a document lazily. This method uses asyncio requests.</p>
                                             </dd>
                                         </dl>
 
@@ -542,7 +535,7 @@
                                                     class="headerlink"
                                                     href="#KoPrivateGPT.preprocess.loader.hwp_loader.HwpLoader.load"
                                                     title="Link to this definition"></a></dt>
-                                            <dd><p>Load from response.</p>
+                                            <dd><p>Load a document.</p>
                                             </dd>
                                         </dl>
 
@@ -572,6 +565,10 @@
                                             title="Link to this definition"></a></dt>
                                     <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
                                             class="pre">BaseLoader</span></code></p>
+                                        <p>Load mathpix markdown file.
+                                            mathpix markdown is .mmd file which is a markdown file for science papers.
+                                            This class supports to split the file into sections and tables of science
+                                            papers.</p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader.lazy_load">
@@ -602,7 +599,24 @@
                                                                                                     href="#KoPrivateGPT.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader.lazy_load"
                                                                                                     title="Link to this definition"></a>
                                             </dt>
-                                            <dd><p>A lazy loader for Documents.</p>
+                                            <dd>
+                                                <dl class="field-list simple">
+                                                    <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                                                    <dd class="field-odd">
+                                                        <ul class="simple">
+                                                            <li><p><strong>split_section</strong> – If True, split the
+                                                                file into sections. Default is True.</p></li>
+                                                            <li><p><strong>split_table</strong> – If True, split the
+                                                                file into tables. Default is True.</p></li>
+                                                        </ul>
+                                                    </dd>
+                                                    <dt class="field-even">Returns<span class="colon">:</span></dt>
+                                                    <dd class="field-even"><p>Iterator of Document. If split_section and
+                                                        split_table are True, return contains multiple Documents.</p>
+                                                    </dd>
+                                                </dl>
+                                                <p>The order of each section and table are the same as the order of the
+                                                    file.</p>
                                             </dd>
                                         </dl>
 
@@ -634,7 +648,24 @@
                                                     class="headerlink"
                                                     href="#KoPrivateGPT.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader.load"
                                                     title="Link to this definition"></a></dt>
-                                            <dd><p>Load data into Document objects.</p>
+                                            <dd>
+                                                <dl class="field-list simple">
+                                                    <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                                                    <dd class="field-odd">
+                                                        <ul class="simple">
+                                                            <li><p><strong>split_section</strong> – If True, split the
+                                                                file into sections. Default is True.</p></li>
+                                                            <li><p><strong>split_table</strong> – If True, split the
+                                                                file into tables. Default is True.</p></li>
+                                                        </ul>
+                                                    </dd>
+                                                    <dt class="field-even">Returns<span class="colon">:</span></dt>
+                                                    <dd class="field-even"><p>List of Document. If split_section and
+                                                        split_table are True, the list contains multiple Documents.</p>
+                                                    </dd>
+                                                </dl>
+                                                <p>The order of each section and table are the same as the order of the
+                                                    file.</p>
                                             </dd>
                                         </dl>
 
@@ -657,7 +688,8 @@
                                                     class="headerlink"
                                                     href="#KoPrivateGPT.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader.split_section"
                                                     title="Link to this definition"></a></dt>
-                                            <dd></dd>
+                                            <dd><p>Split section from mathpix markdown content by ‘#’.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -715,6 +747,11 @@
                                             title="Link to this definition"></a></dt>
                                     <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
                                             class="pre">BasePDFLoader</span></code></p>
+                                        <p>Load PDF file using Nougat API server.
+                                            You can use Nougat API server using Dockerfile at <a
+                                                    class="reference external"
+                                                    href="https://github.com/facebookresearch/nougat">https://github.com/facebookresearch/nougat</a>
+                                        </p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.preprocess.loader.nougat_pdf_loader.NougatPDFLoader.lazy_load">
@@ -846,6 +883,7 @@
                                             title="Link to this definition"></a></dt>
                                     <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
                                             class="pre">BaseLoader</span></code></p>
+                                        <p>Load PDF from a link</p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.preprocess.loader.pdf_link_loader.PdfLinkLoader.load">

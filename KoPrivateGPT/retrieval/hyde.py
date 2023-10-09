@@ -12,10 +12,21 @@ logger = logging.getLogger(__name__)
 
 
 class HyDERetrieval(BaseRetrieval):
+    """
+    HyDE Retrieval, which inspired by "Precise Zero-shot Dense Retrieval without Relevance Labels" (https://arxiv.org/pdf/2212.10496.pdf)
+    At retrieval, LLM model creates hypothetical passage.
+    And then, retrieve passages using hypothetical passage as query.
+    """
     BASIC_SYSTEM_PROMPT = "Please write a passage to answer the question"
 
     def __init__(self, retrieval: BaseRetrieval, system_prompt: str = None, model_name: str = "gpt-3.5-turbo",
                  api_base: str = None, *args, **kwargs):
+        """
+        :param retrieval: retrieval instance to use
+        :param system_prompt: system prompt to use when generating hypothetical passage
+        :param model_name: model name to use when generating hypothetical passage
+        :param api_base: api base url to use when generating hypothetical passage
+        """
         super().__init__()
         self.retrieval = retrieval
         self.system_prompt = self.BASIC_SYSTEM_PROMPT if system_prompt is None else system_prompt

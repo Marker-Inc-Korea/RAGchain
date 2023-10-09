@@ -8,6 +8,7 @@
     <title>KoPrivateGPT.utils.vectorstore package &mdash; KoPrivateGPT documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css"/>
+    <link rel="canonical" href="https://nomadamas.github.io/KoPrivateGPT/KoPrivateGPT.utils.vectorstore.html"/>
     <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
     <![endif]-->
@@ -155,6 +156,10 @@
                                             title="Link to this definition"></a></dt>
                                     <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
                                             class="pre">ABC</span></code></p>
+                                        <p>A vector store stores only passage_id and vector.
+                                            However, default VectorStore from langchian stores all metadata and
+                                            contents, so its size is huge.
+                                            Using SlimVectorStore, you can reduce the size of vector store.</p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.utils.vectorstore.base.SlimVectorStore.add_passage">
@@ -194,11 +199,7 @@
                                                                                  href="#KoPrivateGPT.utils.vectorstore.base.SlimVectorStore.add_passages"
                                                                                  title="Link to this definition"></a>
                                             </dt>
-                                            <dd><p>Embed multiple passages
-                                                Must include “passage_id” at metadatas.
-                                                The value of “passage_id” must be string, because many vector stores
-                                                don’t support UUID.
-                                                Must include empty string at document contents.</p>
+                                            <dd><p>Embed multiple passages</p>
                                             </dd>
                                         </dl>
 
@@ -284,6 +285,7 @@
                                                                                  title="KoPrivateGPT.utils.vectorstore.base.SlimVectorStore"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">SlimVectorStore</span></code></a>
                                     </p>
+                                        <p>Chroma vector store stores only passage_id and vector.</p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.utils.vectorstore.chroma.ChromaSlim.add_passages">
@@ -302,11 +304,7 @@
                                                                                  href="#KoPrivateGPT.utils.vectorstore.chroma.ChromaSlim.add_passages"
                                                                                  title="Link to this definition"></a>
                                             </dt>
-                                            <dd><p>Embed multiple passages
-                                                Must include “passage_id” at metadatas.
-                                                The value of “passage_id” must be string, because many vector stores
-                                                don’t support UUID.
-                                                Must include empty string at document contents.</p>
+                                            <dd><p>Embed multiple passages</p>
                                             </dd>
                                         </dl>
 
@@ -361,6 +359,7 @@
                                                                                    title="KoPrivateGPT.utils.vectorstore.base.SlimVectorStore"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">SlimVectorStore</span></code></a>
                                     </p>
+                                        <p>Pinecone vector store stores only passage_id and vector.</p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.utils.vectorstore.pinecone.PineconeSlim.add_passages">
@@ -398,11 +397,7 @@
                                                     class="headerlink"
                                                     href="#KoPrivateGPT.utils.vectorstore.pinecone.PineconeSlim.add_passages"
                                                     title="Link to this definition"></a></dt>
-                                            <dd><p>Embed multiple passages
-                                                Must include “passage_id” at metadatas.
-                                                The value of “passage_id” must be string, because many vector stores
-                                                don’t support UUID.
-                                                Must include empty string at document contents.</p>
+                                            <dd><p>Embed multiple passages</p>
                                             </dd>
                                         </dl>
 

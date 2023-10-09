@@ -10,7 +10,15 @@ from KoPrivateGPT.utils.linker.redisdbSingleton import RedisDBSingleton
 
 
 class MongoDB(BaseDB):
+    """
+    MongoDB class for using MongoDB as a database for passage contents.
+    """
     def __init__(self, mongo_url: str, db_name: str, collection_name: str, *args, **kwargs):
+        """
+        :param mongo_url: str, the url of mongoDB server.
+        :param db_name: str, the name of mongoDB database.
+        :param collection_name: str, the name of collection in mongoDB database.
+        """
         self.client = None
         self.db = None
         self.mongo_url = mongo_url
@@ -21,21 +29,25 @@ class MongoDB(BaseDB):
 
     @property
     def db_type(self) -> str:
+        """Returns the type of the database as a string."""
         return 'mongo_db'
 
     def create(self):
+        """Creates the collection in the MongoDB database. Raises a `ValueError` if the collection already exists."""
         self.set_db()
         if self.collection_name in self.db.list_collection_names():
             raise ValueError(f'{self.collection_name} already exists')
         self.collection = self.db.create_collection(self.collection_name)
 
     def load(self):
+        """Loads the collection from the MongoDB database. Raises a `ValueError` if the collection does not exist."""
         self.set_db()
         if self.collection_name not in self.db.list_collection_names():
             raise ValueError(f'{self.collection_name} does not exist')
         self.collection = self.db.get_collection(self.collection_name)
 
     def create_or_load(self):
+        """Creates the collection if it does not exist, otherwise loads it."""
         self.set_db()
         if self.collection_name in self.db.list_collection_names():
             self.load()
@@ -43,6 +55,7 @@ class MongoDB(BaseDB):
             self.create()
 
     def save(self, passages: List[Passage]):
+        """Saves the passages to MongoDB collection."""
         for passage in passages:
             # save to mongoDB
             passage_to_dict = passage.to_dict()
@@ -53,6 +66,7 @@ class MongoDB(BaseDB):
             self.redis_db.client.json().set(str(passage.id), '$', db_origin_dict)
 
     def fetch(self, ids: List[UUID]) -> List[Passage]:
+        """Fetches the passages from MongoDB collection by their passage ids."""
         dict_passages = list(self.collection.find({"_id": {"$in": ids}}))
         return [Passage(id=dict_passage['_id'], **dict_passage) for dict_passage in dict_passages]
 
@@ -63,9 +77,12 @@ class MongoDB(BaseDB):
                **kwargs
                ) -> List[Passage]:
         """
-        With this function, you can use mongoDB's find function.
-        :params filter_dict: dict, query dict for mongoDB's find function.
-        :return: List[Passage], list of Passage extract from the result of filter_dict query to MongoDB.
+        Searches the MongoDB collection based on the provided filters and returns the resulting passages.
+        :param id: Optional[List[Union[UUID, str]]], list of Passage ID to search.
+        :param content: Optional[List[str]], list of Passage content to search.
+        :param filepath: Optional[List[str]], list of Passage filepath to search.
+        :param kwargs: Additional metadata to search.
+        :return: List[Passage], list of Passage extract from the MongoDB.
         """
         filter_dict = {}
         if id is not None:
@@ -88,5 +105,8 @@ class MongoDB(BaseDB):
         self.db = self.client.get_database(self.db_name)
 
     def get_db_origin(self) -> DBOrigin:
+        """
+        Returns the DBOrigin object representing the MongoDB database.
+        """
         db_path = {'mongo_url': self.mongo_url, 'db_name': self.db_name, 'collection_name': self.collection_name}
         return DBOrigin(db_type=self.db_type, db_path=db_path)

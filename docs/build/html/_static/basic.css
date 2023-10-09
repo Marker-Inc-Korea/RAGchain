@@ -617,25 +617,20 @@ aside.footnote > span,
 div.citation > span {
     float: left;
 }
-
 aside.footnote > span:last-of-type,
 div.citation > span:last-of-type {
     padding-right: 0.5em;
 }
-
 aside.footnote > p {
     margin-left: 2em;
 }
-
 div.citation > p {
     margin-left: 4em;
 }
-
 aside.footnote > p:last-of-type,
 div.citation > p:last-of-type {
     margin-bottom: 0em;
 }
-
 aside.footnote > p:last-of-type:after,
 div.citation > p:last-of-type:after {
     content: "";
