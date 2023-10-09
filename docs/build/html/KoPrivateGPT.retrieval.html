@@ -8,6 +8,7 @@
     <title>KoPrivateGPT.retrieval package &mdash; KoPrivateGPT documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css"/>
+    <link rel="canonical" href="https://nomadamas.github.io/KoPrivateGPT/KoPrivateGPT.retrieval.html"/>
     <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
     <![endif]-->
@@ -305,6 +306,7 @@
                                             title="Link to this definition"></a></dt>
                                     <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
                                             class="pre">ABC</span></code></p>
+                                        <p>Base Retrieval class for all retrieval classes.</p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.retrieval.base.BaseRetrieval.create_db">
@@ -329,7 +331,8 @@
                                                                                                       href="#KoPrivateGPT.retrieval.base.BaseRetrieval.create_db"
                                                                                                       title="Link to this definition"></a>
                                             </dt>
-                                            <dd><p>selector-ModuleSelector cant import because of circular import.</p>
+                                            <dd><p>You must implement this when you create new DB class.
+                                                selector-ModuleSelector cant import because of circular import.</p>
                                             </dd>
                                         </dl>
 
@@ -401,7 +404,9 @@
                                                     class="headerlink"
                                                     href="#KoPrivateGPT.retrieval.base.BaseRetrieval.fetch_data"
                                                     title="Link to this definition"></a></dt>
-                                            <dd></dd>
+                                            <dd><p>fetch passages from each db. This can fetch data from multiple db.
+                                                :param ids: list of passage ids</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -503,7 +508,8 @@
                                                                                  href="#KoPrivateGPT.retrieval.base.BaseRetrieval.ingest"
                                                                                  title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd><p>ingest passages to vector representation of passages.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -560,7 +566,8 @@
                                                     class="headerlink"
                                                     href="#KoPrivateGPT.retrieval.base.BaseRetrieval.retrieve"
                                                     title="Link to this definition"></a></dt>
-                                            <dd></dd>
+                                            <dd><p>retrieve passages at ingested vector representation of passages.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -596,7 +603,9 @@
                                                                                                 href="#KoPrivateGPT.retrieval.base.BaseRetrieval.retrieve_id"
                                                                                                 title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd><p>retrieve passage ids at ingested vector representation of
+                                                passages.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -639,7 +648,9 @@
                                                                                                 href="#KoPrivateGPT.retrieval.base.BaseRetrieval.retrieve_id_with_scores"
                                                                                                 title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd><p>retrieve passage ids and similarity scores at ingested vector
+                                                representation of passages.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -769,7 +780,14 @@
                                                     class="headerlink"
                                                     href="#KoPrivateGPT.retrieval.base.BaseRetrieval.search_data"
                                                     title="Link to this definition"></a></dt>
-                                            <dd></dd>
+                                            <dd><p>search passages from each db with given filters. This can search data
+                                                from multiple db.
+                                                :param ids: list of passage ids
+                                                :param content: content list to filter
+                                                :param filepath: filepath list to filter
+                                                :param kwargs: metadata_etc to filter. Put metadata_etc key as kwargs
+                                                key and metadata_etc value as kwargs value.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -924,7 +942,9 @@
                                                      title="KoPrivateGPT.retrieval.base.BaseRetrieval"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrieval</span></code></a>
                                     </p>
-                                        <p>Default data structure looks like this:
+                                        <p>BM25Retrieval class for BM25 retrieval. Save bm25 representation as pkl file
+                                            and retrieve it.
+                                            Default data structure looks like this:
                                             {</p>
                                         <blockquote>
                                             <div><p>“tokens” : [], # 2d list of tokens
@@ -949,7 +969,8 @@
                                                                                  href="#KoPrivateGPT.retrieval.bm25_retrieval.BM25Retrieval.ingest"
                                                                                  title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd><p>ingest passages to vector representation of passages.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -982,7 +1003,8 @@
                                                     class="headerlink"
                                                     href="#KoPrivateGPT.retrieval.bm25_retrieval.BM25Retrieval.persist"
                                                     title="Link to this definition"></a></dt>
-                                            <dd></dd>
+                                            <dd><p>Persist data to save_path as pickle file.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -1016,7 +1038,8 @@
                                                     class="headerlink"
                                                     href="#KoPrivateGPT.retrieval.bm25_retrieval.BM25Retrieval.retrieve"
                                                     title="Link to this definition"></a></dt>
-                                            <dd></dd>
+                                            <dd><p>retrieve passages at ingested vector representation of passages.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -1051,7 +1074,9 @@
                                                                                                 href="#KoPrivateGPT.retrieval.bm25_retrieval.BM25Retrieval.retrieve_id"
                                                                                                 title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd><p>retrieve passage ids at ingested vector representation of
+                                                passages.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -1092,7 +1117,9 @@
                                                                                                 href="#KoPrivateGPT.retrieval.bm25_retrieval.BM25Retrieval.retrieve_id_with_scores"
                                                                                                 title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd><p>retrieve passage ids and similarity scores at ingested vector
+                                                representation of passages.</p>
+                                            </dd>
                                         </dl>
 
                                     </dd>
@@ -1155,6 +1182,9 @@
                                                      title="KoPrivateGPT.retrieval.base.BaseRetrieval"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrieval</span></code></a>
                                     </p>
+                                        <p>Hybrid Retrieval class for retrieve passages from multiple retrievals.
+                                            You can combine retrieval scores with rrf algorithm or convex combination
+                                            algorithm.</p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.retrieval.hybrid.HybridRetrieval.ingest">
@@ -1172,7 +1202,8 @@
                                                                                  href="#KoPrivateGPT.retrieval.hybrid.HybridRetrieval.ingest"
                                                                                  title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd><p>ingest passages to vector representation of passages.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -1223,7 +1254,8 @@
                                                     class="headerlink"
                                                     href="#KoPrivateGPT.retrieval.hybrid.HybridRetrieval.retrieve"
                                                     title="Link to this definition"></a></dt>
-                                            <dd></dd>
+                                            <dd><p>retrieve passages at ingested vector representation of passages.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -1258,7 +1290,9 @@
                                                                                                 href="#KoPrivateGPT.retrieval.hybrid.HybridRetrieval.retrieve_id"
                                                                                                 title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd><p>retrieve passage ids at ingested vector representation of
+                                                passages.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -1299,7 +1333,9 @@
                                                                                                 href="#KoPrivateGPT.retrieval.hybrid.HybridRetrieval.retrieve_id_with_scores"
                                                                                                 title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd><p>retrieve passage ids and similarity scores at ingested vector
+                                                representation of passages.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -1387,6 +1423,11 @@
                                                      title="KoPrivateGPT.retrieval.base.BaseRetrieval"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrieval</span></code></a>
                                     </p>
+                                        <p>HyDE Retrieval, which inspired by “Precise Zero-shot Dense Retrieval without
+                                            Relevance Labels” (<a class="reference external"
+                                                                  href="https://arxiv.org/pdf/2212.10496.pdf">https://arxiv.org/pdf/2212.10496.pdf</a>)
+                                            At retrieval, LLM model creates hypothetical passage.
+                                            And then, retrieve passages using hypothetical passage as query.</p>
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.retrieval.hyde.HyDERetrieval.BASIC_SYSTEM_PROMPT">
@@ -1421,7 +1462,8 @@
                                                                                  href="#KoPrivateGPT.retrieval.hyde.HyDERetrieval.ingest"
                                                                                  title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd><p>ingest passages to vector representation of passages.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -1481,7 +1523,8 @@
                                                     class="headerlink"
                                                     href="#KoPrivateGPT.retrieval.hyde.HyDERetrieval.retrieve"
                                                     title="Link to this definition"></a></dt>
-                                            <dd></dd>
+                                            <dd><p>retrieve passages at ingested vector representation of passages.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -1525,7 +1568,9 @@
                                                                                                 href="#KoPrivateGPT.retrieval.hyde.HyDERetrieval.retrieve_id"
                                                                                                 title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd><p>retrieve passage ids at ingested vector representation of
+                                                passages.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -1575,7 +1620,9 @@
                                                                                                 href="#KoPrivateGPT.retrieval.hyde.HyDERetrieval.retrieve_id_with_scores"
                                                                                                 title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd><p>retrieve passage ids and similarity scores at ingested vector
+                                                representation of passages.</p>
+                                            </dd>
                                         </dl>
 
                                     </dd>
@@ -1611,6 +1658,12 @@
                                                      title="KoPrivateGPT.retrieval.base.BaseRetrieval"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrieval</span></code></a>
                                     </p>
+                                        <p>VectorDBRetrieval is a retrieval class that uses VectorDB as a backend.
+                                            First, embed the passage content using embedding model.
+                                            Then, store the embedded vector in VectorDB.
+                                            When retrieving, embed the query and search the most similar vectors in
+                                            VectorDB.
+                                            Lastly, return the passages that have the most similar vectors.</p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.retrieval.vectordb_retrieval.VectorDBRetrieval.ingest">
@@ -1628,7 +1681,8 @@
                                                                                  href="#KoPrivateGPT.retrieval.vectordb_retrieval.VectorDBRetrieval.ingest"
                                                                                  title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd><p>ingest passages to vector representation of passages.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -1662,7 +1716,8 @@
                                                     class="headerlink"
                                                     href="#KoPrivateGPT.retrieval.vectordb_retrieval.VectorDBRetrieval.retrieve"
                                                     title="Link to this definition"></a></dt>
-                                            <dd></dd>
+                                            <dd><p>retrieve passages at ingested vector representation of passages.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -1697,7 +1752,9 @@
                                                                                                 href="#KoPrivateGPT.retrieval.vectordb_retrieval.VectorDBRetrieval.retrieve_id"
                                                                                                 title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd><p>retrieve passage ids at ingested vector representation of
+                                                passages.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -1738,7 +1795,9 @@
                                                                                                 href="#KoPrivateGPT.retrieval.vectordb_retrieval.VectorDBRetrieval.retrieve_id_with_scores"
                                                                                                 title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd><p>retrieve passage ids and similarity scores at ingested vector
+                                                representation of passages.</p>
+                                            </dd>
                                         </dl>
 
                                     </dd>

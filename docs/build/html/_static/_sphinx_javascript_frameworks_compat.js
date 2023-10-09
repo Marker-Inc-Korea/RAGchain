@@ -88,7 +88,6 @@ jQuery.fn.highlightText = function (text, className) {
             });
         }
     }
-
     var addItems = [];
     var result = this.each(function () {
         highlight(this, addItems);

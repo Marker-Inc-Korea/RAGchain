@@ -8,6 +8,7 @@
     <title>KoPrivateGPT.utils package &mdash; KoPrivateGPT documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css"/>
+    <link rel="canonical" href="https://nomadamas.github.io/KoPrivateGPT/KoPrivateGPT.utils.html"/>
     <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
     <![endif]-->
@@ -403,38 +404,54 @@
                                             title="Link to this definition"></a></dt>
                                     <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
                                             class="pre">object</span></code></p>
-                                        <p>EvidenceExtractor is a class that extracts relevant document fragments based
-                                            on a given question and a list of passages.</p>
-                                        <p>Methods:
-                                            - __init__(self, system_prompt: str = None, model_name: str =
-                                            “gpt-3.5-turbo”, api_base: str = None):</p>
-                                        <blockquote>
-                                            <div><p>Initializes the EvidenceExtractor instance with the given
-                                                system_prompt, model_name, and api_base.</p>
-                                            </div>
-                                        </blockquote>
-                                        <ul class="simple">
-                                            <li><p>extract(self, question: str, passages: List[Passage], model_kwargs:
-                                                dict = {}) -&gt; str:
-                                                Extracts relevant document fragments based on the given question and
-                                                list of passages.</p></li>
-                                        </ul>
-                                        <p>Example usage:</p>
-                                        <dl class="simple">
-                                            <dt>passages = [</dt>
-                                            <dd><p>Passage(content=”Lorem ipsum dolor sit amet”),
-                                                Passage(content=”Consectetur adipiscing elit”),
-                                                Passage(content=”Sed do eiusmod tempor incididunt ut labore et dolore
-                                                magna aliqua”)</p>
-                                            </dd>
+                                        <p>EvidenceExtractor is a class that extracts relevant evidences based on a
+                                            given question and a list of passages.</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Example<span class="colon">:</span></dt>
+                                            <dd class="field-odd"><p></p></dd>
                                         </dl>
-                                        <p>]</p>
-                                        <p>question = “What is Lorem ipsum?”
-                                            extractor = EvidenceExtractor()
-                                            result = extractor.extract(question, passages)</p>
-                                        <p>print(result)</p>
-                                        <p>Output:
-                                            “This is the relevant document fragment that answers the question.”</p>
+                                        <div class="doctest highlight-default notranslate">
+                                            <div class="highlight"><pre><span></span><span
+                                                    class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span
+                                                    class="nn">KoPrivateGPT.utils.evidence_extractor</span> <span
+                                                    class="kn">import</span> <span class="n">EvidenceExtractor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">KoPrivateGPT.schema</span> <span
+                                                        class="kn">import</span> <span class="n">Passage</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">passages</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="n">Passage</span><span class="p">(</span><span
+                                                        class="n">content</span><span class="o">=</span><span
+                                                        class="s2">&quot;Lorem ipsum dolor sit amet&quot;</span><span
+                                                        class="p">),</span>
+<span class="gp">... </span>    <span class="n">Passage</span><span class="p">(</span><span
+                                                        class="n">content</span><span class="o">=</span><span
+                                                        class="s2">&quot;Consectetur adipiscing elit&quot;</span><span
+                                                        class="p">),</span>
+<span class="gp">... </span>    <span class="n">Passage</span><span class="p">(</span><span
+                                                        class="n">content</span><span class="o">=</span><span
+                                                        class="s2">&quot;Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua&quot;</span><span
+                                                        class="p">)</span>
+<span class="gp">... </span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">question</span> <span class="o">=</span> <span class="s2">&quot;What is Lorem ipsum?&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extractor</span> <span class="o">=</span> <span class="n">EvidenceExtractor</span><span
+                                                        class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span
+                                                        class="n">extractor</span><span class="o">.</span><span
+                                                        class="n">extract</span><span class="p">(</span><span class="n">question</span><span
+                                                        class="p">,</span> <span class="n">passages</span><span
+                                                        class="p">)</span>
+</pre>
+                                            </div>
+                                        </div>
+                                        <div class="doctest highlight-default notranslate">
+                                            <div class="highlight"><pre><span></span><span
+                                                    class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span
+                                                    class="p">(</span><span class="n">result</span><span
+                                                    class="p">)</span>
+</pre>
+                                            </div>
+                                        </div>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.utils.evidence_extractor.EvidenceExtractor.extract">
@@ -467,17 +484,27 @@
                                                                                            href="#KoPrivateGPT.utils.evidence_extractor.EvidenceExtractor.extract"
                                                                                            title="Link to this definition"></a>
                                             </dt>
-                                            <dd><p>Extract method extracts relevant document fragments based on a
+                                            <dd><p>Extract method extracts relevant document evidences based on a
                                                 question and a list of passages.</p>
-                                                <p>Parameters:
-                                                    - question (str): The question for which relevant document fragments
-                                                    need to be extracted.
-                                                    - passages (List[Passage]): A list of Passage objects that contain
-                                                    the content of the documents.
-                                                    - model_kwargs (dict): Optional keyword arguments to be passed to
-                                                    the model for customization.</p>
-                                                <p>Returns:
-                                                    - str: The extracted relevant document fragments.</p>
+                                                <dl class="field-list simple">
+                                                    <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                                                    <dd class="field-odd">
+                                                        <ul class="simple">
+                                                            <li><p><strong>question</strong> – The question for which
+                                                                relevant document fragments need to be extracted.</p>
+                                                            </li>
+                                                            <li><p><strong>passages</strong> – A list of Passage objects
+                                                                that contain the content of the documents.</p></li>
+                                                            <li><p><strong>model_kwargs</strong> – Optional keyword
+                                                                arguments to be passed to the openai api for
+                                                                customization. Default is {}.</p></li>
+                                                        </ul>
+                                                    </dd>
+                                                    <dt class="field-even">Returns<span class="colon">:</span></dt>
+                                                    <dd class="field-even"><p>The extracted relevant document
+                                                        fragments.</p>
+                                                    </dd>
+                                                </dl>
                                             </dd>
                                         </dl>
 
@@ -506,6 +533,45 @@
                                             title="Link to this definition"></a></dt>
                                     <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
                                             class="pre">object</span></code></p>
+                                        <p>This class is used to delete duplicate documents from given DB.
+                                            You can use this after you load your file to Document using file loader.
+                                            It will automatically check duplicate documents using source metadata and
+                                            return non-duplicate documents.</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Example<span class="colon">:</span></dt>
+                                            <dd class="field-odd"><p></p></dd>
+                                        </dl>
+                                        <div class="doctest highlight-default notranslate">
+                                            <div class="highlight"><pre><span></span><span
+                                                    class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span
+                                                    class="nn">KoPrivateGPT.utils.file_cache</span> <span class="kn">import</span> <span
+                                                    class="n">FileCache</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">KoPrivateGPT.DB</span> <span
+                                                        class="kn">import</span> <span class="n">PickleDB</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span
+                                                        class="nn">langchain.document_loaders</span> <span class="kn">import</span> <span
+                                                        class="n">TextLoader</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span> <span class="o">=</span> <span
+                                                        class="n">PickleDB</span><span class="p">(</span><span
+                                                        class="n">save_path</span><span class="o">=</span><span
+                                                        class="s1">&#39;./pickle_db.pkl&#39;</span><span
+                                                        class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">file_cache</span> <span class="o">=</span> <span class="n">FileCache</span><span
+                                                        class="p">(</span><span class="n">db</span><span
+                                                        class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documents</span> <span class="o">=</span> <span class="n">TextLoader</span><span
+                                                        class="p">(</span><span
+                                                        class="s1">&#39;./data.txt&#39;</span><span
+                                                        class="p">)</span><span class="o">.</span><span
+                                                        class="n">load</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documents</span> <span class="o">=</span> <span class="n">file_cache</span><span
+                                                        class="o">.</span><span class="n">delete_duplicate</span><span
+                                                        class="p">(</span><span class="n">documents</span><span
+                                                        class="p">)</span>
+</pre>
+                                            </div>
+                                        </div>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.utils.file_cache.FileCache.delete_duplicate">
@@ -582,6 +648,11 @@
                                                                          title="Link to this definition"></a></dt>
                                     <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
                                             class="pre">object</span></code></p>
+                                        <p>Query Decomposition class.
+                                            You can decompose a multi-hop questions to multiple single-hop questions
+                                            using LLM.
+                                            The default decomposition prompt is from Visconde paper, and its prompt is
+                                            few-shot prompts from strategyQA dataset.</p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.utils.query_decompose.QueryDecomposition.decompose">
@@ -757,6 +828,7 @@
                                             title="Link to this definition"></a></dt>
                                     <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
                                             class="pre">object</span></code></p>
+                                        <p>FileChecker is a class to check file type and existence.</p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.utils.util.FileChecker.check_type">
@@ -787,7 +859,19 @@
                                                                                  href="#KoPrivateGPT.utils.util.FileChecker.check_type"
                                                                                  title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd>
+                                                <dl class="field-list simple">
+                                                    <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                                                    <dd class="field-odd"><p><strong>file_type</strong> – str, file type
+                                                        to check. Default is None. You must use this when you want to
+                                                        check only one file type.</p>
+                                                    </dd>
+                                                </dl>
+                                                <p>When you use this, you don’t need to use file_types.
+                                                    :param file_types: List[str], file types to check. Default is None.
+                                                    You must use this when you want to check multiple file types.
+                                                    When you use this, you don’t need to use file_type.</p>
+                                            </dd>
                                         </dl>
 
                                         <dl class="py method">
@@ -798,7 +882,9 @@
                                                     class="headerlink"
                                                     href="#KoPrivateGPT.utils.util.FileChecker.is_exist"
                                                     title="Link to this definition"></a></dt>
-                                            <dd></dd>
+                                            <dd><p>check file existence.
+                                                :return: bool, True if file exists, else False.</p>
+                                            </dd>
                                         </dl>
 
                                     </dd>

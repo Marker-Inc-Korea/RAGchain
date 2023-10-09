@@ -8,6 +8,7 @@
     <title>KoPrivateGPT.pipeline package &mdash; KoPrivateGPT documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css"/>
+    <link rel="canonical" href="https://nomadamas.github.io/KoPrivateGPT/KoPrivateGPT.pipeline.html"/>
     <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
     <![endif]-->
@@ -99,46 +100,8 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li><a class="reference internal" href="#module-KoPrivateGPT.pipeline.selector">KoPrivateGPT.pipeline.selector
-                                    module</a>
-                                    <ul>
-                                        <li><a class="reference internal"
-                                               href="#KoPrivateGPT.pipeline.selector.ModuleSelector"><code
-                                                class="docutils literal notranslate"><span
-                                                class="pre">ModuleSelector</span></code></a>
-                                            <ul>
-                                                <li><a class="reference internal"
-                                                       href="#KoPrivateGPT.pipeline.selector.ModuleSelector.get"><code
-                                                        class="docutils literal notranslate"><span class="pre">ModuleSelector.get()</span></code></a>
-                                                </li>
-                                                <li><a class="reference internal"
-                                                       href="#KoPrivateGPT.pipeline.selector.ModuleSelector.select"><code
-                                                        class="docutils literal notranslate"><span class="pre">ModuleSelector.select()</span></code></a>
-                                                </li>
-                                                <li><a class="reference internal"
-                                                       href="#KoPrivateGPT.pipeline.selector.ModuleSelector.select_db"><code
-                                                        class="docutils literal notranslate"><span class="pre">ModuleSelector.select_db()</span></code></a>
-                                                </li>
-                                                <li><a class="reference internal"
-                                                       href="#KoPrivateGPT.pipeline.selector.ModuleSelector.select_file_loader"><code
-                                                        class="docutils literal notranslate"><span class="pre">ModuleSelector.select_file_loader()</span></code></a>
-                                                </li>
-                                                <li><a class="reference internal"
-                                                       href="#KoPrivateGPT.pipeline.selector.ModuleSelector.select_llm"><code
-                                                        class="docutils literal notranslate"><span class="pre">ModuleSelector.select_llm()</span></code></a>
-                                                </li>
-                                                <li><a class="reference internal"
-                                                       href="#KoPrivateGPT.pipeline.selector.ModuleSelector.select_retrieval"><code
-                                                        class="docutils literal notranslate"><span class="pre">ModuleSelector.select_retrieval()</span></code></a>
-                                                </li>
-                                                <li><a class="reference internal"
-                                                       href="#KoPrivateGPT.pipeline.selector.ModuleSelector.select_text_splitter"><code
-                                                        class="docutils literal notranslate"><span class="pre">ModuleSelector.select_text_splitter()</span></code></a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
+                                <li><a class="reference internal" href="#koprivategpt-pipeline-selector-module">KoPrivateGPT.pipeline.selector
+                                    module</a></li>
                                 <li><a class="reference internal" href="#module-KoPrivateGPT.pipeline">Module
                                     contents</a></li>
                             </ul>
@@ -191,6 +154,7 @@
                                             title="Link to this definition"></a></dt>
                                     <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
                                             class="pre">ABC</span></code></p>
+                                        <p>Base class for all pipelines</p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.pipeline.base.BasePipeline.run">
@@ -206,7 +170,8 @@
                                                                                  href="#KoPrivateGPT.pipeline.base.BasePipeline.run"
                                                                                  title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd><p>Run the pipeline</p>
+                                            </dd>
                                         </dl>
 
                                     </dd>
@@ -228,16 +193,11 @@
                                             class="pre">file_loader</span></span><span class="p"><span
                                             class="pre">:</span></span><span class="w"> </span><span class="n"><span
                                             class="pre">BaseLoader</span></span></em>, <em class="sig-param"><span
-                                            class="n"><span class="pre">retrieval_type</span></span><span
-                                            class="p"><span class="pre">:</span></span><span class="w"> </span><span
-                                            class="n"><span class="pre">tuple</span><span class="p"><span
-                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
-                                            class="pre">,</span></span><span class="w"> </span><span
-                                            class="pre">Dict</span><span class="p"><span
-                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
-                                            class="pre">,</span></span><span class="w"> </span><span
-                                            class="pre">Any</span><span class="p"><span class="pre">]</span></span><span
-                                            class="p"><span class="pre">]</span></span></span></em><span
+                                            class="n"><span class="pre">retrieval</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                                            class="reference internal"
+                                            href="KoPrivateGPT.retrieval.html#KoPrivateGPT.retrieval.base.BaseRetrieval"
+                                            title="KoPrivateGPT.retrieval.base.BaseRetrieval"><span class="pre">BaseRetrieval</span></a></span></em><span
                                             class="sig-paren">)</span><a class="headerlink"
                                                                          href="#KoPrivateGPT.pipeline.basic.BasicDatasetPipeline"
                                                                          title="Link to this definition"></a></dt>
@@ -246,6 +206,10 @@
                                                      title="KoPrivateGPT.pipeline.base.BasePipeline"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">BasePipeline</span></code></a>
                                     </p>
+                                        <p>DEPRECATED
+                                            This class is deprecated and recommend to use BasicIngestPipeline instead.
+                                            Basic dataset pipeline class.
+                                            You can ingest specific dataset to retrieval system.</p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.pipeline.basic.BasicDatasetPipeline.run">
@@ -259,7 +223,8 @@
                                                                                  href="#KoPrivateGPT.pipeline.basic.BasicDatasetPipeline.run"
                                                                                  title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd><p>Run the pipeline</p>
+                                            </dd>
                                         </dl>
 
                                     </dd>
@@ -272,51 +237,17 @@
                                             class="sig-name descname"><span
                                             class="pre">BasicIngestPipeline</span></span><span
                                             class="sig-paren">(</span><em class="sig-param"><span class="n"><span
-                                            class="pre">file_loader</span></span><span class="p"><span
-                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                                            class="pre">BaseLoader</span></span></em>, <em class="sig-param"><span
-                                            class="n"><span class="pre">db_type</span></span><span class="p"><span
-                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                                            class="pre">tuple</span><span class="p"><span
-                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
-                                            class="pre">,</span></span><span class="w"> </span><span
-                                            class="pre">Dict</span><span class="p"><span
-                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
-                                            class="pre">,</span></span><span class="w"> </span><span
-                                            class="pre">Any</span><span class="p"><span class="pre">]</span></span><span
-                                            class="p"><span class="pre">]</span></span></span></em>, <em
-                                            class="sig-param"><span class="n"><span
-                                            class="pre">retrieval_type</span></span><span class="p"><span
-                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                                            class="pre">tuple</span><span class="p"><span
-                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
-                                            class="pre">,</span></span><span class="w"> </span><span
-                                            class="pre">Dict</span><span class="p"><span
-                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
-                                            class="pre">,</span></span><span class="w"> </span><span
-                                            class="pre">Any</span><span class="p"><span class="pre">]</span></span><span
-                                            class="p"><span class="pre">]</span></span></span></em>, <em
-                                            class="sig-param"><span class="n"><span
-                                            class="pre">text_splitter_type</span></span><span class="p"><span
-                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                                            class="pre">tuple</span><span class="p"><span
-                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
-                                            class="pre">,</span></span><span class="w"> </span><span
-                                            class="pre">Dict</span><span class="p"><span
-                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
-                                            class="pre">,</span></span><span class="w"> </span><span
-                                            class="pre">Any</span><span class="p"><span class="pre">]</span></span><span
-                                            class="p"><span class="pre">]</span></span></span><span
-                                            class="w"> </span><span class="o"><span class="pre">=</span></span><span
-                                            class="w"> </span><span class="default_value"><span class="pre">('recursive_text_splitter',</span> <span
-                                            class="pre">{'chunk_overlap':</span> <span class="pre">50,</span> <span
-                                            class="pre">'chunk_size':</span> <span class="pre">500})</span></span></em>,
+                                            class="pre">file_loader:</span> <span class="pre">~langchain.document_loaders.base.BaseLoader</span></span></em>,
+                                        <em class="sig-param"><span class="n"><span class="pre">db:</span> <span
+                                                class="pre">~KoPrivateGPT.DB.base.BaseDB</span></span></em>, <em
+                                            class="sig-param"><span class="n"><span class="pre">retrieval:</span> <span
+                                            class="pre">~KoPrivateGPT.retrieval.base.BaseRetrieval</span></span></em>,
                                         <em class="sig-param"><span class="n"><span
-                                                class="pre">ignore_existed_file</span></span><span class="p"><span
-                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                                                class="pre">bool</span></span><span class="w"> </span><span
-                                                class="o"><span class="pre">=</span></span><span class="w"> </span><span
-                                                class="default_value"><span class="pre">True</span></span></em><span
+                                                class="pre">text_splitter:</span> <span class="pre">~KoPrivateGPT.preprocess.text_splitter.base.BaseTextSplitter</span> <span
+                                                class="pre">=</span> <span class="pre">&lt;KoPrivateGPT.preprocess.text_splitter.text_splitter.RecursiveTextSplitter</span> <span
+                                                class="pre">object&gt;</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">ignore_existed_file:</span> <span class="pre">bool</span> <span
+                                            class="pre">=</span> <span class="pre">True</span></span></em><span
                                             class="sig-paren">)</span><a class="headerlink"
                                                                          href="#KoPrivateGPT.pipeline.basic.BasicIngestPipeline"
                                                                          title="Link to this definition"></a></dt>
@@ -325,26 +256,58 @@
                                                      title="KoPrivateGPT.pipeline.base.BasePipeline"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">BasePipeline</span></code></a>
                                     </p>
-                                        <p>Class representing a basic ingest pipeline.</p>
-                                        <p>This class handles the ingestion process of documents into a database and
-                                            retrieval system.</p>
-                                        <dl class="simple">
-                                            <dt>Attributes:</dt>
-                                            <dd><p>file_loader (langchain.document_loaders.base.BaseLoader): The file
-                                                loader instance want to use.
-                                                text_splitter_type (tuple[str, Dict[str, Any]]): The type and
-                                                configuration of the text splitter module.
-                                                db_type (tuple[str, Dict[str, Any]]): The type and configuration of the
-                                                database module.
-                                                retrieval_type (tuple[str, Dict[str, Any]]): The type and configuration
-                                                of the retrieval module.
-                                                ignore_existed_file (bool): A flag indicating whether to ignore already
-                                                ingested files.</p>
-                                            </dd>
-                                            <dt>Methods:</dt>
-                                            <dd><p>run: Runs the pipeline to ingest documents.</p>
-                                            </dd>
+                                        <p>Basic ingest pipeline class.
+                                            This class handles the ingestion process of documents into a database and
+                                            retrieval system.
+                                            First, load file from directory using file loader.
+                                            Second, split document into passages using text splitter.
+                                            Third, save passages to database.
+                                            Fourth, ingest passages to retrieval module.</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Example<span class="colon">:</span></dt>
+                                            <dd class="field-odd"><p></p></dd>
                                         </dl>
+                                        <div class="doctest highlight-default notranslate">
+                                            <div class="highlight"><pre><span></span><span
+                                                    class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span
+                                                    class="nn">KoPrivateGPT.pipeline.basic</span> <span class="kn">import</span> <span
+                                                    class="n">BasicIngestPipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">KoPrivateGPT.DB</span> <span
+                                                        class="kn">import</span> <span class="n">PickleDB</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">KoPrivateGPT.retrieval</span> <span
+                                                        class="kn">import</span> <span class="n">BM25Retrieval</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">KoPrivateGPT.preprocess.loader</span> <span
+                                                        class="kn">import</span> <span class="n">FileLoader</span>
+</pre>
+                                            </div>
+                                        </div>
+                                        <div class="doctest highlight-default notranslate">
+                                            <div class="highlight"><pre><span></span><span
+                                                    class="gp">&gt;&gt;&gt; </span><span
+                                                    class="n">file_loader</span> <span class="o">=</span> <span
+                                                    class="n">FileLoader</span><span class="p">(</span><span class="n">target_dir</span><span
+                                                    class="o">=</span><span class="s2">&quot;./data&quot;</span><span
+                                                    class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">db</span> <span class="o">=</span> <span
+                                                        class="n">PickleDB</span><span class="p">(</span><span
+                                                        class="s2">&quot;./db&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">retrieval</span> <span class="o">=</span> <span class="n">BM25Retrieval</span><span
+                                                        class="p">(</span><span class="n">save_path</span><span
+                                                        class="o">=</span><span class="s2">&quot;./bm25.pkl&quot;</span><span
+                                                        class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">BasicIngestPipeline</span><span
+                                                        class="p">(</span><span class="n">file_loader</span><span
+                                                        class="o">=</span><span class="n">file_loader</span><span
+                                                        class="p">,</span> <span class="n">db</span><span
+                                                        class="o">=</span><span class="n">db</span><span
+                                                        class="p">,</span> <span class="n">retrieval</span><span
+                                                        class="o">=</span><span class="n">retrieval</span><span
+                                                        class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span
+                                                        class="n">run</span><span class="p">()</span>
+</pre>
+                                            </div>
+                                        </div>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.pipeline.basic.BasicIngestPipeline.run">
@@ -361,7 +324,15 @@
                                                                                  href="#KoPrivateGPT.pipeline.basic.BasicIngestPipeline.run"
                                                                                  title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd><p>Run ingest pipeline.</p>
+                                                <dl class="field-list simple">
+                                                    <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                                                    <dd class="field-odd"><p><strong>target_dir</strong> – Target
+                                                        directory to load documents. If None, use target_dir from
+                                                        file_loader that you passed in __init__.</p>
+                                                    </dd>
+                                                </dl>
+                                            </dd>
                                         </dl>
 
                                     </dd>
@@ -374,38 +345,74 @@
                                             class="sig-name descname"><span
                                             class="pre">BasicRunPipeline</span></span><span
                                             class="sig-paren">(</span><em class="sig-param"><span class="n"><span
-                                            class="pre">retrieval_type</span></span><span class="p"><span
-                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                                            class="pre">tuple</span><span class="p"><span
-                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
-                                            class="pre">,</span></span><span class="w"> </span><span
-                                            class="pre">Dict</span><span class="p"><span
-                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
-                                            class="pre">,</span></span><span class="w"> </span><span
-                                            class="pre">Any</span><span class="p"><span class="pre">]</span></span><span
-                                            class="p"><span class="pre">]</span></span></span></em>, <em
-                                            class="sig-param"><span class="n"><span
-                                            class="pre">llm_type</span></span><span class="p"><span class="pre">:</span></span><span
-                                            class="w"> </span><span class="n"><span class="pre">tuple</span><span
-                                            class="p"><span class="pre">[</span></span><span class="pre">str</span><span
-                                            class="p"><span class="pre">,</span></span><span class="w"> </span><span
-                                            class="pre">Dict</span><span class="p"><span
-                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
-                                            class="pre">,</span></span><span class="w"> </span><span
-                                            class="pre">Any</span><span class="p"><span class="pre">]</span></span><span
-                                            class="p"><span class="pre">]</span></span></span><span
-                                            class="w"> </span><span class="o"><span class="pre">=</span></span><span
-                                            class="w"> </span><span class="default_value"><span class="pre">('basic_llm',</span> <span
-                                            class="pre">{'api_base':</span> <span class="pre">None,</span> <span
-                                            class="pre">'model_name':</span> <span class="pre">'gpt-3.5-turbo'})</span></span></em><span
-                                            class="sig-paren">)</span><a class="headerlink"
-                                                                         href="#KoPrivateGPT.pipeline.basic.BasicRunPipeline"
-                                                                         title="Link to this definition"></a></dt>
+                                            class="pre">retrieval</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                                            class="reference internal"
+                                            href="KoPrivateGPT.retrieval.html#KoPrivateGPT.retrieval.base.BaseRetrieval"
+                                            title="KoPrivateGPT.retrieval.base.BaseRetrieval"><span class="pre">BaseRetrieval</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span class="pre">llm</span></span><span
+                                                class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                                                class="n"><a class="reference internal"
+                                                             href="KoPrivateGPT.llm.html#KoPrivateGPT.llm.base.BaseLLM"
+                                                             title="KoPrivateGPT.llm.base.BaseLLM"><span class="pre">BaseLLM</span></a><span
+                                                class="w"> </span><span class="p"><span class="pre">|</span></span><span
+                                                class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink" href="#KoPrivateGPT.pipeline.basic.BasicRunPipeline"
+                                            title="Link to this definition"></a></dt>
                                     <dd><p>Bases: <a class="reference internal"
                                                      href="#KoPrivateGPT.pipeline.base.BasePipeline"
                                                      title="KoPrivateGPT.pipeline.base.BasePipeline"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">BasePipeline</span></code></a>
                                     </p>
+                                        <p>Basic run pipeline class.
+                                            This class handles the run process of document question answering.
+                                            First, retrieve passages from retrieval module.
+                                            Second, run LLM module to get answer.
+                                            Finally, you can get answer and passages as return value.</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Example<span class="colon">:</span></dt>
+                                            <dd class="field-odd"><p></p></dd>
+                                        </dl>
+                                        <div class="doctest highlight-default notranslate">
+                                            <div class="highlight"><pre><span></span><span
+                                                    class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span
+                                                    class="nn">KoPrivateGPT.pipeline.basic</span> <span class="kn">import</span> <span
+                                                    class="n">BasicRunPipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">KoPrivateGPT.retrieval</span> <span
+                                                        class="kn">import</span> <span class="n">BM25Retrieval</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">KoPrivateGPT.llm.basic</span> <span
+                                                        class="kn">import</span> <span class="n">BasicLLM</span>
+</pre>
+                                            </div>
+                                        </div>
+                                        <div class="doctest highlight-default notranslate">
+                                            <div class="highlight"><pre><span></span><span
+                                                    class="gp">&gt;&gt;&gt; </span><span
+                                                    class="n">retrieval</span> <span class="o">=</span> <span class="n">BM25Retrieval</span><span
+                                                    class="p">(</span><span class="n">save_path</span><span
+                                                    class="o">=</span><span
+                                                    class="s2">&quot;./bm25.pkl&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">llm</span> <span class="o">=</span> <span class="n">BasicLLM</span><span
+                                                        class="p">(</span><span class="n">retrieval</span><span
+                                                        class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">BasicRunPipeline</span><span
+                                                        class="p">(</span><span class="n">retrieval</span><span
+                                                        class="o">=</span><span class="n">retrieval</span><span
+                                                        class="p">,</span> <span class="n">llm</span><span
+                                                        class="o">=</span><span class="n">llm</span><span
+                                                        class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">answer</span><span class="p">,</span> <span
+                                                        class="n">passages</span> <span class="o">=</span> <span
+                                                        class="n">pipeline</span><span class="o">.</span><span
+                                                        class="n">run</span><span class="p">(</span><span class="n">query</span><span
+                                                        class="o">=</span><span class="s2">&quot;Where is the capital of Korea?&quot;</span><span
+                                                        class="p">)</span>
+</pre>
+                                            </div>
+                                        </div>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="KoPrivateGPT.pipeline.basic.BasicRunPipeline.run">
@@ -435,145 +442,20 @@
                                                                                                 href="#KoPrivateGPT.pipeline.basic.BasicRunPipeline.run"
                                                                                                 title="Link to this definition"></a>
                                             </dt>
-                                            <dd></dd>
+                                            <dd><p>Run the run pipeline.
+                                                :param query: Query to ask.
+                                                :return: Answer, retrieved passages.</p>
+                                            </dd>
                                         </dl>
 
                                     </dd>
                                 </dl>
 
                             </section>
-                            <section id="module-KoPrivateGPT.pipeline.selector">
-                                <span id="koprivategpt-pipeline-selector-module"></span>
+                            <section id="koprivategpt-pipeline-selector-module">
                                 <h2>KoPrivateGPT.pipeline.selector module<a class="headerlink"
-                                                                            href="#module-KoPrivateGPT.pipeline.selector"
+                                                                            href="#koprivategpt-pipeline-selector-module"
                                                                             title="Link to this heading"></a></h2>
-                                <dl class="py class">
-                                    <dt class="sig sig-object py" id="KoPrivateGPT.pipeline.selector.ModuleSelector">
-                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
-                                            class="sig-prename descclassname"><span class="pre">KoPrivateGPT.pipeline.selector.</span></span><span
-                                            class="sig-name descname"><span
-                                            class="pre">ModuleSelector</span></span><span class="sig-paren">(</span><em
-                                            class="sig-param"><span class="n"><span
-                                            class="pre">module_name</span></span></em><span class="sig-paren">)</span><a
-                                            class="headerlink" href="#KoPrivateGPT.pipeline.selector.ModuleSelector"
-                                            title="Link to this definition"></a></dt>
-                                    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
-                                            class="pre">object</span></code></p>
-                                        <dl class="py method">
-                                            <dt class="sig sig-object py"
-                                                id="KoPrivateGPT.pipeline.selector.ModuleSelector.get">
-                                                <span class="sig-name descname"><span class="pre">get</span></span><span
-                                                    class="sig-paren">(</span><em class="sig-param"><span
-                                                    class="o"><span class="pre">*</span></span><span class="n"><span
-                                                    class="pre">args</span></span></em>, <em class="sig-param"><span
-                                                    class="o"><span class="pre">**</span></span><span class="n"><span
-                                                    class="pre">kwargs</span></span></em><span
-                                                    class="sig-paren">)</span><a class="headerlink"
-                                                                                 href="#KoPrivateGPT.pipeline.selector.ModuleSelector.get"
-                                                                                 title="Link to this definition"></a>
-                                            </dt>
-                                            <dd></dd>
-                                        </dl>
-
-                                        <dl class="py method">
-                                            <dt class="sig sig-object py"
-                                                id="KoPrivateGPT.pipeline.selector.ModuleSelector.select">
-                                                <span class="sig-name descname"><span
-                                                        class="pre">select</span></span><span class="sig-paren">(</span><em
-                                                    class="sig-param"><span class="n"><span
-                                                    class="pre">name</span></span><span class="p"><span
-                                                    class="pre">:</span></span><span class="w"> </span><span
-                                                    class="n"><span class="pre">str</span></span></em><span
-                                                    class="sig-paren">)</span><a class="headerlink"
-                                                                                 href="#KoPrivateGPT.pipeline.selector.ModuleSelector.select"
-                                                                                 title="Link to this definition"></a>
-                                            </dt>
-                                            <dd></dd>
-                                        </dl>
-
-                                        <dl class="py method">
-                                            <dt class="sig sig-object py"
-                                                id="KoPrivateGPT.pipeline.selector.ModuleSelector.select_db">
-                                                <span class="sig-name descname"><span
-                                                        class="pre">select_db</span></span><span
-                                                    class="sig-paren">(</span><em class="sig-param"><span
-                                                    class="n"><span class="pre">name</span></span><span class="p"><span
-                                                    class="pre">:</span></span><span class="w"> </span><span
-                                                    class="n"><span class="pre">str</span></span></em><span
-                                                    class="sig-paren">)</span><a class="headerlink"
-                                                                                 href="#KoPrivateGPT.pipeline.selector.ModuleSelector.select_db"
-                                                                                 title="Link to this definition"></a>
-                                            </dt>
-                                            <dd></dd>
-                                        </dl>
-
-                                        <dl class="py method">
-                                            <dt class="sig sig-object py"
-                                                id="KoPrivateGPT.pipeline.selector.ModuleSelector.select_file_loader">
-                                                <span class="sig-name descname"><span
-                                                        class="pre">select_file_loader</span></span><span
-                                                    class="sig-paren">(</span><em class="sig-param"><span
-                                                    class="n"><span class="pre">name</span></span><span class="p"><span
-                                                    class="pre">:</span></span><span class="w"> </span><span
-                                                    class="n"><span class="pre">str</span></span></em><span
-                                                    class="sig-paren">)</span><a class="headerlink"
-                                                                                 href="#KoPrivateGPT.pipeline.selector.ModuleSelector.select_file_loader"
-                                                                                 title="Link to this definition"></a>
-                                            </dt>
-                                            <dd></dd>
-                                        </dl>
-
-                                        <dl class="py method">
-                                            <dt class="sig sig-object py"
-                                                id="KoPrivateGPT.pipeline.selector.ModuleSelector.select_llm">
-                                                <span class="sig-name descname"><span
-                                                        class="pre">select_llm</span></span><span
-                                                    class="sig-paren">(</span><em class="sig-param"><span
-                                                    class="n"><span class="pre">name</span></span><span class="p"><span
-                                                    class="pre">:</span></span><span class="w"> </span><span
-                                                    class="n"><span class="pre">str</span></span></em><span
-                                                    class="sig-paren">)</span><a class="headerlink"
-                                                                                 href="#KoPrivateGPT.pipeline.selector.ModuleSelector.select_llm"
-                                                                                 title="Link to this definition"></a>
-                                            </dt>
-                                            <dd></dd>
-                                        </dl>
-
-                                        <dl class="py method">
-                                            <dt class="sig sig-object py"
-                                                id="KoPrivateGPT.pipeline.selector.ModuleSelector.select_retrieval">
-                                                <span class="sig-name descname"><span
-                                                        class="pre">select_retrieval</span></span><span
-                                                    class="sig-paren">(</span><em class="sig-param"><span
-                                                    class="n"><span class="pre">name</span></span><span class="p"><span
-                                                    class="pre">:</span></span><span class="w"> </span><span
-                                                    class="n"><span class="pre">str</span></span></em><span
-                                                    class="sig-paren">)</span><a class="headerlink"
-                                                                                 href="#KoPrivateGPT.pipeline.selector.ModuleSelector.select_retrieval"
-                                                                                 title="Link to this definition"></a>
-                                            </dt>
-                                            <dd></dd>
-                                        </dl>
-
-                                        <dl class="py method">
-                                            <dt class="sig sig-object py"
-                                                id="KoPrivateGPT.pipeline.selector.ModuleSelector.select_text_splitter">
-                                                <span class="sig-name descname"><span
-                                                        class="pre">select_text_splitter</span></span><span
-                                                    class="sig-paren">(</span><em class="sig-param"><span
-                                                    class="n"><span class="pre">name</span></span><span class="p"><span
-                                                    class="pre">:</span></span><span class="w"> </span><span
-                                                    class="n"><span class="pre">str</span></span></em><span
-                                                    class="sig-paren">)</span><a class="headerlink"
-                                                                                 href="#KoPrivateGPT.pipeline.selector.ModuleSelector.select_text_splitter"
-                                                                                 title="Link to this definition"></a>
-                                            </dt>
-                                            <dd></dd>
-                                        </dl>
-
-                                    </dd>
-                                </dl>
-
                             </section>
                             <section id="module-KoPrivateGPT.pipeline">
                                 <span id="module-contents"></span>
