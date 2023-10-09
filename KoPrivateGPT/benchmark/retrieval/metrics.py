@@ -17,7 +17,7 @@ class BaseRetrievalMetric(ABC):
              k: int) -> float:
         assert k > 0, "k must be greater than 0"
         assert len(pred) >= k, "k must be less than or equal to the number of predictions"
-        #warnings.warn("num of preds which score bigger than 0 is less than k")
+
         metric = self.retrieval_metric_function(solution, pred, k)
 
         return metric
@@ -26,6 +26,7 @@ class BaseRetrievalMetric(ABC):
     def retrieval_metric_function(self, solution: Dict[str, int],
                                   pred: Dict[str, float],
                                   k_value: int = 1) -> float:
+
         pass
 
 

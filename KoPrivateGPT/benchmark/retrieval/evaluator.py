@@ -23,8 +23,8 @@ def basic_retrieval_evaluation(qrels: Dict[str, List[str]], preds: Dict[str, Lis
     binary_metrics = [TopKAccuracy(), ExactlyMatch(), F1(), Hole(), Recall(), Precision()]
     score_dict = dict()
 
-    is_rank_aware = check_retrieval_eval(qrels, preds, qrels_relevance, preds_relevance, k_values)
-    #
+    is_rank_aware = check_retrieval_eval(qrels, preds, k_values, preds_relevance, qrels_relevance)
+
     metrics = binary_metrics if is_rank_aware else all_metrics
     # attaching relevance
     if is_rank_aware:
@@ -122,11 +122,11 @@ def check_retrieval_eval(qrels: Dict[str, List[str]], preds: Dict[str, List[str]
 
     if set(preds.keys()) - set(qrels.keys()):
         print("Warning: prediction Dictionary contain more query_ids than qrels. the mismatched ids will be ignored.")
-    print(preds)
-    over_preds = [query_id for query_id, retrieved_docs in preds.iteritems() if (len(retrieved_docs) <= max(k_values))]
+
+    less_preds = [query_id for query_id, retrieved_docs in preds.items() if (len(retrieved_docs) < min(k_values))]
     min_length_preds = min([len(retrieved_docs) for retrieved_docs in preds.values()])
 
-    if over_preds:
+    if less_preds:
         raise ValueError(
             f'current min length of preds : {min_length_preds}, each number of retrieved docs need to be larger than k_value')
 

@@ -35,10 +35,10 @@ basic_retrieval_eval_values = [
 basic_retrieval_eval_value_ids = [f'{order}' for order in range(len(basic_retrieval_eval_values))]
 # "true" or "false" -> True or False (json -> python)
 
-with open('./ko-strategy-qa_dev.json', 'r') as f:
+with open('../../../resources/retrieval_files/ko-strategy-qa_dev.json', 'r') as f:
     strategyqa_gold_small_json = json.load(f)
 
-with open('./predictions_small.json', 'r') as f:
+with open('../../../resources/retrieval_files/dev_pred.json', 'r') as f:
     strategyqa_predictions_small = json.load(f)
 
 stretagy_qa_values = [
