@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List
 
 from dotenv import load_dotenv
 from langchain.document_loaders.base import BaseLoader
@@ -17,28 +17,39 @@ from KoPrivateGPT.utils.util import slice_stop_words
 
 class BasicIngestPipeline(BasePipeline):
     """
-    Class representing a basic ingest pipeline.
-
+    Basic ingest pipeline class.
     This class handles the ingestion process of documents into a database and retrieval system.
+    First, load file from directory using file loader.
+    Second, split document into passages using text splitter.
+    Third, save passages to database.
+    Fourth, ingest passages to retrieval module.
 
-    Attributes:
-        file_loader (langchain.document_loaders.base.BaseLoader): The file loader instance want to use.
-        text_splitter (tuple[str, Dict[str, Any]]): The type and configuration of the text splitter module.
-        db (tuple[str, Dict[str, Any]]): The type and configuration of the database module.
-        retrieval (tuple[str, Dict[str, Any]]): The type and configuration of the retrieval module.
-        ignore_existed_file (bool): A flag indicating whether to ignore already ingested files.
+    :example:
+    >>> from KoPrivateGPT.pipeline.basic import BasicIngestPipeline
+    >>> from KoPrivateGPT.DB import PickleDB
+    >>> from KoPrivateGPT.retrieval import BM25Retrieval
+    >>> from KoPrivateGPT.preprocess.loader import FileLoader
 
-    Methods:
-        run: Runs the pipeline to ingest documents.
-
+    >>> file_loader = FileLoader(target_dir="./data")
+    >>> db = PickleDB("./db")
+    >>> retrieval = BM25Retrieval(save_path="./bm25.pkl")
+    >>> pipeline = BasicIngestPipeline(file_loader=file_loader, db=db, retrieval=retrieval)
+    >>> pipeline.run()
     """
-
     def __init__(self,
                  file_loader: BaseLoader,
                  db: BaseDB,
                  retrieval: BaseRetrieval,
                  text_splitter: BaseTextSplitter = RecursiveTextSplitter(chunk_size=500, chunk_overlap=50),
                  ignore_existed_file: bool = True):
+        """
+        Initialize BasicIngestPipeline.
+        :param file_loader: File loader to load documents. You can use any file loader from langchain and KoPrivateGPT.
+        :param db: Database to save passages.
+        :param retrieval: Retrieval module to ingest passages.
+        :param text_splitter: Text splitter to split document into passages. Default is RecursiveTextSplitter.
+        :param ignore_existed_file: If True, ignore existed file in database. Default is True.
+        """
         self.file_loader = file_loader
         self.text_splitter = text_splitter
         self.db = db
@@ -47,6 +58,11 @@ class BasicIngestPipeline(BasePipeline):
         load_dotenv(verbose=False)
 
     def run(self, target_dir=None, *args, **kwargs):
+        """
+        Run ingest pipeline.
+
+        :param target_dir: Target directory to load documents. If None, use target_dir from file_loader that you passed in __init__.
+        """
         # File Loader
         if target_dir is not None:
             self.file_loader.target_dir = target_dir
@@ -76,6 +92,12 @@ class BasicIngestPipeline(BasePipeline):
 
 
 class BasicDatasetPipeline(BasePipeline):
+    """
+    DEPRECATED
+    This class is deprecated and recommend to use BasicIngestPipeline instead.
+    Basic dataset pipeline class.
+    You can ingest specific dataset to retrieval system.
+    """
     def __init__(self, file_loader: BaseLoader, retrieval: BaseRetrieval):
         self.file_loader = file_loader
         self.retrieval = retrieval
@@ -95,14 +117,41 @@ class BasicDatasetPipeline(BasePipeline):
 
 
 class BasicRunPipeline(BasePipeline):
+    """
+    Basic run pipeline class.
+    This class handles the run process of document question answering.
+    First, retrieve passages from retrieval module.
+    Second, run LLM module to get answer.
+    Finally, you can get answer and passages as return value.
+
+    :example:
+    >>> from KoPrivateGPT.pipeline.basic import BasicRunPipeline
+    >>> from KoPrivateGPT.retrieval import BM25Retrieval
+    >>> from KoPrivateGPT.llm.basic import BasicLLM
+
+    >>> retrieval = BM25Retrieval(save_path="./bm25.pkl")
+    >>> llm = BasicLLM(retrieval)
+    >>> pipeline = BasicRunPipeline(retrieval=retrieval, llm=llm)
+    >>> answer, passages = pipeline.run(query="Where is the capital of Korea?")
+    """
     def __init__(self,
                  retrieval: BaseRetrieval,
                  llm: BaseLLM = None):
+        """
+        Initialize BasicRunPipeline.
+        :param retrieval: Retrieval module to retrieve passages.
+        :param llm: LLM module to get answer. Default is BasicLLM.
+        """
         load_dotenv()
         self.retrieval = retrieval
         self.llm = llm if llm is not None else BasicLLM(retrieval)
 
     def run(self, query: str, *args, **kwargs) -> tuple[str, List[Passage]]:
+        """
+        Run the run pipeline.
+        :param query: Query to ask.
+        :return: Answer, retrieved passages.
+        """
         answer, passages = self.llm.ask(query=query)
         answer = slice_stop_words(answer, ["Question :", "question:"])
         return answer, passages
