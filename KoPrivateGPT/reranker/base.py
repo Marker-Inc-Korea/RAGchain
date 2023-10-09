@@ -24,7 +24,7 @@ class BaseReranker(ABC):
         """
         Reranks a list of passages based on a specific ranking algorithm with sliding window.
         This function is useful when the model input token size is limited like LLMs.
-        Parameters:
+
         :param passages: (List[Passage]): The list of passages to be reranked.
         :param query: str: The query that was used for retrieving the passages.
         :param window_size: (int): The size of the sliding window used for reranking.
