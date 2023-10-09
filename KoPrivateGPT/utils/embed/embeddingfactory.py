@@ -15,7 +15,23 @@ class EmbeddingType(Enum):
 
 
 class EmbeddingFactory:
+    """
+    EmbeddingFactory is a factory class that returns the embedding class according to the embedding type.
+    You can create embedding class easily by using this class.
+    """
     def __init__(self, embed_type: str, device_type: str = 'cuda'):
+        """
+        :param embed_type: Embedding type. You can choose one of the following types.
+        - openai: OpenAI GPT-3
+        - kosimcse: KoSimCSE
+        - ko_sroberta_multitask: Ko-SRoBERTa-MultiTask
+        - multilingual_e5: Multilingual-E5
+        - contriever: mContriever
+        :param device_type: Device type. You can choose one of the following types.
+        - cuda: GPU
+        - cpu: CPU
+        - mps: MPS
+        """
         load_dotenv()
         if embed_type in text_modifier('openai'):
             self.embed_type = EmbeddingType.OPENAI
@@ -40,6 +56,9 @@ class EmbeddingFactory:
             self.device_type = 'cuda'
 
     def get(self):
+        """
+        Returns the embedding class according to the embedding type.
+        """
         if self.embed_type == EmbeddingType.OPENAI:
             openai_token = os.getenv("OPENAI_API_KEY")
             if openai_token is None:
