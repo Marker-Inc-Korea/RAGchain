@@ -2,25 +2,6 @@ import os
 from typing import List, Optional
 
 import openai
-import torch
-from transformers import StoppingCriteria
-
-
-class StoppingCriteriaSub(StoppingCriteria):
-
-    def __init__(self, stops=[], encounters=1):
-        super().__init__()
-        self.stops = stops
-        self.ENCOUNTERS = encounters
-
-    def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor):
-        stop_count = 0
-        for stop in self.stops:
-            stop_count = (stop == input_ids[0]).sum().item()
-
-        if stop_count >= self.ENCOUNTERS:
-            return True
-        return False
 
 
 def slice_stop_words(input_str: str, stop_words: List[str]):
