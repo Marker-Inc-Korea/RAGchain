@@ -1,5 +1,7 @@
 # KoPrivateGPT
 
+API spec at [here](https://nomadamas.github.io/KoPrivateGPT).
+
 English Version of README is [here](./docs/README_en.md). Please follow the link to read the English version of README.
 
 본 프로젝트는 [privateGPT](https://github.com/imartinez/privateGPT)와 [localGPT](https://github.com/PromtEngineer/localGPT)에서 영감을 받아 만들어졌습니다. 
