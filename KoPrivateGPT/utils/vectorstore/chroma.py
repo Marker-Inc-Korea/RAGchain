@@ -7,6 +7,9 @@ from KoPrivateGPT.utils.vectorstore.base import SlimVectorStore
 
 
 class ChromaSlim(Chroma, SlimVectorStore):
+    """
+    Chroma vector store stores only passage_id and vector.
+    """
     def add_passages(self, passages: List[Passage]):
         embeddings = None
         if self._embedding_function is not None:

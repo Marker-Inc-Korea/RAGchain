@@ -14,43 +14,31 @@ If there is no fragment related to the query in the document, please output 'No 
 
 class EvidenceExtractor:
     """
-    EvidenceExtractor is a class that extracts relevant document fragments based on a given question and a list of passages.
+    EvidenceExtractor is a class that extracts relevant evidences based on a given question and a list of passages.
 
-    Methods:
-    - __init__(self, system_prompt: str = None, model_name: str = "gpt-3.5-turbo", api_base: str = None):
-      Initializes the EvidenceExtractor instance with the given system_prompt, model_name, and api_base.
+    :example:
+    >>> from KoPrivateGPT.utils.evidence_extractor import EvidenceExtractor
+    >>> from KoPrivateGPT.schema import Passage
+    >>>
+    >>> passages = [
+    ...     Passage(content="Lorem ipsum dolor sit amet"),
+    ...     Passage(content="Consectetur adipiscing elit"),
+    ...     Passage(content="Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua")
+    ... ]
+    >>>
+    >>> question = "What is Lorem ipsum?"
+    >>> extractor = EvidenceExtractor()
+    >>> result = extractor.extract(question, passages)
 
-    - extract(self, question: str, passages: List[Passage], model_kwargs: dict = {}) -> str:
-      Extracts relevant document fragments based on the given question and list of passages.
-
-    Example usage:
-
-    passages = [
-        Passage(content="Lorem ipsum dolor sit amet"),
-        Passage(content="Consectetur adipiscing elit"),
-        Passage(content="Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua")
-    ]
-
-    question = "What is Lorem ipsum?"
-    extractor = EvidenceExtractor()
-    result = extractor.extract(question, passages)
-
-    print(result)
-
-    Output:
-    "This is the relevant document fragment that answers the question."
+    >>> print(result)
     """
     def __init__(self, system_prompt: str = None, model_name: str = "gpt-3.5-turbo", api_base: str = None):
         """
         Initialize the EvidenceExtractor class.
 
-        Parameters:
-            - system_prompt (str): The system prompt to be used. If not provided, the default system prompt will be used.
-            - model_name (str): The name of the model to be used. The default model is "gpt-3.5-turbo".
-            - api_base (str): The base URL for the custom model. Default is None.
-
-        Returns:
-            None
+        :param system_prompt: The system prompt to be used. If not provided, the default system prompt will be used.
+        :param model_name: The name of the model to be used. The default model is "gpt-3.5-turbo".
+        :param api_base: The base URL for the custom model. Default is None.
         """
         self.system_prompt = system_prompt if system_prompt is not None else BASIC_SYSTEM_PROMPT
         self.model_name = model_name
@@ -58,15 +46,13 @@ class EvidenceExtractor:
 
     def extract(self, question: str, passages: List[Passage], model_kwargs: dict = {}) -> str:
         """
-        Extract method extracts relevant document fragments based on a question and a list of passages.
+        Extract method extracts relevant document evidences based on a question and a list of passages.
 
-        Parameters:
-        - question (str): The question for which relevant document fragments need to be extracted.
-        - passages (List[Passage]): A list of Passage objects that contain the content of the documents.
-        - model_kwargs (dict): Optional keyword arguments to be passed to the model for customization.
+        :param question: The question for which relevant document fragments need to be extracted.
+        :param passages: A list of Passage objects that contain the content of the documents.
+        :param model_kwargs: Optional keyword arguments to be passed to the openai api for customization. Default is {}.
 
-        Returns:
-        - str: The extracted relevant document fragments.
+        :return: The extracted relevant document fragments.
         """
         content_str = "\n".join([passage.content for passage in passages])
         user_prompt = f"Document content: {content_str}\n\nquery: {question}]\n\nrelevant document fragments:"

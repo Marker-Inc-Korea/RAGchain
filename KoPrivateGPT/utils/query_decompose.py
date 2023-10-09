@@ -23,6 +23,11 @@ from KoPrivateGPT.utils.util import set_api_base
 
 
 class QueryDecomposition:
+    """
+    Query Decomposition class.
+    You can decompose a multi-hop questions to multiple single-hop questions using LLM.
+    The default decomposition prompt is from Visconde paper, and its prompt is few-shot prompts from strategyQA dataset.
+    """
     decompose_prompt = """Decompose a question in self-contained sub-questions. Use \"The question needs no decomposition\" when no decomposition is needed.
     
     Example 1:
@@ -70,6 +75,10 @@ class QueryDecomposition:
     """
 
     def __init__(self, model_name: str = "text-davinci-003", api_base: str = None):
+        """
+        :param model_name: str, model name to use. Default is "text-davinci-003".
+        :param api_base: str, api base url. If you want to use OpenAI API, you don't need to change this. Default is None.
+        """
         self.model_name = model_name
         set_api_base(api_base)
 
