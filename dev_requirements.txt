@@ -1,0 +1,7 @@
+pytest~=7.4.0
+freezegun
+PyYAML
+gradio~=3.39.0
+pytest-env
+sphinx
+sphinx-rtd-theme
