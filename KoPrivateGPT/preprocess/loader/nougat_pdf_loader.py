@@ -11,6 +11,10 @@ from KoPrivateGPT.preprocess.loader.mathpix_markdown_loader import MathpixMarkdo
 
 
 class NougatPDFLoader(BasePDFLoader):
+    """
+    Load PDF file using Nougat API server.
+    You can use Nougat API server using Dockerfile at https://github.com/facebookresearch/nougat
+    """
     def __init__(self, file_path: str, nougat_host: str):
         super().__init__(file_path)
         # check connection of nougat api server

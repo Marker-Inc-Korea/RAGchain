@@ -8,7 +8,15 @@ from tqdm import tqdm
 
 
 class FileLoader(BaseLoader):
+    """
+    Loads documents from a directory.
+    You can load .txt, .pdf, .csv, .xlsx, .hwp files.
+    """
     def __init__(self, target_dir: str, hwp_host_url: str, *args, **kwargs):
+        """
+        :param target_dir: directory path to load documents from
+        :param hwp_host_url: hwp-converter-api host url
+        """
         # add more extensions when if you want to add more extensions loader
         self.hwp_host_url = hwp_host_url
         self.ingestable_extensions = ['.txt', '.pdf', '.csv', '.xlsx', '.hwp']
@@ -19,10 +27,7 @@ class FileLoader(BaseLoader):
     def load(self, filter_ext: List[str] = None) -> List[Document]:
         """
         Load all files in the target directory.
-        Parameters:
-            filter_ext: List[str] = None
-                If not None, only files with the given extensions will be loaded.
-                filter_ext elements must contain the dot (.) prefix.
+        :param filter_ext: If not None, only files with the given extensions will be loaded. filter_ext elements must contain the dot (.) prefix.
         """
         docs = list(self.lazy_load(filter_ext=filter_ext))
         if len(docs) <= 0:
@@ -32,6 +37,10 @@ class FileLoader(BaseLoader):
         return docs
 
     def lazy_load(self, filter_ext: List[str] = None) -> Iterator[Document]:
+        """
+        Lazily load all files in the target directory.
+        :param filter_ext: If not None, only files with the given extensions will be loaded. filter_ext elements must contain the dot (.) prefix.
+        """
         valid_ext = self.ingestable_extensions if filter_ext is None else filter_ext
         for (path, dir, files) in tqdm(os.walk(self.target_dir)):
             for file_name in files:

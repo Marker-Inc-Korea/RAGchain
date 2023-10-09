@@ -9,6 +9,9 @@ from langchain.schema import Document
 
 
 class ExcelLoader(BaseLoader):
+    """
+    Load a document from an Excel file.
+    """
     def __init__(self, path: str, sheet_name: Optional[str] = None, *args, **kwargs):
         self.path = path
         wb = openpyxl.load_workbook(self.path)

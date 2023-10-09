@@ -13,12 +13,8 @@ logger = logging.getLogger(__name__)
 class HwpLoader(BaseLoader):
     """Load Hwp files.
 
-    Hwp to text  using hwp-converter-api
-
-    and just use textLoader
-
-    Args:
-        path: Path to the file to load.
+    Hwp to text using hwp-converter-api.
+    You can use hwp-converter-api at https://github.com/NomaDamas/hwp-converter-api
     """
 
     def __init__(
@@ -27,7 +23,11 @@ class HwpLoader(BaseLoader):
             hwp_host_url: str,
             retry_connection: int = 4
     ):
-        """Initialize with file path."""
+        """
+        :param path: Path to the file. You must use .hwp file. .hwpx file is not supported.
+        :param hwp_host_url: URL of hwp-converter-api.
+        :param retry_connection: Number of retries to connect to hwp-converter-api. Default is 4.
+        """
         self.path = path
         self.hwp_host_url = hwp_host_url
 
@@ -35,10 +35,13 @@ class HwpLoader(BaseLoader):
         self.retry_connection = retry_connection
 
     def load(self) -> List[Document]:
-        """Load from response."""
+        """Load a document."""
         return list(self.lazy_load())
 
     def lazy_load(self) -> Iterator[Document]:
+        """
+        Load a document lazily. This method uses asyncio requests.
+        """
         response = asyncio.run(self.async_request())
         yield Document(page_content=response, metadata={"source": self.path})
 
