@@ -1,356 +1,138 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" >
 <head>
-    <meta charset="utf-8"/>
-    <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/"/>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>KoPrivateGPT.preprocess package &mdash; KoPrivateGPT documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css"/>
-    <link rel="canonical" href="https://nomadamas.github.io/KoPrivateGPT/KoPrivateGPT.preprocess.html"/>
-    <!--[if lt IE 9]>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KoPrivateGPT.preprocess package &mdash; RAGchain  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="canonical" href="https://nomadamas.github.io/KoPrivateGPT/KoPrivateGPT.preprocess.html" />
+  <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
-    <![endif]-->
-
-    <script src="_static/jquery.js?v=5d32c60e"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="genindex.html"/>
-    <link rel="search" title="Search" href="search.html"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-<div class="wy-grid-for-nav">
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-        <div class="wy-side-scroll">
-            <div class="wy-side-nav-search">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
 
-
-                <a href="index.html" class="icon icon-home">
-                    KoPrivateGPT
-                </a>
-                <div role="search">
-                    <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-                        <input type="text" name="q" placeholder="Search docs" aria-label="Search docs"/>
-                        <input type="hidden" name="check_keywords" value="yes"/>
-                        <input type="hidden" name="area" value="default"/>
-                    </form>
-                </div>
-            </div>
-            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-                <!-- Local TOC -->
-                <div class="local-toc">
-                    <ul>
-                        <li><a class="reference internal" href="#">KoPrivateGPT.preprocess package</a>
-                            <ul>
-                                <li><a class="reference internal" href="#subpackages">Subpackages</a></li>
-                                <li><a class="reference internal" href="#module-KoPrivateGPT.preprocess">Module
-                                    contents</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+          
+          
+          <a href="index.html" class="icon icon-home">
+            RAGchain
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">KoPrivateGPT.preprocess package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#module-contents">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
         </div>
+      </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-        <nav class="wy-nav-top" aria-label="Mobile navigation menu">
-            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-            <a href="index.html">KoPrivateGPT</a>
-        </nav>
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RAGchain</a>
+      </nav>
 
-        <div class="wy-nav-content">
-            <div class="rst-content">
-                <div role="navigation" aria-label="Page navigation">
-                    <ul class="wy-breadcrumbs">
-                        <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-                        <li class="breadcrumb-item active">KoPrivateGPT.preprocess package</li>
-                        <li class="wy-breadcrumbs-aside">
-                            <a href="_sources/KoPrivateGPT.preprocess.rst.txt" rel="nofollow"> View page source</a>
-                        </li>
-                    </ul>
-                    <hr/>
-                </div>
-                <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-                    <div itemprop="articleBody">
-
-                        <section id="koprivategpt-preprocess-package">
-                            <h1>KoPrivateGPT.preprocess package<a class="headerlink"
-                                                                  href="#koprivategpt-preprocess-package"
-                                                                  title="Link to this heading"></a></h1>
-                            <section id="subpackages">
-                                <h2>Subpackages<a class="headerlink" href="#subpackages"
-                                                  title="Link to this heading"></a></h2>
-                                <div class="toctree-wrapper compound">
-                                    <ul>
-                                        <li class="toctree-l1"><a class="reference internal"
-                                                                  href="KoPrivateGPT.preprocess.loader.html">KoPrivateGPT.preprocess.loader
-                                            package</a>
-                                            <ul>
-                                                <li class="toctree-l2"><a class="reference internal"
-                                                                          href="KoPrivateGPT.preprocess.loader.html#submodules">Submodules</a>
-                                                </li>
-                                                <li class="toctree-l2"><a class="reference internal"
-                                                                          href="KoPrivateGPT.preprocess.loader.html#module-KoPrivateGPT.preprocess.loader.dataset_loader">KoPrivateGPT.preprocess.loader.dataset_loader
-                                                    module</a>
-                                                    <ul>
-                                                        <li class="toctree-l3"><a class="reference internal"
-                                                                                  href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.dataset_loader.KoStrategyQALoader"><code
-                                                                class="docutils literal notranslate"><span class="pre">KoStrategyQALoader</span></code></a>
-                                                            <ul>
-                                                                <li class="toctree-l4"><a class="reference internal"
-                                                                                          href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.dataset_loader.KoStrategyQALoader.load"><code
-                                                                        class="docutils literal notranslate"><span
-                                                                        class="pre">KoStrategyQALoader.load()</span></code></a>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="toctree-l2"><a class="reference internal"
-                                                                          href="KoPrivateGPT.preprocess.loader.html#module-KoPrivateGPT.preprocess.loader.excel_loader">KoPrivateGPT.preprocess.loader.excel_loader
-                                                    module</a>
-                                                    <ul>
-                                                        <li class="toctree-l3"><a class="reference internal"
-                                                                                  href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.excel_loader.ExcelLoader"><code
-                                                                class="docutils literal notranslate"><span class="pre">ExcelLoader</span></code></a>
-                                                            <ul>
-                                                                <li class="toctree-l4"><a class="reference internal"
-                                                                                          href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.excel_loader.ExcelLoader.lazy_load"><code
-                                                                        class="docutils literal notranslate"><span
-                                                                        class="pre">ExcelLoader.lazy_load()</span></code></a>
-                                                                </li>
-                                                                <li class="toctree-l4"><a class="reference internal"
-                                                                                          href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.excel_loader.ExcelLoader.load"><code
-                                                                        class="docutils literal notranslate"><span
-                                                                        class="pre">ExcelLoader.load()</span></code></a>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="toctree-l2"><a class="reference internal"
-                                                                          href="KoPrivateGPT.preprocess.loader.html#module-KoPrivateGPT.preprocess.loader.file_loader">KoPrivateGPT.preprocess.loader.file_loader
-                                                    module</a>
-                                                    <ul>
-                                                        <li class="toctree-l3"><a class="reference internal"
-                                                                                  href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.file_loader.FileLoader"><code
-                                                                class="docutils literal notranslate"><span class="pre">FileLoader</span></code></a>
-                                                            <ul>
-                                                                <li class="toctree-l4"><a class="reference internal"
-                                                                                          href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.file_loader.FileLoader.lazy_load"><code
-                                                                        class="docutils literal notranslate"><span
-                                                                        class="pre">FileLoader.lazy_load()</span></code></a>
-                                                                </li>
-                                                                <li class="toctree-l4"><a class="reference internal"
-                                                                                          href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.file_loader.FileLoader.load"><code
-                                                                        class="docutils literal notranslate"><span
-                                                                        class="pre">FileLoader.load()</span></code></a>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="toctree-l2"><a class="reference internal"
-                                                                          href="KoPrivateGPT.preprocess.loader.html#module-KoPrivateGPT.preprocess.loader.hwp_loader">KoPrivateGPT.preprocess.loader.hwp_loader
-                                                    module</a>
-                                                    <ul>
-                                                        <li class="toctree-l3"><a class="reference internal"
-                                                                                  href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.hwp_loader.HwpLoader"><code
-                                                                class="docutils literal notranslate"><span class="pre">HwpLoader</span></code></a>
-                                                            <ul>
-                                                                <li class="toctree-l4"><a class="reference internal"
-                                                                                          href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.hwp_loader.HwpLoader.async_request"><code
-                                                                        class="docutils literal notranslate"><span
-                                                                        class="pre">HwpLoader.async_request()</span></code></a>
-                                                                </li>
-                                                                <li class="toctree-l4"><a class="reference internal"
-                                                                                          href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.hwp_loader.HwpLoader.lazy_load"><code
-                                                                        class="docutils literal notranslate"><span
-                                                                        class="pre">HwpLoader.lazy_load()</span></code></a>
-                                                                </li>
-                                                                <li class="toctree-l4"><a class="reference internal"
-                                                                                          href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.hwp_loader.HwpLoader.load"><code
-                                                                        class="docutils literal notranslate"><span
-                                                                        class="pre">HwpLoader.load()</span></code></a>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="toctree-l2"><a class="reference internal"
-                                                                          href="KoPrivateGPT.preprocess.loader.html#module-KoPrivateGPT.preprocess.loader.mathpix_markdown_loader">KoPrivateGPT.preprocess.loader.mathpix_markdown_loader
-                                                    module</a>
-                                                    <ul>
-                                                        <li class="toctree-l3"><a class="reference internal"
-                                                                                  href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader"><code
-                                                                class="docutils literal notranslate"><span class="pre">MathpixMarkdownLoader</span></code></a>
-                                                            <ul>
-                                                                <li class="toctree-l4"><a class="reference internal"
-                                                                                          href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader.lazy_load"><code
-                                                                        class="docutils literal notranslate"><span
-                                                                        class="pre">MathpixMarkdownLoader.lazy_load()</span></code></a>
-                                                                </li>
-                                                                <li class="toctree-l4"><a class="reference internal"
-                                                                                          href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader.load"><code
-                                                                        class="docutils literal notranslate"><span
-                                                                        class="pre">MathpixMarkdownLoader.load()</span></code></a>
-                                                                </li>
-                                                                <li class="toctree-l4"><a class="reference internal"
-                                                                                          href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader.split_section"><code
-                                                                        class="docutils literal notranslate"><span
-                                                                        class="pre">MathpixMarkdownLoader.split_section()</span></code></a>
-                                                                </li>
-                                                                <li class="toctree-l4"><a class="reference internal"
-                                                                                          href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader.split_table"><code
-                                                                        class="docutils literal notranslate"><span
-                                                                        class="pre">MathpixMarkdownLoader.split_table()</span></code></a>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="toctree-l2"><a class="reference internal"
-                                                                          href="KoPrivateGPT.preprocess.loader.html#module-KoPrivateGPT.preprocess.loader.nougat_pdf_loader">KoPrivateGPT.preprocess.loader.nougat_pdf_loader
-                                                    module</a>
-                                                    <ul>
-                                                        <li class="toctree-l3"><a class="reference internal"
-                                                                                  href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.nougat_pdf_loader.NougatPDFLoader"><code
-                                                                class="docutils literal notranslate"><span class="pre">NougatPDFLoader</span></code></a>
-                                                            <ul>
-                                                                <li class="toctree-l4"><a class="reference internal"
-                                                                                          href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.nougat_pdf_loader.NougatPDFLoader.lazy_load"><code
-                                                                        class="docutils literal notranslate"><span
-                                                                        class="pre">NougatPDFLoader.lazy_load()</span></code></a>
-                                                                </li>
-                                                                <li class="toctree-l4"><a class="reference internal"
-                                                                                          href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.nougat_pdf_loader.NougatPDFLoader.load"><code
-                                                                        class="docutils literal notranslate"><span
-                                                                        class="pre">NougatPDFLoader.load()</span></code></a>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="toctree-l2"><a class="reference internal"
-                                                                          href="KoPrivateGPT.preprocess.loader.html#module-KoPrivateGPT.preprocess.loader.pdf_link_loader">KoPrivateGPT.preprocess.loader.pdf_link_loader
-                                                    module</a>
-                                                    <ul>
-                                                        <li class="toctree-l3"><a class="reference internal"
-                                                                                  href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.pdf_link_loader.PdfLinkLoader"><code
-                                                                class="docutils literal notranslate"><span class="pre">PdfLinkLoader</span></code></a>
-                                                            <ul>
-                                                                <li class="toctree-l4"><a class="reference internal"
-                                                                                          href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.pdf_link_loader.PdfLinkLoader.load"><code
-                                                                        class="docutils literal notranslate"><span
-                                                                        class="pre">PdfLinkLoader.load()</span></code></a>
-                                                                </li>
-                                                                <li class="toctree-l4"><a class="reference internal"
-                                                                                          href="KoPrivateGPT.preprocess.loader.html#KoPrivateGPT.preprocess.loader.pdf_link_loader.PdfLinkLoader.valid_url"><code
-                                                                        class="docutils literal notranslate"><span
-                                                                        class="pre">PdfLinkLoader.valid_url()</span></code></a>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="toctree-l2"><a class="reference internal"
-                                                                          href="KoPrivateGPT.preprocess.loader.html#module-KoPrivateGPT.preprocess.loader">Module
-                                                    contents</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="toctree-l1"><a class="reference internal"
-                                                                  href="KoPrivateGPT.preprocess.text_splitter.html">KoPrivateGPT.preprocess.text_splitter
-                                            package</a>
-                                            <ul>
-                                                <li class="toctree-l2"><a class="reference internal"
-                                                                          href="KoPrivateGPT.preprocess.text_splitter.html#submodules">Submodules</a>
-                                                </li>
-                                                <li class="toctree-l2"><a class="reference internal"
-                                                                          href="KoPrivateGPT.preprocess.text_splitter.html#module-KoPrivateGPT.preprocess.text_splitter.base">KoPrivateGPT.preprocess.text_splitter.base
-                                                    module</a>
-                                                    <ul>
-                                                        <li class="toctree-l3"><a class="reference internal"
-                                                                                  href="KoPrivateGPT.preprocess.text_splitter.html#KoPrivateGPT.preprocess.text_splitter.base.BaseTextSplitter"><code
-                                                                class="docutils literal notranslate"><span class="pre">BaseTextSplitter</span></code></a>
-                                                            <ul>
-                                                                <li class="toctree-l4"><a class="reference internal"
-                                                                                          href="KoPrivateGPT.preprocess.text_splitter.html#KoPrivateGPT.preprocess.text_splitter.base.BaseTextSplitter.split_document"><code
-                                                                        class="docutils literal notranslate"><span
-                                                                        class="pre">BaseTextSplitter.split_document()</span></code></a>
-                                                                </li>
-                                                                <li class="toctree-l4"><a class="reference internal"
-                                                                                          href="KoPrivateGPT.preprocess.text_splitter.html#KoPrivateGPT.preprocess.text_splitter.base.BaseTextSplitter.split_documents"><code
-                                                                        class="docutils literal notranslate"><span
-                                                                        class="pre">BaseTextSplitter.split_documents()</span></code></a>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="toctree-l2"><a class="reference internal"
-                                                                          href="KoPrivateGPT.preprocess.text_splitter.html#module-KoPrivateGPT.preprocess.text_splitter.text_splitter">KoPrivateGPT.preprocess.text_splitter.text_splitter
-                                                    module</a>
-                                                    <ul>
-                                                        <li class="toctree-l3"><a class="reference internal"
-                                                                                  href="KoPrivateGPT.preprocess.text_splitter.html#KoPrivateGPT.preprocess.text_splitter.text_splitter.RecursiveTextSplitter"><code
-                                                                class="docutils literal notranslate"><span class="pre">RecursiveTextSplitter</span></code></a>
-                                                            <ul>
-                                                                <li class="toctree-l4"><a class="reference internal"
-                                                                                          href="KoPrivateGPT.preprocess.text_splitter.html#KoPrivateGPT.preprocess.text_splitter.text_splitter.RecursiveTextSplitter.split_document"><code
-                                                                        class="docutils literal notranslate"><span
-                                                                        class="pre">RecursiveTextSplitter.split_document()</span></code></a>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="toctree-l2"><a class="reference internal"
-                                                                          href="KoPrivateGPT.preprocess.text_splitter.html#module-KoPrivateGPT.preprocess.text_splitter">Module
-                                                    contents</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </section>
-                            <section id="module-KoPrivateGPT.preprocess">
-                                <span id="module-contents"></span>
-                                <h2>Module contents<a class="headerlink" href="#module-KoPrivateGPT.preprocess"
-                                                      title="Link to this heading"></a></h2>
-                            </section>
-                        </section>
-
-
-                    </div>
-                </div>
-                <footer>
-
-                    <hr/>
-
-                    <div role="contentinfo">
-                        <p>&#169; Copyright 2023, NomaDamas.</p>
-                    </div>
-
-                    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-                    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-                    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-
-
-                </footer>
-            </div>
-        </div>
-    </section>
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">KoPrivateGPT.preprocess package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/KoPrivateGPT.preprocess.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
 </div>
-<script>
-    jQuery(function () {
-        SphinxRtdTheme.Navigation.enable(true);
-    });
-</script>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="koprivategpt-preprocess-package">
+<h1>KoPrivateGPT.preprocess package<a class="headerlink" href="#koprivategpt-preprocess-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="KoPrivateGPT.preprocess.loader.html">KoPrivateGPT.preprocess.loader package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="KoPrivateGPT.preprocess.loader.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="KoPrivateGPT.preprocess.loader.html#koprivategpt-preprocess-loader-dataset-loader-module">KoPrivateGPT.preprocess.loader.dataset_loader module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="KoPrivateGPT.preprocess.loader.html#koprivategpt-preprocess-loader-excel-loader-module">KoPrivateGPT.preprocess.loader.excel_loader module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="KoPrivateGPT.preprocess.loader.html#koprivategpt-preprocess-loader-file-loader-module">KoPrivateGPT.preprocess.loader.file_loader module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="KoPrivateGPT.preprocess.loader.html#koprivategpt-preprocess-loader-hwp-loader-module">KoPrivateGPT.preprocess.loader.hwp_loader module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="KoPrivateGPT.preprocess.loader.html#koprivategpt-preprocess-loader-mathpix-markdown-loader-module">KoPrivateGPT.preprocess.loader.mathpix_markdown_loader module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="KoPrivateGPT.preprocess.loader.html#koprivategpt-preprocess-loader-nougat-pdf-loader-module">KoPrivateGPT.preprocess.loader.nougat_pdf_loader module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="KoPrivateGPT.preprocess.loader.html#koprivategpt-preprocess-loader-pdf-link-loader-module">KoPrivateGPT.preprocess.loader.pdf_link_loader module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="KoPrivateGPT.preprocess.loader.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="KoPrivateGPT.preprocess.text_splitter.html">KoPrivateGPT.preprocess.text_splitter package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="KoPrivateGPT.preprocess.text_splitter.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="KoPrivateGPT.preprocess.text_splitter.html#koprivategpt-preprocess-text-splitter-base-module">KoPrivateGPT.preprocess.text_splitter.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="KoPrivateGPT.preprocess.text_splitter.html#koprivategpt-preprocess-text-splitter-text-splitter-module">KoPrivateGPT.preprocess.text_splitter.text_splitter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="KoPrivateGPT.preprocess.text_splitter.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, NomaDamas.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
 </body>
 </html>
