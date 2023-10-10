@@ -38,7 +38,7 @@ English Version of README is [here](./docs/README_en.md). Please follow the link
 아래 코드를 실행하여 도커 컨테이너를 통해 KoPrivateGPT를 실행할 수 있습니다.
 ```shell
 git clone https://github.com/edai-club/KoPrivateGPT.git
-cd KoPrivateGPT
+cd RAGchain
 docker compose up
 ```
 이후 `http://localhost:7860`으로 접속하여 KoPrivateGPT를 사용할 수 있습니다.
@@ -52,7 +52,7 @@ docker compose up
 
 ```shell
 git clone https://github.com/edai-club/KoPrivateGPT.git
-cd KoPrivateGPT
+cd RAGchain
 pip install -r requirements.txt
 ```
 
@@ -70,13 +70,13 @@ docker run -it -d --name hwp-converter -p (외부포트):7000 vkehfdl1/hwp-conve
 #docker network create <NETWORK_NAME>
 docker network create docs-convert-api-net
 #docker network connect <NETWORK_NAME> <CONTAINER_NAME>
-docker network connect docs-convert-api-net KoPrivateGPT
+docker network connect docs-convert-api-net RAGchain
 docker network connect docs-convert-api-net hwp-converter
 ```
 ### ingest.py
 `KoPrivateGPT/KoPrivateGPT/options/config.py`로 이동하여 http request 주소를 확인합니다.
 ```python
-# KoPrivateGPT/KoPrivateGPT/options/config.py line 12-13
+# RAGchain/RAGchain/options/config.py line 12-13
 HwpConvertOpt = 'all'# 'main-only'
 HwpConvertHost = f'http://hwp-converter:7000/upload?option={HwpConvertOpt}'
 ```

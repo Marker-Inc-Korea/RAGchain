@@ -3,8 +3,8 @@ import os
 import pathlib
 import sys
 
-from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval
-from KoPrivateGPT.utils.util import text_modifier
+from RAGchain.retrieval import BM25Retrieval, VectorDBRetrieval
+from RAGchain.utils.util import text_modifier
 from config import Options
 from run_localGPT import select_vectordb
 

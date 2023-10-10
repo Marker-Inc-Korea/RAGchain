@@ -7,12 +7,12 @@ import pinecone
 from dotenv import load_dotenv
 from langchain.vectorstores import Chroma, Pinecone
 
-from KoPrivateGPT.llm.basic import BasicLLM
-from KoPrivateGPT.pipeline import BasicRunPipeline
-from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval
-from KoPrivateGPT.schema import Passage
-from KoPrivateGPT.utils.embed import EmbeddingFactory
-from KoPrivateGPT.utils.util import text_modifier
+from RAGchain.llm.basic import BasicLLM
+from RAGchain.pipeline import BasicRunPipeline
+from RAGchain.retrieval import BM25Retrieval, VectorDBRetrieval
+from RAGchain.schema import Passage
+from RAGchain.utils.embed import EmbeddingFactory
+from RAGchain.utils.util import text_modifier
 from config import ChromaOptions, PineconeOptions
 from config import Options
 

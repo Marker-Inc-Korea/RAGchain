@@ -2,7 +2,7 @@ import logging
 
 import pytest
 
-from KoPrivateGPT.utils.linker import RedisDBSingleton
+from RAGchain.utils.linker import RedisDBSingleton
 
 logger = logging.getLogger(__name__)
 

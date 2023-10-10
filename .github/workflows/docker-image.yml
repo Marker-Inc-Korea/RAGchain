@@ -26,6 +26,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./containers/KoPrivateGPT
+          context: ./containers/RAGchain
           push: true
           tags: vkehfdl1/ko_private_gpt:latest

@@ -4,12 +4,12 @@ import sys
 
 sys.path.append(str(pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent))
 import click
-from KoPrivateGPT.preprocess.loader import KoStrategyQALoader
-from KoPrivateGPT.retrieval import VectorDBRetrieval, BM25Retrieval
-from KoPrivateGPT.utils.util import text_modifier
+from RAGchain.preprocess.loader import KoStrategyQALoader
+from RAGchain.retrieval import VectorDBRetrieval, BM25Retrieval
+from RAGchain.utils.util import text_modifier
 from config import Options
 from run_localGPT import select_vectordb
-from KoPrivateGPT.pipeline.basic import BasicDatasetPipeline
+from RAGchain.pipeline.basic import BasicDatasetPipeline
 
 REPO_ID = "NomaDamas/Ko-StrategyQA"
 SAVE_PATH = "./ko-strategy-qa_paragraphs_bm25.pkl"

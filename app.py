@@ -3,12 +3,12 @@ import os
 import gradio as gr
 from dotenv import load_dotenv
 
-from KoPrivateGPT.DB import MongoDB, PickleDB
-from KoPrivateGPT.llm.basic import BasicLLM
-from KoPrivateGPT.pipeline import BasicIngestPipeline, BasicRunPipeline
-from KoPrivateGPT.preprocess.loader import FileLoader
-from KoPrivateGPT.retrieval import BM25Retrieval
-from KoPrivateGPT.utils.util import slice_stop_words
+from RAGchain.DB import MongoDB, PickleDB
+from RAGchain.llm.basic import BasicLLM
+from RAGchain.pipeline import BasicIngestPipeline, BasicRunPipeline
+from RAGchain.preprocess.loader import FileLoader
+from RAGchain.retrieval import BM25Retrieval
+from RAGchain.utils.util import slice_stop_words
 from config import Options, PickleDBOptions, MongoDBOptions
 from run_localGPT import select_vectordb
 
