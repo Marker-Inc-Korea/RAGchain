@@ -1,7 +1,7 @@
-KoPrivateGPT
-============
+RAGchain
+========
 
 .. toctree::
    :maxdepth: 4
 
-   KoPrivateGPT
+   RAGchain

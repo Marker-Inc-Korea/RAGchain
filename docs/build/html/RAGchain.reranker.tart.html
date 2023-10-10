@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAGchain.reranker.tart package &mdash; RAGchain  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="canonical" href="https://nomadamas.github.io/RAGchain/RAGchain.reranker.tart.html" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            RAGchain
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">RAGchain.reranker.tart package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-RAGchain.reranker.tart.modeling_enc_t5">RAGchain.reranker.tart.modeling_enc_t5 module</a><ul>
+<li><a class="reference internal" href="#RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification"><code class="docutils literal notranslate"><span class="pre">EncT5ForSequenceClassification</span></code></a><ul>
+<li><a class="reference internal" href="#RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.deparallelize"><code class="docutils literal notranslate"><span class="pre">EncT5ForSequenceClassification.deparallelize()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.forward"><code class="docutils literal notranslate"><span class="pre">EncT5ForSequenceClassification.forward()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.get_encoder"><code class="docutils literal notranslate"><span class="pre">EncT5ForSequenceClassification.get_encoder()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.get_input_embeddings"><code class="docutils literal notranslate"><span class="pre">EncT5ForSequenceClassification.get_input_embeddings()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.parallelize"><code class="docutils literal notranslate"><span class="pre">EncT5ForSequenceClassification.parallelize()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.set_input_embeddings"><code class="docutils literal notranslate"><span class="pre">EncT5ForSequenceClassification.set_input_embeddings()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.training"><code class="docutils literal notranslate"><span class="pre">EncT5ForSequenceClassification.training</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-RAGchain.reranker.tart.tart">RAGchain.reranker.tart.tart module</a><ul>
+<li><a class="reference internal" href="#RAGchain.reranker.tart.tart.TARTReranker"><code class="docutils literal notranslate"><span class="pre">TARTReranker</span></code></a><ul>
+<li><a class="reference internal" href="#RAGchain.reranker.tart.tart.TARTReranker.rerank"><code class="docutils literal notranslate"><span class="pre">TARTReranker.rerank()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.reranker.tart.tart.TARTReranker.rerank_sliding_window"><code class="docutils literal notranslate"><span class="pre">TARTReranker.rerank_sliding_window()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-RAGchain.reranker.tart.tokenization_enc_t5">RAGchain.reranker.tart.tokenization_enc_t5 module</a><ul>
+<li><a class="reference internal" href="#RAGchain.reranker.tart.tokenization_enc_t5.EncT5Tokenizer"><code class="docutils literal notranslate"><span class="pre">EncT5Tokenizer</span></code></a><ul>
+<li><a class="reference internal" href="#RAGchain.reranker.tart.tokenization_enc_t5.EncT5Tokenizer.build_inputs_with_special_tokens"><code class="docutils literal notranslate"><span class="pre">EncT5Tokenizer.build_inputs_with_special_tokens()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.reranker.tart.tokenization_enc_t5.EncT5Tokenizer.create_token_type_ids_from_sequences"><code class="docutils literal notranslate"><span class="pre">EncT5Tokenizer.create_token_type_ids_from_sequences()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.reranker.tart.tokenization_enc_t5.EncT5Tokenizer.get_special_tokens_mask"><code class="docutils literal notranslate"><span class="pre">EncT5Tokenizer.get_special_tokens_mask()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-RAGchain.reranker.tart">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RAGchain</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">RAGchain.reranker.tart package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/RAGchain.reranker.tart.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ragchain-reranker-tart-package">
+<h1>RAGchain.reranker.tart package<a class="headerlink" href="#ragchain-reranker-tart-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-RAGchain.reranker.tart.modeling_enc_t5">
+<span id="ragchain-reranker-tart-modeling-enc-t5-module"></span><h2>RAGchain.reranker.tart.modeling_enc_t5 module<a class="headerlink" href="#module-RAGchain.reranker.tart.modeling_enc_t5" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.reranker.tart.modeling_enc_t5.</span></span><span class="sig-name descname"><span class="pre">EncT5ForSequenceClassification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T5Config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">T5PreTrainedModel</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.deparallelize">
+<span class="sig-name descname"><span class="pre">deparallelize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.deparallelize" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">head_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs_embeds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_attentions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_hidden_states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.forward" title="Link to this definition"></a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.get_encoder">
+<span class="sig-name descname"><span class="pre">get_encoder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.get_encoder" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.get_input_embeddings">
+<span class="sig-name descname"><span class="pre">get_input_embeddings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.get_input_embeddings" title="Link to this definition"></a></dt>
+<dd><p>Returns the model’s input embeddings.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p><cite>nn.Module</cite>: A torch module mapping vocabulary to hidden states.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.parallelize">
+<span class="sig-name descname"><span class="pre">parallelize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.parallelize" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.set_input_embeddings">
+<span class="sig-name descname"><span class="pre">set_input_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_embeddings</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.set_input_embeddings" title="Link to this definition"></a></dt>
+<dd><p>Set model’s input embeddings.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>value (<cite>nn.Module</cite>): A module mapping vocabulary to hidden states.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.training" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-RAGchain.reranker.tart.tart">
+<span id="ragchain-reranker-tart-tart-module"></span><h2>RAGchain.reranker.tart.tart module<a class="headerlink" href="#module-RAGchain.reranker.tart.tart" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="RAGchain.reranker.tart.tart.TARTReranker">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.reranker.tart.tart.</span></span><span class="sig-name descname"><span class="pre">TARTReranker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instruction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.reranker.tart.tart.TARTReranker" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="RAGchain.reranker.html#RAGchain.reranker.base.BaseReranker" title="RAGchain.reranker.base.BaseReranker"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseReranker</span></code></a></p>
+<p>TARTReranker is a reranker based on TART (<a class="reference external" href="https://github.com/facebookresearch/tart">https://github.com/facebookresearch/tart</a>).
+You can rerank the passages with the instruction using TARTReranker.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.reranker.tart.tart.TARTReranker.rerank">
+<span class="sig-name descname"><span class="pre">rerank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.reranker.tart.tart.TARTReranker.rerank" title="Link to this definition"></a></dt>
+<dd><p>Reranks a list of passages based on a specific ranking algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>passages</strong> (<em>List</em><em>[</em><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><em>Passage</em></a><em>]</em>) – A list of Passage objects representing the passages to be reranked.</p></li>
+<li><p><strong>query</strong> – str: The query that was used for retrieving the passages.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The reranked list of passages.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage">Passage</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.reranker.tart.tart.TARTReranker.rerank_sliding_window">
+<span class="sig-name descname"><span class="pre">rerank_sliding_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.reranker.tart.tart.TARTReranker.rerank_sliding_window" title="Link to this definition"></a></dt>
+<dd><p>Reranks a list of passages based on a specific ranking algorithm with sliding window.
+This function is useful when the model input token size is limited like LLMs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>passages</strong> – (List[Passage]): The list of passages to be reranked.</p></li>
+<li><p><strong>query</strong> – str: The query that was used for retrieving the passages.</p></li>
+<li><p><strong>window_size</strong> – (int): The size of the sliding window used for reranking.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[Passage]: The reranked list of passages.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-RAGchain.reranker.tart.tokenization_enc_t5">
+<span id="ragchain-reranker-tart-tokenization-enc-t5-module"></span><h2>RAGchain.reranker.tart.tokenization_enc_t5 module<a class="headerlink" href="#module-RAGchain.reranker.tart.tokenization_enc_t5" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="RAGchain.reranker.tart.tokenization_enc_t5.EncT5Tokenizer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.reranker.tart.tokenization_enc_t5.</span></span><span class="sig-name descname"><span class="pre">EncT5Tokenizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vocab_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bos_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'&lt;s&gt;'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eos_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'&lt;/s&gt;'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unk_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'&lt;unk&gt;'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pad_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'&lt;pad&gt;'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">additional_special_tokens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_model_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.reranker.tart.tokenization_enc_t5.EncT5Tokenizer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">T5Tokenizer</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.reranker.tart.tokenization_enc_t5.EncT5Tokenizer.build_inputs_with_special_tokens">
+<span class="sig-name descname"><span class="pre">build_inputs_with_special_tokens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token_ids_0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_ids_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.reranker.tart.tokenization_enc_t5.EncT5Tokenizer.build_inputs_with_special_tokens" title="Link to this definition"></a></dt>
+<dd><p>Build model inputs from a sequence or a pair of sequence for sequence classification tasks by concatenating and
+adding special tokens. A sequence has the following format:
+- single sequence: <cite>&lt;s&gt; X &lt;/s&gt;</cite>
+- pair of sequences: <cite>&lt;s&gt; A &lt;/s&gt; B &lt;/s&gt;</cite>
+Args:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>token_ids_0 (<cite>List[int]</cite>):</dt><dd><p>List of IDs to which the special tokens will be added.</p>
+</dd>
+<dt>token_ids_1 (<cite>List[int]</cite>, <em>optional</em>):</dt><dd><p>Optional second list of IDs for sequence pairs.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p><cite>List[int]</cite>: List of [input IDs](../glossary#input-ids) with the appropriate special tokens.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.reranker.tart.tokenization_enc_t5.EncT5Tokenizer.create_token_type_ids_from_sequences">
+<span class="sig-name descname"><span class="pre">create_token_type_ids_from_sequences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token_ids_0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_ids_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.reranker.tart.tokenization_enc_t5.EncT5Tokenizer.create_token_type_ids_from_sequences" title="Link to this definition"></a></dt>
+<dd><p>Create a mask from the two sequences passed to be used in a sequence-pair classification task. T5 does not make
+use of token type ids, therefore a list of zeros is returned.
+Args:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>token_ids_0 (<cite>List[int]</cite>):</dt><dd><p>List of IDs.</p>
+</dd>
+<dt>token_ids_1 (<cite>List[int]</cite>, <em>optional</em>):</dt><dd><p>Optional second list of IDs for sequence pairs.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p><cite>List[int]</cite>: List of zeros.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.reranker.tart.tokenization_enc_t5.EncT5Tokenizer.get_special_tokens_mask">
+<span class="sig-name descname"><span class="pre">get_special_tokens_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token_ids_0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_ids_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">already_has_special_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.reranker.tart.tokenization_enc_t5.EncT5Tokenizer.get_special_tokens_mask" title="Link to this definition"></a></dt>
+<dd><p>Retrieve sequence ids from a token list that has no special tokens added. This method is called when adding
+special tokens using the tokenizer <cite>prepare_for_model</cite> method.
+Args:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>token_ids_0 (<cite>List[int]</cite>):</dt><dd><p>List of IDs.</p>
+</dd>
+<dt>token_ids_1 (<cite>List[int]</cite>, <em>optional</em>):</dt><dd><p>Optional second list of IDs for sequence pairs.</p>
+</dd>
+<dt>already_has_special_tokens (<cite>bool</cite>, <em>optional</em>, defaults to <cite>False</cite>):</dt><dd><p>Whether or not the token list is already formatted with special tokens for the model.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p><cite>List[int]</cite>: A list of integers in the range [0, 1]: 1 for a special token, 0 for a sequence token.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-RAGchain.reranker.tart">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-RAGchain.reranker.tart" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, NomaDamas.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

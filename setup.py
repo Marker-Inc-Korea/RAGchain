@@ -4,11 +4,11 @@ from os.path import basename, splitext
 from setuptools import find_packages, setup
 
 setup(
-    name='KoPrivateGPT',
+    name='RAGchain',
     version='0.1',
     packages=find_packages(where='.'),
     package_dir={'': '.'},
-    url="https://github.com/NomaDamas/KoPrivateGPT",
+    url="https://github.com/NomaDamas/RAGchain",
     license='Apache License 2.0',
     py_modules=[splitext(basename(path))[0] for path in glob('./*.py')],
     install_requires=[

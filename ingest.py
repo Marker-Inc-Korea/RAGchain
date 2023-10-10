@@ -1,10 +1,10 @@
 import click
 
-from KoPrivateGPT.DB import MongoDB, PickleDB
-from KoPrivateGPT.pipeline import BasicIngestPipeline
-from KoPrivateGPT.preprocess.loader import FileLoader
-from KoPrivateGPT.retrieval import BM25Retrieval, VectorDBRetrieval
-from KoPrivateGPT.utils.util import text_modifier
+from RAGchain.DB import MongoDB, PickleDB
+from RAGchain.pipeline import BasicIngestPipeline
+from RAGchain.preprocess.loader import FileLoader
+from RAGchain.retrieval import BM25Retrieval, VectorDBRetrieval
+from RAGchain.utils.util import text_modifier
 from config import MongoDBOptions
 from config import Options, PickleDBOptions
 from run_localGPT import select_vectordb

@@ -23,7 +23,7 @@ In order to set your environment up to run the code here, first install all requ
 
 ```shell
 git clone https://github.com/edai-club/KoPrivateGPT.git
-cd KoPrivateGPT
+cd RAGchain
 pip install -r requirements.txt
 ```
 

@@ -3,7 +3,7 @@ services:
     ko-private-gpt:
       ports:
         - '7860:7860'
-      container_name: KoPrivateGPT
+      container_name: RAGchain
       build:
         context: ./containers/KoPrivateGPT
       command: gradio app.py
