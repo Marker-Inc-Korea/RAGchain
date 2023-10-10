@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAGchain.preprocess.loader package &mdash; RAGchain  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="canonical" href="https://nomadamas.github.io/RAGchain/RAGchain.preprocess.loader.html" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            RAGchain
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">RAGchain.preprocess.loader package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-RAGchain.preprocess.loader.dataset_loader">RAGchain.preprocess.loader.dataset_loader module</a><ul>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.dataset_loader.KoStrategyQALoader"><code class="docutils literal notranslate"><span class="pre">KoStrategyQALoader</span></code></a><ul>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.dataset_loader.KoStrategyQALoader.load"><code class="docutils literal notranslate"><span class="pre">KoStrategyQALoader.load()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-RAGchain.preprocess.loader.excel_loader">RAGchain.preprocess.loader.excel_loader module</a><ul>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.excel_loader.ExcelLoader"><code class="docutils literal notranslate"><span class="pre">ExcelLoader</span></code></a><ul>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.excel_loader.ExcelLoader.lazy_load"><code class="docutils literal notranslate"><span class="pre">ExcelLoader.lazy_load()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.excel_loader.ExcelLoader.load"><code class="docutils literal notranslate"><span class="pre">ExcelLoader.load()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-RAGchain.preprocess.loader.file_loader">RAGchain.preprocess.loader.file_loader module</a><ul>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.file_loader.FileLoader"><code class="docutils literal notranslate"><span class="pre">FileLoader</span></code></a><ul>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.file_loader.FileLoader.lazy_load"><code class="docutils literal notranslate"><span class="pre">FileLoader.lazy_load()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.file_loader.FileLoader.load"><code class="docutils literal notranslate"><span class="pre">FileLoader.load()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-RAGchain.preprocess.loader.hwp_loader">RAGchain.preprocess.loader.hwp_loader module</a><ul>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.hwp_loader.HwpLoader"><code class="docutils literal notranslate"><span class="pre">HwpLoader</span></code></a><ul>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.hwp_loader.HwpLoader.async_request"><code class="docutils literal notranslate"><span class="pre">HwpLoader.async_request()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.hwp_loader.HwpLoader.lazy_load"><code class="docutils literal notranslate"><span class="pre">HwpLoader.lazy_load()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.hwp_loader.HwpLoader.load"><code class="docutils literal notranslate"><span class="pre">HwpLoader.load()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-RAGchain.preprocess.loader.mathpix_markdown_loader">RAGchain.preprocess.loader.mathpix_markdown_loader module</a><ul>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader"><code class="docutils literal notranslate"><span class="pre">MathpixMarkdownLoader</span></code></a><ul>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader.lazy_load"><code class="docutils literal notranslate"><span class="pre">MathpixMarkdownLoader.lazy_load()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader.load"><code class="docutils literal notranslate"><span class="pre">MathpixMarkdownLoader.load()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader.split_section"><code class="docutils literal notranslate"><span class="pre">MathpixMarkdownLoader.split_section()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader.split_table"><code class="docutils literal notranslate"><span class="pre">MathpixMarkdownLoader.split_table()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-RAGchain.preprocess.loader.nougat_pdf_loader">RAGchain.preprocess.loader.nougat_pdf_loader module</a><ul>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.nougat_pdf_loader.NougatPDFLoader"><code class="docutils literal notranslate"><span class="pre">NougatPDFLoader</span></code></a><ul>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.nougat_pdf_loader.NougatPDFLoader.lazy_load"><code class="docutils literal notranslate"><span class="pre">NougatPDFLoader.lazy_load()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.nougat_pdf_loader.NougatPDFLoader.load"><code class="docutils literal notranslate"><span class="pre">NougatPDFLoader.load()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-RAGchain.preprocess.loader.pdf_link_loader">RAGchain.preprocess.loader.pdf_link_loader module</a><ul>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.pdf_link_loader.PdfLinkLoader"><code class="docutils literal notranslate"><span class="pre">PdfLinkLoader</span></code></a><ul>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.pdf_link_loader.PdfLinkLoader.load"><code class="docutils literal notranslate"><span class="pre">PdfLinkLoader.load()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.preprocess.loader.pdf_link_loader.PdfLinkLoader.valid_url"><code class="docutils literal notranslate"><span class="pre">PdfLinkLoader.valid_url()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-RAGchain.preprocess.loader">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RAGchain</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">RAGchain.preprocess.loader package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/RAGchain.preprocess.loader.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ragchain-preprocess-loader-package">
+<h1>RAGchain.preprocess.loader package<a class="headerlink" href="#ragchain-preprocess-loader-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-RAGchain.preprocess.loader.dataset_loader">
+<span id="ragchain-preprocess-loader-dataset-loader-module"></span><h2>RAGchain.preprocess.loader.dataset_loader module<a class="headerlink" href="#module-RAGchain.preprocess.loader.dataset_loader" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.dataset_loader.KoStrategyQALoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.preprocess.loader.dataset_loader.</span></span><span class="sig-name descname"><span class="pre">KoStrategyQALoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.preprocess.loader.dataset_loader.KoStrategyQALoader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseLoader</span></code></p>
+<p>KoStrategyQA dataset loader
+The dataset downloads at huggingface via internet.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.dataset_loader.KoStrategyQALoader.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Document</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.preprocess.loader.dataset_loader.KoStrategyQALoader.load" title="Link to this definition"></a></dt>
+<dd><p>Load data into Document objects.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-RAGchain.preprocess.loader.excel_loader">
+<span id="ragchain-preprocess-loader-excel-loader-module"></span><h2>RAGchain.preprocess.loader.excel_loader module<a class="headerlink" href="#module-RAGchain.preprocess.loader.excel_loader" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.excel_loader.ExcelLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.preprocess.loader.excel_loader.</span></span><span class="sig-name descname"><span class="pre">ExcelLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sheet_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.preprocess.loader.excel_loader.ExcelLoader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseLoader</span></code></p>
+<p>Load a document from an Excel file.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.excel_loader.ExcelLoader.lazy_load">
+<span class="sig-name descname"><span class="pre">lazy_load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Document</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.preprocess.loader.excel_loader.ExcelLoader.lazy_load" title="Link to this definition"></a></dt>
+<dd><p>A lazy loader for Documents.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.excel_loader.ExcelLoader.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Document</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.preprocess.loader.excel_loader.ExcelLoader.load" title="Link to this definition"></a></dt>
+<dd><p>Load data into Document objects.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-RAGchain.preprocess.loader.file_loader">
+<span id="ragchain-preprocess-loader-file-loader-module"></span><h2>RAGchain.preprocess.loader.file_loader module<a class="headerlink" href="#module-RAGchain.preprocess.loader.file_loader" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.file_loader.FileLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.preprocess.loader.file_loader.</span></span><span class="sig-name descname"><span class="pre">FileLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hwp_host_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.preprocess.loader.file_loader.FileLoader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseLoader</span></code></p>
+<p>Loads documents from a directory.
+You can load .txt, .pdf, .csv, .xlsx, .hwp files.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.file_loader.FileLoader.lazy_load">
+<span class="sig-name descname"><span class="pre">lazy_load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_ext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Document</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.preprocess.loader.file_loader.FileLoader.lazy_load" title="Link to this definition"></a></dt>
+<dd><p>Lazily load all files in the target directory.
+:param filter_ext: If not None, only files with the given extensions will be loaded. filter_ext elements must contain the dot (.) prefix.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.file_loader.FileLoader.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_ext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Document</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.preprocess.loader.file_loader.FileLoader.load" title="Link to this definition"></a></dt>
+<dd><p>Load all files in the target directory.
+:param filter_ext: If not None, only files with the given extensions will be loaded. filter_ext elements must contain the dot (.) prefix.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-RAGchain.preprocess.loader.hwp_loader">
+<span id="ragchain-preprocess-loader-hwp-loader-module"></span><h2>RAGchain.preprocess.loader.hwp_loader module<a class="headerlink" href="#module-RAGchain.preprocess.loader.hwp_loader" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.hwp_loader.HwpLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.preprocess.loader.hwp_loader.</span></span><span class="sig-name descname"><span class="pre">HwpLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hwp_host_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_connection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.preprocess.loader.hwp_loader.HwpLoader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseLoader</span></code></p>
+<p>Load Hwp files.</p>
+<p>Hwp to text using hwp-converter-api.
+You can use hwp-converter-api at <a class="reference external" href="https://github.com/NomaDamas/hwp-converter-api">https://github.com/NomaDamas/hwp-converter-api</a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.hwp_loader.HwpLoader.async_request">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">async_request</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.preprocess.loader.hwp_loader.HwpLoader.async_request" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.hwp_loader.HwpLoader.lazy_load">
+<span class="sig-name descname"><span class="pre">lazy_load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Document</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.preprocess.loader.hwp_loader.HwpLoader.lazy_load" title="Link to this definition"></a></dt>
+<dd><p>Load a document lazily. This method uses asyncio requests.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.hwp_loader.HwpLoader.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Document</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.preprocess.loader.hwp_loader.HwpLoader.load" title="Link to this definition"></a></dt>
+<dd><p>Load a document.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-RAGchain.preprocess.loader.mathpix_markdown_loader">
+<span id="ragchain-preprocess-loader-mathpix-markdown-loader-module"></span><h2>RAGchain.preprocess.loader.mathpix_markdown_loader module<a class="headerlink" href="#module-RAGchain.preprocess.loader.mathpix_markdown_loader" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.preprocess.loader.mathpix_markdown_loader.</span></span><span class="sig-name descname"><span class="pre">MathpixMarkdownLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseLoader</span></code></p>
+<p>Load mathpix markdown file.
+mathpix markdown is .mmd file which is a markdown file for science papers.
+This class supports to split the file into sections and tables of science papers.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader.lazy_load">
+<span class="sig-name descname"><span class="pre">lazy_load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split_section</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Document</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader.lazy_load" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>split_section</strong> – If True, split the file into sections. Default is True.</p></li>
+<li><p><strong>split_table</strong> – If True, split the file into tables. Default is True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Iterator of Document. If split_section and split_table are True, return contains multiple Documents.</p>
+</dd>
+</dl>
+<p>The order of each section and table are the same as the order of the file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split_section</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Document</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader.load" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>split_section</strong> – If True, split the file into sections. Default is True.</p></li>
+<li><p><strong>split_table</strong> – If True, split the file into tables. Default is True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of Document. If split_section and split_table are True, the list contains multiple Documents.</p>
+</dd>
+</dl>
+<p>The order of each section and table are the same as the order of the file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader.split_section">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">split_section</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader.split_section" title="Link to this definition"></a></dt>
+<dd><p>Split section from mathpix markdown content by ‘#’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader.split_table">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">split_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.preprocess.loader.mathpix_markdown_loader.MathpixMarkdownLoader.split_table" title="Link to this definition"></a></dt>
+<dd><p>Split table from mathpix markdown content.
+:param content: mathpix markdown content
+:return: The odd index is the content without table, and the even index is the table.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-RAGchain.preprocess.loader.nougat_pdf_loader">
+<span id="ragchain-preprocess-loader-nougat-pdf-loader-module"></span><h2>RAGchain.preprocess.loader.nougat_pdf_loader module<a class="headerlink" href="#module-RAGchain.preprocess.loader.nougat_pdf_loader" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.nougat_pdf_loader.NougatPDFLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.preprocess.loader.nougat_pdf_loader.</span></span><span class="sig-name descname"><span class="pre">NougatPDFLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nougat_host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.preprocess.loader.nougat_pdf_loader.NougatPDFLoader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BasePDFLoader</span></code></p>
+<p>Load PDF file using Nougat API server.
+You can use Nougat API server using Dockerfile at <a class="reference external" href="https://github.com/facebookresearch/nougat">https://github.com/facebookresearch/nougat</a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.nougat_pdf_loader.NougatPDFLoader.lazy_load">
+<span class="sig-name descname"><span class="pre">lazy_load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split_section</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Document</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.preprocess.loader.nougat_pdf_loader.NougatPDFLoader.lazy_load" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>split_section</strong> – If True, split the document by section.</p></li>
+<li><p><strong>split_table</strong> – If True, split the document by table.</p></li>
+<li><p><strong>start</strong> – Start page number to load. Optional.</p></li>
+<li><p><strong>stop</strong> – Stop page number to load. Optional.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.nougat_pdf_loader.NougatPDFLoader.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split_section</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Document</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.preprocess.loader.nougat_pdf_loader.NougatPDFLoader.load" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>split_section</strong> – If True, split the document by section.</p></li>
+<li><p><strong>split_table</strong> – If True, split the document by table.</p></li>
+<li><p><strong>start</strong> – Start page number to load. Optional.</p></li>
+<li><p><strong>stop</strong> – Stop page number to load. Optional.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-RAGchain.preprocess.loader.pdf_link_loader">
+<span id="ragchain-preprocess-loader-pdf-link-loader-module"></span><h2>RAGchain.preprocess.loader.pdf_link_loader module<a class="headerlink" href="#module-RAGchain.preprocess.loader.pdf_link_loader" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.pdf_link_loader.PdfLinkLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.preprocess.loader.pdf_link_loader.</span></span><span class="sig-name descname"><span class="pre">PdfLinkLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">link</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.preprocess.loader.pdf_link_loader.PdfLinkLoader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseLoader</span></code></p>
+<p>Load PDF from a link</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.pdf_link_loader.PdfLinkLoader.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Document</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.preprocess.loader.pdf_link_loader.PdfLinkLoader.load" title="Link to this definition"></a></dt>
+<dd><p>Load data into Document objects.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.preprocess.loader.pdf_link_loader.PdfLinkLoader.valid_url">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valid_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.preprocess.loader.pdf_link_loader.PdfLinkLoader.valid_url" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-RAGchain.preprocess.loader">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-RAGchain.preprocess.loader" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, NomaDamas.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

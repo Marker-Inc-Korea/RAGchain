@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAGchain.reranker.pygaggle package &mdash; RAGchain  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="canonical" href="https://nomadamas.github.io/RAGchain/RAGchain.reranker.pygaggle.html" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            RAGchain
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">RAGchain.reranker.pygaggle package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-RAGchain.reranker.pygaggle.base">RAGchain.reranker.pygaggle.base module</a><ul>
+<li><a class="reference internal" href="#RAGchain.reranker.pygaggle.base.Query"><code class="docutils literal notranslate"><span class="pre">Query</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.reranker.pygaggle.base.Reranker"><code class="docutils literal notranslate"><span class="pre">Reranker</span></code></a><ul>
+<li><a class="reference internal" href="#RAGchain.reranker.pygaggle.base.Reranker.rerank"><code class="docutils literal notranslate"><span class="pre">Reranker.rerank()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.reranker.pygaggle.base.Reranker.rescore"><code class="docutils literal notranslate"><span class="pre">Reranker.rescore()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#RAGchain.reranker.pygaggle.base.Text"><code class="docutils literal notranslate"><span class="pre">Text</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-RAGchain.reranker.pygaggle.monoT5">RAGchain.reranker.pygaggle.monoT5 module</a><ul>
+<li><a class="reference internal" href="#RAGchain.reranker.pygaggle.monoT5.MonoT5Reranker"><code class="docutils literal notranslate"><span class="pre">MonoT5Reranker</span></code></a><ul>
+<li><a class="reference internal" href="#RAGchain.reranker.pygaggle.monoT5.MonoT5Reranker.rerank"><code class="docutils literal notranslate"><span class="pre">MonoT5Reranker.rerank()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.reranker.pygaggle.monoT5.MonoT5Reranker.rerank_sliding_window"><code class="docutils literal notranslate"><span class="pre">MonoT5Reranker.rerank_sliding_window()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-RAGchain.reranker.pygaggle.transformer">RAGchain.reranker.pygaggle.transformer module</a><ul>
+<li><a class="reference internal" href="#RAGchain.reranker.pygaggle.transformer.MonoT5"><code class="docutils literal notranslate"><span class="pre">MonoT5</span></code></a><ul>
+<li><a class="reference internal" href="#RAGchain.reranker.pygaggle.transformer.MonoT5.get_model"><code class="docutils literal notranslate"><span class="pre">MonoT5.get_model()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.reranker.pygaggle.transformer.MonoT5.get_prediction_tokens"><code class="docutils literal notranslate"><span class="pre">MonoT5.get_prediction_tokens()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.reranker.pygaggle.transformer.MonoT5.get_tokenizer"><code class="docutils literal notranslate"><span class="pre">MonoT5.get_tokenizer()</span></code></a></li>
+<li><a class="reference internal" href="#RAGchain.reranker.pygaggle.transformer.MonoT5.rescore"><code class="docutils literal notranslate"><span class="pre">MonoT5.rescore()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-RAGchain.reranker.pygaggle">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RAGchain</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">RAGchain.reranker.pygaggle package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/RAGchain.reranker.pygaggle.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ragchain-reranker-pygaggle-package">
+<h1>RAGchain.reranker.pygaggle package<a class="headerlink" href="#ragchain-reranker-pygaggle-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html">RAGchain.reranker.pygaggle.model package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#module-RAGchain.reranker.pygaggle.model.decode">RAGchain.reranker.pygaggle.model.decode module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.decode.greedy_decode"><code class="docutils literal notranslate"><span class="pre">greedy_decode()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#module-RAGchain.reranker.pygaggle.model.tokenize">RAGchain.reranker.pygaggle.model.tokenize module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.tokenize.DuoQueryDocumentBatch"><code class="docutils literal notranslate"><span class="pre">DuoQueryDocumentBatch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.tokenize.DuoQueryDocumentBatch.doc_pairs"><code class="docutils literal notranslate"><span class="pre">DuoQueryDocumentBatch.doc_pairs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.tokenize.DuoQueryDocumentBatch.output"><code class="docutils literal notranslate"><span class="pre">DuoQueryDocumentBatch.output</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.tokenize.DuoQueryDocumentBatch.query"><code class="docutils literal notranslate"><span class="pre">DuoQueryDocumentBatch.query</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.tokenize.QueryDocumentBatch"><code class="docutils literal notranslate"><span class="pre">QueryDocumentBatch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.tokenize.QueryDocumentBatch.documents"><code class="docutils literal notranslate"><span class="pre">QueryDocumentBatch.documents</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.tokenize.QueryDocumentBatch.output"><code class="docutils literal notranslate"><span class="pre">QueryDocumentBatch.output</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.tokenize.QueryDocumentBatch.query"><code class="docutils literal notranslate"><span class="pre">QueryDocumentBatch.query</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.tokenize.QueryDocumentBatchTokenizer"><code class="docutils literal notranslate"><span class="pre">QueryDocumentBatchTokenizer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.tokenize.QueryDocumentBatchTokenizer.traverse_duo_query_document"><code class="docutils literal notranslate"><span class="pre">QueryDocumentBatchTokenizer.traverse_duo_query_document()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.tokenize.QueryDocumentBatchTokenizer.traverse_query_document"><code class="docutils literal notranslate"><span class="pre">QueryDocumentBatchTokenizer.traverse_query_document()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.tokenize.T5BatchTokenizer"><code class="docutils literal notranslate"><span class="pre">T5BatchTokenizer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.tokenize.TokenizerEncodeMixin"><code class="docutils literal notranslate"><span class="pre">TokenizerEncodeMixin</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.tokenize.TokenizerEncodeMixin.encode"><code class="docutils literal notranslate"><span class="pre">TokenizerEncodeMixin.encode()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.tokenize.TokenizerEncodeMixin.tokenizer"><code class="docutils literal notranslate"><span class="pre">TokenizerEncodeMixin.tokenizer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.tokenize.TokenizerEncodeMixin.tokenizer_kwargs"><code class="docutils literal notranslate"><span class="pre">TokenizerEncodeMixin.tokenizer_kwargs</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#module-RAGchain.reranker.pygaggle.model">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-RAGchain.reranker.pygaggle.base">
+<span id="ragchain-reranker-pygaggle-base-module"></span><h2>RAGchain.reranker.pygaggle.base module<a class="headerlink" href="#module-RAGchain.reranker.pygaggle.base" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="RAGchain.reranker.pygaggle.base.Query">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.reranker.pygaggle.base.</span></span><span class="sig-name descname"><span class="pre">Query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.reranker.pygaggle.base.Query" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class representing a query.
+A query contains the query text itself and potentially other metadata.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>text<span class="classifier">str</span></dt><dd><p>The query text.</p>
+</dd>
+<dt>id<span class="classifier">Optional[str]</span></dt><dd><p>The query id.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="RAGchain.reranker.pygaggle.base.Reranker">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.reranker.pygaggle.base.</span></span><span class="sig-name descname"><span class="pre">Reranker</span></span><a class="headerlink" href="#RAGchain.reranker.pygaggle.base.Reranker" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class representing a reranker.
+A reranker takes a list texts and returns a list of texts non-destructively
+(i.e., does not alter the original input list of texts).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.reranker.pygaggle.base.Reranker.rerank">
+<span class="sig-name descname"><span class="pre">rerank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#RAGchain.reranker.pygaggle.base.Query" title="RAGchain.reranker.pygaggle.base.Query"><span class="pre">Query</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">texts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#RAGchain.reranker.pygaggle.base.Text" title="RAGchain.reranker.pygaggle.base.Text"><span class="pre">Text</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#RAGchain.reranker.pygaggle.base.Text" title="RAGchain.reranker.pygaggle.base.Text"><span class="pre">Text</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.reranker.pygaggle.base.Reranker.rerank" title="Link to this definition"></a></dt>
+<dd><p>Sorts a list of texts</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.reranker.pygaggle.base.Reranker.rescore">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rescore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#RAGchain.reranker.pygaggle.base.Query" title="RAGchain.reranker.pygaggle.base.Query"><span class="pre">Query</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">texts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#RAGchain.reranker.pygaggle.base.Text" title="RAGchain.reranker.pygaggle.base.Text"><span class="pre">Text</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#RAGchain.reranker.pygaggle.base.Text" title="RAGchain.reranker.pygaggle.base.Text"><span class="pre">Text</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.reranker.pygaggle.base.Reranker.rescore" title="Link to this definition"></a></dt>
+<dd><p>Reranks a list of texts with respect to a query.</p>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>query<span class="classifier">Query</span></dt><dd><p>The query.</p>
+</dd>
+<dt>texts<span class="classifier">List[Text]</span></dt><dd><p>The list of texts.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>List[Text]</dt><dd><p>Reranked list of texts.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="RAGchain.reranker.pygaggle.base.Text">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.reranker.pygaggle.base.</span></span><span class="sig-name descname"><span class="pre">Text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.reranker.pygaggle.base.Text" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class representing a text to be reranked.
+A text is unspecified with respect to it length; in principle, it
+could be a full-length document, a paragraph-sized passage, or
+even a short phrase.</p>
+<section id="id2">
+<h3>Parameters<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>text<span class="classifier">str</span></dt><dd><p>The text to be reranked.</p>
+</dd>
+<dt>metadata<span class="classifier">Mapping[str, Any]</span></dt><dd><p>Additional metadata and other annotations.</p>
+</dd>
+<dt>score<span class="classifier">Optional[float]</span></dt><dd><p>The score of the text. For example, the score might be the BM25 score
+from an initial retrieval stage.</p>
+</dd>
+<dt>title<span class="classifier">Optional[str]</span></dt><dd><p>The text’s title.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+<section id="module-RAGchain.reranker.pygaggle.monoT5">
+<span id="ragchain-reranker-pygaggle-monot5-module"></span><h2>RAGchain.reranker.pygaggle.monoT5 module<a class="headerlink" href="#module-RAGchain.reranker.pygaggle.monoT5" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="RAGchain.reranker.pygaggle.monoT5.MonoT5Reranker">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.reranker.pygaggle.monoT5.</span></span><span class="sig-name descname"><span class="pre">MonoT5Reranker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'castorini/monot5-3b-msmarco-10k'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_amp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_false</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_true</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.reranker.pygaggle.monoT5.MonoT5Reranker" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="RAGchain.reranker.html#RAGchain.reranker.base.BaseReranker" title="RAGchain.reranker.base.BaseReranker"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseReranker</span></code></a></p>
+<p>Rerank the passages using MonoT5 model.
+The model will be downloaded from HuggingFace model hub.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.reranker.pygaggle.monoT5.MonoT5Reranker.rerank">
+<span class="sig-name descname"><span class="pre">rerank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.reranker.pygaggle.monoT5.MonoT5Reranker.rerank" title="Link to this definition"></a></dt>
+<dd><p>Reranks a list of passages based on a specific ranking algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>passages</strong> (<em>List</em><em>[</em><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><em>Passage</em></a><em>]</em>) – A list of Passage objects representing the passages to be reranked.</p></li>
+<li><p><strong>query</strong> – str: The query that was used for retrieving the passages.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The reranked list of passages.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage">Passage</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.reranker.pygaggle.monoT5.MonoT5Reranker.rerank_sliding_window">
+<span class="sig-name descname"><span class="pre">rerank_sliding_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.reranker.pygaggle.monoT5.MonoT5Reranker.rerank_sliding_window" title="Link to this definition"></a></dt>
+<dd><p>Reranks a list of passages based on a specific ranking algorithm with sliding window.
+This function is useful when the model input token size is limited like LLMs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>passages</strong> – (List[Passage]): The list of passages to be reranked.</p></li>
+<li><p><strong>query</strong> – str: The query that was used for retrieving the passages.</p></li>
+<li><p><strong>window_size</strong> – (int): The size of the sliding window used for reranking.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[Passage]: The reranked list of passages.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-RAGchain.reranker.pygaggle.transformer">
+<span id="ragchain-reranker-pygaggle-transformer-module"></span><h2>RAGchain.reranker.pygaggle.transformer module<a class="headerlink" href="#module-RAGchain.reranker.pygaggle.transformer" title="Link to this heading"></a></h2>
+<p>This code is from pygaggle.
+<a class="reference external" href="https://github.com/castorini/pygaggle/blob/master/pygaggle/rerank/transformer.py">https://github.com/castorini/pygaggle/blob/master/pygaggle/rerank/transformer.py</a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="RAGchain.reranker.pygaggle.transformer.MonoT5">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.reranker.pygaggle.transformer.</span></span><span class="sig-name descname"><span class="pre">MonoT5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained_model_name_or_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'castorini/monot5-base-msmarco-10k'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T5ForConditionalGeneration</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.tokenize.QueryDocumentBatchTokenizer" title="RAGchain.reranker.pygaggle.model.tokenize.QueryDocumentBatchTokenizer"><span class="pre">QueryDocumentBatchTokenizer</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_amp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_false</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_true</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.reranker.pygaggle.transformer.MonoT5" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#RAGchain.reranker.pygaggle.base.Reranker" title="RAGchain.reranker.pygaggle.base.Reranker"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reranker</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.reranker.pygaggle.transformer.MonoT5.get_model">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained_model_name_or_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">T5ForConditionalGeneration</span></span></span><a class="headerlink" href="#RAGchain.reranker.pygaggle.transformer.MonoT5.get_model" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.reranker.pygaggle.transformer.MonoT5.get_prediction_tokens">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_prediction_tokens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained_model_name_or_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_false</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_true</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.reranker.pygaggle.transformer.MonoT5.get_prediction_tokens" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.reranker.pygaggle.transformer.MonoT5.get_tokenizer">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_tokenizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained_model_name_or_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.tokenize.T5BatchTokenizer" title="RAGchain.reranker.pygaggle.model.tokenize.T5BatchTokenizer"><span class="pre">T5BatchTokenizer</span></a></span></span><a class="headerlink" href="#RAGchain.reranker.pygaggle.transformer.MonoT5.get_tokenizer" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="RAGchain.reranker.pygaggle.transformer.MonoT5.rescore">
+<span class="sig-name descname"><span class="pre">rescore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#RAGchain.reranker.pygaggle.base.Query" title="RAGchain.reranker.pygaggle.base.Query"><span class="pre">Query</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">texts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#RAGchain.reranker.pygaggle.base.Text" title="RAGchain.reranker.pygaggle.base.Text"><span class="pre">Text</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#RAGchain.reranker.pygaggle.base.Text" title="RAGchain.reranker.pygaggle.base.Text"><span class="pre">Text</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.reranker.pygaggle.transformer.MonoT5.rescore" title="Link to this definition"></a></dt>
+<dd><p>Reranks a list of texts with respect to a query.</p>
+<section id="id3">
+<h3>Parameters<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>query<span class="classifier">Query</span></dt><dd><p>The query.</p>
+</dd>
+<dt>texts<span class="classifier">List[Text]</span></dt><dd><p>The list of texts.</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h3>Returns<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>List[Text]</dt><dd><p>Reranked list of texts.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-RAGchain.reranker.pygaggle">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-RAGchain.reranker.pygaggle" title="Link to this heading"></a></h2>
+<p>This is pygaggle implementation for using reranker.
+<a class="reference external" href="https://github.com/castorini/pygaggle">https://github.com/castorini/pygaggle</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, NomaDamas.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
