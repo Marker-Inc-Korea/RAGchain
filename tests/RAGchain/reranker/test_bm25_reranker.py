@@ -1,7 +1,7 @@
 import pytest
 
 import test_base_reranker
-from RAGchain.reranker import BM25Reranker  # 빨간색을 없애라!
+from RAGchain.reranker import BM25Reranker
 
 
 @pytest.fixture
@@ -17,5 +17,6 @@ def test_bm25_reranker(bm25_reranker):
     assert len(rerank_passages) == len(test_passages)
     assert rerank_passages[0] != test_passages[0] or rerank_passages[-1] != test_passages[-1]
 
+# test_passages[:20] 이것도 는가 검증 하
 # assert rerank_passages[0] == test_passages[0] or rerank_passages[-1] == test_passages[-1] # 이렇게 하면 테스트가 통과되지 않는다.
 # assert rerank_passages[0] == test_passages[0] and rerank_passages[-1] == test_passages[-1] # 이렇게 하면 테스트가 통과된다.
