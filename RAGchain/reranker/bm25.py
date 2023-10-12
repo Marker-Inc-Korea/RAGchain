@@ -1,7 +1,6 @@
 from typing import List
 
 from rank_bm25 import BM25Okapi
-from tqdm import tqdm
 from transformers import AutoTokenizer
 
 from RAGchain.reranker.base import BaseReranker
@@ -20,10 +19,9 @@ class BM25Reranker(BaseReranker):
     def rerank(self, query: str, passages: List[Passage]) -> List[Passage]:
         contents: List[str] = [passage.content for passage in passages]
 
-        tokenized_content: List[str] = []
+
         # tokenize content for bm25 instance
-        for content in tqdm(contents):
-            tokenized_content.append(self.__tokenize([content])[0])
+        tokenized_content = self.__tokenize(contents)
 
         # tokenize query
         tokenized_query = self.__tokenize([query])[0]
