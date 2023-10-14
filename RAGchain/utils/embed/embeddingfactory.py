@@ -1,8 +1,6 @@
 import os
 from enum import Enum
 
-from dotenv import load_dotenv
-
 from RAGchain.utils.util import text_modifier
 
 
@@ -32,7 +30,6 @@ class EmbeddingFactory:
         - cpu: CPU
         - mps: MPS
         """
-        load_dotenv()
         if embed_type in text_modifier('openai'):
             self.embed_type = EmbeddingType.OPENAI
 

@@ -15,10 +15,8 @@ def slice_stop_words(input_str: str, stop_words: List[str]):
 
 def set_api_base(api_base: str):
     if api_base is None:
-        from dotenv import load_dotenv
-        env_loaded = load_dotenv()
-        if not env_loaded:
-            raise ValueError("Please set OPENAI_API_KEY in .env file")
+        if os.getenv("OPENAI_API_KEY") is None:
+            raise ValueError("Please set OPENAI_API_KEY as environment variable")
         openai.api_key = os.environ["OPENAI_API_KEY"]
     else:
         openai.api_base = api_base
@@ -46,6 +44,7 @@ class FileChecker:
     """
     FileChecker is a class to check file type and existence.
     """
+
     def __init__(self, file_path: str):
         """
         :param file_path: str, file path to check.
