@@ -1,6 +1,5 @@
 from typing import List
 
-from dotenv import load_dotenv
 from langchain.document_loaders.base import BaseLoader
 
 from RAGchain.DB.base import BaseDB
@@ -55,7 +54,6 @@ class BasicIngestPipeline(BasePipeline):
         self.db = db
         self.retrieval = retrieval
         self.ignore_existed_file = ignore_existed_file
-        load_dotenv(verbose=False)
 
     def run(self, target_dir=None, *args, **kwargs):
         """
@@ -101,7 +99,6 @@ class BasicDatasetPipeline(BasePipeline):
     def __init__(self, file_loader: BaseLoader, retrieval: BaseRetrieval):
         self.file_loader = file_loader
         self.retrieval = retrieval
-        load_dotenv(verbose=False)
 
     def run(self, *args, **kwargs):
         # File Loader
@@ -142,7 +139,6 @@ class BasicRunPipeline(BasePipeline):
         :param retrieval: Retrieval module to retrieve passages.
         :param llm: LLM module to get answer. Default is BasicLLM.
         """
-        load_dotenv()
         self.retrieval = retrieval
         self.llm = llm if llm is not None else BasicLLM(retrieval)
 
