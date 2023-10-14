@@ -5,7 +5,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='RAGchain',
-    version='0.1.0',
+    version='0.1.1',
     description='Build advanced RAG workflows with LLM, compatible with Langchain',
     author='NomaDamas',
     author_email='vkehfdl1@gmail.com',
