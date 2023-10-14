@@ -5,7 +5,12 @@ from setuptools import find_packages, setup
 
 setup(
     name='RAGchain',
-    version='0.1',
+    version='0.1.1',
+    description='Build advanced RAG workflows with LLM, compatible with Langchain',
+    author='NomaDamas',
+    author_email='vkehfdl1@gmail.com',
+    keywords=['RAG', 'RAGchain', 'ragchain', 'LLM', 'Langchain', 'DQA', 'GPT', 'ODQA'],
+    python_requires='>=3.8',
     packages=find_packages(where='.'),
     package_dir={'': '.'},
     url="https://github.com/NomaDamas/RAGchain",
@@ -46,7 +51,6 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
-        'License :: OSI Approved :: Apache License 2.0',
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
         "Topic :: Software Development :: Libraries",
         "Topic :: Software Development :: Libraries :: Python Modules",
