@@ -1,11 +1,9 @@
 import os
+import warnings
 from typing import Union
 from uuid import UUID
 
 import redis
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 class RedisDBSingleton:
@@ -29,6 +27,15 @@ class RedisDBSingleton:
         port = os.getenv("REDIS_PORT")
         db_name = os.getenv("REDIS_DB_NAME")
         password = os.getenv("REDIS_PW")
+
+        if host is None:
+            raise ValueError("Please set REDIS_HOST to environment variable")
+        if port is None:
+            raise ValueError("Please set REDIS_PORT to environment variable")
+        if db_name is None:
+            raise ValueError("Please set REDIS_DB_NAME to environment variable")
+        if password is None:
+            warnings.warn("REDIS_PW is not set. You can set REDIS_PW to environment variable", UserWarning)
 
         self.client = redis.Redis(
             host=host,
