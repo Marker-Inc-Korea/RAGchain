@@ -52,8 +52,6 @@ class MarkDownHeaderSplitter(BaseTextSplitter):
             passages.append(passage)
         print(f"Split into {len(passages)} passages")
 
-        test = passages
-        print('hello')
         return passages
 
     """
