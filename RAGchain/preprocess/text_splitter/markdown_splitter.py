@@ -23,13 +23,10 @@ class MarkDownHeaderSplitter(BaseTextSplitter):
         self.markdown_splitter = MarkdownHeaderTextSplitter(headers_to_split_on, return_each_line)
 
     def split_document(self, documents: Document):
-        check_metadata = documents
         split_documents = self.markdown_splitter.split_text(documents.page_content)
 
         # Modify meta_data's keys and values.
-        doc = documents.metadata
-        split = split_documents[0].metadata.copy()
-        test_meta = dict(doc, **split)
+        test_meta = dict(documents.metadata, **split_documents[0].metadata.copy())
 
         passages = []
         ids = [uuid4() for _ in range(len(split_documents))]
