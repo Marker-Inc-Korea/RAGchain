@@ -1,6 +1,7 @@
 import os
 import re
 import zipfile
+import shutil
 from typing import List
 
 import win32com.client as win32
@@ -90,7 +91,7 @@ class HwpLoader(BaseLoader):
         else:
             raise ValueError("The file extension must be .hwp or .hwpx")
 
-        print("Loading {0}".format(self.file_path))
+        #print("Loading {0}".format(self.file_path))
 
         pattern = r'</?(?!(?:em|strong)\b)[a-z](?:[^>"\']|"[^"]*"|\'[^\']*\')*>'
 
@@ -106,11 +107,11 @@ class HwpLoader(BaseLoader):
             if i % 2 == 1:
                 self.result[i] = self.xml_to_html(xml)
 
-        print("Preprocessing is done")
+        #print("Preprocessing is done")
         return self.result
 
     def load(self) -> List[Document]:
-
+        document_list = []
         page = ""
         if self.flag == 0:
             self.preprocessor()
@@ -123,9 +124,15 @@ class HwpLoader(BaseLoader):
                     page += txt
             print(page)
             document_list = [Document(page_content=page, metadata={"source": self.file_path})]
-            return document_list
+
+        if os.path.exists(os.path.join(self.file_path, os.pardir, "hwpx")):
+            shutil.rmtree(os.path.join(self.file_path, os.pardir, "hwpx"))
+            os.remove(os.path.join(self.file_path))
+        return document_list
 
     def load_table(self) -> List[Document]:
+        document_list = []
+
         if self.flag == 0:
             self.preprocessor()
             self.flag = 1
@@ -137,4 +144,7 @@ class HwpLoader(BaseLoader):
                 if i % 2 == 1:
                     document_list.append(Document(page_content=xml_table, metadata={"source": self.file_path}))
 
-            return document_list
+        if os.path.exists(os.path.join(self.file_path, os.pardir, "hwpx")):
+            shutil.rmtree(os.path.join(self.file_path, os.pardir, "hwpx"))
+            os.remove(os.path.join(self.file_path))
+        return document_list
