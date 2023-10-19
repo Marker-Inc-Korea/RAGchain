@@ -42,7 +42,8 @@ setup(
         'transformers',
         'torch',
         'pyarrow',
-        'fastparquet'
+        'fastparquet',
+        'ragas'
     ],
     classifiers=[
         "Intended Audience :: Developers",
