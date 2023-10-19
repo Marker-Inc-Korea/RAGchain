@@ -19,19 +19,19 @@ logger = logging.getLogger(__name__)
 
 TEST_PASSAGES = [
     Passage(id='id-1',
-            content='The capital of Korea is Seoul.',
+            content='The capital of Korea is Seoul. And it is well-known.',
             filepath='./korea.txt'),
     Passage(id='id-2',
-            content='The capital of France is Paris.',
+            content='The capital of France is Paris. And it is well-known.',
             filepath='./france.txt'),
     Passage(id='id-3',
-            content='The capital of Germany is Berlin.',
+            content='The capital of Germany is Berlin. And it is well-known.',
             filepath='./germany.txt'),
     Passage(id='id-4',
-            content='The capital of Japan is Tokyo.',
+            content='The capital of Japan is Tokyo. And it is well-known.',
             filepath='./japan.txt'),
     Passage(id='id-5',
-            content='The capital of China is Beijing.',
+            content='The capital of China is Beijing. And it is well-known.',
             filepath='./china.txt'),
     Passage(id='id-6',
             content='The capital of Argentina is Buenos Aires.',
@@ -70,9 +70,9 @@ class DummyEvaluator(BaseEvaluator):
         retrieval_gt = [
             ['id-2', 'id-8'],
             ['id-1', 'id-7'],
-            ['id-4', 'id-10'],
+            ['id-4'],
             ['id-5', 'id-11'],
-            ['id-3', 'id-9']
+            ['id-3']
         ]
         retrieval_gt_order = [
             [1, 2],
@@ -119,7 +119,7 @@ def test_base_evaluator(dummy_evaluator):
 
     assert len(result.each_results) == 5
     assert result.each_results.iloc[0]['question'] == 'What is the capital of France?'
-    assert result.each_results.iloc[0]['passage_content_1'] == 'The capital of France is Paris.'
+    assert result.each_results.iloc[0]['passage_content_1'] == 'The capital of France is Paris. And it is well-known.'
     assert result.each_results.iloc[0]['passage_id_1'] == 'id-2'
     assert result.each_results.iloc[0]['F1_score'] > 0
     assert len(result.use_metrics) == len(dummy_evaluator.metrics)

@@ -1,13 +1,23 @@
 from abc import ABC, abstractmethod
-from typing import List, Optional, Union, Dict
+from typing import List, Optional, Union
 from uuid import UUID
-from tqdm import tqdm
+
 import pandas as pd
+from datasets import Dataset
+from ragas import evaluate
+from ragas.metrics import (
+    answer_relevancy,
+    faithfulness,
+    context_recall,
+    context_precision,
+)
+from tqdm import tqdm
 
 from RAGchain.benchmark.answer.metrics import BaseAnswerMetric
 from RAGchain.benchmark.retrieval.metrics import BaseRetrievalMetric, AP, NDCG, CG, IndDCG, DCG, IndIDCG, IDCG, \
     Recall, Precision, RR, Hole, TopKAccuracy, ExactlyMatch, F1
 from RAGchain.pipeline.base import BasePipeline
+from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import EvaluateResult, Passage
 from RAGchain.utils.util import text_modifier
 
@@ -15,8 +25,9 @@ from RAGchain.utils.util import text_modifier
 class BaseEvaluator(ABC):
     def __init__(self, run_all: bool = True, metrics: Optional[List[str]] = None):
         if run_all:
-            self.metrics = ['AP', 'NDCG', 'CG', 'Ind_DCG', 'DCG', 'Ind_IDCG', 'IDCG', 'Recall', 'Precision', 'RR', 'Hole',
-                            'TopK_Accuracy', 'EM', 'F1_score']
+            self.metrics = ['AP', 'NDCG', 'CG', 'Ind_DCG', 'DCG', 'Ind_IDCG', 'IDCG', 'Recall', 'Precision', 'RR',
+                            'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'context_recall', 'context_precision',
+                            'answer_relevancy', 'faithfulness']
         else:
             if metrics is None:
                 raise ValueError("If run_all is False, metrics should be given")
@@ -56,12 +67,33 @@ class BaseEvaluator(ABC):
         result_df = pd.DataFrame(df_temp, columns=columns)
         use_metrics = []
 
-        # without gt - retrieval
-        retrieval_metrics_without_gt = self.__retrieval_metrics_without_gt()
+        # without gt - retrieval & answer
+        ragas_metrics = self.__ragas_metrics()
+        # You can't use context_recall when retrieval_gt is None
+        if retrieval_gt is None:
+            ragas_metrics = [metric for metric in ragas_metrics if isinstance(metric, context_recall) is False]
+        use_metrics += [metric.name for metric in ragas_metrics]
+
+        dataset_dict = {
+            'question': questions,
+            'answer': answers,
+            'contexts': result_df[passage_content_columns].values.tolist()
+        }
+        if retrieval_gt is not None:
+            dataset_dict['ground_truths'] = self.__fetch_contents(retrieval_gt)
+
+        ragas_result = evaluate(
+            Dataset.from_dict(dataset_dict),
+            metrics=ragas_metrics
+        )
+        ragas_result_df = ragas_result.to_pandas()
+        assert ragas_result_df.iloc[0]['question'] == result_df.iloc[0]['question']
+        assert ragas_result_df.iloc[0]['answer'] == result_df.iloc[0]['answer']
+
+        result_df = pd.concat([result_df, ragas_result_df[[metric.name for metric in ragas_metrics]]], axis=1)
 
         # TODO : Implement this
 
-        # without gt - answer
         # with gt - retrieval
         def calculate_retrieval_metrics_pd(row, index, metric: BaseRetrievalMetric):
             retrieved_ids = row[passage_id_columns].tolist()
@@ -130,15 +162,39 @@ class BaseEvaluator(ABC):
 
         return result
 
-    def __retrieval_metrics_without_gt(self) -> List[BaseRetrievalMetric]:
-        # TODO: Implement this
-        return []
+    def __ragas_metrics(self):
+        ragas_metrics = [context_precision, context_recall, answer_relevancy, faithfulness]
+        result = []
+        for metric_name in self.metrics:
+            for metric in ragas_metrics:
+                if metric_name in text_modifier(metric.name):
+                    result.append(metric)
+                    break
+
+        return result
+
+    def __fetch_contents(self, ids: List[List[Union[str, UUID]]]) -> List[List[str]]:
+        class DummyRetrieval(BaseRetrieval):
+            def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Passage]:
+                pass
+
+            def ingest(self, passages: List[Passage]):
+                pass
+
+            def retrieve_id(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Union[str, UUID]]:
+                pass
+
+            def retrieve_id_with_scores(self, query: str, top_k: int = 5, *args, **kwargs) -> tuple[
+                List[Union[str, UUID]], List[float]]:
+                pass
+
+        dummy_retrieval = DummyRetrieval()
+        retrieval_gt_contents = []
+        for passage_ids in ids:
+            retrieval_gt_contents.append([passage.content for passage in dummy_retrieval.fetch_data(passage_ids)])
+        return retrieval_gt_contents
 
     def __answer_metrics_with_gt(self) -> List[BaseAnswerMetric]:
-        # TODO: Implement this
-        return []
-
-    def __answer_metrics_without_gt(self) -> List[BaseAnswerMetric]:
         # TODO: Implement this
         return []
 
