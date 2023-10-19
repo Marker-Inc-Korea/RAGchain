@@ -13,8 +13,14 @@ from RAGchain.utils.util import text_modifier
 
 
 class BaseEvaluator(ABC):
-    def __init__(self, metrics: List[str]):
-        self.metrics = metrics
+    def __init__(self, run_all: bool = True, metrics: Optional[List[str]] = None):
+        if run_all:
+            self.metrics = ['AP', 'NDCG', 'CG', 'Ind_DCG', 'DCG', 'Ind_IDCG', 'IDCG', 'Recall', 'Precision', 'RR', 'Hole',
+                            'TopK_Accuracy', 'EM', 'F1_score']
+        else:
+            if metrics is None:
+                raise ValueError("If run_all is False, metrics should be given")
+            self.metrics = metrics
 
     @abstractmethod
     def evaluate(self):
@@ -25,7 +31,7 @@ class BaseEvaluator(ABC):
                            pipeline: BasePipeline,
                            retrieval_gt: Optional[List[List[Union[str, UUID]]]] = None,
                            retrieval_gt_order: Optional[List[List[int]]] = None,
-                           answer_gt: Optional[List[List[str]]] = None,
+                           answer_gt: Optional[List[str]] = None,
                            ) -> EvaluateResult:
         """
         Calculate metrics for a list of questions and return their results
