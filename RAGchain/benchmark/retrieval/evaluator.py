@@ -12,9 +12,11 @@ def basic_retrieval_evaluation(qrels: Dict[str, List[str]], preds: Dict[str, Lis
                                preds_relevance: Dict[str, List[float]] = None
                                ) -> List[dict[str, float]]:
     """
-    :param qrels: The qrels file as a dictionary. Dict[query_id, Dict[doc_id, relevance]]
-    :param preds: The results file as a dictionary. Dict[query_id, Dict[doc_id, score]]
-    :k_values: The k values for which the evaluation should be done. List[int]
+    :param qrels: The query id is key, and the value is content of retrieved passage ids. Dict[query_id, List[ids]]
+    :param preds: The query id is key, and the value is content of retrieved passage ids. Dict[query_id, List[ids]]
+    :param k_values: The k values for which the evaluation should be done. List[int]
+    :param qrels_relevance: The query id is key, and the value is the rank from ground truths. Dict[query_id, List[rank]]
+    :param preds_relevance: The query id is key, and the value is the relevance score from predictions. Dict[query_id, List[relevance score]]
     results doc_id can be different from the doc_id in the qrels file.
     """
 
