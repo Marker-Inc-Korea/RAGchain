@@ -34,7 +34,7 @@ class BaseEvaluator(ABC):
             self.metrics = metrics
 
     @abstractmethod
-    def evaluate(self):
+    def evaluate(self) -> EvaluateResult:
         pass
 
     def _calculate_metrics(self,
@@ -48,7 +48,7 @@ class BaseEvaluator(ABC):
         Calculate metrics for a list of questions and return their results
         """
         answers, passages = self._run_pipeline(questions, pipeline)
-        # TODO: Replace this to real rel scores
+        # TODO: Replace this to real rel scores Issue/#279
         scores = [[1.0 for _ in range(len(passage_group))] for passage_group in passages]
         k = len(passages[0])
 
@@ -71,7 +71,7 @@ class BaseEvaluator(ABC):
         ragas_metrics = self.__ragas_metrics()
         # You can't use context_recall when retrieval_gt is None
         if retrieval_gt is None:
-            ragas_metrics = [metric for metric in ragas_metrics if isinstance(metric, context_recall) is False]
+            ragas_metrics = [metric for metric in ragas_metrics if isinstance(metric, type(context_recall)) is False]
         use_metrics += [metric.name for metric in ragas_metrics]
 
         dataset_dict = {
@@ -91,8 +91,6 @@ class BaseEvaluator(ABC):
         assert ragas_result_df.iloc[0]['answer'] == result_df.iloc[0]['answer']
 
         result_df = pd.concat([result_df, ragas_result_df[[metric.name for metric in ragas_metrics]]], axis=1)
-
-        # TODO : Implement this
 
         # with gt - retrieval
         def calculate_retrieval_metrics_pd(row, index, metric: BaseRetrievalMetric):
@@ -116,6 +114,7 @@ class BaseEvaluator(ABC):
                     lambda row: calculate_retrieval_metrics_pd(row, row.name, metric), axis=1)
 
         # with gt - answer
+        # TODO: add this after making answer evaluation Issue/#123
 
         return EvaluateResult(
             results=result_df[use_metrics].mean().to_dict(),
