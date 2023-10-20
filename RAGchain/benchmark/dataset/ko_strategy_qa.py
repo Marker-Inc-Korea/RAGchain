@@ -6,13 +6,16 @@ import pandas as pd
 from huggingface_hub import hf_hub_download
 
 from RAGchain.DB.base import BaseDB
-from RAGchain.benchmark.dataset.base import BaseDatasetEvaluator
+from RAGchain.benchmark.dataset.base import BaseDatasetEvaluator, BaseStrategyQA
 from RAGchain.pipeline.base import BasePipeline
 from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import EvaluateResult, Passage
 
 
-class KoStrategyQAEvaluator(BaseDatasetEvaluator):
+class KoStrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
+    """
+    Ko-StrategyQA dataset evaluator
+    """
     dataset_name = "NomaDamas/Ko-StrategyQA"
 
     def __init__(self, run_pipeline: BasePipeline,
@@ -66,7 +69,7 @@ class KoStrategyQAEvaluator(BaseDatasetEvaluator):
         db.save(passages)
 
     def evaluate(self) -> EvaluateResult:
-        df = self.__convert_dev_to_pd()
+        df = self.convert_qa_to_pd(self.dev_data)
         return self._calculate_metrics(
             questions=df['question'].tolist(),
             pipeline=self.run_pipeline,
@@ -77,27 +80,3 @@ class KoStrategyQAEvaluator(BaseDatasetEvaluator):
         if len(data) <= size:
             return data
         return dict(islice(data.items(), size))
-
-    def __convert_dev_to_pd(self):
-        result = []
-        for key, value in self.dev_data.items():
-            result.append([
-                value['question'],
-                value['answer'],
-                self.__unpack_evidence(value['evidence'])
-            ])
-        return pd.DataFrame(result, columns=['question', 'answer', 'evidence'])
-
-    def __unpack_evidence(self, evidence) -> List[str]:
-        evidence_per_annotator = []
-        for annotator in evidence:
-            evidence_per_annotator.extend(
-                list(set(
-                    evidence_id
-                    for step in annotator
-                    for x in step
-                    if isinstance(x, list)
-                    for evidence_id in x
-                ))
-            )
-        return evidence_per_annotator
