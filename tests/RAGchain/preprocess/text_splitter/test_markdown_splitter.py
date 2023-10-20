@@ -100,12 +100,8 @@ TEST_DOCUMENT = Document(
 
 @pytest.fixture
 def markdownheader_text_splitter():
-    recursive_text_splitter = MarkDownHeaderSplitter([
-        ("#", "Header 1"),
-        ("##", "Header 2"),
-        ("###", "Header 3"),
-    ])
-    yield recursive_text_splitter
+    markdownheader_text_splitter = MarkDownHeaderSplitter()
+    yield markdownheader_text_splitter
 
 
 def test_markdownheader_text_splitter(markdownheader_text_splitter):

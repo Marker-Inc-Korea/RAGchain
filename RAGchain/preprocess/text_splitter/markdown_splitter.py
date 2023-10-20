@@ -1,5 +1,5 @@
 import copy
-from typing import List
+from typing import List, Optional
 from uuid import uuid4
 
 from langchain.schema import Document
@@ -9,9 +9,8 @@ from RAGchain.preprocess.text_splitter.base import BaseTextSplitter
 from RAGchain.schema import Passage
 
 
-# 마크다운 헤더로 자르는 splitter
 class MarkDownHeaderSplitter(BaseTextSplitter):
-    def __init__(self, headers_to_split_on: List[tuple[str, str]], return_each_line: bool = False):
+    def __init__(self, headers_to_split_on: Optional[List[tuple[str, str]]] = None, return_each_line: bool = False):
         """
         :param headers_to_split_on: A list of tuples which appended  to create split standard.
         ex)
@@ -21,8 +20,11 @@ class MarkDownHeaderSplitter(BaseTextSplitter):
             ("###", "Header 3"),
         ]
         """
-        self.header_to_split_on = headers_to_split_on
-        self.return_each_line = return_each_line
+
+        # Set default value headers_to_split_on.
+        if headers_to_split_on == None:
+            headers_to_split_on = [("#", "Header 1")]
+
         self.markdown_splitter = MarkdownHeaderTextSplitter(headers_to_split_on, return_each_line)
 
     def split_document(self, documents: Document):
