@@ -22,8 +22,12 @@ class MarkDownHeaderSplitter(BaseTextSplitter):
         """
 
         # Set default value headers_to_split_on.
-        if headers_to_split_on == None:
-            headers_to_split_on = [("#", "Header 1")]
+        if headers_to_split_on is None:
+            headers_to_split_on = [
+                ("#", "Header 1"),
+                ("##", "Header 2"),
+                ("###", "Header 3"),
+            ]
 
         self.markdown_splitter = MarkdownHeaderTextSplitter(headers_to_split_on, return_each_line)
 
@@ -31,13 +35,10 @@ class MarkDownHeaderSplitter(BaseTextSplitter):
         document_copy = copy.deepcopy(documents)
         split_documents = self.markdown_splitter.split_text(documents.page_content)
 
-
         passages = []
         ids = [uuid4() for _ in range(len(split_documents))]
 
         filepath = document_copy.metadata.pop('source')  # user doc's metadata value.
-
-
 
         for i, (split_document, uuid) in enumerate(zip(split_documents, ids)):
             # Modify meta_data's keys and values right form.
@@ -62,4 +63,3 @@ class MarkDownHeaderSplitter(BaseTextSplitter):
         print(f"Split into {len(passages)} passages")
 
         return passages
-
