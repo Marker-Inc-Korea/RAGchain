@@ -13,9 +13,11 @@ def test_hwp_table_loader_doc():
     docs = HwpLoaderRust(file_path).load()
 
     assert len(docs) != 0
+    assert bool(docs[0].page_content)
 
 
 def test_hwp_table_loader_table():
     tables = HwpLoaderRust(table_file_path).load_table()
 
     assert len(tables) != 0
+    assert bool(tables[0].page_content)

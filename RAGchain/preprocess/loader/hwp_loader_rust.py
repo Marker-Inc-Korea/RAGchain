@@ -7,6 +7,7 @@ from langchain.document_loaders.base import BaseLoader
 
 
 class HwpLoaderRust(BaseLoader):
+    # It works any OS
     def __init__(self, path: str, *args, **kwargs):
         self.file_path = path
         self.result = []
