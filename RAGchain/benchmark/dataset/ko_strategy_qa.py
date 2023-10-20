@@ -66,6 +66,7 @@ class KoStrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
             passages = passages[:ingest_size]
         for retrieval in retrievals:
             retrieval.ingest(passages)
+        db.create_or_load()
         db.save(passages)
 
     def evaluate(self) -> EvaluateResult:
