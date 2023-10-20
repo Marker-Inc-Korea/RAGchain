@@ -27,7 +27,7 @@ class BaseTextSplitter(ABC):
         """
         pass
 
-    def Docs_to_Passages(self, split_documents: List[Document]) -> List[Passage]:
+    def docs_to_passages(self, split_documents: List[Document]) -> List[Passage]:
         passages = []
         ids = [uuid4() for _ in range(len(split_documents))]
         for i, (split_document, uuid) in enumerate(zip(split_documents, ids)):
