@@ -1,10 +1,10 @@
-from RAGchain.benchmark.retrieval.metrics import Recall, RR, Precision, NDCG, DCG, Hole, TopKAccuracy, IDCG, IndDCG, \
-    IndIDCG, AP, CG, ExactlyMatch, F1
-
+import json
 from typing import List, Dict
 
-import json
 import click
+
+from RAGchain.benchmark.retrieval.metrics import Recall, RR, Precision, NDCG, DCG, Hole, TopKAccuracy, IDCG, IndDCG, \
+    IndIDCG, AP, CG, ExactlyMatch, F1
 
 
 def basic_retrieval_evaluation(qrels: Dict[str, List[str]], preds: Dict[str, List[str]], k_values: List[int],
@@ -15,7 +15,7 @@ def basic_retrieval_evaluation(qrels: Dict[str, List[str]], preds: Dict[str, Lis
     :param qrels: The query id is key, and the value is content of retrieved passage ids. Dict[query_id, List[ids]]
     :param preds: The query id is key, and the value is content of retrieved passage ids. Dict[query_id, List[ids]]
     :param k_values: The k values for which the evaluation should be done. List[int]
-    :param qrels_relevance: The query id is key, and the value is the rank from ground truths. Dict[query_id, List[rank]]
+    :param qrels_relevance: The query id is key, and the value is the rate from ground truths. Dict[query_id, List[rate]]
     :param preds_relevance: The query id is key, and the value is the relevance score from predictions. Dict[query_id, List[relevance score]]
     results doc_id can be different from the doc_id in the qrels file.
     """

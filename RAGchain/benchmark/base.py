@@ -100,7 +100,7 @@ class BaseEvaluator(ABC):
 
             gt_ids = self.uuid_to_str(retrieval_gt[index])
             if retrieval_gt_order is None:
-                solution = {str(_id): i + 1 for i, _id in enumerate(gt_ids)}
+                solution = {str(_id): len(gt_ids) - i for i, _id in enumerate(gt_ids)}
             else:
                 solution = {str(_id): rank for _id, rank in zip(gt_ids, retrieval_gt_order[index])}
             return metric.eval(solution, pred, k=len(pred))
