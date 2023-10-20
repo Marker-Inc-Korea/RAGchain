@@ -122,7 +122,6 @@ class HwpLoader(BaseLoader):
             for i, txt in enumerate(self.result):
                 if i % 2 == 0:
                     page += txt
-            print(page)
             document_list = [Document(page_content=page, metadata={"source": self.file_path})]
 
         if os.path.exists(os.path.join(self.file_path, os.pardir, "hwpx")):
