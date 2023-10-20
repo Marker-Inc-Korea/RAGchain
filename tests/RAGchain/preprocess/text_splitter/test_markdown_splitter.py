@@ -105,7 +105,8 @@ def markdownheader_text_splitter():
 
 
 def test_markdownheader_text_splitter(markdownheader_text_splitter):
-    passages = markdownheader_text_splitter.split_document(TEST_DOCUMENT)
+    passages, header_info = markdownheader_text_splitter.split_document(TEST_DOCUMENT)
+
 
     assert len(passages) > 1
     assert passages[0].next_passage_id == passages[1].id
@@ -115,6 +116,11 @@ def test_markdownheader_text_splitter(markdownheader_text_splitter):
     assert passages[0].previous_passage_id is None
     assert passages[-1].next_passage_id is None
 
-    # Markdownheader_textsplitter can't pass this test because when it split text, Header information move meta_data.
-    # assert TEST_DOCUMENT.page_content.strip()[:10] == passages[0].content[:10]
-    # assert TEST_DOCUMENT.page_content.strip()[-10:] == passages[-1].content[-10:]
+    for passages_num in range(len(passages)):
+        # Check splitter preserve other metadata in original document.(original doc의 meta data에 여러개의 metadata가 있는것도 고려해야함.)
+        for origin_meta in list(TEST_DOCUMENT.metadata.items()):
+            assert origin_meta in list(passages[passages_num].metadata_etc.items())
+
+        # Check header value store into metadata_etc properly
+        for key, value in header_info[passages_num].items():
+            assert (key, value) in list(passages[passages_num].metadata_etc.items())
