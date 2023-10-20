@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Optional
 
 from datasets import load_dataset
 
@@ -10,7 +10,8 @@ from RAGchain.retrieval.base import BaseRetrieval
 
 class BaseDatasetEvaluator(BaseEvaluator, ABC):
     @abstractmethod
-    def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB):
+    def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB,
+               ingest_size: Optional[int] = None):
         pass
 
     @staticmethod

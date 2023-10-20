@@ -69,28 +69,30 @@ class BaseEvaluator(ABC):
 
         # without gt - retrieval & answer
         ragas_metrics = self.__ragas_metrics()
-        # You can't use context_recall when retrieval_gt is None
-        if retrieval_gt is None:
-            ragas_metrics = [metric for metric in ragas_metrics if isinstance(metric, type(context_recall)) is False]
-        use_metrics += [metric.name for metric in ragas_metrics]
+        if len(ragas_metrics) > 0:
+            # You can't use context_recall when retrieval_gt is None
+            if retrieval_gt is None:
+                ragas_metrics = [metric for metric in ragas_metrics if
+                                 isinstance(metric, type(context_recall)) is False]
+            use_metrics += [metric.name for metric in ragas_metrics]
 
-        dataset_dict = {
-            'question': questions,
-            'answer': answers,
-            'contexts': result_df[passage_content_columns].values.tolist()
-        }
-        if retrieval_gt is not None:
-            dataset_dict['ground_truths'] = self.__fetch_contents(retrieval_gt)
+            dataset_dict = {
+                'question': questions,
+                'answer': answers,
+                'contexts': result_df[passage_content_columns].values.tolist()
+            }
+            if retrieval_gt is not None:
+                dataset_dict['ground_truths'] = self.__fetch_contents(retrieval_gt)
 
-        ragas_result = evaluate(
-            Dataset.from_dict(dataset_dict),
-            metrics=ragas_metrics
-        )
-        ragas_result_df = ragas_result.to_pandas()
-        assert ragas_result_df.iloc[0]['question'] == result_df.iloc[0]['question']
-        assert ragas_result_df.iloc[0]['answer'] == result_df.iloc[0]['answer']
+            ragas_result = evaluate(
+                Dataset.from_dict(dataset_dict),
+                metrics=ragas_metrics
+            )
+            ragas_result_df = ragas_result.to_pandas()
+            assert ragas_result_df.iloc[0]['question'] == result_df.iloc[0]['question']
+            assert ragas_result_df.iloc[0]['answer'] == result_df.iloc[0]['answer']
 
-        result_df = pd.concat([result_df, ragas_result_df[[metric.name for metric in ragas_metrics]]], axis=1)
+            result_df = pd.concat([result_df, ragas_result_df[[metric.name for metric in ragas_metrics]]], axis=1)
 
         # with gt - retrieval
         def calculate_retrieval_metrics_pd(row, index, metric: BaseRetrievalMetric):
