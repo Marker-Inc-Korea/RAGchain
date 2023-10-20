@@ -12,7 +12,7 @@ from RAGchain.schema import Passage
 class MarkDownHeaderSplitter(BaseTextSplitter):
     def __init__(self, headers_to_split_on: Optional[List[tuple[str, str]]] = None, return_each_line: bool = False):
         """
-        :param headers_to_split_on: A list of tuples which appended  to create split standard.
+        :param headers_to_split_on: A list of tuples which appended to create split standard.
         ex)
         headers_to_split_on = [
             ("#", "Header 1"),
@@ -22,11 +22,12 @@ class MarkDownHeaderSplitter(BaseTextSplitter):
         """
 
         # Set default value headers_to_split_on.
-        headers_to_split_on = [
-            ("#", "Header 1"),
-            ("##", "Header 2"),
-            ("###", "Header 3")
-            if headers_to_split_on is None else headers_to_split_on]
+        if headers_to_split_on is None:
+            headers_to_split_on = [
+                ("#", "Header 1"),
+                ("##", "Header 2"),
+                ("###", "Header 3")
+            ]
 
         self.markdown_splitter = MarkdownHeaderTextSplitter(headers_to_split_on, return_each_line)
 
@@ -34,8 +35,6 @@ class MarkDownHeaderSplitter(BaseTextSplitter):
         document_copy = copy.deepcopy(documents)
         split_documents = self.markdown_splitter.split_text(documents.page_content)
 
-        # Header info for test
-        header_info = [split_documents[num].metadata for num in range(len(split_documents))]
 
         passages = []
         ids = [uuid4() for _ in range(len(split_documents))]
@@ -58,4 +57,4 @@ class MarkDownHeaderSplitter(BaseTextSplitter):
             passages.append(passage)
         print(f"Split into {len(passages)} passages")
 
-        return passages, header_info
+        return passages

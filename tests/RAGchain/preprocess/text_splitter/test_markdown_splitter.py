@@ -5,92 +5,37 @@ from RAGchain.preprocess.text_splitter import MarkDownHeaderSplitter
 
 TEST_DOCUMENT = Document(
     page_content="""
-    # yield가 뭐야?
-    여타 함수는 return값을 함수 하나당 한개씩 반환할 수 있지만 yield 제너레이터는 return값을 여러번 나누어서 제공할 수 있다.
-    (여러번 나누어서 제공한다는 것은 함수를 실행할때마다 yield한 순서대로 여러번을 리턴한다는것)
+    # 무야호 할아버지
     
-    예제코드
-    ```python
-    def yield_abc():
-      yield "A"
-      yield "B"
-      yield "C"
-      
-    for ch in return_abc():
-      print(ch)
-      
-    '''
-    결과 값은
-    A
-    B
-    C
-    로 나온다.
-    '''
-    ```
+    무야호 할아버지는 대한민국의 인터넷 유머 캐릭터로, 그의 특유의 말투와 행동이 네티즌들 사이에 인기를 끌었습니다. 
     
+    ### 생애
     
+    무야호 할아버지의 본명은 김영관이며, 충청남도 천안시 동남구에 거주하고 있습니다. 그는 1960년대에 전국노래자랑에 출연하여 우승한 경력이 있는 가수이며, 그의 노래 실력은 여전히 탄탄합니다.
     
-    # Generateor가 뭐야?
-    여러 개의 데이터를 미리 만들어 놓지 않고 필요할 때마다 즉석해서 하나씩 만들어낼 수 있는 객체를 의미.
+    ## 무야호
     
-    ## 왜써?
-    반환 값이 여러개 즉석해서 하나씩 만들 수 있다면 
-    결과값을 나누어서 얻을 수 있어 성능 측면에서 개이득이다.
-    메모리 효율 측면에서 모든 결과 값을 return 키워드를 사용할 경우 모든 결과 값을 메모리 올려놓아야 하는 반면에, yield 키워드를 사용할 때는 결과 값을 하나씩 메모리에 올려놓습니다.
+    "무야호"라는 말은 그의 대표적인 말투로, 이는 일본 애니메이션 '원피스'의 주인공 루피가 자주 사용하는 말에서 유래되었습니다. 그는 이 말을 자주 사용하여 자신의 기분을 표현합니다.
     
-    이러한 이유 때문에 좀 더 효율적인 프로그램을 작성할 수 있는 경우가 많다.
+    ### 욱까
+    욱까 새끼들~ 부들부들 하구나~ 아아 즐겁구나 주말이~
     
-    코딩테스트 할때 개꿀일듯?
+    ## 리랭크
+    리랭크도 나도 몰라 동건이도~
     
-    예제코드
-    Case1)
-    ```python
-    import time
+    # 리중딱
+
+    안하긴뭘안해~~ 반갑습니다~~ 이피엘에서 우승못하는팀 누구야? 소리질러~~!!  
+    리중딱 리중딱 신나는노래~ 나도한번 불러본다~~(박수) (박수) (박수) 짠리잔짠~~  
+    우리는 우승하기 싫~어~ 왜냐면 우승하기 싫은팀이니깐~ 20년 내~내~ 프리미어리그~ 우승도 못하는 우리팀이다.  
+    리중딱 리중딱 신나는노래 ~~~ 나도한번불러본다~  
+    리중딱 리중딱 신나는노래 ~~ 가슴치며 불러본다~  
+    리중딱 노래가사는~ 생활과 정보가 있는노래 중딱이~~와 함께라면 제~라드도함께 우승못한다.
     
-    def return_abc():
-      alphabets = []
-      for ch in "ABC":
-        time.sleep(1)
-        alphabets.append(ch)
-      return alphabets
-    ```
-    ```python
-    for ch in return_abc():
-      print(ch)
-    ```
-    ```
-    # 3초 경과
-    A
-    B
-    C
-    ```
-    
-    Case2)
-    ```python
-    import time
-    
-    def yield_abc():
-      for ch in "ABC":
-        time.sleep(1)
-        yield ch
-        
-    for ch in yield_abc():
-      print(ch)
-      
-    '''
-    # 1초 경과
-    A
-    # 1초 경과
-    B
-    # 1초 경과
-    C
-    
-    '''
-    ```
-    
-    
-    > 참고자료
-    [1. 제너레이터 네이스한 설명](https://www.daleseo.com/python-yield/)
+    ### 맨까송
+    맨까 새끼들 부들부들하구나
+    아아~ 즐겁구나 주 말 이~
+
     """,
     metadata={
         'source': 'test_source'
@@ -105,8 +50,7 @@ def markdownheader_text_splitter():
 
 
 def test_markdownheader_text_splitter(markdownheader_text_splitter):
-    passages, header_info = markdownheader_text_splitter.split_document(TEST_DOCUMENT)
-
+    passages = markdownheader_text_splitter.split_document(TEST_DOCUMENT)
 
     assert len(passages) > 1
     assert passages[0].next_passage_id == passages[1].id
@@ -116,11 +60,12 @@ def test_markdownheader_text_splitter(markdownheader_text_splitter):
     assert passages[0].previous_passage_id is None
     assert passages[-1].next_passage_id is None
 
+
     for passages_num in range(len(passages)):
-        # Check splitter preserve other metadata in original document.(original doc의 meta data에 여러개의 metadata가 있는것도 고려해야함.)
+        # Check splitter preserve other metadata in original document.
         for origin_meta in list(TEST_DOCUMENT.metadata.items()):
             assert origin_meta in list(passages[passages_num].metadata_etc.items())
 
-        # Check header value store into metadata_etc properly
-        for key, value in header_info[passages_num].items():
-            assert (key, value) in list(passages[passages_num].metadata_etc.items())
+    # Check Markdown information put in metadata_etc right form.
+    assert ('Header 1', '무야호 할아버지') in list(passages[0].metadata_etc.items())
+    assert ('Header 1', '리중딱'), ('Header 3', '맨까송') in list(passages[0].metadata_etc.items())
