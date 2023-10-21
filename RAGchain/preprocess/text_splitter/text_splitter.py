@@ -1,5 +1,4 @@
 from typing import Optional, List
-from uuid import uuid4
 
 from langchain.schema import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -28,19 +27,6 @@ class RecursiveTextSplitter(BaseTextSplitter):
         Split a document.
         """
         split_documents = self.splitter.split_documents([document])
-        passages = []
-        ids = [uuid4() for _ in range(len(split_documents))]
-        for i, (split_document, uuid) in enumerate(zip(split_documents, ids)):
-            metadata_etc = split_document.metadata.copy()
-            filepath = metadata_etc.pop('source')
-            previous_passage_id = ids[i - 1] if i > 0 else None
-            next_passage_id = ids[i + 1] if i < len(split_documents) - 1 else None
-            passage = Passage(id=uuid,
-                              content=split_document.page_content,
-                              filepath=filepath,
-                              previous_passage_id=previous_passage_id,
-                              next_passage_id=next_passage_id,
-                              metadata_etc=metadata_etc)
-            passages.append(passage)
-        print(f"Split into {len(passages)} passages")
+        passages = self.docs_to_passages(split_documents)
+
         return passages
