@@ -38,6 +38,12 @@ class QasperEvaluator(BaseDatasetEvaluator):
 
     def evaluate(self) -> EvaluateResult:
         pass
+        # self._calculate_metrics(
+        #     questions=list(itertools.chain(*self.test_data['question'].tolist())),
+        #     pipeline=self.run_pipeline,
+        #     retrieval_gt=
+        #
+        # )
 
     def preprocess(self, data):
         def make_passages(row):
@@ -79,20 +85,25 @@ class QasperEvaluator(BaseDatasetEvaluator):
             return row['qas']['question']
 
         def make_retrieval_gt(row):
-            result = list(set([
-                find_passage_id(row['passages'], evidence)
-                for answer_group in row['qas']['answers']
-                for answer in answer_group['answer']
-                for evidence in answer['evidence']
-            ]))
-            return [elem for elem in result if elem is not None]
+            result = list()
+            for answer_group in row['qas']['answers']:
+                evidences = list(set([
+                    find_passage_id(row['passages'], evidence)
+                    for answer in answer_group['answer']
+                    for evidence in answer['evidence']
+                ]))
+                evidences = [elem for elem in evidences if elem is not None]
+                result.append(evidences)
+            return result
 
         def make_answer_gt(row):
+            result = []
             for answer_group in row['qas']['answers']:
+                result.append('')
                 for answer in answer_group['answer']:
                     if answer['free_form_answer'] != '':
-                        return answer['free_form_answer']
-            return None
+                        result[-1] = answer['free_form_answer']
+            return result
 
         data['question'] = data.apply(make_question, axis=1)
         data['retrieval_gt'] = data.apply(make_retrieval_gt, axis=1)
