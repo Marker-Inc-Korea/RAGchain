@@ -66,6 +66,7 @@ def test_markdownheader_text_splitter(markdownheader_text_splitter):
     assert passages[-1].next_passage_id is None
 
     # Check splitter preserve other metadata in original document.
+    ## cf) TEST_DOCUMET's metadata {'source': 'test source'} was removed because of splite_document method.
     for passages_num in range(len(passages)):
         for origin_meta in list(TEST_DOCUMENT.metadata.items()):
             assert origin_meta in list(passages[passages_num].metadata_etc.items())
