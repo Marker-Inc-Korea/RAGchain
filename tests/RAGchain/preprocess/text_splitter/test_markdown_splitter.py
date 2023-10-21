@@ -66,6 +66,15 @@ def test_markdownheader_text_splitter(markdownheader_text_splitter):
         for origin_meta in list(TEST_DOCUMENT.metadata.items()):
             assert origin_meta in list(passages[passages_num].metadata_etc.items())
 
+
     # Check Markdown information put in metadata_etc right form.
+    ## Front part of Test document
     assert ('Header 1', '무야호 할아버지') in list(passages[0].metadata_etc.items())
-    assert ('Header 1', '리중딱'), ('Header 3', '맨까송') in list(passages[0].metadata_etc.items())
+
+    ## Middle part of Test document(To verify if the parent Header 2 '무야호' has been changed to parent Header 2. '리랭크')
+    assert ('Header 1', '무야호 할아버지') in list(passages[0].metadata_etc.items())
+    assert ('Header 2', '리랭크') in list(passages[4].metadata_etc.items())
+
+    ## End part of Test document
+    assert ('Header 1', '리중딱') in list(passages[-1].metadata_etc.items())
+    assert ('Header 3', '맨까송') in list(passages[-1].metadata_etc.items())
