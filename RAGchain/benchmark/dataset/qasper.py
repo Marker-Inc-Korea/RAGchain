@@ -1,4 +1,3 @@
-import itertools
 from typing import List, Optional
 
 from datasets import load_dataset
@@ -28,24 +27,43 @@ class QasperEvaluator(BaseDatasetEvaluator):
             self.data = self.data.sample(evaluate_size)
         self.data = self.preprocess(self.data)
 
+        self.db = None
+        self.retrievals = None
+
     def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB, ingest_size: Optional[int] = None):
         if ingest_size is not None:
             raise Warning("QasperEvaluator does not support ingest_size parameter. "
                           "You can adjust evaluate_size parameter in __init__ method.")
-
-        passages = list(itertools.chain(*self.data['passages'].tolist()))
-        for retrieval in retrievals:
-            retrieval.ingest(passages)
-        db.create_or_load()
-        db.save(passages)
+        self.db = db
+        self.retrievals = retrievals
 
     def evaluate(self) -> EvaluateResult:
-        return self._calculate_metrics(
-            questions=list(itertools.chain(*self.data['question'].tolist())),
-            pipeline=self.run_pipeline,
-            retrieval_gt=list(itertools.chain(*self.data['retrieval_gt'].tolist())),
-            answer_gt=list(itertools.chain(*self.data['answer_gt'].tolist()))
-        )
+        result = None
+        for row in self.data.iterrows():
+            self.__ingest_passages(row['passages'])
+            evaluate_result = self._calculate_metrics(
+                questions=row['question'],
+                pipeline=self.run_pipeline,
+                retrieval_gt=row['retrieval_gt'],
+                answer_gt=row['answer_gt']
+            )
+            if result is None:
+                result = evaluate_result
+            else:
+                result += evaluate_result
+            self.__delete_passages(row['passages'])
+
+        return result
+
+    def __ingest_passages(self, passages: List[Passage]):
+        for retrieval in self.retrievals:
+            retrieval.ingest(passages)
+        self.db.create_or_load()
+        self.db.save(passages)
+
+    def __delete_passages(self, passages: List[Passage]):
+        for retrieval in self.retrievals:
+            retrieval.delete(passages)
 
     def preprocess(self, data):
         def make_passages(row):
