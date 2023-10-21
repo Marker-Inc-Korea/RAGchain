@@ -1,3 +1,4 @@
+import itertools
 from typing import List, Optional
 
 from datasets import load_dataset
@@ -10,40 +11,41 @@ from RAGchain.schema import EvaluateResult, Passage
 
 
 class QasperEvaluator(BaseDatasetEvaluator):
-    dataset_name = "allenai/qasper"
+    dataset_name = "NomaDamas/qasper"
 
     def __init__(self, run_pipeline: BasePipeline, evaluate_size: int, metrics: Optional[List[str]] = None):
-        support_metrics = []
+        support_metrics = ['Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'context_recall',
+                           'context_precision', 'answer_relevancy', 'faithfulness']
         if metrics is not None:
             using_metrics = list(set(metrics))
         else:
             using_metrics = support_metrics
         super().__init__(run_all=False, metrics=using_metrics)
         self.run_pipeline = run_pipeline
-        self.test_data = load_dataset(self.dataset_name)['test'].to_pandas()
-        if len(self.test_data) > evaluate_size:
-            self.test_data = self.test_data.sample(evaluate_size)
-        self.test_data = self.preprocess(self.test_data)
+        self.data = load_dataset(self.dataset_name)['train'].to_pandas()
+        self.data = self.data.drop('__index_level_0__', axis=1)
+        if len(self.data) > evaluate_size:
+            self.data = self.data.sample(evaluate_size)
+        self.data = self.preprocess(self.data)
 
     def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB, ingest_size: Optional[int] = None):
         if ingest_size is not None:
             raise Warning("QasperEvaluator does not support ingest_size parameter. "
                           "You can adjust evaluate_size parameter in __init__ method.")
 
-        passages = self.test_data['passages'].tolist()
+        passages = list(itertools.chain(*self.data['passages'].tolist()))
         for retrieval in retrievals:
             retrieval.ingest(passages)
         db.create_or_load()
         db.save(passages)
 
     def evaluate(self) -> EvaluateResult:
-        pass
-        # self._calculate_metrics(
-        #     questions=list(itertools.chain(*self.test_data['question'].tolist())),
-        #     pipeline=self.run_pipeline,
-        #     retrieval_gt=
-        #
-        # )
+        return self._calculate_metrics(
+            questions=list(itertools.chain(*self.data['question'].tolist())),
+            pipeline=self.run_pipeline,
+            retrieval_gt=list(itertools.chain(*self.data['retrieval_gt'].tolist())),
+            answer_gt=list(itertools.chain(*self.data['answer_gt'].tolist()))
+        )
 
     def preprocess(self, data):
         def make_passages(row):
@@ -72,40 +74,4 @@ class QasperEvaluator(BaseDatasetEvaluator):
             return passages
 
         data['passages'] = data.apply(make_passages, axis=1)
-
-        def find_passage_id(passages: List[Passage], content: str):
-            if content.startswith('FLOAT SELECTED: '):
-                content = content.replace('FLOAT SELECTED: ', '')
-            filtered_passages = list(filter(lambda x: x.content == content, passages))
-            if len(filtered_passages) <= 0:
-                return None
-            return filtered_passages[0].id
-
-        def make_question(row):
-            return row['qas']['question']
-
-        def make_retrieval_gt(row):
-            result = list()
-            for answer_group in row['qas']['answers']:
-                evidences = list(set([
-                    find_passage_id(row['passages'], evidence)
-                    for answer in answer_group['answer']
-                    for evidence in answer['evidence']
-                ]))
-                evidences = [elem for elem in evidences if elem is not None]
-                result.append(evidences)
-            return result
-
-        def make_answer_gt(row):
-            result = []
-            for answer_group in row['qas']['answers']:
-                result.append('')
-                for answer in answer_group['answer']:
-                    if answer['free_form_answer'] != '':
-                        result[-1] = answer['free_form_answer']
-            return result
-
-        data['question'] = data.apply(make_question, axis=1)
-        data['retrieval_gt'] = data.apply(make_retrieval_gt, axis=1)
-        data['answer_gt'] = data.apply(make_answer_gt, axis=1)
         return data
