@@ -189,6 +189,9 @@ class BaseEvaluator(ABC):
                 List[Union[str, UUID]], List[float]]:
                 pass
 
+            def delete(self, passages: List[Passage]):
+                pass
+
         dummy_retrieval = DummyRetrieval()
         retrieval_gt_contents = []
         for passage_ids in ids:

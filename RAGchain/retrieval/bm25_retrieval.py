@@ -1,4 +1,5 @@
 import pickle
+import warnings
 from typing import List, Union
 from uuid import UUID
 
@@ -91,8 +92,8 @@ class BM25Retrieval(BaseRetrieval):
                 self.data["passage_id"].pop(idx)
                 self.data["tokens"].pop(idx)
             except ValueError:
-                raise UserWarning(f"Passage id {_id} is not in BM25 Retrieval."
-                                  f"Please check your input ids.")
+                warnings.warn(f"Passage id {_id} is not in BM25 Retrieval."
+                              f"Please check your input ids.")
 
     def _save_one(self, passage: Passage):
         tokenized = self.__tokenize([passage.content])[0]

@@ -39,7 +39,7 @@ class QasperEvaluator(BaseDatasetEvaluator):
 
     def evaluate(self) -> EvaluateResult:
         result = None
-        for row in self.data.iterrows():
+        for idx, row in self.data.iterrows():
             self.__ingest_passages(row['passages'])
             evaluate_result = self._calculate_metrics(
                 questions=row['question'],
