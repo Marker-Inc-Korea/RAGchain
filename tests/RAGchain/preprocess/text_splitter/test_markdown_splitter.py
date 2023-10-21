@@ -38,7 +38,12 @@ TEST_DOCUMENT = Document(
 
     """,
     metadata={
-        'source': 'test_source'
+        'source': 'test_source',
+        # Check whether the metadata_etc contains all the information from the TEST DOCUMENT metadata or not.
+        '감스트 나락감지': '열심히 하시잖아',
+        '감스트 중노': '그쪽도 맹박사님을 아세요?',
+        'Data information': 'test for markdownheader splitter',
+        '좋았어': 'lets go'
     }
 )
 
@@ -60,9 +65,8 @@ def test_markdownheader_text_splitter(markdownheader_text_splitter):
     assert passages[0].previous_passage_id is None
     assert passages[-1].next_passage_id is None
 
-
+    # Check splitter preserve other metadata in original document.
     for passages_num in range(len(passages)):
-        # Check splitter preserve other metadata in original document.
         for origin_meta in list(TEST_DOCUMENT.metadata.items()):
             assert origin_meta in list(passages[passages_num].metadata_etc.items())
 
@@ -72,9 +76,10 @@ def test_markdownheader_text_splitter(markdownheader_text_splitter):
     assert ('Header 1', '무야호 할아버지') in list(passages[0].metadata_etc.items())
 
     ## Middle part of Test document(To verify if the parent Header 2 '무야호' has been changed to parent Header 2. '리랭크')
-    assert ('Header 1', '무야호 할아버지') in list(passages[0].metadata_etc.items())
-    assert ('Header 2', '리랭크') in list(passages[4].metadata_etc.items())
+    assert ('Header 1', '무야호 할아버지') in list(passages[0].metadata_etc.items()) and ('Header 2', '리랭크') in list(
+        passages[4].metadata_etc.items())
+
 
     ## End part of Test document
-    assert ('Header 1', '리중딱') in list(passages[-1].metadata_etc.items())
-    assert ('Header 3', '맨까송') in list(passages[-1].metadata_etc.items())
+    assert ('Header 1', '리중딱') in list(passages[-1].metadata_etc.items()) and ('Header 3', '맨까송') in list(
+        passages[-1].metadata_etc.items())
