@@ -73,9 +73,9 @@ def test_markdownheader_text_splitter(markdownheader_text_splitter):
     test_document_for_test = copy.deepcopy(TEST_DOCUMENT)
     test_document_for_test.metadata.pop('source')
 
-    for passages_num in range(len(passages)):
+    for passage in passages:
         for origin_meta in list(test_document_for_test.metadata.items()):
-            assert origin_meta in list(passages[passages_num].metadata_etc.items())
+            assert origin_meta in list(passage.metadata_etc.items())
 
     # Check Markdown information put in metadata_etc right form.
     ## Front part of Test document
