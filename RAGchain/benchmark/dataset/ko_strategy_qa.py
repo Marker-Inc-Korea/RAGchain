@@ -25,7 +25,8 @@ class KoStrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
         :param run_pipeline: The pipeline that you want to benchmark.
         :param evaluate_size: The number of data to evaluate. If None, evaluate all data.
         :param metrics: The list of metrics to use. If None, use all metrics that supports KoStrategyQA.
-        Supporting metrics is Recall, Precision, Hole, TopK_Accuracy, EM, F1_score, context_recall, context_precision
+        Supporting metrics are Recall, Precision, Hole, TopK_Accuracy, EM, F1_score, context_recall, context_precision
+        You must ingest all data for using context_recall and context_precision metrics.
         """
         support_metrics = ['Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'context_recall',
                            'context_precision']
@@ -70,6 +71,10 @@ class KoStrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
         db.save(passages)
 
     def evaluate(self) -> EvaluateResult:
+        """
+        Evaluate pipeline performance on Ko-StrategyQA dataset.
+        :return: EvaluateResult
+        """
         df = self.convert_qa_to_pd(self.dev_data)
         return self._calculate_metrics(
             questions=df['question'].tolist(),

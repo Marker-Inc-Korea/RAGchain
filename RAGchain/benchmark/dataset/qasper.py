@@ -10,9 +10,19 @@ from RAGchain.schema import EvaluateResult, Passage
 
 
 class QasperEvaluator(BaseDatasetEvaluator):
+    """
+    QasperEvaluator is a class for evaluating pipeline performance on Qasper dataset.
+    """
     dataset_name = "NomaDamas/qasper"
 
     def __init__(self, run_pipeline: BasePipeline, evaluate_size: int, metrics: Optional[List[str]] = None):
+        """
+        :param run_pipeline: pipeline to evaluate
+        :param evaluate_size: number of data to evaluate
+        :param metrics: metrics to evaluate. Default metrics are ['Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM',
+        'F1_score', 'context_recall', 'context_precision', 'answer_relevancy', 'faithfulness']
+        If None, use default metrics.
+        """
         support_metrics = ['Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'context_recall',
                            'context_precision', 'answer_relevancy', 'faithfulness']
         if metrics is not None:
@@ -31,6 +41,15 @@ class QasperEvaluator(BaseDatasetEvaluator):
         self.retrievals = None
 
     def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB, ingest_size: Optional[int] = None):
+        """
+        Set ingest params for evaluating pipeline.
+        In this method, we don't ingest passages, because Qasper dataset is not designed for ingest all paragraphs
+        and retrieve it. It only has questions that are related to certain papers.
+        So, we ingest each paper's paragraphs when we evaluate it.
+        :param retrievals: retrievals to ingest
+        :param db: db to ingest
+        :param ingest_size: Default is None. You don't need to set this params. If you set, it will ignore this param.
+        """
         if ingest_size is not None:
             raise Warning("QasperEvaluator does not support ingest_size parameter. "
                           "You can adjust evaluate_size parameter in __init__ method.")
@@ -38,6 +57,10 @@ class QasperEvaluator(BaseDatasetEvaluator):
         self.retrievals = retrievals
 
     def evaluate(self) -> EvaluateResult:
+        """
+        Evaluate pipeline performance on Qasper dataset.
+        :return: EvaluateResult
+        """
         result = None
         for idx, row in self.data.iterrows():
             self.__ingest_passages(row['passages'])
@@ -66,6 +89,9 @@ class QasperEvaluator(BaseDatasetEvaluator):
             retrieval.delete(passages)
 
     def preprocess(self, data):
+        """
+        Preprocess Qasper dataset to make it suitable for evaluating pipeline.
+        """
         def make_passages(row):
             # convert full_text to passages
             passages = [

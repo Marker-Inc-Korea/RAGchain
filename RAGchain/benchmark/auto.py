@@ -12,6 +12,12 @@ class AutoEvaluator(BaseEvaluator):
     """
 
     def __init__(self, pipeline: BasePipeline, questions: List[str], metrics=None):
+        """
+        :param pipeline: pipeline to evaluate
+        :param questions: questions to evaluate
+        :param metrics: metrics to evaluate. Default is None. If None, evaluate all supporting metrics.
+        Supported metrics are 'context_precision', 'answer_relevancy', 'faithfulness'.
+        """
         usable_metrics = ['context_precision', 'answer_relevancy', 'faithfulness']
         if metrics is None:
             metrics = usable_metrics
@@ -22,4 +28,8 @@ class AutoEvaluator(BaseEvaluator):
         self.questions = questions
 
     def evaluate(self) -> EvaluateResult:
+        """
+        Evaluate metrics without ground truths.
+        :return: EvaluateResult
+        """
         return self._calculate_metrics(questions=self.questions, pipeline=self.pipeline)

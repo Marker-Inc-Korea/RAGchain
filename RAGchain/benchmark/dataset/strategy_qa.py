@@ -11,6 +11,9 @@ from RAGchain.schema import EvaluateResult, Passage
 
 
 class StrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
+    """
+    StrategyQAEvaluator is a class for evaluating pipeline performance on StrategyQA dataset.
+    """
     dataset_name = "voidful/StrategyQA"
 
     def __init__(self, run_pipeline: BasePipeline,
@@ -21,7 +24,8 @@ class StrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
         :param evaluate_size: The number of data to evaluate. If None, evaluate all data.
         We are using train set for evaluating in this class, so it is huge. Recommend to set proper size for evaluation.
         :param metrics: The list of metrics to use. If None, use all metrics that supports KoStrategyQA.
-        Supporting metrics is Recall, Precision, Hole, TopK_Accuracy, EM, F1_score, context_recall, context_precision
+        Supporting metrics are Recall, Precision, Hole, TopK_Accuracy, EM, F1_score, context_recall, context_precision
+        You must ingest all data for using context_recall and context_precision metrics.
         """
         support_metrics = ['Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'context_recall',
                            'context_precision']
@@ -62,6 +66,10 @@ class StrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
         db.save(passages)
 
     def evaluate(self) -> EvaluateResult:
+        """
+        Evaluate pipeline performance on StrategyQA dataset.
+        :return: EvaluateResult
+        """
         qa_data_dict = {x['qid']: {'answer': x['answer'], 'question': x['question'], 'evidence': x['evidence']}
                         for x in self.qa_data}
         df = self.convert_qa_to_pd(qa_data_dict)
