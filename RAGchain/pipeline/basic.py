@@ -24,7 +24,7 @@ class BasicIngestPipeline(BasePipeline):
     Fourth, ingest passages to retrieval module.
 
     :example:
-    >>> from RAGchain.run_pipeline.basic import BasicIngestPipeline
+    >>> from RAGchain.pipeline.basic import BasicIngestPipeline
     >>> from RAGchain.DB import PickleDB
     >>> from RAGchain.retrieval import BM25Retrieval
     >>> from RAGchain.preprocess.loader import FileLoader
@@ -122,7 +122,7 @@ class BasicRunPipeline(BasePipeline):
     Finally, you can get answer and passages as return value.
 
     :example:
-    >>> from RAGchain.run_pipeline.basic import BasicRunPipeline
+    >>> from RAGchain.pipeline.basic import BasicRunPipeline
     >>> from RAGchain.retrieval import BM25Retrieval
     >>> from RAGchain.llm.basic import BasicLLM
 
