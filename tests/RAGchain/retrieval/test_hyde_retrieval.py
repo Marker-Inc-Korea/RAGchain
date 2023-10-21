@@ -39,3 +39,12 @@ def test_hyde_retrieval(hyde_retrieval):
     assert len(retrieved_ids_2) == len(scores)
     assert max(scores) == scores[0]
     assert min(scores) == scores[-1]
+
+
+def test_hyde_retrieval_delete(hyde_retrieval):
+    hyde_retrieval.ingest(test_base_retrieval.SEARCH_TEST_PASSAGES)
+    hyde_retrieval.delete(['test_id_4_search', 'test_id_3_search'])
+    retrieved_passages = hyde_retrieval.retrieve(query='What is visconde structure?', top_k=4)
+    assert len(retrieved_passages) == 2
+    assert 'test_id_1_search' in [passage.id for passage in retrieved_passages]
+    assert 'test_id_2_search' in [passage.id for passage in retrieved_passages]

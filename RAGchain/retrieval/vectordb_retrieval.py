@@ -49,6 +49,9 @@ class VectorDBRetrieval(BaseRetrieval):
         scores = [result[1] for result in results]
         return [self.__str_to_uuid(doc.metadata.get('passage_id')) for doc in docs], scores
 
+    def delete(self, ids: List[Union[str, UUID]]):
+        self.vectordb.delete([str(_id) for _id in ids])
+
     @staticmethod
     def __str_to_uuid(input_str: str) -> Union[str, UUID]:
         try:
