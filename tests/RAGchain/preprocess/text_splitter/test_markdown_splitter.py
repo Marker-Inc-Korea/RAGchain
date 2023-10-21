@@ -1,3 +1,5 @@
+import copy
+
 import pytest
 from langchain.schema import Document
 
@@ -65,12 +67,15 @@ def test_markdownheader_text_splitter(markdownheader_text_splitter):
     assert passages[0].previous_passage_id is None
     assert passages[-1].next_passage_id is None
 
-    # Check splitter preserve other metadata in original document.
-    ## cf) TEST_DOCUMET's metadata {'source': 'test source'} was removed because of splite_document method.
-    for passages_num in range(len(passages)):
-        for origin_meta in list(TEST_DOCUMENT.metadata.items()):
-            assert origin_meta in list(passages[passages_num].metadata_etc.items())
 
+    # Check splitter preserve other metadata in original document.
+    ## Remove file path information in clone of TEST_DOCUMENT for test.
+    test_document_for_test = copy.deepcopy(TEST_DOCUMENT)
+    test_document_for_test.metadata.pop('source')
+
+    for passages_num in range(len(passages)):
+        for origin_meta in list(test_document_for_test.metadata.items()):
+            assert origin_meta in list(passages[passages_num].metadata_etc.items())
 
     # Check Markdown information put in metadata_etc right form.
     ## Front part of Test document

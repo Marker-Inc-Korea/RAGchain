@@ -1,3 +1,4 @@
+import copy
 from typing import List, Optional
 from uuid import uuid4
 
@@ -31,15 +32,15 @@ class MarkDownHeaderSplitter(BaseTextSplitter):
         self.markdown_splitter = MarkdownHeaderTextSplitter(headers_to_split_on, return_each_line)
 
     def split_document(self, document: Document):
-
+        doc_copy = copy.deepcopy(document)
         split_documents = self.markdown_splitter.split_text(document.page_content)
 
 
         passages = []
         ids = [uuid4() for _ in range(len(split_documents))]
 
-        filepath = document.metadata.pop('source')  # user doc's metadata value.
-        doc_metadata_etc = document.metadata  # TEST_DOCUMENT's metadata etc
+        filepath = doc_copy.metadata.pop('source')  # user doc's metadata value.
+        doc_metadata_etc = doc_copy.metadata  # TEST_DOCUMENT's metadata etc.(Already removed file path data)
 
         for i, (split_document, uuid) in enumerate(zip(split_documents, ids)):
             # Modify meta_data's keys and values right form.
