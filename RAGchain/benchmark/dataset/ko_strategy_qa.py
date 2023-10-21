@@ -70,7 +70,7 @@ class KoStrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
         db.create_or_load()
         db.save(passages)
 
-    def evaluate(self) -> EvaluateResult:
+    def evaluate(self, **kwargs) -> EvaluateResult:
         """
         Evaluate pipeline performance on Ko-StrategyQA dataset.
         :return: EvaluateResult
@@ -80,6 +80,7 @@ class KoStrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
             questions=df['question'].tolist(),
             pipeline=self.run_pipeline,
             retrieval_gt=df['evidence'].tolist(),
+            **kwargs
         )
 
     def __slice_data(self, data, size):

@@ -34,7 +34,12 @@ class BaseEvaluator(ABC):
             self.metrics = metrics
 
     @abstractmethod
-    def evaluate(self) -> EvaluateResult:
+    def evaluate(self, **kwargs) -> EvaluateResult:
+        """
+        Evaluate metrics and return the results
+        :param kwargs: Arguments for running pipeline.run()
+        :return: EvaluateResult
+        """
         pass
 
     def _calculate_metrics(self,
@@ -43,11 +48,18 @@ class BaseEvaluator(ABC):
                            retrieval_gt: Optional[List[List[Union[str, UUID]]]] = None,
                            retrieval_gt_order: Optional[List[List[int]]] = None,
                            answer_gt: Optional[List[str]] = None,
+                           **kwargs
                            ) -> EvaluateResult:
         """
         Calculate metrics for a list of questions and return their results
+        :param questions: List of questions
+        :param pipeline: Pipeline to run
+        :param retrieval_gt: Ground truth for retrieval
+        :param retrieval_gt_order: Ground truth for retrieval rates
+        :param answer_gt: Ground truth for answer
+        :param kwargs: Arguments for pipeline.run()
         """
-        answers, passages = self._run_pipeline(questions, pipeline)
+        answers, passages = self._run_pipeline(questions, pipeline, **kwargs)
         # TODO: Replace this to real rel scores Issue/#279
         scores = [[1.0 for _ in range(len(passage_group))] for passage_group in passages]
         k = len(passages[0])

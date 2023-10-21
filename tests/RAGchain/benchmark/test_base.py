@@ -59,7 +59,7 @@ class DummyEvaluator(BaseEvaluator):
         super().__init__(run_all=True)
         self.pipeline = pipeline
 
-    def evaluate(self):
+    def evaluate(self, **kwargs):
         questions = [
             "What is the capital of France?",
             "What is the capital of Korea?",
@@ -92,7 +92,8 @@ class DummyEvaluator(BaseEvaluator):
         return self._calculate_metrics(questions, self.pipeline,
                                        retrieval_gt=retrieval_gt,
                                        retrieval_gt_order=retrieval_gt_order,
-                                       answer_gt=answer_gt)
+                                       answer_gt=answer_gt,
+                                       **kwargs)
 
 
 @pytest.fixture

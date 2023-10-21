@@ -27,9 +27,5 @@ class AutoEvaluator(BaseEvaluator):
         self.pipeline = pipeline
         self.questions = questions
 
-    def evaluate(self) -> EvaluateResult:
-        """
-        Evaluate metrics without ground truths.
-        :return: EvaluateResult
-        """
-        return self._calculate_metrics(questions=self.questions, pipeline=self.pipeline)
+    def evaluate(self, **kwargs) -> EvaluateResult:
+        return self._calculate_metrics(questions=self.questions, pipeline=self.pipeline, **kwargs)

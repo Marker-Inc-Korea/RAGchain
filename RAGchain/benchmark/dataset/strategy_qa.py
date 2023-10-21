@@ -65,11 +65,7 @@ class StrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
         db.create_or_load()
         db.save(passages)
 
-    def evaluate(self) -> EvaluateResult:
-        """
-        Evaluate pipeline performance on StrategyQA dataset.
-        :return: EvaluateResult
-        """
+    def evaluate(self, **kwargs) -> EvaluateResult:
         qa_data_dict = {x['qid']: {'answer': x['answer'], 'question': x['question'], 'evidence': x['evidence']}
                         for x in self.qa_data}
         df = self.convert_qa_to_pd(qa_data_dict)
@@ -77,6 +73,7 @@ class StrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
             questions=df['question'].tolist(),
             pipeline=self.run_pipeline,
             retrieval_gt=df['evidence'].tolist(),
+            **kwargs
         )
 
     def __make_paragraph_passages(self):

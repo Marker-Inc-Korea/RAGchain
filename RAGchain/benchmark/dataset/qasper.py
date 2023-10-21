@@ -56,7 +56,7 @@ class QasperEvaluator(BaseDatasetEvaluator):
         self.db = db
         self.retrievals = retrievals
 
-    def evaluate(self) -> EvaluateResult:
+    def evaluate(self, **kwargs) -> EvaluateResult:
         """
         Evaluate pipeline performance on Qasper dataset.
         :return: EvaluateResult
@@ -68,7 +68,8 @@ class QasperEvaluator(BaseDatasetEvaluator):
                 questions=row['question'],
                 pipeline=self.run_pipeline,
                 retrieval_gt=row['retrieval_gt'],
-                answer_gt=row['answer_gt']
+                answer_gt=row['answer_gt'],
+                **kwargs
             )
             if result is None:
                 result = evaluate_result
