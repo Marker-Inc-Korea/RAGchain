@@ -3,10 +3,15 @@ from os.path import basename, splitext
 
 from setuptools import find_packages, setup
 
+with open('README.md', encoding='utf-8') as f:
+    long_description = f.read()
+
 setup(
     name='RAGchain',
     version='0.1.1',
     description='Build advanced RAG workflows with LLM, compatible with Langchain',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     author='NomaDamas',
     author_email='vkehfdl1@gmail.com',
     keywords=['RAG', 'RAGchain', 'ragchain', 'LLM', 'Langchain', 'DQA', 'GPT', 'ODQA'],
