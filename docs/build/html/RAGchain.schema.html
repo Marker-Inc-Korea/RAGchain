@@ -54,6 +54,28 @@
 </li>
 </ul>
 </li>
+    <li><a class="reference internal" href="#module-RAGchain.schema.evaluate_result">RAGchain.schema.evaluate_result
+        module</a>
+        <ul>
+            <li><a class="reference internal" href="#RAGchain.schema.evaluate_result.EvaluateResult"><code
+                    class="docutils literal notranslate"><span class="pre">EvaluateResult</span></code></a>
+                <ul>
+                    <li><a class="reference internal"
+                           href="#RAGchain.schema.evaluate_result.EvaluateResult.each_results"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">EvaluateResult.each_results</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.schema.evaluate_result.EvaluateResult.results"><code
+                            class="docutils literal notranslate"><span class="pre">EvaluateResult.results</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.schema.evaluate_result.EvaluateResult.use_metrics"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">EvaluateResult.use_metrics</span></code></a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
 <li><a class="reference internal" href="#module-RAGchain.schema.passage">RAGchain.schema.passage module</a><ul>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage"><code class="docutils literal notranslate"><span class="pre">Passage</span></code></a><ul>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.content"><code class="docutils literal notranslate"><span class="pre">Passage.content</span></code></a></li>
@@ -124,6 +146,68 @@
 <dt class="sig sig-object py" id="RAGchain.schema.db_origin.DBOrigin.to_dict">
 <span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#RAGchain.schema.db_origin.DBOrigin.to_dict" title="Link to this definition"></a></dt>
 <dd></dd></dl>
+
+</dd>
+</dl>
+
+</section>
+      <section id="module-RAGchain.schema.evaluate_result">
+          <span id="ragchain-schema-evaluate-result-module"></span>
+          <h2>RAGchain.schema.evaluate_result module<a class="headerlink" href="#module-RAGchain.schema.evaluate_result"
+                                                       title="Link to this heading"></a></h2>
+          <dl class="py class">
+              <dt class="sig sig-object py" id="RAGchain.schema.evaluate_result.EvaluateResult">
+                  <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span class="pre">RAGchain.schema.evaluate_result.</span></span><span
+                      class="sig-name descname"><span class="pre">EvaluateResult</span></span><span
+                      class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                      class="pre">results</span></span><span class="p"><span class="pre">:</span></span><span
+                      class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em
+                      class="sig-param"><span class="n"><span class="pre">use_metrics</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+                      class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em
+                      class="sig-param"><span class="n"><span class="pre">each_results</span></span><span
+                      class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">pandas.core.frame.DataFrame</span></span></em><span class="sig-paren">)</span><a
+                      class="headerlink" href="#RAGchain.schema.evaluate_result.EvaluateResult"
+                      title="Link to this definition"></a></dt>
+              <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>
+              </p>
+                  <dl class="py attribute">
+                      <dt class="sig sig-object py" id="RAGchain.schema.evaluate_result.EvaluateResult.each_results">
+                          <span class="sig-name descname"><span class="pre">each_results</span></span><em
+                              class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                              class="pre">DataFrame</span></em><a class="headerlink"
+                                                                  href="#RAGchain.schema.evaluate_result.EvaluateResult.each_results"
+                                                                  title="Link to this definition"></a></dt>
+                      <dd><p>DataFrame of each results question by question</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py attribute">
+                      <dt class="sig sig-object py" id="RAGchain.schema.evaluate_result.EvaluateResult.results">
+                          <span class="sig-name descname"><span class="pre">results</span></span><em
+                              class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                              class="pre">dict</span></em><a class="headerlink"
+                                                             href="#RAGchain.schema.evaluate_result.EvaluateResult.results"
+                                                             title="Link to this definition"></a></dt>
+                      <dd><p>Dictionary of metrics and their results</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py attribute">
+                      <dt class="sig sig-object py" id="RAGchain.schema.evaluate_result.EvaluateResult.use_metrics">
+                          <span class="sig-name descname"><span class="pre">use_metrics</span></span><em
+                              class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span></em><a class="headerlink"
+                                                                                 href="#RAGchain.schema.evaluate_result.EvaluateResult.use_metrics"
+                                                                                 title="Link to this definition"></a>
+                      </dt>
+                      <dd><p>List of metrics to use</p>
+                      </dd>
+                  </dl>
 
 </dd></dl>
 
