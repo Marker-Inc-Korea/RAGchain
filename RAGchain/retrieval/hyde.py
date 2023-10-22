@@ -59,6 +59,9 @@ class HyDERetrieval(BaseRetrieval):
         logger.info(f"HyDE answer : {hyde_answer}")
         return self.retrieval.retrieve_id_with_scores(query=hyde_answer, top_k=top_k, *args, **kwargs)
 
+    def delete(self, ids: List[Union[str, UUID]]):
+        self.retrieval.delete(ids)
+
     @staticmethod
     def make_prompt(prompt: str):
         prompt += "\nQuestion: {0}\nPassage:"

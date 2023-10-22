@@ -46,6 +46,13 @@ class BaseRetrieval(ABC):
         """
         pass
 
+    @abstractmethod
+    def delete(self, ids: List[Union[str, UUID]]):
+        """
+        delete passages from vector representation of passages by ids.
+        """
+        pass
+
     def retrieve_with_filter(self, query: str, top_k: int = 5,
                              content: Optional[List[str]] = None,
                              filepath: Optional[List[str]] = None,

@@ -84,6 +84,10 @@ class HybridRetrieval(BaseRetrieval):
         else:
             raise ValueError("method should be either 'cc' or 'rrf'")
 
+    def delete(self, ids: List[Union[str, UUID]]):
+        for retrieval in self.retrievals:
+            retrieval.delete(ids)
+
     def retrieve_id_with_scores_parallel(self, retrieval: BaseRetrieval, query: str, top_k: int, *args,
                                          **kwargs) -> pd.Series:
         ids, scores = retrieval.retrieve_id_with_scores(query, top_k=top_k, *args, **kwargs)

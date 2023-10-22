@@ -1,4 +1,5 @@
 import pickle
+import warnings
 from typing import List, Union
 from uuid import UUID
 
@@ -18,7 +19,7 @@ class BM25Retrieval(BaseRetrieval):
     Default data structure looks like this:
     {
         "tokens" : [], # 2d list of tokens
-        "passage_id" : [], # 2d list of passage_id. Type must be UUID.
+        "passage_id" : [], # 2d list of passage_id. Type must be UUID or string.
     }
     """
 
@@ -83,6 +84,16 @@ class BM25Retrieval(BaseRetrieval):
         top_n_index = np.argsort(scores)[::-1][:top_k]  # this code is from rank_bm25.py in rank_bm25 package
         ids = [self.data['passage_id'][i] for i in top_n_index]
         return ids, sorted_scores[:top_k]
+
+    def delete(self, ids: List[Union[str, UUID]]):
+        for _id in ids:
+            try:
+                idx = self.data["passage_id"].index(_id)
+                self.data["passage_id"].pop(idx)
+                self.data["tokens"].pop(idx)
+            except ValueError:
+                warnings.warn(f"Passage id {_id} is not in BM25 Retrieval."
+                              f"Please check your input ids.")
 
     def _save_one(self, passage: Passage):
         tokenized = self.__tokenize([passage.content])[0]

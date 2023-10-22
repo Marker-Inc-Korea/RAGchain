@@ -1,2 +1,1 @@
 from .embeddingfactory import EmbeddingFactory, EmbeddingType
-from .delete_embeddings import delete_embeddings_vectordb
