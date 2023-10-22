@@ -12,6 +12,14 @@ RAGchain.preprocess.text\_splitter.base module
    :undoc-members:
    :show-inheritance:
 
+RAGchain.preprocess.text\_splitter.markdown\_splitter module
+------------------------------------------------------------
+
+.. automodule:: RAGchain.preprocess.text_splitter.markdown_splitter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 RAGchain.preprocess.text\_splitter.text\_splitter module
 --------------------------------------------------------
 

@@ -4,14 +4,6 @@ RAGchain.utils.embed package
 Submodules
 ----------
 
-RAGchain.utils.embed.delete\_embeddings module
-----------------------------------------------
-
-.. automodule:: RAGchain.utils.embed.delete_embeddings
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 RAGchain.utils.embed.embeddingfactory module
 --------------------------------------------
 

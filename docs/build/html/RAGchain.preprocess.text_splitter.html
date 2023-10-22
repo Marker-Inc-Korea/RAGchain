@@ -47,8 +47,27 @@
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-RAGchain.preprocess.text_splitter.base">RAGchain.preprocess.text_splitter.base module</a><ul>
 <li><a class="reference internal" href="#RAGchain.preprocess.text_splitter.base.BaseTextSplitter"><code class="docutils literal notranslate"><span class="pre">BaseTextSplitter</span></code></a><ul>
+    <li><a class="reference internal"
+           href="#RAGchain.preprocess.text_splitter.base.BaseTextSplitter.docs_to_passages"><code
+            class="docutils literal notranslate"><span class="pre">BaseTextSplitter.docs_to_passages()</span></code></a>
+    </li>
 <li><a class="reference internal" href="#RAGchain.preprocess.text_splitter.base.BaseTextSplitter.split_document"><code class="docutils literal notranslate"><span class="pre">BaseTextSplitter.split_document()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.preprocess.text_splitter.base.BaseTextSplitter.split_documents"><code class="docutils literal notranslate"><span class="pre">BaseTextSplitter.split_documents()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+    <li><a class="reference internal" href="#module-RAGchain.preprocess.text_splitter.markdown_splitter">RAGchain.preprocess.text_splitter.markdown_splitter
+        module</a>
+        <ul>
+            <li><a class="reference internal"
+                   href="#RAGchain.preprocess.text_splitter.markdown_splitter.MarkDownHeaderSplitter"><code
+                    class="docutils literal notranslate"><span class="pre">MarkDownHeaderSplitter</span></code></a>
+                <ul>
+                    <li><a class="reference internal"
+                           href="#RAGchain.preprocess.text_splitter.markdown_splitter.MarkDownHeaderSplitter.split_document"><code
+                            class="docutils literal notranslate"><span class="pre">MarkDownHeaderSplitter.split_document()</span></code></a>
+                    </li>
 </ul>
 </li>
 </ul>
@@ -102,6 +121,23 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
 <p>Base class for text splitters.
 At this framework, we use our own text splitter instead of the one from langchain.</p>
+    <dl class="py method">
+        <dt class="sig sig-object py" id="RAGchain.preprocess.text_splitter.base.BaseTextSplitter.docs_to_passages">
+            <span class="sig-name descname"><span class="pre">docs_to_passages</span></span><span
+                class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split_documents</span></span><span
+                class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
+                class="p"><span class="pre">[</span></span><span class="pre">Document</span><span class="p"><span
+                class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+                class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+                class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal"
+                                                                                           href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                                                                           title="RAGchain.schema.passage.Passage"><span
+                class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a
+                class="headerlink" href="#RAGchain.preprocess.text_splitter.base.BaseTextSplitter.docs_to_passages"
+                title="Link to this definition"></a></dt>
+        <dd></dd>
+    </dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.preprocess.text_splitter.base.BaseTextSplitter.split_document">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">split_document</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">document</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Document</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.preprocess.text_splitter.base.BaseTextSplitter.split_document" title="Link to this definition"></a></dt>
@@ -119,6 +155,58 @@ and the second dimension is the passage index.</p>
 </dd></dl>
 
 </section>
+      <section id="module-RAGchain.preprocess.text_splitter.markdown_splitter">
+          <span id="ragchain-preprocess-text-splitter-markdown-splitter-module"></span>
+          <h2>RAGchain.preprocess.text_splitter.markdown_splitter module<a class="headerlink"
+                                                                           href="#module-RAGchain.preprocess.text_splitter.markdown_splitter"
+                                                                           title="Link to this heading"></a></h2>
+          <dl class="py class">
+              <dt class="sig sig-object py"
+                  id="RAGchain.preprocess.text_splitter.markdown_splitter.MarkDownHeaderSplitter">
+                  <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span class="pre">RAGchain.preprocess.text_splitter.markdown_splitter.</span></span><span
+                      class="sig-name descname"><span class="pre">MarkDownHeaderSplitter</span></span><span
+                      class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">headers_to_split_on</span></span><span
+                      class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+                      class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span
+                      class="pre">str</span><span class="p"><span class="pre">,</span></span><span
+                      class="w"> </span><span class="pre">str</span><span class="p"><span
+                      class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span
+                      class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span
+                      class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                      class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
+                  <em class="sig-param"><span class="n"><span class="pre">return_each_line</span></span><span class="p"><span
+                          class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                          class="pre">bool</span></span><span class="w"> </span><span class="o"><span
+                          class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+                          class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                 href="#RAGchain.preprocess.text_splitter.markdown_splitter.MarkDownHeaderSplitter"
+                                                                                                 title="Link to this definition"></a>
+              </dt>
+              <dd><p>Bases: <a class="reference internal"
+                               href="#RAGchain.preprocess.text_splitter.base.BaseTextSplitter"
+                               title="RAGchain.preprocess.text_splitter.base.BaseTextSplitter"><code
+                      class="xref py py-class docutils literal notranslate"><span
+                      class="pre">BaseTextSplitter</span></code></a></p>
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.preprocess.text_splitter.markdown_splitter.MarkDownHeaderSplitter.split_document">
+                          <span class="sig-name descname"><span class="pre">split_document</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">document</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">Document</span></span></em><span
+                              class="sig-paren">)</span><a class="headerlink"
+                                                           href="#RAGchain.preprocess.text_splitter.markdown_splitter.MarkDownHeaderSplitter.split_document"
+                                                           title="Link to this definition"></a></dt>
+                      <dd><p>Split a document into passages.</p>
+                      </dd>
+                  </dl>
+
+              </dd>
+          </dl>
+
+      </section>
 <section id="module-RAGchain.preprocess.text_splitter.text_splitter">
 <span id="ragchain-preprocess-text-splitter-text-splitter-module"></span><h2>RAGchain.preprocess.text_splitter.text_splitter module<a class="headerlink" href="#module-RAGchain.preprocess.text_splitter.text_splitter" title="Link to this heading"></a></h2>
 <dl class="py class">

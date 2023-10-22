@@ -28,8 +28,10 @@ In real-world scenarios, you may need multiple retrievers depending on your requ
 ## pre-made RAG pipelines
 We provide pre-made pipelines that let you quickly set up RAG workflow. We are planning to make much complex pipelines, which hard to make but powerful. With pipelines, you can build really powerful RAG system quickly and easily. 
 
-## Easy benchmarking (building)
-It is crucial to benchmark and test your RAG systems for production use. We are building easy benchmarking for our framework. 
+## Easy benchmarking
+
+It is crucial to benchmark and test your RAG workflows. We have easy benchmarking module for evaluation. Support your
+own questions and various datasets.
 
 
 # Installation
