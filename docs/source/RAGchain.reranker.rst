@@ -23,6 +23,14 @@ RAGchain.reranker.base module
    :undoc-members:
    :show-inheritance:
 
+RAGchain.reranker.bm25 module
+-----------------------------
+
+.. automodule:: RAGchain.reranker.bm25
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 
