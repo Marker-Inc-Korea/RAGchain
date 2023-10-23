@@ -39,8 +39,6 @@ class HTMLHeaderSplitter(BaseTextSplitter):
         document_copy = copy.deepcopy(document)
         split_documents = self.html_splitter.split_text(document.page_content)
 
-        test_return_each_element = split_documents
-        print('break point')
         # Convert List[Document] to List[Passage]
         passages = []
         ids = [uuid4() for _ in range(len(split_documents))]
