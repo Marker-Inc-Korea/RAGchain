@@ -79,7 +79,7 @@ def test_markdownheader_text_splitter(markdownheader_text_splitter):
                 else:
                     continue
 
-    # Check Markdown information put in metadata_etc right form.
+    # Check Markdown header information put in metadata_etc right form.
     ## Front part of Test document
     assert ('Header 1', '무야호 할아버지') in list(passages[0].metadata_etc.items())
 
