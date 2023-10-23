@@ -3,7 +3,7 @@ import copy
 import pytest
 from langchain.schema import Document
 
-from RAGchain.preprocess.text_splitter import HTMLheader_splitter
+from RAGchain.preprocess.text_splitter import HTMLHeaderSplitter
 
 TEST_DOCUMENT = Document(
     page_content="""
@@ -102,13 +102,13 @@ TEST_DOCUMENT = Document(
 
 
 @pytest.fixture
-def htmlheader_text_splitter():
-    htmlheader_text_splitter = HTMLheader_splitter()
-    yield htmlheader_text_splitter
+def html_header_text_splitter():
+    html_header_text_splitter = HTMLHeaderSplitter()
+    yield html_header_text_splitter
 
 
-def test_htmlheader_text_splitter(htmlheader_text_splitter):
-    passages = htmlheader_text_splitter.split_document(TEST_DOCUMENT)
+def test_htmlheader_text_splitter(html_header_text_splitter):
+    passages = html_header_text_splitter.split_document(TEST_DOCUMENT)
 
     assert len(passages) > 1
     assert passages[0].next_passage_id == passages[1].id
@@ -129,11 +129,8 @@ def test_htmlheader_text_splitter(htmlheader_text_splitter):
 
     # Check passages' metadata_etc
     ## metadata_etc can't contain file path(Except first part of first div).
-    if ('source', 'test_source') in list(passages[1].metadata_etc.items()):
-        raise AssertionError
-
-    if ('source', 'test_source') in list(passages[-1].metadata_etc.items()):
-        raise AssertionError
+    assert ('source', 'test_source') not in list(passages[1].metadata_etc.items())
+    assert ('source', 'test_source') not in list(passages[-1].metadata_etc.items())
 
     # Check HTML header information put in metadata_etc right form.
     assert ('Header 1', '학박사님을 아세유?') in list(passages[1].metadata_etc.items())
@@ -141,4 +138,3 @@ def test_htmlheader_text_splitter(htmlheader_text_splitter):
     assert ('Header 1', '맨까송') in list(passages[-1].metadata_etc.items())
     assert ('Header 2', '감빡이') in list(passages[-1].metadata_etc.items())
     assert ('Header 3', '근데 ragchain 쓰는 사람이 맨유팬이면 어떡하지') in list(passages[-1].metadata_etc.items())
-# 당연히 안되지! html header text splitter 기능상 맨처음 passage에 헤더 정보와 메타데이터에는 원본 테스트 document의 메타데이터가 들어간다.

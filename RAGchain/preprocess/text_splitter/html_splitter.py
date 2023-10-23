@@ -9,14 +9,18 @@ from RAGchain.preprocess.text_splitter.base import BaseTextSplitter
 from RAGchain.schema import Passage
 
 
-class HTMLheader_splitter(BaseTextSplitter):
+class HTMLHeaderSplitter(BaseTextSplitter):
     def __init__(
             self,
             headers_to_split_on: Optional[Tuple[str, str]] = None,
-            return_each_element: bool = True,
+            return_each_element: bool = False,
     ):
         """
-        :param headers_to_split_on: A list of Tuples to split on. Default is [("h1", "Header 1"), ("h2", "Header 2"), ("h3", "Header 3"),]
+        :param headers_to_split_on: list of tuples of headers we want to track mapped to (arbitrary) keys for metadata.
+                                    Allowed header values: h1, h2, h3, h4, h5, h6
+                                    Default is [("h1", "Header 1"), ("h2", "Header 2"), ("h3", "Header 3"),]
+                                    e.g. [(“h1”, “Header 1”), (“h2”, “Header 2)].
+        :param return_each_element: Return each element with associated headers. Default is False.
         """
 
         # Set headers_to_split_on default variable.
@@ -31,14 +35,13 @@ class HTMLheader_splitter(BaseTextSplitter):
 
     def split_document(self, document: Document) -> List[Passage]:
 
-        # url일때, doc으로 들어올때 -> 홍창기 구조에서는 file loader에서 무조건 doc으로 받자는 규칙이기 때문에 고려하지 않아도 됌
-        # Split HTML based HTML header.
-
-        # 나오면 split된 Document 형태로 나오며 metadata는 상위 header 기준으로 어떻게 잘렸는지가 나옴.
-
+        # Split List[Document] by HTML header.
         document_copy = copy.deepcopy(document)
         split_documents = self.html_splitter.split_text(document.page_content)
 
+        test_return_each_element = split_documents
+        print('break point')
+        # Convert List[Document] to List[Passage]
         passages = []
         ids = [uuid4() for _ in range(len(split_documents))]
 
