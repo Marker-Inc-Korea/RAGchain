@@ -69,15 +69,17 @@ def test_markdownheader_text_splitter(markdownheader_text_splitter):
 
 
     # Check splitter preserve other metadata in original document.
-    ## Remove file path information in clone of TEST_DOCUMENT for test.
-    test_document_for_test = copy.deepcopy(TEST_DOCUMENT)
-    test_document_for_test.metadata.pop('source')
-
     for passage in passages:
-        for origin_meta in list(test_document_for_test.metadata.items()):
-            assert origin_meta in list(passage.metadata_etc.items())
+        for origin_meta in list(copy.deepcopy(TEST_DOCUMENT).metadata.items()):
+            if origin_meta != ('source', 'test_source'):
+                assert origin_meta in list(passage.metadata_etc.items())
+            else:
+                if origin_meta in list(passage.metadata_etc.items()):
+                    raise AssertionError
+                else:
+                    continue
 
-    # Check Markdown information put in metadata_etc right form.
+    # Check Markdown header information put in metadata_etc right form.
     ## Front part of Test document
     assert ('Header 1', '무야호 할아버지') in list(passages[0].metadata_etc.items())
 

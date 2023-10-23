@@ -49,7 +49,8 @@ setup(
         'pyarrow',
         'fastparquet',
         'ragas',
-        'datasets'
+        'datasets',
+        'lxml'
     ],
     classifiers=[
         "Intended Audience :: Developers",
