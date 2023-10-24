@@ -31,13 +31,13 @@ class HTMLHeaderSplitter(BaseTextSplitter):
                 ("h3", "Header 3")
             ]
 
-        self.html_splitter = HTMLHeaderTextSplitter(headers_to_split_on, return_each_element)
+        self.html_header_splitter = HTMLHeaderTextSplitter(headers_to_split_on, return_each_element)
 
     def split_document(self, document: Document) -> List[Passage]:
 
         # Split List[Document] by HTML header.
         document_copy = copy.deepcopy(document)
-        split_documents = self.html_splitter.split_text(document.page_content)
+        split_documents = self.html_header_splitter.split_text(document.page_content)
 
         # Convert List[Document] to List[Passage]
         passages = []
