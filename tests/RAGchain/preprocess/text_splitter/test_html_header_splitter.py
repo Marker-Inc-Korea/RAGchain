@@ -17,7 +17,6 @@ TEST_DOCUMENT = Document(
         <div>
             <h1>학박사님을 아세유?</h1>
                 <p>안하긴뭘 안해~ 월요일부터 일찍 일어나는 사람 누구야~ 소리질러!</p>
-
                 <h2>학교가는 동규형</h2>
                 <div>
                     <p>
@@ -28,12 +27,11 @@ TEST_DOCUMENT = Document(
                 </div>
                     <h3> 근데 리뷰할때 동규형이 보면 어떡하지</h3>
         </div>
-        
+
         <div>
             <h1>리중딱</h1>
                 <h2>감스트</h2>
                 <div>
-
                 <p>
                 안하긴뭘안해~~ 반갑습니다~~ 이피엘에서 우승못하는팀 누구야? 소리질러~~!!<br>
                 리중딱 리중딱 신나는노래~ 나도한번 불러본다~~(박수) (박수) (박수) 짠리잔짠~~<br>
@@ -42,7 +40,6 @@ TEST_DOCUMENT = Document(
                 리중딱 리중딱 신나는노래 ~~ 가슴치며 불러본다~<br>
                 리중딱 노래가사는~ 생활과 정보가 있는노래 중딱이~~와 함께라면 제~라드도함께 우승못한다.
                 </p>
-
                 </div>
             <h3>근데 ragchain 쓰는 사람이 리버풀팬이면 어떡하지</h3>
             <div>
@@ -51,29 +48,25 @@ TEST_DOCUMENT = Document(
             </p>
             </div>
         </div> 
-        
+
         <div>
             <h1>맨까송</h1>
                 <h2>감빡이</h2>
                 <div>
-
                 <p>
                 맨까 새끼들 부들부들하구나<br>
                 억까를 해 봐도 우린 골 넣지<br>
                 니네가 아무리 맹구다 어쩐다고 놀려도<br>
                 아아~ 즐겁구나 명 절 이~(짜스!)<br>
-
                 맨까 새끼들 부들부들하구나<br>
                 살짝쿵 설렜니 아니 안 되지<br>
                 이겨도 지롤 져도 지롤 뭐만 하면 리그컵<br>
                 아~ 리그컵도 축 군 데~ (컴온!!)<br>
-
                 맨까 새끼들 부들부들하구나<br>
                 돌아온 미친 폼 누가 막을래?<br>
                 더 보기 리그 탈출 직전[다른가사2] 돌아와요 맨유 팬!<br>
                 아~ 기대된다 챔 스 가~ Siuuuuuuu!<br>
                 </p>
-
                 </div>
             <h3>근데 ragchain 쓰는 사람이 맨유팬이면 어떡하지</h3>
                 <div>
@@ -82,11 +75,9 @@ TEST_DOCUMENT = Document(
                     </p>
                 </div>
         </div>    
-            
+
         </div>
     </body>
-
-
     </html>
     """,
     metadata={
@@ -107,7 +98,7 @@ def html_header_text_splitter():
     yield html_header_text_splitter
 
 
-def test_htmlheader_text_splitter(html_header_text_splitter):
+def test_html_header_text_splitter(html_header_text_splitter):
     passages = html_header_text_splitter.split_document(TEST_DOCUMENT)
 
     assert len(passages) > 1

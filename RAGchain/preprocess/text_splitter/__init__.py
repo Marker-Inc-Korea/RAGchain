@@ -1,3 +1,4 @@
-from .html_splitter import HTMLHeaderSplitter
-from .markdown_splitter import MarkDownHeaderSplitter
+from .code_splitter import CodeSplitter
+from .html_header_splitter import HTMLHeaderSplitter
+from .markdown_header_splitter import MarkDownHeaderSplitter
 from .text_splitter import RecursiveTextSplitter

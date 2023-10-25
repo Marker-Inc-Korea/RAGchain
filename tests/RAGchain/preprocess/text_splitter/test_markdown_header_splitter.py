@@ -51,13 +51,13 @@ TEST_DOCUMENT = Document(
 
 
 @pytest.fixture
-def markdownheader_text_splitter():
-    markdownheader_text_splitter = MarkDownHeaderSplitter()
-    yield markdownheader_text_splitter
+def markdown_header_text_splitter():
+    markdown_header_text_splitter = MarkDownHeaderSplitter()
+    yield markdown_header_text_splitter
 
 
-def test_markdownheader_text_splitter(markdownheader_text_splitter):
-    passages = markdownheader_text_splitter.split_document(TEST_DOCUMENT)
+def test_markdown_header_text_splitter(markdown_header_text_splitter):
+    passages = markdown_header_text_splitter.split_document(TEST_DOCUMENT)
 
     assert len(passages) > 1
     assert passages[0].next_passage_id == passages[1].id
