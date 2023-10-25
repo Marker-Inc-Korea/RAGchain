@@ -17,11 +17,15 @@ class CodeSplitter(BaseTextSplitter):
             self,
             language_name: str = 'PYTHON',
             chunk_size: int = 50,
-            chunk_overlap: int = 0
+            chunk_overlap: int = 0,
+            **kwargs
     ):
         """
-        :param language_name: A kind of language to split.
-        :param : Return each element with associated headers. Default is False.
+        :param language_name: A kind of language to split. Default is PYTHON.
+        (CPP, GO, JAVA, KOTLIN, JS, TS, PHP, PROTO, PYTHON, RST, RUBY, RUST, SCALA, SWIFT, MARKDOWN, LATEX, HTML, SOL, CSHARP)
+        :param chunk_size: Maximum size of chunks to return. Default is 50.
+        :param chunk_overlap: Overlap in characters between chunks. Default is 0.
+        :param kwargs: Additional arguments to pass to the langchain RecursiveCharacterTextSplitter.
         """
 
         self.code_splitter = RecursiveCharacterTextSplitter.from_language(
@@ -29,12 +33,10 @@ class CodeSplitter(BaseTextSplitter):
         )
 
     def split_document(self, document: Document) -> List[Passage]:
-        split_documents = self.code_splitter.from_language(document)
-
-        # Split List[Document] by HTML header.
-        document_copy = copy.deepcopy(document)
+        split_documents = self.code_splitter.create_documents([document.page_content])
 
         # Convert List[Document] to List[Passage]
+        document_copy = copy.deepcopy(document)
         passages = []
         ids = [uuid4() for _ in range(len(split_documents))]
 
