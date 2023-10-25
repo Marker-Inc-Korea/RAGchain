@@ -6,7 +6,7 @@ from RAGchain.preprocess.text_splitter import CodeSplitter
 
 # Which file do you want to test ?
 # PYTHON test
-Python_doc = Document(
+python_doc = Document(
 page_content="""
 def hello_world():
     print("Hello, World!")
@@ -83,48 +83,83 @@ class Program
 
 
 # Test doucment define.
-TEST_DOCUMENT = Csharp_doc
+python_TEST_DOCUMENT = python_doc
+JS_doc_TEST_DOCUMENT = JS_doc
+csharp_TEST_DOCUMENT = Csharp_doc
+test_documents = [python_TEST_DOCUMENT, JS_doc_TEST_DOCUMENT, csharp_TEST_DOCUMENT]
 
 
 @pytest.fixture
-def codesplitter():
-    codesplitter = CodeSplitter()
-    yield codesplitter
+def python_code_splitter():
+    python_code_splitter = CodeSplitter(language_name= 'PYTHON', chunk_size= 50, chunk_overlap= 0)
+    yield python_code_splitter
 
+@pytest.fixture
+def JS_code_splitter():
+    JS_code_splitter = CodeSplitter(language_name= 'JS', chunk_size= 60, chunk_overlap= 0)
+    yield JS_code_splitter
 
-def test_code_splitter(codesplitter):
-    passages = codesplitter.split_document(TEST_DOCUMENT)
+@pytest.fixture
+def csharp_code_splitter():
+    csharp_code_splitter = CodeSplitter(language_name= 'CSHARP', chunk_size= 17, chunk_overlap= 0)
+    yield csharp_code_splitter
 
-    assert len(passages) > 1
-    assert passages[0].next_passage_id == passages[1].id
-    assert passages[1].previous_passage_id == passages[0].id
-    assert passages[0].filepath == 'test_source'
-    assert passages[0].filepath == passages[1].filepath
-    assert passages[0].previous_passage_id is None
-    assert passages[-1].next_passage_id is None
+def test_code_splitter(python_code_splitter, JS_code_splitter, csharp_code_splitter):
+    python_passages = python_code_splitter.split_document(python_TEST_DOCUMENT)
+    JS_passages = JS_code_splitter.split_document(JS_doc_TEST_DOCUMENT)
+    csharp_passages = csharp_code_splitter.split_document(csharp_TEST_DOCUMENT)
+
+    test_passages = [python_passages, JS_passages, csharp_passages]
+
+    for passages in test_passages:
+        assert len(passages) > 1
+        assert passages[0].next_passage_id == passages[1].id
+        assert passages[1].previous_passage_id == passages[0].id
+        assert passages[0].filepath == 'test_source'
+        assert passages[0].filepath == passages[1].filepath
+        assert passages[0].previous_passage_id is None
+        assert passages[-1].next_passage_id is None
 
 
     # Check passage split well.(Based our test document)
     ## python (language_name = 'PYTHON', chunk_size = 50, chunk_overlap = 0)
-    assert len(passages) == 2
-    """
+    assert len(python_passages) == 2
+
     ## JS (language_name = 'JS', chunk_size = 60, chunk_overlap = 0)
-    assert len(passages) == 2
+    assert len(JS_passages) == 2
     
     ## C# (language_name = 'CSHARP' chunk_size = 17, chunk_overlap = 0)
-    assert len(passages) == 33
-    
+    assert len(csharp_passages) == 33
+
+
     # Check splitter preserve other metadata in original document.
-    test_document_metadata = list(copy.deepcopy(TEST_DOCUMENT).metadata.items())
+    ## python
+    test_document_metadata = list(copy.deepcopy(python_TEST_DOCUMENT).metadata.items())
     test_document_metadata.pop(0)
-    for passage in passages:
+    for passage in python_passages:
         for element in test_document_metadata:
             assert element in list(passage.metadata_etc.items())
-    """
+
+    ## JS
+    test_document_metadata = list(copy.deepcopy(JS_doc_TEST_DOCUMENT).metadata.items())
+    test_document_metadata.pop(0)
+    for passage in JS_passages:
+        for element in test_document_metadata:
+            assert element in list(passage.metadata_etc.items())
+
+    ## C#
+    test_document_metadata = list(copy.deepcopy(csharp_TEST_DOCUMENT).metadata.items())
+    test_document_metadata.pop(0)
+    for passage in csharp_passages:
+        for element in test_document_metadata:
+            assert element in list(passage.metadata_etc.items())
+
+
 
     # Check passages' metadata_etc
     ## metadata_etc can't contain file path.
-    assert ('source', 'test_source') not in list(passages[0].metadata_etc.items())
-    assert ('source', 'test_source') not in list(passages[-1].metadata_etc.items())
+    for passages in test_passages:
+        assert ('source', 'test_source') not in list(passages[0].metadata_etc.items())
+        assert ('source', 'test_source') not in list(passages[-1].metadata_etc.items())
 
 

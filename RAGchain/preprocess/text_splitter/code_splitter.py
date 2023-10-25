@@ -29,7 +29,7 @@ class CodeSplitter(BaseTextSplitter):
         """
 
         self.code_splitter = RecursiveCharacterTextSplitter.from_language(
-            language=Language[language_name], chunk_size=chunk_size, chunk_overlap=chunk_overlap
+            language=Language[language_name], chunk_size=chunk_size, chunk_overlap=chunk_overlap, **kwargs
         )
 
     def split_document(self, document: Document) -> List[Passage]:
