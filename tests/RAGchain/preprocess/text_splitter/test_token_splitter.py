@@ -1,7 +1,7 @@
 import pytest
 from langchain.schema import Document
 
-from RAGchain.preprocess.text_splitter import Token_Splitter
+from RAGchain.preprocess.text_splitter import TokenSplitter
 
 TEST_DOCUMENT = Document(
     page_content=
@@ -738,35 +738,36 @@ May God bless you all. May God protect our troops.""",
 
 @pytest.fixture
 def tiktoken():
-    tiktoken = Token_Splitter(tokenizer_name= 'tiktoken', chunk_size=1000, chunk_overlap=0)
+    tiktoken = TokenSplitter(tokenizer_name='tiktoken', chunk_size=1000, chunk_overlap=0)
     yield tiktoken
 
 @pytest.fixture
 def spaCy():
-    spaCy = Token_Splitter(tokenizer_name= 'spaCy', chunk_size= 1000, chunk_overlap= 0)
+    spaCy = TokenSplitter(tokenizer_name='spaCy', chunk_size=1000, chunk_overlap=0)
     yield spaCy
 
 @pytest.fixture
-def SentenceTransformers():
-    SentenceTransformers = Token_Splitter(tokenizer_name= 'SentenceTransformers', chunk_overlap = 0)
-    yield SentenceTransformers
+def sentence_transformers():
+    sentence_transformers = TokenSplitter(tokenizer_name='SentenceTransformers', chunk_overlap=0)
+    yield sentence_transformers
 
 @pytest.fixture
 def NLTK():
-    NLTK = Token_Splitter(chunk_size= 1000)
+    NLTK = TokenSplitter(chunk_size=1000)
     yield NLTK
 
 @pytest.fixture
 def Hugging_Face():
-    Hugging_Face = Token_Splitter(chunk_size=100, chunk_overlap=0)
+    Hugging_Face = TokenSplitter(chunk_size=100, chunk_overlap=0)
     yield Hugging_Face
 
-def test_token_splitter(tiktoken, spaCy, SentenceTransformers, NLTK, Hugging_Face):
+
+def test_token_splitter(tiktoken, spaCy, sentence_transformers, NLTK, Hugging_Face):
     tiktoken_passages = tiktoken.split_document(TEST_DOCUMENT)
 
     spaCy_passages = spaCy.split_document(TEST_DOCUMENT)
 
-    SentenceTransformers_passages = SentenceTransformers.split_document(TEST_DOCUMENT)
+    SentenceTransformers_passages = sentence_transformers.split_document(TEST_DOCUMENT)
 
     NLTK_passages = NLTK.split_document(TEST_DOCUMENT)
 

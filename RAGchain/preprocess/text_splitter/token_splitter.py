@@ -1,21 +1,23 @@
 import copy
-
 from typing import List
 from uuid import uuid4
 
 from langchain.schema import Document
-from langchain.text_splitter import CharacterTextSplitter, TokenTextSplitter, SpacyTextSplitter, SentenceTransformersTokenTextSplitter, NLTKTextSplitter
+from langchain.text_splitter import CharacterTextSplitter, TokenTextSplitter, SpacyTextSplitter, \
+    SentenceTransformersTokenTextSplitter, NLTKTextSplitter
 from transformers import GPT2TokenizerFast
+
 from RAGchain.preprocess.text_splitter.base import BaseTextSplitter
 from RAGchain.schema import Passage
 
 
-class Token_Splitter(BaseTextSplitter):
+class TokenSplitter(BaseTextSplitter):
     """
     Split a document into passages by recursively splitting on a list of separators.
     You can specify a window_size and overlap_size to split the document into overlapping passages.
     """
-    def __init__(self, tokenizer_name: str = 'tiktoken', chunk_size: int = 0, chunk_overlap: int = 0, **kwargs):
+
+    def __init__(self, tokenizer_name: str = 'tiktoken', chunk_size: int = 100, chunk_overlap: int = 0, **kwargs):
         """
         :param tokenizer_name: A tokenizer_name name. You can choose tokenizer_name.
                         (tiktoken, spaCy, SentenceTransformers, NLTK, huggingFace)
@@ -33,7 +35,8 @@ class Token_Splitter(BaseTextSplitter):
         self.spaCy_splitter = SpacyTextSplitter(chunk_size= chunk_size, chunk_overlap= chunk_overlap)
 
         # SentenceTransformers (Default: chunk_overlap=0)
-        self.SentenceTransformers_splitter = SentenceTransformersTokenTextSplitter(chunk_size= chunk_size, chunk_overlap= chunk_overlap)
+        self.sentence_transformer_splitter = SentenceTransformersTokenTextSplitter(chunk_size=chunk_size,
+                                                                                   chunk_overlap=chunk_overlap)
 
         # NLTK
         self.NLTK_splitter = NLTKTextSplitter(chunk_size= chunk_size, chunk_overlap= chunk_overlap)
@@ -43,8 +46,6 @@ class Token_Splitter(BaseTextSplitter):
         self.huggingFace_splitter = CharacterTextSplitter.from_huggingface_tokenizer(
             tokenizer, chunk_size= chunk_size, chunk_overlap= chunk_overlap
         )
-
-
 
     def split_document(self, document: Document) -> List[Passage]:
         """
@@ -63,8 +64,8 @@ class Token_Splitter(BaseTextSplitter):
             split_documents = self.spaCy_splitter.create_documents(split_texts)
 
         elif self.chosen_tokenizer == 'SentenceTransformers':
-            split_texts = self.SentenceTransformers_splitter.split_text(document.page_content)
-            split_documents = self.SentenceTransformers_splitter.create_documents(split_texts)
+            split_texts = self.sentence_transformer_splitter.split_text(document.page_content)
+            split_documents = self.sentence_transformer_splitter.create_documents(split_texts)
 
         elif self.chosen_tokenizer == 'NLTK':
             split_texts = self.NLTK_splitter.split_text(document.page_content)
