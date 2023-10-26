@@ -15,13 +15,18 @@ class QasperEvaluator(BaseDatasetEvaluator):
     """
     dataset_name = "NomaDamas/qasper"
 
-    def __init__(self, run_pipeline: BasePipeline, evaluate_size: int, metrics: Optional[List[str]] = None):
+    def __init__(self,
+                 run_pipeline: BasePipeline,
+                 evaluate_size: int,
+                 metrics: Optional[List[str]] = None,
+                 random_state: int = 42):
         """
         :param run_pipeline: pipeline to evaluate
         :param evaluate_size: number of data to evaluate
         :param metrics: metrics to evaluate. Default metrics are ['Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM',
         'F1_score', 'context_recall', 'context_precision', 'answer_relevancy', 'faithfulness']
         If None, use default metrics.
+        :param random_state: random seed for sampling data. Default is 42.
         """
         support_metrics = ['Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'context_recall',
                            'context_precision', 'answer_relevancy', 'faithfulness']
@@ -34,7 +39,7 @@ class QasperEvaluator(BaseDatasetEvaluator):
         self.data = load_dataset(self.dataset_name)['train'].to_pandas()
         self.data = self.data.drop('__index_level_0__', axis=1)
         if len(self.data) > evaluate_size:
-            self.data = self.data.sample(evaluate_size)
+            self.data = self.data.sample(evaluate_size, random_state=random_state)
         self.data = self.preprocess(self.data)
 
         self.db = None
