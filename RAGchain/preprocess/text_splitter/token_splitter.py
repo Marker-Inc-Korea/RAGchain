@@ -19,7 +19,7 @@ class Token_Splitter(BaseTextSplitter):
         """
         :param tokenizer_name: A tokenizer_name name. You can choose tokenizer_name.
                         (tiktoken, spaCy, SentenceTransformers, NLTK, huggingFace)
-        :param chunk_size: Maximum size of chunks to return. Default is 50.
+        :param chunk_size: Maximum size of chunks to return. Default is 0.
         :param chunk_overlap: Overlap in characters between chunks. Default is 0.
         :param kwargs: Additional arguments.
         All splitters were inherited TextSplitter class in langchain text_splitter.py.
@@ -27,21 +27,21 @@ class Token_Splitter(BaseTextSplitter):
         self.chosen_tokenizer = tokenizer_name
 
         # tiktoken
-        self.tiktoken_splitter = TokenTextSplitter.from_tiktoken_encoder()
+        self.tiktoken_splitter = TokenTextSplitter.from_tiktoken_encoder(chunk_size = chunk_size, chunk_overlap =  chunk_overlap)
 
         # spaCy
-        self.spaCy_splitter = SpacyTextSplitter()
+        self.spaCy_splitter = SpacyTextSplitter(chunk_size= chunk_size, chunk_overlap= chunk_overlap)
 
         # SentenceTransformers (Default: chunk_overlap=0)
-        self.SentenceTransformers_splitter = SentenceTransformersTokenTextSplitter()
+        self.SentenceTransformers_splitter = SentenceTransformersTokenTextSplitter(chunk_size= chunk_size, chunk_overlap= chunk_overlap)
 
         # NLTK
-        self.NLTK_splitter = NLTKTextSplitter()
+        self.NLTK_splitter = NLTKTextSplitter(chunk_size= chunk_size, chunk_overlap= chunk_overlap)
 
         # Hugging Face
         tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
         self.huggingFace_splitter = CharacterTextSplitter.from_huggingface_tokenizer(
-            tokenizer
+            tokenizer, chunk_size= chunk_size, chunk_overlap= chunk_overlap
         )
 
 
