@@ -51,32 +51,22 @@ class TokenSplitter(BaseTextSplitter):
         """
         Split a document.
         """
-        global split_texts, split_documents
-
-        doc_copy = copy.deepcopy(document)
+        global chosen_splitter
 
         if self.chosen_tokenizer == 'tiktoken':
-            split_texts = self.tiktoken_splitter.split_text(document.page_content)
-            split_documents = self.tiktoken_splitter.create_documents(split_texts)
-
+            chosen_splitter = self.tiktoken_splitter.split_text(document.page_content)
         elif self.chosen_tokenizer == 'spaCy':
-            split_texts = self.spaCy_splitter.split_text(document.page_content)
-            split_documents = self.spaCy_splitter.create_documents(split_texts)
-
+            chosen_splitter = self.spaCy_splitter.split_text(document.page_content)
         elif self.chosen_tokenizer == 'SentenceTransformers':
-            split_texts = self.sentence_transformer_splitter.split_text(document.page_content)
-            split_documents = self.sentence_transformer_splitter.create_documents(split_texts)
-
+            chosen_splitter = self.sentence_transformer_splitter.split_text(document.page_content)
         elif self.chosen_tokenizer == 'NLTK':
-            split_texts = self.NLTK_splitter.split_text(document.page_content)
-            split_documents = self.NLTK_splitter.create_documents(split_texts)
-
+            chosen_splitter = self.NLTK_splitter.split_text(document.page_content)
         elif self.chosen_tokenizer == 'huggingFace':
-            split_texts = self.huggingFace_splitter.split_text(document.page_content)
-            split_documents = self.huggingFace_splitter.create_documents(split_texts)
+            chosen_splitter = self.huggingFace_splitter.split_text(document.page_content)
 
+        split_documents = self.tokenzier_create_documents(document, chosen_splitter)
 
-
+        doc_copy = copy.deepcopy(document)
         passages = []
         ids = [uuid4() for _ in range(len(split_documents))]
 
@@ -102,3 +92,6 @@ class TokenSplitter(BaseTextSplitter):
 
         return passages
 
+    def tokenzier_create_documents(self, document: Document, chosen_splitter):
+        split_documents = self.tiktoken_splitter.create_documents(chosen_splitter)
+        return split_documents
