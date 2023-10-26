@@ -52,8 +52,6 @@ setup(
         'datasets',
         'lxml',
         'tiktoken',
-        'spacy',
-        'nltk',
     ],
     classifiers=[
         "Intended Audience :: Developers",
