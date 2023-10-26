@@ -743,7 +743,7 @@ def tiktoken():
 
 @pytest.fixture
 def spaCy():
-    spaCy = Token_Splitter(tokenizer_name= 'spaCy', chunk_size= 10, chunk_overlap= 0)
+    spaCy = Token_Splitter(tokenizer_name= 'spaCy', chunk_size= 1000, chunk_overlap= 0)
     yield spaCy
 
 @pytest.fixture
@@ -758,11 +758,10 @@ def NLTK():
 
 @pytest.fixture
 def Hugging_Face():
-    Hugging_Face = Token_Splitter()
+    Hugging_Face = Token_Splitter(chunk_size=100, chunk_overlap=0)
     yield Hugging_Face
 
 def test_token_splitter(tiktoken, spaCy, SentenceTransformers, NLTK, Hugging_Face):
-    test_doc = TEST_DOCUMENT
     tiktoken_passages = tiktoken.split_document(TEST_DOCUMENT)
 
     spaCy_passages = spaCy.split_document(TEST_DOCUMENT)
@@ -774,6 +773,7 @@ def test_token_splitter(tiktoken, spaCy, SentenceTransformers, NLTK, Hugging_Fac
     huggingface_passages = Hugging_Face.split_document(TEST_DOCUMENT)
 
     test_passages = [tiktoken_passages, spaCy_passages, SentenceTransformers_passages, NLTK_passages, huggingface_passages]
+
 
     for passage in test_passages:
         assert len(passage) > 1

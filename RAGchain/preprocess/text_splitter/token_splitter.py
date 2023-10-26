@@ -19,16 +19,17 @@ class Token_Splitter(BaseTextSplitter):
         """
         :param tokenizer_name: A tokenizer_name name. You can choose tokenizer_name.
                         (tiktoken, spaCy, SentenceTransformers, NLTK, huggingFace)
-        :param separators: A list of strings to split on. Default is None.
-        :param keep_separator: Whether to keep the separator in the passage. Default is True.
-        :param kwargs: Additional arguments to pass to the langchain RecursiveCharacterTextSplitter.
+        :param chunk_size: Maximum size of chunks to return. Default is 50.
+        :param chunk_overlap: Overlap in characters between chunks. Default is 0.
+        :param kwargs: Additional arguments.
+        All splitters were inherited TextSplitter class in langchain text_splitter.py.
         """
         self.chosen_tokenizer = tokenizer_name
 
-        # tiktoken (Default: chunk_size = 100, chunk_overlap = 0)
+        # tiktoken
         self.tiktoken_splitter = TokenTextSplitter.from_tiktoken_encoder()
 
-        # spaCy (Default: chunk_size = 10, chunk_overlap = 0)
+        # spaCy
         self.spaCy_splitter = SpacyTextSplitter()
 
         # SentenceTransformers (Default: chunk_overlap=0)
@@ -40,7 +41,7 @@ class Token_Splitter(BaseTextSplitter):
         # Hugging Face
         tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
         self.huggingFace_splitter = CharacterTextSplitter.from_huggingface_tokenizer(
-            tokenizer, chunk_size=100, chunk_overlap=0
+            tokenizer
         )
 
 
@@ -50,7 +51,6 @@ class Token_Splitter(BaseTextSplitter):
         Split a document.
         """
         global split_texts, split_documents
-
 
         doc_copy = copy.deepcopy(document)
 
@@ -75,8 +75,6 @@ class Token_Splitter(BaseTextSplitter):
             split_documents = self.huggingFace_splitter.create_documents(split_texts)
 
 
-        t = split_texts
-        s = split_documents
 
         passages = []
         ids = [uuid4() for _ in range(len(split_documents))]
