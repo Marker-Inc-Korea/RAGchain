@@ -50,7 +50,10 @@ setup(
         'fastparquet',
         'ragas',
         'datasets',
-        'lxml'
+        'lxml',
+        'tiktoken',
+        'spacy',
+        'nltk',
     ],
     classifiers=[
         "Intended Audience :: Developers",
