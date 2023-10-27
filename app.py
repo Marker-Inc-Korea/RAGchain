@@ -52,12 +52,12 @@ def setting(device, embed, db, retrieval):
 
     if retrieval == "bm25":
         answer_pipeline = BasicRunPipeline(retrieval=bm25,
-                                           llm=BasicLLM(bm25, model_name=MODEL_NAME, api_base=None))
+                                           llm=BasicLLM(model_name=MODEL_NAME, api_base=None))
         pre_retrieval = bm25
     elif retrieval == "vector_db-chroma":
         vectordb_instance = select_vectordb('chroma', embedding_type=embed, device_type=device)
         answer_pipeline = BasicRunPipeline(retrieval=vectordb_instance,
-                                           llm=BasicLLM(bm25, model_name=MODEL_NAME, api_base=None))
+                                           llm=BasicLLM(model_name=MODEL_NAME, api_base=None))
         pre_retrieval = vectordb_instance
     elif retrieval == "vector_db-pinecone":
         vectordb_instance = select_vectordb('pinecone', embedding_type=embed, device_type=device)
