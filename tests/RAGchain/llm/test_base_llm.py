@@ -4,8 +4,8 @@ import pickle
 from uuid import UUID
 
 from RAGchain.DB import PickleDB
-from RAGchain.schema import Passage
 from RAGchain.retrieval import BM25Retrieval
+from RAGchain.schema import Passage
 
 root_dir = pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent
 with open(os.path.join(root_dir, "resources", "sample_passages.pkl"), 'rb') as r:
@@ -32,7 +32,7 @@ def ready_bm25_retrieval(bm25_path: str):
     return retrieval
 
 
-def validate_answer(answer: str, passages: list, passage_cnt: int = 4):
+def validate_answer(answer: str, passages: list, passage_cnt: int = 5):
     assert bool(answer)
     assert len(passages) == passage_cnt
 

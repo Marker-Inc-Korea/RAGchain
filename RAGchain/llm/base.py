@@ -4,7 +4,6 @@ from typing import List
 
 import openai
 
-from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import Passage
 
 
@@ -20,32 +19,29 @@ class BaseLLM(ABC):
     """
     stream_end_token: str = '<|endofstream|>'
 
-    def __init__(self, retrieval: BaseRetrieval):
+    def __init__(self):
         """Initializes the LLM instance with a retrieval module."""
-        self.retrieval = retrieval
-        self.retrieved_passages: List[Passage] = []
         self.chat_history: List[dict] = []
         self.chat_offset: int = 6
 
     @abstractmethod
-    def ask(self, query: str, stream: bool = False, run_retrieve: bool = True, *args, **kwargs) -> tuple[
-        str, List[Passage]]:
+    def ask(self,
+            query: str,
+            passages: List[Passage],
+            stream: bool = False,
+            *args, **kwargs) -> tuple[str, List[Passage]]:
         """
         Ask a question to the LLM model and get answer and used passages.
         :param query: question
+        :param passages: passages to use for answering the question
         :param stream: if stream is true, use stream feature. Default is False.
-        :param run_retrieve: if run_retrieve is true, run retrieval module, so it returns new passages. Default is True.
         :param args: optional parameter for openai api llm
         :param kwargs: optional parameter for openai api llm
+
+        :return answer: The answer to the question that llm generated.
+        :return passages: The list of passages used to generate the answer.
         """
         pass
-
-    def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Passage]:
-        """
-        Retrieve passages from the retrieval module
-        """
-        self.retrieved_passages = self.retrieval.retrieve(query, top_k, *args, **kwargs)
-        return self.retrieved_passages
 
     @classmethod
     def generate_chat(cls, messages: List[dict], model: str,

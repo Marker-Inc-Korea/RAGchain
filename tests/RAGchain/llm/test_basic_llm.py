@@ -23,11 +23,10 @@ def basic_en_prompt(passages: List[Passage], question: str) -> List[dict]:
 
 
 @pytest.fixture
-def basic_llm():
+def bm25_retrieval():
     test_base_llm.ready_pickle_db(pickle_path)
     retrieval = test_base_llm.ready_bm25_retrieval(bm25_path)
-    llm = BasicLLM(retrieval=retrieval, prompt_func=basic_en_prompt, stream_func=lambda x: logger.info(x))
-    yield llm
+    yield retrieval
     # teardown bm25
     if os.path.exists(bm25_path):
         os.remove(bm25_path)
@@ -36,31 +35,40 @@ def basic_llm():
         os.remove(pickle_path)
 
 
-def test_basic_llm_ask(basic_llm):
-    answer, passages = basic_llm.ask(query="What is reranker role?")
+@pytest.fixture
+def basic_llm():
+    llm = BasicLLM(prompt_func=basic_en_prompt, stream_func=lambda x: logger.info(x))
+    yield llm
+
+
+def simple_llm_run(query, retrieval, llm, top_k: int = 5, *args, **kwargs):
+    passages = retrieval.retrieve(query, top_k=top_k)
+    return llm.ask(query, passages, *args, **kwargs)
+
+
+def test_basic_llm_ask(basic_llm, bm25_retrieval):
+    answer, passages = simple_llm_run("What is reranker role?", bm25_retrieval, basic_llm)
     logger.info(f"Answer: {answer}")
     test_base_llm.validate_answer(answer, passages)
-    query = "What is retriever role?"
-    basic_llm.retrieve(query, top_k=3)
-    answer, passages = basic_llm.ask(query=query, run_retrieve=False)
+    answer, passages = simple_llm_run("What is retriever role?", bm25_retrieval, basic_llm, top_k=3)
     logger.info(f"Answer: {answer}")
     test_base_llm.validate_answer(answer, passages, passage_cnt=3)
 
 
-def test_basic_llm_ask_stream(basic_llm):
-    answer, passages = basic_llm.ask("What is reranker role?", stream=True)
+def test_basic_llm_ask_stream(basic_llm, bm25_retrieval):
+    answer, passages = simple_llm_run("What is reranker role?", bm25_retrieval, basic_llm, stream=True)
     logger.info(f"Answer: {answer}")
     test_base_llm.validate_answer(answer, passages)
 
 
-def test_basic_llm_chat_history(basic_llm):
-    answer, passages = basic_llm.ask("What is reranker role?")
+def test_basic_llm_chat_history(basic_llm, bm25_retrieval):
+    answer, passages = simple_llm_run("What is reranker role?", bm25_retrieval, basic_llm)
     assert basic_llm.chat_history[0] == {"role": "user", "content": "What is reranker role?"}
     assert basic_llm.chat_history[1] == {"role": "assistant", "content": answer}
-    basic_llm.ask("What is retriever role?")
+    simple_llm_run("What is retriever role?", bm25_retrieval, basic_llm)
     assert len(basic_llm.chat_history) == 4
-    basic_llm.ask("What is llm role?")
-    basic_llm.ask("What is reranker role?")
+    simple_llm_run("What is llm role?", bm25_retrieval, basic_llm)
+    simple_llm_run("What is reranker role?", bm25_retrieval, basic_llm)
     assert basic_llm.chat_history[-basic_llm.chat_offset:][0] == {"role": "user", "content": "What is retriever role?"}
     store_chat_history = basic_llm.clear_chat_history()
     assert len(basic_llm.chat_history) == 0
