@@ -23,52 +23,48 @@ class TokenSplitter(BaseTextSplitter):
         """
         :param tokenizer_name: A tokenizer_name name. You can choose tokenizer_name.
                         (tiktoken, spaCy, SentenceTransformers, NLTK, huggingFace)
-        :param chunk_size: Maximum size of chunks to return. Default is 0.
+        :param chunk_size: Maximum size of chunks to return. Default is 100.
         :param chunk_overlap: Overlap in characters between chunks. Default is 0.
         :param pretrained_model_name: A huggingface tokenizer pretrained_model_name to use huggingface token splitter.
                                       You can choose various pretrained_model_name in this parameter. Default is "gpt2".
                                       Refer to pretrained model in this link.  (https://huggingface.co/models)
         :param kwargs: Additional arguments.
+
         All splitters were inherited TextSplitter class in langchain text_splitter.py.
         """
         self.chosen_tokenizer = tokenizer_name
 
-        # tiktoken
-        self.tiktoken_splitter = TokenTextSplitter.from_tiktoken_encoder(chunk_size = chunk_size, chunk_overlap =  chunk_overlap)
+        # Create token splitter according to chosen_tokenizer.
+        if 'tiktoken' in text_modifier(self.chosen_tokenizer):
+            self.splitter = TokenTextSplitter.from_tiktoken_encoder(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+        elif 'spaCy' in text_modifier(self.chosen_tokenizer):
+            self.splitter = SpacyTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+        elif 'SentenceTransformers' in text_modifier(self.chosen_tokenizer):
+            self.splitter = SentenceTransformersTokenTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+        elif 'NLTK' in text_modifier(self.chosen_tokenizer):
+            self.splitter = NLTKTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+        elif 'huggingFace' in text_modifier(self.chosen_tokenizer):
+            tokenizers = AutoTokenizer.from_pretrained(pretrained_model_name)
+            self.splitter = CharacterTextSplitter.from_huggingface_tokenizer(
+                tokenizers, chunk_size=chunk_size, chunk_overlap=chunk_overlap
+            )
+        else:
+            print(sep='\n')
+            print("Ooops! You input invalid tokenizser name. Is there a typo?")
+            print("Your input: " + self.chosen_tokenizer)
+            raise ValueError
 
-        # spaCy
-        self.spaCy_splitter = SpacyTextSplitter(chunk_size= chunk_size, chunk_overlap= chunk_overlap)
 
-        # SentenceTransformers (Default: chunk_overlap=0)
-        self.sentence_transformer_splitter = SentenceTransformersTokenTextSplitter(chunk_size=chunk_size,
-                                                                                   chunk_overlap=chunk_overlap)
-
-        # NLTK
-        self.NLTK_splitter = NLTKTextSplitter(chunk_size= chunk_size, chunk_overlap= chunk_overlap)
-        # Hugging Face
-        tokenizers = AutoTokenizer.from_pretrained(pretrained_model_name)
-        self.huggingFace_splitter = CharacterTextSplitter.from_huggingface_tokenizer(
-            tokenizers, chunk_size=chunk_size, chunk_overlap=chunk_overlap
-        )
 
     def split_document(self, document: Document) -> List[Passage]:
         """
         Split a document.
         """
 
-        if 'tiktoken' in text_modifier(self.chosen_tokenizer):
-            chosen_splitter = self.tiktoken_splitter.split_text(document.page_content)
-        elif 'spaCy' in text_modifier(self.chosen_tokenizer):
-            chosen_splitter = self.spaCy_splitter.split_text(document.page_content)
-        elif 'SentenceTransformers' in text_modifier(self.chosen_tokenizer):
-            chosen_splitter = self.sentence_transformer_splitter.split_text(document.page_content)
-        elif 'NLTK' in text_modifier(self.chosen_tokenizer):
-            chosen_splitter = self.NLTK_splitter.split_text(document.page_content)
-        elif 'huggingFace' in text_modifier(self.chosen_tokenizer):
-            chosen_splitter = self.huggingFace_splitter.split_text(document.page_content)
+        split_text = self.splitter.split_text(document.page_content)
 
-        # Create split text to split documents.
-        split_documents = self.tokenzier_create_documents(document, chosen_splitter)
+        # Convert split text to split documents.
+        split_documents = self.splitter.create_documents(split_text)
 
         # Convert to documents to passages.
         doc_copy = copy.deepcopy(document)
@@ -97,6 +93,3 @@ class TokenSplitter(BaseTextSplitter):
 
         return passages
 
-    def tokenzier_create_documents(self, document: Document, chosen_splitter):
-        split_documents = self.tiktoken_splitter.create_documents(chosen_splitter)
-        return split_documents

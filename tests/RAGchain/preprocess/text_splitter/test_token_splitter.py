@@ -48,8 +48,6 @@ def Hugging_Face():
 
 
 def test_token_splitter(tiktoken, spaCy, sentence_transformers, NLTK, Hugging_Face):
-    TEST_DOC = TEST_DOCUMENT
-    print('break point')
     tiktoken_passages = tiktoken.split_document(TEST_DOCUMENT)
 
     spaCy_passages = spaCy.split_document(TEST_DOCUMENT)
