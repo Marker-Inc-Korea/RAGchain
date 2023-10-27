@@ -2,7 +2,7 @@ from typing import List, Union
 from uuid import UUID
 
 from langchain.schema import Document
-from langchain.vectorstores import VectorStore
+from langchain.schema.vectorstore import VectorStore
 
 from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import Passage
