@@ -32,27 +32,23 @@ class TokenSplitter(BaseTextSplitter):
 
         All splitters were inherited TextSplitter class in langchain text_splitter.py.
         """
-        self.chosen_tokenizer = tokenizer_name
 
         # Create token splitter according to chosen_tokenizer.
-        if 'tiktoken' in text_modifier(self.chosen_tokenizer):
+        if 'tiktoken' in text_modifier(tokenizer_name):
             self.splitter = TokenTextSplitter.from_tiktoken_encoder(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
-        elif 'spaCy' in text_modifier(self.chosen_tokenizer):
+        elif 'spaCy' in text_modifier(tokenizer_name):
             self.splitter = SpacyTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
-        elif 'SentenceTransformers' in text_modifier(self.chosen_tokenizer):
+        elif 'SentenceTransformers' in text_modifier(tokenizer_name):
             self.splitter = SentenceTransformersTokenTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
-        elif 'NLTK' in text_modifier(self.chosen_tokenizer):
+        elif 'NLTK' in text_modifier(tokenizer_name):
             self.splitter = NLTKTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
-        elif 'huggingFace' in text_modifier(self.chosen_tokenizer):
+        elif 'huggingFace' in text_modifier(tokenizer_name):
             tokenizers = AutoTokenizer.from_pretrained(pretrained_model_name)
             self.splitter = CharacterTextSplitter.from_huggingface_tokenizer(
                 tokenizers, chunk_size=chunk_size, chunk_overlap=chunk_overlap
             )
         else:
-            print(sep='\n')
-            print("Ooops! You input invalid tokenizser name. Is there a typo?")
-            print("Your input: " + self.chosen_tokenizer)
-            raise ValueError
+            raise ValueError("Ooops! You input invalid tokenizer name." + " Your input: " + tokenizer_name)
 
 
 
