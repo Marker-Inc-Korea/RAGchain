@@ -75,7 +75,7 @@ class TokenSplitter(BaseTextSplitter):
 
         for i, (split_document, uuid) in enumerate(zip(split_documents, ids)):
             # Modify meta_data's keys and values right form.
-            ## metadata_etc = doc's metadata_etc + headers
+            ## metadata_etc = doc's metadata_etc + splitter's information.
             metadata_etc = dict(split_document.metadata.copy(),  # Header information
                                 **doc_metadata_etc, )  # TEST_DOCUMENT's metadata etc
 
