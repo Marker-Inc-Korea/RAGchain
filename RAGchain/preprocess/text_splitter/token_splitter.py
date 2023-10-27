@@ -19,15 +19,15 @@ class TokenSplitter(BaseTextSplitter):
     """
 
     def __init__(self, tokenizer_name: str = 'tiktoken', chunk_size: int = 100, chunk_overlap: int = 0,
-                 huggingFace_tokenizer: str = "gpt2", **kwargs):
+                 pretrained_model_name: str = "gpt2", **kwargs):
         """
         :param tokenizer_name: A tokenizer_name name. You can choose tokenizer_name.
                         (tiktoken, spaCy, SentenceTransformers, NLTK, huggingFace)
         :param chunk_size: Maximum size of chunks to return. Default is 0.
         :param chunk_overlap: Overlap in characters between chunks. Default is 0.
-        :param huggingFace_tokenizer: A huggingface tokenizer model to use huggingface token splitter.
-                                      You can choose various huggingface tokenizer in this parameter. Default is "gpt2".
-                                      Refer to pretrained model in this link.  (https://huggingface.co/docs/transformers/main/en/model_doc/auto#transformers.AutoTokenizer.from_pretrained)
+        :param pretrained_model_name: A huggingface tokenizer pretrained_model_name to use huggingface token splitter.
+                                      You can choose various pretrained_model_name in this parameter. Default is "gpt2".
+                                      Refer to pretrained model in this link.  (https://huggingface.co/models)
         :param kwargs: Additional arguments.
         All splitters were inherited TextSplitter class in langchain text_splitter.py.
         """
@@ -46,7 +46,7 @@ class TokenSplitter(BaseTextSplitter):
         # NLTK
         self.NLTK_splitter = NLTKTextSplitter(chunk_size= chunk_size, chunk_overlap= chunk_overlap)
         # Hugging Face
-        tokenizers = AutoTokenizer.from_pretrained(huggingFace_tokenizer)
+        tokenizers = AutoTokenizer.from_pretrained(pretrained_model_name)
         self.huggingFace_splitter = CharacterTextSplitter.from_huggingface_tokenizer(
             tokenizers, chunk_size=chunk_size, chunk_overlap=chunk_overlap
         )
@@ -55,7 +55,6 @@ class TokenSplitter(BaseTextSplitter):
         """
         Split a document.
         """
-        global chosen_splitter
 
         if 'tiktoken' in text_modifier(self.chosen_tokenizer):
             chosen_splitter = self.tiktoken_splitter.split_text(document.page_content)
