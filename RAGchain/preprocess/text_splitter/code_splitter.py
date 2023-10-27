@@ -45,7 +45,7 @@ class CodeSplitter(BaseTextSplitter):
         for i, (split_document, uuid) in enumerate(zip(split_documents, ids)):
             # Modify meta_data's keys and values right form.
             metadata_etc = dict(split_document.metadata.copy(),
-                                **document_copy.metadata, )  # metadata_etc = doc's metadata_etc + headers
+                                **document_copy.metadata, )  # metadata_etc = doc's metadata_etc + splitter's metadata.
 
             previous_passage_id = ids[i - 1] if i > 0 else None
             next_passage_id = ids[i + 1] if i < len(split_documents) - 1 else None

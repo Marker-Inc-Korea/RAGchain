@@ -5,3 +5,5 @@ gradio~=3.39.0
 pytest-env
 sphinx
 sphinx-rtd-theme
+spacy
+nltk
