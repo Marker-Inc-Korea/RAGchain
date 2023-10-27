@@ -3,8 +3,8 @@ from typing import List
 from uuid import uuid4
 
 from langchain.schema import Document
-from langchain.text_splitter import (CharacterTextSplitter, TokenTextSplitter, SpacyTextSplitter,
-                                     SentenceTransformersTokenTextSplitter, NLTKTextSplitter)
+from langchain.text_splitter import (CharacterTextSplitter, TokenTextSplitter,
+                                     SentenceTransformersTokenTextSplitter)
 from transformers import AutoTokenizer
 
 from RAGchain.preprocess.text_splitter.base import BaseTextSplitter
@@ -36,12 +36,18 @@ class TokenSplitter(BaseTextSplitter):
         # Create token splitter according to chosen_tokenizer.
         if 'tiktoken' in text_modifier(tokenizer_name):
             self.splitter = TokenTextSplitter.from_tiktoken_encoder(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+
         elif 'spaCy' in text_modifier(tokenizer_name):
+            from langchain.text_splitter import SpacyTextSplitter
             self.splitter = SpacyTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+
         elif 'SentenceTransformers' in text_modifier(tokenizer_name):
             self.splitter = SentenceTransformersTokenTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+
         elif 'NLTK' in text_modifier(tokenizer_name):
+            from langchain.text_splitter import NLTKTextSplitter
             self.splitter = NLTKTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+
         elif 'huggingFace' in text_modifier(tokenizer_name):
             tokenizers = AutoTokenizer.from_pretrained(pretrained_model_name)
             self.splitter = CharacterTextSplitter.from_huggingface_tokenizer(
