@@ -52,7 +52,6 @@ setup(
         'datasets',
         'lxml',
         'tiktoken',
-        'tokenizers',
 
     ],
     classifiers=[
