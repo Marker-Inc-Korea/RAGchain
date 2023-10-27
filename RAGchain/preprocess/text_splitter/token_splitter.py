@@ -13,10 +13,6 @@ from RAGchain.utils.util import text_modifier
 
 
 class TokenSplitter(BaseTextSplitter):
-    """
-    Split a document into passages by recursively splitting on a list of separators.
-    You can specify a window_size and overlap_size to split the document into overlapping passages.
-    """
 
     def __init__(self, tokenizer_name: str = 'tiktoken', chunk_size: int = 100, chunk_overlap: int = 0,
                  pretrained_model_name: str = "gpt2", **kwargs):
