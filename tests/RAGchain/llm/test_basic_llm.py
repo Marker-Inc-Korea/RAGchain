@@ -41,34 +41,29 @@ def basic_llm():
     yield llm
 
 
-def simple_llm_run(query, retrieval, llm, top_k: int = 5, *args, **kwargs):
-    passages = retrieval.retrieve(query, top_k=top_k)
-    return llm.ask(query, passages, *args, **kwargs)
-
-
 def test_basic_llm_ask(basic_llm, bm25_retrieval):
-    answer, passages = simple_llm_run("What is reranker role?", bm25_retrieval, basic_llm)
+    answer, passages = test_base_llm.simple_llm_run("What is reranker role?", bm25_retrieval, basic_llm)
     logger.info(f"Answer: {answer}")
     test_base_llm.validate_answer(answer, passages)
-    answer, passages = simple_llm_run("What is retriever role?", bm25_retrieval, basic_llm, top_k=3)
+    answer, passages = test_base_llm.simple_llm_run("What is retriever role?", bm25_retrieval, basic_llm, top_k=3)
     logger.info(f"Answer: {answer}")
     test_base_llm.validate_answer(answer, passages, passage_cnt=3)
 
 
 def test_basic_llm_ask_stream(basic_llm, bm25_retrieval):
-    answer, passages = simple_llm_run("What is reranker role?", bm25_retrieval, basic_llm, stream=True)
+    answer, passages = test_base_llm.simple_llm_run("What is reranker role?", bm25_retrieval, basic_llm, stream=True)
     logger.info(f"Answer: {answer}")
     test_base_llm.validate_answer(answer, passages)
 
 
 def test_basic_llm_chat_history(basic_llm, bm25_retrieval):
-    answer, passages = simple_llm_run("What is reranker role?", bm25_retrieval, basic_llm)
+    answer, passages = test_base_llm.simple_llm_run("What is reranker role?", bm25_retrieval, basic_llm)
     assert basic_llm.chat_history[0] == {"role": "user", "content": "What is reranker role?"}
     assert basic_llm.chat_history[1] == {"role": "assistant", "content": answer}
-    simple_llm_run("What is retriever role?", bm25_retrieval, basic_llm)
+    test_base_llm.simple_llm_run("What is retriever role?", bm25_retrieval, basic_llm)
     assert len(basic_llm.chat_history) == 4
-    simple_llm_run("What is llm role?", bm25_retrieval, basic_llm)
-    simple_llm_run("What is reranker role?", bm25_retrieval, basic_llm)
+    test_base_llm.simple_llm_run("What is llm role?", bm25_retrieval, basic_llm)
+    test_base_llm.simple_llm_run("What is reranker role?", bm25_retrieval, basic_llm)
     assert basic_llm.chat_history[-basic_llm.chat_offset:][0] == {"role": "user", "content": "What is retriever role?"}
     store_chat_history = basic_llm.clear_chat_history()
     assert len(basic_llm.chat_history) == 0
