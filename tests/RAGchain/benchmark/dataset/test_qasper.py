@@ -34,5 +34,7 @@ def qasper_evaluator():
 def test_qasper_evaluator(qasper_evaluator):
     result = qasper_evaluator.evaluate()
     assert len(result.use_metrics) == 10
+    assert len(result.each_results) == 2
+    assert result.each_results.iloc[0, 0] == 'What evaluation metric is used?'
     for key, value in result.results.items():
         logger.info(f"{key}: {value}")
