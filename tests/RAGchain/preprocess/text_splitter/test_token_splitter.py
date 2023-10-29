@@ -38,12 +38,12 @@ def sentence_transformers():
 
 @pytest.fixture
 def NLTK():
-    NLTK = TokenSplitter(chunk_size=1000)
+    NLTK = TokenSplitter(tokenizer_name='NLTK', chunk_size=1000)
     yield NLTK
 
 @pytest.fixture
 def Hugging_Face():
-    Hugging_Face = TokenSplitter(chunk_size=100, chunk_overlap=0)
+    Hugging_Face = TokenSplitter(tokenizer_name='huggingFace', chunk_size=100, chunk_overlap=0)
     yield Hugging_Face
 
 

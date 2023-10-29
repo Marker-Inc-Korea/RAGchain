@@ -10,6 +10,10 @@ from RAGchain.schema import Passage
 
 
 class MarkDownHeaderSplitter(BaseTextSplitter):
+    """
+    The `MarkDownHeaderSplitter` is used to split a document into passages based document's header information which a list of separators contain.
+    The most feature is similar with Langchain's MarkdownHeaderTextSplitter. It split based on header.
+    """
     def __init__(self, headers_to_split_on: Optional[List[tuple[str, str]]] = None, return_each_line: bool = False):
         """
         :param headers_to_split_on: A list of tuples which appended to create split standard.
