@@ -175,8 +175,8 @@ selector-ModuleSelector cant import because of circular import.</p>
                 class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em
                 class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span
                 class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
-                class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
-                class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span
+                class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
+                class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span
                 class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
                 class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.delete" title="Link to this definition"></a>
         </dt>
@@ -204,16 +204,15 @@ db_origin = {“db_type”: “mongo_db”,</p>
     <span class="sig-name descname"><span class="pre">fetch_data</span></span><span class="sig-paren">(</span><em
         class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span
         class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
-        class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
-        class="w"> </span><span class="pre">UUID</span><span class="p"><span
-        class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
-        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
-        class="p"><span class="pre">[</span></span><a class="reference internal"
-                                                      href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
-                                                      title="RAGchain.schema.passage.Passage"><span
-        class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a
-        class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.fetch_data"
-        title="Link to this definition"></a></dt>
+        class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+        class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span
+        class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+        class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a
+        class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+        title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span
+        class="pre">]</span></span></span></span><a class="headerlink"
+                                                    href="#RAGchain.retrieval.base.BaseRetrieval.fetch_data"
+                                                    title="Link to this definition"></a></dt>
 <dd><p>fetch passages from each db. This can fetch data from multiple db.
 :param ids: list of passage ids</p>
 </dd></dl>
@@ -223,8 +222,8 @@ db_origin = {“db_type”: “mongo_db”,</p>
     <span class="sig-name descname"><span class="pre">fetch_data_from_db_origin</span></span><span
         class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span
         class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
-        class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
-        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span
         class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span
         class="pre">db_origin</span></span><span class="p"><span class="pre">:</span></span><span
         class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span
@@ -251,16 +250,15 @@ db_origin = {“db_type”: “mongo_db”,</p>
         class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span
         class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
         class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
-        class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
-        class="w"> </span><span class="pre">UUID</span><span class="p"><span
-        class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
-        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
-        class="p"><span class="pre">[</span></span><a class="reference internal"
-                                                      href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
-                                                      title="RAGchain.schema.passage.Passage"><span
-        class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a
-        class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.fetch_each_db"
-        title="Link to this definition"></a></dt>
+        class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+        class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span
+        class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+        class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a
+        class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+        title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span
+        class="pre">]</span></span></span></span><a class="headerlink"
+                                                    href="#RAGchain.retrieval.base.BaseRetrieval.fetch_each_db"
+                                                    title="Link to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>check_dict = {((“db_type”: “mongo_db”),</dt><dd><p>((‘mongo_url’: “~”), (‘db_name’: “~”), (‘collection_name’: “~”))): [0,  2], …}</p>
 </dd>
@@ -298,8 +296,8 @@ db_origin = {“db_type”: “mongo_db”,</p>
         class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
         class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
         class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
-        class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
-        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span
         class="pre">]</span></span></span></span><a class="headerlink"
                                                     href="#RAGchain.retrieval.base.BaseRetrieval.retrieve_id"
                                                     title="Link to this definition"></a></dt>
@@ -321,8 +319,8 @@ db_origin = {“db_type”: “mongo_db”,</p>
         class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
         class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span
         class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span
-        class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span
-        class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span
         class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span
         class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span
         class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a
@@ -350,29 +348,28 @@ db_origin = {“db_type”: “mongo_db”,</p>
     <span class="sig-name descname"><span class="pre">search_data</span></span><span class="sig-paren">(</span><em
         class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span
         class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
-        class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
-        class="w"> </span><span class="pre">UUID</span><span class="p"><span class="pre">]</span></span></span></em>,
-    <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span
-            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
-            class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span
-            class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
-            class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span
-            class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
-    <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span
-            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
-            class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span
-            class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
-            class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span
-            class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
-    <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
-            class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
-        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
-        class="p"><span class="pre">[</span></span><a class="reference internal"
-                                                      href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
-                                                      title="RAGchain.schema.passage.Passage"><span
-        class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a
-        class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.search_data"
-        title="Link to this definition"></a></dt>
+        class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+        class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em
+        class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
+        class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span
+        class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+        class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span
+        class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+        class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a
+        class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+        title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span
+        class="pre">]</span></span></span></span><a class="headerlink"
+                                                    href="#RAGchain.retrieval.base.BaseRetrieval.search_data"
+                                                    title="Link to this definition"></a></dt>
 <dd><p>search passages from each db with given filters. This can search data from multiple db.
 :param ids: list of passage ids
 :param content: content list to filter
@@ -385,8 +382,8 @@ db_origin = {“db_type”: “mongo_db”,</p>
     <span class="sig-name descname"><span class="pre">search_data_from_db_origin</span></span><span
         class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span
         class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
-        class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
-        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span
         class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span
         class="pre">db_origin</span></span><span class="p"><span class="pre">:</span></span><span
         class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span
@@ -422,29 +419,28 @@ db_origin = {“db_type”: “mongo_db”,</p>
         class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span
         class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
         class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
-        class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
-        class="w"> </span><span class="pre">UUID</span><span class="p"><span class="pre">]</span></span></span></em>,
-    <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span
-            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
-            class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span
-            class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
-            class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span
-            class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
-    <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span
-            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
-            class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span
-            class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
-            class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span
-            class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
-    <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
-            class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
-        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
-        class="p"><span class="pre">[</span></span><a class="reference internal"
-                                                      href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
-                                                      title="RAGchain.schema.passage.Passage"><span
-        class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a
-        class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.search_each_db" title="Link to this definition"></a>
-</dt>
+        class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+        class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em
+        class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
+        class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span
+        class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+        class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span
+        class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+        class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a
+        class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+        title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span
+        class="pre">]</span></span></span></span><a class="headerlink"
+                                                    href="#RAGchain.retrieval.base.BaseRetrieval.search_each_db"
+                                                    title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -469,8 +465,8 @@ Default data structure looks like this:
             <span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em
                 class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span
                 class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
-                class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
-                class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span
+                class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
+                class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span
                 class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
                 class="headerlink" href="#RAGchain.retrieval.bm25_retrieval.BM25Retrieval.delete"
                 title="Link to this definition"></a></dt>
@@ -514,8 +510,8 @@ Default data structure looks like this:
         class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
         class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
         class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
-        class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
-        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span
         class="pre">]</span></span></span></span><a class="headerlink"
                                                     href="#RAGchain.retrieval.bm25_retrieval.BM25Retrieval.retrieve_id"
                                                     title="Link to this definition"></a></dt>
@@ -536,8 +532,8 @@ Default data structure looks like this:
         class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
         class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span
         class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span
-        class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span
-        class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span
         class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span
         class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span
         class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a
@@ -562,8 +558,8 @@ You can combine retrieval scores with rrf algorithm or convex combination algori
             <span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em
                 class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span
                 class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
-                class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
-                class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span
+                class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
+                class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span
                 class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
                 class="headerlink" href="#RAGchain.retrieval.hybrid.HybridRetrieval.delete"
                 title="Link to this definition"></a></dt>
@@ -601,8 +597,8 @@ You can combine retrieval scores with rrf algorithm or convex combination algori
         class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
         class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
         class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
-        class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
-        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span
         class="pre">]</span></span></span></span><a class="headerlink"
                                                     href="#RAGchain.retrieval.hybrid.HybridRetrieval.retrieve_id"
                                                     title="Link to this definition"></a></dt>
@@ -623,8 +619,8 @@ You can combine retrieval scores with rrf algorithm or convex combination algori
         class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
         class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span
         class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span
-        class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span
-        class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span
         class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span
         class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span
         class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a
@@ -660,8 +656,8 @@ And then, retrieve passages using hypothetical passage as query.</p>
             <span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em
                 class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span
                 class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
-                class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
-                class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span
+                class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
+                class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span
                 class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
                 class="headerlink" href="#RAGchain.retrieval.hyde.HyDERetrieval.delete" title="Link to this definition"></a>
         </dt>
@@ -704,8 +700,8 @@ And then, retrieve passages using hypothetical passage as query.</p>
         class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
         class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
         class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
-        class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
-        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span
         class="pre">]</span></span></span></span><a class="headerlink"
                                                     href="#RAGchain.retrieval.hyde.HyDERetrieval.retrieve_id"
                                                     title="Link to this definition"></a></dt>
@@ -731,8 +727,8 @@ And then, retrieve passages using hypothetical passage as query.</p>
         class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
         class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span
         class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span
-        class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span
-        class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span
         class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span
         class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span
         class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a
@@ -760,8 +756,8 @@ Lastly, return the passages that have the most similar vectors.</p>
             <span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em
                 class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span
                 class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
-                class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
-                class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span
+                class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
+                class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span
                 class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
                 class="headerlink" href="#RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval.delete"
                 title="Link to this definition"></a></dt>
@@ -794,8 +790,8 @@ Lastly, return the passages that have the most similar vectors.</p>
         class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
         class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
         class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
-        class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
-        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span
         class="pre">]</span></span></span></span><a class="headerlink"
                                                     href="#RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval.retrieve_id"
                                                     title="Link to this definition"></a></dt>
@@ -816,8 +812,8 @@ Lastly, return the passages that have the most similar vectors.</p>
         class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
         class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span
         class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span
-        class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span
-        class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span
         class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span
         class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span
         class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a

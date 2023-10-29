@@ -20,18 +20,10 @@ RAGchain.llm.basic module
    :undoc-members:
    :show-inheritance:
 
-RAGchain.llm.rerank module
---------------------------
+RAGchain.llm.completion module
+------------------------------
 
-.. automodule:: RAGchain.llm.rerank
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-RAGchain.llm.visconde module
-----------------------------
-
-.. automodule:: RAGchain.llm.visconde
+.. automodule:: RAGchain.llm.completion
    :members:
    :undoc-members:
    :show-inheritance:
