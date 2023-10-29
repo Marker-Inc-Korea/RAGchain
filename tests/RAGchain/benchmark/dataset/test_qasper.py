@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 def qasper_evaluator():
     bm25_retrieval = BM25Retrieval(save_path=bm25_path)
     db = PickleDB(pickle_path)
-    llm = BasicLLM(bm25_retrieval, model_name='gpt-3.5-turbo-16k')
+    llm = BasicLLM(model_name='gpt-3.5-turbo-16k')
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
     evaluator = QasperEvaluator(pipeline, evaluate_size=2)
     evaluator.ingest([bm25_retrieval], db)

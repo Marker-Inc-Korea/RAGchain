@@ -127,7 +127,7 @@ class BasicRunPipeline(BasePipeline):
     >>> from RAGchain.llm.basic import BasicLLM
 
     >>> retrieval = BM25Retrieval(save_path="./bm25.pkl")
-    >>> llm = BasicLLM(retrieval)
+    >>> llm = BasicLLM()
     >>> pipeline = BasicRunPipeline(retrieval=retrieval, llm=llm)
     >>> answer, passages = pipeline.run(query="Where is the capital of Korea?")
     """
@@ -140,14 +140,19 @@ class BasicRunPipeline(BasePipeline):
         :param llm: LLM module to get answer. Default is BasicLLM.
         """
         self.retrieval = retrieval
-        self.llm = llm if llm is not None else BasicLLM(retrieval)
+        self.llm = llm if llm is not None else BasicLLM()
 
-    def run(self, query: str, *args, **kwargs) -> tuple[str, List[Passage]]:
+    def run(self, query: str, top_k: int = 4, *args, **kwargs) -> tuple[str, List[Passage]]:
         """
         Run the run pipeline.
         :param query: Query to ask.
+        :param top_k: The number of passages to retrieve. Default is 4.
+        :param args: optional parameter for llm.ask()
+        :param kwargs: optional parameter for llm.ask()
+
         :return: Answer, retrieved passages.
         """
-        answer, passages = self.llm.ask(query=query)
+        passages = self.retrieval.retrieve(query, top_k=top_k)
+        answer, passages = self.llm.ask(query, passages, *args, **kwargs)
         answer = slice_stop_words(answer, ["Question :", "question:"])
         return answer, passages

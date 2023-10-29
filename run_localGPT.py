@@ -81,7 +81,7 @@ def main(device_type, retrieval_type: str, vectordb_type, embedding_type, model_
         raise ValueError("retrieval type is not valid")
     pipeline = BasicRunPipeline(
         retrieval=retrieval,
-        llm=BasicLLM(retrieval, model_name=model_name, api_base=api_base)
+        llm=BasicLLM(model_name=model_name, api_base=api_base)
     )
     while True:
         query = input("질문을 입력하세요: ")
