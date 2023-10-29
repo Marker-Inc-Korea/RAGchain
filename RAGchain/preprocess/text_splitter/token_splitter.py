@@ -14,14 +14,14 @@ from RAGchain.utils.util import text_modifier
 
 class TokenSplitter(BaseTextSplitter):
     """
-    Split a document into passages by recursively splitting on a list of separators.
-    You can specify a window_size and overlap_size to split the document into overlapping passages.
+    The `TokenSplitter` is used to split a document into passages by token using various tokenization methods.
+    It's designed to split text from a document into smaller chunks, or "tokens", using various tokenization methods.
+    The class supports tokenization with 'tiktoken', 'spaCy', 'SentenceTransformers', 'NLTK', and 'huggingFace'.
     """
-
     def __init__(self, tokenizer_name: str = 'tiktoken', chunk_size: int = 100, chunk_overlap: int = 0,
                  pretrained_model_name: str = "gpt2", **kwargs):
         """
-        :param tokenizer_name: A tokenizer_name name. You can choose tokenizer_name.
+        :param tokenizer_name: A tokenizer_name is a name of tokenizer. You can choose tokenizer_name.
                         (tiktoken, spaCy, SentenceTransformers, NLTK, huggingFace)
         :param chunk_size: Maximum size of chunks to return. Default is 100.
         :param chunk_overlap: Overlap in characters between chunks. Default is 0.
@@ -29,8 +29,6 @@ class TokenSplitter(BaseTextSplitter):
                                       You can choose various pretrained_model_name in this parameter. Default is "gpt2".
                                       Refer to pretrained model in this link.  (https://huggingface.co/models)
         :param kwargs: Additional arguments.
-
-        All splitters were inherited TextSplitter class in langchain text_splitter.py.
         """
 
         # Create token splitter according to chosen_tokenizer.

@@ -13,6 +13,14 @@ from RAGchain.schema import Passage
 
 
 class CodeSplitter(BaseTextSplitter):
+    """
+    The CodeSplitter class in the RAGchain library is a text splitter that splits documents
+    based on separators of langchain's library Language enum. This class inherits from the
+    BaseTextSplitter class and uses the from_language method of RecursiveCharacterTextSplitter
+    class from the langchain library to perform the splitting.
+    CodeSplitter supports CPP, GO, JAVA, KOTLIN, JS, TS, PHP, PROTO, `PYTHON`, RST, RUBY, RUST,
+    SCALA, SWIFT, MARKDOWN, LATEX, HTML, SOL, CSHARP.
+    """
     def __init__(
             self,
             language_name: str = 'PYTHON',

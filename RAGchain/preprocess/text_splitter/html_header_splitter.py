@@ -10,6 +10,10 @@ from RAGchain.schema import Passage
 
 
 class HTMLHeaderSplitter(BaseTextSplitter):
+    """
+    The HTMLHeaderSplitter class in the RAGchain library is a text splitter that splits documents based on HTML headers.
+    This class inherits from the BaseTextSplitter class and uses the HTMLHeaderTextSplitter.
+    """
     def __init__(
             self,
             headers_to_split_on: Optional[Tuple[str, str]] = None,
