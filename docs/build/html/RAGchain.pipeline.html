@@ -67,6 +67,38 @@
 </li>
 </ul>
 </li>
+    <li><a class="reference internal" href="#module-RAGchain.pipeline.rerank">RAGchain.pipeline.rerank module</a>
+        <ul>
+            <li><a class="reference internal" href="#RAGchain.pipeline.rerank.RerankRunPipeline"><code
+                    class="docutils literal notranslate"><span class="pre">RerankRunPipeline</span></code></a>
+                <ul>
+                    <li><a class="reference internal" href="#RAGchain.pipeline.rerank.RerankRunPipeline.run"><code
+                            class="docutils literal notranslate"><span class="pre">RerankRunPipeline.run()</span></code></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><a class="reference internal" href="#module-RAGchain.pipeline.visconde">RAGchain.pipeline.visconde module</a>
+        <ul>
+            <li><a class="reference internal" href="#RAGchain.pipeline.visconde.ViscondeRunPipeline"><code
+                    class="docutils literal notranslate"><span class="pre">ViscondeRunPipeline</span></code></a>
+                <ul>
+                    <li><a class="reference internal"
+                           href="#RAGchain.pipeline.visconde.ViscondeRunPipeline.default_prompt"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">ViscondeRunPipeline.default_prompt()</span></code></a></li>
+                    <li><a class="reference internal" href="#RAGchain.pipeline.visconde.ViscondeRunPipeline.run"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">ViscondeRunPipeline.run()</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.pipeline.visconde.ViscondeRunPipeline.strategyqa_prompt"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">ViscondeRunPipeline.strategyqa_prompt</span></code></a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
 <li><a class="reference internal" href="#module-RAGchain.pipeline">Module contents</a></li>
 </ul>
 </li>
@@ -194,18 +226,427 @@ Finally, you can get answer and passages as return value.</p>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">retrieval</span> <span class="o">=</span> <span class="n">BM25Retrieval</span><span class="p">(</span><span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;./bm25.pkl&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">llm</span> <span class="o">=</span> <span class="n">BasicLLM</span><span class="p">(</span><span class="n">retrieval</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">llm</span> <span class="o">=</span> <span class="n">BasicLLM</span><span
+            class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">BasicRunPipeline</span><span class="p">(</span><span class="n">retrieval</span><span class="o">=</span><span class="n">retrieval</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">answer</span><span class="p">,</span> <span class="n">passages</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s2">&quot;Where is the capital of Korea?&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.pipeline.basic.BasicRunPipeline.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.pipeline.basic.BasicRunPipeline.run" title="Link to this definition"></a></dt>
+    <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em
+        class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em
+        class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
+        class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span
+        class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+        class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span
+        class="pre">[</span></span><a class="reference internal"
+                                      href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                      title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span
+        class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a
+        class="headerlink" href="#RAGchain.pipeline.basic.BasicRunPipeline.run" title="Link to this definition"></a>
+</dt>
 <dd><p>Run the run pipeline.
 :param query: Query to ask.
-:return: Answer, retrieved passages.</p>
+    :param top_k: The number of passages to retrieve. Default is 4.
+    :param args: optional parameter for llm.ask()
+    :param kwargs: optional parameter for llm.ask()</p>
+    <dl class="field-list simple">
+        <dt class="field-odd">Returns<span class="colon">:</span></dt>
+        <dd class="field-odd"><p>Answer, retrieved passages.</p>
+        </dd>
+    </dl>
 </dd></dl>
+
+</dd>
+</dl>
+
+</section>
+      <section id="module-RAGchain.pipeline.rerank">
+          <span id="ragchain-pipeline-rerank-module"></span>
+          <h2>RAGchain.pipeline.rerank module<a class="headerlink" href="#module-RAGchain.pipeline.rerank"
+                                                title="Link to this heading"></a></h2>
+          <dl class="py class">
+              <dt class="sig sig-object py" id="RAGchain.pipeline.rerank.RerankRunPipeline">
+                  <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span class="pre">RAGchain.pipeline.rerank.</span></span><span
+                      class="sig-name descname"><span class="pre">RerankRunPipeline</span></span><span
+                      class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">retrieval</span></span><span
+                      class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                      class="reference internal" href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval"
+                      title="RAGchain.retrieval.base.BaseRetrieval"><span
+                      class="pre">BaseRetrieval</span></a></span></em>, <em class="sig-param"><span class="n"><span
+                      class="pre">reranker</span></span><span class="p"><span class="pre">:</span></span><span
+                      class="w"> </span><span class="n"><a class="reference internal"
+                                                           href="RAGchain.reranker.html#RAGchain.reranker.base.BaseReranker"
+                                                           title="RAGchain.reranker.base.BaseReranker"><span
+                      class="pre">BaseReranker</span></a></span></em>, <em class="sig-param"><span class="n"><span
+                      class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span
+                      class="w"> </span><span class="n"><a class="reference internal"
+                                                           href="RAGchain.llm.html#RAGchain.llm.base.BaseLLM"
+                                                           title="RAGchain.llm.base.BaseLLM"><span
+                      class="pre">BaseLLM</span></a><span class="w"> </span><span class="p"><span
+                      class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                      class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+                      class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a
+                      class="headerlink" href="#RAGchain.pipeline.rerank.RerankRunPipeline"
+                      title="Link to this definition"></a></dt>
+              <dd><p>Bases: <a class="reference internal" href="#RAGchain.pipeline.base.BasePipeline"
+                               title="RAGchain.pipeline.base.BasePipeline"><code
+                      class="xref py py-class docutils literal notranslate"><span class="pre">BasePipeline</span></code></a>
+              </p>
+                  <p>Rerank pipeline is for question answering with retrieved passages using reranker.
+                      Af first, retrieval module will retrieve retrieve_size passages for reranking.
+                      Then, reranker rerank passages and use use_passage_count passages for llm question.</p>
+                  <dl class="field-list simple">
+                      <dt class="field-odd">Example<span class="colon">:</span></dt>
+                      <dd class="field-odd"><p></p></dd>
+                  </dl>
+                  <div class="doctest highlight-default notranslate">
+                      <div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span
+                              class="nn">RAGchain.pipeline.rerank</span> <span class="kn">import</span> <span class="n">RerankRunPipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">RAGchain.retrieval</span> <span
+                                  class="kn">import</span> <span class="n">BM25Retrieval</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">RAGchain.reranker</span> <span
+                                  class="kn">import</span> <span class="n">MonoT5Reranker</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">RAGchain.llm.basic</span> <span
+                                  class="kn">import</span> <span class="n">BasicLLM</span>
+</pre>
+                      </div>
+                  </div>
+                  <div class="doctest highlight-default notranslate">
+                      <div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">retrieval</span> <span
+                              class="o">=</span> <span class="n">BM25Retrieval</span><span class="p">(</span><span
+                              class="n">save_path</span><span class="o">=</span><span
+                              class="s2">&quot;./bm25.pkl&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reranker</span> <span class="o">=</span> <span class="n">MonoT5Reranker</span><span
+                                  class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">llm</span> <span class="o">=</span> <span class="n">BasicLLM</span><span
+                                  class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">RerankRunPipeline</span><span
+                                  class="p">(</span><span class="n">retrieval</span><span class="p">,</span> <span
+                                  class="n">reranker</span><span class="p">,</span> <span class="n">llm</span><span
+                                  class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">answer</span><span class="p">,</span> <span
+                                  class="n">passages</span> <span class="o">=</span> <span
+                                  class="n">pipeline</span><span class="o">.</span><span class="n">run</span><span
+                                  class="p">(</span><span class="n">query</span><span class="o">=</span><span
+                                  class="s2">&quot;What is the purpose of this framework based on the document?&quot;</span><span
+                                  class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span
+                                  class="n">answer</span><span class="p">)</span>
+</pre>
+                      </div>
+                  </div>
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.pipeline.rerank.RerankRunPipeline.run">
+                          <span class="sig-name descname"><span class="pre">run</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em
+                              class="sig-param"><span class="n"><span class="pre">retrieve_size</span></span><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">int</span></span><span class="w"> </span><span class="o"><span
+                              class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+                              class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span
+                              class="pre">use_passage_count</span></span><span class="p"><span
+                              class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">int</span></span><span class="w"> </span><span class="o"><span
+                              class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+                              class="pre">4</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span
+                              class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span
+                              class="o"><span class="pre">**</span></span><span class="n"><span
+                              class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span
+                              class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+                              class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span
+                              class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                              class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span
+                              class="p"><span class="pre">[</span></span><a class="reference internal"
+                                                                            href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                                                            title="RAGchain.schema.passage.Passage"><span
+                              class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span><span
+                              class="p"><span class="pre">]</span></span></span></span><a class="headerlink"
+                                                                                          href="#RAGchain.pipeline.rerank.RerankRunPipeline.run"
+                                                                                          title="Link to this definition"></a>
+                      </dt>
+                      <dd>
+                          <dl class="field-list simple">
+                              <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                              <dd class="field-odd">
+                                  <ul class="simple">
+                                      <li><p><strong>query</strong> – question</p></li>
+                                      <li><p><strong>retrieve_size</strong> – The number of passages to reranking.
+                                          Default is 50.</p></li>
+                                      <li><p><strong>use_passage_count</strong> – The number of passages to use for llm
+                                          question after reranking. Default is 4.</p></li>
+                                      <li><p><strong>args</strong> – optional parameter for llm.ask()</p></li>
+                                      <li><p><strong>kwargs</strong> – optional parameter for llm.ask()</p></li>
+                                  </ul>
+                              </dd>
+                              <dt class="field-even">Return answer<span class="colon">:</span></dt>
+                              <dd class="field-even"><p>The answer to the question that llm generated.</p>
+                              </dd>
+                              <dt class="field-odd">Return passages<span class="colon">:</span></dt>
+                              <dd class="field-odd"><p>The list of passages used to generate the answer.</p>
+                              </dd>
+                          </dl>
+                      </dd>
+                  </dl>
+
+              </dd>
+          </dl>
+
+      </section>
+      <section id="module-RAGchain.pipeline.visconde">
+          <span id="ragchain-pipeline-visconde-module"></span>
+          <h2>RAGchain.pipeline.visconde module<a class="headerlink" href="#module-RAGchain.pipeline.visconde"
+                                                  title="Link to this heading"></a></h2>
+          <dl class="py class">
+              <dt class="sig sig-object py" id="RAGchain.pipeline.visconde.ViscondeRunPipeline">
+                  <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span class="pre">RAGchain.pipeline.visconde.</span></span><span
+                      class="sig-name descname"><span class="pre">ViscondeRunPipeline</span></span><span
+                      class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">retrieval</span></span><span
+                      class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                      class="reference internal" href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval"
+                      title="RAGchain.retrieval.base.BaseRetrieval"><span
+                      class="pre">BaseRetrieval</span></a></span></em>, <em class="sig-param"><span class="n"><span
+                      class="pre">decompose</span></span><span class="p"><span class="pre">:</span></span><span
+                      class="w"> </span><span class="n"><a class="reference internal"
+                                                           href="RAGchain.utils.html#RAGchain.utils.query_decompose.QueryDecomposition"
+                                                           title="RAGchain.utils.query_decompose.QueryDecomposition"><span
+                      class="pre">QueryDecomposition</span></a><span class="w"> </span><span class="p"><span
+                      class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                      class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+                      class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span
+                      class="n"><span class="pre">prompt_func</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span
+                      class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a
+                      class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                      title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span
+                      class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span
+                      class="w"> </span><span class="pre">str</span><span class="p"><span
+                      class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span
+                      class="w"> </span><span class="pre">str</span><span class="p"><span
+                      class="pre">]</span></span><span class="w"> </span><span class="p"><span
+                      class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                      class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+                      class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span
+                      class="o"><span class="pre">*</span></span><span class="n"><span
+                      class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span
+                      class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span
+                      class="sig-paren">)</span><a class="headerlink"
+                                                   href="#RAGchain.pipeline.visconde.ViscondeRunPipeline"
+                                                   title="Link to this definition"></a></dt>
+              <dd><p>Bases: <a class="reference internal" href="#RAGchain.pipeline.base.BasePipeline"
+                               title="RAGchain.pipeline.base.BasePipeline"><code
+                      class="xref py py-class docutils literal notranslate"><span class="pre">BasePipeline</span></code></a>
+              </p>
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.pipeline.visconde.ViscondeRunPipeline.default_prompt">
+                          <span class="sig-name descname"><span class="pre">default_prompt</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">passages</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
+                              class="pre">[</span></span><a class="reference internal"
+                                                            href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                                            title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                              class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                              class="n"><span class="pre">question</span></span><span class="p"><span
+                              class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                   href="#RAGchain.pipeline.visconde.ViscondeRunPipeline.default_prompt"
+                                                                                                   title="Link to this definition"></a>
+                      </dt>
+                      <dd></dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.pipeline.visconde.ViscondeRunPipeline.run">
+                          <span class="sig-name descname"><span class="pre">run</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em
+                              class="sig-param"><span class="n"><span class="pre">retrieve_size</span></span><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">int</span></span><span class="w"> </span><span class="o"><span
+                              class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+                              class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span
+                              class="pre">use_passage_count</span></span><span class="p"><span
+                              class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">int</span></span><span class="w"> </span><span class="o"><span
+                              class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+                              class="pre">3</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span
+                              class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span
+                              class="o"><span class="pre">**</span></span><span class="n"><span
+                              class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                      href="#RAGchain.pipeline.visconde.ViscondeRunPipeline.run"
+                                                                                                      title="Link to this definition"></a>
+                      </dt>
+                      <dd>
+                          <dl class="field-list simple">
+                              <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                              <dd class="field-odd">
+                                  <ul class="simple">
+                                      <li><p><strong>query</strong> – question</p></li>
+                                      <li><p><strong>retrieve_size</strong> – The number of passages to be retrieved
+                                          before reranking. Default is 50.</p></li>
+                                      <li><p><strong>use_passage_count</strong> – The number of passages to be used for
+                                          llm question answering. Default is 3.</p></li>
+                                      <li><p><strong>args</strong> – optional parameter for llm.ask()</p></li>
+                                      <li><p><strong>kwargs</strong> – optional parameter for llm.ask()</p></li>
+                                  </ul>
+                              </dd>
+                          </dl>
+                      </dd>
+                  </dl>
+
+                  <dl class="py attribute">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.pipeline.visconde.ViscondeRunPipeline.strategyqa_prompt">
+                          <span class="sig-name descname"><span class="pre">strategyqa_prompt</span></span><em
+                              class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span
+                              class="w"> </span><span class="pre">'For</span> <span class="pre">each</span> <span
+                              class="pre">example,</span> <span class="pre">use</span> <span class="pre">the</span>
+                          <span class="pre">documents</span> <span class="pre">to</span> <span class="pre">create</span>
+                          <span class="pre">an</span> <span class="pre">&quot;Answer&quot;</span> <span
+                                  class="pre">and</span> <span class="pre">an</span> <span class="pre">&quot;Explanation&quot;</span>
+                          <span class="pre">to</span> <span class="pre">the</span> <span class="pre">&quot;Question&quot;.</span>
+                          <span class="pre">Just</span> <span class="pre">answer</span> <span class="pre">yes</span>
+                          <span class="pre">or</span> <span class="pre">no.\n\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          <span class="pre">Example</span> <span class="pre">1:\n\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          <span class="pre">[Document</span> <span class="pre">1]:</span> <span class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          <span class="pre">Title:</span> <span class="pre">San</span> <span class="pre">Tropez</span>
+                          <span class="pre">(song).</span> <span class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          <span class="pre">Content:</span> <span class="pre">&quot;San</span> <span class="pre">Tropez&quot;</span>
+                          <span class="pre">is</span> <span class="pre">the</span> <span class="pre">fourth</span> <span
+                                  class="pre">track</span> <span class="pre">from</span> <span class="pre">the</span>
+                          <span class="pre">album</span> <span class="pre">Meddle</span> <span class="pre">by</span>
+                          <span class="pre">the</span> <span class="pre">band</span> <span class="pre">Pink</span> <span
+                                  class="pre">Floyd.</span> <span class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          <span class="pre">This</span> <span class="pre">song</span> <span class="pre">was</span> <span
+                                  class="pre">one</span> <span class="pre">of</span> <span class="pre">several</span>
+                          <span class="pre">to</span> <span class="pre">be</span> <span class="pre">considered</span>
+                          <span class="pre">for</span> <span class="pre">the</span> <span class="pre">band\'s</span>
+                          <span class="pre">&quot;best</span> <span class="pre">of&quot;</span> <span
+                                  class="pre">album,</span> <span class="pre">Echoes:</span> <span
+                                  class="pre">The</span> <span class="pre">Best</span> <span class="pre">of</span> <span
+                                  class="pre">Pink</span> <span class="pre">Floyd.\n\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          <span class="pre">[Document</span> <span class="pre">2]:</span> <span class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          <span class="pre">Title:</span> <span class="pre">French</span> <span
+                                  class="pre">Riviera.</span> <span class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          <span class="pre">Content:</span> <span class="pre">The</span> <span class="pre">French</span>
+                          <span class="pre">Riviera</span> <span class="pre">(known</span> <span class="pre">in</span>
+                          <span class="pre">French</span> <span class="pre">as</span> <span class="pre">the</span> <span
+                                  class="pre">Côte</span> <span class="pre">d\'Azur</span> <span class="pre">[kot</span>
+                          <span class="pre">daˈzyʁ];</span> <span class="pre">Occitan:</span> <span
+                                  class="pre">Còsta</span> <span class="pre">d\'Azur</span> <span class="pre">[\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          <span class="pre">ˈkɔstɔ</span> <span class="pre">daˈzyɾ];</span> <span
+                                  class="pre">literal</span> <span class="pre">translation</span> <span class="pre">&quot;Azure</span>
+                          <span class="pre">Coast&quot;)</span> <span class="pre">is</span> <span class="pre">the</span>
+                          <span class="pre">Mediterranean</span> <span class="pre">coastline</span> <span
+                                  class="pre">of</span> <span class="pre">the</span> <span class="pre">southeast</span>
+                          <span class="pre">corner</span> <span class="pre">of</span> <span class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          <span class="pre">France.</span> <span class="pre">There</span> <span class="pre">is</span>
+                          <span class="pre">no</span> <span class="pre">official</span> <span
+                                  class="pre">boundary,</span> <span class="pre">but</span> <span class="pre">it</span>
+                          <span class="pre">is</span> <span class="pre">usually</span> <span
+                                  class="pre">considered</span> <span class="pre">to</span> <span
+                                  class="pre">extend</span> <span class="pre">from</span> <span
+                                  class="pre">Cassis,</span> <span class="pre">Toulon</span> <span class="pre">or</span>
+                          <span class="pre">Saint-Tropez</span> <span class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          <span class="pre">on</span> <span class="pre">the</span> <span class="pre">west</span> <span
+                                  class="pre">to</span> <span class="pre">Menton</span> <span class="pre">at</span>
+                          <span class="pre">the</span> <span class="pre">France–Italy</span> <span
+                                  class="pre">border</span> <span class="pre">in</span> <span class="pre">the</span>
+                          <span class="pre">east,</span> <span class="pre">where</span> <span class="pre">the</span>
+                          <span class="pre">Italian</span> <span class="pre">Riviera</span> <span
+                                  class="pre">joins.</span> <span class="pre">The</span> <span class="pre">coast</span>
+                          <span class="pre">is</span> <span class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          <span class="pre">entirely</span> <span class="pre">within</span> <span class="pre">the</span>
+                          <span class="pre">Provence-Alpes-Côte</span> <span class="pre">d\'Azur</span> <span
+                                  class="pre">(Région</span> <span class="pre">Sud)</span> <span
+                                  class="pre">region</span> <span class="pre">of</span> <span class="pre">France.</span>
+                          <span class="pre">The</span> <span class="pre">Principality</span> <span class="pre">of</span>
+                          <span class="pre">Monaco</span> <span class="pre">is</span> <span class="pre">a</span> <span
+                                  class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">semi-enclave</span>
+                          <span class="pre">within</span> <span class="pre">the</span> <span class="pre">region,</span>
+                          <span class="pre">surrounded</span> <span class="pre">on</span> <span class="pre">three</span>
+                          <span class="pre">sides</span> <span class="pre">by</span> <span class="pre">France</span>
+                          <span class="pre">and</span> <span class="pre">fronting</span> <span class="pre">the</span>
+                          <span class="pre">Mediterranean.\n\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span
+                                  class="pre">[Document</span> <span class="pre">3]:</span> <span class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          <span class="pre">Title:</span> <span class="pre">Moon</span> <span class="pre">Jae-in.</span>
+                          <span class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Content:</span>
+                          <span class="pre">Moon</span> <span class="pre">also</span> <span class="pre">promised</span>
+                          <span class="pre">transparency</span> <span class="pre">in</span> <span class="pre">his</span>
+                          <span class="pre">presidency,</span> <span class="pre">moving</span> <span
+                                  class="pre">the</span> <span class="pre">presidential</span> <span class="pre">residence</span>
+                          <span class="pre">from</span> <span class="pre">the</span> <span class="pre">palatial</span>
+                          <span class="pre">and</span> <span class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          <span class="pre">isolated</span> <span class="pre">Blue</span> <span class="pre">House</span>
+                          <span class="pre">to</span> <span class="pre">an</span> <span class="pre">existing</span>
+                          <span class="pre">government</span> <span class="pre">complex</span> <span
+                                  class="pre">in</span> <span class="pre">downtown</span> <span
+                                  class="pre">Seoul.\n\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span
+                                  class="pre">[Document</span> <span class="pre">4]:</span> <span class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          <span class="pre">Title:</span> <span class="pre">Saint-Tropez.</span> <span
+                                  class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Content:</span>
+                          <span class="pre">Saint-Tropez</span> <span class="pre">(US:</span> <span
+                                  class="pre">/ˌsæn</span> <span class="pre">troʊˈpeɪ/</span> <span class="pre">SAN-troh-PAY,</span>
+                          <span class="pre">French:</span> <span class="pre">[sɛ̃</span> <span
+                                  class="pre">tʁɔpe];</span> <span class="pre">Occitan:</span> <span class="pre">Sant-Tropetz</span>
+                          <span class="pre">,</span> <span class="pre">pronounced</span> <span
+                                  class="pre">[san(t)</span> <span class="pre">tʀuˈpes])</span> <span
+                                  class="pre">is</span> <span class="pre">a</span> <span class="pre">town</span> <span
+                                  class="pre">on</span> <span class="pre">the</span> <span class="pre">French</span>
+                          <span class="pre">Riviera,</span> <span class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          <span class="pre">68</span> <span class="pre">kilometres</span> <span class="pre">(42</span>
+                          <span class="pre">miles)</span> <span class="pre">west</span> <span class="pre">of</span>
+                          <span class="pre">Nice</span> <span class="pre">and</span> <span class="pre">100</span> <span
+                                  class="pre">kilometres</span> <span class="pre">(62</span> <span
+                                  class="pre">miles)</span> <span class="pre">east</span> <span class="pre">of</span>
+                          <span class="pre">Marseille</span> <span class="pre">in</span> <span class="pre">the</span>
+                          <span class="pre">Var</span> <span class="pre">department</span> <span class="pre">of</span>
+                          <span class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span
+                                  class="pre">the</span> <span class="pre">Provence-Alpes-Côte</span> <span class="pre">d\'Azur</span>
+                          <span class="pre">region</span> <span class="pre">of</span> <span
+                                  class="pre">Occitania,</span> <span class="pre">Southern</span> <span class="pre">France.\n\n\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          <span class="pre">Question:</span> <span class="pre">Did</span> <span class="pre">Pink</span>
+                          <span class="pre">Floyd</span> <span class="pre">have</span> <span class="pre">a</span> <span
+                                  class="pre">song</span> <span class="pre">about</span> <span class="pre">the</span>
+                          <span class="pre">French</span> <span class="pre">Riviera?\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          <span class="pre">Explanation:</span> <span class="pre">According</span> <span
+                                  class="pre">to</span> <span class="pre">[Document</span> <span class="pre">1],</span>
+                          <span class="pre">&quot;San</span> <span class="pre">Tropez&quot;</span> <span
+                                  class="pre">is</span> <span class="pre">a</span> <span class="pre">song</span> <span
+                                  class="pre">by</span> <span class="pre">Pink</span> <span class="pre">Floyd</span>
+                          <span class="pre">about</span> <span class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          <span class="pre">the</span> <span class="pre">French</span> <span class="pre">Riviera.</span>
+                          <span class="pre">This</span> <span class="pre">is</span> <span class="pre">further</span>
+                          <span class="pre">supported</span> <span class="pre">by</span> <span
+                                  class="pre">[Document</span> <span class="pre">4],</span> <span
+                                  class="pre">which</span> <span class="pre">states</span> <span class="pre">that</span>
+                          <span class="pre">Saint-Tropez</span> <span class="pre">is</span> <span class="pre">a</span>
+                          <span class="pre">town</span> <span class="pre">on</span> <span class="pre">the</span> <span
+                                  class="pre">French</span> <span class="pre">Riviera.</span> <span
+                                  class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Therefore,</span>
+                          <span class="pre">the</span> <span class="pre">answer</span> <span class="pre">is</span> <span
+                                  class="pre">yes\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Answer:</span>
+                          <span class="pre">yes.\n\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">'</span></em><a
+                              class="headerlink"
+                              href="#RAGchain.pipeline.visconde.ViscondeRunPipeline.strategyqa_prompt"
+                              title="Link to this definition"></a></dt>
+                      <dd></dd>
+                  </dl>
 
 </dd></dl>
 

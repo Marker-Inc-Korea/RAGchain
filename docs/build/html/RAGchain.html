@@ -208,7 +208,6 @@
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.base.BaseLLM.clear_chat_history"><code class="docutils literal notranslate"><span class="pre">BaseLLM.clear_chat_history()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.base.BaseLLM.generate"><code class="docutils literal notranslate"><span class="pre">BaseLLM.generate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.base.BaseLLM.generate_chat"><code class="docutils literal notranslate"><span class="pre">BaseLLM.generate_chat()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.base.BaseLLM.retrieve"><code class="docutils literal notranslate"><span class="pre">BaseLLM.retrieve()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.base.BaseLLM.stream_end_token"><code class="docutils literal notranslate"><span class="pre">BaseLLM.stream_end_token</span></code></a></li>
 </ul>
 </li>
@@ -221,28 +220,33 @@
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.basic.BasicLLM.chat_offset"><code class="docutils literal notranslate"><span class="pre">BasicLLM.chat_offset</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.basic.BasicLLM.get_messages"><code class="docutils literal notranslate"><span class="pre">BasicLLM.get_messages()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.basic.BasicLLM.get_messages_ko"><code class="docutils literal notranslate"><span class="pre">BasicLLM.get_messages_ko()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.basic.BasicLLM.retrieved_passages"><code class="docutils literal notranslate"><span class="pre">BasicLLM.retrieved_passages</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="RAGchain.llm.html#module-RAGchain.llm.rerank">RAGchain.llm.rerank module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.rerank.RerankLLM"><code class="docutils literal notranslate"><span class="pre">RerankLLM</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.rerank.RerankLLM.ask"><code class="docutils literal notranslate"><span class="pre">RerankLLM.ask()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.rerank.RerankLLM.chat_history"><code class="docutils literal notranslate"><span class="pre">RerankLLM.chat_history</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.rerank.RerankLLM.chat_offset"><code class="docutils literal notranslate"><span class="pre">RerankLLM.chat_offset</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.rerank.RerankLLM.retrieved_passages"><code class="docutils literal notranslate"><span class="pre">RerankLLM.retrieved_passages</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="RAGchain.llm.html#module-RAGchain.llm.visconde">RAGchain.llm.visconde module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.visconde.ViscondeLLM"><code class="docutils literal notranslate"><span class="pre">ViscondeLLM</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.visconde.ViscondeLLM.ask"><code class="docutils literal notranslate"><span class="pre">ViscondeLLM.ask()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.visconde.ViscondeLLM.chat_history"><code class="docutils literal notranslate"><span class="pre">ViscondeLLM.chat_history</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.visconde.ViscondeLLM.chat_offset"><code class="docutils literal notranslate"><span class="pre">ViscondeLLM.chat_offset</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.visconde.ViscondeLLM.retrieved_passages"><code class="docutils literal notranslate"><span class="pre">ViscondeLLM.retrieved_passages</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.visconde.ViscondeLLM.strategyqa_prompt"><code class="docutils literal notranslate"><span class="pre">ViscondeLLM.strategyqa_prompt</span></code></a></li>
+    <li class="toctree-l2"><a class="reference internal" href="RAGchain.llm.html#module-RAGchain.llm.completion">RAGchain.llm.completion
+        module</a>
+        <ul>
+            <li class="toctree-l3"><a class="reference internal"
+                                      href="RAGchain.llm.html#RAGchain.llm.completion.CompletionLLM"><code
+                    class="docutils literal notranslate"><span class="pre">CompletionLLM</span></code></a>
+                <ul>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.llm.html#RAGchain.llm.completion.CompletionLLM.ask"><code
+                            class="docutils literal notranslate"><span class="pre">CompletionLLM.ask()</span></code></a>
+                    </li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.llm.html#RAGchain.llm.completion.CompletionLLM.chat_history"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">CompletionLLM.chat_history</span></code></a></li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.llm.html#RAGchain.llm.completion.CompletionLLM.chat_offset"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">CompletionLLM.chat_offset</span></code></a></li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.llm.html#RAGchain.llm.completion.CompletionLLM.get_messages"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">CompletionLLM.get_messages()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -274,6 +278,45 @@
 </li>
 </ul>
 </li>
+    <li class="toctree-l2"><a class="reference internal" href="RAGchain.pipeline.html#module-RAGchain.pipeline.rerank">RAGchain.pipeline.rerank
+        module</a>
+        <ul>
+            <li class="toctree-l3"><a class="reference internal"
+                                      href="RAGchain.pipeline.html#RAGchain.pipeline.rerank.RerankRunPipeline"><code
+                    class="docutils literal notranslate"><span class="pre">RerankRunPipeline</span></code></a>
+                <ul>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.pipeline.html#RAGchain.pipeline.rerank.RerankRunPipeline.run"><code
+                            class="docutils literal notranslate"><span class="pre">RerankRunPipeline.run()</span></code></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal"
+                              href="RAGchain.pipeline.html#module-RAGchain.pipeline.visconde">RAGchain.pipeline.visconde
+        module</a>
+        <ul>
+            <li class="toctree-l3"><a class="reference internal"
+                                      href="RAGchain.pipeline.html#RAGchain.pipeline.visconde.ViscondeRunPipeline"><code
+                    class="docutils literal notranslate"><span class="pre">ViscondeRunPipeline</span></code></a>
+                <ul>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.pipeline.html#RAGchain.pipeline.visconde.ViscondeRunPipeline.default_prompt"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">ViscondeRunPipeline.default_prompt()</span></code></a></li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.pipeline.html#RAGchain.pipeline.visconde.ViscondeRunPipeline.run"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">ViscondeRunPipeline.run()</span></code></a></li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.pipeline.html#RAGchain.pipeline.visconde.ViscondeRunPipeline.strategyqa_prompt"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">ViscondeRunPipeline.strategyqa_prompt</span></code></a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.pipeline.html#module-RAGchain.pipeline">Module contents</a></li>
 </ul>
 </li>
@@ -295,9 +338,18 @@
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.preprocess.text_splitter.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.preprocess.text_splitter.html#module-RAGchain.preprocess.text_splitter.base">RAGchain.preprocess.text_splitter.base module</a></li>
     <li class="toctree-l4"><a class="reference internal"
-                              href="RAGchain.preprocess.text_splitter.html#module-RAGchain.preprocess.text_splitter.markdown_splitter">RAGchain.preprocess.text_splitter.markdown_splitter
+                              href="RAGchain.preprocess.text_splitter.html#module-RAGchain.preprocess.text_splitter.code_splitter">RAGchain.preprocess.text_splitter.code_splitter
+        module</a></li>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.preprocess.text_splitter.html#module-RAGchain.preprocess.text_splitter.html_header_splitter">RAGchain.preprocess.text_splitter.html_header_splitter
+        module</a></li>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.preprocess.text_splitter.html#module-RAGchain.preprocess.text_splitter.markdown_header_splitter">RAGchain.preprocess.text_splitter.markdown_header_splitter
         module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.preprocess.text_splitter.html#module-RAGchain.preprocess.text_splitter.text_splitter">RAGchain.preprocess.text_splitter.text_splitter module</a></li>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.preprocess.text_splitter.html#module-RAGchain.preprocess.text_splitter.token_splitter">RAGchain.preprocess.text_splitter.token_splitter
+        module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.preprocess.text_splitter.html#module-RAGchain.preprocess.text_splitter">Module contents</a></li>
 </ul>
 </li>
