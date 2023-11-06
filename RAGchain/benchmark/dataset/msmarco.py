@@ -1,3 +1,4 @@
+from copy import deepcopy
 from typing import List, Optional
 
 import pandas as pd
@@ -46,6 +47,34 @@ class MsMarcoEvaluator(BaseDatasetEvaluator):
         passages = self.data['passages']
         answer = self.data['answers']
         self.for_passage = {'query_id': query_id, 'question': question, 'passages': passages, 'answer': answer}
+        tmp = deepcopy(self.for_passage)
+
+        # Remove non answer.
+        idx_cnt = 0
+        for detector_non_answer_idx in range(len(answer)):
+            if len(self.for_passage['answer'][detector_non_answer_idx]) == 0:
+                for key in tmp:
+                    tmp[key].pop(detector_non_answer_idx - idx_cnt)
+                idx_cnt += 1
+
+        # Remove is_selected list elements are all 0.
+        idx_cnt = 0
+        cnt = 0
+        for detector_is_selected_zero_idx in range(len(tmp['passages'])):
+            for element in tmp['passages'][detector_is_selected_zero_idx - idx_cnt]['is_selected']:
+                if element == 1:
+                    cnt += 1
+                else:
+                    continue
+
+            if cnt == 0:
+                for key in tmp:
+                    tmp[key].pop(detector_is_selected_zero_idx - idx_cnt)
+                idx_cnt += 1
+            else:
+                cnt = 0
+
+        self.for_passage = tmp
 
         self.retrieval_gt_lst = []
 
@@ -73,24 +102,18 @@ class MsMarcoEvaluator(BaseDatasetEvaluator):
     def evaluate(self, **kwargs) -> EvaluateResult:
 
         df = self.qa_data
-        # retrieval_gt_df = pd.DataFrame(self.retrieval_gt_lst, columns=['retrieval_gt'])
-        retrieval_gt_lst = self.retrieval_gt_lst
-        t1 = len(df)
-        # t2 = len(retrieval_gt_df)
-        # df = pd.concat([df, retrieval_gt_df[:self.eval_size]], axis=1)
+        retrieval_gt_lst = self.retrieval_gt_lst[:self.eval_size]
 
         return self._calculate_metrics(
             questions=df['question'].tolist(),
             pipeline=self.run_pipeline,
-            retrieval_gt=retrieval_gt_lst[:self.eval_size],
+            retrieval_gt=retrieval_gt_lst,
             **kwargs
         )
 
     def __make_passages_and_retrieval_gt(self):
 
         passages = []
-        tmp_for_retrieval_gt_lst = []
-
         for idx in range(len(self.for_passage['passages'])):
             for passage_idx in range(len(self.for_passage['passages'][idx]['url'])):
                 passages.append(Passage(
@@ -103,13 +126,6 @@ class MsMarcoEvaluator(BaseDatasetEvaluator):
                 # Create retrieval gt list with 'is_selected' based on 'answer'.('is_selected' is list if passages were used to formulate and answer(is_selected:1))
                 # It is appended id that is 'is_selected' status 1
                 if self.for_passage['passages'][idx]['is_selected'][passage_idx] == 1:
-                    tmp_for_retrieval_gt_lst.append(str(self.for_passage['query_id'][idx]) + '_' + str(passage_idx))
+                    self.retrieval_gt_lst.append([str(self.for_passage['query_id'][idx]) + '_' + str(passage_idx)])
 
-            # Some 'is_selected' list elements are all 0 because msmarco human editor cannot answer of question.
-            # So this case is cannot answer.
-            if len(tmp_for_retrieval_gt_lst) == 0:
-                self.retrieval_gt_lst.append([])
-            else:
-                self.retrieval_gt_lst.append(tmp_for_retrieval_gt_lst)
-                tmp_for_retrieval_gt_lst = []
         return passages
