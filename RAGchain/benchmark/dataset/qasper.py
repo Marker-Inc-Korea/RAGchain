@@ -92,7 +92,7 @@ class QasperEvaluator(BaseDatasetEvaluator):
 
     def __delete_passages(self, passages: List[Passage]):
         for retrieval in self.retrievals:
-            retrieval.delete(passages)
+            retrieval.delete([passage.id for passage in passages])
 
     def preprocess(self, data):
         """

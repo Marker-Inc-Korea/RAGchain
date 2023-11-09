@@ -34,7 +34,17 @@ def qasper_evaluator():
 def test_qasper_evaluator(qasper_evaluator):
     result = qasper_evaluator.evaluate()
     assert len(result.use_metrics) == 10
+
+    def same_id(row):
+        same_prefix = (
+                row.passage_id_1[:10] == row.passage_id_2[:10]
+                == row.passage_id_3[:10] == row.passage_id_4[:10]
+        )
+        return same_prefix
+
+    same_id_count = result.each_results.apply(same_id, axis=1).sum()
     assert len(result.each_results) == 2
     assert result.each_results.iloc[0, 0] == 'What evaluation metric is used?'
+    assert same_id_count == len(result.each_results)
     for key, value in result.results.items():
         logger.info(f"{key}: {value}")
