@@ -5,7 +5,7 @@ import pathlib
 import pytest
 
 from RAGchain.DB import PickleDB
-from RAGchain.benchmark.dataset import MsMarcoEvaluator
+from RAGchain.benchmark.dataset import MSMARCOEvaluator
 from RAGchain.llm.basic import BasicLLM
 from RAGchain.pipeline import BasicRunPipeline
 from RAGchain.retrieval import BM25Retrieval
@@ -21,9 +21,9 @@ def msmarco_evaluator():
     db = PickleDB(pickle_path)
     llm = BasicLLM(model_name='gpt-3.5-turbo-16k')
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
-    evaluator = MsMarcoEvaluator(pipeline, evaluate_size=5,
+    evaluator = MSMARCOEvaluator(pipeline, evaluate_size=5,
                                  metrics=['Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score',
-                                          'answer_relevancy', 'faithfulness'])
+                                          'answer_relevancy', 'faithfulness', 'NDCG'])
     evaluator.ingest([bm25_retrieval], db, ingest_size=20)
     yield evaluator
     if os.path.exists(bm25_path):
