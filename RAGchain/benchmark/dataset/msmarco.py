@@ -105,6 +105,7 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
                 metadata_etc={
                     'url': row['url'][passage_idx]}
             ))
+            # Make retrieval gt and retrieval gt order.
             if row['is_selected'][passage_idx] == 1:
                 tmp_gt.append(str(row['query_id']) + '_' + str(passage_idx))
                 tmp_ord.append(len(row['url']) - ord_rank)
