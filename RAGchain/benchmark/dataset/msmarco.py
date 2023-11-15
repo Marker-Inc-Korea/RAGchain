@@ -13,7 +13,7 @@ from RAGchain.schema import EvaluateResult, Passage
 
 class MSMARCOEvaluator(BaseDatasetEvaluator):
     """
-    StrategyQAEvaluator is a class for evaluating pipeline performance on StrategyQA dataset.
+    MSMARCO is a class for evaluating pipeline performance on MSMARCO dataset.
     """
 
     def __init__(self, run_pipeline: BasePipeline,
@@ -23,12 +23,13 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         :param run_pipeline: The pipeline that you want to benchmark.
         :param evaluate_size: The number of data to evaluate. If None, evaluate all data.
         We are using train set for evaluating in this class, so it is huge. Recommend to set proper size for evaluation.
-        :param metrics: The list of metrics to use. If None, use all metrics that supports KoStrategyQA.
-        Supporting metrics are Recall, Precision, Hole, TopK_Accuracy, EM, F1_score, context_recall, context_precision
+        :param metrics: The list of metrics to use. If None, use all metrics that supports MSMARCO dataset.
+        Supporting metrics are 'Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'context_recall', 'context_precision', 'answer_relevancy', 'faithfulness', 'NDCG'.
         You must ingest all data for using context_recall and context_precision metrics.
         """
 
         self.file_path = "ms_marco"
+        # You can available MSMARCO dataset versions v1.1 and v2.1
         self.dataset = load_dataset(self.file_path, 'v1.1')
 
         support_metrics = ['Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'context_recall',
@@ -39,7 +40,7 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
             using_metrics = support_metrics
         super().__init__(run_all=False, metrics=using_metrics)
 
-        self.eval_size = evaluate_size  # To slice retrieval gt
+        self.eval_size = evaluate_size
         self.run_pipeline = run_pipeline
         self.retrieval_gt_lst = []
         self.retrieval_gt_ord_lst = []
