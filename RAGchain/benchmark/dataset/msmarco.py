@@ -1,3 +1,4 @@
+from copy import deepcopy
 from typing import List, Optional
 
 import pandas as pd
@@ -24,7 +25,9 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         :param evaluate_size: The number of data to evaluate. If None, evaluate all data.
         We are using train set for evaluating in this class, so it is huge. Recommend to set proper size for evaluation.
         :param metrics: The list of metrics to use. If None, use all metrics that supports MSMARCO dataset.
-        Supporting metrics are 'Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'context_recall', 'context_precision', 'answer_relevancy', 'faithfulness', 'NDCG'.
+        Supporting metrics are 'Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'context_recall',
+        'context_precision', 'answer_relevancy', 'faithfulness'.
+        Rank aware metrics are 'NDCG', 'AP', 'CG', 'IndDCG', 'DCG', 'IndIDCG', 'IDCG', 'RR'.
         You must ingest all data for using context_recall and context_precision metrics.
         """
 
@@ -33,7 +36,8 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         self.dataset = load_dataset(self.file_path, 'v1.1')
 
         support_metrics = ['Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'context_recall',
-                           'context_precision', 'answer_relevancy', 'faithfulness', 'NDCG']
+                           'context_precision', 'answer_relevancy', 'faithfulness',
+                           'NDCG', 'AP', 'CG', 'IndDCG', 'DCG', 'IndIDCG', 'IDCG', 'RR']
         if metrics is not None:
             using_metrics = list(set(metrics))
         else:
@@ -45,18 +49,17 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         self.retrieval_gt_lst = []
         self.retrieval_gt_ord_lst = []
         self.data = self.dataset['test']
-        self.for_passage = pd.DataFrame(
+        self.qa_data = pd.DataFrame(
             {'query_id': self.data['query_id'], 'question': self.data['query'], 'passages': self.data['passages'],
              'answers': self.data['answers']})
 
-        # Remove non answers and is_selected list elements are all 0 and non answer rows.
-        self.for_passage = self.for_passage.loc[(self.for_passage['answers'].map(lambda x: len(x)) != 0) & (
-                self.for_passage['passages'].map(lambda x: sum(x['is_selected'])) != 0)].reset_index(drop=True)
+        # Remove none answers and is_selected list elements are all 0 and none answer rows.
+        self.qa_data = self.qa_data.loc[
+            (self.qa_data['answers'].map(lambda x: len(x)) != 0) & (
+                    self.qa_data['passages'].map(lambda x: sum(x['is_selected'])) != 0)
+            ].reset_index(drop=True)
 
-
-        self.msmarco = pd.DataFrame(self.for_passage, columns=['query_id', 'question', 'passages', 'answer'])
-        if evaluate_size is not None and len(self.msmarco) > evaluate_size:
-            self.qa_data = self.msmarco[:evaluate_size]
+        self.for_passages = deepcopy(self.qa_data)
 
     def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB, ingest_size: Optional[int] = None):
         """
@@ -67,12 +70,33 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         If you want to use context_recall and context_precision metrics, you should ingest all data.
         """
 
-        make_passages = pd.concat([self.for_passage['query_id'], json_normalize(self.for_passage['passages'].tolist())],
-                                  axis=1)
-        make_passages['passages'] = make_passages.apply(self.__make_passages_and_retrieval_gt, axis=1)
-
         if ingest_size is not None:
-            passages = [passage for lst_passage in make_passages['passages'][:ingest_size] for passage in lst_passage]
+            # ingest size must be larger than evaluate size.
+            if ingest_size >= self.eval_size:
+                make_passages = pd.concat(
+                    [self.for_passages['query_id'], json_normalize(self.for_passages['passages'].tolist())],
+                    axis=1)[:ingest_size]
+
+                # Slice for_passages for test code.
+                self.for_passages = self.for_passages[:ingest_size]
+
+            else:
+                raise ValueError("ingest size must be same or larger than evaluate size")
+        else:
+            make_passages = pd.concat(
+                [self.for_passages['query_id'], json_normalize(self.for_passages['passages'].tolist())],
+                axis=1)
+
+        # Evaluating passages must be in the ingesting passages.
+        # self.qa_data['passages'][:ingest_size] is evaluating passages.
+        # Assertion test if evaluating passages are in the ingesting passages.
+        self.qa_data = self.for_passages[:ingest_size]
+        for idx, passages in enumerate(self.for_passages['passages']):
+            assert passages['passage_text'] == make_passages['passage_text'][idx]
+
+        # Make passages.
+        make_passages['passages'] = make_passages.apply(self.__make_passages_and_retrieval_gt, axis=1)
+        passages = [passage for lst_passage in make_passages['passages'] for passage in lst_passage]
 
         for retrieval in retrievals:
             retrieval.ingest(passages)
@@ -80,15 +104,15 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         db.save(passages)
 
     def evaluate(self, **kwargs) -> EvaluateResult:
+        if self.eval_size is not None and len(self.qa_data) > self.eval_size:
+            self.qa_data = self.qa_data[:self.eval_size]
+        # else case is qa_data sliced by ingest size.
 
-        df = self.qa_data
-        retrieval_gt_lst = self.retrieval_gt_lst[:self.eval_size]
-        retrieval_gt_ord = self.retrieval_gt_ord_lst[:self.eval_size]
         return self._calculate_metrics(
-            questions=df['question'].tolist(),
+            questions=self.qa_data['question'].tolist(),
             pipeline=self.run_pipeline,
-            retrieval_gt=retrieval_gt_lst,
-            retrieval_gt_order=retrieval_gt_ord,
+            retrieval_gt=self.retrieval_gt_lst[:self.eval_size],
+            retrieval_gt_order=self.retrieval_gt_ord_lst[:self.eval_size],
             **kwargs
         )
 
@@ -97,18 +121,19 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         tmp_gt = []
         tmp_ord = []
         ord_rank = 0
-        for passage_idx in range(len(row['url'])):
+        for passage_idx, passage_text in enumerate(row['passage_text']):
             passages.append(Passage(
                 id=str(row['query_id']) + '_' + str(passage_idx),
-                content=row['passage_text'][passage_idx],
+                content=passage_text,
                 filepath=self.file_path,
                 metadata_etc={
-                    'url': row['url'][passage_idx]}
+                    'url': row['url'][passage_idx]
+                }
             ))
-            # Make retrieval gt and retrieval gt order.
+            # Make retrieval gt and retrieval gt order.(27 is max count of passage texts in v2.1)
             if row['is_selected'][passage_idx] == 1:
                 tmp_gt.append(str(row['query_id']) + '_' + str(passage_idx))
-                tmp_ord.append(len(row['url']) - ord_rank)
+                tmp_ord.append(27 - ord_rank)
                 ord_rank += 1
         self.retrieval_gt_lst.append(tmp_gt)
         self.retrieval_gt_ord_lst.append(tmp_ord)

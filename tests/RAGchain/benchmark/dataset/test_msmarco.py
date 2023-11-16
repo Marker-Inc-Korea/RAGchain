@@ -23,7 +23,8 @@ def msmarco_evaluator():
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
     evaluator = MSMARCOEvaluator(pipeline, evaluate_size=5,
                                  metrics=['Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score',
-                                          'answer_relevancy', 'faithfulness', 'NDCG'])
+                                          'answer_relevancy', 'faithfulness', 'NDCG', 'AP', 'CG', 'IndDCG', 'DCG',
+                                          'IndIDCG', 'IDCG', 'RR'])
     evaluator.ingest([bm25_retrieval], db, ingest_size=20)
     yield evaluator
     if os.path.exists(bm25_path):
