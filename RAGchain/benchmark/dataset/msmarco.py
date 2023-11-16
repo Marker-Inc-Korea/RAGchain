@@ -1,4 +1,3 @@
-from copy import deepcopy
 from typing import List, Optional
 
 import pandas as pd
@@ -46,9 +45,9 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
 
         self.eval_size = evaluate_size
         self.run_pipeline = run_pipeline
-        self.retrieval_gt_lst = []
-        self.retrieval_gt_ord_lst = []
         self.data = self.dataset['test']
+
+        # retrieval_gt and retrieval_gt_order will add when make passages.
         self.qa_data = pd.DataFrame(
             {'query_id': self.data['query_id'], 'question': self.data['query'], 'passages': self.data['passages'],
              'answers': self.data['answers']})
@@ -59,7 +58,6 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
                     self.qa_data['passages'].map(lambda x: sum(x['is_selected'])) != 0)
             ].reset_index(drop=True)
 
-        self.for_passages = deepcopy(self.qa_data)
 
     def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB, ingest_size: Optional[int] = None):
         """
@@ -73,30 +71,26 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         if ingest_size is not None:
             # ingest size must be larger than evaluate size.
             if ingest_size >= self.eval_size:
+                self.qa_data = self.qa_data[:ingest_size]
                 make_passages = pd.concat(
-                    [self.for_passages['query_id'], json_normalize(self.for_passages['passages'].tolist())],
-                    axis=1)[:ingest_size]
-
-                # Slice for_passages for test code.
-                self.for_passages = self.for_passages[:ingest_size]
+                    [self.qa_data['query_id'], json_normalize(self.qa_data['passages'].tolist())],
+                    axis=1)
 
             else:
                 raise ValueError("ingest size must be same or larger than evaluate size")
         else:
             make_passages = pd.concat(
-                [self.for_passages['query_id'], json_normalize(self.for_passages['passages'].tolist())],
+                [self.qa_data['query_id'], json_normalize(self.qa_data['passages'].tolist())],
                 axis=1)
 
-        # Evaluating passages must be in the ingesting passages.
-        # self.qa_data['passages'][:ingest_size] is evaluating passages.
-        # Assertion test if evaluating passages are in the ingesting passages.
-        self.qa_data = self.for_passages[:ingest_size]
-        for idx, passages in enumerate(self.for_passages['passages']):
-            assert passages['passage_text'] == make_passages['passage_text'][idx]
-
-        # Make passages.
-        make_passages['passages'] = make_passages.apply(self.__make_passages_and_retrieval_gt, axis=1)
+        # Create passages.
+        result = make_passages.apply(self.__make_passages_and_retrieval_gt, axis=1)
+        make_passages['passages'] = [passage[0] for passage in result]
         passages = [passage for lst_passage in make_passages['passages'] for passage in lst_passage]
+
+        # Create retrieval_gt and retrieval_gt_order
+        self.qa_data['retrieval_gt'] = [passage[1] for passage in result]
+        self.qa_data['retrieval_gt_order'] = [passage[2] for passage in result]
 
         for retrieval in retrievals:
             retrieval.ingest(passages)
@@ -108,18 +102,21 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
             self.qa_data = self.qa_data[:self.eval_size]
         # else case is qa_data sliced by ingest size.
 
+        retrieval_gt = [retrieval_gt for retrieval_gt in self.qa_data['retrieval_gt']]
+        retrieval_gt_order = [retrieval_ord for retrieval_ord in self.qa_data['retrieval_gt_order']]
+
         return self._calculate_metrics(
             questions=self.qa_data['question'].tolist(),
             pipeline=self.run_pipeline,
-            retrieval_gt=self.retrieval_gt_lst[:self.eval_size],
-            retrieval_gt_order=self.retrieval_gt_ord_lst[:self.eval_size],
+            retrieval_gt=retrieval_gt,
+            retrieval_gt_order=retrieval_gt_order,
             **kwargs
         )
 
     def __make_passages_and_retrieval_gt(self, row):
         passages = []
-        tmp_gt = []
-        tmp_ord = []
+        retrieval_gt = []
+        retrieval_gt_ord = []
         ord_rank = 0
         for passage_idx, passage_text in enumerate(row['passage_text']):
             passages.append(Passage(
@@ -132,9 +129,8 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
             ))
             # Make retrieval gt and retrieval gt order.(27 is max count of passage texts in v2.1)
             if row['is_selected'][passage_idx] == 1:
-                tmp_gt.append(str(row['query_id']) + '_' + str(passage_idx))
-                tmp_ord.append(27 - ord_rank)
+                retrieval_gt.append(str(row['query_id']) + '_' + str(passage_idx))
+                retrieval_gt_ord.append(27 - ord_rank)
                 ord_rank += 1
-        self.retrieval_gt_lst.append(tmp_gt)
-        self.retrieval_gt_ord_lst.append(tmp_ord)
-        return passages
+
+        return passages, retrieval_gt, retrieval_gt_ord
