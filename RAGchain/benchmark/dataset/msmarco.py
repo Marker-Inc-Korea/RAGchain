@@ -20,7 +20,8 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
 
     def __init__(self, run_pipeline: BasePipeline,
                  evaluate_size: Optional[int] = None,
-                 metrics: Optional[List[str]] = None):
+                 metrics: Optional[List[str]] = None,
+                 version: str = 'v1.1'):
         """
         :param run_pipeline: The pipeline that you want to benchmark.
         :param evaluate_size: The number of data to evaluate. If None, evaluate all data.
@@ -34,7 +35,7 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
 
         self.file_path = "ms_marco"
         # You can available MSMARCO dataset versions v1.1 and v2.1
-        self.dataset = load_dataset(self.file_path, 'v1.1')
+        self.dataset = load_dataset(self.file_path, version)
 
         support_metrics = ['Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'context_recall',
                            'context_precision', 'answer_relevancy', 'faithfulness',
@@ -47,7 +48,7 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
 
         self.eval_size = evaluate_size
         self.run_pipeline = run_pipeline
-        self.data = self.dataset['test']
+        self.data = self.dataset['train']
 
         # retrieval_gt and retrieval_gt_order will add when make passages.
         self.qa_data = pd.DataFrame(

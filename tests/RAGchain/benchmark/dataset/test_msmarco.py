@@ -36,7 +36,7 @@ def msmarco_evaluator():
 def test_msmarco_evaluator(msmarco_evaluator):
     result = msmarco_evaluator.evaluate()
     assert len(result.each_results) == 5
-    assert result.each_results.iloc[0]['question'] == 'does human hair stop squirrels'
+    assert result.each_results.iloc[0]['question'] == 'what is rba'
     assert result.each_results.iloc[0]['answer']
     for key, value in result.results.items():
         logger.info(f"{key}: {value}")
