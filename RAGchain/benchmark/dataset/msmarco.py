@@ -48,7 +48,12 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
 
         self.eval_size = evaluate_size
         self.run_pipeline = run_pipeline
-        self.data = self.dataset['train']
+
+        if version == 'v1.1':
+            # TODO: answer gt 도 추가
+            self.data = self.dataset['test']
+        else:
+            self.data = self.dataset['validation']
 
         # retrieval_gt and retrieval_gt_order will add when make passages.
         self.qa_data = pd.DataFrame(
