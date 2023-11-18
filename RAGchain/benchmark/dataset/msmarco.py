@@ -25,8 +25,9 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         """
         :param run_pipeline: The pipeline that you want to benchmark.
         :param evaluate_size: The number of data to evaluate. If None, evaluate all data.
-        We are using train set for evaluating in this class, so it is huge. Recommend to set proper size for evaluation.
+        MSMARCO dataset we use is huge. Recommend to set proper size for evaluation.
         :param metrics: The list of metrics to use. If None, use all metrics that supports MSMARCO dataset.
+        :param version: MSMARCO dataset version. You can choose v1.1 or v2.1. Default is v1.1.
         Supporting metrics are 'Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'context_recall',
         'context_precision', 'answer_relevancy', 'faithfulness'.
         Rank aware metrics are 'NDCG', 'AP', 'CG', 'IndDCG', 'DCG', 'IndIDCG', 'IDCG', 'RR'.
@@ -34,8 +35,18 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         """
 
         self.file_path = "ms_marco"
-        # You can available MSMARCO dataset versions v1.1 and v2.1
-        self.dataset = load_dataset(self.file_path, version)
+
+        if version == 'v1.1' or version == 'v2.1':
+            # You can available MSMARCO dataset versions v1.1 and v2.1
+            self.dataset = load_dataset(self.file_path, version)
+            # TODO: answer gt 도 추가
+            if version == 'v1.1':
+                self.data = self.dataset['test']
+            elif version == 'v2.1':
+                self.data = self.dataset['validation']
+
+        else:
+            raise ValueError(f'Available MSMARCO version are v1.1, v2.1. {version} is invalid version.')
 
         support_metrics = ['Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'context_recall',
                            'context_precision', 'answer_relevancy', 'faithfulness',
@@ -49,11 +60,6 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         self.eval_size = evaluate_size
         self.run_pipeline = run_pipeline
 
-        if version == 'v1.1':
-            # TODO: answer gt 도 추가
-            self.data = self.dataset['test']
-        else:
-            self.data = self.dataset['validation']
 
         # retrieval_gt and retrieval_gt_order will add when make passages.
         self.qa_data = pd.DataFrame(

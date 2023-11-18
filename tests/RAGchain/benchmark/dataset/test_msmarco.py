@@ -68,7 +68,7 @@ def test_msmarco_evaluator(msmarco_v1_1_evaluator, msmarco_v2_1_evaluator):
     result_v2_1 = msmarco_v2_1_evaluator.evaluate()
 
     assert len(result_v2_1.each_results) == 5
-    assert result_v2_1.each_results.iloc[0]['question'] == 'what is rba'
+    assert result_v2_1.each_results.iloc[0]['question'] == '. what is a corporation?'
     assert result_v2_1.each_results.iloc[0]['answer']
     for key, value in result_v2_1.results.items():
         logger.info(f"{key}: {value}")
