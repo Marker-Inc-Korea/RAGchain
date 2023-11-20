@@ -20,6 +20,14 @@ RAGchain.benchmark.dataset.ko\_strategy\_qa module
    :undoc-members:
    :show-inheritance:
 
+RAGchain.benchmark.dataset.msmarco module
+-----------------------------------------
+
+.. automodule:: RAGchain.benchmark.dataset.msmarco
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 RAGchain.benchmark.dataset.qasper module
 ----------------------------------------
 
