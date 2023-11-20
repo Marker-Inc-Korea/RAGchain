@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   RAGchain.benchmark.answer
    RAGchain.benchmark.dataset
    RAGchain.benchmark.retrieval
 
