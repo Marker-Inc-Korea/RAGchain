@@ -52,6 +52,7 @@ setup(
         'datasets',
         'lxml',
         'tiktoken',
+        'sacrebleu'
     ],
     classifiers=[
         "Intended Audience :: Developers",
