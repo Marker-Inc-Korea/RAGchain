@@ -1,3 +1,5 @@
+import math
+
 from RAGchain.benchmark.answer.metrics import *
 
 gt_solutions = ['The dog had bit the man.', 'The man had bitten the dog.']
