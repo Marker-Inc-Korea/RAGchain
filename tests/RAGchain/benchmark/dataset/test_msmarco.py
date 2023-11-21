@@ -60,7 +60,7 @@ def test_msmarco_evaluator(msmarco_v1_1_evaluator, msmarco_v2_1_evaluator):
 
     assert len(result_v1_1.each_results) == 5
     assert result_v1_1.each_results.iloc[0]['question'] == 'does human hair stop squirrels'
-    assert result_v1_1.each_results.iloc[0]['answer']
+    assert result_v1_1.each_results.iloc[0]['answer_pred']
     for key, value in result_v1_1.results.items():
         logger.info(f"{key}: {value}")
     logger.info("The result length is " + f"{len(result_v1_1.results)}")
@@ -69,7 +69,7 @@ def test_msmarco_evaluator(msmarco_v1_1_evaluator, msmarco_v2_1_evaluator):
 
     assert len(result_v2_1.each_results) == 5
     assert result_v2_1.each_results.iloc[0]['question'] == '. what is a corporation?'
-    assert result_v2_1.each_results.iloc[0]['answer']
+    assert result_v2_1.each_results.iloc[0]['answer_pred']
     for key, value in result_v2_1.results.items():
         logger.info(f"{key}: {value}")
     logger.info("The result length is " + f"{len(result_v2_1.results)}")

@@ -48,9 +48,10 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         else:
             raise ValueError(f'Available MSMARCO version are v1.1, v2.1. {version} is invalid version.')
 
-        support_metrics = ['Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'context_recall',
-                           'context_precision', 'answer_relevancy', 'faithfulness',
-                           'NDCG', 'AP', 'CG', 'IndDCG', 'DCG', 'IndIDCG', 'IDCG', 'RR']
+        support_metrics = self.retrieval_gt_metrics + self.retrieval_no_gt_metrics + \
+                          self.retrieval_gt_metrics_rank_aware + self.answer_no_gt_metrics
+        # TODO: add answer gt at Feature/#309 @minsing-jin
+
         if metrics is not None:
             using_metrics = list(set(metrics))
         else:

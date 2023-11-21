@@ -35,5 +35,5 @@ def test_ko_strategy_qa_evaluator(strategy_qa_evaluator):
     assert len(result.each_results) == 5
     assert result.each_results.iloc[0][
                'question'] == 'Are more people today related to Genghis Khan than Julius Caesar?'
-    assert result.each_results.iloc[0]['answer']
-    assert len(result.use_metrics) == 6
+    assert result.each_results.iloc[0]['answer_pred']
+    assert len(result.use_metrics) == len(strategy_qa_evaluator.metrics)
