@@ -28,8 +28,8 @@ class QasperEvaluator(BaseDatasetEvaluator):
         If None, use default metrics.
         :param random_state: random seed for sampling data. Default is 42.
         """
-        support_metrics = ['Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'context_recall',
-                           'context_precision', 'answer_relevancy', 'faithfulness']
+        support_metrics = self.retrieval_gt_metrics + self.retrieval_no_gt_metrics + \
+                          self.answer_gt_metrics + self.answer_no_gt_metrics
         if metrics is not None:
             using_metrics = list(set(metrics))
         else:
@@ -73,7 +73,7 @@ class QasperEvaluator(BaseDatasetEvaluator):
                 questions=row['question'],
                 pipeline=self.run_pipeline,
                 retrieval_gt=row['retrieval_gt'],
-                answer_gt=row['answer_gt'],
+                answer_gt=[[answer] for answer in row['answer_gt']],
                 **kwargs
             )
             if result is None:

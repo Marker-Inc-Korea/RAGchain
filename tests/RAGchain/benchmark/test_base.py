@@ -82,11 +82,11 @@ class DummyEvaluator(BaseEvaluator):
             [1, 2]
         ]
         answer_gt = [
-            'Paris',
-            'Seoul',
-            'Tokyo',
-            'Beijing',
-            'Berlin'
+            ['Paris'],
+            ['Seoul'],
+            ['Tokyo'],
+            ['Beijing'],
+            ['Berlin']
         ]
 
         return self._calculate_metrics(questions, self.pipeline,
@@ -120,7 +120,7 @@ def test_base_evaluator(dummy_evaluator):
 
     assert len(result.each_results) == 5
     assert result.each_results.iloc[0]['question'] == 'What is the capital of France?'
-    assert result.each_results.iloc[0]['passage_content_1'] == 'The capital of France is Paris. And it is well-known.'
-    assert result.each_results.iloc[0]['passage_id_1'] == 'id-2'
+    assert result.each_results.iloc[0]['passage_contents'][0] == 'The capital of France is Paris. And it is well-known.'
+    assert result.each_results.iloc[0]['passage_ids'][0] == 'id-2'
     assert result.each_results.iloc[0]['F1_score'] > 0
     assert len(result.use_metrics) == len(dummy_evaluator.metrics)
