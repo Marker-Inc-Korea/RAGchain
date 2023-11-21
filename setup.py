@@ -22,8 +22,8 @@ setup(
     license='Apache License 2.0',
     py_modules=[splitext(basename(path))[0] for path in glob('./*.py')],
     install_requires=[
-        'langchain==0.0.324',
-        'chromadb>=0.4.15',
+        'langchain~=0.0.339',
+        'chromadb>=0.4.16',
         'urllib3',
         'pdfminer.six',
         'click',
