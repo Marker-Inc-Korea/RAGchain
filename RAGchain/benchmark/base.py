@@ -27,15 +27,18 @@ class BaseEvaluator(ABC):
     retrieval_no_gt_metrics = ['context_precision']
     answer_gt_metrics = ['BLEU']
     answer_no_gt_metrics = ['answer_relevancy', 'faithfulness']
+    answer_passage_metrics = ['KF1']
 
     def __init__(self, run_all: bool = True, metrics: Optional[List[str]] = None):
         if run_all:
             self.metrics = self.retrieval_gt_metrics + self.retrieval_gt_metrics_rank_aware + \
-                           self.retrieval_no_gt_metrics + self.answer_gt_metrics + self.answer_no_gt_metrics
+                           self.retrieval_no_gt_metrics + self.answer_gt_metrics + self.answer_no_gt_metrics + \
+                           self.answer_passage_metrics
         else:
             if metrics is None:
                 raise ValueError("If run_all is False, metrics should be given")
             self.metrics = metrics
+        self.dummy_retrieval = DummyRetrieval()
 
     @abstractmethod
     def evaluate(self, **kwargs) -> EvaluateResult:
@@ -75,7 +78,6 @@ class BaseEvaluator(ABC):
         answers, passages = self._run_pipeline(result_df['question'].tolist(), pipeline, **kwargs)
         # TODO: Replace this to real rel scores Issue/#279
         scores = [[1.0 for _ in range(len(passage_group))] for passage_group in passages]
-        k = len(passages[0])
 
         result_df['answer_pred'] = answers
         result_df['passage_ids'] = [[passage.id for passage in passage_group] for passage_group in passages]
@@ -99,7 +101,10 @@ class BaseEvaluator(ABC):
                 'contexts': result_df['passage_contents'].tolist()
             }
             if retrieval_gt is not None:
-                dataset_dict['ground_truths'] = self.__fetch_contents(retrieval_gt)
+                result_df['retrieval_gt_contents'] = result_df.apply(
+                    lambda row: [passage.content for passage in self.dummy_retrieval.fetch_data(row['retrieval_gt'])],
+                    axis=1)
+                dataset_dict['ground_truths'] = result_df['retrieval_gt_contents'].tolist()
 
             ragas_result = evaluate(
                 Dataset.from_dict(dataset_dict),
@@ -125,16 +130,25 @@ class BaseEvaluator(ABC):
         if retrieval_gt is not None:
             retrieval_metrics_with_gt = self.__retrieval_metrics_with_gt(rank_aware=(retrieval_gt_order is not None))
             use_metrics += [metric.metric_name for metric in retrieval_metrics_with_gt]
-            # column name이 metric.metric_name
             for metric in retrieval_metrics_with_gt:
                 result_df[metric.metric_name] = result_df.apply(
                     lambda row: calculate_retrieval_metrics_pd(row, metric), axis=1)
+
+            # answer metric compare with retrieval ground truth knowledge
+            answer_passage_metrics = self.__answer_passage_metrics()
+            if len(answer_passage_metrics) > 0 and 'retrieval_gt_contents' not in result_df.columns:
+                result_df['retrieval_gt_contents'] = result_df.apply(
+                    lambda row: [passage.content for passage in self.dummy_retrieval.fetch_data(row['retrieval_gt'])],
+                    axis=1)
+            use_metrics += [metric.metric_name for metric in answer_passage_metrics]
+            for metric in answer_passage_metrics:
+                result_df[metric.metric_name] = result_df.apply(
+                    lambda row: metric.eval(row['retrieval_gt_contents'], row['answer_pred']), axis=1)
 
         # with gt - answer
         if answer_gt is not None:
             answer_gt_metrics = self.__answer_metrics_with_gt()
             use_metrics += [metric.metric_name for metric in answer_gt_metrics]
-            # column name이 metric.metric_name
             for metric in answer_gt_metrics:
                 result_df[metric.metric_name] = result_df.apply(
                     lambda row: metric.eval(row['answer_gt'], row['answer_pred']), axis=1)
@@ -195,30 +209,30 @@ class BaseEvaluator(ABC):
         result = [answer_metrics[metric_name] for metric_name in self.metrics if metric_name in answer_metrics]
         return result
 
-    def __fetch_contents(self, ids: List[List[Union[str, UUID]]]) -> List[List[str]]:
-        class DummyRetrieval(BaseRetrieval):
-            def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Passage]:
-                pass
-
-            def ingest(self, passages: List[Passage]):
-                pass
-
-            def retrieve_id(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Union[str, UUID]]:
-                pass
-
-            def retrieve_id_with_scores(self, query: str, top_k: int = 5, *args, **kwargs) -> tuple[
-                List[Union[str, UUID]], List[float]]:
-                pass
-
-            def delete(self, passages: List[Passage]):
-                pass
-
-        dummy_retrieval = DummyRetrieval()
-        retrieval_gt_contents = []
-        for passage_ids in ids:
-            retrieval_gt_contents.append([passage.content for passage in dummy_retrieval.fetch_data(passage_ids)])
-        return retrieval_gt_contents
+    def __answer_passage_metrics(self) -> List[BasePassageAnswerMetric]:
+        metrics = {metric_names: metric for metric in [KF1()]
+                   for metric_names in text_modifier(metric.metric_name)}
+        result = [metrics[metric_name] for metric_name in self.metrics if metric_name in metrics]
+        return result
 
     @staticmethod
     def uuid_to_str(id_list: List[Union[UUID, str]]) -> List[str]:
         return [str(_id) for _id in id_list]
+
+
+class DummyRetrieval(BaseRetrieval):
+    def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Passage]:
+        pass
+
+    def ingest(self, passages: List[Passage]):
+        pass
+
+    def retrieve_id(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Union[str, UUID]]:
+        pass
+
+    def retrieve_id_with_scores(self, query: str, top_k: int = 5, *args, **kwargs) -> tuple[
+        List[Union[str, UUID]], List[float]]:
+        pass
+
+    def delete(self, passages: List[Passage]):
+        pass
