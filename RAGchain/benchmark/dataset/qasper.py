@@ -28,8 +28,8 @@ class QasperEvaluator(BaseDatasetEvaluator):
         If None, use default metrics.
         :param random_state: random seed for sampling data. Default is 42.
         """
-        support_metrics = self.retrieval_gt_metrics + self.retrieval_no_gt_metrics + \
-                          self.answer_gt_metrics + self.answer_no_gt_metrics
+        support_metrics = (self.retrieval_gt_metrics + self.retrieval_no_gt_metrics + self.answer_gt_metrics +
+                           self.answer_no_gt_metrics + self.answer_passage_metrics)
         if metrics is not None:
             using_metrics = list(set(metrics))
         else:
@@ -98,6 +98,7 @@ class QasperEvaluator(BaseDatasetEvaluator):
         """
         Preprocess Qasper dataset to make it suitable for evaluating pipeline.
         """
+
         def make_passages(row):
             # convert full_text to passages
             passages = [
