@@ -3,13 +3,6 @@ from uuid import UUID
 
 import pandas as pd
 from datasets import Dataset
-from ragas import evaluate
-from ragas.metrics import (
-    answer_relevancy,
-    faithfulness,
-    context_recall,
-    context_precision,
-)
 from tqdm import tqdm
 
 from RAGchain.benchmark.answer.metrics import *
@@ -87,6 +80,8 @@ class BaseEvaluator(ABC):
         # without gt - retrieval & answer
         ragas_metrics = self.__ragas_metrics()
         if len(ragas_metrics) > 0:
+            from ragas import evaluate
+            from ragas.metrics import context_recall
             # You can't use context_recall when retrieval_gt is None
             if retrieval_gt is None:
                 ragas_metrics = [metric for metric in ragas_metrics if
@@ -183,6 +178,19 @@ class BaseEvaluator(ABC):
         return result
 
     def __ragas_metrics(self):
+        ragas_metric_names = ["context_recall", "answer_relevancy", "faithfulness", "context_precision"]
+        exist_metrics = [modified_metric_name
+                         for metric_name in ragas_metric_names
+                         for modified_metric_name in text_modifier(metric_name)
+                         if modified_metric_name in self.metrics]
+        if len(exist_metrics) <= 0:
+            return []
+        from ragas.metrics import (
+            answer_relevancy,
+            faithfulness,
+            context_recall,
+            context_precision,
+        )
         ragas_metrics = {metric_names: metric for metric in [context_recall, context_precision, answer_relevancy,
                                                              faithfulness]
                          for metric_names in text_modifier(metric.name)}
