@@ -28,8 +28,7 @@ class KoStrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
         Supporting metrics are Recall, Precision, Hole, TopK_Accuracy, EM, F1_score, context_recall, context_precision
         You must ingest all data for using context_recall and context_precision metrics.
         """
-        support_metrics = ['Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'context_recall',
-                           'context_precision']
+        support_metrics = self.retrieval_gt_metrics + self.retrieval_no_gt_metrics
         if metrics is not None:
             using_metrics = list(set(metrics))
         else:
@@ -70,7 +69,7 @@ class KoStrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
         db.create_or_load()
         db.save(passages)
 
-    def evaluate(self, **kwargs) -> EvaluateResult:
+    def evaluate(self, validate_passages: bool = True, **kwargs) -> EvaluateResult:
         """
         Evaluate pipeline performance on Ko-StrategyQA dataset.
         :return: EvaluateResult
@@ -80,6 +79,7 @@ class KoStrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
             questions=df['question'].tolist(),
             pipeline=self.run_pipeline,
             retrieval_gt=df['evidence'].tolist(),
+            validate_passages=validate_passages,
             **kwargs
         )
 

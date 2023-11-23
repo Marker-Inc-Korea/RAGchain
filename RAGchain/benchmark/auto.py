@@ -18,7 +18,7 @@ class AutoEvaluator(BaseEvaluator):
         :param metrics: metrics to evaluate. Default is None. If None, evaluate all supporting metrics.
         Supported metrics are 'context_precision', 'answer_relevancy', 'faithfulness'.
         """
-        usable_metrics = ['context_precision', 'answer_relevancy', 'faithfulness']
+        usable_metrics = self.retrieval_no_gt_metrics + self.answer_no_gt_metrics
         if metrics is None:
             metrics = usable_metrics
         metrics = [metric for metric in metrics if metric in usable_metrics]
@@ -28,4 +28,5 @@ class AutoEvaluator(BaseEvaluator):
         self.questions = questions
 
     def evaluate(self, **kwargs) -> EvaluateResult:
-        return self._calculate_metrics(questions=self.questions, pipeline=self.pipeline, **kwargs)
+        return self._calculate_metrics(questions=self.questions, pipeline=self.pipeline,
+                                       validate_passages=False, **kwargs)

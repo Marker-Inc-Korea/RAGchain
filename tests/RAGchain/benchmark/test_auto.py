@@ -41,4 +41,4 @@ def test_auto_evaluator(auto_evaluator):
         logger.info(f"{key}: {res}")
 
     assert len(result.each_results) == 3
-    assert len(result.use_metrics) == 3
+    assert len(result.use_metrics) == len(auto_evaluator.metrics)

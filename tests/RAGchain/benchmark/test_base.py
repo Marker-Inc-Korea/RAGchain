@@ -55,8 +55,8 @@ TEST_PASSAGES = [
 
 
 class DummyEvaluator(BaseEvaluator):
-    def __init__(self, pipeline: BasePipeline):
-        super().__init__(run_all=True)
+    def __init__(self, pipeline: BasePipeline, metrics=None, run_all=True):
+        super().__init__(run_all=run_all, metrics=metrics)
         self.pipeline = pipeline
 
     def evaluate(self, **kwargs):
@@ -82,11 +82,11 @@ class DummyEvaluator(BaseEvaluator):
             [1, 2]
         ]
         answer_gt = [
-            'Paris',
-            'Seoul',
-            'Tokyo',
-            'Beijing',
-            'Berlin'
+            ['Paris'],
+            ['Seoul'],
+            ['Tokyo'],
+            ['Beijing'],
+            ['Berlin']
         ]
 
         return self._calculate_metrics(questions, self.pipeline,
@@ -111,6 +111,23 @@ def dummy_evaluator():
         os.remove(pickle_path)
 
 
+@pytest.fixture
+def no_ragas_evaluator():
+    db = PickleDB(pickle_path)
+    db.create_or_load()
+    db.save(TEST_PASSAGES)
+    retrieval = BM25Retrieval(bm25_path)
+    retrieval.ingest(TEST_PASSAGES)
+    pipeline = BasicRunPipeline(retrieval=retrieval)
+    # test that it can initialize without openai api key env
+    evaluator = DummyEvaluator(pipeline, metrics=['Recall', 'Precision', 'F1_score', 'BLEU'], run_all=False)
+    yield evaluator
+    if os.path.exists(bm25_path):
+        os.remove(bm25_path)
+    if os.path.exists(pickle_path):
+        os.remove(pickle_path)
+
+
 # default top_k is 4
 def test_base_evaluator(dummy_evaluator):
     result = dummy_evaluator.evaluate()
@@ -120,7 +137,18 @@ def test_base_evaluator(dummy_evaluator):
 
     assert len(result.each_results) == 5
     assert result.each_results.iloc[0]['question'] == 'What is the capital of France?'
-    assert result.each_results.iloc[0]['passage_content_1'] == 'The capital of France is Paris. And it is well-known.'
-    assert result.each_results.iloc[0]['passage_id_1'] == 'id-2'
+    assert result.each_results.iloc[0]['passage_contents'][0] == 'The capital of France is Paris. And it is well-known.'
+    assert result.each_results.iloc[0]['passage_ids'][0] == 'id-2'
     assert result.each_results.iloc[0]['F1_score'] > 0
     assert len(result.use_metrics) == len(dummy_evaluator.metrics)
+
+
+def test_no_ragas(no_ragas_evaluator):
+    # It just tests it can initialize without ragas metrics.
+    result = no_ragas_evaluator.evaluate()
+    for key, res in result.results.items():
+        assert res >= 0.0
+        logger.info(f"{key}: {res}")
+
+    assert len(result.each_results) == 5
+    assert len(result.use_metrics) == len(no_ragas_evaluator.metrics)

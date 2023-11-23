@@ -33,12 +33,12 @@ def qasper_evaluator():
 
 def test_qasper_evaluator(qasper_evaluator):
     result = qasper_evaluator.evaluate()
-    assert len(result.use_metrics) == 10
+    assert len(result.use_metrics) == len(qasper_evaluator.metrics)
 
     def same_id(row):
         same_prefix = (
-                row.passage_id_1[:10] == row.passage_id_2[:10]
-                == row.passage_id_3[:10] == row.passage_id_4[:10]
+                row.passage_ids[0][:10] == row.passage_ids[1][:10]
+                == row.passage_ids[2][:10] == row.passage_ids[3][:10]
         )
         return same_prefix
 
