@@ -31,7 +31,10 @@ def ko_strategy_qa_evaluator():
 
 
 def test_ko_strategy_qa_evaluator(ko_strategy_qa_evaluator):
-    result = ko_strategy_qa_evaluator.evaluate()
+    with pytest.raises(ValueError):
+        ko_strategy_qa_evaluator.evaluate(validate_passages=True)
+
+    result = ko_strategy_qa_evaluator.evaluate(validate_passages=False)
     assert len(result.each_results) == 5
     assert result.each_results.iloc[0]['question'] == '토마토 껍질을 벗기려면 뜨거운 물과 찬물이 모두 필요하나요?'
     assert result.each_results.iloc[0]['answer_pred']

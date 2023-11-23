@@ -1,3 +1,4 @@
+import warnings
 from typing import Optional, Union
 from uuid import UUID
 
@@ -34,9 +35,10 @@ class BaseEvaluator(ABC):
         self.dummy_retrieval = DummyRetrieval()
 
     @abstractmethod
-    def evaluate(self, **kwargs) -> EvaluateResult:
+    def evaluate(self, validate_passages: bool = True, **kwargs) -> EvaluateResult:
         """
         Evaluate metrics and return the results
+        :param validate_passages: If True, validate passages in retrieval_gt already ingested.
         :param kwargs: Arguments for running pipeline.run()
         :return: EvaluateResult
         """
@@ -48,6 +50,7 @@ class BaseEvaluator(ABC):
                            retrieval_gt: Optional[List[List[Union[str, UUID]]]] = None,
                            retrieval_gt_order: Optional[List[List[int]]] = None,
                            answer_gt: Optional[List[List[str]]] = None,
+                           validate_passages: bool = True,
                            **kwargs
                            ) -> EvaluateResult:
         """
@@ -57,16 +60,22 @@ class BaseEvaluator(ABC):
         :param retrieval_gt: Ground truth for retrieval
         :param retrieval_gt_order: Ground truth for retrieval rates
         :param answer_gt: Ground truth for answer. 2d list because it can evaluate multiple ground truth answers.
+        :param validate_passages: If True, validate passages in retrieval_gt already ingested.
+        You can't use KF1 and context_recall when this parameter is False.
         :param kwargs: Arguments for pipeline.run()
         """
         result_df = {'question': questions}
         if retrieval_gt is not None:
             result_df['retrieval_gt'] = retrieval_gt
+
         if retrieval_gt_order is not None:
             result_df['retrieval_gt_order'] = retrieval_gt_order
         if answer_gt is not None:
             result_df['answer_gt'] = answer_gt
         result_df = pd.DataFrame(result_df)
+
+        if validate_passages and retrieval_gt is not None:
+            result_df = self.__validate_passages(result_df)
 
         answers, passages = self._run_pipeline(result_df['question'].tolist(), pipeline, **kwargs)
         # TODO: Replace this to real rel scores Issue/#279
@@ -84,10 +93,12 @@ class BaseEvaluator(ABC):
         if len(ragas_metrics) > 0:
             from ragas import evaluate
             from ragas.metrics import context_recall
-            # You can't use context_recall when retrieval_gt is None
-            if retrieval_gt is None:
+            # You can't use context_recall when retrieval_gt is None or don't validate passages.
+            if retrieval_gt is None or 'retrieval_gt_contents' not in result_df.columns:
                 ragas_metrics = [metric for metric in ragas_metrics if
                                  isinstance(metric, type(context_recall)) is False]
+            else:
+                warnings.warn("You can't use context_recall when retrieval_gt is None or don't validate passages.")
             use_metrics += [metric.name for metric in ragas_metrics]
 
             dataset_dict = {
@@ -95,10 +106,7 @@ class BaseEvaluator(ABC):
                 'answer': result_df['answer_pred'].tolist(),
                 'contexts': result_df['passage_contents'].tolist()
             }
-            if retrieval_gt is not None:
-                result_df['retrieval_gt_contents'] = result_df.apply(
-                    lambda row: [passage.content for passage in self.dummy_retrieval.fetch_data(row['retrieval_gt'])],
-                    axis=1)
+            if retrieval_gt is not None and 'retrieval_gt_contents' in result_df.columns:
                 dataset_dict['ground_truths'] = result_df['retrieval_gt_contents'].tolist()
 
             ragas_result = evaluate(
@@ -131,14 +139,14 @@ class BaseEvaluator(ABC):
 
             # answer metric compare with retrieval ground truth knowledge
             answer_passage_metrics = self.__answer_passage_metrics()
-            if len(answer_passage_metrics) > 0 and 'retrieval_gt_contents' not in result_df.columns:
-                result_df['retrieval_gt_contents'] = result_df.apply(
-                    lambda row: [passage.content for passage in self.dummy_retrieval.fetch_data(row['retrieval_gt'])],
-                    axis=1)
-            use_metrics += [metric.metric_name for metric in answer_passage_metrics]
-            for metric in answer_passage_metrics:
-                result_df[metric.metric_name] = result_df.apply(
-                    lambda row: metric.eval(row['retrieval_gt_contents'], row['answer_pred']), axis=1)
+            if len(answer_passage_metrics) > 0 and 'retrieval_gt_contents' in result_df.columns:
+                use_metrics += [metric.metric_name for metric in answer_passage_metrics]
+                for metric in answer_passage_metrics:
+                    result_df[metric.metric_name] = result_df.apply(
+                        lambda row: metric.eval(row['retrieval_gt_contents'], row['answer_pred']), axis=1)
+            else:
+                warnings.warn("You can't use answer metric with retrieval gt knowledge when retrieval_gt is None."
+                              "Skip this metric.")
 
         # with gt - answer
         if answer_gt is not None:
@@ -153,6 +161,20 @@ class BaseEvaluator(ABC):
             use_metrics=use_metrics,
             each_results=result_df
         )
+
+    def __validate_passages(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        It returns passage contents from retrieval_gt with column name 'retrieval_gt_contents'.
+        """
+
+        def fetch(row):
+            fetch_passages = self.dummy_retrieval.fetch_data(row['retrieval_gt'])
+            if len(fetch_passages) != len(row['retrieval_gt']):
+                raise ValueError(f"Passages with id {row['retrieval_gt']} is not exist in retrieval.")
+            return [passage.content for passage in fetch_passages]
+
+        df['retrieval_gt_contents'] = df.apply(fetch, axis=1)
+        return df
 
     def _run_pipeline(self, questions: List[str], pipeline: BasePipeline, **kwargs) \
             -> tuple[List[str], List[List[Passage]]]:
