@@ -48,8 +48,9 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         else:
             raise ValueError(f'Available MSMARCO version are v1.1, v2.1. {version} is invalid version.')
 
-        support_metrics = self.retrieval_gt_metrics + self.retrieval_no_gt_metrics + \
-                          self.retrieval_gt_metrics_rank_aware + self.answer_no_gt_metrics
+        support_metrics = (self.retrieval_gt_metrics + self.retrieval_no_gt_metrics +
+                           self.retrieval_gt_metrics_rank_aware + self.answer_no_gt_metrics +
+                           self.answer_passage_metrics)
         # TODO: add answer gt at Feature/#309 @minsing-jin
 
         if metrics is not None:
@@ -60,7 +61,6 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
 
         self.eval_size = evaluate_size
         self.run_pipeline = run_pipeline
-
 
         # retrieval_gt and retrieval_gt_order will add when make passages.
         self.qa_data = pd.DataFrame(

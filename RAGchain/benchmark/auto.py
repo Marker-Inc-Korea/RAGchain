@@ -28,4 +28,5 @@ class AutoEvaluator(BaseEvaluator):
         self.questions = questions
 
     def evaluate(self, **kwargs) -> EvaluateResult:
-        return self._calculate_metrics(questions=self.questions, pipeline=self.pipeline, **kwargs)
+        return self._calculate_metrics(questions=self.questions, pipeline=self.pipeline,
+                                       validate_passages=False, **kwargs)
