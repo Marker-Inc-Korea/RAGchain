@@ -122,7 +122,7 @@ class BaseEvaluator(ABC):
         # with gt - retrieval
         def calculate_retrieval_metrics_pd(row, metric: BaseRetrievalMetric):
             pred = {str(_id): score for _id, score in zip(row['passage_ids'], row['passage_scores'])}
-            gt_ids = self.uuid_to_str(row['passage_ids'])
+            gt_ids = self.uuid_to_str(row['retrieval_gt'])
             if 'retrieval_gt_order' not in row.axes[0]:
                 solution = {str(_id): len(gt_ids) - i for i, _id in enumerate(gt_ids)}
             else:
