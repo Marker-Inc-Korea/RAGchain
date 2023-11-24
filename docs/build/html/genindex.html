@@ -107,10 +107,19 @@
         <li><a href="RAGchain.utils.vectorstore.html#RAGchain.utils.vectorstore.pinecone.PineconeSlim.add_passages">(RAGchain.utils.vectorstore.pinecone.PineconeSlim method)</a>
 </li>
       </ul></li>
+      <li><a href="RAGchain.benchmark.html#RAGchain.benchmark.base.BaseEvaluator.answer_gt_metrics">answer_gt_metrics
+          (RAGchain.benchmark.base.BaseEvaluator attribute)</a>
+      </li>
+      <li><a href="RAGchain.benchmark.html#RAGchain.benchmark.base.BaseEvaluator.answer_no_gt_metrics">answer_no_gt_metrics
+          (RAGchain.benchmark.base.BaseEvaluator attribute)</a>
+      </li>
   </ul>
   </td>
     <td style="width: 33%; vertical-align: top;">
         <ul>
+            <li><a href="RAGchain.benchmark.html#RAGchain.benchmark.base.BaseEvaluator.answer_passage_metrics">answer_passage_metrics
+                (RAGchain.benchmark.base.BaseEvaluator attribute)</a>
+            </li>
       <li><a href="RAGchain.benchmark.retrieval.html#RAGchain.benchmark.retrieval.metrics.AP">AP (class in RAGchain.benchmark.retrieval.metrics)</a>
 </li>
       <li><a href="RAGchain.llm.html#RAGchain.llm.base.BaseLLM.ask">ask() (RAGchain.llm.base.BaseLLM method)</a>
@@ -145,6 +154,9 @@
           RAGchain.benchmark.base)</a>
 </li>
       <li><a href="RAGchain.llm.html#RAGchain.llm.base.BaseLLM">BaseLLM (class in RAGchain.llm.base)</a>
+      </li>
+      <li><a href="RAGchain.benchmark.answer.html#RAGchain.benchmark.answer.metrics.BasePassageAnswerMetric">BasePassageAnswerMetric
+          (class in RAGchain.benchmark.answer.metrics)</a>
 </li>
       <li><a href="RAGchain.pipeline.html#RAGchain.pipeline.base.BasePipeline">BasePipeline (class in RAGchain.pipeline.base)</a>
 </li>
@@ -173,6 +185,9 @@
       <li><a href="RAGchain.llm.html#RAGchain.llm.basic.BasicLLM">BasicLLM (class in RAGchain.llm.basic)</a>
 </li>
       <li><a href="RAGchain.pipeline.html#RAGchain.pipeline.basic.BasicRunPipeline">BasicRunPipeline (class in RAGchain.pipeline.basic)</a>
+      </li>
+      <li><a href="RAGchain.benchmark.answer.html#RAGchain.benchmark.answer.metrics.BLEU">BLEU (class in
+          RAGchain.benchmark.answer.metrics)</a>
       </li>
       <li><a href="RAGchain.reranker.html#RAGchain.reranker.bm25.BM25Reranker">BM25Reranker (class in
           RAGchain.reranker.bm25)</a>
@@ -299,21 +314,24 @@
       <li><a href="RAGchain.utils.html#RAGchain.utils.query_decompose.QueryDecomposition.decompose_prompt">decompose_prompt
           (RAGchain.utils.query_decompose.QueryDecomposition attribute)</a>
       </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="RAGchain.pipeline.html#RAGchain.pipeline.visconde.ViscondeRunPipeline.default_prompt">default_prompt()
           (RAGchain.pipeline.visconde.ViscondeRunPipeline method)</a>
-</li>
-      <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.delete">delete()
-          (RAGchain.retrieval.base.BaseRetrieval method)</a>
+      </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="RAGchain.benchmark.html#RAGchain.benchmark.base.DummyRetrieval.delete">delete()
+          (RAGchain.benchmark.base.DummyRetrieval method)</a>
 
           <ul>
+              <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.delete">(RAGchain.retrieval.base.BaseRetrieval
+                  method)</a>
+</li>
               <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.bm25_retrieval.BM25Retrieval.delete">(RAGchain.retrieval.bm25_retrieval.BM25Retrieval
                   method)</a>
 </li>
               <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.hybrid.HybridRetrieval.delete">(RAGchain.retrieval.hybrid.HybridRetrieval
                   method)</a>
-</li>
+              </li>
               <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.hyde.HyDERetrieval.delete">(RAGchain.retrieval.hyde.HyDERetrieval
                   method)</a>
               </li>
@@ -334,6 +352,9 @@
               (RAGchain.preprocess.text_splitter.base.BaseTextSplitter method)</a>
       </li>
       <li><a href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.tokenize.QueryDocumentBatch.documents">documents (RAGchain.reranker.pygaggle.model.tokenize.QueryDocumentBatch attribute)</a>
+      </li>
+      <li><a href="RAGchain.benchmark.html#RAGchain.benchmark.base.DummyRetrieval">DummyRetrieval (class in
+          RAGchain.benchmark.base)</a>
 </li>
       <li><a href="RAGchain.reranker.pygaggle.model.html#RAGchain.reranker.pygaggle.model.tokenize.DuoQueryDocumentBatch">DuoQueryDocumentBatch (class in RAGchain.reranker.pygaggle.model.tokenize)</a>
 </li>
@@ -363,6 +384,10 @@
 
           <ul>
               <li>
+                  <a href="RAGchain.benchmark.answer.html#RAGchain.benchmark.answer.metrics.BasePassageAnswerMetric.eval">(RAGchain.benchmark.answer.metrics.BasePassageAnswerMetric
+                      method)</a>
+              </li>
+              <li>
                   <a href="RAGchain.benchmark.retrieval.html#RAGchain.benchmark.retrieval.metrics.BaseRetrievalMetric.eval">(RAGchain.benchmark.retrieval.metrics.BaseRetrievalMetric
                       method)</a>
               </li>
@@ -378,6 +403,9 @@
               <li>
                   <a href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.ko_strategy_qa.KoStrategyQAEvaluator.evaluate">(RAGchain.benchmark.dataset.ko_strategy_qa.KoStrategyQAEvaluator
                       method)</a>
+              </li>
+              <li><a href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.mr_tydi.MrTydiEvaluator.evaluate">(RAGchain.benchmark.dataset.mr_tydi.MrTydiEvaluator
+                  method)</a>
               </li>
               <li>
                   <a href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.msmarco.MSMARCOEvaluator.evaluate">(RAGchain.benchmark.dataset.msmarco.MSMARCOEvaluator
@@ -481,7 +509,7 @@
           <ul>
               <li><a href="RAGchain.llm.html#RAGchain.llm.completion.CompletionLLM.get_messages">(RAGchain.llm.completion.CompletionLLM
                   static method)</a>
-</li>
+              </li>
           </ul>
       </li>
       <li><a href="RAGchain.llm.html#RAGchain.llm.basic.BasicLLM.get_messages_ko">get_messages_ko() (RAGchain.llm.basic.BasicLLM static method)</a>
@@ -535,13 +563,19 @@
 </li>
       <li><a href="RAGchain.benchmark.retrieval.html#RAGchain.benchmark.retrieval.metrics.IndIDCG">IndIDCG (class in RAGchain.benchmark.retrieval.metrics)</a>
 </li>
-      <li><a href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.base.BaseDatasetEvaluator.ingest">ingest()
-          (RAGchain.benchmark.dataset.base.BaseDatasetEvaluator method)</a>
+      <li><a href="RAGchain.benchmark.html#RAGchain.benchmark.base.DummyRetrieval.ingest">ingest()
+          (RAGchain.benchmark.base.DummyRetrieval method)</a>
 
       <ul>
+          <li><a href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.base.BaseDatasetEvaluator.ingest">(RAGchain.benchmark.dataset.base.BaseDatasetEvaluator
+              method)</a>
+          </li>
           <li>
               <a href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.ko_strategy_qa.KoStrategyQAEvaluator.ingest">(RAGchain.benchmark.dataset.ko_strategy_qa.KoStrategyQAEvaluator
                   method)</a>
+          </li>
+          <li><a href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.mr_tydi.MrTydiEvaluator.ingest">(RAGchain.benchmark.dataset.mr_tydi.MrTydiEvaluator
+              method)</a>
           </li>
           <li><a href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.msmarco.MSMARCOEvaluator.ingest">(RAGchain.benchmark.dataset.msmarco.MSMARCOEvaluator
               method)</a>
@@ -579,13 +613,17 @@
 <h2 id="K">K</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="RAGchain.utils.embed.html#RAGchain.utils.embed.embeddingfactory.EmbeddingType.KO_SROBERTA_MULTITASK">KO_SROBERTA_MULTITASK (RAGchain.utils.embed.embeddingfactory.EmbeddingType attribute)</a>
+      <li><a href="RAGchain.benchmark.answer.html#RAGchain.benchmark.answer.metrics.KF1">KF1 (class in
+          RAGchain.benchmark.answer.metrics)</a>
 </li>
-      <li><a href="RAGchain.utils.embed.html#RAGchain.utils.embed.embeddingfactory.EmbeddingType.KOSIMCSE">KOSIMCSE
+      <li><a href="RAGchain.utils.embed.html#RAGchain.utils.embed.embeddingfactory.EmbeddingType.KO_SROBERTA_MULTITASK">KO_SROBERTA_MULTITASK
           (RAGchain.utils.embed.embeddingfactory.EmbeddingType attribute)</a>
       </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="RAGchain.utils.embed.html#RAGchain.utils.embed.embeddingfactory.EmbeddingType.KOSIMCSE">KOSIMCSE
+          (RAGchain.utils.embed.embeddingfactory.EmbeddingType attribute)</a>
+      </li>
       <li><a href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.ko_strategy_qa.KoStrategyQAEvaluator">KoStrategyQAEvaluator
           (class in RAGchain.benchmark.dataset.ko_strategy_qa)</a>
 </li>
@@ -692,6 +730,8 @@
           <li><a href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.base">RAGchain.benchmark.dataset.base</a>
           </li>
           <li><a href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.ko_strategy_qa">RAGchain.benchmark.dataset.ko_strategy_qa</a>
+          </li>
+          <li><a href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.mr_tydi">RAGchain.benchmark.dataset.mr_tydi</a>
           </li>
           <li><a href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.msmarco">RAGchain.benchmark.dataset.msmarco</a>
           </li>
@@ -857,6 +897,9 @@
       <li><a href="RAGchain.reranker.pygaggle.html#RAGchain.reranker.pygaggle.transformer.MonoT5">MonoT5 (class in RAGchain.reranker.pygaggle.transformer)</a>
 </li>
       <li><a href="RAGchain.reranker.pygaggle.html#RAGchain.reranker.pygaggle.monoT5.MonoT5Reranker">MonoT5Reranker (class in RAGchain.reranker.pygaggle.monoT5)</a>
+      </li>
+      <li><a href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.mr_tydi.MrTydiEvaluator">MrTydiEvaluator
+          (class in RAGchain.benchmark.dataset.mr_tydi)</a>
       </li>
       <li><a href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.msmarco.MSMARCOEvaluator">MSMARCOEvaluator
           (class in RAGchain.benchmark.dataset.msmarco)</a>
@@ -1024,6 +1067,14 @@
 
           <ul>
               <li><a href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.ko_strategy_qa">module</a>
+              </li>
+          </ul>
+      </li>
+      <li>
+          RAGchain.benchmark.dataset.mr_tydi
+
+          <ul>
+              <li><a href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.mr_tydi">module</a>
               </li>
           </ul>
       </li>
@@ -1391,10 +1442,6 @@
         <li><a href="RAGchain.reranker.tart.html#module-RAGchain.reranker.tart.modeling_enc_t5">module</a>
 </li>
       </ul></li>
-  </ul>
-  </td>
-    <td style="width: 33%; vertical-align: top;">
-        <ul>
       <li>
     RAGchain.reranker.tart.tart
 
@@ -1409,6 +1456,10 @@
         <li><a href="RAGchain.reranker.tart.html#module-RAGchain.reranker.tart.tokenization_enc_t5">module</a>
 </li>
       </ul></li>
+  </ul>
+  </td>
+    <td style="width: 33%; vertical-align: top;">
+        <ul>
       <li>
     RAGchain.reranker.upr
 
@@ -1641,11 +1692,27 @@
             <li><a href="RAGchain.schema.html#RAGchain.schema.evaluate_result.EvaluateResult.results">results
                 (RAGchain.schema.evaluate_result.EvaluateResult attribute)</a>
             </li>
+            <li><a href="RAGchain.benchmark.html#RAGchain.benchmark.base.BaseEvaluator.retrieval_gt_metrics">retrieval_gt_metrics
+                (RAGchain.benchmark.base.BaseEvaluator attribute)</a>
+            </li>
+            <li><a href="RAGchain.benchmark.html#RAGchain.benchmark.base.BaseEvaluator.retrieval_gt_metrics_rank_aware">retrieval_gt_metrics_rank_aware
+                (RAGchain.benchmark.base.BaseEvaluator attribute)</a>
+            </li>
             <li>
                 <a href="RAGchain.benchmark.answer.html#RAGchain.benchmark.answer.metrics.BaseAnswerMetric.retrieval_metric_function">retrieval_metric_function()
                     (RAGchain.benchmark.answer.metrics.BaseAnswerMetric method)</a>
 
       <ul>
+          <li>
+              <a href="RAGchain.benchmark.answer.html#RAGchain.benchmark.answer.metrics.BasePassageAnswerMetric.retrieval_metric_function">(RAGchain.benchmark.answer.metrics.BasePassageAnswerMetric
+                  method)</a>
+          </li>
+          <li><a href="RAGchain.benchmark.answer.html#RAGchain.benchmark.answer.metrics.BLEU.retrieval_metric_function">(RAGchain.benchmark.answer.metrics.BLEU
+              method)</a>
+          </li>
+          <li><a href="RAGchain.benchmark.answer.html#RAGchain.benchmark.answer.metrics.KF1.retrieval_metric_function">(RAGchain.benchmark.answer.metrics.KF1
+              method)</a>
+          </li>
           <li>
               <a href="RAGchain.benchmark.retrieval.html#RAGchain.benchmark.retrieval.metrics.AP.retrieval_metric_function">(RAGchain.benchmark.retrieval.metrics.AP
                   method)</a>
@@ -1679,10 +1746,16 @@
         <li><a href="RAGchain.benchmark.retrieval.html#RAGchain.benchmark.retrieval.metrics.TopKAccuracy.retrieval_metric_function">(RAGchain.benchmark.retrieval.metrics.TopKAccuracy method)</a>
 </li>
       </ul></li>
-            <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.retrieve">retrieve()
-                (RAGchain.retrieval.base.BaseRetrieval method)</a>
+            <li><a href="RAGchain.benchmark.html#RAGchain.benchmark.base.BaseEvaluator.retrieval_no_gt_metrics">retrieval_no_gt_metrics
+                (RAGchain.benchmark.base.BaseEvaluator attribute)</a>
+            </li>
+            <li><a href="RAGchain.benchmark.html#RAGchain.benchmark.base.DummyRetrieval.retrieve">retrieve()
+                (RAGchain.benchmark.base.DummyRetrieval method)</a>
 
       <ul>
+          <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.retrieve">(RAGchain.retrieval.base.BaseRetrieval
+              method)</a>
+          </li>
         <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.bm25_retrieval.BM25Retrieval.retrieve">(RAGchain.retrieval.bm25_retrieval.BM25Retrieval method)</a>
 </li>
         <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.hybrid.HybridRetrieval.retrieve">(RAGchain.retrieval.hybrid.HybridRetrieval method)</a>
@@ -1692,9 +1765,13 @@
         <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval.retrieve">(RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval method)</a>
 </li>
       </ul></li>
-      <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.retrieve_id">retrieve_id() (RAGchain.retrieval.base.BaseRetrieval method)</a>
+            <li><a href="RAGchain.benchmark.html#RAGchain.benchmark.base.DummyRetrieval.retrieve_id">retrieve_id()
+                (RAGchain.benchmark.base.DummyRetrieval method)</a>
 
       <ul>
+          <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.retrieve_id">(RAGchain.retrieval.base.BaseRetrieval
+              method)</a>
+          </li>
         <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.bm25_retrieval.BM25Retrieval.retrieve_id">(RAGchain.retrieval.bm25_retrieval.BM25Retrieval method)</a>
 </li>
         <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.hybrid.HybridRetrieval.retrieve_id">(RAGchain.retrieval.hybrid.HybridRetrieval method)</a>
@@ -1704,9 +1781,13 @@
         <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval.retrieve_id">(RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval method)</a>
 </li>
       </ul></li>
-      <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.retrieve_id_with_scores">retrieve_id_with_scores() (RAGchain.retrieval.base.BaseRetrieval method)</a>
+            <li><a href="RAGchain.benchmark.html#RAGchain.benchmark.base.DummyRetrieval.retrieve_id_with_scores">retrieve_id_with_scores()
+                (RAGchain.benchmark.base.DummyRetrieval method)</a>
 
       <ul>
+          <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.retrieve_id_with_scores">(RAGchain.retrieval.base.BaseRetrieval
+              method)</a>
+          </li>
         <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.bm25_retrieval.BM25Retrieval.retrieve_id_with_scores">(RAGchain.retrieval.bm25_retrieval.BM25Retrieval method)</a>
 </li>
         <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.hybrid.HybridRetrieval.retrieve_id_with_scores">(RAGchain.retrieval.hybrid.HybridRetrieval method)</a>
