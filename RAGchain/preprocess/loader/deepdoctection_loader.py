@@ -1,4 +1,4 @@
-from typing import List, Iterator
+from typing import List, Iterator, Dict, Any
 
 import requests
 from urllib.parse import urljoin, urlencode
@@ -37,13 +37,26 @@ class DeepdoctectionPDFLoader(BasePDFLoader):
         if response.status_code != 200:
             raise ValueError(f'Deepdoctection API server returns {response.status_code} status code.')
         result = response.json()
-        # [title + text] should be made into one document
+        extracted_pages = self.extract_pages(result)
+        for extracted_page in extracted_pages:
+            if extracted_page['Table']:
+                yield Document(page_content=extracted_page['Table'], emetadata=extracted_page['Page_number'])
+            else:
+                page_content = extracted_page['Title'] + '\n' + extracted_page['Text']
+                metadata = extracted_page['PageNumber']
+                yield Document(page_content=page_content, emetadata=metadata)
+
+    def extract_pages(self, result: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         extracted_pages = []
         last_title = None
         for i, item in enumerate(result):
             titles = item['title']
             text = item['text']
             page_number = item['page_number']
+            table = item['table']
+            # If there is a table, extract the table and add it to the extracted pages
+            for tbl in table:
+                extracted_pages.append({'Table': tbl, 'Page_number': page_number})
             # Find the positions of each title in the text
             positions = [(title, pos) for title in titles for pos in self.find_positions(text, title)]
             positions.sort(key=lambda x: x[1])
@@ -76,10 +89,7 @@ class DeepdoctectionPDFLoader(BasePDFLoader):
                 # Update last_title to the last title of the current page if there are titles,
                 # otherwise keep the last title
                 last_title = positions[-1][0] if positions else last_title
-        for extracted_page in extracted_pages:
-            page_content = extracted_page['Title'] + '\n' + extracted_page['Text']
-            metadata = extracted_page['PageNumber']
-            yield Document(page_content=page_content, emetadata=metadata)
+        return extracted_pages
 
     @staticmethod
     def find_positions(text, substring):
