@@ -20,6 +20,14 @@ RAGchain.benchmark.dataset.ko\_strategy\_qa module
    :undoc-members:
    :show-inheritance:
 
+RAGchain.benchmark.dataset.mr\_tydi module
+------------------------------------------
+
+.. automodule:: RAGchain.benchmark.dataset.mr_tydi
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 RAGchain.benchmark.dataset.msmarco module
 -----------------------------------------
 
