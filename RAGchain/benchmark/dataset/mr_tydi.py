@@ -64,18 +64,18 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
         if evaluate_size is not None and len(self.qa_data) > evaluate_size:
             self.qa_data = self.qa_data[:evaluate_size]
 
-    def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB, ingest_size: Optional[int] = None):
+    def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB, ingest_size: Optional[int] = None, random_state=None):
         """
         Ingest dataset to retrievals and db.
         :param retrievals: The retrievals that you want to ingest.
         :param db: The db that you want to ingest.
         :param ingest_size: The number of data to ingest. If None, ingest all data.
-        If you want to use context_recall and context_precision metrics, you should ingest all data.
+        If ingest size too big, It takes a long time.
+        So we shuffle corpus and slice by ingest size for test.
+        Put retrieval gt corpus in passages because retrieval retrieves ground truth in db.
+        :param random_state: A random state to fix the shuffled corpus to ingest.
+        Types are like these. int, array-like, BitGenerator, np.random.RandomState, np.random.Generator, optional
         """
-
-        # If ingest size too big, It takes a long time.(Because corpus size is 1496126!)
-        # So we shuffle corpus and slice by ingest size for test.
-        # Put retrieval gt corpus in passages because retrieval retrieves ground truth in db.
 
         gt_ids = deepcopy(self.qa_data['positive_passages'])
         corpus_passages = deepcopy(self.corpus)
@@ -88,12 +88,10 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
         gt_passages = gt_passages.apply(self.__make_corpus_passages, axis=1).tolist()
 
         if ingest_size is not None:
-            if ingest_size > len(corpus_passages):
-                raise ValueError(
-                    f"Ingest size is larger than corpus. Maximum ingest size you can input is {len(corpus_passages)}")
             # ingest size must be larger than evaluate size.
             if ingest_size >= self.eval_size:
-                corpus_passages = corpus_passages.sample(n=ingest_size, replace=False, random_state=42, axis=0)
+                corpus_passages = corpus_passages.sample(n=ingest_size, replace=False, random_state=random_state,
+                                                         axis=0)
             else:
                 raise ValueError("ingest size must be same or larger than evaluate size")
 
