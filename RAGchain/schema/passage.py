@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Optional, Union, List
 from uuid import UUID, uuid4
 
 from langchain.load.serializable import Serializable
@@ -56,3 +56,7 @@ class Passage(Serializable):
             self.previous_passage_id == other.previous_passage_id and \
             self.next_passage_id == other.next_passage_id and \
             self.metadata_etc == other.metadata_etc
+
+    @staticmethod
+    def make_prompts(passages: List['Passage']) -> str:
+        return "\n".join([passage.content for passage in passages])

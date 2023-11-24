@@ -1,15 +1,19 @@
-from typing import List
+from operator import itemgetter
+from typing import List, Optional
 
+import langchain
 from langchain.document_loaders.base import BaseLoader
+from langchain.schema import StrOutputParser
+from langchain.schema.runnable import RunnableLambda
 
 from RAGchain.DB.base import BaseDB
 from RAGchain.llm.base import BaseLLM
 from RAGchain.llm.basic import BasicLLM
-from RAGchain.pipeline.base import BasePipeline
+from RAGchain.pipeline.base import BasePipeline, BaseRunPipeline
 from RAGchain.preprocess.text_splitter import RecursiveTextSplitter
 from RAGchain.preprocess.text_splitter.base import BaseTextSplitter
 from RAGchain.retrieval.base import BaseRetrieval
-from RAGchain.schema import Passage
+from RAGchain.schema import Passage, RAGchainPromptTemplate
 from RAGchain.utils.file_cache import FileCache
 from RAGchain.utils.util import slice_stop_words
 
@@ -35,6 +39,7 @@ class BasicIngestPipeline(BasePipeline):
     >>> pipeline = BasicIngestPipeline(file_loader=file_loader, db=db, retrieval=retrieval)
     >>> pipeline.run()
     """
+
     def __init__(self,
                  file_loader: BaseLoader,
                  db: BaseDB,
@@ -89,6 +94,50 @@ class BasicIngestPipeline(BasePipeline):
         print("Ingest complete!")
 
 
+class BasicRunPipelineNew(BaseRunPipeline):
+    default_prompt = RAGchainPromptTemplate.from_template(
+        """
+        Given the information, answer the question. If you don't know the answer, don't make up 
+        the answer, just say you don't know.
+        
+        Information :
+        {passages}
+        
+        Question: {question}
+        
+        Answer:
+        """
+    )
+
+    def __init__(self, retrieval: BaseRetrieval, model: langchain.llms.base.BaseLLM,
+                 prompt: Optional[RAGchainPromptTemplate] = None):
+        self.retrieval = retrieval
+        self.model = model
+        self.prompt = prompt if prompt is not None else self.default_prompt
+        super().__init__()
+
+    def _make_runnable(self):
+        self.runnable = {
+                            "passages": itemgetter("question") | RunnableLambda(
+                                lambda question: self.retrieval.retrieve(question)),
+                            "question": itemgetter("question"),
+                        } | self.prompt | self.model | StrOutputParser()
+
+    def run(self, questions: List[str]) -> tuple[List[str], List[List[Passage]], List[List[float]]]:
+        passage_ids, scores = map(list,
+                                  zip(*[self.retrieval.retrieve_id_with_scores(question)
+                                        for question in questions]))
+        passages = list(map(self.retrieval.fetch_data, passage_ids))
+
+        runnable = {
+                       "question": itemgetter("question"),
+                       "passages": itemgetter("passages") | RunnableLambda(lambda x: Passage.make_prompts(x))
+                   } | self.prompt | self.model | StrOutputParser()
+        answers = runnable.batch(
+            [{"question": question, "passages": passage_group} for question, passage_group in zip(questions, passages)])
+        return answers, passages, scores
+
+
 class BasicRunPipeline(BasePipeline):
     """
     Basic run pipeline class.
@@ -107,6 +156,7 @@ class BasicRunPipeline(BasePipeline):
     >>> pipeline = BasicRunPipeline(retrieval=retrieval, llm=llm)
     >>> answer, passages = pipeline.run(query="Where is the capital of Korea?")
     """
+
     def __init__(self,
                  retrieval: BaseRetrieval,
                  llm: BaseLLM = None):
