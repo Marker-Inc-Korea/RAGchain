@@ -35,7 +35,7 @@ def test_mr_tydi_evaluator(mr_tydi_evaluator):
 
     assert len(result.each_results) == 5
     assert result.each_results.iloc[0][
-               'question'] == 'Quantum field theory naturally began with the study of electromagnetic interactions, as the electromagnetic field was the only known classical field as of the 1920s.[8]:1", "title": "Quantum field theory'
+               'question'] == 'Do zebra finches have stripes?'
     for key, value in result.results.items():
         logger.info(f"{key}: {value}")
     logger.info("The result length is " + f"{len(result.results)}")
