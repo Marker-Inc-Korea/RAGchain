@@ -89,30 +89,6 @@ class BasicIngestPipeline(BasePipeline):
         print("Ingest complete!")
 
 
-class BasicDatasetPipeline(BasePipeline):
-    """
-    DEPRECATED
-    This class is deprecated and recommend to use BasicIngestPipeline instead.
-    Basic dataset pipeline class.
-    You can ingest specific dataset to retrieval system.
-    """
-    def __init__(self, file_loader: BaseLoader, retrieval: BaseRetrieval):
-        self.file_loader = file_loader
-        self.retrieval = retrieval
-
-    def run(self, *args, **kwargs):
-        # File Loader
-        documents = self.file_loader.load()
-        if len(documents) <= 0:
-            return
-
-        passages = [Passage(id=document.metadata['id'], content=document.page_content,
-                            filepath='KoStrategyQA', previous_passage_id=None, next_passage_id=None) for document in
-                    documents]
-        # Ingest to retrieval
-        self.retrieval.ingest(passages)
-
-
 class BasicRunPipeline(BasePipeline):
     """
     Basic run pipeline class.
