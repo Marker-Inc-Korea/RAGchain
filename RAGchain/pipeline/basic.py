@@ -7,15 +7,12 @@ from langchain.schema import StrOutputParser
 from langchain.schema.runnable import RunnableLambda
 
 from RAGchain.DB.base import BaseDB
-from RAGchain.llm.base import BaseLLM
-from RAGchain.llm.basic import BasicLLM
 from RAGchain.pipeline.base import BasePipeline, BaseRunPipeline
 from RAGchain.preprocess.text_splitter import RecursiveTextSplitter
 from RAGchain.preprocess.text_splitter.base import BaseTextSplitter
 from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import Passage, RAGchainPromptTemplate
 from RAGchain.utils.file_cache import FileCache
-from RAGchain.utils.util import slice_stop_words
 
 
 class BasicIngestPipeline(BasePipeline):
@@ -94,7 +91,25 @@ class BasicIngestPipeline(BasePipeline):
         print("Ingest complete!")
 
 
-class BasicRunPipelineNew(BaseRunPipeline):
+class BasicRunPipeline(BaseRunPipeline):
+    """
+    Basic run pipeline class.
+    This class handles the run process of document question answering.
+    First, retrieve passages from retrieval module.
+    Second, run LLM module to get answer.
+    Finally, you can get answer and passages as return value.
+
+    :example:
+    >>> from RAGchain.pipeline.basic import BasicRunPipeline
+    >>> from RAGchain.retrieval import BM25Retrieval
+    >>> from langchain.llms.openai import OpenAI
+
+    >>> retrieval = BM25Retrieval(save_path="./bm25.pkl")
+    >>> pipeline = BasicRunPipeline(retrieval=retrieval, llm=OpenAI())
+    >>> answer, passages, rel_scores = pipeline.get_passages_and_run(questions=["Where is the capital of Korea?"])
+    >>> # Run with Langchain LECL
+    >>> answer = pipeline.run.invoke({"question": "Where is the capital of Korea?"})
+    """
     default_prompt = RAGchainPromptTemplate.from_template(
         """
         Given the information, answer the question. If you don't know the answer, don't make up 
@@ -109,21 +124,21 @@ class BasicRunPipelineNew(BaseRunPipeline):
         """
     )
 
-    def __init__(self, retrieval: BaseRetrieval, model: langchain.llms.base.BaseLLM,
+    def __init__(self, retrieval: BaseRetrieval, llm: langchain.llms.base.BaseLLM,
                  prompt: Optional[RAGchainPromptTemplate] = None):
         self.retrieval = retrieval
-        self.model = model
+        self.llm = llm
         self.prompt = prompt if prompt is not None else self.default_prompt
         super().__init__()
 
     def _make_runnable(self):
-        self.runnable = {
-                            "passages": itemgetter("question") | RunnableLambda(
-                                lambda question: self.retrieval.retrieve(question)),
-                            "question": itemgetter("question"),
-                        } | self.prompt | self.model | StrOutputParser()
+        self.run = {
+                       "passages": itemgetter("question") | RunnableLambda(
+                           lambda question: self.retrieval.retrieve(question)),
+                       "question": itemgetter("question"),
+                   } | self.prompt | self.llm | StrOutputParser()
 
-    def run(self, questions: List[str]) -> tuple[List[str], List[List[Passage]], List[List[float]]]:
+    def get_passages_and_run(self, questions: List[str]) -> tuple[List[str], List[List[Passage]], List[List[float]]]:
         passage_ids, scores = map(list,
                                   zip(*[self.retrieval.retrieve_id_with_scores(question)
                                         for question in questions]))
@@ -132,53 +147,7 @@ class BasicRunPipelineNew(BaseRunPipeline):
         runnable = {
                        "question": itemgetter("question"),
                        "passages": itemgetter("passages") | RunnableLambda(lambda x: Passage.make_prompts(x))
-                   } | self.prompt | self.model | StrOutputParser()
+                   } | self.prompt | self.llm | StrOutputParser()
         answers = runnable.batch(
             [{"question": question, "passages": passage_group} for question, passage_group in zip(questions, passages)])
         return answers, passages, scores
-
-
-class BasicRunPipeline(BasePipeline):
-    """
-    Basic run pipeline class.
-    This class handles the run process of document question answering.
-    First, retrieve passages from retrieval module.
-    Second, run LLM module to get answer.
-    Finally, you can get answer and passages as return value.
-
-    :example:
-    >>> from RAGchain.pipeline.basic import BasicRunPipeline
-    >>> from RAGchain.retrieval import BM25Retrieval
-    >>> from RAGchain.llm.basic import BasicLLM
-
-    >>> retrieval = BM25Retrieval(save_path="./bm25.pkl")
-    >>> llm = BasicLLM()
-    >>> pipeline = BasicRunPipeline(retrieval=retrieval, llm=llm)
-    >>> answer, passages = pipeline.run(query="Where is the capital of Korea?")
-    """
-
-    def __init__(self,
-                 retrieval: BaseRetrieval,
-                 llm: BaseLLM = None):
-        """
-        Initialize BasicRunPipeline.
-        :param retrieval: Retrieval module to retrieve passages.
-        :param llm: LLM module to get answer. Default is BasicLLM.
-        """
-        self.retrieval = retrieval
-        self.llm = llm if llm is not None else BasicLLM()
-
-    def run(self, query: str, top_k: int = 4, *args, **kwargs) -> tuple[str, List[Passage]]:
-        """
-        Run the run pipeline.
-        :param query: Query to ask.
-        :param top_k: The number of passages to retrieve. Default is 4.
-        :param args: optional parameter for llm.ask()
-        :param kwargs: optional parameter for llm.ask()
-
-        :return: Answer, retrieved passages.
-        """
-        passages = self.retrieval.retrieve(query, top_k=top_k)
-        answer, passages = self.llm.ask(query, passages, *args, **kwargs)
-        answer = slice_stop_words(answer, ["Question :", "question:"])
-        return answer, passages
