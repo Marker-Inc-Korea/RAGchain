@@ -1,9 +1,9 @@
 from operator import itemgetter
-from typing import List, Optional
+from typing import List, Optional, Union
 
-import langchain
 from langchain.document_loaders.base import BaseLoader
 from langchain.schema import StrOutputParser
+from langchain.schema.language_model import BaseLanguageModel
 from langchain.schema.runnable import RunnableLambda
 
 from RAGchain.DB.base import BaseDB
@@ -11,7 +11,7 @@ from RAGchain.pipeline.base import BasePipeline, BaseRunPipeline
 from RAGchain.preprocess.text_splitter import RecursiveTextSplitter
 from RAGchain.preprocess.text_splitter.base import BaseTextSplitter
 from RAGchain.retrieval.base import BaseRetrieval
-from RAGchain.schema import Passage, RAGchainPromptTemplate
+from RAGchain.schema import Passage, RAGchainPromptTemplate, RAGchainChatPromptTemplate
 from RAGchain.utils.file_cache import FileCache
 
 
@@ -110,33 +110,21 @@ class BasicRunPipeline(BaseRunPipeline):
     >>> # Run with Langchain LECL
     >>> answer = pipeline.run.invoke({"question": "Where is the capital of Korea?"})
     """
-    default_prompt = RAGchainPromptTemplate.from_template(
-        """
-        Given the information, answer the question. If you don't know the answer, don't make up 
-        the answer, just say you don't know.
-        
-        Information :
-        {passages}
-        
-        Question: {question}
-        
-        Answer:
-        """
-    )
 
-    def __init__(self, retrieval: BaseRetrieval, llm: langchain.llms.base.BaseLLM,
-                 prompt: Optional[RAGchainPromptTemplate] = None,
+    def __init__(self, retrieval: BaseRetrieval, llm: BaseLanguageModel,
+                 prompt: Optional[Union[RAGchainPromptTemplate, RAGchainChatPromptTemplate]] = None,
                  retrieval_option: Optional[dict] = None):
         self.retrieval = retrieval
         self.llm = llm
-        self.prompt = prompt if prompt is not None else self.default_prompt
+        self.prompt = self._get_default_prompt(llm, prompt)
         self.retrieval_option = retrieval_option if retrieval_option is not None else {}
         super().__init__()
 
     def _make_runnable(self):
         self.run = {
                        "passages": itemgetter("question") | RunnableLambda(
-                           lambda question: self.retrieval.retrieve(question, **self.retrieval_option)),
+                           lambda question: Passage.make_prompts(self.retrieval.retrieve(question,
+                                                                                         **self.retrieval_option))),
                        "question": itemgetter("question"),
                    } | self.prompt | self.llm | StrOutputParser()
 
