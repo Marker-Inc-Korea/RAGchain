@@ -4,6 +4,7 @@ import pathlib
 import pickle
 
 import pytest
+from langchain.llms.openai import OpenAI
 
 from RAGchain.DB import PickleDB
 from RAGchain.pipeline import RerankRunPipeline
@@ -27,7 +28,9 @@ def rerank_run_pipeline():
     retrieval = BM25Retrieval(save_path=bm25_path)
     retrieval.ingest(TEST_PASSAGES)
     reranker = MonoT5Reranker()
-    pipeline = RerankRunPipeline(retrieval, reranker)
+    pipeline = RerankRunPipeline(retrieval, reranker, OpenAI(model_name="babbage-002"),
+                                 retrieval_option={"top_k": 20},
+                                 use_passage_count=4)
     yield pipeline
     # teardown bm25
     if os.path.exists(bm25_path):
@@ -38,7 +41,8 @@ def rerank_run_pipeline():
 
 
 def test_rerank_run_pipeline(rerank_run_pipeline):
-    answer, passages = rerank_run_pipeline.run("What is reranker role?")
-    logger.info(f"Answer: {answer}")
-    assert bool(answer)
-    assert len(passages) == 4
+    answer, passages, scores = rerank_run_pipeline.get_passages_and_run(["What is reranker role?"])
+    logger.info(f"Answer: {answer[0]}")
+    assert bool(answer[0])
+    assert len(answer) == len(passages) == len(scores) == 1
+    assert len(passages[0]) == len(scores[0]) == 4
