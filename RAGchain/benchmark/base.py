@@ -4,12 +4,11 @@ from uuid import UUID
 
 import pandas as pd
 from datasets import Dataset
-from tqdm import tqdm
 
 from RAGchain.benchmark.answer.metrics import *
 from RAGchain.benchmark.retrieval.metrics import BaseRetrievalMetric, AP, NDCG, CG, IndDCG, DCG, IndIDCG, IDCG, \
     Recall, Precision, RR, Hole, TopKAccuracy, ExactlyMatch, F1
-from RAGchain.pipeline.base import BasePipeline
+from RAGchain.pipeline.base import BaseRunPipeline
 from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import EvaluateResult, Passage
 from RAGchain.utils.util import text_modifier
@@ -46,23 +45,21 @@ class BaseEvaluator(ABC):
 
     def _calculate_metrics(self,
                            questions: List[str],
-                           pipeline: BasePipeline,
+                           pipeline: BaseRunPipeline,
                            retrieval_gt: Optional[List[List[Union[str, UUID]]]] = None,
                            retrieval_gt_order: Optional[List[List[int]]] = None,
                            answer_gt: Optional[List[List[str]]] = None,
-                           validate_passages: bool = True,
-                           **kwargs
+                           validate_passages: bool = True
                            ) -> EvaluateResult:
         """
         Calculate metrics for a list of questions and return their results
         :param questions: List of questions
-        :param pipeline: Pipeline to run
+        :param pipeline: Pipeline to run. Must be BaseRunPipeline
         :param retrieval_gt: Ground truth for retrieval
         :param retrieval_gt_order: Ground truth for retrieval rates
         :param answer_gt: Ground truth for answer. 2d list because it can evaluate multiple ground truth answers.
         :param validate_passages: If True, validate passages in retrieval_gt already ingested.
         You can't use KF1 and context_recall when this parameter is False.
-        :param kwargs: Arguments for pipeline.run()
         """
         result_df = {'question': questions}
         if retrieval_gt is not None:
@@ -77,14 +74,12 @@ class BaseEvaluator(ABC):
         if validate_passages and retrieval_gt is not None:
             result_df = self.__validate_passages(result_df)
 
-        answers, passages = self._run_pipeline(result_df['question'].tolist(), pipeline, **kwargs)
-        # TODO: Replace this to real rel scores Issue/#279
-        scores = [[1.0 for _ in range(len(passage_group))] for passage_group in passages]
+        answers, passages, rel_scores = pipeline.get_passages_and_run(result_df['question'].tolist())
 
         result_df['answer_pred'] = answers
         result_df['passage_ids'] = [[passage.id for passage in passage_group] for passage_group in passages]
         result_df['passage_contents'] = [[passage.content for passage in passage_group] for passage_group in passages]
-        result_df['passage_scores'] = scores
+        result_df['passage_scores'] = rel_scores
 
         use_metrics = []
 
@@ -175,25 +170,6 @@ class BaseEvaluator(ABC):
 
         df['retrieval_gt_contents'] = df.apply(fetch, axis=1)
         return df
-
-    def _run_pipeline(self, questions: List[str], pipeline: BasePipeline, **kwargs) \
-            -> tuple[List[str], List[List[Passage]]]:
-        """
-        Run the pipeline for a list of questions and return the results (answers, retrieval results)
-        :param questions: List of questions
-        :param pipeline: Pipeline to run
-        :param kwargs: Arguments for pipeline.run()
-        :return: Tuple of answers and retrieved passages
-        """
-        answers = []
-        passages_result = []
-
-        for question in tqdm(questions):
-            answer, passages = pipeline.run(question, **kwargs)
-            answers.append(answer)
-            passages_result.append(passages)
-
-        return answers, passages_result
 
     def __retrieval_metrics_with_gt(self, rank_aware: bool = False) -> List[BaseRetrievalMetric]:
         """
