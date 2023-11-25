@@ -35,7 +35,8 @@ def basic_run_pipeline():
     ingest_pipeline.run()
     pipeline = BasicRunPipeline(
         retrieval=BM25Retrieval(bm25_path),
-        llm=OpenAI()
+        llm=OpenAI(),
+        retrieval_option={"top_k": 4}
     )
     yield pipeline
     # teardown mongo db
@@ -68,5 +69,5 @@ def test_basic_pipeline(basic_run_pipeline):
     for query, answer, passage, score in zip(queries, answers, passages, scores):
         assert bool(answer) is True
         log.info(f"question: {query}\nanswer: {answer}")
-        assert len(passage) == 5
+        assert len(passage) == 4
         log.info(f"score: {score}")

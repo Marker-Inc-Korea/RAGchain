@@ -125,22 +125,24 @@ class BasicRunPipeline(BaseRunPipeline):
     )
 
     def __init__(self, retrieval: BaseRetrieval, llm: langchain.llms.base.BaseLLM,
-                 prompt: Optional[RAGchainPromptTemplate] = None):
+                 prompt: Optional[RAGchainPromptTemplate] = None,
+                 retrieval_option: Optional[dict] = None):
         self.retrieval = retrieval
         self.llm = llm
         self.prompt = prompt if prompt is not None else self.default_prompt
+        self.retrieval_option = retrieval_option if retrieval_option is not None else {}
         super().__init__()
 
     def _make_runnable(self):
         self.run = {
                        "passages": itemgetter("question") | RunnableLambda(
-                           lambda question: self.retrieval.retrieve(question)),
+                           lambda question: self.retrieval.retrieve(question, **self.retrieval_option)),
                        "question": itemgetter("question"),
                    } | self.prompt | self.llm | StrOutputParser()
 
     def get_passages_and_run(self, questions: List[str]) -> tuple[List[str], List[List[Passage]], List[List[float]]]:
         passage_ids, scores = map(list,
-                                  zip(*[self.retrieval.retrieve_id_with_scores(question)
+                                  zip(*[self.retrieval.retrieve_id_with_scores(question, **self.retrieval_option)
                                         for question in questions]))
         passages = list(map(self.retrieval.fetch_data, passage_ids))
 
