@@ -1,16 +1,20 @@
 from collections import OrderedDict
-from typing import Callable, List
+from operator import itemgetter
+from typing import List, Optional
 
-from RAGchain.llm.completion import CompletionLLM
-from RAGchain.pipeline.base import BasePipeline
+from langchain.llms import BaseLLM
+from langchain.schema import StrOutputParser
+from langchain.schema.runnable import RunnableLambda
+
+from RAGchain.pipeline.base import BaseRunPipeline
 from RAGchain.reranker import MonoT5Reranker
 from RAGchain.retrieval.base import BaseRetrieval
-from RAGchain.schema import Passage
+from RAGchain.schema import Passage, RAGchainPromptTemplate
 from RAGchain.utils.query_decompose import QueryDecomposition
 
 
-class ViscondeRunPipeline(BasePipeline):
-    strategyqa_prompt = """For each example, use the documents to create an \"Answer\" and an \"Explanation\" to the \"Question\". Just answer yes or no.
+class ViscondeRunPipeline(BaseRunPipeline):
+    strategyqa_prompt = RAGchainPromptTemplate.from_template("""For each example, use the documents to create an \"Answer\" and an \"Explanation\" to the \"Question\". Just answer yes or no.
 
         Example 1:
 
@@ -46,64 +50,76 @@ class ViscondeRunPipeline(BasePipeline):
         Therefore, the answer is yes
         Answer: yes.
 
-        """
+        Example 2:
+        
+        {passages}
+        
+        Question: {question}
+        Answer:
+        """)
 
     def __init__(self,
                  retrieval: BaseRetrieval,
+                 llm: BaseLLM,
                  decompose: QueryDecomposition = None,
-                 prompt_func: Callable[[List[Passage], str], str] = None,
-                 *args, **kwargs
+                 prompt: RAGchainPromptTemplate = None,
+                 retrieval_option: Optional[dict] = None,
+                 use_passage_count: int = 3,
                  ):
         """
         Initializes an instance of the ViscondeRunPipeline class.
 
         :param retrieval: An instance of the Retrieval module used for retrieving passages.
+        :param llm: An instance of the LLM module used for answering questions. You can't use chat models for Visconde Pipeline.
         :param decompose: An instance of the QueryDecomposition module used for decomposing query. Default is QueryDecomposition().
-        :param prompt_func: A callable function used for generating prompts based on passages and user query. The input of prompt_func will be the list of retrieved passages and user query. The output of prompt_func should be a string. Default is ViscondeRunPipeline.default_prompt.
-        :param args: optional parameter for initialization of CompletionLLM
-        :param kwargs: optional parameter for initialization of CompletionLLM
+        :param prompt: RAGchainPromptTemplate used for generating prompts based on passages and user query.
+        Default is ViscondeRunPipeline.strategyqa_prompt.
+        :param retrieval_option: Optional parameter for retrieval.retrieve() method. Default is top_k=50.
+        :param use_passage_count: The number of passages to be used for llm question answering. Default is 3.
         """
         self.retrieval = retrieval
+        self.llm = llm
         self.decompose = decompose if decompose is not None else QueryDecomposition()
-        self.prompt_func = prompt_func if prompt_func is not None else self.default_prompt
-        self.llm = CompletionLLM(prompt_func=self.prompt_func, *args, **kwargs)
+        self.prompt = prompt if prompt is not None else self.strategyqa_prompt
         self.reranker = MonoT5Reranker()
+        self.retrieval_option = retrieval_option if retrieval_option is not None else {"top_k": 50}
+        self.use_passage_count = use_passage_count
+        super().__init__()
 
-    def run(self,
-            query: str,
-            retrieve_size: int = 50,
-            use_passage_count: int = 3,
-            *args, **kwargs):
-        """
-        :param query: question
-        :param retrieve_size: The number of passages to be retrieved before reranking. Default is 50.
-        :param use_passage_count: The number of passages to be used for llm question answering. Default is 3.
-        :param args: optional parameter for llm.ask()
-        :param kwargs: optional parameter for llm.ask()
-        """
+    def _make_runnable(self):
+        self.run = {
+                       "passages": itemgetter("question") | RunnableLambda(lambda question: self.__make_passage_prompt(
+                           self.__retrieve(question)[0])),
+                       "question": itemgetter("question"),
+                   } | self.prompt | self.llm | StrOutputParser()
+
+    def get_passages_and_run(self, questions: List[str]) -> tuple[List[str], List[List[Passage]], List[List[float]]]:
+        passages, rel_scores = map(list, zip(*[self.__retrieve(question) for question in questions]))
+        runnable = {
+                       "question": itemgetter("question"),
+                       "passages": itemgetter("passages") | RunnableLambda(lambda x: self.__make_passage_prompt(x))
+                   } | self.prompt | self.llm | StrOutputParser()
+        answers = runnable.batch([{"question": question, "passages": passage_group} for question, passage_group in
+                                  zip(questions, passages)])
+        return answers, passages, rel_scores
+
+    def __retrieve(self, query: str):
         decompose_query: List[str] = self.decompose.decompose(query)
         passage_list = []
         if len(decompose_query) > 0:
             # use decomposed query
             for query in decompose_query:
-                hits = self.retrieval.retrieve(query, top_k=retrieve_size)
+                hits = self.retrieval.retrieve(query, **self.retrieval_option)
                 passage_list.extend(hits)
             passage_list = self.reranker.rerank(query, passage_list)
         else:
-            hits = self.retrieval.retrieve(query, top_k=retrieve_size)
+            hits = self.retrieval.retrieve(query, **self.retrieval_option)
             passage_list.extend(hits)
 
         # remove duplicate elements while preserving order
         remove_duplicated = list(OrderedDict.fromkeys(passage_list))
-        final_passages = remove_duplicated[:use_passage_count]
+        final_passages = remove_duplicated[:self.use_passage_count]
+        return final_passages, [i / len(final_passages) for i in range(len(final_passages), 0, -1)]
 
-        return self.llm.ask(query, final_passages, *args, **kwargs)
-
-    def default_prompt(self, passages: List[Passage], question: str):
-        passage_str = "\n\n".join([f"[Document {i + 1}]: {passage.content}" for i, passage in enumerate(passages)])
-        return f"""{self.strategyqa_prompt}
-        {passage_str}
-        
-        Question: {question}
-        Answer:
-        """
+    def __make_passage_prompt(self, passages: List[Passage]):
+        return "\n\n".join([f"[Document {i + 1}]: {passage.content}" for i, passage in enumerate(passages)])
