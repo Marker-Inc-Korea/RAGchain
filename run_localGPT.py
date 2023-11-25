@@ -5,9 +5,9 @@ import chromadb
 import click
 import pinecone
 from dotenv import load_dotenv
+from langchain.llms.openai import OpenAI
 from langchain.vectorstores import Chroma, Pinecone
 
-from RAGchain.llm.basic import BasicLLM
 from RAGchain.pipeline import BasicRunPipeline
 from RAGchain.retrieval import BM25Retrieval, VectorDBRetrieval
 from RAGchain.schema import Passage
@@ -81,7 +81,7 @@ def main(device_type, retrieval_type: str, vectordb_type, embedding_type, model_
         raise ValueError("retrieval type is not valid")
     pipeline = BasicRunPipeline(
         retrieval=retrieval,
-        llm=BasicLLM(model_name=model_name, api_base=api_base)
+        llm=OpenAI(model_name=model_name, openai_api_base=api_base)
     )
     while True:
         query = input("질문을 입력하세요: ")
@@ -90,7 +90,9 @@ def main(device_type, retrieval_type: str, vectordb_type, embedding_type, model_
         elif query in ["clear", "초기화"]:
             pipeline.llm.clear_chat_history()
             continue
-        answer, passages = pipeline.run(query)
+        answer, passages, _ = pipeline.get_passages_and_run([query])
+        answer = answer[0]
+        passages = passages[0]
         print_query_answer(query, answer)
         print_docs(passages)
 
