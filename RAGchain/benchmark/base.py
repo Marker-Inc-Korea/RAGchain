@@ -34,11 +34,10 @@ class BaseEvaluator(ABC):
         self.dummy_retrieval = DummyRetrieval()
 
     @abstractmethod
-    def evaluate(self, validate_passages: bool = True, **kwargs) -> EvaluateResult:
+    def evaluate(self, validate_passages: bool = True) -> EvaluateResult:
         """
         Evaluate metrics and return the results
         :param validate_passages: If True, validate passages in retrieval_gt already ingested.
-        :param kwargs: Arguments for running pipeline.run()
         :return: EvaluateResult
         """
         pass

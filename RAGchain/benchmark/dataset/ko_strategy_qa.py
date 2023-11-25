@@ -7,7 +7,7 @@ from huggingface_hub import hf_hub_download
 
 from RAGchain.DB.base import BaseDB
 from RAGchain.benchmark.dataset.base import BaseDatasetEvaluator, BaseStrategyQA
-from RAGchain.pipeline.base import BasePipeline
+from RAGchain.pipeline.base import BaseRunPipeline
 from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import EvaluateResult, Passage
 
@@ -18,7 +18,7 @@ class KoStrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
     """
     dataset_name = "NomaDamas/Ko-StrategyQA"
 
-    def __init__(self, run_pipeline: BasePipeline,
+    def __init__(self, run_pipeline: BaseRunPipeline,
                  evaluate_size: Optional[int] = None,
                  metrics: Optional[List[str]] = None):
         """
@@ -69,7 +69,7 @@ class KoStrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
         db.create_or_load()
         db.save(passages)
 
-    def evaluate(self, validate_passages: bool = True, **kwargs) -> EvaluateResult:
+    def evaluate(self, validate_passages: bool = True) -> EvaluateResult:
         """
         Evaluate pipeline performance on Ko-StrategyQA dataset.
         :return: EvaluateResult
@@ -79,8 +79,7 @@ class KoStrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
             questions=df['question'].tolist(),
             pipeline=self.run_pipeline,
             retrieval_gt=df['evidence'].tolist(),
-            validate_passages=validate_passages,
-            **kwargs
+            validate_passages=validate_passages
         )
 
     def __slice_data(self, data, size):

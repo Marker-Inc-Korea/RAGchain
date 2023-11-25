@@ -8,7 +8,7 @@ from pandas import json_normalize
 
 from RAGchain.DB.base import BaseDB
 from RAGchain.benchmark.dataset.base import BaseDatasetEvaluator
-from RAGchain.pipeline.base import BasePipeline
+from RAGchain.pipeline.base import BaseRunPipeline
 from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import EvaluateResult, Passage
 
@@ -18,7 +18,7 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
     MSMARCO is a class for evaluating pipeline performance on MSMARCO dataset.
     """
 
-    def __init__(self, run_pipeline: BasePipeline,
+    def __init__(self, run_pipeline: BaseRunPipeline,
                  evaluate_size: Optional[int] = None,
                  metrics: Optional[List[str]] = None,
                  version: str = 'v1.1'):

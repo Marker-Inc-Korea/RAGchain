@@ -5,7 +5,7 @@ from huggingface_hub import hf_hub_download
 
 from RAGchain.DB.base import BaseDB
 from RAGchain.benchmark.dataset.base import BaseDatasetEvaluator, BaseStrategyQA
-from RAGchain.pipeline.base import BasePipeline
+from RAGchain.pipeline.base import BaseRunPipeline
 from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import EvaluateResult, Passage
 
@@ -16,7 +16,7 @@ class StrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
     """
     dataset_name = "voidful/StrategyQA"
 
-    def __init__(self, run_pipeline: BasePipeline,
+    def __init__(self, run_pipeline: BaseRunPipeline,
                  evaluate_size: Optional[int] = None,
                  metrics: Optional[List[str]] = None):
         """

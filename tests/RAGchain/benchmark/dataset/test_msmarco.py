@@ -3,10 +3,10 @@ import os
 import pathlib
 
 import pytest
+from langchain.llms.openai import OpenAI
 
 from RAGchain.DB import PickleDB
 from RAGchain.benchmark.dataset import MSMARCOEvaluator
-from RAGchain.llm.basic import BasicLLM
 from RAGchain.pipeline import BasicRunPipeline
 from RAGchain.retrieval import BM25Retrieval
 
@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 def msmarco_v1_1_evaluator():
     bm25_retrieval = BM25Retrieval(save_path=bm25_path)
     db = PickleDB(pickle_path)
-    llm = BasicLLM(model_name='gpt-3.5-turbo-16k')
+    llm = OpenAI(model_name="babbage-002")
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
     evaluator = MSMARCOEvaluator(pipeline, evaluate_size=5,
                                  version='v1.1')
@@ -37,7 +37,7 @@ def msmarco_v1_1_evaluator():
 def msmarco_v2_1_evaluator():
     bm25_retrieval = BM25Retrieval(save_path=bm25_path)
     db = PickleDB(pickle_path)
-    llm = BasicLLM(model_name='gpt-3.5-turbo-16k')
+    llm = OpenAI(model_name="babbage-002")
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
     evaluator = MSMARCOEvaluator(pipeline, evaluate_size=5,
                                  version='v2.1')

@@ -1,7 +1,7 @@
 from typing import List
 
 from RAGchain.benchmark.base import BaseEvaluator
-from RAGchain.pipeline.base import BasePipeline
+from RAGchain.pipeline.base import BaseRunPipeline
 from RAGchain.schema import EvaluateResult
 
 
@@ -11,7 +11,7 @@ class AutoEvaluator(BaseEvaluator):
     You have to ingest properly to retrievals and DBs. Recommend to use IngestPipeline to ingest.
     """
 
-    def __init__(self, pipeline: BasePipeline, questions: List[str], metrics=None):
+    def __init__(self, pipeline: BaseRunPipeline, questions: List[str], metrics=None):
         """
         :param pipeline: pipeline to evaluate
         :param questions: questions to evaluate

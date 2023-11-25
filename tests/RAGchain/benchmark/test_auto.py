@@ -2,6 +2,7 @@ import logging
 import os
 
 import pytest
+from langchain.llms.openai import OpenAI
 
 from RAGchain.DB import PickleDB
 from RAGchain.benchmark import AutoEvaluator
@@ -22,7 +23,7 @@ def auto_evaluator():
     db.save(TEST_PASSAGES)
     retrieval = BM25Retrieval(bm25_path)
     retrieval.ingest(TEST_PASSAGES)
-    pipeline = BasicRunPipeline(retrieval=retrieval)
+    pipeline = BasicRunPipeline(retrieval=retrieval, llm=OpenAI())
     yield AutoEvaluator(pipeline, questions=[
         "Where is the capital of France?",
         "Where is the largest city in Seoul?",
