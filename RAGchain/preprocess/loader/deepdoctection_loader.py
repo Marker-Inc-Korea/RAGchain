@@ -10,23 +10,20 @@ from langchain.schema import Document
 import re
 
 
-def _check_deepdoctection_server(deepdoctection_host: str):
-    response = requests.get(deepdoctection_host)
-    if response.status_code != 200:
-        raise ValueError(f"Could not connect to Deepdoctection server: {deepdoctection_host}")
-
-
 class DeepdoctectionPDFLoader(BasePDFLoader):
     """
-    Load PDF file using Deepdoctection API server.
+    Load PDF file using NomaDamas' Deepdoctection API server.
+    You can use Nougat API server using Dockerfile at https://github.com/NomaDamas/deepdoctection-api-server
     """
 
     def __init__(self, file_path: str, deepdoctection_host: str):
         super().__init__(file_path)
-        _check_deepdoctection_server(deepdoctection_host)
+        response = requests.get(deepdoctection_host)
+        if response.status_code != 200:
+            raise ValueError(f"Could not connect to Deepdoctection server: {deepdoctection_host}")
         self.deepdoctection_host = deepdoctection_host
 
-    def load(self, split_section: bool = True, split_table: bool = True, *args, **kwargs) -> List[Document]:
+    def load(self, *args, **kwargs) -> List[Document]:
         return list(self.lazy_load(*args, **kwargs))
 
     def lazy_load(self, *args, **kwargs) -> Iterator[Document]:
@@ -39,7 +36,7 @@ class DeepdoctectionPDFLoader(BasePDFLoader):
         result = response.json()
         extracted_pages = self.extract_pages(result)
         for extracted_page in extracted_pages:
-            if extracted_page['Table']:
+            if 'Table' in extracted_page:
                 yield Document(page_content=extracted_page['Table'], emetadata=extracted_page['Page_number'])
             else:
                 page_content = extracted_page['Title'] + '\n' + extracted_page['Text']
