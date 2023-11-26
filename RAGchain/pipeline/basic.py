@@ -4,7 +4,7 @@ from typing import List, Optional, Union
 from langchain.document_loaders.base import BaseLoader
 from langchain.schema import StrOutputParser
 from langchain.schema.language_model import BaseLanguageModel
-from langchain.schema.runnable import RunnableLambda
+from langchain.schema.runnable import RunnableLambda, RunnablePassthrough
 
 from RAGchain.DB.base import BaseDB
 from RAGchain.pipeline.base import BasePipeline, BaseRunPipeline
@@ -121,12 +121,12 @@ class BasicRunPipeline(BaseRunPipeline):
         super().__init__()
 
     def _make_runnable(self):
-        self.run = {
-                       "passages": itemgetter("question") | RunnableLambda(
-                           lambda question: Passage.make_prompts(self.retrieval.retrieve(question,
-                                                                                         **self.retrieval_option))),
-                       "question": itemgetter("question"),
-                   } | self.prompt | self.llm | StrOutputParser()
+        self.run = RunnablePassthrough.assign(
+            passages=itemgetter("question") | RunnableLambda(
+                lambda question: Passage.make_prompts(self.retrieval.retrieve(question,
+                                                                              **self.retrieval_option))),
+            question=itemgetter("question"),
+        ) | self.prompt | self.llm | StrOutputParser()
 
     def get_passages_and_run(self, questions: List[str]) -> tuple[List[str], List[List[Passage]], List[List[float]]]:
         passage_ids, scores = map(list,
