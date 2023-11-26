@@ -7,7 +7,7 @@ from langchain.schema.language_model import BaseLanguageModel
 from langchain.schema.runnable import RunnableLambda, RunnablePassthrough
 
 from RAGchain.DB.base import BaseDB
-from RAGchain.pipeline.base import BasePipeline, BaseRunPipeline
+from RAGchain.pipeline.base import BaseIngestPipeline, BaseRunPipeline
 from RAGchain.preprocess.text_splitter import RecursiveTextSplitter
 from RAGchain.preprocess.text_splitter.base import BaseTextSplitter
 from RAGchain.retrieval.base import BaseRetrieval
@@ -15,7 +15,7 @@ from RAGchain.schema import Passage, RAGchainPromptTemplate, RAGchainChatPromptT
 from RAGchain.utils.file_cache import FileCache
 
 
-class BasicIngestPipeline(BasePipeline):
+class BasicIngestPipeline(BaseIngestPipeline):
     """
     Basic ingest pipeline class.
     This class handles the ingestion process of documents into a database and retrieval system.

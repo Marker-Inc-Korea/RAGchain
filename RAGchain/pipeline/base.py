@@ -9,7 +9,7 @@ from langchain.schema.runnable import Runnable
 from RAGchain.schema import Passage, RAGchainPromptTemplate, RAGchainChatPromptTemplate
 
 
-class BasePipeline(ABC):
+class BaseIngestPipeline(ABC):
     """
     Base class for all pipelines
     """
