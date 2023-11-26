@@ -129,15 +129,33 @@ class BasicRunPipeline(BaseRunPipeline):
         ) | self.prompt | self.llm | StrOutputParser()
 
     def get_passages_and_run(self, questions: List[str]) -> tuple[List[str], List[List[Passage]], List[List[float]]]:
-        passage_ids, scores = map(list,
-                                  zip(*[self.retrieval.retrieve_id_with_scores(question, **self.retrieval_option)
-                                        for question in questions]))
-        passages = list(map(self.retrieval.fetch_data, passage_ids))
+        def passage_scores_to_dict(passages_scores):
+            return {
+                "passage_ids": passages_scores[0],
+                "scores": passages_scores[1]
+            }
 
-        runnable = {
+        passage_scores = RunnablePassthrough.assign(
+            passage_scores=itemgetter("question") | RunnableLambda(
+                lambda question: passage_scores_to_dict(self.retrieval.retrieve_id_with_scores(
+                    question, **self.retrieval_option)))
+        )
+
+        runnable = passage_scores | RunnablePassthrough.assign(
+            passages=lambda x: self.retrieval.fetch_data(x['passage_scores']['passage_ids']),
+            scores=lambda x: x['passage_scores']['scores']
+        ) | RunnablePassthrough.assign(
+            answer={
                        "question": itemgetter("question"),
-                       "passages": itemgetter("passages") | RunnableLambda(lambda x: Passage.make_prompts(x))
+                       "passages": itemgetter("passages") | RunnableLambda(
+                           lambda passages: Passage.make_prompts(passages)
+                       )
                    } | self.prompt | self.llm | StrOutputParser()
+        )
+
         answers = runnable.batch(
-            [{"question": question, "passages": passage_group} for question, passage_group in zip(questions, passages)])
-        return answers, passages, scores
+            [{"question": question} for question in questions])
+
+        final_answers, final_passages, final_scores = (
+            map(list, zip(*[(answer['answer'], answer['passages'], answer['scores']) for answer in answers])))
+        return final_answers, final_passages, final_scores
