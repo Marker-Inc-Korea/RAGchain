@@ -101,7 +101,6 @@
     <li><a class="reference internal" href="#RAGchain.retrieval.hyde.HyDERetrieval.delete"><code
             class="docutils literal notranslate"><span class="pre">HyDERetrieval.delete()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.retrieval.hyde.HyDERetrieval.ingest"><code class="docutils literal notranslate"><span class="pre">HyDERetrieval.ingest()</span></code></a></li>
-<li><a class="reference internal" href="#RAGchain.retrieval.hyde.HyDERetrieval.make_prompt"><code class="docutils literal notranslate"><span class="pre">HyDERetrieval.make_prompt()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.retrieval.hyde.HyDERetrieval.retrieve"><code class="docutils literal notranslate"><span class="pre">HyDERetrieval.retrieve()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.retrieval.hyde.HyDERetrieval.retrieve_id"><code class="docutils literal notranslate"><span class="pre">HyDERetrieval.retrieve_id()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.retrieval.hyde.HyDERetrieval.retrieve_id_with_scores"><code class="docutils literal notranslate"><span class="pre">HyDERetrieval.retrieve_id_with_scores()</span></code></a></li>
@@ -645,7 +644,27 @@ You can combine retrieval scores with rrf algorithm or convex combination algori
 <span id="ragchain-retrieval-hyde-module"></span><h2>RAGchain.retrieval.hyde module<a class="headerlink" href="#module-RAGchain.retrieval.hyde" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="RAGchain.retrieval.hyde.HyDERetrieval">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.retrieval.hyde.</span></span><span class="sig-name descname"><span class="pre">HyDERetrieval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">retrieval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#RAGchain.retrieval.base.BaseRetrieval" title="RAGchain.retrieval.base.BaseRetrieval"><span class="pre">BaseRetrieval</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">system_prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'gpt-3.5-turbo'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_base</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.retrieval.hyde.HyDERetrieval" title="Link to this definition"></a></dt>
+    <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+        class="sig-prename descclassname"><span class="pre">RAGchain.retrieval.hyde.</span></span><span
+        class="sig-name descname"><span class="pre">HyDERetrieval</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">retrieval</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal"
+                                                                              href="#RAGchain.retrieval.base.BaseRetrieval"
+                                                                              title="RAGchain.retrieval.base.BaseRetrieval"><span
+        class="pre">BaseRetrieval</span></a></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+        class="n"><span class="pre">BaseLanguageModel</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">system_prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+        class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em
+        class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
+        class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                href="#RAGchain.retrieval.hyde.HyDERetrieval"
+                                                                                title="Link to this definition"></a>
+</dt>
 <dd><p>Bases: <a class="reference internal" href="#RAGchain.retrieval.base.BaseRetrieval" title="RAGchain.retrieval.base.BaseRetrieval"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrieval</span></code></a></p>
 <p>HyDE Retrieval, which inspired by “Precise Zero-shot Dense Retrieval without Relevance Labels” (<a class="reference external" href="https://arxiv.org/pdf/2212.10496.pdf">https://arxiv.org/pdf/2212.10496.pdf</a>)
 At retrieval, LLM model creates hypothetical passage.
@@ -676,13 +695,24 @@ And then, retrieve passages using hypothetical passage as query.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="RAGchain.retrieval.hyde.HyDERetrieval.make_prompt">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_prompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.retrieval.hyde.HyDERetrieval.make_prompt" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.hyde.HyDERetrieval.retrieve">
-<span class="sig-name descname"><span class="pre">retrieve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.retrieval.hyde.HyDERetrieval.retrieve" title="Link to this definition"></a></dt>
+    <span class="sig-name descname"><span class="pre">retrieve</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em
+        class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em
+        class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
+        class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
+        class="p"><span class="pre">[</span></span><a class="reference internal"
+                                                      href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                                      title="RAGchain.schema.passage.Passage"><span
+        class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a
+        class="headerlink" href="#RAGchain.retrieval.hyde.HyDERetrieval.retrieve" title="Link to this definition"></a>
+</dt>
 <dd><p>retrieve passages at ingested vector representation of passages.</p>
 </dd></dl>
 
@@ -694,12 +724,7 @@ And then, retrieve passages using hypothetical passage as query.</p>
         class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span
         class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span
         class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
-        class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span
-        class="pre">model_kwargs</span></span><span class="p"><span class="pre">:</span></span><span
-        class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span
-        class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
-        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
-        class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span
         class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em
         class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
         class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
@@ -720,12 +745,7 @@ And then, retrieve passages using hypothetical passage as query.</p>
     <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span
             class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span
             class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
-            class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span
-        class="pre">model_kwargs</span></span><span class="p"><span class="pre">:</span></span><span
-        class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span
-        class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
-        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
-        class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span
+            class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span
         class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em
         class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
         class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span

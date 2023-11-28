@@ -82,11 +82,55 @@
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.filepath"><code class="docutils literal notranslate"><span class="pre">Passage.filepath</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.id"><code class="docutils literal notranslate"><span class="pre">Passage.id</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.is_exactly_same"><code class="docutils literal notranslate"><span class="pre">Passage.is_exactly_same()</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.make_prompts"><code
+            class="docutils literal notranslate"><span class="pre">Passage.make_prompts()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.metadata_etc"><code class="docutils literal notranslate"><span class="pre">Passage.metadata_etc</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.next_passage_id"><code class="docutils literal notranslate"><span class="pre">Passage.next_passage_id</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.previous_passage_id"><code class="docutils literal notranslate"><span class="pre">Passage.previous_passage_id</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.to_dict"><code class="docutils literal notranslate"><span class="pre">Passage.to_dict()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.to_document"><code class="docutils literal notranslate"><span class="pre">Passage.to_document()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+    <li><a class="reference internal" href="#module-RAGchain.schema.prompt">RAGchain.schema.prompt module</a>
+        <ul>
+            <li><a class="reference internal" href="#RAGchain.schema.prompt.RAGchainChatPromptTemplate"><code
+                    class="docutils literal notranslate"><span class="pre">RAGchainChatPromptTemplate</span></code></a>
+                <ul>
+                    <li><a class="reference internal"
+                           href="#RAGchain.schema.prompt.RAGchainChatPromptTemplate.input_variables"><code
+                            class="docutils literal notranslate"><span class="pre">RAGchainChatPromptTemplate.input_variables</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.schema.prompt.RAGchainChatPromptTemplate.messages"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RAGchainChatPromptTemplate.messages</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.schema.prompt.RAGchainChatPromptTemplate.validate_template"><code
+                            class="docutils literal notranslate"><span class="pre">RAGchainChatPromptTemplate.validate_template</span></code></a>
+                    </li>
+                </ul>
+            </li>
+            <li><a class="reference internal" href="#RAGchain.schema.prompt.RAGchainPromptTemplate"><code
+                    class="docutils literal notranslate"><span class="pre">RAGchainPromptTemplate</span></code></a>
+                <ul>
+                    <li><a class="reference internal"
+                           href="#RAGchain.schema.prompt.RAGchainPromptTemplate.input_variables"><code
+                            class="docutils literal notranslate"><span class="pre">RAGchainPromptTemplate.input_variables</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.schema.prompt.RAGchainPromptTemplate.template"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RAGchainPromptTemplate.template</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.schema.prompt.RAGchainPromptTemplate.template_format"><code
+                            class="docutils literal notranslate"><span class="pre">RAGchainPromptTemplate.template_format</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.schema.prompt.RAGchainPromptTemplate.validate_template"><code
+                            class="docutils literal notranslate"><span class="pre">RAGchainPromptTemplate.validate_template</span></code></a>
+                    </li>
 </ul>
 </li>
 </ul>
@@ -242,6 +286,23 @@
 <span class="sig-name descname"><span class="pre">is_exactly_same</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.schema.passage.Passage.is_exactly_same" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
+    <dl class="py method">
+        <dt class="sig sig-object py" id="RAGchain.schema.passage.Passage.make_prompts">
+            <em class="property"><span class="pre">static</span><span class="w"> </span></em><span
+                class="sig-name descname"><span class="pre">make_prompts</span></span><span
+                class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">passages</span></span><span
+                class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
+                class="p"><span class="pre">[</span></span><a class="reference internal"
+                                                              href="#RAGchain.schema.passage.Passage"
+                                                              title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span
+                class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+                class="pre">str</span></span></span><a class="headerlink"
+                                                       href="#RAGchain.schema.passage.Passage.make_prompts"
+                                                       title="Link to this definition"></a></dt>
+        <dd></dd>
+    </dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="RAGchain.schema.passage.Passage.metadata_etc">
 <span class="sig-name descname"><span class="pre">metadata_etc</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#RAGchain.schema.passage.Passage.metadata_etc" title="Link to this definition"></a></dt>
@@ -269,6 +330,214 @@
 <dt class="sig sig-object py" id="RAGchain.schema.passage.Passage.to_document">
 <span class="sig-name descname"><span class="pre">to_document</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Document</span></span></span><a class="headerlink" href="#RAGchain.schema.passage.Passage.to_document" title="Link to this definition"></a></dt>
 <dd></dd></dl>
+
+</dd>
+</dl>
+
+</section>
+      <section id="module-RAGchain.schema.prompt">
+          <span id="ragchain-schema-prompt-module"></span>
+          <h2>RAGchain.schema.prompt module<a class="headerlink" href="#module-RAGchain.schema.prompt"
+                                              title="Link to this heading"></a></h2>
+          <dl class="py class">
+              <dt class="sig sig-object py" id="RAGchain.schema.prompt.RAGchainChatPromptTemplate">
+                  <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span class="pre">RAGchain.schema.prompt.</span></span><span
+                      class="sig-name descname"><span class="pre">RAGchainChatPromptTemplate</span></span><span
+                      class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>,
+                  <em class="sig-param"><span class="n"><span class="pre">input_variables</span></span><span
+                          class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                          class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+                          class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em
+                      class="sig-param"><span class="n"><span class="pre">input_types</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span
+                      class="pre">str</span><span class="p"><span class="pre">,</span></span><span
+                      class="w"> </span><span class="pre">Any</span><span class="p"><span
+                      class="pre">]</span></span></span><span class="w"> </span><span class="o"><span
+                      class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
+                  <em class="sig-param"><span class="n"><span class="pre">output_parser</span></span><span
+                          class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                          class="pre">BaseOutputParser</span><span class="w"> </span><span class="p"><span
+                          class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                          class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                          class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em
+                      class="sig-param"><span class="n"><span class="pre">partial_variables</span></span><span
+                      class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span
+                      class="pre">str</span><span class="p"><span class="pre">,</span></span><span
+                      class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span
+                      class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span
+                      class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span
+                      class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span
+                      class="w"> </span><span class="pre">str</span><span class="p"><span
+                      class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span
+                      class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+                      class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span
+                      class="n"><span class="pre">messages</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BaseMessagePromptTemplate</span><span
+                      class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span
+                      class="pre">BaseMessage</span><span class="w"> </span><span class="p"><span
+                      class="pre">|</span></span><span class="w"> </span><span class="pre">BaseChatPromptTemplate</span><span
+                      class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                      class="n"><span class="pre">validate_template</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">bool</span></span><span class="w"> </span><span class="o"><span
+                      class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span
+                      class="sig-paren">)</span><a class="headerlink"
+                                                   href="#RAGchain.schema.prompt.RAGchainChatPromptTemplate"
+                                                   title="Link to this definition"></a></dt>
+              <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ChatPromptTemplate</span></code>
+              </p>
+                  <dl class="py attribute">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.schema.prompt.RAGchainChatPromptTemplate.input_variables">
+                          <span class="sig-name descname"><span class="pre">input_variables</span></span><em
+                              class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span></em><a class="headerlink"
+                                                                                 href="#RAGchain.schema.prompt.RAGchainChatPromptTemplate.input_variables"
+                                                                                 title="Link to this definition"></a>
+                      </dt>
+                      <dd><p>List of input variables in template messages. Used for validation.</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py attribute">
+                      <dt class="sig sig-object py" id="RAGchain.schema.prompt.RAGchainChatPromptTemplate.messages">
+                          <span class="sig-name descname"><span class="pre">messages</span></span><em
+                              class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">MessageLike</span><span
+                              class="p"><span class="pre">]</span></span></em><a class="headerlink"
+                                                                                 href="#RAGchain.schema.prompt.RAGchainChatPromptTemplate.messages"
+                                                                                 title="Link to this definition"></a>
+                      </dt>
+                      <dd><p>List of messages consisting of either message prompt templates or messages.</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py attribute">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.schema.prompt.RAGchainChatPromptTemplate.validate_template">
+                          <span class="sig-name descname"><span class="pre">validate_template</span></span><em
+                              class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                              class="pre">bool</span></em><a class="headerlink"
+                                                             href="#RAGchain.schema.prompt.RAGchainChatPromptTemplate.validate_template"
+                                                             title="Link to this definition"></a></dt>
+                      <dd><p>Whether or not to try validating the template.</p>
+                      </dd>
+                  </dl>
+
+              </dd>
+          </dl>
+
+          <dl class="py class">
+              <dt class="sig sig-object py" id="RAGchain.schema.prompt.RAGchainPromptTemplate">
+                  <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span class="pre">RAGchain.schema.prompt.</span></span><span
+                      class="sig-name descname"><span class="pre">RAGchainPromptTemplate</span></span><span
+                      class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>,
+                  <em class="sig-param"><span class="n"><span class="pre">input_variables</span></span><span
+                          class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                          class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+                          class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em
+                      class="sig-param"><span class="n"><span class="pre">input_types</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span
+                      class="pre">str</span><span class="p"><span class="pre">,</span></span><span
+                      class="w"> </span><span class="pre">Any</span><span class="p"><span
+                      class="pre">]</span></span></span><span class="w"> </span><span class="o"><span
+                      class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
+                  <em class="sig-param"><span class="n"><span class="pre">output_parser</span></span><span
+                          class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                          class="pre">BaseOutputParser</span><span class="w"> </span><span class="p"><span
+                          class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                          class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                          class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em
+                      class="sig-param"><span class="n"><span class="pre">partial_variables</span></span><span
+                      class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span
+                      class="pre">str</span><span class="p"><span class="pre">,</span></span><span
+                      class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span
+                      class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span
+                      class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span
+                      class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span
+                      class="w"> </span><span class="pre">str</span><span class="p"><span
+                      class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span
+                      class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+                      class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span
+                      class="n"><span class="pre">template</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_format</span></span><span
+                      class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span
+                      class="pre">'f-string'</span></span><span class="p"><span class="pre">]</span></span><span
+                      class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span
+                      class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span
+                      class="pre">'jinja2'</span></span><span class="p"><span class="pre">]</span></span></span><span
+                      class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+                      class="default_value"><span class="pre">'f-string'</span></span></em>, <em class="sig-param"><span
+                      class="n"><span class="pre">validate_template</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">bool</span></span><span class="w"> </span><span class="o"><span
+                      class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span
+                      class="sig-paren">)</span><a class="headerlink"
+                                                   href="#RAGchain.schema.prompt.RAGchainPromptTemplate"
+                                                   title="Link to this definition"></a></dt>
+              <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+                      class="pre">PromptTemplate</span></code></p>
+                  <dl class="py attribute">
+                      <dt class="sig sig-object py" id="RAGchain.schema.prompt.RAGchainPromptTemplate.input_variables">
+                          <span class="sig-name descname"><span class="pre">input_variables</span></span><em
+                              class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span></em><a class="headerlink"
+                                                                                 href="#RAGchain.schema.prompt.RAGchainPromptTemplate.input_variables"
+                                                                                 title="Link to this definition"></a>
+                      </dt>
+                      <dd><p>A list of the names of the variables the prompt template expects.</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py attribute">
+                      <dt class="sig sig-object py" id="RAGchain.schema.prompt.RAGchainPromptTemplate.template">
+                          <span class="sig-name descname"><span class="pre">template</span></span><em
+                              class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                              class="pre">str</span></em><a class="headerlink"
+                                                            href="#RAGchain.schema.prompt.RAGchainPromptTemplate.template"
+                                                            title="Link to this definition"></a></dt>
+                      <dd><p>The prompt template.</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py attribute">
+                      <dt class="sig sig-object py" id="RAGchain.schema.prompt.RAGchainPromptTemplate.template_format">
+                          <span class="sig-name descname"><span class="pre">template_format</span></span><em
+                              class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                              class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span
+                              class="s"><span class="pre">'f-string'</span></span><span class="p"><span
+                              class="pre">]</span></span><span class="w"> </span><span class="p"><span
+                              class="pre">|</span></span><span class="w"> </span><span class="pre">Literal</span><span
+                              class="p"><span class="pre">[</span></span><span class="s"><span
+                              class="pre">'jinja2'</span></span><span class="p"><span class="pre">]</span></span></em><a
+                              class="headerlink" href="#RAGchain.schema.prompt.RAGchainPromptTemplate.template_format"
+                              title="Link to this definition"></a></dt>
+                      <dd><p>The format of the prompt template. Options are: ‘f-string’, ‘jinja2’.</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py attribute">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.schema.prompt.RAGchainPromptTemplate.validate_template">
+                          <span class="sig-name descname"><span class="pre">validate_template</span></span><em
+                              class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                              class="pre">bool</span></em><a class="headerlink"
+                                                             href="#RAGchain.schema.prompt.RAGchainPromptTemplate.validate_template"
+                                                             title="Link to this definition"></a></dt>
+                      <dd><p>Whether or not to try validating the template.</p>
+                      </dd>
+                  </dl>
 
 </dd></dl>
 

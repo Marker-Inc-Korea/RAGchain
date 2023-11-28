@@ -469,8 +469,8 @@
                       class="sig-name descname"><span class="pre">AutoEvaluator</span></span><span
                       class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipeline</span></span><span
                       class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a
-                      class="reference internal" href="RAGchain.pipeline.html#RAGchain.pipeline.base.BasePipeline"
-                      title="RAGchain.pipeline.base.BasePipeline"><span class="pre">BasePipeline</span></a></span></em>,
+                      class="reference internal" href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                      title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
                   <em class="sig-param"><span class="n"><span class="pre">questions</span></span><span class="p"><span
                           class="pre">:</span></span><span class="w"> </span><span class="n"><span
                           class="pre">List</span><span class="p"><span class="pre">[</span></span><span
@@ -503,7 +503,6 @@
                       </dt>
                       <dd><p>Evaluate metrics and return the results
                           :param validate_passages: If True, validate passages in retrieval_gt already ingested.
-                          :param kwargs: Arguments for running pipeline.run()
                           :return: EvaluateResult</p>
                       </dd>
                   </dl>
@@ -576,9 +575,7 @@
                               class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
                               class="pre">bool</span></span><span class="w"> </span><span class="o"><span
                               class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
-                              class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span
-                              class="pre">**</span></span><span class="n"><span
-                              class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span
+                              class="pre">True</span></span></em><span class="sig-paren">)</span> <span
                               class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
                               class="sig-return-typehint"><a class="reference internal"
                                                              href="RAGchain.schema.html#RAGchain.schema.evaluate_result.EvaluateResult"
@@ -589,7 +586,6 @@
                       </dt>
                       <dd><p>Evaluate metrics and return the results
                           :param validate_passages: If True, validate passages in retrieval_gt already ingested.
-                          :param kwargs: Arguments for running pipeline.run()
                           :return: EvaluateResult</p>
                       </dd>
                   </dl>
