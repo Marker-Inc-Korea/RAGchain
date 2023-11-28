@@ -107,7 +107,7 @@ class BasicRunPipeline(BaseRunPipeline):
     >>> retrieval = BM25Retrieval(save_path="./bm25.pkl")
     >>> pipeline = BasicRunPipeline(retrieval=retrieval, llm=OpenAI())
     >>> answer, passages, rel_scores = pipeline.get_passages_and_run(questions=["Where is the capital of Korea?"])
-    >>> # Run with Langchain LECL
+    >>> # Run with Langchain LCEL
     >>> answer = pipeline.run.invoke({"question": "Where is the capital of Korea?"})
     """
 
