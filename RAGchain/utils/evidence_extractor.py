@@ -1,9 +1,12 @@
 from typing import List
 
-import openai
+from langchain.chat_models.base import BaseChatModel
+from langchain.llms import BaseLLM
+from langchain.prompts import PromptTemplate, ChatPromptTemplate
+from langchain.schema import StrOutputParser
+from langchain.schema.language_model import BaseLanguageModel
 
 from RAGchain.schema import Passage
-from RAGchain.utils.util import set_api_base
 
 # This prompt is originated from RETA-LLM
 BASIC_SYSTEM_PROMPT = """From the given document, please select and output the relevant document fragments which are related to the query.
@@ -19,6 +22,7 @@ class EvidenceExtractor:
     :example:
     >>> from RAGchain.utils.evidence_extractor import EvidenceExtractor
     >>> from RAGchain.schema import Passage
+    >>> from langchain.llms.openai import OpenAI
     >>>
     >>> passages = [
     ...     Passage(content="Lorem ipsum dolor sit amet"),
@@ -27,41 +31,50 @@ class EvidenceExtractor:
     ... ]
     >>>
     >>> question = "What is Lorem ipsum?"
-    >>> extractor = EvidenceExtractor()
+    >>> extractor = EvidenceExtractor(OpenAI())
     >>> result = extractor.extract(question, passages)
 
     >>> print(result)
     """
-    def __init__(self, system_prompt: str = None, model_name: str = "gpt-3.5-turbo", api_base: str = None):
+
+    def __init__(self, llm: BaseLanguageModel, system_prompt: str = None):
         """
         Initialize the EvidenceExtractor class.
 
+        :param llm: The language model to be used for evidence extraction. You can use both Chat and Completion models.
         :param system_prompt: The system prompt to be used. If not provided, the default system prompt will be used.
-        :param model_name: The name of the model to be used. The default model is "gpt-3.5-turbo".
-        :param api_base: The base URL for the custom model. Default is None.
         """
+        self.llm = llm
         self.system_prompt = system_prompt if system_prompt is not None else BASIC_SYSTEM_PROMPT
-        self.model_name = model_name
-        set_api_base(api_base)
 
-    def extract(self, question: str, passages: List[Passage], model_kwargs: dict = {}) -> str:
+    def extract(self, question: str, passages: List[Passage]) -> str:
         """
         Extract method extracts relevant document evidences based on a question and a list of passages.
 
         :param question: The question for which relevant document fragments need to be extracted.
         :param passages: A list of Passage objects that contain the content of the documents.
-        :param model_kwargs: Optional keyword arguments to be passed to the openai api for customization. Default is {}.
 
         :return: The extracted relevant document fragments.
         """
         content_str = "\n".join([passage.content for passage in passages])
-        user_prompt = f"Document content: {content_str}\n\nquery: {question}]\n\nrelevant document fragments:"
-        completion = openai.ChatCompletion.create(
-            model=self.model_name,
-            messages=[
-                {"role": "system", "content": self.system_prompt},
-                {"role": "user", "content": user_prompt}
-            ],
-            **model_kwargs
-        )
-        return completion["choices"][0]["message"]["content"]
+        runnable = self.__make_prompt() | self.llm | StrOutputParser()
+        answer = runnable.invoke({
+            "question": question,
+            "content_str": content_str,
+        })
+        return answer
+
+    def __make_prompt(self):
+        if isinstance(self.llm, BaseLLM):
+            return PromptTemplate.from_template(
+                self.system_prompt +
+                "Document content: {content_str}\n\nquery: {question}]\n\nrelevant document fragments:"
+            )
+        elif isinstance(self.llm, BaseChatModel):
+            return ChatPromptTemplate.from_messages([
+                ("system", self.system_prompt),
+                ("human", "Document content: {content_str}\n\nquery: {question}"),
+                ("ai", "relevant document fragments: ")
+            ])
+        else:
+            raise NotImplementedError("Only support LLM or ChatModel")
