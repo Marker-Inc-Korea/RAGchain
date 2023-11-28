@@ -36,7 +36,7 @@ def visconde_run_pipeline():
         os.remove(pickle_path)
 
 
-def test_rerank_run_pipeline(visconde_run_pipeline):
+def test_visconde_run_pipeline(visconde_run_pipeline):
     answer = visconde_run_pipeline.run.invoke({"question": "Is reranker and retriever have same role?"})
     logger.info(f"Answer: {answer}")
     assert bool(answer)
