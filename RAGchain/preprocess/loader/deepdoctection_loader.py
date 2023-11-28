@@ -46,10 +46,10 @@ class DeepdoctectionPDFLoader(BasePDFLoader):
         for extracted_page in extracted_pages:
             if 'table' in extracted_page:
                 yield Document(page_content=extracted_page['table'],
-                               metadata={'Page_number': extracted_page['page_number'], 'page_type': 'table'})
+                               metadata={'page_number': extracted_page['page_number'], 'page_type': 'table'})
             else:
                 page_content = 'title:' + extracted_page['title'] + '\n' + 'text:' + extracted_page['text']
-                metadata = {'Page_number': extracted_page['page_number'], 'page_type': 'text'}
+                metadata = {'page_number': extracted_page['page_number'], 'page_type': 'text'}
                 yield Document(page_content=page_content, metadata=metadata)
 
     def extract_pages(self, result: List[Dict[str, Any]]) -> List[Dict[str, Any]]:

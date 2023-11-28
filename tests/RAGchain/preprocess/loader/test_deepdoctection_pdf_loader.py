@@ -71,7 +71,8 @@ def test_deepdoctection_pdf_loader(deepdoctection_pdf_loader):
     assert len(docs) == 15
     assert docs[-1].metadata['page_number'] == 3
     table_count_content = sum('<table>' in doc.page_content for doc in docs)
-    table_count_metadata = sum('table' in doc.metadata for doc in docs)
-    assert table_count_content == table_count_metadata
-    text_count = sum('text' not in doc.metadata['page_type'] for doc in docs)
-    assert text_count == 12
+    table_count_metadata = sum('table' in doc.metadata['page_type'] for doc in docs)
+    assert table_count_content == table_count_metadata == 3
+    text_count_content = sum('text' in doc.page_content for doc in docs)
+    text_count_metadata = sum('text' in doc.metadata['page_type'] for doc in docs)
+    assert text_count_content == text_count_metadata == 12
