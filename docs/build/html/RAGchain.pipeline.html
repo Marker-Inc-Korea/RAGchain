@@ -46,23 +46,42 @@
 <li><a class="reference internal" href="#">RAGchain.pipeline package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-RAGchain.pipeline.base">RAGchain.pipeline.base module</a><ul>
-<li><a class="reference internal" href="#RAGchain.pipeline.base.BasePipeline"><code class="docutils literal notranslate"><span class="pre">BasePipeline</span></code></a><ul>
-<li><a class="reference internal" href="#RAGchain.pipeline.base.BasePipeline.run"><code class="docutils literal notranslate"><span class="pre">BasePipeline.run()</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.pipeline.base.BaseIngestPipeline"><code
+            class="docutils literal notranslate"><span class="pre">BaseIngestPipeline</span></code></a>
+        <ul>
+            <li><a class="reference internal" href="#RAGchain.pipeline.base.BaseIngestPipeline.run"><code
+                    class="docutils literal notranslate"><span class="pre">BaseIngestPipeline.run()</span></code></a>
+            </li>
+</ul>
+</li>
+    <li><a class="reference internal" href="#RAGchain.pipeline.base.BaseRunPipeline"><code
+            class="docutils literal notranslate"><span class="pre">BaseRunPipeline</span></code></a>
+        <ul>
+            <li><a class="reference internal" href="#RAGchain.pipeline.base.BaseRunPipeline.default_chat_prompt"><code
+                    class="docutils literal notranslate"><span
+                    class="pre">BaseRunPipeline.default_chat_prompt</span></code></a></li>
+            <li><a class="reference internal" href="#RAGchain.pipeline.base.BaseRunPipeline.default_prompt"><code
+                    class="docutils literal notranslate"><span class="pre">BaseRunPipeline.default_prompt</span></code></a>
+            </li>
+            <li><a class="reference internal" href="#RAGchain.pipeline.base.BaseRunPipeline.get_passages_and_run"><code
+                    class="docutils literal notranslate"><span class="pre">BaseRunPipeline.get_passages_and_run()</span></code></a>
+            </li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-RAGchain.pipeline.basic">RAGchain.pipeline.basic module</a><ul>
-<li><a class="reference internal" href="#RAGchain.pipeline.basic.BasicDatasetPipeline"><code class="docutils literal notranslate"><span class="pre">BasicDatasetPipeline</span></code></a><ul>
-<li><a class="reference internal" href="#RAGchain.pipeline.basic.BasicDatasetPipeline.run"><code class="docutils literal notranslate"><span class="pre">BasicDatasetPipeline.run()</span></code></a></li>
-</ul>
-</li>
+    <li><a class="reference internal" href="#module-RAGchain.pipeline.basic">RAGchain.pipeline.basic module</a>
+        <ul>
 <li><a class="reference internal" href="#RAGchain.pipeline.basic.BasicIngestPipeline"><code class="docutils literal notranslate"><span class="pre">BasicIngestPipeline</span></code></a><ul>
 <li><a class="reference internal" href="#RAGchain.pipeline.basic.BasicIngestPipeline.run"><code class="docutils literal notranslate"><span class="pre">BasicIngestPipeline.run()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#RAGchain.pipeline.basic.BasicRunPipeline"><code class="docutils literal notranslate"><span class="pre">BasicRunPipeline</span></code></a><ul>
-<li><a class="reference internal" href="#RAGchain.pipeline.basic.BasicRunPipeline.run"><code class="docutils literal notranslate"><span class="pre">BasicRunPipeline.run()</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.pipeline.basic.BasicRunPipeline.get_passages_and_run"><code
+            class="docutils literal notranslate"><span class="pre">BasicRunPipeline.get_passages_and_run()</span></code></a>
+    </li>
+    <li><a class="reference internal" href="#RAGchain.pipeline.basic.BasicRunPipeline.run"><code
+            class="docutils literal notranslate"><span class="pre">BasicRunPipeline.run</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -72,9 +91,13 @@
             <li><a class="reference internal" href="#RAGchain.pipeline.rerank.RerankRunPipeline"><code
                     class="docutils literal notranslate"><span class="pre">RerankRunPipeline</span></code></a>
                 <ul>
-                    <li><a class="reference internal" href="#RAGchain.pipeline.rerank.RerankRunPipeline.run"><code
-                            class="docutils literal notranslate"><span class="pre">RerankRunPipeline.run()</span></code></a>
+                    <li><a class="reference internal"
+                           href="#RAGchain.pipeline.rerank.RerankRunPipeline.get_passages_and_run"><code
+                            class="docutils literal notranslate"><span class="pre">RerankRunPipeline.get_passages_and_run()</span></code></a>
                     </li>
+                    <li><a class="reference internal" href="#RAGchain.pipeline.rerank.RerankRunPipeline.run"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RerankRunPipeline.run</span></code></a></li>
                 </ul>
             </li>
         </ul>
@@ -85,12 +108,12 @@
                     class="docutils literal notranslate"><span class="pre">ViscondeRunPipeline</span></code></a>
                 <ul>
                     <li><a class="reference internal"
-                           href="#RAGchain.pipeline.visconde.ViscondeRunPipeline.default_prompt"><code
-                            class="docutils literal notranslate"><span
-                            class="pre">ViscondeRunPipeline.default_prompt()</span></code></a></li>
+                           href="#RAGchain.pipeline.visconde.ViscondeRunPipeline.get_passages_and_run"><code
+                            class="docutils literal notranslate"><span class="pre">ViscondeRunPipeline.get_passages_and_run()</span></code></a>
+                    </li>
                     <li><a class="reference internal" href="#RAGchain.pipeline.visconde.ViscondeRunPipeline.run"><code
-                            class="docutils literal notranslate"><span
-                            class="pre">ViscondeRunPipeline.run()</span></code></a></li>
+                            class="docutils literal notranslate"><span class="pre">ViscondeRunPipeline.run</span></code></a>
+                    </li>
                     <li><a class="reference internal"
                            href="#RAGchain.pipeline.visconde.ViscondeRunPipeline.strategyqa_prompt"><code
                             class="docutils literal notranslate"><span
@@ -136,41 +159,127 @@
 <section id="module-RAGchain.pipeline.base">
 <span id="ragchain-pipeline-base-module"></span><h2>RAGchain.pipeline.base module<a class="headerlink" href="#module-RAGchain.pipeline.base" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="RAGchain.pipeline.base.BasePipeline">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.pipeline.base.</span></span><span class="sig-name descname"><span class="pre">BasePipeline</span></span><a class="headerlink" href="#RAGchain.pipeline.base.BasePipeline" title="Link to this definition"></a></dt>
+    <dt class="sig sig-object py" id="RAGchain.pipeline.base.BaseIngestPipeline">
+        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+            class="sig-prename descclassname"><span class="pre">RAGchain.pipeline.base.</span></span><span
+            class="sig-name descname"><span class="pre">BaseIngestPipeline</span></span><a class="headerlink"
+                                                                                           href="#RAGchain.pipeline.base.BaseIngestPipeline"
+                                                                                           title="Link to this definition"></a>
+    </dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
 <p>Base class for all pipelines</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="RAGchain.pipeline.base.BasePipeline.run">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.pipeline.base.BasePipeline.run" title="Link to this definition"></a></dt>
+    <dt class="sig sig-object py" id="RAGchain.pipeline.base.BaseIngestPipeline.run">
+        <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span
+            class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em
+            class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span
+            class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span
+            class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span
+            class="sig-paren">)</span><a class="headerlink" href="#RAGchain.pipeline.base.BaseIngestPipeline.run"
+                                         title="Link to this definition"></a></dt>
 <dd><p>Run the pipeline</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+    <dt class="sig sig-object py" id="RAGchain.pipeline.base.BaseRunPipeline">
+        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+            class="sig-prename descclassname"><span class="pre">RAGchain.pipeline.base.</span></span><span
+            class="sig-name descname"><span class="pre">BaseRunPipeline</span></span><a class="headerlink"
+                                                                                        href="#RAGchain.pipeline.base.BaseRunPipeline"
+                                                                                        title="Link to this definition"></a>
+    </dt>
+    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+        <dl class="py attribute">
+            <dt class="sig sig-object py" id="RAGchain.pipeline.base.BaseRunPipeline.default_chat_prompt">
+                <span class="sig-name descname"><span class="pre">default_chat_prompt</span></span><em class="property"><span
+                    class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span
+                    class="pre">RAGchainChatPromptTemplate(input_variables=['passages',</span> <span class="pre">'question'],</span>
+                <span class="pre">messages=[SystemMessagePromptTemplate(prompt=PromptTemplate(input_variables=['passages'],</span>
+                <span class="pre">template=&quot;Given</span> <span class="pre">the</span> <span class="pre">information,</span>
+                <span class="pre">answer</span> <span class="pre">the</span> <span class="pre">question.</span> <span
+                        class="pre">If</span> <span class="pre">you</span> <span class="pre">don't</span> <span
+                        class="pre">know</span> <span class="pre">the</span> <span class="pre">answer,</span> <span
+                        class="pre">don't</span> <span class="pre">make</span> <span class="pre">up</span> <span
+                        class="pre">the</span> <span class="pre">answer,</span> <span class="pre">just</span> <span
+                        class="pre">say</span> <span class="pre">you</span> <span class="pre">don't</span> <span
+                        class="pre">know.Information</span> <span class="pre">:</span> <span class="pre">\n{passages}&quot;)),</span>
+                <span class="pre">HumanMessagePromptTemplate(prompt=PromptTemplate(input_variables=['question'],</span>
+                <span class="pre">template='Question:</span> <span class="pre">{question}')),</span> <span class="pre">AIMessagePromptTemplate(prompt=PromptTemplate(input_variables=[],</span>
+                <span class="pre">template='Answer:</span> <span class="pre">'))])</span></em><a class="headerlink"
+                                                                                                 href="#RAGchain.pipeline.base.BaseRunPipeline.default_chat_prompt"
+                                                                                                 title="Link to this definition"></a>
+            </dt>
+            <dd></dd>
+        </dl>
+
+        <dl class="py attribute">
+            <dt class="sig sig-object py" id="RAGchain.pipeline.base.BaseRunPipeline.default_prompt">
+                <span class="sig-name descname"><span class="pre">default_prompt</span></span><em class="property"><span
+                    class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span
+                    class="pre">RAGchainPromptTemplate(input_variables=['passages',</span> <span class="pre">'question'],</span>
+                <span class="pre">template=&quot;\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Given</span>
+                <span class="pre">the</span> <span class="pre">information,</span> <span class="pre">answer</span> <span
+                        class="pre">the</span> <span class="pre">question.</span> <span class="pre">If</span> <span
+                        class="pre">you</span> <span class="pre">don't</span> <span class="pre">know</span> <span
+                        class="pre">the</span> <span class="pre">answer,</span> <span class="pre">don't</span> <span
+                        class="pre">make</span> <span class="pre">up</span> <span class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                <span class="pre">the</span> <span class="pre">answer,</span> <span class="pre">just</span> <span
+                        class="pre">say</span> <span class="pre">you</span> <span class="pre">don't</span> <span
+                        class="pre">know.\n\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Information</span>
+                <span class="pre">:\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span
+                        class="pre">{passages}\n\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Question:</span>
+                <span class="pre">{question}\n\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Answer:\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                <span class="pre">&quot;)</span></em><a class="headerlink"
+                                                        href="#RAGchain.pipeline.base.BaseRunPipeline.default_prompt"
+                                                        title="Link to this definition"></a></dt>
+            <dd></dd>
+        </dl>
+
+<dl class="py method">
+    <dt class="sig sig-object py" id="RAGchain.pipeline.base.BaseRunPipeline.get_passages_and_run">
+        <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span
+            class="sig-name descname"><span class="pre">get_passages_and_run</span></span><span
+            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+            class="pre">questions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+            class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+            class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span
+            class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+            class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span
+            class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+            class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span
+            class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span
+            class="p"><span class="pre">[</span></span><a class="reference internal"
+                                                          href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                                          title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span
+            class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span
+            class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span
+            class="pre">[</span></span><span class="pre">List</span><span class="p"><span
+            class="pre">[</span></span><span class="pre">float</span><span class="p"><span
+            class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span
+            class="pre">]</span></span></span></span><a class="headerlink"
+                                                        href="#RAGchain.pipeline.base.BaseRunPipeline.get_passages_and_run"
+                                                        title="Link to this definition"></a></dt>
+    <dd><p>Run the pipeline for evaluator, and get retrieved passages and rel scores.
+        It is same with pipeline.run.batch, but returns passages and rel scores.
+        Return List of answer, List of passages, Relevance score of passages.</p>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="module-RAGchain.pipeline.basic">
-<span id="ragchain-pipeline-basic-module"></span><h2>RAGchain.pipeline.basic module<a class="headerlink" href="#module-RAGchain.pipeline.basic" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="RAGchain.pipeline.basic.BasicDatasetPipeline">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.pipeline.basic.</span></span><span class="sig-name descname"><span class="pre">BasicDatasetPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_loader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BaseLoader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retrieval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval" title="RAGchain.retrieval.base.BaseRetrieval"><span class="pre">BaseRetrieval</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.pipeline.basic.BasicDatasetPipeline" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#RAGchain.pipeline.base.BasePipeline" title="RAGchain.pipeline.base.BasePipeline"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePipeline</span></code></a></p>
-<p>DEPRECATED
-This class is deprecated and recommend to use BasicIngestPipeline instead.
-Basic dataset pipeline class.
-You can ingest specific dataset to retrieval system.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="RAGchain.pipeline.basic.BasicDatasetPipeline.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.pipeline.basic.BasicDatasetPipeline.run" title="Link to this definition"></a></dt>
-<dd><p>Run the pipeline</p>
-</dd></dl>
-
-</dd></dl>
-
+      <section id="module-RAGchain.pipeline.basic">
+          <span id="ragchain-pipeline-basic-module"></span>
+          <h2>RAGchain.pipeline.basic module<a class="headerlink" href="#module-RAGchain.pipeline.basic"
+                                               title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="RAGchain.pipeline.basic.BasicIngestPipeline">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.pipeline.basic.</span></span><span class="sig-name descname"><span class="pre">BasicIngestPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_loader:</span> <span class="pre">~langchain.document_loaders.base.BaseLoader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db:</span> <span class="pre">~RAGchain.DB.base.BaseDB</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retrieval:</span> <span class="pre">~RAGchain.retrieval.base.BaseRetrieval</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_splitter:</span> <span class="pre">~RAGchain.preprocess.text_splitter.base.BaseTextSplitter</span> <span class="pre">=</span> <span class="pre">&lt;RAGchain.preprocess.text_splitter.text_splitter.RecursiveTextSplitter</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_existed_file:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.pipeline.basic.BasicIngestPipeline" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#RAGchain.pipeline.base.BasePipeline" title="RAGchain.pipeline.base.BasePipeline"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePipeline</span></code></a></p>
+    <dd><p>Bases: <a class="reference internal" href="#RAGchain.pipeline.base.BaseIngestPipeline"
+                     title="RAGchain.pipeline.base.BaseIngestPipeline"><code
+            class="xref py py-class docutils literal notranslate"><span class="pre">BaseIngestPipeline</span></code></a>
+    </p>
 <p>Basic ingest pipeline class.
 This class handles the ingestion process of documents into a database and retrieval system.
 First, load file from directory using file loader.
@@ -209,8 +318,37 @@ Fourth, ingest passages to retrieval module.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="RAGchain.pipeline.basic.BasicRunPipeline">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.pipeline.basic.</span></span><span class="sig-name descname"><span class="pre">BasicRunPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">retrieval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval" title="RAGchain.retrieval.base.BaseRetrieval"><span class="pre">BaseRetrieval</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="RAGchain.llm.html#RAGchain.llm.base.BaseLLM" title="RAGchain.llm.base.BaseLLM"><span class="pre">BaseLLM</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.pipeline.basic.BasicRunPipeline" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#RAGchain.pipeline.base.BasePipeline" title="RAGchain.pipeline.base.BasePipeline"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePipeline</span></code></a></p>
+    <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+        class="sig-prename descclassname"><span class="pre">RAGchain.pipeline.basic.</span></span><span
+        class="sig-name descname"><span class="pre">BasicRunPipeline</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">retrieval</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal"
+                                                                              href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval"
+                                                                              title="RAGchain.retrieval.base.BaseRetrieval"><span
+        class="pre">BaseRetrieval</span></a></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+        class="n"><span class="pre">BaseLanguageModel</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+        class="n"><a class="reference internal"
+                     href="RAGchain.schema.html#RAGchain.schema.prompt.RAGchainPromptTemplate"
+                     title="RAGchain.schema.prompt.RAGchainPromptTemplate"><span
+        class="pre">RAGchainPromptTemplate</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+        class="w"> </span><a class="reference internal"
+                             href="RAGchain.schema.html#RAGchain.schema.prompt.RAGchainChatPromptTemplate"
+                             title="RAGchain.schema.prompt.RAGchainChatPromptTemplate"><span class="pre">RAGchainChatPromptTemplate</span></a><span
+        class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">retrieval_option</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a
+        class="headerlink" href="#RAGchain.pipeline.basic.BasicRunPipeline" title="Link to this definition"></a></dt>
+    <dd><p>Bases: <a class="reference internal" href="#RAGchain.pipeline.base.BaseRunPipeline"
+                     title="RAGchain.pipeline.base.BaseRunPipeline"><code
+            class="xref py py-class docutils literal notranslate"><span class="pre">BaseRunPipeline</span></code></a>
+    </p>
 <p>Basic run pipeline class.
 This class handles the run process of document question answering.
 First, retrieve passages from retrieval module.
@@ -222,51 +360,67 @@ Finally, you can get answer and passages as return value.</p>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">RAGchain.pipeline.basic</span> <span class="kn">import</span> <span class="n">BasicRunPipeline</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">RAGchain.retrieval</span> <span class="kn">import</span> <span class="n">BM25Retrieval</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">RAGchain.llm.basic</span> <span class="kn">import</span> <span class="n">BasicLLM</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">langchain.llms.openai</span> <span
+            class="kn">import</span> <span class="n">OpenAI</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">retrieval</span> <span class="o">=</span> <span class="n">BM25Retrieval</span><span class="p">(</span><span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;./bm25.pkl&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">llm</span> <span class="o">=</span> <span class="n">BasicLLM</span><span
-            class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">BasicRunPipeline</span><span class="p">(</span><span class="n">retrieval</span><span class="o">=</span><span class="n">retrieval</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">answer</span><span class="p">,</span> <span class="n">passages</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s2">&quot;Where is the capital of Korea?&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">BasicRunPipeline</span><span
+            class="p">(</span><span class="n">retrieval</span><span class="o">=</span><span
+            class="n">retrieval</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span
+            class="n">OpenAI</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">answer</span><span class="p">,</span> <span
+            class="n">passages</span><span class="p">,</span> <span class="n">rel_scores</span> <span class="o">=</span> <span
+            class="n">pipeline</span><span class="o">.</span><span class="n">get_passages_and_run</span><span class="p">(</span><span
+            class="n">questions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Where is the capital of Korea?&quot;</span><span
+            class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Run with Langchain LCEL</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">answer</span> <span class="o">=</span> <span
+            class="n">pipeline</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span
+            class="n">invoke</span><span class="p">({</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span
+            class="s2">&quot;Where is the capital of Korea?&quot;</span><span class="p">})</span>
 </pre></div>
 </div>
 <dl class="py method">
+    <dt class="sig sig-object py" id="RAGchain.pipeline.basic.BasicRunPipeline.get_passages_and_run">
+        <span class="sig-name descname"><span class="pre">get_passages_and_run</span></span><span
+            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+            class="pre">questions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+            class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+            class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span
+            class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+            class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span
+            class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+            class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span
+            class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span
+            class="p"><span class="pre">[</span></span><a class="reference internal"
+                                                          href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                                          title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span
+            class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span
+            class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span
+            class="pre">[</span></span><span class="pre">List</span><span class="p"><span
+            class="pre">[</span></span><span class="pre">float</span><span class="p"><span
+            class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span
+            class="pre">]</span></span></span></span><a class="headerlink"
+                                                        href="#RAGchain.pipeline.basic.BasicRunPipeline.get_passages_and_run"
+                                                        title="Link to this definition"></a></dt>
+    <dd><p>Run the pipeline for evaluator, and get retrieved passages and rel scores.
+        It is same with pipeline.run.batch, but returns passages and rel scores.
+        Return List of answer, List of passages, Relevance score of passages.</p>
+    </dd>
+</dl>
+
+        <dl class="py attribute">
 <dt class="sig sig-object py" id="RAGchain.pipeline.basic.BasicRunPipeline.run">
-    <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em
-        class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span
-        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em
-        class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span
-        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span
-        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
-        class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="o"><span
-        class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em
-        class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
-        class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
-        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span
-        class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span
-        class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span
-        class="pre">[</span></span><a class="reference internal"
-                                      href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
-                                      title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span
-        class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a
+    <span class="sig-name descname"><span class="pre">run</span></span><em class="property"><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="pre">Runnable</span><span
+        class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a
         class="headerlink" href="#RAGchain.pipeline.basic.BasicRunPipeline.run" title="Link to this definition"></a>
 </dt>
-<dd><p>Run the run pipeline.
-:param query: Query to ask.
-    :param top_k: The number of passages to retrieve. Default is 4.
-    :param args: optional parameter for llm.ask()
-    :param kwargs: optional parameter for llm.ask()</p>
-    <dl class="field-list simple">
-        <dt class="field-odd">Returns<span class="colon">:</span></dt>
-        <dd class="field-odd"><p>Answer, retrieved passages.</p>
-        </dd>
-    </dl>
-</dd></dl>
+            <dd></dd>
+        </dl>
 
-</dd>
-</dl>
+</dd></dl>
 
 </section>
       <section id="module-RAGchain.pipeline.rerank">
@@ -289,19 +443,37 @@ Finally, you can get answer and passages as return value.</p>
                                                            title="RAGchain.reranker.base.BaseReranker"><span
                       class="pre">BaseReranker</span></a></span></em>, <em class="sig-param"><span class="n"><span
                       class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span
-                      class="w"> </span><span class="n"><a class="reference internal"
-                                                           href="RAGchain.llm.html#RAGchain.llm.base.BaseLLM"
-                                                           title="RAGchain.llm.base.BaseLLM"><span
-                      class="pre">BaseLLM</span></a><span class="w"> </span><span class="p"><span
+                      class="w"> </span><span class="n"><span class="pre">BaseLanguageModel</span></span></em>, <em
+                      class="sig-param"><span class="n"><span class="pre">prompt</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal"
+                                                                                            href="RAGchain.schema.html#RAGchain.schema.prompt.RAGchainPromptTemplate"
+                                                                                            title="RAGchain.schema.prompt.RAGchainPromptTemplate"><span
+                      class="pre">RAGchainPromptTemplate</span></a><span class="w"> </span><span class="p"><span
+                      class="pre">|</span></span><span class="w"> </span><a class="reference internal"
+                                                                            href="RAGchain.schema.html#RAGchain.schema.prompt.RAGchainChatPromptTemplate"
+                                                                            title="RAGchain.schema.prompt.RAGchainChatPromptTemplate"><span
+                      class="pre">RAGchainChatPromptTemplate</span></a><span class="w"> </span><span class="p"><span
                       class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
                       class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
-                      class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a
-                      class="headerlink" href="#RAGchain.pipeline.rerank.RerankRunPipeline"
-                      title="Link to this definition"></a></dt>
-              <dd><p>Bases: <a class="reference internal" href="#RAGchain.pipeline.base.BasePipeline"
-                               title="RAGchain.pipeline.base.BasePipeline"><code
-                      class="xref py py-class docutils literal notranslate"><span class="pre">BasePipeline</span></code></a>
-              </p>
+                      class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span
+                      class="n"><span class="pre">retrieval_option</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">dict</span><span class="w"> </span><span class="p"><span
+                      class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                      class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+                      class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span
+                      class="n"><span class="pre">use_passage_count</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">int</span></span><span class="w"> </span><span class="o"><span
+                      class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+                      class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                         href="#RAGchain.pipeline.rerank.RerankRunPipeline"
+                                                                                         title="Link to this definition"></a>
+              </dt>
+              <dd><p>Bases: <a class="reference internal" href="#RAGchain.pipeline.base.BaseRunPipeline"
+                               title="RAGchain.pipeline.base.BaseRunPipeline"><code
+                      class="xref py py-class docutils literal notranslate"><span
+                      class="pre">BaseRunPipeline</span></code></a></p>
                   <p>Rerank pipeline is for question answering with retrieved passages using reranker.
                       Af first, retrieval module will retrieve retrieve_size passages for reranking.
                       Then, reranker rerank passages and use use_passage_count passages for llm question.</p>
@@ -316,8 +488,8 @@ Finally, you can get answer and passages as return value.</p>
                                   class="kn">import</span> <span class="n">BM25Retrieval</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">RAGchain.reranker</span> <span
                                   class="kn">import</span> <span class="n">MonoT5Reranker</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">RAGchain.llm.basic</span> <span
-                                  class="kn">import</span> <span class="n">BasicLLM</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">langchain.llms.openai</span> <span
+                                  class="kn">import</span> <span class="n">OpenAI</span>
 </pre>
                       </div>
                   </div>
@@ -328,76 +500,68 @@ Finally, you can get answer and passages as return value.</p>
                               class="s2">&quot;./bm25.pkl&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">reranker</span> <span class="o">=</span> <span class="n">MonoT5Reranker</span><span
                                   class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">llm</span> <span class="o">=</span> <span class="n">BasicLLM</span><span
-                                  class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">llm</span> <span class="o">=</span> <span
+                                  class="n">OpenAI</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">RerankRunPipeline</span><span
                                   class="p">(</span><span class="n">retrieval</span><span class="p">,</span> <span
                                   class="n">reranker</span><span class="p">,</span> <span class="n">llm</span><span
                                   class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">answer</span><span class="p">,</span> <span
-                                  class="n">passages</span> <span class="o">=</span> <span
-                                  class="n">pipeline</span><span class="o">.</span><span class="n">run</span><span
-                                  class="p">(</span><span class="n">query</span><span class="o">=</span><span
-                                  class="s2">&quot;What is the purpose of this framework based on the document?&quot;</span><span
-                                  class="p">)</span>
+                                  class="n">passages</span><span class="p">,</span> <span
+                                  class="n">rel_scores</span> <span class="o">=</span> <span
+                                  class="n">pipeline</span><span class="o">.</span><span
+                                  class="n">get_passages_and_run</span><span class="p">([</span><span class="s2">&quot;What is the purpose of this framework based on the document?&quot;</span><span
+                                  class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span
-                                  class="n">answer</span><span class="p">)</span>
+                                  class="n">answer</span><span class="p">[</span><span class="mi">0</span><span
+                                  class="p">])</span>
 </pre>
                       </div>
                   </div>
                   <dl class="py method">
-                      <dt class="sig sig-object py" id="RAGchain.pipeline.rerank.RerankRunPipeline.run">
-                          <span class="sig-name descname"><span class="pre">run</span></span><span
-                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
-                              class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span
-                              class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em
-                              class="sig-param"><span class="n"><span class="pre">retrieve_size</span></span><span
+                      <dt class="sig sig-object py"
+                          id="RAGchain.pipeline.rerank.RerankRunPipeline.get_passages_and_run">
+                          <span class="sig-name descname"><span class="pre">get_passages_and_run</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">questions</span></span><span
                               class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                              class="pre">int</span></span><span class="w"> </span><span class="o"><span
-                              class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
-                              class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span
-                              class="pre">use_passage_count</span></span><span class="p"><span
-                              class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                              class="pre">int</span></span><span class="w"> </span><span class="o"><span
-                              class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
-                              class="pre">4</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span
-                              class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span
-                              class="o"><span class="pre">**</span></span><span class="n"><span
-                              class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span
-                              class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
-                              class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span
-                              class="pre">[</span></span><span class="pre">str</span><span class="p"><span
-                              class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span
-                              class="p"><span class="pre">[</span></span><a class="reference internal"
-                                                                            href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
-                                                                            title="RAGchain.schema.passage.Passage"><span
-                              class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span><span
-                              class="p"><span class="pre">]</span></span></span></span><a class="headerlink"
-                                                                                          href="#RAGchain.pipeline.rerank.RerankRunPipeline.run"
-                                                                                          title="Link to this definition"></a>
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span>
+                          <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+                                  class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span
+                                  class="pre">[</span></span><span class="pre">List</span><span class="p"><span
+                                  class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                  class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span
+                                  class="w"> </span><span class="pre">List</span><span class="p"><span
+                                  class="pre">[</span></span><span class="pre">List</span><span class="p"><span
+                                  class="pre">[</span></span><a class="reference internal"
+                                                                href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                                                title="RAGchain.schema.passage.Passage"><span
+                                  class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span><span
+                                  class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span
+                                  class="w"> </span><span class="pre">List</span><span class="p"><span
+                                  class="pre">[</span></span><span class="pre">List</span><span class="p"><span
+                                  class="pre">[</span></span><span class="pre">float</span><span class="p"><span
+                                  class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span
+                                  class="p"><span class="pre">]</span></span></span></span><a class="headerlink"
+                                                                                              href="#RAGchain.pipeline.rerank.RerankRunPipeline.get_passages_and_run"
+                                                                                              title="Link to this definition"></a>
                       </dt>
-                      <dd>
-                          <dl class="field-list simple">
-                              <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-                              <dd class="field-odd">
-                                  <ul class="simple">
-                                      <li><p><strong>query</strong> – question</p></li>
-                                      <li><p><strong>retrieve_size</strong> – The number of passages to reranking.
-                                          Default is 50.</p></li>
-                                      <li><p><strong>use_passage_count</strong> – The number of passages to use for llm
-                                          question after reranking. Default is 4.</p></li>
-                                      <li><p><strong>args</strong> – optional parameter for llm.ask()</p></li>
-                                      <li><p><strong>kwargs</strong> – optional parameter for llm.ask()</p></li>
-                                  </ul>
-                              </dd>
-                              <dt class="field-even">Return answer<span class="colon">:</span></dt>
-                              <dd class="field-even"><p>The answer to the question that llm generated.</p>
-                              </dd>
-                              <dt class="field-odd">Return passages<span class="colon">:</span></dt>
-                              <dd class="field-odd"><p>The list of passages used to generate the answer.</p>
-                              </dd>
-                          </dl>
+                      <dd><p>Run the pipeline for evaluator, and get retrieved passages and rel scores.
+                          It is same with pipeline.run.batch, but returns passages and rel scores.
+                          Return List of answer, List of passages, Relevance score of passages.</p>
                       </dd>
+                  </dl>
+
+                  <dl class="py attribute">
+                      <dt class="sig sig-object py" id="RAGchain.pipeline.rerank.RerankRunPipeline.run">
+                          <span class="sig-name descname"><span class="pre">run</span></span><em class="property"><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Runnable</span><span
+                              class="w"> </span><span class="p"><span class="pre">|</span></span><span
+                              class="w"> </span><span class="pre">None</span></em><a class="headerlink"
+                                                                                     href="#RAGchain.pipeline.rerank.RerankRunPipeline.run"
+                                                                                     title="Link to this definition"></a>
+                      </dt>
+                      <dd></dd>
                   </dl>
 
               </dd>
@@ -418,95 +582,86 @@ Finally, you can get answer and passages as return value.</p>
                       class="reference internal" href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval"
                       title="RAGchain.retrieval.base.BaseRetrieval"><span
                       class="pre">BaseRetrieval</span></a></span></em>, <em class="sig-param"><span class="n"><span
-                      class="pre">decompose</span></span><span class="p"><span class="pre">:</span></span><span
-                      class="w"> </span><span class="n"><a class="reference internal"
-                                                           href="RAGchain.utils.html#RAGchain.utils.query_decompose.QueryDecomposition"
-                                                           title="RAGchain.utils.query_decompose.QueryDecomposition"><span
+                      class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span
+                      class="w"> </span><span class="n"><span class="pre">BaseLLM</span></span></em>, <em
+                      class="sig-param"><span class="n"><span class="pre">decompose</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal"
+                                                                                            href="RAGchain.utils.html#RAGchain.utils.query_decompose.QueryDecomposition"
+                                                                                            title="RAGchain.utils.query_decompose.QueryDecomposition"><span
                       class="pre">QueryDecomposition</span></a><span class="w"> </span><span class="p"><span
                       class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
                       class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
                       class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span
-                      class="n"><span class="pre">prompt_func</span></span><span class="p"><span
-                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                      class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span
-                      class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a
-                      class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
-                      title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span
-                      class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span
-                      class="w"> </span><span class="pre">str</span><span class="p"><span
-                      class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span
-                      class="w"> </span><span class="pre">str</span><span class="p"><span
-                      class="pre">]</span></span><span class="w"> </span><span class="p"><span
+                      class="n"><span class="pre">prompt</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal"
+                                                                                            href="RAGchain.schema.html#RAGchain.schema.prompt.RAGchainPromptTemplate"
+                                                                                            title="RAGchain.schema.prompt.RAGchainPromptTemplate"><span
+                      class="pre">RAGchainPromptTemplate</span></a><span class="w"> </span><span class="p"><span
                       class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
                       class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
                       class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span
-                      class="o"><span class="pre">*</span></span><span class="n"><span
-                      class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span
-                      class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span
-                      class="sig-paren">)</span><a class="headerlink"
-                                                   href="#RAGchain.pipeline.visconde.ViscondeRunPipeline"
-                                                   title="Link to this definition"></a></dt>
-              <dd><p>Bases: <a class="reference internal" href="#RAGchain.pipeline.base.BasePipeline"
-                               title="RAGchain.pipeline.base.BasePipeline"><code
-                      class="xref py py-class docutils literal notranslate"><span class="pre">BasePipeline</span></code></a>
-              </p>
+                      class="n"><span class="pre">retrieval_option</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">dict</span><span class="w"> </span><span class="p"><span
+                      class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                      class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+                      class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span
+                      class="n"><span class="pre">use_passage_count</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">int</span></span><span class="w"> </span><span class="o"><span
+                      class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+                      class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                         href="#RAGchain.pipeline.visconde.ViscondeRunPipeline"
+                                                                                         title="Link to this definition"></a>
+              </dt>
+              <dd><p>Bases: <a class="reference internal" href="#RAGchain.pipeline.base.BaseRunPipeline"
+                               title="RAGchain.pipeline.base.BaseRunPipeline"><code
+                      class="xref py py-class docutils literal notranslate"><span
+                      class="pre">BaseRunPipeline</span></code></a></p>
                   <dl class="py method">
-                      <dt class="sig sig-object py" id="RAGchain.pipeline.visconde.ViscondeRunPipeline.default_prompt">
-                          <span class="sig-name descname"><span class="pre">default_prompt</span></span><span
-                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
-                              class="pre">passages</span></span><span class="p"><span class="pre">:</span></span><span
-                              class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
-                              class="pre">[</span></span><a class="reference internal"
-                                                            href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
-                                                            title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span
-                              class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span
-                              class="n"><span class="pre">question</span></span><span class="p"><span
-                              class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                              class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink"
-                                                                                                   href="#RAGchain.pipeline.visconde.ViscondeRunPipeline.default_prompt"
-                                                                                                   title="Link to this definition"></a>
+                      <dt class="sig sig-object py"
+                          id="RAGchain.pipeline.visconde.ViscondeRunPipeline.get_passages_and_run">
+                          <span class="sig-name descname"><span class="pre">get_passages_and_run</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">questions</span></span><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span>
+                          <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+                                  class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span
+                                  class="pre">[</span></span><span class="pre">List</span><span class="p"><span
+                                  class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                  class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span
+                                  class="w"> </span><span class="pre">List</span><span class="p"><span
+                                  class="pre">[</span></span><span class="pre">List</span><span class="p"><span
+                                  class="pre">[</span></span><a class="reference internal"
+                                                                href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                                                title="RAGchain.schema.passage.Passage"><span
+                                  class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span><span
+                                  class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span
+                                  class="w"> </span><span class="pre">List</span><span class="p"><span
+                                  class="pre">[</span></span><span class="pre">List</span><span class="p"><span
+                                  class="pre">[</span></span><span class="pre">float</span><span class="p"><span
+                                  class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span
+                                  class="p"><span class="pre">]</span></span></span></span><a class="headerlink"
+                                                                                              href="#RAGchain.pipeline.visconde.ViscondeRunPipeline.get_passages_and_run"
+                                                                                              title="Link to this definition"></a>
                       </dt>
-                      <dd></dd>
+                      <dd><p>Run the pipeline for evaluator, and get retrieved passages and rel scores.
+                          It is same with pipeline.run.batch, but returns passages and rel scores.
+                          Return List of answer, List of passages, Relevance score of passages.</p>
+                      </dd>
                   </dl>
 
-                  <dl class="py method">
+                  <dl class="py attribute">
                       <dt class="sig sig-object py" id="RAGchain.pipeline.visconde.ViscondeRunPipeline.run">
-                          <span class="sig-name descname"><span class="pre">run</span></span><span
-                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
-                              class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span
-                              class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em
-                              class="sig-param"><span class="n"><span class="pre">retrieve_size</span></span><span
-                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                              class="pre">int</span></span><span class="w"> </span><span class="o"><span
-                              class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
-                              class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span
-                              class="pre">use_passage_count</span></span><span class="p"><span
-                              class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                              class="pre">int</span></span><span class="w"> </span><span class="o"><span
-                              class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
-                              class="pre">3</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span
-                              class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span
-                              class="o"><span class="pre">**</span></span><span class="n"><span
-                              class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink"
-                                                                                                      href="#RAGchain.pipeline.visconde.ViscondeRunPipeline.run"
-                                                                                                      title="Link to this definition"></a>
+                          <span class="sig-name descname"><span class="pre">run</span></span><em class="property"><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Runnable</span><span
+                              class="w"> </span><span class="p"><span class="pre">|</span></span><span
+                              class="w"> </span><span class="pre">None</span></em><a class="headerlink"
+                                                                                     href="#RAGchain.pipeline.visconde.ViscondeRunPipeline.run"
+                                                                                     title="Link to this definition"></a>
                       </dt>
-                      <dd>
-                          <dl class="field-list simple">
-                              <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-                              <dd class="field-odd">
-                                  <ul class="simple">
-                                      <li><p><strong>query</strong> – question</p></li>
-                                      <li><p><strong>retrieve_size</strong> – The number of passages to be retrieved
-                                          before reranking. Default is 50.</p></li>
-                                      <li><p><strong>use_passage_count</strong> – The number of passages to be used for
-                                          llm question answering. Default is 3.</p></li>
-                                      <li><p><strong>args</strong> – optional parameter for llm.ask()</p></li>
-                                      <li><p><strong>kwargs</strong> – optional parameter for llm.ask()</p></li>
-                                  </ul>
-                              </dd>
-                          </dl>
-                      </dd>
+                      <dd></dd>
                   </dl>
 
                   <dl class="py attribute">
@@ -514,13 +669,15 @@ Finally, you can get answer and passages as return value.</p>
                           id="RAGchain.pipeline.visconde.ViscondeRunPipeline.strategyqa_prompt">
                           <span class="sig-name descname"><span class="pre">strategyqa_prompt</span></span><em
                               class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span
-                              class="w"> </span><span class="pre">'For</span> <span class="pre">each</span> <span
-                              class="pre">example,</span> <span class="pre">use</span> <span class="pre">the</span>
-                          <span class="pre">documents</span> <span class="pre">to</span> <span class="pre">create</span>
-                          <span class="pre">an</span> <span class="pre">&quot;Answer&quot;</span> <span
-                                  class="pre">and</span> <span class="pre">an</span> <span class="pre">&quot;Explanation&quot;</span>
-                          <span class="pre">to</span> <span class="pre">the</span> <span class="pre">&quot;Question&quot;.</span>
-                          <span class="pre">Just</span> <span class="pre">answer</span> <span class="pre">yes</span>
+                              class="w"> </span><span
+                              class="pre">RAGchainPromptTemplate(input_variables=['passages',</span> <span class="pre">'question'],</span>
+                          <span class="pre">template='For</span> <span class="pre">each</span> <span class="pre">example,</span>
+                          <span class="pre">use</span> <span class="pre">the</span> <span class="pre">documents</span>
+                          <span class="pre">to</span> <span class="pre">create</span> <span class="pre">an</span> <span
+                                  class="pre">&quot;Answer&quot;</span> <span class="pre">and</span> <span class="pre">an</span>
+                          <span class="pre">&quot;Explanation&quot;</span> <span class="pre">to</span> <span
+                                  class="pre">the</span> <span class="pre">&quot;Question&quot;.</span> <span
+                                  class="pre">Just</span> <span class="pre">answer</span> <span class="pre">yes</span>
                           <span class="pre">or</span> <span class="pre">no.\n\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
                           <span class="pre">Example</span> <span class="pre">1:\n\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
                           <span class="pre">[Document</span> <span class="pre">1]:</span> <span class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
@@ -641,10 +798,15 @@ Finally, you can get answer and passages as return value.</p>
                                   class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Therefore,</span>
                           <span class="pre">the</span> <span class="pre">answer</span> <span class="pre">is</span> <span
                                   class="pre">yes\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Answer:</span>
-                          <span class="pre">yes.\n\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">'</span></em><a
-                              class="headerlink"
-                              href="#RAGchain.pipeline.visconde.ViscondeRunPipeline.strategyqa_prompt"
-                              title="Link to this definition"></a></dt>
+                          <span class="pre">yes.\n\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Example</span>
+                          <span class="pre">2:\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span
+                                  class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">{passages}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                          <span class="pre">\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Question:</span>
+                          <span class="pre">{question}\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span
+                                  class="pre">Answer:\n</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span
+                                  class="pre">')</span></em><a class="headerlink"
+                                                               href="#RAGchain.pipeline.visconde.ViscondeRunPipeline.strategyqa_prompt"
+                                                               title="Link to this definition"></a></dt>
                       <dd></dd>
                   </dl>
 

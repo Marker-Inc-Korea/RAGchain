@@ -347,22 +347,22 @@
                                             class="pre">run_pipeline</span></span><span class="p"><span
                                             class="pre">:</span></span><span class="w"> </span><span class="n"><a
                                             class="reference internal"
-                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BasePipeline"
-                                            title="RAGchain.pipeline.base.BasePipeline"><span
-                                            class="pre">BasePipeline</span></a></span></em>, <em class="sig-param"><span
-                                            class="n"><span class="pre">evaluate_size</span></span><span class="p"><span
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">evaluate_size</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">int</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">metrics</span></span><span class="p"><span
                                             class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                                            class="pre">int</span><span class="w"> </span><span class="p"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span><span class="w"> </span><span class="p"><span
                                             class="pre">|</span></span><span class="w"> </span><span
-                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
-                                            class="pre">=</span></span><span class="w"> </span><span
-                                            class="default_value"><span class="pre">None</span></span></em>, <em
-                                            class="sig-param"><span class="n"><span
-                                            class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span
-                                            class="w"> </span><span class="n"><span class="pre">List</span><span
-                                            class="p"><span class="pre">[</span></span><span class="pre">str</span><span
-                                            class="p"><span class="pre">]</span></span><span class="w"> </span><span
-                                            class="p"><span class="pre">|</span></span><span class="w"> </span><span
                                             class="pre">None</span></span><span class="w"> </span><span class="o"><span
                                             class="pre">=</span></span><span class="w"> </span><span
                                             class="default_value"><span class="pre">None</span></span></em><span
@@ -404,15 +404,13 @@
                                                     class="pre">bool</span></span><span class="w"> </span><span
                                                     class="o"><span class="pre">=</span></span><span
                                                     class="w"> </span><span class="default_value"><span
-                                                    class="pre">True</span></span></em>, <em class="sig-param"><span
-                                                    class="o"><span class="pre">**</span></span><span class="n"><span
-                                                    class="pre">kwargs</span></span></em><span
-                                                    class="sig-paren">)</span> <span class="sig-return"><span
-                                                    class="sig-return-icon">&#x2192;</span> <span
-                                                    class="sig-return-typehint"><a class="reference internal"
-                                                                                   href="RAGchain.schema.html#RAGchain.schema.evaluate_result.EvaluateResult"
-                                                                                   title="RAGchain.schema.evaluate_result.EvaluateResult"><span
-                                                    class="pre">EvaluateResult</span></a></span></span><a
+                                                    class="pre">True</span></span></em><span class="sig-paren">)</span>
+                                                <span class="sig-return"><span
+                                                        class="sig-return-icon">&#x2192;</span> <span
+                                                        class="sig-return-typehint"><a class="reference internal"
+                                                                                       href="RAGchain.schema.html#RAGchain.schema.evaluate_result.EvaluateResult"
+                                                                                       title="RAGchain.schema.evaluate_result.EvaluateResult"><span
+                                                        class="pre">EvaluateResult</span></a></span></span><a
                                                     class="headerlink"
                                                     href="#RAGchain.benchmark.dataset.ko_strategy_qa.KoStrategyQAEvaluator.evaluate"
                                                     title="Link to this definition"></a></dt>
@@ -483,22 +481,22 @@
                                             class="pre">run_pipeline</span></span><span class="p"><span
                                             class="pre">:</span></span><span class="w"> </span><span class="n"><a
                                             class="reference internal"
-                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BasePipeline"
-                                            title="RAGchain.pipeline.base.BasePipeline"><span
-                                            class="pre">BasePipeline</span></a></span></em>, <em class="sig-param"><span
-                                            class="n"><span class="pre">evaluate_size</span></span><span class="p"><span
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">evaluate_size</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">int</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">metrics</span></span><span class="p"><span
                                             class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                                            class="pre">int</span><span class="w"> </span><span class="p"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span><span class="w"> </span><span class="p"><span
                                             class="pre">|</span></span><span class="w"> </span><span
-                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
-                                            class="pre">=</span></span><span class="w"> </span><span
-                                            class="default_value"><span class="pre">None</span></span></em>, <em
-                                            class="sig-param"><span class="n"><span
-                                            class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span
-                                            class="w"> </span><span class="n"><span class="pre">List</span><span
-                                            class="p"><span class="pre">[</span></span><span class="pre">str</span><span
-                                            class="p"><span class="pre">]</span></span><span class="w"> </span><span
-                                            class="p"><span class="pre">|</span></span><span class="w"> </span><span
                                             class="pre">None</span></span><span class="w"> </span><span class="o"><span
                                             class="pre">=</span></span><span class="w"> </span><span
                                             class="default_value"><span class="pre">None</span></span></em>, <em
@@ -534,11 +532,8 @@
                                                     class="headerlink"
                                                     href="#RAGchain.benchmark.dataset.mr_tydi.MrTydiEvaluator.evaluate"
                                                     title="Link to this definition"></a></dt>
-                                            <dd><p>Evaluate metrics and return the results
-                                                :param validate_passages: If True, validate passages in retrieval_gt
-                                                already ingested.
-                                                :param kwargs: Arguments for running pipeline.run()
-                                                :return: EvaluateResult</p>
+                                            <dd><p>Evaluate pipeline performance on Mr. Tydi dataset.
+                                                This method always validate passages.</p>
                                             </dd>
                                         </dl>
 
@@ -614,22 +609,22 @@
                                             class="pre">run_pipeline</span></span><span class="p"><span
                                             class="pre">:</span></span><span class="w"> </span><span class="n"><a
                                             class="reference internal"
-                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BasePipeline"
-                                            title="RAGchain.pipeline.base.BasePipeline"><span
-                                            class="pre">BasePipeline</span></a></span></em>, <em class="sig-param"><span
-                                            class="n"><span class="pre">evaluate_size</span></span><span class="p"><span
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">evaluate_size</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">int</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">metrics</span></span><span class="p"><span
                                             class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                                            class="pre">int</span><span class="w"> </span><span class="p"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span><span class="w"> </span><span class="p"><span
                                             class="pre">|</span></span><span class="w"> </span><span
-                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
-                                            class="pre">=</span></span><span class="w"> </span><span
-                                            class="default_value"><span class="pre">None</span></span></em>, <em
-                                            class="sig-param"><span class="n"><span
-                                            class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span
-                                            class="w"> </span><span class="n"><span class="pre">List</span><span
-                                            class="p"><span class="pre">[</span></span><span class="pre">str</span><span
-                                            class="p"><span class="pre">]</span></span><span class="w"> </span><span
-                                            class="p"><span class="pre">|</span></span><span class="w"> </span><span
                                             class="pre">None</span></span><span class="w"> </span><span class="o"><span
                                             class="pre">=</span></span><span class="w"> </span><span
                                             class="default_value"><span class="pre">None</span></span></em>, <em
@@ -668,7 +663,6 @@
                                             <dd><p>Evaluate metrics and return the results
                                                 :param validate_passages: If True, validate passages in retrieval_gt
                                                 already ingested.
-                                                :param kwargs: Arguments for running pipeline.run()
                                                 :return: EvaluateResult</p>
                                             </dd>
                                         </dl>
@@ -735,12 +729,12 @@
                                             class="pre">run_pipeline</span></span><span class="p"><span
                                             class="pre">:</span></span><span class="w"> </span><span class="n"><a
                                             class="reference internal"
-                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BasePipeline"
-                                            title="RAGchain.pipeline.base.BasePipeline"><span
-                                            class="pre">BasePipeline</span></a></span></em>, <em class="sig-param"><span
-                                            class="n"><span class="pre">evaluate_size</span></span><span class="p"><span
-                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                                            class="pre">int</span></span></em>, <em class="sig-param"><span
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">evaluate_size</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">int</span></span></em>, <em class="sig-param"><span
                                             class="n"><span class="pre">metrics</span></span><span class="p"><span
                                             class="pre">:</span></span><span class="w"> </span><span class="n"><span
                                             class="pre">List</span><span class="p"><span
@@ -883,22 +877,22 @@
                                             class="pre">run_pipeline</span></span><span class="p"><span
                                             class="pre">:</span></span><span class="w"> </span><span class="n"><a
                                             class="reference internal"
-                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BasePipeline"
-                                            title="RAGchain.pipeline.base.BasePipeline"><span
-                                            class="pre">BasePipeline</span></a></span></em>, <em class="sig-param"><span
-                                            class="n"><span class="pre">evaluate_size</span></span><span class="p"><span
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">evaluate_size</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">int</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">metrics</span></span><span class="p"><span
                                             class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                                            class="pre">int</span><span class="w"> </span><span class="p"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span><span class="w"> </span><span class="p"><span
                                             class="pre">|</span></span><span class="w"> </span><span
-                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
-                                            class="pre">=</span></span><span class="w"> </span><span
-                                            class="default_value"><span class="pre">None</span></span></em>, <em
-                                            class="sig-param"><span class="n"><span
-                                            class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span
-                                            class="w"> </span><span class="n"><span class="pre">List</span><span
-                                            class="p"><span class="pre">[</span></span><span class="pre">str</span><span
-                                            class="p"><span class="pre">]</span></span><span class="w"> </span><span
-                                            class="p"><span class="pre">|</span></span><span class="w"> </span><span
                                             class="pre">None</span></span><span class="w"> </span><span class="o"><span
                                             class="pre">=</span></span><span class="w"> </span><span
                                             class="default_value"><span class="pre">None</span></span></em><span
@@ -956,7 +950,6 @@
                                             <dd><p>Evaluate metrics and return the results
                                                 :param validate_passages: If True, validate passages in retrieval_gt
                                                 already ingested.
-                                                :param kwargs: Arguments for running pipeline.run()
                                                 :return: EvaluateResult</p>
                                             </dd>
                                         </dl>

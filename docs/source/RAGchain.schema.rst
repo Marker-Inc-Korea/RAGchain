@@ -28,6 +28,14 @@ RAGchain.schema.passage module
    :undoc-members:
    :show-inheritance:
 
+RAGchain.schema.prompt module
+-----------------------------
+
+.. automodule:: RAGchain.schema.prompt
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 
