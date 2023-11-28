@@ -1,6 +1,7 @@
 import os
 
 import pytest
+from langchain.llms.openai import OpenAI
 
 import test_base_retrieval
 from RAGchain.retrieval import HyDERetrieval, BM25Retrieval
@@ -18,7 +19,7 @@ def hyde_retrieval():
 
     test_base_retrieval.ready_pickle_db(pickle_path)
     bm25_retrieval = BM25Retrieval(save_path=bm25_path)
-    hyde_retrieval = HyDERetrieval(bm25_retrieval, system_prompt=test_prompt)
+    hyde_retrieval = HyDERetrieval(bm25_retrieval, OpenAI(max_tokens=64), system_prompt=test_prompt)
     yield hyde_retrieval
     if os.path.exists(pickle_path):
         os.remove(pickle_path)
@@ -29,13 +30,12 @@ def hyde_retrieval():
 def test_hyde_retrieval(hyde_retrieval):
     hyde_retrieval.ingest(test_base_retrieval.TEST_PASSAGES)
     top_k = 4
-    retrieved_ids = hyde_retrieval.retrieve_id(query='What is visconde structure?', top_k=top_k,
-                                               model_kwargs={'max_tokens': 64})
+    retrieved_ids = hyde_retrieval.retrieve_id(query='What is visconde structure?', top_k=top_k)
     test_base_retrieval.validate_ids(retrieved_ids, top_k)
     retrieved_passages = hyde_retrieval.retrieve(query='What is visconde structure?', top_k=top_k)
     test_base_retrieval.validate_passages(retrieved_passages, top_k)
     retrieved_ids_2, scores = hyde_retrieval.retrieve_id_with_scores(query='What is visconde structure?',
-                                                                     top_k=top_k, model_kwargs={'max_tokens': 64})
+                                                                     top_k=top_k)
     assert len(retrieved_ids_2) == len(scores)
     assert max(scores) == scores[0]
     assert min(scores) == scores[-1]
