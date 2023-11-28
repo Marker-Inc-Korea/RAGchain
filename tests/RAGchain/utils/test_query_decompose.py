@@ -1,6 +1,7 @@
 import logging
 
 import pytest
+from langchain.llms.openai import OpenAI
 
 from RAGchain.utils.query_decompose import QueryDecomposition
 
@@ -9,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 @pytest.fixture
 def query_decompose():
-    yield QueryDecomposition()
+    yield QueryDecomposition(OpenAI())
 
 
 def test_query_decompose(query_decompose):
