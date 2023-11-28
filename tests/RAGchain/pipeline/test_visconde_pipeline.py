@@ -4,6 +4,7 @@ import pathlib
 import pickle
 
 import pytest
+from langchain.llms.openai import OpenAI
 
 from RAGchain.DB import PickleDB
 from RAGchain.pipeline import ViscondeRunPipeline
@@ -25,7 +26,7 @@ def visconde_run_pipeline():
     db.save(TEST_PASSAGES)
     retrieval = BM25Retrieval(save_path=bm25_path)
     retrieval.ingest(TEST_PASSAGES)
-    pipeline = ViscondeRunPipeline(retrieval)
+    pipeline = ViscondeRunPipeline(retrieval, OpenAI(model_name="babbage-002"))
     yield pipeline
     # teardown bm25
     if os.path.exists(bm25_path):
@@ -36,7 +37,11 @@ def visconde_run_pipeline():
 
 
 def test_rerank_run_pipeline(visconde_run_pipeline):
-    answer, passages = visconde_run_pipeline.run("Is reranker and retriever have same role?")
+    answer = visconde_run_pipeline.run.invoke({"question": "Is reranker and retriever have same role?"})
     logger.info(f"Answer: {answer}")
     assert bool(answer)
-    assert len(passages) == 3
+
+    answers, passages, scores = visconde_run_pipeline.get_passages_and_run(["Is reranker and retriever have same role?",
+                                                                            "What is reranker role?"])
+    assert len(answers) == len(passages) == len(scores) == 2
+    assert len(passages[0]) == len(scores[0]) == 3

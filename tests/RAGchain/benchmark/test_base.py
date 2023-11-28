@@ -3,11 +3,12 @@ import os
 import pathlib
 
 import pytest
+from langchain.llms.openai import OpenAI
 
 from RAGchain.DB import PickleDB
 from RAGchain.benchmark.base import BaseEvaluator
 from RAGchain.pipeline import BasicRunPipeline
-from RAGchain.pipeline.base import BasePipeline
+from RAGchain.pipeline.base import BaseRunPipeline
 from RAGchain.retrieval import BM25Retrieval
 from RAGchain.schema import Passage
 
@@ -55,7 +56,7 @@ TEST_PASSAGES = [
 
 
 class DummyEvaluator(BaseEvaluator):
-    def __init__(self, pipeline: BasePipeline, metrics=None, run_all=True):
+    def __init__(self, pipeline: BaseRunPipeline, metrics=None, run_all=True):
         super().__init__(run_all=run_all, metrics=metrics)
         self.pipeline = pipeline
 
@@ -103,7 +104,7 @@ def dummy_evaluator():
     db.save(TEST_PASSAGES)
     retrieval = BM25Retrieval(bm25_path)
     retrieval.ingest(TEST_PASSAGES)
-    pipeline = BasicRunPipeline(retrieval=retrieval)
+    pipeline = BasicRunPipeline(retrieval=retrieval, llm=OpenAI())
     yield DummyEvaluator(pipeline)
     if os.path.exists(bm25_path):
         os.remove(bm25_path)
@@ -118,7 +119,7 @@ def no_ragas_evaluator():
     db.save(TEST_PASSAGES)
     retrieval = BM25Retrieval(bm25_path)
     retrieval.ingest(TEST_PASSAGES)
-    pipeline = BasicRunPipeline(retrieval=retrieval)
+    pipeline = BasicRunPipeline(retrieval=retrieval, llm=OpenAI())
     # test that it can initialize without openai api key env
     evaluator = DummyEvaluator(pipeline, metrics=['Recall', 'Precision', 'F1_score', 'BLEU'], run_all=False)
     yield evaluator

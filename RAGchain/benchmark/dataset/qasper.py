@@ -4,7 +4,7 @@ from datasets import load_dataset
 
 from RAGchain.DB.base import BaseDB
 from RAGchain.benchmark.dataset.base import BaseDatasetEvaluator
-from RAGchain.pipeline.base import BasePipeline
+from RAGchain.pipeline.base import BaseRunPipeline
 from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import EvaluateResult, Passage
 
@@ -16,7 +16,7 @@ class QasperEvaluator(BaseDatasetEvaluator):
     dataset_name = "NomaDamas/qasper"
 
     def __init__(self,
-                 run_pipeline: BasePipeline,
+                 run_pipeline: BaseRunPipeline,
                  evaluate_size: int,
                  metrics: Optional[List[str]] = None,
                  random_state: int = 42):

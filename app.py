@@ -2,9 +2,9 @@ import os
 
 import gradio as gr
 from dotenv import load_dotenv
+from langchain.llms.openai import OpenAI
 
 from RAGchain.DB import MongoDB, PickleDB
-from RAGchain.llm.basic import BasicLLM
 from RAGchain.pipeline import BasicIngestPipeline, BasicRunPipeline
 from RAGchain.preprocess.loader import FileLoader
 from RAGchain.retrieval import BM25Retrieval
@@ -16,7 +16,6 @@ load_dotenv()
 
 STOP_WORDS = ["#", "답변:", "응답:", "맥락:", "?"]
 GRADIO_DB_PATH = os.path.join(Options.root_dir, )
-model_dict = {"basic_llm": "gpt-3.5-turbo", "rerank_llm": "gpt-3.5-turbo"}
 
 
 def ingest(files) -> str:
@@ -27,17 +26,15 @@ def ingest(files) -> str:
 
 
 def make_answer(text):
-    answer, passages = answer_pipeline.run(text)
-    answer = slice_stop_words(answer, STOP_WORDS)
-    document_source = ",\n".join([doc.filepath.split("/")[-1] for doc in passages])
-    content = "\n-------------------------------------------------\n".join([doc.content for doc in passages])
+    answer, passages, rel_scores = answer_pipeline.get_passages_and_run([text])
+    answer = slice_stop_words(answer[0], STOP_WORDS)
+    document_source = ",\n".join([doc.filepath.split("/")[-1] for doc in passages[0]])
+    content = "\n-------------------------------------------------\n".join([doc.content for doc in passages[0]])
     return answer, document_source, content
 
 
 def setting(device, embed, db, retrieval):
     global answer_pipeline, ingest_pipeline
-
-    MODEL_NAME = model_dict["basic_llm"]  # TODO : add rerank_llm model
 
     bm25 = BM25Retrieval(Options.bm25_db_dir)
     pickle = PickleDB(PickleDBOptions.save_path)
@@ -51,17 +48,14 @@ def setting(device, embed, db, retrieval):
         raise ValueError("db type is not valid")
 
     if retrieval == "bm25":
-        answer_pipeline = BasicRunPipeline(retrieval=bm25,
-                                           llm=BasicLLM(model_name=MODEL_NAME, api_base=None))
+        answer_pipeline = BasicRunPipeline(retrieval=bm25, llm=OpenAI())
         pre_retrieval = bm25
     elif retrieval == "vector_db-chroma":
         vectordb_instance = select_vectordb('chroma', embedding_type=embed, device_type=device)
-        answer_pipeline = BasicRunPipeline(retrieval=vectordb_instance,
-                                           llm=BasicLLM(model_name=MODEL_NAME, api_base=None))
-        pre_retrieval = vectordb_instance
+        answer_pipeline = BasicRunPipeline(retrieval=vectordb_instance, llm=OpenAI())
     elif retrieval == "vector_db-pinecone":
         vectordb_instance = select_vectordb('pinecone', embedding_type=embed, device_type=device)
-        answer_pipeline = BasicRunPipeline(retrieval=vectordb_instance)
+        answer_pipeline = BasicRunPipeline(retrieval=vectordb_instance, llm=OpenAI())
         pre_retrieval = vectordb_instance
     else:
         raise ValueError("retrieval type is not valid")

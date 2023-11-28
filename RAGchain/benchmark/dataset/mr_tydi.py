@@ -6,7 +6,7 @@ from datasets import load_dataset
 
 from RAGchain.DB.base import BaseDB
 from RAGchain.benchmark.dataset.base import BaseDatasetEvaluator
-from RAGchain.pipeline.base import BasePipeline
+from RAGchain.pipeline.base import BaseRunPipeline
 from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import EvaluateResult, Passage
 
@@ -16,7 +16,7 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
     MrTydiEvaluator is a class for evaluating pipeline performance on StrategyQA dataset.
     """
 
-    def __init__(self, run_pipeline: BasePipeline,
+    def __init__(self, run_pipeline: BaseRunPipeline,
                  evaluate_size: Optional[int] = None,
                  metrics: Optional[List[str]] = None,
                  language: str = 'english'):
@@ -109,14 +109,17 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
         db.save(passages)
 
     def evaluate(self, **kwargs) -> EvaluateResult:
+        """
+        Evaluate pipeline performance on Mr. Tydi dataset.
+        This method always validate passages.
+        """
         retrieval_gt = [[passage['docid'] for passage in passages] for passages in
                         self.qa_data['positive_passages'].tolist()]
 
         return self._calculate_metrics(
             questions=self.qa_data['query'].tolist(),
             pipeline=self.run_pipeline,
-            retrieval_gt=retrieval_gt,
-            **kwargs
+            retrieval_gt=retrieval_gt
         )
 
     def __make_corpus_passages(self, row):

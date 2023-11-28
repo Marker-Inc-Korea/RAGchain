@@ -1,6 +1,7 @@
 import logging
 
 import pytest
+from langchain.llms.openai import OpenAI
 
 from RAGchain.schema import Passage
 from RAGchain.utils.evidence_extractor import EvidenceExtractor
@@ -25,7 +26,7 @@ TEST_PASSAGES = [
 
 @pytest.fixture
 def evidence_extractor():
-    yield EvidenceExtractor()
+    yield EvidenceExtractor(OpenAI())
 
 
 def test_evidence_extractor(evidence_extractor):

@@ -17,9 +17,9 @@ location = {Dublin, Ireland}
 """
 from typing import List
 
-import openai
-
-from RAGchain.utils.util import set_api_base
+from langchain.llms import BaseLLM
+from langchain.prompts import PromptTemplate
+from langchain.schema import StrOutputParser
 
 
 class QueryDecomposition:
@@ -28,7 +28,7 @@ class QueryDecomposition:
     You can decompose a multi-hop questions to multiple single-hop questions using LLM.
     The default decomposition prompt is from Visconde paper, and its prompt is few-shot prompts from strategyQA dataset.
     """
-    decompose_prompt = """Decompose a question in self-contained sub-questions. Use \"The question needs no decomposition\" when no decomposition is needed.
+    decompose_prompt = PromptTemplate.from_template("""Decompose a question in self-contained sub-questions. Use \"The question needs no decomposition\" when no decomposition is needed.
     
     Example 1:
     
@@ -69,18 +69,16 @@ class QueryDecomposition:
     
     Example 6:
     
-    Question: {0}
+    Question: {question}
     
     Decompositions:"
-    """
+    """)
 
-    def __init__(self, model_name: str = "text-davinci-003", api_base: str = None):
+    def __init__(self, llm: BaseLLM):
         """
-        :param model_name: str, model name to use. Default is "text-davinci-003".
-        :param api_base: str, api base url. If you want to use OpenAI API, you don't need to change this. Default is None.
+        :param llm: BaseLLM, language model to use. Query Decomposition not supports chat model. Only supports completion LLMs.
         """
-        self.model_name = model_name
-        set_api_base(api_base)
+        self.llm = llm
 
     def decompose(self, query: str) -> List[str]:
         """
@@ -88,24 +86,13 @@ class QueryDecomposition:
         :param query: str, query to decompose.
         :return: List[str], list of decomposed query. Return empty list if query is not decomposable.
         """
-        res = self.generate(self.decompose_prompt.format(query))
-        if res.lower().strip() == "the question needs no decomposition.":
+        runnable = self.decompose_prompt | self.llm | StrOutputParser()
+        answer = runnable.invoke({"question": query})
+        if answer.lower().strip() == "the question needs no decomposition.":
             return []
         try:
-            questions = [l for l in res.splitlines() if l != ""]
+            questions = [l for l in answer.splitlines() if l != ""]
             questions = [q.split(':')[1].strip() for q in questions]
             return questions
         except:
             return []
-
-    def generate(self, prompt, max_tokens=250, temperature=0):
-        response = openai.Completion.create(
-            model=self.model_name,
-            prompt=prompt,
-            temperature=temperature,
-            max_tokens=max_tokens,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0
-        )
-        return response['choices'][0]['text']
