@@ -13,7 +13,7 @@ import re
 class DeepdoctectionPDFLoader(BasePDFLoader):
     """
     Load PDF file using NomaDamas' Deepdoctection API server.
-    You can use Nougat API server using Dockerfile at https://github.com/NomaDamas/deepdoctection-api-server
+    You can use Deepdoctection API server using Dockerfile at https://github.com/NomaDamas/deepdoctection-api-server
     """
 
     def __init__(self, file_path: str, deepdoctection_host: str):
@@ -24,9 +24,17 @@ class DeepdoctectionPDFLoader(BasePDFLoader):
         self.deepdoctection_host = deepdoctection_host
 
     def load(self, *args, **kwargs) -> List[Document]:
+        """
+        load pdf file using Deepdoctection API server
+        return list of Document
+        """
         return list(self.lazy_load(*args, **kwargs))
 
     def lazy_load(self, *args, **kwargs) -> Iterator[Document]:
+        """
+        lazy_load pdf file using Deepdoctection API server
+        return list of Document
+        """
         request_url = urljoin(self.deepdoctection_host, "extract/") + '?' + urlencode(kwargs)
         with open(self.file_path, 'rb') as file:
             file_upload = {'file': file}
@@ -37,11 +45,12 @@ class DeepdoctectionPDFLoader(BasePDFLoader):
         extracted_pages = self.extract_pages(result)
         for extracted_page in extracted_pages:
             if 'Table' in extracted_page:
-                yield Document(page_content=extracted_page['Table'], emetadata=extracted_page['Page_number'])
+                yield Document(page_content=extracted_page['Table'],
+                               metadata=({'Page_number': extracted_page['PageNumber']}))
             else:
                 page_content = extracted_page['Title'] + '\n' + extracted_page['Text']
-                metadata = extracted_page['PageNumber']
-                yield Document(page_content=page_content, emetadata=metadata)
+                metadata = ({'Page_number': extracted_page['PageNumber']})
+                yield Document(page_content=page_content, metadata=metadata)
 
     def extract_pages(self, result: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         extracted_pages = []
@@ -53,7 +62,7 @@ class DeepdoctectionPDFLoader(BasePDFLoader):
             table = item['table']
             # If there is a table, extract the table and add it to the extracted pages
             for tbl in table:
-                extracted_pages.append({'Table': tbl, 'Page_number': page_number})
+                extracted_pages.append({'Table': tbl, 'PageNumber': page_number})
             # Find the positions of each title in the text
             positions = [(title, pos) for title in titles for pos in self.find_positions(text, title)]
             positions.sort(key=lambda x: x[1])
@@ -61,6 +70,10 @@ class DeepdoctectionPDFLoader(BasePDFLoader):
             if not titles:
                 if last_title:
                     extracted_page = {'Title': last_title, 'Text': text.strip(),
+                                      'PageNumber': page_number}
+                    extracted_pages.append(extracted_page)
+                else:
+                    extracted_page = {'Title': '', 'Text': text.strip(),
                                       'PageNumber': page_number}
                     extracted_pages.append(extracted_page)
             else:
@@ -85,7 +98,7 @@ class DeepdoctectionPDFLoader(BasePDFLoader):
                     extracted_pages.append(extracted_page)
                 # Update last_title to the last title of the current page if there are titles,
                 # otherwise keep the last title
-                last_title = positions[-1][0] if positions else last_title
+                last_title = positions[-1][0]
         return extracted_pages
 
     @staticmethod

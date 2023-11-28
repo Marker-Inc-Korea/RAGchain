@@ -5,35 +5,42 @@ import pytest
 
 from RAGchain.preprocess.loader import DeepdoctectionPDFLoader
 
-data = [{'page_number': 1,
-         'title': ['1 Introduction', 'Visconde: Multi-document QA with GPT-3 and Neural Reranking'],
-         'text': 'Visconde: Multi-document QA with GPT-3 and Neural Reranking\nTEST_0\n1 Introduction\nTEST_1',
-         'table': ['table_test_1', 'table_test_2']},
+data = [
+    {'page_number': 0,
+     'title': [],
+     'text': 'TEST_EMPTY_TITLE',
+     'table': []},
 
-        {'page_number': 2,
-         'title': ['2 Related Work', '3 Our Method: Visconde'],
-         'text': 'TEST_2\n2 Related Work\nTEST_3\n3 Our Method: Visconde\nTEST_4',
-         'table': []},
+    {'page_number': 1,
+     'title': ['1 Introduction', 'Visconde: Multi-document QA with GPT-3 and Neural Reranking'],
+     'text': 'Visconde: Multi-document QA with GPT-3 and Neural Reranking\nTEST_0\n1 Introduction\nTEST_1',
+     'table': ['table_test_1', 'table_test_2']},
 
-        {'page_number': 3,
-         'title': [],
-         'text': 'TEST_5',
-         'table': []},
+    {'page_number': 2,
+     'title': ['2 Related Work', '3 Our Method: Visconde'],
+     'text': 'TEST_2\n2 Related Work\nTEST_3\n3 Our Method: Visconde\nTEST_4',
+     'table': []},
 
-        {'page_number': 4,
-         'title': ['4.1 IIRC', '4 Experiments'],
-         'text': 'TEST_6\n4 Experiments\n4.1 IIRC\nTEST_7',
-         'table': ['table_test_3']}]
+    {'page_number': 3,
+     'title': [],
+     'text': 'TEST_5',
+     'table': []},
 
-answer = [{'Table': 'table_test_1', 'Page_number': 1},
-          {'Table': 'table_test_2', 'Page_number': 1},
+    {'page_number': 4,
+     'title': ['4.1 IIRC', '4 Experiments'],
+     'text': 'TEST_6\n4 Experiments\n4.1 IIRC\nTEST_7',
+     'table': ['table_test_3']}]
+
+answer = [{'Title': '', 'Text': 'TEST_EMPTY_TITLE', 'PageNumber': 0},
+          {'Table': 'table_test_1', 'PageNumber': 1},
+          {'Table': 'table_test_2', 'PageNumber': 1},
           {'Title': 'Visconde: Multi-document QA with GPT-3 and Neural Reranking', 'Text': 'TEST_0', 'PageNumber': 1},
           {'Title': '1 Introduction', 'Text': 'TEST_1', 'PageNumber': 1},
           {'Title': '1 Introduction', 'Text': 'TEST_2', 'PageNumber': 2},
           {'Title': '2 Related Work', 'Text': 'TEST_3', 'PageNumber': 2},
           {'Title': '3 Our Method: Visconde', 'Text': 'TEST_4', 'PageNumber': 2},
           {'Title': '3 Our Method: Visconde', 'Text': 'TEST_5', 'PageNumber': 3},
-          {'Table': 'table_test_3', 'Page_number': 4},
+          {'Table': 'table_test_3', 'PageNumber': 4},
           {'Title': '3 Our Method: Visconde', 'Text': 'TEST_6', 'PageNumber': 4},
           {'Title': '4 Experiments', 'Text': '', 'PageNumber': 4},
           {'Title': '4.1 IIRC', 'Text': 'TEST_7', 'PageNumber': 4}]
@@ -62,3 +69,6 @@ def test_deepdoctection_pdf_loader(deepdoctection_pdf_loader):
     docs = deepdoctection_pdf_loader.load()
     print(len(docs))
     assert len(docs) == 15
+    assert docs[-1].metadata['Page_number'] == 3
+    table_count = sum('<table>' in doc.page_content for doc in docs)
+    assert table_count == 3
