@@ -31,19 +31,19 @@ data = [
      'text': 'TEST_6\n4 Experiments\n4.1 IIRC\nTEST_7',
      'table': ['table_test_3']}]
 
-answer = [{'Title': '', 'Text': 'TEST_EMPTY_TITLE', 'PageNumber': 0},
-          {'Table': 'table_test_1', 'PageNumber': 1},
-          {'Table': 'table_test_2', 'PageNumber': 1},
-          {'Title': 'Visconde: Multi-document QA with GPT-3 and Neural Reranking', 'Text': 'TEST_0', 'PageNumber': 1},
-          {'Title': '1 Introduction', 'Text': 'TEST_1', 'PageNumber': 1},
-          {'Title': '1 Introduction', 'Text': 'TEST_2', 'PageNumber': 2},
-          {'Title': '2 Related Work', 'Text': 'TEST_3', 'PageNumber': 2},
-          {'Title': '3 Our Method: Visconde', 'Text': 'TEST_4', 'PageNumber': 2},
-          {'Title': '3 Our Method: Visconde', 'Text': 'TEST_5', 'PageNumber': 3},
-          {'Table': 'table_test_3', 'PageNumber': 4},
-          {'Title': '3 Our Method: Visconde', 'Text': 'TEST_6', 'PageNumber': 4},
-          {'Title': '4 Experiments', 'Text': '', 'PageNumber': 4},
-          {'Title': '4.1 IIRC', 'Text': 'TEST_7', 'PageNumber': 4}]
+answer = [{'title': '', 'text': 'TEST_EMPTY_TITLE', 'page_number': 0},
+          {'table': 'table_test_1', 'page_number': 1},
+          {'table': 'table_test_2', 'page_number': 1},
+          {'title': 'Visconde: Multi-document QA with GPT-3 and Neural Reranking', 'text': 'TEST_0', 'page_number': 1},
+          {'title': '1 Introduction', 'text': 'TEST_1', 'page_number': 1},
+          {'title': '1 Introduction', 'text': 'TEST_2', 'page_number': 2},
+          {'title': '2 Related Work', 'text': 'TEST_3', 'page_number': 2},
+          {'title': '3 Our Method: Visconde', 'text': 'TEST_4', 'page_number': 2},
+          {'title': '3 Our Method: Visconde', 'text': 'TEST_5', 'page_number': 3},
+          {'table': 'table_test_3', 'page_number': 4},
+          {'title': '3 Our Method: Visconde', 'text': 'TEST_6', 'page_number': 4},
+          {'title': '4 Experiments', 'text': '', 'page_number': 4},
+          {'title': '4.1 IIRC', 'text': 'TEST_7', 'page_number': 4}]
 
 root_dir = pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent.parent
 file_dir = os.path.join(root_dir, "resources", "ingest_files")
@@ -69,6 +69,6 @@ def test_deepdoctection_pdf_loader(deepdoctection_pdf_loader):
     docs = deepdoctection_pdf_loader.load()
     print(len(docs))
     assert len(docs) == 15
-    assert docs[-1].metadata['Page_number'] == 3
+    assert docs[-1].metadata['page_number'] == 3
     table_count = sum('<table>' in doc.page_content for doc in docs)
     assert table_count == 3

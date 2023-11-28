@@ -44,12 +44,12 @@ class DeepdoctectionPDFLoader(BasePDFLoader):
         result = response.json()
         extracted_pages = self.extract_pages(result)
         for extracted_page in extracted_pages:
-            if 'Table' in extracted_page:
-                yield Document(page_content=extracted_page['Table'],
-                               metadata={'Page_number': extracted_page['PageNumber']})
+            if 'table' in extracted_page:
+                yield Document(page_content=extracted_page['table'],
+                               metadata={'Page_number': extracted_page['page_number']})
             else:
-                page_content = extracted_page['Title'] + '\n' + extracted_page['Text']
-                metadata = {'Page_number': extracted_page['PageNumber']}
+                page_content = extracted_page['title'] + '\n' + extracted_page['text']
+                metadata = {'Page_number': extracted_page['page_number']}
                 yield Document(page_content=page_content, metadata=metadata)
 
     def extract_pages(self, result: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
@@ -62,28 +62,28 @@ class DeepdoctectionPDFLoader(BasePDFLoader):
             table = item['table']
             # If there is a table, extract the table and add it to the extracted pages
             for tbl in table:
-                extracted_pages.append({'Table': tbl, 'PageNumber': page_number})
+                extracted_pages.append({'table': tbl, 'page_number': page_number})
             # Find the positions of each title in the text
             positions = [(title, pos) for title in titles for pos in self.find_positions(text, title)]
             positions.sort(key=lambda x: x[1])
             # If there are no titles in this page, use the last title from the previous page
             if not titles:
                 if last_title:
-                    extracted_page = {'Title': last_title, 'Text': text.strip(),
-                                      'PageNumber': page_number}
+                    extracted_page = {'title': last_title, 'text': text.strip(),
+                                      'page_number': page_number}
                     extracted_pages.append(extracted_page)
                 else:
-                    extracted_page = {'Title': '', 'Text': text.strip(),
-                                      'PageNumber': page_number}
+                    extracted_page = {'title': '', 'text': text.strip(),
+                                      'page_number': page_number}
                     extracted_pages.append(extracted_page)
             else:
                 # If there is a last title, create a new document with the last title and the text
                 # before the first title of the current page
                 if last_title is not None:
                     extracted_pages.append({
-                        'Title': last_title,
-                        'Text': text[:positions[0][1]].strip(),
-                        'PageNumber': page_number
+                        'title': last_title,
+                        'text': text[:positions[0][1]].strip(),
+                        'page_number': page_number
                     })
                 # Create a new extracted page for each title in the current page
                 for j in range(len(positions)):
@@ -93,8 +93,8 @@ class DeepdoctectionPDFLoader(BasePDFLoader):
                     else:
                         end = positions[j + 1][1]
                     txt = text[start:end].replace(title, '', 1).strip()
-                    extracted_page = {'Title': title, 'Text': txt,
-                                      'PageNumber': page_number}
+                    extracted_page = {'title': title, 'text': txt,
+                                      'page_number': page_number}
                     extracted_pages.append(extracted_page)
                 # Update last_title to the last title of the current page if there are titles,
                 # otherwise keep the last title
