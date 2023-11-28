@@ -79,7 +79,7 @@ class ViscondeRunPipeline(BaseRunPipeline):
         """
         self.retrieval = retrieval
         self.llm = llm
-        self.decompose = decompose if decompose is not None else QueryDecomposition()
+        self.decompose = decompose if decompose is not None else QueryDecomposition(self.llm)
         self.prompt = prompt if prompt is not None else self.strategyqa_prompt
         self.reranker = MonoT5Reranker()
         self.retrieval_option = retrieval_option if retrieval_option is not None else {"top_k": 50}
