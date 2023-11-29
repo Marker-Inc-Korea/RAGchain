@@ -2,8 +2,7 @@ from typing import List, Iterator, Dict, Any
 
 import requests
 from urllib.parse import urljoin, urlencode
-from pathlib import Path
-import tempfile
+
 from langchain.document_loaders.pdf import BasePDFLoader
 from langchain.schema import Document
 
