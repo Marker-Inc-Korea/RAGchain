@@ -71,7 +71,7 @@ pip install dev_requirements.txt
 ## OCR Loaders
 
 - [Nougat](https://github.com/facebookresearch/nougat)
-- [Deepdoctection](https://github.com/deepdoctection/deepdoctection) (coming soon)
+- [Deepdoctection](https://github.com/deepdoctection/deepdoctection)
 
 ## Rerankers
 - [UPR](https://github.com/DevSinghSachan/unsupervised-passage-reranking)
