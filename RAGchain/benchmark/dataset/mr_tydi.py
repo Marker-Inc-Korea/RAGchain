@@ -13,7 +13,7 @@ from RAGchain.schema import EvaluateResult, Passage
 
 class MrTydiEvaluator(BaseDatasetEvaluator):
     """
-    MrTydiEvaluator is a class for evaluating pipeline performance on StrategyQA dataset.
+    MrTydiEvaluator is a class for evaluating pipeline performance on Mr.tydi dataset.
     """
 
     def __init__(self, run_pipeline: BaseRunPipeline,
