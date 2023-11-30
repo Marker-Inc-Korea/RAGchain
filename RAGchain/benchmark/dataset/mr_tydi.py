@@ -56,11 +56,10 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
         dataset = load_dataset(self.file_path, language)['test']
         corpus = load_dataset('castorini/mr-tydi-corpus', language)['train']
 
-        # Set corpus index as docid(document id)
+        # Convert dataformat as pandas dataframe
+        self.qa_data = dataset.to_pandas()
         self.corpus = corpus.to_pandas()
 
-        # Create qa data with test set for query, retrieval_gt
-        self.qa_data = dataset.to_pandas()
         if evaluate_size is not None and len(self.qa_data) > evaluate_size:
             self.qa_data = self.qa_data[:evaluate_size]
 
