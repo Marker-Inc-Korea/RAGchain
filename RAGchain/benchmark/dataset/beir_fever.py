@@ -9,9 +9,9 @@ from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import EvaluateResult
 
 
-class BeirScifactEvaluator(BaseBeirEvaluator):
+class BeirFEVEREvaluator(BaseBeirEvaluator):
     """
-    BeirScifactEvaluator is a class for evaluating pipeline performance on scifact dataset at BEIR.
+    BeirFEVEREvaluator is a class for evaluating pipeline performance on fever dataset at BEIR.
     """
 
     def __init__(self, run_pipeline: BaseRunPipeline,
@@ -38,7 +38,7 @@ class BeirScifactEvaluator(BaseBeirEvaluator):
 
         # Data load
         # TODO: 설명- 어차피 부모클래스에서 file_path self로 만들어줘서 passage만들때 쌉가능
-        file_path = "BeIR/scifact"
+        file_path = "BeIR/fever"
 
         # TODO: 떠오르는 취약점 -> 데이터셋마다 비슷하긴해도 약간의 다른점이 있을텐데 customizing할때 부모클래스를 건드려버리면
         # TODO: 다른 데이터셋까지 모두 뒤틀림.
@@ -88,7 +88,7 @@ class BeirScifactEvaluator(BaseBeirEvaluator):
 
     def evaluate(self, **kwargs) -> EvaluateResult:
         """
-        Evaluate pipeline performance on scifact dataset.
+        Evaluate pipeline performance on fever dataset.
         This method always validate passages.
         """
 

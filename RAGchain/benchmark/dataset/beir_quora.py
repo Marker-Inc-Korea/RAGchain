@@ -9,9 +9,9 @@ from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import EvaluateResult
 
 
-class BeirScifactEvaluator(BaseBeirEvaluator):
+class BeirQUORAEvaluator(BaseBeirEvaluator):
     """
-    BeirScifactEvaluator is a class for evaluating pipeline performance on scifact dataset at BEIR.
+    BeirQUORAEvaluator is a class for evaluating pipeline performance on QUORA dataset at BEIR.
     """
 
     def __init__(self, run_pipeline: BaseRunPipeline,
@@ -38,7 +38,7 @@ class BeirScifactEvaluator(BaseBeirEvaluator):
 
         # Data load
         # TODO: 설명- 어차피 부모클래스에서 file_path self로 만들어줘서 passage만들때 쌉가능
-        file_path = "BeIR/scifact"
+        file_path = "BeIR/quora"
 
         # TODO: 떠오르는 취약점 -> 데이터셋마다 비슷하긴해도 약간의 다른점이 있을텐데 customizing할때 부모클래스를 건드려버리면
         # TODO: 다른 데이터셋까지 모두 뒤틀림.
@@ -68,6 +68,8 @@ class BeirScifactEvaluator(BaseBeirEvaluator):
         # gt_passages is retrieval_gt passages to ingest.
         gt_passages = corpus.loc[corpus['_id'].isin(id_for_remove_duplicated_corpus)]
 
+        # gt_passages = BaseBeirEvaluator.make_gt_passages(gt_ids, corpus)
+
         # Slice corpus by ingest_size and remove duplicate passages.
         corpus_passages = self.remove_duplicate_passages(ingest_size=ingest_size,
                                                          eval_size=self.eval_size,
@@ -75,7 +77,7 @@ class BeirScifactEvaluator(BaseBeirEvaluator):
                                                          random_state=random_state,
                                                          id_for_remove_duplicated_corpus=id_for_remove_duplicated_corpus,
                                                          )
-        # TODO: eval size로 잘 잘렸는가 체크 자꾸 안잘리는 이슈
+
         gt_passages = gt_passages.apply(self.make_corpus_passages, axis=1).tolist()
 
         passages = corpus_passages.apply(self.make_corpus_passages, axis=1).tolist()
@@ -88,7 +90,7 @@ class BeirScifactEvaluator(BaseBeirEvaluator):
 
     def evaluate(self, **kwargs) -> EvaluateResult:
         """
-        Evaluate pipeline performance on scifact dataset.
+        Evaluate pipeline performance on quora dataset.
         This method always validate passages.
         """
 
@@ -97,5 +99,3 @@ class BeirScifactEvaluator(BaseBeirEvaluator):
             pipeline=self.run_pipeline,
             retrieval_gt=self.retrieval_gt
         )
-
-    # TODO: qrels 아이디랑 코퍼스 쿼리 아이디 매핑하는 함수 만들기 함수화 시키기
