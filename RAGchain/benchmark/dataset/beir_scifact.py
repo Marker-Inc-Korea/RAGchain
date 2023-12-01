@@ -2,18 +2,16 @@ import itertools
 from copy import deepcopy
 from typing import List, Optional
 
-from datasets import load_dataset
-
 from RAGchain.DB.base import BaseDB
 from RAGchain.benchmark.dataset.base import BaseBeirEvaluator
 from RAGchain.pipeline.base import BaseRunPipeline
 from RAGchain.retrieval.base import BaseRetrieval
-from RAGchain.schema import EvaluateResult, Passage
+from RAGchain.schema import EvaluateResult
 
 
-class BeirFIQAEvaluator(BaseBeirEvaluator):
+class BeirScifactEvaluator(BaseBeirEvaluator):
     """
-    BeirFIQAEvaluator is a class for evaluating pipeline performance on FIQA dataset at BEIR.
+    BeirScifactEvaluator is a class for evaluating pipeline performance on scifact dataset at BEIR.
     """
 
     def __init__(self, run_pipeline: BaseRunPipeline,
@@ -30,44 +28,23 @@ class BeirFIQAEvaluator(BaseBeirEvaluator):
 
         Additionally, you can preprocess datasets in this class constructor to benchmark your own pipeline.
         You can modify utils methods by overriding it for your dataset.
-
         """
-        support_metrics = (self.retrieval_gt_metrics + self.retrieval_no_gt_metrics)
-        if metrics is not None:
-            using_metrics = list(set(metrics))
-        else:
-            using_metrics = support_metrics
-        super().__init__(run_all=False, metrics=using_metrics)
 
         self.run_pipeline = run_pipeline
         self.eval_size = evaluate_size
 
+        # TODO: rank aware metric 추가
+        # TODO: rank aware score에 해당하는 order 만들기
+
         # Data load
-        self.file_path = "BeIR/fiqa"
-        queries = load_dataset(self.file_path, 'queries')['queries']
-        corpus = load_dataset(self.file_path, 'corpus')['corpus']
-        qrels = load_dataset(f"{self.file_path}-qrels")['test']
+        # TODO: 설명- 어차피 부모클래스에서 file_path self로 만들어줘서 passage만들때 쌉가능
+        file_path = "BeIR/scifact"
 
-        self.queries = queries.to_pandas()
-        self.corpus = corpus.to_pandas()
-        self.qrels = qrels.to_pandas()
-
-        # Convert integer type to string type of qrels' query-id and corpus-id.
-        self.qrels[['query-id', 'corpus-id']] = self.qrels[['query-id', 'corpus-id']].astype(str)
-
-        # Preprocess qrels. Some query ids duplicated and were appended different corpus id.
-        self.qrels = self.qrels.groupby('query-id', as_index=False).agg(
-            {'corpus-id': lambda x: list(x), 'score': lambda x: list(x)})
-
-        if evaluate_size is not None and len(self.qrels) > evaluate_size:
-            self.qrels = self.qrels[:evaluate_size]
-
-        # Create retrieval_gt.
-        self.retrieval_gt = self.qrels['corpus-id'].tolist()
-
-        # Create question
-        q_id = self.qrels['query-id'].tolist()
-        self.questions = self.queries.loc[self.queries['_id'].isin(q_id)]['text'].tolist()
+        # TODO: 떠오르는 취약점 -> 데이터셋마다 비슷하긴해도 약간의 다른점이 있을텐데 customizing할때 부모클래스를 건드려버리면
+        # TODO: 다른 데이터셋까지 모두 뒤틀림.
+        # TODO: 생성자의 method override나 그냥 상속 안받고 부모 클래스 코드 복붙하세유 하면 안되나?
+        # Create support metrics
+        super().__init__(evaluate_size=self.eval_size, file_path=file_path, metrics=metrics)
 
     def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB, ingest_size: Optional[int] = None, random_state=None):
         """
@@ -99,9 +76,9 @@ class BeirFIQAEvaluator(BaseBeirEvaluator):
                                                          id_for_remove_duplicated_corpus=id_for_remove_duplicated_corpus,
                                                          )
 
-        gt_passages = gt_passages.apply(self.__make_corpus_passages, axis=1).tolist()
+        gt_passages = gt_passages.apply(self.make_corpus_passages, axis=1).tolist()
 
-        passages = corpus_passages.apply(self.__make_corpus_passages, axis=1).tolist()
+        passages = corpus_passages.apply(self.make_corpus_passages, axis=1).tolist()
         passages += gt_passages
 
         for retrieval in retrievals:
@@ -111,23 +88,14 @@ class BeirFIQAEvaluator(BaseBeirEvaluator):
 
     def evaluate(self, **kwargs) -> EvaluateResult:
         """
-        Evaluate pipeline performance on fiqa dataset.
+        Evaluate pipeline performance on scifact dataset.
         This method always validate passages.
         """
+
         return self._calculate_metrics(
             questions=self.questions,
             pipeline=self.run_pipeline,
             retrieval_gt=self.retrieval_gt
         )
-
-    def __make_corpus_passages(self, row):
-        # Corpus to passages
-        passage = Passage(
-            id=row['_id'],
-            content=row['text'],
-            filepath=self.file_path,
-            metadata_etc={'title': row['title']}
-        )
-        return passage
 
     # TODO: qrels 아이디랑 코퍼스 쿼리 아이디 매핑하는 함수 만들기 함수화 시키기
