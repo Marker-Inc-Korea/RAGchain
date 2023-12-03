@@ -33,16 +33,9 @@ class BeirSCIDOCSEvaluator(BaseBeirEvaluator):
         self.run_pipeline = run_pipeline
         self.eval_size = evaluate_size
 
-        # TODO: rank aware metric 추가
-        # TODO: rank aware score에 해당하는 order 만들기
-
         # Data load
-        # TODO: 설명- 어차피 부모클래스에서 file_path self로 만들어줘서 passage만들때 쌉가능
         file_path = "BeIR/scidocs"
 
-        # TODO: 떠오르는 취약점 -> 데이터셋마다 비슷하긴해도 약간의 다른점이 있을텐데 customizing할때 부모클래스를 건드려버리면
-        # TODO: 다른 데이터셋까지 모두 뒤틀림.
-        # TODO: 생성자의 method override나 그냥 상속 안받고 부모 클래스 코드 복붙하세유 하면 안되나?
         # Create support metrics
         super().__init__(evaluate_size=self.eval_size, file_path=file_path, metrics=metrics)
 

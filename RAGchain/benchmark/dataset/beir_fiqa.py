@@ -40,45 +40,6 @@ class BeirFIQAEvaluator(BaseBeirEvaluator):
         # Create support metrics
         super().__init__(evaluate_size=self.eval_size, file_path=file_path, metrics=metrics)
 
-        # Preserve prvious code
-
-        # support_metrics = (self.retrieval_gt_metrics + self.retrieval_no_gt_metrics)
-        # if metrics is not None:
-        #     using_metrics = list(set(metrics))
-        # else:
-        #     using_metrics = support_metrics
-        # super().__init__(run_all=False, metrics=using_metrics)
-        #
-        # self.run_pipeline = run_pipeline
-        # self.eval_size = evaluate_size
-        #
-        # # Data load
-        # self.file_path = "BeIR/fiqa"
-        # queries = load_dataset(self.file_path, 'queries')['queries']
-        # corpus = load_dataset(self.file_path, 'corpus')['corpus']
-        # qrels = load_dataset(f"{self.file_path}-qrels")['test']
-        #
-        # self.queries = queries.to_pandas()
-        # self.corpus = corpus.to_pandas()
-        # self.qrels = qrels.to_pandas()
-        #
-        # # Convert integer type to string type of qrels' query-id and corpus-id.
-        # self.qrels[['query-id', 'corpus-id']] = self.qrels[['query-id', 'corpus-id']].astype(str)
-        #
-        # # Preprocess qrels. Some query ids duplicated and were appended different corpus id.
-        # self.qrels = self.qrels.groupby('query-id', as_index=False).agg(
-        #     {'corpus-id': lambda x: list(x), 'score': lambda x: list(x)})
-        #
-        # if evaluate_size is not None and len(self.qrels) > evaluate_size:
-        #     self.qrels = self.qrels[:evaluate_size]
-        #
-        # # Create retrieval_gt.
-        # self.retrieval_gt = self.qrels['corpus-id'].tolist()
-        #
-        # # Create question
-        # q_id = self.qrels['query-id'].tolist()
-        # self.questions = self.queries.loc[self.queries['_id'].isin(q_id)]['text'].tolist()
-
     def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB, ingest_size: Optional[int] = None, random_state=None):
         """
         Ingest dataset to retrievals and db.
@@ -139,5 +100,3 @@ class BeirFIQAEvaluator(BaseBeirEvaluator):
             metadata_etc={'title': row['title']}
         )
         return passage
-
-    # TODO: qrels 아이디랑 코퍼스 쿼리 아이디 매핑하는 함수 만들기 함수화 시키기
