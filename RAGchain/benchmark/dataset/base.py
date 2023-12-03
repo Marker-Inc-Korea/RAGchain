@@ -46,20 +46,10 @@ class BaseStrategyQA:
 
 
 class BaseBeirEvaluator(BaseDatasetEvaluator):
-
-    # TODO: support metric dataset에 따라서 조정하기 -> score가 binary인지 연속인지
-    # TODO: score가 binary이므로 rank aware metric은 없으며 answer gt 또한 없다. 전처리를 여기서 할수 있고, ingest나 evaluate같은경우에는 다른곳에서 할수 있게?
-    # TODO: 지금 만드는건 쿼리 아이디로 qrels를 보고 판단하는것 score들에 order나 relevant한게 아닌 0값도 나중에 한번에 부모클래스 처리
-    # TODO: gt는 한 쿼리당 여러개 corpus일수 있음 -> query id가 여러번 반복되고 각각 다른 corpus id가 담김.
-
-    # TODO: Run all param은 metric 다 돌리는것
     def __init__(self, evaluate_size: Optional[int] = None,
                  file_path: str = None,
                  metrics: Optional[List[str]] = None,
                  ):
-        # TODO: IF case 추가
-        # TODO: support metric 잘 불러와지는지 예외처리도 모두 체크하기
-
         if file_path is None:
             raise ValueError("Please input file_path to call the metrics.")
 
@@ -72,17 +62,18 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
         self.qrels = qrels.to_pandas()
         self.file_path = file_path
 
-        # TODO: 여기에 0과 -1인 score는 non relevant이므로 날려버리기 그렇게 되면 아래 metric 불러오는 코드도 수정하면 됌
-        # TODO: rank_order코드도 case 만들어서 만들기
+        # Remove row that contains none relevant passages.
+        self.qrels = self.qrels[self.qrels['score'] >= 1]
+
         # BeIR datasets consisted rank dataset and none rank dataset.
         # Create porper metrics.
         using_metrics = self.__call_metrics(metrics)
         super().__init__(run_all=False, metrics=using_metrics)
 
-        # Preprocess qrels proper form.
-        self.qrels = self.__preprocess_qrels(self.qrels, evaluate_size)
+        # Preprocess qrels proper form and slice by evaluate size.
+        self.qrels = BaseBeirEvaluator.__preprocess_qrels(self.qrels, evaluate_size)
 
-        # Create retrieval_gt.
+        # Create retrieval_gt. If retrieval gt exist order, create retrieval gt order too.
         self.retrieval_gt = self.qrels['corpus-id'].tolist()
 
         # Create question
@@ -91,6 +82,7 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
 
     def __call_metrics(self, metrics):
         if (self.qrels['score'] > 1).any():
+            # TODO: rank aware인경우 잘 나오는지 체크하기
             support_metrics = (self.retrieval_gt_metrics + self.retrieval_no_gt_metrics +
                                self.retrieval_gt_metrics_rank_aware + self.answer_no_gt_metrics)
         else:
@@ -103,7 +95,8 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
 
         return using_metrics
 
-    def __preprocess_qrels(self, qrels, evaluate_size):
+    @staticmethod
+    def __preprocess_qrels(qrels, evaluate_size):
         # Convert integer type to string type of qrels' query-id and corpus-id.
         qrels[['query-id', 'corpus-id']] = qrels[['query-id', 'corpus-id']].astype(str)
 
@@ -116,7 +109,8 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
 
         return preprocessed_qrels
 
-    def make_gt_passages(self, gt_ids, corpus):
+    @staticmethod
+    def make_gt_passages(gt_ids, corpus):
         # Flatten retrieval ground truth ids and convert string type.
         gt_ids_lst = [str(id) for id in list(itertools.chain.from_iterable(gt_ids))]
         id_for_remove_duplicated_corpus = deepcopy(gt_ids_lst)
@@ -126,7 +120,8 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
 
         return gt_passages
 
-    def remove_duplicate_passages(self, ingest_size: int,
+    def remove_duplicate_passages(self,
+                                  ingest_size: int,
                                   eval_size,
                                   corpus,
                                   random_state,
@@ -145,12 +140,9 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
             else:
                 raise ValueError("ingest size must be same or larger than evaluate size")
 
-        # TODO: 방금 eval_size가 ingest_size보다 컸는데 작동이 안됐음
-
         # Remove duplicated passages between corpus and retrieval gt for ingesting passages faster.
-        # Marking duplicated values in the corpus using retrieval_gt id.
+        # Marking duplicated values in the dataframe using values list and Remove duplicated values.
         mask = corpus_passages.isin(id_for_remove_duplicated_corpus)
-        # Remove duplicated passages
         corpus_passages = corpus_passages[~mask.any(axis=1)]
 
         # Assert whether duplicated passages were removed in corpus_passages
@@ -169,3 +161,4 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
             metadata_etc={'title': row['title']}
         )
         return passage
+
