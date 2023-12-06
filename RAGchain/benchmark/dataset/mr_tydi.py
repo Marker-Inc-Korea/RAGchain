@@ -33,7 +33,7 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
         If you want to use languages combined, You can choose 'combined' configuration.
         """
         support_metrics = (self.retrieval_gt_metrics + self.retrieval_no_gt_metrics + self.retrieval_gt_ragas_metrics
-                           ['MRR'])
+                           + ['MRR'])
         languages = ['arabic', 'bengali', 'combined', 'english', 'finnish',
                      'indonesian', 'japanese', 'korean', 'russian', 'swahili', 'telugu', 'thai']
 
