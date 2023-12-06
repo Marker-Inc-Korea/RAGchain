@@ -29,7 +29,7 @@ def strategy_qa_evaluator():
         os.remove(pickle_path)
 
 
-def test_ko_strategy_qa_evaluator(strategy_qa_evaluator):
+def test_strategy_qa_evaluator(strategy_qa_evaluator):
     with pytest.raises(ValueError):
         strategy_qa_evaluator.evaluate(validate_passages=True)
 
