@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 def beir_fever_evaluator():
     bm25_retrieval = BM25Retrieval(save_path=bm25_path)
     db = PickleDB(pickle_path)
-    llm = OpenAI(model_name="babbage-002")
+    llm = OpenAI(model_name="gpt-3.5-turbo-16k")
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
     evaluator = BeirEvaluator(run_pipeline=pipeline, file_name='fever', evaluate_size=5)
     evaluator.ingest(retrievals=[bm25_retrieval], db=db, ingest_size=20)
@@ -35,7 +35,7 @@ def beir_fever_evaluator():
 def beir_fiqa_evaluator():
     bm25_retrieval = BM25Retrieval(save_path=bm25_path)
     db = PickleDB(pickle_path)
-    llm = OpenAI(model_name="babbage-002")
+    llm = OpenAI(model_name="gpt-3.5-turbo-16k")
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
     evaluator = BeirEvaluator(run_pipeline=pipeline, file_name='fiqa', evaluate_size=5)
     evaluator.ingest(retrievals=[bm25_retrieval], db=db, ingest_size=20)
@@ -50,7 +50,7 @@ def beir_fiqa_evaluator():
 def beir_hotpotqa_evaluator():
     bm25_retrieval = BM25Retrieval(save_path=bm25_path)
     db = PickleDB(pickle_path)
-    llm = OpenAI(model_name="babbage-002")
+    llm = OpenAI(model_name="gpt-3.5-turbo-16k")
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
     evaluator = BeirEvaluator(run_pipeline=pipeline, file_name='hotpotqa', evaluate_size=5)
     evaluator.ingest(retrievals=[bm25_retrieval], db=db, ingest_size=20)
@@ -65,7 +65,7 @@ def beir_hotpotqa_evaluator():
 def beir_nq_evaluator():
     bm25_retrieval = BM25Retrieval(save_path=bm25_path)
     db = PickleDB(pickle_path)
-    llm = OpenAI(model_name="babbage-002")
+    llm = OpenAI(model_name="gpt-3.5-turbo-16k")
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
     evaluator = BeirEvaluator(run_pipeline=pipeline, file_name='nq', evaluate_size=5)
     evaluator.ingest(retrievals=[bm25_retrieval], db=db, ingest_size=20)
@@ -78,7 +78,7 @@ def beir_nq_evaluator():
 def beir_quora_evaluator():
     bm25_retrieval = BM25Retrieval(save_path=bm25_path)
     db = PickleDB(pickle_path)
-    llm = OpenAI(model_name="babbage-002")
+    llm = OpenAI(model_name="gpt-3.5-turbo-16k")
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
     evaluator = BeirEvaluator(run_pipeline=pipeline, file_name='quora', evaluate_size=5)
     evaluator.ingest(retrievals=[bm25_retrieval], db=db, ingest_size=20)
@@ -93,7 +93,7 @@ def beir_quora_evaluator():
 def beir_scidocs_evaluator():
     bm25_retrieval = BM25Retrieval(save_path=bm25_path)
     db = PickleDB(pickle_path)
-    llm = OpenAI(model_name="babbage-002")
+    llm = OpenAI(model_name="gpt-3.5-turbo-16k")
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
     evaluator = BeirEvaluator(run_pipeline=pipeline, file_name='scidocs', evaluate_size=5)
     evaluator.ingest(retrievals=[bm25_retrieval], db=db, ingest_size=20)
@@ -108,7 +108,7 @@ def beir_scidocs_evaluator():
 def beir_scifact_evaluator():
     bm25_retrieval = BM25Retrieval(save_path=bm25_path)
     db = PickleDB(pickle_path)
-    llm = OpenAI(model_name="babbage-002")
+    llm = OpenAI(model_name="gpt-3.5-turbo-16k")
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
     evaluator = BeirEvaluator(run_pipeline=pipeline, file_name='scifact', evaluate_size=5)
     evaluator.ingest(retrievals=[bm25_retrieval], db=db, ingest_size=20)

@@ -113,6 +113,7 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
 
     def __call_metrics(self, metrics):
         support_metrics = (self.retrieval_gt_metrics
+                           # + self.retrieval_gt_ragas_metrics
                            + self.retrieval_no_gt_metrics
                            )
         if metrics is not None:
