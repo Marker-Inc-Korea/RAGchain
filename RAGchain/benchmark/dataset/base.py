@@ -8,8 +8,10 @@ from datasets import load_dataset
 
 from RAGchain.DB.base import BaseDB
 from RAGchain.benchmark.base import BaseEvaluator
+from RAGchain.pipeline.base import BaseRunPipeline
 from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import Passage
+from RAGchain.utils.util import text_modifier
 
 
 class BaseDatasetEvaluator(BaseEvaluator, ABC):
@@ -46,21 +48,50 @@ class BaseStrategyQA:
 
 
 class BaseBeirEvaluator(BaseDatasetEvaluator):
-    def __init__(self, evaluate_size: Optional[int] = None,
-                 file_path: str = None,
+    def __init__(self, run_pipeline: BaseRunPipeline,
+                 file_name: str = None,
+                 evaluate_size: Optional[int] = None,
                  metrics: Optional[List[str]] = None,
                  ):
-        if file_path is None:
-            raise ValueError("Please input file_path to call the metrics.")
+        """
+        :param run_pipeline: The pipeline that you want to benchmark.
+        :param file_name: The file_name is a dataset name that you want to benchmark. The available datasets are below.
+        fever, fiqa, hotpotqa, nq, quora, scidocs, scifact
+        :param evaluate_size: The number of data to evaluate. If None, evaluate all data.
+        We are using train set for evaluating in this class, so it is huge. Recommend to set proper size for evaluation.
 
+        :param metrics: The list of metrics to use. If None, use all metrics that supports KoStrategyQA.
+        Supporting metrics are Recall, Precision, Hole, TopK_Accuracy, EM, F1_score, context_precision, MRR.
+        You must ingest all data for using context_recall and context_precision metrics.
+        Notice: We except context_recall metric that is ragas metric.
+                It takes a long time in evaluation because beir token is too big.
+                So if you want to use context_recall metric, You can add self.retrieval_gt_ragas_metrics.
+
+        Additionally, you can preprocess datasets in this class constructor to benchmark your own pipeline.
+        You can modify utils methods by overriding it for your dataset.
+        """
+
+        available_dataset = ['fever', 'fiqa', 'hotpotqa', 'nq', 'quora', 'scidocs', 'scifact']
+
+        # Data load
+        if file_name is None:
+            raise ValueError("Please input file_name to call the metrics.")
+
+        if text_modifier(file_name)[1].lower() not in available_dataset:
+            raise ValueError("Please input valid file name in file_name paremeter.")
+
+        file_path = f"BeIR/{file_name}"
         queries = load_dataset(file_path, 'queries')['queries']
         corpus = load_dataset(file_path, 'corpus')['corpus']
         qrels = load_dataset(f"{file_path}-qrels")['test']
 
+        self.run_pipeline = run_pipeline
+        self.eval_size = evaluate_size
+        self.file_path = file_path
+
         self.queries = queries.to_pandas()
         self.corpus = corpus.to_pandas()
         self.qrels = qrels.to_pandas()
-        self.file_path = file_path
 
         # Remove row that contains none relevant passages.
         self.qrels = self.qrels[self.qrels['score'] >= 1]
@@ -81,13 +112,9 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
         self.questions = self.queries.loc[self.queries['_id'].isin(q_id)]['text'].tolist()
 
     def __call_metrics(self, metrics):
-        if (self.qrels['score'] > 1).any():
-            # TODO: rank aware인경우 잘 나오는지 체크하기
-            support_metrics = (self.retrieval_gt_metrics + self.retrieval_no_gt_metrics +
-                               self.retrieval_gt_metrics_rank_aware + self.answer_no_gt_metrics)
-        else:
-            support_metrics = (self.retrieval_gt_metrics + self.retrieval_no_gt_metrics)
-
+        support_metrics = (self.retrieval_gt_metrics
+                           + self.retrieval_no_gt_metrics
+                           )
         if metrics is not None:
             using_metrics = list(set(metrics))
         else:
@@ -109,8 +136,44 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
 
         return preprocessed_qrels
 
-    @staticmethod
-    def make_gt_passages(gt_ids, corpus):
+    def ingest_data(self, retrievals: List[BaseRetrieval],
+                    db: BaseDB,
+                    ingest_size: Optional[int] = None,
+                    random_state=None):
+        """
+        Ingest dataset to retrievals and db.
+        :param retrievals: The retrievals that you want to ingest.
+        :param db: The db that you want to ingest.
+        :param ingest_size: The number of data to ingest. If None, ingest all data.
+        If ingest size too big, It takes a long time.
+        So we shuffle corpus and slice by ingest size for test.
+        We put retrieval gt corpus in passages because retrieval retrieves ground truth in db.
+        :param random_state: A random state to fix the shuffled corpus to ingest.
+        Types are like these. int, array-like, BitGenerator, np.random.RandomState, np.random.Generator, optional
+        """
+        gt_ids = deepcopy(self.retrieval_gt)
+        corpus = deepcopy(self.corpus)
+
+        gt_passages, id_for_remove_duplicated_corpus = self.make_gt_passages_and_duplicated_id(gt_ids, corpus)
+
+        # Slice corpus by ingest_size and remove duplicate passages.
+        corpus_passages = self.remove_duplicate_passages(ingest_size=ingest_size,
+                                                         eval_size=self.eval_size,
+                                                         corpus=corpus,
+                                                         random_state=random_state,
+                                                         id_for_remove_duplicated_corpus=id_for_remove_duplicated_corpus,
+                                                         )
+        gt_passages = gt_passages.apply(self.make_corpus_passages, axis=1).tolist()
+
+        passages = corpus_passages.apply(self.make_corpus_passages, axis=1).tolist()
+        passages += gt_passages
+
+        for retrieval in retrievals:
+            retrieval.ingest(passages)
+        db.create_or_load()
+        db.save(passages)
+
+    def make_gt_passages_and_duplicated_id(self, gt_ids, corpus):
         # Flatten retrieval ground truth ids and convert string type.
         gt_ids_lst = [str(id) for id in list(itertools.chain.from_iterable(gt_ids))]
         id_for_remove_duplicated_corpus = deepcopy(gt_ids_lst)
@@ -118,7 +181,7 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
         # gt_passages is retrieval_gt passages to ingest.
         gt_passages = corpus.loc[corpus['_id'].isin(id_for_remove_duplicated_corpus)]
 
-        return gt_passages
+        return gt_passages, id_for_remove_duplicated_corpus
 
     def remove_duplicate_passages(self,
                                   ingest_size: int,
@@ -161,4 +224,3 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
             metadata_etc={'title': row['title']}
         )
         return passage
-
