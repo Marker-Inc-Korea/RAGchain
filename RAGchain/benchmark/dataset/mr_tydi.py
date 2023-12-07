@@ -9,7 +9,6 @@ from RAGchain.benchmark.dataset.base import BaseDatasetEvaluator
 from RAGchain.pipeline.base import BaseRunPipeline
 from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import EvaluateResult, Passage
-from RAGchain.utils.util import text_modifier
 
 
 class MrTydiEvaluator(BaseDatasetEvaluator):
@@ -37,7 +36,7 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
                            ['MRR'])
         languages = ['arabic', 'bengali', 'combined', 'english', 'finnish',
                      'indonesian', 'japanese', 'korean', 'russian', 'swahili', 'telugu', 'thai']
-        language = text_modifier(language)[0].lower()
+        language = language.lower()
 
         if language not in languages:
             raise ValueError(f"You input invalid language ({language})."
