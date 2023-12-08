@@ -36,6 +36,7 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
                            ['MRR'])
         languages = ['arabic', 'bengali', 'combined', 'english', 'finnish',
                      'indonesian', 'japanese', 'korean', 'russian', 'swahili', 'telugu', 'thai']
+        language = language.lower()
 
         if language not in languages:
             raise ValueError(f"You input invalid language ({language})."
