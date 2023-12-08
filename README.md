@@ -4,7 +4,8 @@ RAGchain is a framework for developing advanced RAG(Retrieval Augmented Generati
 While existing frameworks like Langchain or LlamaIndex allow you to build simple RAG workflows, they have limitations when it comes to building complex and high-accuracy RAG workflows.
 
 RAGchain is designed to overcome these limitations by providing powerful features for building advanced RAG workflow easily.
-Also, it is partially compatible with Langchain, allowing you to leverage many of its integrations for vector storage, embeddings, and document loaders.
+Also, it is partially compatible with Langchain, allowing you to leverage many of its integrations for vector storage,
+embeddings, document loaders, and LLM models.
 
 [Docs](https://nomadamas.gitbook.io/ragchain-docs/) | [API Spec](https://nomadamas.github.io/RAGchain) | [QuickStart](https://nomadamas.gitbook.io/ragchain-docs/quick-start)
 
@@ -87,6 +88,14 @@ pip install dev_requirements.txt
 ## Extra utils
 - Query Decomposition
 - Evidence Extractor
+
+## Dataset Evaluators
+
+- [MS-MARCO](https://paperswithcode.com/dataset/ms-marco)
+- [Mr. Tydi](https://arxiv.org/abs/2108.08787)
+- [Qasper](https://paperswithcode.com/dataset/qasper)
+- [StrategyQA](https://allenai.org/data/strategyqa)
+- [KoStrategyQA](https://huggingface.co/datasets/NomaDamas/Ko-StrategyQA)
 
 # Contributing
 We welcome any contributions. Please feel free to raise issues and submit pull requests.
