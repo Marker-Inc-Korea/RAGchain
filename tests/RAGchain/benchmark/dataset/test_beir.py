@@ -6,7 +6,13 @@ import pytest
 from langchain.llms.openai import OpenAI
 
 from RAGchain.DB import PickleDB
-from RAGchain.benchmark.dataset import BeirEvaluator
+from RAGchain.benchmark.dataset import BeirFEVEREvaluator
+from RAGchain.benchmark.dataset import BeirFIQAEvaluator
+from RAGchain.benchmark.dataset import BeirHOTPOTQAEvaluator
+from RAGchain.benchmark.dataset import BeirNQEvaluator
+from RAGchain.benchmark.dataset import BeirQUORAEvaluator
+from RAGchain.benchmark.dataset import BeirSCIDOCSEvaluator
+from RAGchain.benchmark.dataset import BeirSCIFACTEvaluator
 from RAGchain.pipeline import BasicRunPipeline
 from RAGchain.retrieval import BM25Retrieval
 
@@ -22,7 +28,7 @@ def beir_fever_evaluator():
     db = PickleDB(pickle_path)
     llm = OpenAI(model_name="gpt-3.5-turbo-16k")
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
-    evaluator = BeirEvaluator(run_pipeline=pipeline, file_name='fever', evaluate_size=5)
+    evaluator = BeirFEVEREvaluator(run_pipeline=pipeline, evaluate_size=5)
     evaluator.ingest(retrievals=[bm25_retrieval], db=db, ingest_size=20)
     yield evaluator
     if os.path.exists(bm25_path):
@@ -37,7 +43,7 @@ def beir_fiqa_evaluator():
     db = PickleDB(pickle_path)
     llm = OpenAI(model_name="gpt-3.5-turbo-16k")
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
-    evaluator = BeirEvaluator(run_pipeline=pipeline, file_name='fiqa', evaluate_size=5)
+    evaluator = BeirFIQAEvaluator(run_pipeline=pipeline, evaluate_size=5)
     evaluator.ingest(retrievals=[bm25_retrieval], db=db, ingest_size=20)
     yield evaluator
     if os.path.exists(bm25_path):
@@ -52,7 +58,7 @@ def beir_hotpotqa_evaluator():
     db = PickleDB(pickle_path)
     llm = OpenAI(model_name="gpt-3.5-turbo-16k")
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
-    evaluator = BeirEvaluator(run_pipeline=pipeline, file_name='hotpotqa', evaluate_size=5)
+    evaluator = BeirHOTPOTQAEvaluator(run_pipeline=pipeline, evaluate_size=5)
     evaluator.ingest(retrievals=[bm25_retrieval], db=db, ingest_size=20)
     yield evaluator
     if os.path.exists(bm25_path):
@@ -67,7 +73,7 @@ def beir_nq_evaluator():
     db = PickleDB(pickle_path)
     llm = OpenAI(model_name="gpt-3.5-turbo-16k")
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
-    evaluator = BeirEvaluator(run_pipeline=pipeline, file_name='nq', evaluate_size=5)
+    evaluator = BeirNQEvaluator(run_pipeline=pipeline, evaluate_size=5)
     evaluator.ingest(retrievals=[bm25_retrieval], db=db, ingest_size=20)
     yield evaluator
     if os.path.exists(bm25_path):
@@ -80,7 +86,7 @@ def beir_quora_evaluator():
     db = PickleDB(pickle_path)
     llm = OpenAI(model_name="gpt-3.5-turbo-16k")
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
-    evaluator = BeirEvaluator(run_pipeline=pipeline, file_name='quora', evaluate_size=5)
+    evaluator = BeirQUORAEvaluator(run_pipeline=pipeline, evaluate_size=5)
     evaluator.ingest(retrievals=[bm25_retrieval], db=db, ingest_size=20)
     yield evaluator
     if os.path.exists(bm25_path):
@@ -95,7 +101,7 @@ def beir_scidocs_evaluator():
     db = PickleDB(pickle_path)
     llm = OpenAI(model_name="gpt-3.5-turbo-16k")
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
-    evaluator = BeirEvaluator(run_pipeline=pipeline, file_name='scidocs', evaluate_size=5)
+    evaluator = BeirSCIDOCSEvaluator(run_pipeline=pipeline, evaluate_size=5)
     evaluator.ingest(retrievals=[bm25_retrieval], db=db, ingest_size=20)
     yield evaluator
     if os.path.exists(bm25_path):
@@ -110,7 +116,7 @@ def beir_scifact_evaluator():
     db = PickleDB(pickle_path)
     llm = OpenAI(model_name="gpt-3.5-turbo-16k")
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
-    evaluator = BeirEvaluator(run_pipeline=pipeline, file_name='scifact', evaluate_size=5)
+    evaluator = BeirSCIFACTEvaluator(run_pipeline=pipeline, evaluate_size=5)
     evaluator.ingest(retrievals=[bm25_retrieval], db=db, ingest_size=20)
     yield evaluator
     if os.path.exists(bm25_path):

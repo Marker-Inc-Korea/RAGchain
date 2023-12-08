@@ -10,8 +10,7 @@ from RAGchain.DB.base import BaseDB
 from RAGchain.benchmark.base import BaseEvaluator
 from RAGchain.pipeline.base import BaseRunPipeline
 from RAGchain.retrieval.base import BaseRetrieval
-from RAGchain.schema import Passage
-from RAGchain.utils.util import text_modifier
+from RAGchain.schema import Passage, EvaluateResult
 
 
 class BaseDatasetEvaluator(BaseEvaluator, ABC):
@@ -49,14 +48,12 @@ class BaseStrategyQA:
 
 class BaseBeirEvaluator(BaseDatasetEvaluator):
     def __init__(self, run_pipeline: BaseRunPipeline,
-                 file_name: str = None,
+                 file_path: str = None,
                  evaluate_size: Optional[int] = None,
                  metrics: Optional[List[str]] = None,
                  ):
         """
         :param run_pipeline: The pipeline that you want to benchmark.
-        :param file_name: The file_name is a dataset name that you want to benchmark. The available datasets are below.
-        fever, fiqa, hotpotqa, nq, quora, scidocs, scifact
         :param evaluate_size: The number of data to evaluate. If None, evaluate all data.
         We are using train set for evaluating in this class, so it is huge. Recommend to set proper size for evaluation.
 
@@ -70,17 +67,9 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
         Additionally, you can preprocess datasets in this class constructor to benchmark your own pipeline.
         You can modify utils methods by overriding it for your dataset.
         """
+        if file_path is None:
+            raise ValueError("file_path is not input.")
 
-        available_dataset = ['fever', 'fiqa', 'hotpotqa', 'nq', 'quora', 'scidocs', 'scifact']
-
-        # Data load
-        if file_name is None:
-            raise ValueError("Please input file_name to call the metrics.")
-
-        if text_modifier(file_name)[1].lower() not in available_dataset:
-            raise ValueError("Please input valid file name in file_name paremeter.")
-
-        file_path = f"BeIR/{file_name}"
         queries = load_dataset(file_path, 'queries')['queries']
         corpus = load_dataset(file_path, 'corpus')['corpus']
         qrels = load_dataset(f"{file_path}-qrels")['test']
@@ -111,36 +100,10 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
         q_id = self.qrels['query-id'].tolist()
         self.questions = self.queries.loc[self.queries['_id'].isin(q_id)]['text'].tolist()
 
-    def __call_metrics(self, metrics):
-        support_metrics = (self.retrieval_gt_metrics
-                           # + self.retrieval_gt_ragas_metrics
-                           + self.retrieval_no_gt_metrics
-                           )
-        if metrics is not None:
-            using_metrics = list(set(metrics))
-        else:
-            using_metrics = support_metrics
-
-        return using_metrics
-
-    @staticmethod
-    def __preprocess_qrels(qrels, evaluate_size):
-        # Convert integer type to string type of qrels' query-id and corpus-id.
-        qrels[['query-id', 'corpus-id']] = qrels[['query-id', 'corpus-id']].astype(str)
-
-        # Preprocess qrels. Some query ids duplicated and were appended different corpus id.
-        preprocessed_qrels = qrels.groupby('query-id', as_index=False).agg(
-            {'corpus-id': lambda x: list(x), 'score': lambda x: list(x)})
-
-        if evaluate_size is not None and len(qrels) > evaluate_size:
-            preprocessed_qrels = preprocessed_qrels[:evaluate_size]
-
-        return preprocessed_qrels
-
-    def ingest_data(self, retrievals: List[BaseRetrieval],
-                    db: BaseDB,
-                    ingest_size: Optional[int] = None,
-                    random_state=None):
+    def ingest(self, retrievals: List[BaseRetrieval],
+               db: BaseDB,
+               ingest_size: Optional[int] = None,
+               random_state=None):
         """
         Ingest dataset to retrievals and db.
         :param retrievals: The retrievals that you want to ingest.
@@ -173,6 +136,45 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
             retrieval.ingest(passages)
         db.create_or_load()
         db.save(passages)
+
+    def evaluate(self, **kwargs) -> EvaluateResult:
+        """
+        Evaluate pipeline performance on fever dataset.
+        This method always validate passages.
+        """
+
+        return self._calculate_metrics(
+            questions=self.questions,
+            pipeline=self.run_pipeline,
+            retrieval_gt=self.retrieval_gt
+        )
+
+    # retrieval_gt_ragas_metrics is retrieval gt metrics that use ragas evaluation.
+    def __call_metrics(self, metrics):
+        support_metrics = (self.retrieval_gt_metrics
+                           # + self.retrieval_gt_ragas_metrics
+                           + self.retrieval_no_gt_metrics
+                           )
+        if metrics is not None:
+            using_metrics = list(set(metrics))
+        else:
+            using_metrics = support_metrics
+
+        return using_metrics
+
+    @staticmethod
+    def __preprocess_qrels(qrels, evaluate_size):
+        # Convert integer type to string type of qrels' query-id and corpus-id.
+        qrels[['query-id', 'corpus-id']] = qrels[['query-id', 'corpus-id']].astype(str)
+
+        # Preprocess qrels. Some query ids duplicated and were appended different corpus id.
+        preprocessed_qrels = qrels.groupby('query-id', as_index=False).agg(
+            {'corpus-id': lambda x: list(x), 'score': lambda x: list(x)})
+
+        if evaluate_size is not None and len(qrels) > evaluate_size:
+            preprocessed_qrels = preprocessed_qrels[:evaluate_size]
+
+        return preprocessed_qrels
 
     def make_gt_passages_and_duplicated_id(self, gt_ids, corpus):
         # Flatten retrieval ground truth ids and convert string type.

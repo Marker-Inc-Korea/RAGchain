@@ -1,36 +1,102 @@
 from typing import List, Optional
 
-from RAGchain.DB.base import BaseDB
 from RAGchain.benchmark.dataset.base import BaseBeirEvaluator
 from RAGchain.pipeline.base import BaseRunPipeline
-from RAGchain.retrieval.base import BaseRetrieval
-from RAGchain.schema import EvaluateResult
 
 
-class BeirEvaluator(BaseBeirEvaluator):
+class BeirFEVEREvaluator(BaseBeirEvaluator):
     """
-    BeirEvaluator is a class for evaluating pipeline performance on beir datasets.
+    BeirFEVEREvaluator is a class for evaluating pipeline performance on beir FEVER datasets.
     """
 
     def __init__(self, run_pipeline: BaseRunPipeline,
-                 file_name: str = None,
                  evaluate_size: Optional[int] = None,
                  metrics: Optional[List[str]] = None
                  ):
+        file_path = "BeIR/fever"
         # Create support metrics
-        super().__init__(run_pipeline=run_pipeline, evaluate_size=evaluate_size, file_name=file_name, metrics=metrics)
+        super().__init__(run_pipeline=run_pipeline, file_path=file_path, evaluate_size=evaluate_size, metrics=metrics)
 
-    def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB, ingest_size: Optional[int] = None, random_state=None):
-        super().ingest_data(retrievals=retrievals, db=db, ingest_size=ingest_size, random_state=random_state)
 
-    def evaluate(self, **kwargs) -> EvaluateResult:
-        """
-        Evaluate pipeline performance on fever dataset.
-        This method always validate passages.
-        """
+class BeirFIQAEvaluator(BaseBeirEvaluator):
+    """
+    BeirFIQAEvaluator is a class for evaluating pipeline performance on beir fiqa datasets.
+    """
 
-        return self._calculate_metrics(
-            questions=self.questions,
-            pipeline=self.run_pipeline,
-            retrieval_gt=self.retrieval_gt
-        )
+    def __init__(self, run_pipeline: BaseRunPipeline,
+                 evaluate_size: Optional[int] = None,
+                 metrics: Optional[List[str]] = None
+                 ):
+        file_path = "BeIR/fiqa"
+        # Create support metrics
+        super().__init__(run_pipeline=run_pipeline, file_path=file_path, evaluate_size=evaluate_size, metrics=metrics)
+
+
+class BeirHOTPOTQAEvaluator(BaseBeirEvaluator):
+    """
+    BeirHOTPOTQAEvaluator is a class for evaluating pipeline performance on beir hotpotqa datasets.
+    """
+
+    def __init__(self, run_pipeline: BaseRunPipeline,
+                 evaluate_size: Optional[int] = None,
+                 metrics: Optional[List[str]] = None
+                 ):
+        file_path = "BeIR/hotpotqa"
+        # Create support metrics
+        super().__init__(run_pipeline=run_pipeline, file_path=file_path, evaluate_size=evaluate_size, metrics=metrics)
+
+
+class BeirNQEvaluator(BaseBeirEvaluator):
+    """
+    BeirNQEvaluator is a class for evaluating pipeline performance on beir nq datasets.
+    """
+
+    def __init__(self, run_pipeline: BaseRunPipeline,
+                 evaluate_size: Optional[int] = None,
+                 metrics: Optional[List[str]] = None
+                 ):
+        file_path = "BeIR/nq"
+        # Create support metrics
+        super().__init__(run_pipeline=run_pipeline, file_path=file_path, evaluate_size=evaluate_size, metrics=metrics)
+
+
+class BeirQUORAEvaluator(BaseBeirEvaluator):
+    """
+    BeirQUORAEvaluator is a class for evaluating pipeline performance on beir quora datasets.
+    """
+
+    def __init__(self, run_pipeline: BaseRunPipeline,
+                 evaluate_size: Optional[int] = None,
+                 metrics: Optional[List[str]] = None
+                 ):
+        file_path = "BeIR/quora"
+        # Create support metrics
+        super().__init__(run_pipeline=run_pipeline, file_path=file_path, evaluate_size=evaluate_size, metrics=metrics)
+
+
+class BeirSCIDOCSEvaluator(BaseBeirEvaluator):
+    """
+    BeirSCIDOCSEvaluator is a class for evaluating pipeline performance on beir scidocs datasets.
+    """
+
+    def __init__(self, run_pipeline: BaseRunPipeline,
+                 evaluate_size: Optional[int] = None,
+                 metrics: Optional[List[str]] = None
+                 ):
+        file_path = "BeIR/scidocs"
+        # Create support metrics
+        super().__init__(run_pipeline=run_pipeline, file_path=file_path, evaluate_size=evaluate_size, metrics=metrics)
+
+
+class BeirSCIFACTEvaluator(BaseBeirEvaluator):
+    """
+    BeirSCIFACTEvaluator is a class for evaluating pipeline performance on beir scifact datasets.
+    """
+
+    def __init__(self, run_pipeline: BaseRunPipeline,
+                 evaluate_size: Optional[int] = None,
+                 metrics: Optional[List[str]] = None
+                 ):
+        file_path = "BeIR/scifact"
+        # Create support metrics
+        super().__init__(run_pipeline=run_pipeline, file_path=file_path, evaluate_size=evaluate_size, metrics=metrics)
