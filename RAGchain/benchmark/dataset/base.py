@@ -118,18 +118,18 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
         gt_ids = deepcopy(self.retrieval_gt)
         corpus = deepcopy(self.corpus)
 
-        gt_passages, id_for_remove_duplicated_corpus = self.make_gt_passages_and_duplicated_id(gt_ids, corpus)
+        gt_befor_passages, id_for_remove_duplicated_corpus = self.make_gt_passages_and_duplicated_id(gt_ids, corpus)
 
         # Slice corpus by ingest_size and remove duplicate passages.
-        corpus_passages = self.remove_duplicate_passages(ingest_size=ingest_size,
-                                                         eval_size=self.eval_size,
-                                                         corpus=corpus,
-                                                         random_state=random_state,
-                                                         id_for_remove_duplicated_corpus=id_for_remove_duplicated_corpus,
-                                                         )
-        gt_passages = gt_passages.apply(self.make_corpus_passages, axis=1).tolist()
+        corpus_before_passages = self.remove_duplicate_passages(ingest_size=ingest_size,
+                                                                eval_size=self.eval_size,
+                                                                corpus=corpus,
+                                                                random_state=random_state,
+                                                                id_for_remove_duplicated_corpus=id_for_remove_duplicated_corpus,
+                                                                )
+        gt_passages = gt_befor_passages.apply(self.make_corpus_passages, axis=1).tolist()
 
-        passages = corpus_passages.apply(self.make_corpus_passages, axis=1).tolist()
+        passages = corpus_before_passages.apply(self.make_corpus_passages, axis=1).tolist()
         passages += gt_passages
 
         for retrieval in retrievals:
@@ -149,16 +149,22 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
             retrieval_gt=self.retrieval_gt
         )
 
-    # retrieval_gt_ragas_metrics is retrieval gt metrics that use ragas evaluation.
+    # Default metrics is basically running metrics if you run test file.
+    # Support metrics is the metrics you are available.
+    # This separation is because Ragas metrics take a long time in evaluation.
     def __call_metrics(self, metrics):
-        support_metrics = (self.retrieval_gt_metrics
-                           # + self.retrieval_gt_ragas_metrics
-                           + self.retrieval_no_gt_metrics
-                           )
+        default_metrics = (self.retrieval_gt_metrics)
+        support_metrics = (self.retrieval_gt_metrics + self.retrieval_gt_ragas_metrics
+                           + self.retrieval_no_gt_ragas_metrics)
+
         if metrics is not None:
+            # Check if your metrics are available in evaluation datasets.
+            for metric in metrics:
+                if metric not in support_metrics:
+                    raise ValueError("You input metrics that this dataset evaluator not support.")
             using_metrics = list(set(metrics))
         else:
-            using_metrics = support_metrics
+            using_metrics = default_metrics
 
         return using_metrics
 

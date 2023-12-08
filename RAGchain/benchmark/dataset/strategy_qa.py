@@ -26,12 +26,24 @@ class StrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
         :param metrics: The list of metrics to use. If None, use all metrics that supports KoStrategyQA.
         Supporting metrics are Recall, Precision, Hole, TopK_Accuracy, EM, F1_score, context_recall, context_precision
         You must ingest all data for using context_recall and context_precision metrics.
+
+        Notice:
+        Default metrics is basically running metrics if you run test file.
+        Support metrics is the metrics you are available.
+        This separation is because Ragas metrics take a long time in evaluation.
         """
-        support_metrics = self.retrieval_gt_metrics + self.retrieval_no_gt_metrics + self.retrieval_gt_ragas_metrics
+        default_metrics = self.retrieval_gt_metrics
+        support_metrics = self.retrieval_gt_metrics + self.retrieval_no_gt_ragas_metrics + self.retrieval_gt_ragas_metrics
+
         if metrics is not None:
+            # Check if your metrics are available in evaluation datasets.
+            for metric in metrics:
+                if metric not in support_metrics:
+                    raise ValueError("You input metrics that this dataset evaluator not support.")
             using_metrics = list(set(metrics))
         else:
-            using_metrics = support_metrics
+            using_metrics = default_metrics
+
         super().__init__(run_all=False, metrics=using_metrics)
         self.run_pipeline = run_pipeline
         paragraph_path = hf_hub_download(repo_id=self.dataset_name,

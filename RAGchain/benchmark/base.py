@@ -19,7 +19,7 @@ class BaseEvaluator(ABC):
     retrieval_gt_metrics = ['Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'Recall', 'Precision']
     retrieval_gt_ragas_metrics = ['context_recall']
     retrieval_gt_metrics_rank_aware = ['AP', 'NDCG', 'CG', 'Ind_DCG', 'DCG', 'Ind_IDCG', 'IDCG', 'RR']
-    retrieval_no_gt_metrics = ['context_precision']
+    retrieval_no_gt_ragas_metrics = ['context_precision']
     answer_gt_metrics = ['BLEU']
     answer_no_gt_metrics = ['answer_relevancy', 'faithfulness']
     answer_passage_metrics = ['KF1']
@@ -27,7 +27,7 @@ class BaseEvaluator(ABC):
     def __init__(self, run_all: bool = True, metrics: Optional[List[str]] = None):
         if run_all:
             self.metrics = self.retrieval_gt_metrics + self.retrieval_gt_ragas_metrics + \
-                           self.retrieval_gt_metrics_rank_aware + self.retrieval_no_gt_metrics + \
+                           self.retrieval_gt_metrics_rank_aware + self.retrieval_no_gt_ragas_metrics + \
                            self.answer_gt_metrics + self.answer_no_gt_metrics + \
                            self.answer_passage_metrics
         else:

@@ -27,9 +27,16 @@ class QasperEvaluator(BaseDatasetEvaluator):
         'F1_score', 'context_recall', 'context_precision', 'answer_relevancy', 'faithfulness']
         If None, use default metrics.
         :param random_state: random seed for sampling data. Default is 42.
+
+        Notice:
+        Default metrics is basically running metrics if you run test file.
+        Support metrics is the metrics you are available.
+        This separation is because Ragas metrics take a long time in evaluation.
         """
+        default_metrics = (self.retrieval_gt_metrics + self.answer_gt_metrics +
+                           self.answer_no_gt_metrics + self.answer_passage_metrics)
         support_metrics = (self.retrieval_gt_metrics + self.retrieval_gt_ragas_metrics +
-                           self.retrieval_no_gt_metrics + self.answer_gt_metrics +
+                           self.retrieval_no_gt_ragas_metrics + self.answer_gt_metrics +
                            self.answer_no_gt_metrics + self.answer_passage_metrics)
         if metrics is not None:
             using_metrics = list(set(metrics))

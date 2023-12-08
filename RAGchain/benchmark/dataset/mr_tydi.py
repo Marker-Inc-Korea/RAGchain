@@ -31,8 +31,15 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
         You can choose languages like below.
         arabic, bengali, combined, english, finnish, indonesian, japanese, korean, russian, swahili, telugu, thai
         If you want to use languages combined, You can choose 'combined' configuration.
+
+        Notice:
+        Default metrics is basically running metrics if you run test file.
+        Support metrics is the metrics you are available.
+        This separation is because Ragas metrics take a long time in evaluation.
         """
-        support_metrics = (self.retrieval_gt_metrics + self.retrieval_no_gt_metrics + self.retrieval_gt_ragas_metrics
+        default_metrics = (self.retrieval_gt_metrics + ['MRR'])
+        support_metrics = (self.retrieval_gt_metrics
+                           + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics
                            + ['MRR'])
         languages = ['arabic', 'bengali', 'combined', 'english', 'finnish',
                      'indonesian', 'japanese', 'korean', 'russian', 'swahili', 'telugu', 'thai']
@@ -43,9 +50,14 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
                              "\n(arabic, bengali, english, finnish, indonesian, japanese, korean, russian, swahili, telugu, thai)")
 
         if metrics is not None:
+            # Check if your metrics are available in evaluation datasets.
+            for metric in metrics:
+                if metric not in support_metrics:
+                    raise ValueError("You input metrics that this dataset evaluator not support.")
             using_metrics = list(set(metrics))
         else:
-            using_metrics = support_metrics
+            using_metrics = default_metrics
+
         super().__init__(run_all=False, metrics=using_metrics)
 
         self.run_pipeline = run_pipeline
