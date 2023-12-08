@@ -38,6 +38,8 @@ class BaseEvaluator(ABC):
         """
         Evaluate metrics and return the results
         :param validate_passages: If True, validate passages in retrieval_gt already ingested.
+        If False, you can't use context_recall and KF1 metrics.
+        We recommend to set True for robust evaluation.
         :return: EvaluateResult
         """
         pass
@@ -85,7 +87,6 @@ class BaseEvaluator(ABC):
         # without gt - retrieval & answer
         ragas_metrics = self.__ragas_metrics()
         if len(ragas_metrics) > 0:
-            from ragas import evaluate
             from ragas.metrics import context_recall
             # You can't use context_recall when retrieval_gt is None or don't validate passages.
             if retrieval_gt is None or 'retrieval_gt_contents' not in result_df.columns:
@@ -93,6 +94,8 @@ class BaseEvaluator(ABC):
                                  isinstance(metric, type(context_recall)) is False]
             else:
                 warnings.warn("You can't use context_recall when retrieval_gt is None or don't validate passages.")
+        if len(ragas_metrics) > 0:
+            from ragas import evaluate
             use_metrics += [metric.name for metric in ragas_metrics]
 
             dataset_dict = {

@@ -20,7 +20,8 @@ def strategy_qa_evaluator():
     db = PickleDB(pickle_path)
     pipeline = BasicRunPipeline(bm25_retrieval, OpenAI(model_name='babbage-002'))
     evaluator = StrategyQAEvaluator(pipeline, evaluate_size=5,
-                                    metrics=['Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score'])
+                                    metrics=['Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score',
+                                             'context_recall', 'context_precision'])
     evaluator.ingest([bm25_retrieval], db, ingest_size=20)
     yield evaluator
     if os.path.exists(bm25_path):
@@ -38,4 +39,5 @@ def test_ko_strategy_qa_evaluator(strategy_qa_evaluator):
     assert result.each_results.iloc[0][
                'question'] == 'Are more people today related to Genghis Khan than Julius Caesar?'
     assert result.each_results.iloc[0]['answer_pred']
-    assert len(result.use_metrics) == len(strategy_qa_evaluator.metrics)
+    # you can't use context_recall when validate_passages is False
+    assert len(result.use_metrics) == len(strategy_qa_evaluator.metrics) - 1
