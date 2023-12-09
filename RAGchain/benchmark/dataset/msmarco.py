@@ -60,7 +60,6 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
                            + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics
                            + self.retrieval_gt_metrics_rank_aware + self.answer_no_gt_metrics +
                            self.answer_passage_metrics)
-        # TODO: add answer gt at Feature/#309 @minsing-jin
 
         if metrics is not None:
             # Check if your metrics are available in evaluation datasets.
@@ -136,6 +135,7 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
             pipeline=self.run_pipeline,
             retrieval_gt=evaluate_data['retrieval_gt'].tolist(),
             retrieval_gt_order=evaluate_data['retrieval_gt_order'].tolist(),
+            answer_gt=evaluate_data['answers'].tolist(),
             **kwargs
         )
 
