@@ -34,6 +34,18 @@ def main():
     rede_detector.find_threshold(validation_knowledge_seeking_turns.apply(extract_last_log_text, axis=1).tolist(),
                                  validation_non_knowledge_seeking_turns.apply(extract_last_log_text, axis=1).tolist())
 
+    test_dataset = load_dataset(dataset_repo, split='test')
+    test_df = test_dataset.to_pandas()
+    test_df = test_df.sample(500, random_state=42)
+    test_df['last_question'] = test_df.apply(extract_last_log_text, axis=1)
+
+    test_knowledge_seeking_turns = test_df[test_df['target']]
+    test_non_knowledge_seeking_turns = test_df[test_df['target'] == False]
+
+    print('Test Results')
+    rede_detector.evaluate(test_knowledge_seeking_turns['last_question'].tolist(),
+                           test_non_knowledge_seeking_turns['last_question'].tolist())
+
 
 if __name__ == '__main__':
     main()
