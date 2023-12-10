@@ -62,9 +62,10 @@ class RedeSearchDetector:
         # singular value decomposition
         U, S, V = np.linalg.svd(sigma)
 
-        # TODO: add L truncation
         # find omega matrix
         self.omega_matrix = U @ np.sqrt(np.linalg.inv(np.diag(S)))
+        if L is not None:
+            self.omega_matrix = self.omega_matrix[:, :L]
 
         print("REDE representation transform done.")
 

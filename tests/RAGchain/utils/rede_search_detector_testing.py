@@ -22,7 +22,7 @@ def main():
     rede_detector = RedeSearchDetector(threshold=0.5)
     rede_detector.find_representation_transform([
         row.log[-1]['text'] for i, row in knowledge_seeking_turns.iterrows()
-    ])
+    ], L=1000)
     rede_detector.train_density_estimation(
         GaussianMixture(n_components=1),
         [row.log[-1]['text'] for i, row in non_knowledge_seeking_turns.iterrows()])
