@@ -34,10 +34,10 @@ class QasperEvaluator(BaseDatasetEvaluator):
         This separation is because Ragas metrics take a long time in evaluation.
         """
         default_metrics = (self.retrieval_gt_metrics + self.answer_gt_metrics +
-                           self.answer_no_gt_metrics + self.answer_passage_metrics)
+                           self.answer_no_gt_ragas_metrics + self.answer_passage_metrics)
         support_metrics = (self.retrieval_gt_metrics + self.retrieval_gt_ragas_metrics +
                            self.retrieval_no_gt_ragas_metrics + self.answer_gt_metrics +
-                           self.answer_no_gt_metrics + self.answer_passage_metrics)
+                           self.answer_no_gt_ragas_metrics + self.answer_passage_metrics)
         if metrics is not None:
             using_metrics = list(set(metrics))
         else:
