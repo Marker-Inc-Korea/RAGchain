@@ -15,17 +15,20 @@ from RAGchain.utils.util import text_modifier
 
 
 class BaseEvaluator(ABC):
-    retrieval_gt_metrics = ['Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'context_recall', 'Recall', 'Precision']
+    # retrieval_gt_ragas_metrics is retrieval gt metrics that use ragas evaluation.
+    retrieval_gt_metrics = ['Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'Recall', 'Precision']
+    retrieval_gt_ragas_metrics = ['context_recall']
     retrieval_gt_metrics_rank_aware = ['AP', 'NDCG', 'CG', 'Ind_DCG', 'DCG', 'Ind_IDCG', 'IDCG', 'RR']
-    retrieval_no_gt_metrics = ['context_precision']
+    retrieval_no_gt_ragas_metrics = ['context_precision']
     answer_gt_metrics = ['BLEU']
     answer_no_gt_metrics = ['answer_relevancy', 'faithfulness']
     answer_passage_metrics = ['KF1']
 
     def __init__(self, run_all: bool = True, metrics: Optional[List[str]] = None):
         if run_all:
-            self.metrics = self.retrieval_gt_metrics + self.retrieval_gt_metrics_rank_aware + \
-                           self.retrieval_no_gt_metrics + self.answer_gt_metrics + self.answer_no_gt_metrics + \
+            self.metrics = self.retrieval_gt_metrics + self.retrieval_gt_ragas_metrics + \
+                           self.retrieval_gt_metrics_rank_aware + self.retrieval_no_gt_ragas_metrics + \
+                           self.answer_gt_metrics + self.answer_no_gt_metrics + \
                            self.answer_passage_metrics
         else:
             if metrics is None:
@@ -38,6 +41,8 @@ class BaseEvaluator(ABC):
         """
         Evaluate metrics and return the results
         :param validate_passages: If True, validate passages in retrieval_gt already ingested.
+        If False, you can't use context_recall and KF1 metrics.
+        We recommend to set True for robust evaluation.
         :return: EvaluateResult
         """
         pass
@@ -85,7 +90,6 @@ class BaseEvaluator(ABC):
         # without gt - retrieval & answer
         ragas_metrics = self.__ragas_metrics()
         if len(ragas_metrics) > 0:
-            from ragas import evaluate
             from ragas.metrics import context_recall
             # You can't use context_recall when retrieval_gt is None or don't validate passages.
             if retrieval_gt is None or 'retrieval_gt_contents' not in result_df.columns:
@@ -93,6 +97,8 @@ class BaseEvaluator(ABC):
                                  isinstance(metric, type(context_recall)) is False]
             else:
                 warnings.warn("You can't use context_recall when retrieval_gt is None or don't validate passages.")
+        if len(ragas_metrics) > 0:
+            from ragas import evaluate
             use_metrics += [metric.name for metric in ragas_metrics]
 
             dataset_dict = {

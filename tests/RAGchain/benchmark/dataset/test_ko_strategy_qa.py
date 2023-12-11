@@ -20,7 +20,8 @@ def ko_strategy_qa_evaluator():
     db = PickleDB(pickle_path)
     pipeline = BasicRunPipeline(bm25_retrieval, OpenAI(model_name="babbage-002"))
     evaluator = KoStrategyQAEvaluator(pipeline, evaluate_size=5,
-                                      metrics=['Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score'])
+                                      metrics=['Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score',
+                                               'context_precision'])
     evaluator.ingest([bm25_retrieval], db, ingest_size=20)
     yield evaluator
     if os.path.exists(bm25_path):

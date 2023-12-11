@@ -13,7 +13,7 @@ from RAGchain.schema import EvaluateResult, Passage
 
 class MrTydiEvaluator(BaseDatasetEvaluator):
     """
-    MrTydiEvaluator is a class for evaluating pipeline performance on StrategyQA dataset.
+    MrTydiEvaluator is a class for evaluating pipeline performance on Mr.tydi dataset.
     """
 
     def __init__(self, run_pipeline: BaseRunPipeline,
@@ -31,11 +31,19 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
         You can choose languages like below.
         arabic, bengali, combined, english, finnish, indonesian, japanese, korean, russian, swahili, telugu, thai
         If you want to use languages combined, You can choose 'combined' configuration.
+
+        Notice:
+        Default metrics is basically running metrics if you run test file.
+        Support metrics is the metrics you are available.
+        This separation is because Ragas metrics take a long time in evaluation.
         """
-        support_metrics = (self.retrieval_gt_metrics + self.retrieval_no_gt_metrics +
-                           ['MRR'])
+        default_metrics = (self.retrieval_gt_metrics + ['MRR'])
+        support_metrics = (self.retrieval_gt_metrics
+                           + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics
+                           + ['MRR'])
         languages = ['arabic', 'bengali', 'combined', 'english', 'finnish',
                      'indonesian', 'japanese', 'korean', 'russian', 'swahili', 'telugu', 'thai']
+        language = language.lower()
 
         if language not in languages:
             raise ValueError(f"You input invalid language ({language})."
@@ -43,9 +51,14 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
                              "\n(arabic, bengali, english, finnish, indonesian, japanese, korean, russian, swahili, telugu, thai)")
 
         if metrics is not None:
+            # Check if your metrics are available in evaluation datasets.
+            for metric in metrics:
+                if metric not in support_metrics:
+                    raise ValueError("You input metrics that this dataset evaluator not support.")
             using_metrics = list(set(metrics))
         else:
-            using_metrics = support_metrics
+            using_metrics = default_metrics
+
         super().__init__(run_all=False, metrics=using_metrics)
 
         self.run_pipeline = run_pipeline
@@ -56,11 +69,10 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
         dataset = load_dataset(self.file_path, language)['test']
         corpus = load_dataset('castorini/mr-tydi-corpus', language)['train']
 
-        # Set corpus index as docid(document id)
+        # Convert dataformat as pandas dataframe
+        self.qa_data = dataset.to_pandas()
         self.corpus = corpus.to_pandas()
 
-        # Create qa data with test set for query, retrieval_gt
-        self.qa_data = dataset.to_pandas()
         if evaluate_size is not None and len(self.qa_data) > evaluate_size:
             self.qa_data = self.qa_data[:evaluate_size]
 

@@ -32,6 +32,11 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         'context_precision', 'answer_relevancy', 'faithfulness'.
         Rank aware metrics are 'NDCG', 'AP', 'CG', 'IndDCG', 'DCG', 'IndIDCG', 'IDCG', 'RR'.
         You must ingest all data for using context_recall and context_precision metrics.
+
+        Notice:
+        Default metrics is basically running metrics if you run test file.
+        Support metrics is the metrics you are available.
+        This separation is because Ragas metrics take a long time in evaluation.
         """
 
         self.file_path = "ms_marco"
@@ -48,15 +53,24 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         else:
             raise ValueError(f'Available MSMARCO version are v1.1, v2.1. {version} is invalid version.')
 
-        support_metrics = (self.retrieval_gt_metrics + self.retrieval_no_gt_metrics +
-                           self.retrieval_gt_metrics_rank_aware + self.answer_no_gt_metrics +
+        default_metrics = (self.retrieval_gt_metrics
+                           + self.retrieval_gt_metrics_rank_aware
+                           + self.answer_no_gt_metrics + self.answer_passage_metrics)
+        support_metrics = (self.retrieval_gt_metrics
+                           + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics
+                           + self.retrieval_gt_metrics_rank_aware + self.answer_no_gt_metrics +
                            self.answer_passage_metrics)
         # TODO: add answer gt at Feature/#309 @minsing-jin
 
         if metrics is not None:
+            # Check if your metrics are available in evaluation datasets.
+            for metric in metrics:
+                if metric not in support_metrics:
+                    raise ValueError("You input metrics that this dataset evaluator not support.")
             using_metrics = list(set(metrics))
         else:
-            using_metrics = support_metrics
+            using_metrics = default_metrics
+
         super().__init__(run_all=False, metrics=using_metrics)
 
         self.eval_size = evaluate_size
