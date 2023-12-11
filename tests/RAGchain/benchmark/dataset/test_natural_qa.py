@@ -6,7 +6,7 @@ import pytest
 from langchain.llms.openai import OpenAI
 
 from RAGchain.DB import PickleDB
-from RAGchain.benchmark.dataset import NATURALQAEvaluator
+from RAGchain.benchmark.dataset import NaturalQAEvaluator
 from RAGchain.pipeline import BasicRunPipeline
 from RAGchain.retrieval import BM25Retrieval
 
@@ -22,7 +22,7 @@ def naturalqa_evaluator():
     db = PickleDB(pickle_path)
     llm = OpenAI(model_name="babbage-002")
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
-    evaluator = NATURALQAEvaluator(pipeline, evaluate_size=5)
+    evaluator = NaturalQAEvaluator(pipeline, evaluate_size=5)
 
     evaluator.ingest([bm25_retrieval], db, ingest_size=20)
 

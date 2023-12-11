@@ -12,7 +12,7 @@ from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import EvaluateResult, Passage
 
 
-class NATURALQAEvaluator(BaseDatasetEvaluator):
+class NaturalQAEvaluator(BaseDatasetEvaluator):
     """
     NATURALQAEvaluator is a class for evaluating pipeline performance on natural qa dataset.
     """
@@ -26,30 +26,31 @@ class NATURALQAEvaluator(BaseDatasetEvaluator):
         :param evaluate_size: The number of data to evaluate. If None, evaluate all data.
         natural qa dataset we use is huge. Recommend to set proper size for evaluation.
         :param metrics: The list of metrics to use. If None, use all metrics that supports natural qa dataset.
-        Supporting metrics are 'Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'context_recall',
-        'context_precision', 'answer_relevancy', 'faithfulness'.
-        Rank aware metrics are 'NDCG', 'AP', 'CG', 'IndDCG', 'DCG', 'IndIDCG', 'IDCG', 'RR'.
+        Supporting metrics are 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'Recall', 'Precision'
+        'context_recall', 'context_precision', 'BLEU', 'answer_relevancy', 'faithfulness', 'KF1'.
         You must ingest all data for using context_recall and context_precision metrics.
 
         Notice:
         Raw natural qa dataset is too large, so we use natural questions short qa by lucadiliello generated at mrqa 2021 in huggingface.
+        link: https://huggingface.co/datasets/lucadiliello/naturalquestionsshortqa
+
+        Default metrics is basically running metrics if you run test file.
+        Support metrics is the metrics you are available.
+        This separation is because Ragas metrics take a long time in evaluation.
         """
 
         self.file_path = "lucadiliello/naturalquestionsshortqa"
         self.dataset = load_dataset(self.file_path)['validation'].to_pandas()
 
-        default_metrics = (self.retrieval_gt_metrics + self.retrieval_gt_metrics_rank_aware
-                           + self.answer_gt_metrics
+        default_metrics = (self.retrieval_gt_metrics + self.answer_gt_metrics
                            + self.answer_no_gt_ragas_metrics + self.answer_passage_metrics)
-        support_metrics = (self.retrieval_gt_metrics
-                           + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics
-                           + self.answer_gt_metrics + self.answer_no_gt_ragas_metrics + self.answer_passage_metrics)
+        support_metrics = (default_metrics + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics)
 
         if metrics is not None:
             # Check if your metrics are available in evaluation datasets.
             for metric in metrics:
                 if metric not in support_metrics:
-                    raise ValueError("You input metrics that this dataset evaluator not support.")
+                    raise ValueError(f"You input {metric} that this dataset evaluator not support.")
             using_metrics = list(set(metrics))
         else:
             using_metrics = default_metrics
@@ -64,7 +65,6 @@ class NATURALQAEvaluator(BaseDatasetEvaluator):
             {'context': lambda x: list(x), 'key': lambda x: list(x),
              'answers': lambda x: list(x.tolist()), 'labels': lambda x: list(x)})
 
-        # Convert key to uuid to retrieve passages' uuid
         self.context = deepcopy(self.dataset[['key', 'context', 'labels']])
 
         if evaluate_size is not None and len(self.dataset) > evaluate_size:
@@ -112,13 +112,13 @@ class NATURALQAEvaluator(BaseDatasetEvaluator):
     def __make_passages(self, row):
         passages = []
 
-        for idx in range(len(row['key'])):
+        for idx, key in enumerate(row['key']):
             passages.append(Passage(
-                id=row['key'][idx],
+                id=key,
                 content=row['context'][idx],
                 filepath=self.file_path,
                 metadata_etc={
-                    'url': row['labels'][idx]
+                    'labels': row['labels'][idx]
                 }
             ))
         return passages
