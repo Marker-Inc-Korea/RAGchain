@@ -1,12 +1,9 @@
-from .beir import BeirFEVEREvaluator
-from .beir import BeirFIQAEvaluator
-from .beir import BeirHOTPOTQAEvaluator
-from .beir import BeirNQEvaluator
-from .beir import BeirQUORAEvaluator
-from .beir import BeirSCIDOCSEvaluator
-from .beir import BeirSCIFACTEvaluator
+from .beir import (BeirFEVEREvaluator, BeirFIQAEvaluator,
+                   BeirHOTPOTQAEvaluator, BeirNQEvaluator, BeirQUORAEvaluator,
+                   BeirSCIDOCSEvaluator, BeirSCIFACTEvaluator)
 from .ko_strategy_qa import KoStrategyQAEvaluator
 from .mr_tydi import MrTydiEvaluator
 from .msmarco import MSMARCOEvaluator
+from .natural_qa import NATURALQAEvaluator
 from .qasper import QasperEvaluator
 from .strategy_qa import StrategyQAEvaluator
