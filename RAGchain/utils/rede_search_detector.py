@@ -29,15 +29,15 @@ class RedeSearchDetector:
     """
 
     def __init__(self,
-                 threshold: float,
+                 threshold: Optional[float] = None,
                  embedding: Embeddings = OpenAIEmbeddings()):
         """
         :param embedding: Encoder model for encoding sentences to vectors. Langchain Embeddings class. Default is OpenAIEmbeddings.
         :param threshold: Threshold for classify knowledge-seeking turn. If the score is higher than threshold, classify as non-knowledge-seeking turn.
-        Find this threshold by using training data that you own. (e.g. 0.5)
+        Find this threshold by using training data that you own. The default is 0.5 and you must run find_threshold function before using detect function.
         """
         self.embedding = embedding  # Encoder model for encoding sentences to vectors
-        self.threshold = threshold
+        self.threshold = threshold if threshold is not None else 0.5
         self.mu = None
         self.omega_matrix = None  # Omega matrix for linear transformation.
         self.gmm = None  # Gaussian Mixture Model for classify knowledge-seeking turn.
@@ -118,13 +118,14 @@ class RedeSearchDetector:
 
         return self.threshold
 
-    def detect(self, sentences: List[str]) -> bool:
+    def detect(self, sentences: List[str]) -> List[bool]:
         """
         :param sentences: Sentences to detect. List[str].
-        :return: True if the sentence is knowledge-seeking turn, else False. bool.
+        :return: True if the sentence is knowledge-seeking turn, else False. List[bool].
         """
-        score = self._get_density_score(sentences)[0]
-        return score < self.threshold
+        scores = self._get_density_score(sentences)
+        result = [score < self.threshold for score in scores]
+        return result
 
     def evaluate(self, test_knowledge_seeking_sentences: List[str],
                  test_non_knowledge_seeking_sentences: List[str]):
