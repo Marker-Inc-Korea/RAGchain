@@ -40,10 +40,10 @@ class NATURALQAEvaluator(BaseDatasetEvaluator):
 
         default_metrics = (self.retrieval_gt_metrics + self.retrieval_gt_metrics_rank_aware
                            + self.answer_gt_metrics
-                           + self.answer_no_gt_metrics + self.answer_passage_metrics)
+                           + self.answer_no_gt_ragas_metrics + self.answer_passage_metrics)
         support_metrics = (self.retrieval_gt_metrics
                            + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics
-                           + self.answer_gt_metrics + self.answer_no_gt_metrics + self.answer_passage_metrics)
+                           + self.answer_gt_metrics + self.answer_no_gt_ragas_metrics + self.answer_passage_metrics)
 
         if metrics is not None:
             # Check if your metrics are available in evaluation datasets.
