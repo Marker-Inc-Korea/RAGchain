@@ -70,7 +70,6 @@ class NATURALQAEvaluator(BaseDatasetEvaluator):
         if evaluate_size is not None and len(self.dataset) > evaluate_size:
             self.qa_data = self.dataset[:evaluate_size]
 
-
     def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB, ingest_size: Optional[int] = None):
         """
         Ingest dataset to retrievals and db.
