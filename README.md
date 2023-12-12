@@ -88,6 +88,7 @@ pip install dev_requirements.txt
 ## Extra utils
 - Query Decomposition
 - Evidence Extractor
+- [REDE](https://arxiv.org/pdf/2109.08820.pdf) Search Detector
 
 ## Dataset Evaluators
 
