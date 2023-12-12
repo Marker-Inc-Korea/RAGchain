@@ -33,13 +33,13 @@ class StrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
         This separation is because Ragas metrics take a long time in evaluation.
         """
         default_metrics = self.retrieval_gt_metrics
-        support_metrics = self.retrieval_gt_metrics + self.retrieval_no_gt_ragas_metrics + self.retrieval_gt_ragas_metrics
+        support_metrics = default_metrics + self.retrieval_no_gt_ragas_metrics + self.retrieval_gt_ragas_metrics
 
         if metrics is not None:
             # Check if your metrics are available in evaluation datasets.
             for metric in metrics:
                 if metric not in support_metrics:
-                    raise ValueError("You input metrics that this dataset evaluator not support.")
+                    raise ValueError(f"You input {metric} that this dataset evaluator not support.")
             using_metrics = list(set(metrics))
         else:
             using_metrics = default_metrics

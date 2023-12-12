@@ -35,13 +35,18 @@ class QasperEvaluator(BaseDatasetEvaluator):
         """
         default_metrics = (self.retrieval_gt_metrics + self.answer_gt_metrics +
                            self.answer_no_gt_ragas_metrics + self.answer_passage_metrics)
-        support_metrics = (self.retrieval_gt_metrics + self.retrieval_gt_ragas_metrics +
-                           self.retrieval_no_gt_ragas_metrics + self.answer_gt_metrics +
-                           self.answer_no_gt_ragas_metrics + self.answer_passage_metrics)
+        support_metrics = (default_metrics + self.retrieval_gt_ragas_metrics +
+                           self.retrieval_no_gt_ragas_metrics)
+
         if metrics is not None:
+            # Check if your metrics are available in evaluation datasets.
+            for metric in metrics:
+                if metric not in support_metrics:
+                    raise ValueError(f"You input {metric} that this dataset evaluator not support.")
             using_metrics = list(set(metrics))
         else:
-            using_metrics = support_metrics
+            using_metrics = default_metrics
+
         super().__init__(run_all=False, metrics=using_metrics)
         self.run_pipeline = run_pipeline
         self.data = load_dataset(self.dataset_name)['train'].to_pandas()
