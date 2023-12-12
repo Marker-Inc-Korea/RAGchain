@@ -38,6 +38,14 @@ RAGchain.utils.query\_decompose module
    :undoc-members:
    :show-inheritance:
 
+RAGchain.utils.rede\_search\_detector module
+--------------------------------------------
+
+.. automodule:: RAGchain.utils.rede_search_detector
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 RAGchain.utils.util module
 --------------------------
 

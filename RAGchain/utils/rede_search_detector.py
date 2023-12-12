@@ -30,13 +30,13 @@ class RedeSearchDetector:
 
     def __init__(self,
                  threshold: Optional[float] = None,
-                 embedding: Embeddings = OpenAIEmbeddings()):
+                 embedding: Optional[Embeddings] = None):
         """
         :param embedding: Encoder model for encoding sentences to vectors. Langchain Embeddings class. Default is OpenAIEmbeddings.
         :param threshold: Threshold for classify knowledge-seeking turn. If the score is higher than threshold, classify as non-knowledge-seeking turn.
-        Find this threshold by using training data that you own. The default is 0.5 and you must run find_threshold function before using detect function.
+        Find this threshold by using training data that you own. The default is 0.5, and you must run find_threshold function before using detect function.
         """
-        self.embedding = embedding  # Encoder model for encoding sentences to vectors
+        self.embedding = embedding if embedding is not None else OpenAIEmbeddings()
         self.threshold = threshold if threshold is not None else 0.5
         self.mu = None
         self.omega_matrix = None  # Omega matrix for linear transformation.

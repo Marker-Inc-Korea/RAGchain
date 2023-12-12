@@ -68,9 +68,9 @@
                             class="docutils literal notranslate"><span
                             class="pre">BaseEvaluator.answer_gt_metrics</span></code></a></li>
                     <li><a class="reference internal"
-                           href="#RAGchain.benchmark.base.BaseEvaluator.answer_no_gt_metrics"><code
-                            class="docutils literal notranslate"><span
-                            class="pre">BaseEvaluator.answer_no_gt_metrics</span></code></a></li>
+                           href="#RAGchain.benchmark.base.BaseEvaluator.answer_no_gt_ragas_metrics"><code
+                            class="docutils literal notranslate"><span class="pre">BaseEvaluator.answer_no_gt_ragas_metrics</span></code></a>
+                    </li>
                     <li><a class="reference internal"
                            href="#RAGchain.benchmark.base.BaseEvaluator.answer_passage_metrics"><code
                             class="docutils literal notranslate"><span
@@ -87,9 +87,13 @@
                             class="docutils literal notranslate"><span class="pre">BaseEvaluator.retrieval_gt_metrics_rank_aware</span></code></a>
                     </li>
                     <li><a class="reference internal"
-                           href="#RAGchain.benchmark.base.BaseEvaluator.retrieval_no_gt_metrics"><code
-                            class="docutils literal notranslate"><span
-                            class="pre">BaseEvaluator.retrieval_no_gt_metrics</span></code></a></li>
+                           href="#RAGchain.benchmark.base.BaseEvaluator.retrieval_gt_ragas_metrics"><code
+                            class="docutils literal notranslate"><span class="pre">BaseEvaluator.retrieval_gt_ragas_metrics</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.benchmark.base.BaseEvaluator.retrieval_no_gt_ragas_metrics"><code
+                            class="docutils literal notranslate"><span class="pre">BaseEvaluator.retrieval_no_gt_ragas_metrics</span></code></a>
+                    </li>
                     <li><a class="reference internal" href="#RAGchain.benchmark.base.BaseEvaluator.uuid_to_str"><code
                             class="docutils literal notranslate"><span
                             class="pre">BaseEvaluator.uuid_to_str()</span></code></a></li>
@@ -231,6 +235,32 @@
                 module</a>
                 <ul>
                     <li class="toctree-l3"><a class="reference internal"
+                                              href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.base.BaseBeirEvaluator"><code
+                            class="docutils literal notranslate"><span class="pre">BaseBeirEvaluator</span></code></a>
+                        <ul>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.base.BaseBeirEvaluator.evaluate"><code
+                                    class="docutils literal notranslate"><span
+                                    class="pre">BaseBeirEvaluator.evaluate()</span></code></a></li>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.base.BaseBeirEvaluator.ingest"><code
+                                    class="docutils literal notranslate"><span
+                                    class="pre">BaseBeirEvaluator.ingest()</span></code></a></li>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.base.BaseBeirEvaluator.make_corpus_passages"><code
+                                    class="docutils literal notranslate"><span class="pre">BaseBeirEvaluator.make_corpus_passages()</span></code></a>
+                            </li>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.base.BaseBeirEvaluator.make_gt_passages_and_duplicated_id"><code
+                                    class="docutils literal notranslate"><span class="pre">BaseBeirEvaluator.make_gt_passages_and_duplicated_id()</span></code></a>
+                            </li>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.base.BaseBeirEvaluator.remove_duplicate_passages"><code
+                                    class="docutils literal notranslate"><span class="pre">BaseBeirEvaluator.remove_duplicate_passages()</span></code></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toctree-l3"><a class="reference internal"
                                               href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"><code
                             class="docutils literal notranslate"><span
                             class="pre">BaseDatasetEvaluator</span></code></a>
@@ -251,6 +281,36 @@
                             </li>
                         </ul>
                     </li>
+                </ul>
+            </li>
+            <li class="toctree-l2"><a class="reference internal"
+                                      href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.beir">RAGchain.benchmark.dataset.beir
+                module</a>
+                <ul>
+                    <li class="toctree-l3"><a class="reference internal"
+                                              href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.beir.BeirFEVEREvaluator"><code
+                            class="docutils literal notranslate"><span class="pre">BeirFEVEREvaluator</span></code></a>
+                    </li>
+                    <li class="toctree-l3"><a class="reference internal"
+                                              href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.beir.BeirFIQAEvaluator"><code
+                            class="docutils literal notranslate"><span class="pre">BeirFIQAEvaluator</span></code></a>
+                    </li>
+                    <li class="toctree-l3"><a class="reference internal"
+                                              href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.beir.BeirHOTPOTQAEvaluator"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">BeirHOTPOTQAEvaluator</span></code></a></li>
+                    <li class="toctree-l3"><a class="reference internal"
+                                              href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.beir.BeirQUORAEvaluator"><code
+                            class="docutils literal notranslate"><span class="pre">BeirQUORAEvaluator</span></code></a>
+                    </li>
+                    <li class="toctree-l3"><a class="reference internal"
+                                              href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.beir.BeirSCIDOCSEvaluator"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">BeirSCIDOCSEvaluator</span></code></a></li>
+                    <li class="toctree-l3"><a class="reference internal"
+                                              href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.beir.BeirSCIFACTEvaluator"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">BeirSCIFACTEvaluator</span></code></a></li>
                 </ul>
             </li>
             <li class="toctree-l2"><a class="reference internal"
@@ -319,6 +379,26 @@
                 </ul>
             </li>
             <li class="toctree-l2"><a class="reference internal"
+                                      href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.natural_qa">RAGchain.benchmark.dataset.natural_qa
+                module</a>
+                <ul>
+                    <li class="toctree-l3"><a class="reference internal"
+                                              href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator"><code
+                            class="docutils literal notranslate"><span class="pre">NaturalQAEvaluator</span></code></a>
+                        <ul>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator.evaluate"><code
+                                    class="docutils literal notranslate"><span
+                                    class="pre">NaturalQAEvaluator.evaluate()</span></code></a></li>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator.ingest"><code
+                                    class="docutils literal notranslate"><span
+                                    class="pre">NaturalQAEvaluator.ingest()</span></code></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="toctree-l2"><a class="reference internal"
                                       href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.qasper">RAGchain.benchmark.dataset.qasper
                 module</a>
                 <ul>
@@ -372,6 +452,40 @@
             </li>
             <li class="toctree-l2"><a class="reference internal"
                                       href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset">Module
+                contents</a></li>
+        </ul>
+    </li>
+    <li class="toctree-l1"><a class="reference internal" href="RAGchain.benchmark.extra.html">RAGchain.benchmark.extra
+        package</a>
+        <ul>
+            <li class="toctree-l2"><a class="reference internal" href="RAGchain.benchmark.extra.html#submodules">Submodules</a>
+            </li>
+            <li class="toctree-l2"><a class="reference internal"
+                                      href="RAGchain.benchmark.extra.html#module-RAGchain.benchmark.extra.search_detector_evaluator">RAGchain.benchmark.extra.search_detector_evaluator
+                module</a>
+                <ul>
+                    <li class="toctree-l3"><a class="reference internal"
+                                              href="RAGchain.benchmark.extra.html#RAGchain.benchmark.extra.search_detector_evaluator.SearchDetectorEvaluator"><code
+                            class="docutils literal notranslate"><span class="pre">SearchDetectorEvaluator</span></code></a>
+                        <ul>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.benchmark.extra.html#RAGchain.benchmark.extra.search_detector_evaluator.SearchDetectorEvaluator.evaluate"><code
+                                    class="docutils literal notranslate"><span class="pre">SearchDetectorEvaluator.evaluate()</span></code></a>
+                            </li>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.benchmark.extra.html#RAGchain.benchmark.extra.search_detector_evaluator.SearchDetectorEvaluator.extract_last_log_text"><code
+                                    class="docutils literal notranslate"><span class="pre">SearchDetectorEvaluator.extract_last_log_text()</span></code></a>
+                            </li>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.benchmark.extra.html#RAGchain.benchmark.extra.search_detector_evaluator.SearchDetectorEvaluator.train"><code
+                                    class="docutils literal notranslate"><span class="pre">SearchDetectorEvaluator.train()</span></code></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="toctree-l2"><a class="reference internal"
+                                      href="RAGchain.benchmark.extra.html#module-RAGchain.benchmark.extra">Module
                 contents</a></li>
         </ul>
     </li>
@@ -503,6 +617,8 @@
                       </dt>
                       <dd><p>Evaluate metrics and return the results
                           :param validate_passages: If True, validate passages in retrieval_gt already ingested.
+                          If False, you can’t use context_recall and KF1 metrics.
+                          We recommend to set True for robust evaluation.
                           :return: EvaluateResult</p>
                       </dd>
                   </dl>
@@ -547,11 +663,13 @@
                   </dl>
 
                   <dl class="py attribute">
-                      <dt class="sig sig-object py" id="RAGchain.benchmark.base.BaseEvaluator.answer_no_gt_metrics">
-                          <span class="sig-name descname"><span class="pre">answer_no_gt_metrics</span></span><em
+                      <dt class="sig sig-object py"
+                          id="RAGchain.benchmark.base.BaseEvaluator.answer_no_gt_ragas_metrics">
+                          <span class="sig-name descname"><span class="pre">answer_no_gt_ragas_metrics</span></span><em
                               class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span
                               class="w"> </span><span class="pre">['answer_relevancy',</span> <span class="pre">'faithfulness']</span></em><a
-                              class="headerlink" href="#RAGchain.benchmark.base.BaseEvaluator.answer_no_gt_metrics"
+                              class="headerlink"
+                              href="#RAGchain.benchmark.base.BaseEvaluator.answer_no_gt_ragas_metrics"
                               title="Link to this definition"></a></dt>
                       <dd></dd>
                   </dl>
@@ -586,6 +704,8 @@
                       </dt>
                       <dd><p>Evaluate metrics and return the results
                           :param validate_passages: If True, validate passages in retrieval_gt already ingested.
+                          If False, you can’t use context_recall and KF1 metrics.
+                          We recommend to set True for robust evaluation.
                           :return: EvaluateResult</p>
                       </dd>
                   </dl>
@@ -596,10 +716,9 @@
                               class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span
                               class="w"> </span><span class="pre">['Hole',</span> <span
                               class="pre">'TopK_Accuracy',</span> <span class="pre">'EM',</span> <span class="pre">'F1_score',</span>
-                          <span class="pre">'context_recall',</span> <span class="pre">'Recall',</span> <span
-                                  class="pre">'Precision']</span></em><a class="headerlink"
-                                                                         href="#RAGchain.benchmark.base.BaseEvaluator.retrieval_gt_metrics"
-                                                                         title="Link to this definition"></a></dt>
+                          <span class="pre">'Recall',</span> <span class="pre">'Precision']</span></em><a
+                              class="headerlink" href="#RAGchain.benchmark.base.BaseEvaluator.retrieval_gt_metrics"
+                              title="Link to this definition"></a></dt>
                       <dd></dd>
                   </dl>
 
@@ -620,11 +739,25 @@
                   </dl>
 
                   <dl class="py attribute">
-                      <dt class="sig sig-object py" id="RAGchain.benchmark.base.BaseEvaluator.retrieval_no_gt_metrics">
-                          <span class="sig-name descname"><span class="pre">retrieval_no_gt_metrics</span></span><em
+                      <dt class="sig sig-object py"
+                          id="RAGchain.benchmark.base.BaseEvaluator.retrieval_gt_ragas_metrics">
+                          <span class="sig-name descname"><span class="pre">retrieval_gt_ragas_metrics</span></span><em
                               class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span
+                              class="w"> </span><span class="pre">['context_recall']</span></em><a class="headerlink"
+                                                                                                   href="#RAGchain.benchmark.base.BaseEvaluator.retrieval_gt_ragas_metrics"
+                                                                                                   title="Link to this definition"></a>
+                      </dt>
+                      <dd></dd>
+                  </dl>
+
+                  <dl class="py attribute">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.benchmark.base.BaseEvaluator.retrieval_no_gt_ragas_metrics">
+                          <span class="sig-name descname"><span
+                                  class="pre">retrieval_no_gt_ragas_metrics</span></span><em class="property"><span
+                              class="w"> </span><span class="p"><span class="pre">=</span></span><span
                               class="w"> </span><span class="pre">['context_precision']</span></em><a class="headerlink"
-                                                                                                      href="#RAGchain.benchmark.base.BaseEvaluator.retrieval_no_gt_metrics"
+                                                                                                      href="#RAGchain.benchmark.base.BaseEvaluator.retrieval_no_gt_ragas_metrics"
                                                                                                       title="Link to this definition"></a>
                       </dt>
                       <dd></dd>

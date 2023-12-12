@@ -12,6 +12,14 @@ RAGchain.benchmark.dataset.base module
    :undoc-members:
    :show-inheritance:
 
+RAGchain.benchmark.dataset.beir module
+--------------------------------------
+
+.. automodule:: RAGchain.benchmark.dataset.beir
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 RAGchain.benchmark.dataset.ko\_strategy\_qa module
 --------------------------------------------------
 
@@ -32,6 +40,14 @@ RAGchain.benchmark.dataset.msmarco module
 -----------------------------------------
 
 .. automodule:: RAGchain.benchmark.dataset.msmarco
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+RAGchain.benchmark.dataset.natural\_qa module
+---------------------------------------------
+
+.. automodule:: RAGchain.benchmark.dataset.natural_qa
    :members:
    :undoc-members:
    :show-inheritance:
