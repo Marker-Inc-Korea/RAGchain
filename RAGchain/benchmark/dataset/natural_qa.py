@@ -34,17 +34,17 @@ class NaturalQAEvaluator(BaseDatasetEvaluator):
         Raw natural qa dataset is too large, so we use natural questions short qa by lucadiliello generated at mrqa 2021 in huggingface.
         link: https://huggingface.co/datasets/lucadiliello/naturalquestionsshortqa
 
-        Default metrics is basically running metrics if you run test file.
-        Support metrics is the metrics you are available.
-        This separation is because Ragas metrics take a long time in evaluation.
+        Default metrics are essentially the metrics run when executing a test file.
+        Support metrics refer to the available metrics.
+        This distinction arises due to the prolonged evaluation time required for Ragas metrics.
         """
 
         self.file_path = "lucadiliello/naturalquestionsshortqa"
         self.dataset = load_dataset(self.file_path)['validation'].to_pandas()
 
-        default_metrics = (self.retrieval_gt_metrics + self.answer_gt_metrics
-                           + self.answer_no_gt_ragas_metrics + self.answer_passage_metrics)
-        support_metrics = (default_metrics + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics)
+        default_metrics = self.retrieval_gt_metrics + self.answer_gt_metrics \
+                          + self.answer_no_gt_ragas_metrics + self.answer_passage_metrics
+        support_metrics = default_metrics + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics
 
         if metrics is not None:
             # Check if your metrics are available in evaluation datasets.
