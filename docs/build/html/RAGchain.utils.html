@@ -68,6 +68,40 @@
 </li>
 </ul>
 </li>
+    <li><a class="reference internal" href="#module-RAGchain.utils.rede_search_detector">RAGchain.utils.rede_search_detector
+        module</a>
+        <ul>
+            <li><a class="reference internal" href="#RAGchain.utils.rede_search_detector.RedeSearchDetector"><code
+                    class="docutils literal notranslate"><span class="pre">RedeSearchDetector</span></code></a>
+                <ul>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.detect"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RedeSearchDetector.detect()</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.evaluate"><code
+                            class="docutils literal notranslate"><span class="pre">RedeSearchDetector.evaluate()</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.find_representation_transform"><code
+                            class="docutils literal notranslate"><span class="pre">RedeSearchDetector.find_representation_transform()</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.find_threshold"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RedeSearchDetector.find_threshold()</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.representation_formation"><code
+                            class="docutils literal notranslate"><span class="pre">RedeSearchDetector.representation_formation()</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.train_density_estimation"><code
+                            class="docutils literal notranslate"><span class="pre">RedeSearchDetector.train_density_estimation()</span></code></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
 <li><a class="reference internal" href="#module-RAGchain.utils.util">RAGchain.utils.util module</a><ul>
 <li><a class="reference internal" href="#RAGchain.utils.util.FileChecker"><code class="docutils literal notranslate"><span class="pre">FileChecker</span></code></a><ul>
 <li><a class="reference internal" href="#RAGchain.utils.util.FileChecker.check_type"><code class="docutils literal notranslate"><span class="pre">FileChecker.check_type()</span></code></a></li>
@@ -389,6 +423,215 @@ The default decomposition prompt is from Visconde paper, and its prompt is few-s
         class="headerlink" href="#RAGchain.utils.query_decompose.QueryDecomposition.decompose_prompt"
         title="Link to this definition"></a></dt>
 <dd></dd></dl>
+
+</dd>
+</dl>
+
+</section>
+      <section id="module-RAGchain.utils.rede_search_detector">
+          <span id="ragchain-utils-rede-search-detector-module"></span>
+          <h2>RAGchain.utils.rede_search_detector module<a class="headerlink"
+                                                           href="#module-RAGchain.utils.rede_search_detector"
+                                                           title="Link to this heading"></a></h2>
+          <dl class="py class">
+              <dt class="sig sig-object py" id="RAGchain.utils.rede_search_detector.RedeSearchDetector">
+                  <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span
+                      class="pre">RAGchain.utils.rede_search_detector.</span></span><span
+                      class="sig-name descname"><span class="pre">RedeSearchDetector</span></span><span
+                      class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span
+                      class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">float</span><span class="w"> </span><span class="p"><span
+                      class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                      class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+                      class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span
+                      class="n"><span class="pre">embedding</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">Embeddings</span><span class="w"> </span><span class="p"><span
+                      class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                      class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+                      class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a
+                      class="headerlink" href="#RAGchain.utils.rede_search_detector.RedeSearchDetector"
+                      title="Link to this definition"></a></dt>
+              <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>
+              </p>
+                  <p>This class is implementation of REDE, the method for detect knowledge-seeking turn in few-shot
+                      setting.
+                      It contains train function for your custom model, and inference function for detect
+                      knowledge-seeking turn.
+                      You will need non-knowledge seeking turn dialogues. Plus, it will be great you have few
+                      knowledge-seeking turn dialogues.</p>
+                  <p>The method is implementation of below paper:</p>
+                  <dl class="simple">
+                      <dt>&#64;article{jin2021towards,</dt>
+                      <dd><p>title={Towards zero and few-shot knowledge-seeking turn detection in task-orientated
+                          dialogue systems},
+                          author={Jin, Di and Gao, Shuyang and Kim, Seokhwan and Liu, Yang and Hakkani-Tur, Dilek},
+                          journal={arXiv preprint arXiv:2109.08820},
+                          year={2021}</p>
+                      </dd>
+                  </dl>
+                  <p>}</p>
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.utils.rede_search_detector.RedeSearchDetector.detect">
+                          <span class="sig-name descname"><span class="pre">detect</span></span><span class="sig-paren">(</span><em
+                              class="sig-param"><span class="n"><span class="pre">sentences</span></span><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span>
+                          <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+                                  class="sig-return-typehint"><span class="pre">List</span><span class="p"><span
+                                  class="pre">[</span></span><span class="pre">bool</span><span class="p"><span
+                                  class="pre">]</span></span></span></span><a class="headerlink"
+                                                                              href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.detect"
+                                                                              title="Link to this definition"></a></dt>
+                      <dd>
+                          <dl class="field-list simple">
+                              <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                              <dd class="field-odd"><p><strong>sentences</strong> – Sentences to detect. List[str].</p>
+                              </dd>
+                              <dt class="field-even">Returns<span class="colon">:</span></dt>
+                              <dd class="field-even"><p>True if the sentence is knowledge-seeking turn, else False.
+                                  List[bool].</p>
+                              </dd>
+                          </dl>
+                      </dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.utils.rede_search_detector.RedeSearchDetector.evaluate">
+                          <span class="sig-name descname"><span class="pre">evaluate</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_knowledge_seeking_sentences</span></span><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                              class="n"><span class="pre">test_non_knowledge_seeking_sentences</span></span><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
+                              class="headerlink" href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.evaluate"
+                              title="Link to this definition"></a></dt>
+                      <dd><p>Evaluate rede search detector using test dataset.
+                          :param test_knowledge_seeking_sentences: knowledge-seeking turn sentences for test. List[str].
+                          :param test_non_knowledge_seeking_sentences: non-knowledge-seeking turn sentences for test.
+                          List[str].</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.utils.rede_search_detector.RedeSearchDetector.find_representation_transform">
+                          <span class="sig-name descname"><span
+                                  class="pre">find_representation_transform</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">knowledge_seeking_sentences</span></span><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                              class="n"><span class="pre">L</span></span><span class="p"><span
+                              class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">int</span><span class="w"> </span><span class="p"><span
+                              class="pre">|</span></span><span class="w"> </span><span
+                              class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                              class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+                              class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                    href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.find_representation_transform"
+                                                                                                    title="Link to this definition"></a>
+                      </dt>
+                      <dd>
+                          <dl class="field-list simple">
+                              <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                              <dd class="field-odd">
+                                  <ul class="simple">
+                                      <li><p><strong>knowledge_seeking_sentences</strong> – Knowledge-seeking turn
+                                          sentences. List[str].</p></li>
+                                      <li><p><strong>L</strong> – Number of dimensions of the transformed
+                                          representation. If None, use whole dimension.</p></li>
+                                  </ul>
+                              </dd>
+                          </dl>
+                          <p>Default is None.</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.utils.rede_search_detector.RedeSearchDetector.find_threshold">
+                          <span class="sig-name descname"><span class="pre">find_threshold</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">valid_knowledge_seeking_sentences</span></span><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                              class="n"><span class="pre">valid_non_knowledge_seeking_sentences</span></span><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
+                              class="headerlink"
+                              href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.find_threshold"
+                              title="Link to this definition"></a></dt>
+                      <dd><p>Find threshold using Youden’s index from validation data predictions.
+                          :param valid_knowledge_seeking_sentences: knowledge-seeking turn sentences for validation.
+                          List[str].
+                          You can put same sentences that you used for find_representation_transform function.
+                          :param valid_non_knowledge_seeking_sentences: non-knowledge-seeking turn sentences for
+                          validation. List[str].</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.utils.rede_search_detector.RedeSearchDetector.representation_formation">
+                          <span class="sig-name descname"><span class="pre">representation_formation</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">vectors</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span
+                              class="sig-paren">)</span> <span class="sig-return"><span
+                              class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+                              class="pre">ndarray</span></span></span><a class="headerlink"
+                                                                         href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.representation_formation"
+                                                                         title="Link to this definition"></a></dt>
+                      <dd>
+                          <dl class="field-list simple">
+                              <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                              <dd class="field-odd"><p><strong>vectors</strong> – Vectors after encoding. np.ndarray.
+                              </p>
+                              </dd>
+                              <dt class="field-even">Returns<span class="colon">:</span></dt>
+                              <dd class="field-even"><p>Transformed vectors. np.ndarray.</p>
+                              </dd>
+                          </dl>
+                      </dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.utils.rede_search_detector.RedeSearchDetector.train_density_estimation">
+                          <span class="sig-name descname"><span class="pre">train_density_estimation</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">gmm</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">GaussianMixture</span></span></em>,
+                          <em class="sig-param"><span class="n"><span class="pre">non_knowledge_seeking_sentences</span></span><span
+                                  class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                                  class="n"><span class="pre">List</span><span class="p"><span
+                                  class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                  class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
+                              class="headerlink"
+                              href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.train_density_estimation"
+                              title="Link to this definition"></a></dt>
+                      <dd>
+                          <dl class="field-list simple">
+                              <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                              <dd class="field-odd">
+                                  <ul class="simple">
+                                      <li><p><strong>gmm</strong> – Gaussian Mixture Model for classify
+                                          knowledge-seeking turn. GaussianMixture. n_components must be 1.</p></li>
+                                      <li><p><strong>non_knowledge_seeking_sentences</strong> – Non-knowledge-seeking
+                                          turn sentences. List[str].</p></li>
+                                  </ul>
+                              </dd>
+                          </dl>
+                      </dd>
+                  </dl>
 
 </dd></dl>
 

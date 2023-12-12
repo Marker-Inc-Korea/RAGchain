@@ -9,6 +9,7 @@ Subpackages
 
    RAGchain.benchmark.answer
    RAGchain.benchmark.dataset
+   RAGchain.benchmark.extra
    RAGchain.benchmark.retrieval
 
 Submodules
