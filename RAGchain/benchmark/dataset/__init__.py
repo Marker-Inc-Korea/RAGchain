@@ -7,3 +7,4 @@ from .msmarco import MSMARCOEvaluator
 from .natural_qa import NaturalQAEvaluator
 from .qasper import QasperEvaluator
 from .strategy_qa import StrategyQAEvaluator
+from .triviaqa import TriviaQAEvaluator
