@@ -52,6 +52,33 @@
 </li>
 </ul>
 </li>
+    <li><a class="reference internal" href="#module-RAGchain.preprocess.loader.deepdoctection_loader">RAGchain.preprocess.loader.deepdoctection_loader
+        module</a>
+        <ul>
+            <li><a class="reference internal"
+                   href="#RAGchain.preprocess.loader.deepdoctection_loader.DeepdoctectionPDFLoader"><code
+                    class="docutils literal notranslate"><span class="pre">DeepdoctectionPDFLoader</span></code></a>
+                <ul>
+                    <li><a class="reference internal"
+                           href="#RAGchain.preprocess.loader.deepdoctection_loader.DeepdoctectionPDFLoader.extract_pages"><code
+                            class="docutils literal notranslate"><span class="pre">DeepdoctectionPDFLoader.extract_pages()</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.preprocess.loader.deepdoctection_loader.DeepdoctectionPDFLoader.find_positions"><code
+                            class="docutils literal notranslate"><span class="pre">DeepdoctectionPDFLoader.find_positions()</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.preprocess.loader.deepdoctection_loader.DeepdoctectionPDFLoader.lazy_load"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">DeepdoctectionPDFLoader.lazy_load()</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.preprocess.loader.deepdoctection_loader.DeepdoctectionPDFLoader.load"><code
+                            class="docutils literal notranslate"><span class="pre">DeepdoctectionPDFLoader.load()</span></code></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
 <li><a class="reference internal" href="#module-RAGchain.preprocess.loader.excel_loader">RAGchain.preprocess.loader.excel_loader module</a><ul>
 <li><a class="reference internal" href="#RAGchain.preprocess.loader.excel_loader.ExcelLoader"><code class="docutils literal notranslate"><span class="pre">ExcelLoader</span></code></a><ul>
 <li><a class="reference internal" href="#RAGchain.preprocess.loader.excel_loader.ExcelLoader.lazy_load"><code class="docutils literal notranslate"><span class="pre">ExcelLoader.lazy_load()</span></code></a></li>
@@ -154,6 +181,111 @@ The dataset downloads at huggingface via internet.</p>
 </dd></dl>
 
 </section>
+      <section id="module-RAGchain.preprocess.loader.deepdoctection_loader">
+          <span id="ragchain-preprocess-loader-deepdoctection-loader-module"></span>
+          <h2>RAGchain.preprocess.loader.deepdoctection_loader module<a class="headerlink"
+                                                                        href="#module-RAGchain.preprocess.loader.deepdoctection_loader"
+                                                                        title="Link to this heading"></a></h2>
+          <dl class="py class">
+              <dt class="sig sig-object py"
+                  id="RAGchain.preprocess.loader.deepdoctection_loader.DeepdoctectionPDFLoader">
+                  <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span class="pre">RAGchain.preprocess.loader.deepdoctection_loader.</span></span><span
+                      class="sig-name descname"><span class="pre">DeepdoctectionPDFLoader</span></span><span
+                      class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span
+                      class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deepdoctection_host</span></span><span
+                      class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                           href="#RAGchain.preprocess.loader.deepdoctection_loader.DeepdoctectionPDFLoader"
+                                                                                           title="Link to this definition"></a>
+              </dt>
+              <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+                      class="pre">BasePDFLoader</span></code></p>
+                  <p>Load PDF file using NomaDamas’ Deepdoctection API server.
+                      You can use Deepdoctection API server using Dockerfile at <a class="reference external"
+                                                                                   href="https://github.com/NomaDamas/deepdoctection-api-server">https://github.com/NomaDamas/deepdoctection-api-server</a>
+                  </p>
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.preprocess.loader.deepdoctection_loader.DeepdoctectionPDFLoader.extract_pages">
+                          <span class="sig-name descname"><span class="pre">extract_pages</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">result</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
+                              class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span
+                              class="pre">str</span><span class="p"><span class="pre">,</span></span><span
+                              class="w"> </span><span class="pre">Any</span><span class="p"><span
+                              class="pre">]</span></span><span class="p"><span
+                              class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span
+                              class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+                              class="sig-return-typehint"><span class="pre">List</span><span class="p"><span
+                              class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span
+                              class="pre">str</span><span class="p"><span class="pre">,</span></span><span
+                              class="w"> </span><span class="pre">Any</span><span class="p"><span
+                              class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a
+                              class="headerlink"
+                              href="#RAGchain.preprocess.loader.deepdoctection_loader.DeepdoctectionPDFLoader.extract_pages"
+                              title="Link to this definition"></a></dt>
+                      <dd></dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.preprocess.loader.deepdoctection_loader.DeepdoctectionPDFLoader.find_positions">
+                          <em class="property"><span class="pre">static</span><span class="w"> </span></em><span
+                              class="sig-name descname"><span class="pre">find_positions</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span
+                              class="pre">substring</span></span></em><span class="sig-paren">)</span><a
+                              class="headerlink"
+                              href="#RAGchain.preprocess.loader.deepdoctection_loader.DeepdoctectionPDFLoader.find_positions"
+                              title="Link to this definition"></a></dt>
+                      <dd></dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.preprocess.loader.deepdoctection_loader.DeepdoctectionPDFLoader.lazy_load">
+                          <span class="sig-name descname"><span class="pre">lazy_load</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span
+                              class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span
+                              class="o"><span class="pre">**</span></span><span class="n"><span
+                              class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span
+                              class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+                              class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span
+                              class="pre">[</span></span><span class="pre">Document</span><span class="p"><span
+                              class="pre">]</span></span></span></span><a class="headerlink"
+                                                                          href="#RAGchain.preprocess.loader.deepdoctection_loader.DeepdoctectionPDFLoader.lazy_load"
+                                                                          title="Link to this definition"></a></dt>
+                      <dd><p>lazy_load pdf file using Deepdoctection API server
+                          return list of Document</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.preprocess.loader.deepdoctection_loader.DeepdoctectionPDFLoader.load">
+                          <span class="sig-name descname"><span class="pre">load</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span
+                              class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span
+                              class="o"><span class="pre">**</span></span><span class="n"><span
+                              class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span
+                              class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+                              class="sig-return-typehint"><span class="pre">List</span><span class="p"><span
+                              class="pre">[</span></span><span class="pre">Document</span><span class="p"><span
+                              class="pre">]</span></span></span></span><a class="headerlink"
+                                                                          href="#RAGchain.preprocess.loader.deepdoctection_loader.DeepdoctectionPDFLoader.load"
+                                                                          title="Link to this definition"></a></dt>
+                      <dd><p>load pdf file using Deepdoctection API server
+                          return list of Document</p>
+                      </dd>
+                  </dl>
+
+              </dd>
+          </dl>
+
+      </section>
 <section id="module-RAGchain.preprocess.loader.excel_loader">
 <span id="ragchain-preprocess-loader-excel-loader-module"></span><h2>RAGchain.preprocess.loader.excel_loader module<a class="headerlink" href="#module-RAGchain.preprocess.loader.excel_loader" title="Link to this heading"></a></h2>
 <dl class="py class">

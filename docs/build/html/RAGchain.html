@@ -152,6 +152,9 @@
                                       href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.base">RAGchain.benchmark.dataset.base
                 module</a></li>
             <li class="toctree-l4"><a class="reference internal"
+                                      href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.beir">RAGchain.benchmark.dataset.beir
+                module</a></li>
+            <li class="toctree-l4"><a class="reference internal"
                                       href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.ko_strategy_qa">RAGchain.benchmark.dataset.ko_strategy_qa
                 module</a></li>
             <li class="toctree-l4"><a class="reference internal"
@@ -161,6 +164,9 @@
                                       href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.msmarco">RAGchain.benchmark.dataset.msmarco
                 module</a></li>
             <li class="toctree-l4"><a class="reference internal"
+                                      href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.natural_qa">RAGchain.benchmark.dataset.natural_qa
+                module</a></li>
+            <li class="toctree-l4"><a class="reference internal"
                                       href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.qasper">RAGchain.benchmark.dataset.qasper
                 module</a></li>
             <li class="toctree-l4"><a class="reference internal"
@@ -168,6 +174,19 @@
                 module</a></li>
             <li class="toctree-l4"><a class="reference internal"
                                       href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset">Module
+                contents</a></li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="RAGchain.benchmark.extra.html">RAGchain.benchmark.extra
+        package</a>
+        <ul>
+            <li class="toctree-l4"><a class="reference internal" href="RAGchain.benchmark.extra.html#submodules">Submodules</a>
+            </li>
+            <li class="toctree-l4"><a class="reference internal"
+                                      href="RAGchain.benchmark.extra.html#module-RAGchain.benchmark.extra.search_detector_evaluator">RAGchain.benchmark.extra.search_detector_evaluator
+                module</a></li>
+            <li class="toctree-l4"><a class="reference internal"
+                                      href="RAGchain.benchmark.extra.html#module-RAGchain.benchmark.extra">Module
                 contents</a></li>
         </ul>
     </li>
@@ -208,9 +227,9 @@
                             class="docutils literal notranslate"><span
                             class="pre">BaseEvaluator.answer_gt_metrics</span></code></a></li>
                     <li class="toctree-l4"><a class="reference internal"
-                                              href="RAGchain.benchmark.html#RAGchain.benchmark.base.BaseEvaluator.answer_no_gt_metrics"><code
-                            class="docutils literal notranslate"><span
-                            class="pre">BaseEvaluator.answer_no_gt_metrics</span></code></a></li>
+                                              href="RAGchain.benchmark.html#RAGchain.benchmark.base.BaseEvaluator.answer_no_gt_ragas_metrics"><code
+                            class="docutils literal notranslate"><span class="pre">BaseEvaluator.answer_no_gt_ragas_metrics</span></code></a>
+                    </li>
                     <li class="toctree-l4"><a class="reference internal"
                                               href="RAGchain.benchmark.html#RAGchain.benchmark.base.BaseEvaluator.answer_passage_metrics"><code
                             class="docutils literal notranslate"><span
@@ -228,9 +247,13 @@
                             class="docutils literal notranslate"><span class="pre">BaseEvaluator.retrieval_gt_metrics_rank_aware</span></code></a>
                     </li>
                     <li class="toctree-l4"><a class="reference internal"
-                                              href="RAGchain.benchmark.html#RAGchain.benchmark.base.BaseEvaluator.retrieval_no_gt_metrics"><code
-                            class="docutils literal notranslate"><span
-                            class="pre">BaseEvaluator.retrieval_no_gt_metrics</span></code></a></li>
+                                              href="RAGchain.benchmark.html#RAGchain.benchmark.base.BaseEvaluator.retrieval_gt_ragas_metrics"><code
+                            class="docutils literal notranslate"><span class="pre">BaseEvaluator.retrieval_gt_ragas_metrics</span></code></a>
+                    </li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.benchmark.html#RAGchain.benchmark.base.BaseEvaluator.retrieval_no_gt_ragas_metrics"><code
+                            class="docutils literal notranslate"><span class="pre">BaseEvaluator.retrieval_no_gt_ragas_metrics</span></code></a>
+                    </li>
                     <li class="toctree-l4"><a class="reference internal"
                                               href="RAGchain.benchmark.html#RAGchain.benchmark.base.BaseEvaluator.uuid_to_str"><code
                             class="docutils literal notranslate"><span
@@ -371,6 +394,9 @@
 <li class="toctree-l3"><a class="reference internal" href="RAGchain.preprocess.loader.html">RAGchain.preprocess.loader package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.preprocess.loader.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.preprocess.loader.html#module-RAGchain.preprocess.loader.dataset_loader">RAGchain.preprocess.loader.dataset_loader module</a></li>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.preprocess.loader.html#module-RAGchain.preprocess.loader.deepdoctection_loader">RAGchain.preprocess.loader.deepdoctection_loader
+        module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.preprocess.loader.html#module-RAGchain.preprocess.loader.excel_loader">RAGchain.preprocess.loader.excel_loader module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.preprocess.loader.html#module-RAGchain.preprocess.loader.file_loader">RAGchain.preprocess.loader.file_loader module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.preprocess.loader.html#module-RAGchain.preprocess.loader.hwp_loader">RAGchain.preprocess.loader.hwp_loader module</a></li>
@@ -698,6 +724,42 @@
 <li class="toctree-l3"><a class="reference internal" href="RAGchain.utils.html#RAGchain.utils.query_decompose.QueryDecomposition"><code class="docutils literal notranslate"><span class="pre">QueryDecomposition</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.utils.html#RAGchain.utils.query_decompose.QueryDecomposition.decompose"><code class="docutils literal notranslate"><span class="pre">QueryDecomposition.decompose()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.utils.html#RAGchain.utils.query_decompose.QueryDecomposition.decompose_prompt"><code class="docutils literal notranslate"><span class="pre">QueryDecomposition.decompose_prompt</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+    <li class="toctree-l2"><a class="reference internal"
+                              href="RAGchain.utils.html#module-RAGchain.utils.rede_search_detector">RAGchain.utils.rede_search_detector
+        module</a>
+        <ul>
+            <li class="toctree-l3"><a class="reference internal"
+                                      href="RAGchain.utils.html#RAGchain.utils.rede_search_detector.RedeSearchDetector"><code
+                    class="docutils literal notranslate"><span class="pre">RedeSearchDetector</span></code></a>
+                <ul>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.html#RAGchain.utils.rede_search_detector.RedeSearchDetector.detect"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RedeSearchDetector.detect()</span></code></a></li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.html#RAGchain.utils.rede_search_detector.RedeSearchDetector.evaluate"><code
+                            class="docutils literal notranslate"><span class="pre">RedeSearchDetector.evaluate()</span></code></a>
+                    </li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.html#RAGchain.utils.rede_search_detector.RedeSearchDetector.find_representation_transform"><code
+                            class="docutils literal notranslate"><span class="pre">RedeSearchDetector.find_representation_transform()</span></code></a>
+                    </li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.html#RAGchain.utils.rede_search_detector.RedeSearchDetector.find_threshold"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RedeSearchDetector.find_threshold()</span></code></a></li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.html#RAGchain.utils.rede_search_detector.RedeSearchDetector.representation_formation"><code
+                            class="docutils literal notranslate"><span class="pre">RedeSearchDetector.representation_formation()</span></code></a>
+                    </li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.html#RAGchain.utils.rede_search_detector.RedeSearchDetector.train_density_estimation"><code
+                            class="docutils literal notranslate"><span class="pre">RedeSearchDetector.train_density_estimation()</span></code></a>
+                    </li>
 </ul>
 </li>
 </ul>
