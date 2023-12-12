@@ -26,8 +26,8 @@ class TriviaQAEvaluator(BaseDatasetEvaluator):
         TriviaQA dataset we use is huge. Recommend to set proper size for evaluation.
         :param metrics: The list of metrics to use. If None, use all metrics that supports TriviaQA dataset.
         Supporting metrics are 'Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score',
-        'context_precision', 'BLEU', 'answer_relevancy', 'faithfulness', 'KF1'.
-        Rank aware metrics are 'NDCG', 'AP', 'CG', 'IndDCG', 'DCG', 'IndIDCG', 'IDCG', 'RR'.
+        'context_precision', 'BLEU', 'answer_relevancy', 'faithfulness', 'KF1',
+        and rank aware metrics are 'NDCG', 'AP', 'CG', 'IndDCG', 'DCG', 'IndIDCG', 'IDCG', 'RR'.
 
         Notice:
         The reason context_recall does not accommodate this benchmark is due to the excessive number
