@@ -11,8 +11,8 @@ from RAGchain.pipeline import BasicRunPipeline
 from RAGchain.retrieval import BM25Retrieval
 
 root_dir = pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent.parent
-bm25_path = os.path.join(root_dir, 'resources', 'bm25', 'ko_strategy_qa_evaluator.pkl')
-pickle_path = os.path.join(root_dir, 'resources', 'pickle', 'ko_strategy_qa_evaluator.pkl')
+bm25_path = os.path.join(root_dir, 'resources', 'bm25', 'mr_tydi_evaluator.pkl')
+pickle_path = os.path.join(root_dir, 'resources', 'pickle', 'mr_tydi_evaluator.pkl')
 logger = logging.getLogger(__name__)
 
 
