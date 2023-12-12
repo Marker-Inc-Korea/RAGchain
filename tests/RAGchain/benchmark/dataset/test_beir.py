@@ -14,14 +14,25 @@ from RAGchain.pipeline import BasicRunPipeline
 from RAGchain.retrieval import BM25Retrieval
 
 root_dir = pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent.parent
-bm25_path = os.path.join(root_dir, 'resources', 'bm25', 'ko_strategy_qa_evaluator.pkl')
-pickle_path = os.path.join(root_dir, 'resources', 'pickle', 'ko_strategy_qa_evaluator.pkl')
 logger = logging.getLogger(__name__)
+
+
+# pkl file name must be different to each test evaluators.
+def generate_path(evaluator_name: str = None):
+    valid_evaluator = ['fever', 'fiqa', 'hotpotqa', 'quora', 'scidocs', 'scifact']
+    if evaluator_name is None:
+        raise ValueError("You don't input evaluator name.")
+    if evaluator_name.lower() not in valid_evaluator:
+        raise ValueError(f"You input {evaluator_name} that is invalid evaluator.")
+
+    bm25_path = os.path.join(root_dir, 'resources', 'bm25', f'beir_{evaluator_name}_evaluator.pkl')
+    pickle_path = os.path.join(root_dir, 'resources', 'pickle', f'beir_{evaluator_name}_evaluator.pkl')
+    return bm25_path, pickle_path
 
 
 # This function set default values using all beir datasets evaluators.
 # Set default retrieval, db, and llm.
-def set_beir_evaluator():
+def set_beir_evaluator(bm25_path, pickle_path):
     retrieval = BM25Retrieval(save_path=bm25_path)
     db = PickleDB(pickle_path)
     llm = OpenAI(model_name="gpt-3.5-turbo-16k")
@@ -29,7 +40,7 @@ def set_beir_evaluator():
     return retrieval, db, llm, pipeline
 
 
-def remove_path():
+def remove_path(bm25_path, pickle_path):
     if os.path.exists(bm25_path):
         os.remove(bm25_path)
     if os.path.exists(pickle_path):
@@ -38,62 +49,68 @@ def remove_path():
 
 @pytest.fixture
 def beir_fever_evaluator():
-    retrieval, db, llm, pipeline = set_beir_evaluator()
+    bm25_path, pickle_path = generate_path('fever')
+    retrieval, db, llm, pipeline = set_beir_evaluator(bm25_path, pickle_path)
     evaluator = BeirFEVEREvaluator(run_pipeline=pipeline, evaluate_size=5)
     evaluator.ingest(retrievals=[retrieval], db=db, ingest_size=20)
 
     yield evaluator
-    remove_path()
+    remove_path(bm25_path, pickle_path)
 
 
 @pytest.fixture
 def beir_fiqa_evaluator():
-    retrieval, db, llm, pipeline = set_beir_evaluator()
+    bm25_path, pickle_path = generate_path('fiqa')
+    retrieval, db, llm, pipeline = set_beir_evaluator(bm25_path, pickle_path)
     evaluator = BeirFIQAEvaluator(run_pipeline=pipeline, evaluate_size=5)
     evaluator.ingest(retrievals=[retrieval], db=db, ingest_size=20)
 
     yield evaluator
-    remove_path()
+    remove_path(bm25_path, pickle_path)
 
 
 @pytest.fixture
 def beir_hotpotqa_evaluator():
-    retrieval, db, llm, pipeline = set_beir_evaluator()
+    bm25_path, pickle_path = generate_path('hotpotqa')
+    retrieval, db, llm, pipeline = set_beir_evaluator(bm25_path, pickle_path)
     evaluator = BeirHOTPOTQAEvaluator(run_pipeline=pipeline, evaluate_size=5)
     evaluator.ingest(retrievals=[retrieval], db=db, ingest_size=20)
 
     yield evaluator
-    remove_path()
+    remove_path(bm25_path, pickle_path)
 
 
 @pytest.fixture
 def beir_quora_evaluator():
-    retrieval, db, llm, pipeline = set_beir_evaluator()
+    bm25_path, pickle_path = generate_path('quora')
+    retrieval, db, llm, pipeline = set_beir_evaluator(bm25_path, pickle_path)
     evaluator = BeirQUORAEvaluator(run_pipeline=pipeline, evaluate_size=5)
     evaluator.ingest(retrievals=[retrieval], db=db, ingest_size=20)
 
     yield evaluator
-    remove_path()
+    remove_path(bm25_path, pickle_path)
 
 
 @pytest.fixture
 def beir_scidocs_evaluator():
-    retrieval, db, llm, pipeline = set_beir_evaluator()
+    bm25_path, pickle_path = generate_path('scidocs')
+    retrieval, db, llm, pipeline = set_beir_evaluator(bm25_path, pickle_path)
     evaluator = BeirSCIDOCSEvaluator(run_pipeline=pipeline, evaluate_size=5)
     evaluator.ingest(retrievals=[retrieval], db=db, ingest_size=20)
 
     yield evaluator
-    remove_path()
+    remove_path(bm25_path, pickle_path)
 
 
 @pytest.fixture
 def beir_scifact_evaluator():
-    retrieval, db, llm, pipeline = set_beir_evaluator()
+    bm25_path, pickle_path = generate_path('scifact')
+    retrieval, db, llm, pipeline = set_beir_evaluator(bm25_path, pickle_path)
     evaluator = BeirSCIFACTEvaluator(run_pipeline=pipeline, evaluate_size=5)
     evaluator.ingest(retrievals=[retrieval], db=db, ingest_size=20)
 
     yield evaluator
-    remove_path()
+    remove_path(bm25_path, pickle_path)
 
 
 def test_beir_evaluator(beir_fever_evaluator,
