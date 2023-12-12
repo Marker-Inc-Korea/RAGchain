@@ -1,5 +1,5 @@
 from .beir import (BeirFEVEREvaluator, BeirFIQAEvaluator,
-                   BeirHOTPOTQAEvaluator, BeirNQEvaluator, BeirQUORAEvaluator,
+                   BeirHOTPOTQAEvaluator, BeirQUORAEvaluator,
                    BeirSCIDOCSEvaluator, BeirSCIFACTEvaluator)
 from .ko_strategy_qa import KoStrategyQAEvaluator
 from .mr_tydi import MrTydiEvaluator

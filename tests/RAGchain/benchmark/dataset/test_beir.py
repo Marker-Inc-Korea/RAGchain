@@ -7,7 +7,7 @@ from langchain.llms.openai import OpenAI
 
 from RAGchain.DB import PickleDB
 from RAGchain.benchmark.dataset import (BeirFEVEREvaluator, BeirFIQAEvaluator,
-                                        BeirHOTPOTQAEvaluator, BeirNQEvaluator,
+                                        BeirHOTPOTQAEvaluator,
                                         BeirQUORAEvaluator, BeirSCIDOCSEvaluator,
                                         BeirSCIFACTEvaluator)
 from RAGchain.pipeline import BasicRunPipeline
@@ -67,16 +67,6 @@ def beir_hotpotqa_evaluator():
 
 
 @pytest.fixture
-def beir_nq_evaluator():
-    retrieval, db, llm, pipeline = set_beir_evaluator()
-    evaluator = BeirNQEvaluator(run_pipeline=pipeline, evaluate_size=5)
-    evaluator.ingest(retrievals=[retrieval], db=db, ingest_size=20)
-
-    yield evaluator
-    remove_path()
-
-
-@pytest.fixture
 def beir_quora_evaluator():
     retrieval, db, llm, pipeline = set_beir_evaluator()
     evaluator = BeirQUORAEvaluator(run_pipeline=pipeline, evaluate_size=5)
@@ -109,7 +99,6 @@ def beir_scifact_evaluator():
 def test_beir_evaluator(beir_fever_evaluator,
                         beir_fiqa_evaluator,
                         beir_hotpotqa_evaluator,
-                        beir_nq_evaluator,
                         beir_quora_evaluator,
                         beir_scidocs_evaluator,
                         beir_scifact_evaluator
@@ -117,7 +106,6 @@ def test_beir_evaluator(beir_fever_evaluator,
     fever_result = beir_fever_evaluator.evaluate()
     fiqa_result = beir_fiqa_evaluator.evaluate()
     hotpotqa_result = beir_hotpotqa_evaluator.evaluate()
-    nq_result = beir_nq_evaluator.evaluate()
     quora_result = beir_quora_evaluator.evaluate()
     scidocs_result = beir_scidocs_evaluator.evaluate()
     scifact_result = beir_scifact_evaluator.evaluate()
@@ -137,11 +125,6 @@ def test_beir_evaluator(beir_fever_evaluator,
     assert hotpotqa_result.each_results.iloc[0][
                'question'] == 'Which piece did Ludwig van Beethoven publish in 1801 that was dedicated to Count Moritz von Fries?'
     validation_result(hotpotqa_result)
-
-    # Assertion of nq
-    logger.info('Result of nq')
-    assert nq_result.each_results.iloc[0]['question'] == 'what is non controlling interest on balance sheet'
-    validation_result(nq_result)
 
     # Assertion of quora
     logger.info('Result of quora')

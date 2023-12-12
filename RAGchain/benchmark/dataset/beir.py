@@ -46,20 +46,6 @@ class BeirHOTPOTQAEvaluator(BaseBeirEvaluator):
         super().__init__(run_pipeline=run_pipeline, file_path=file_path, evaluate_size=evaluate_size, metrics=metrics)
 
 
-class BeirNQEvaluator(BaseBeirEvaluator):
-    """
-    BeirNQEvaluator is a class for evaluating pipeline performance on beir nq datasets.
-    """
-
-    def __init__(self, run_pipeline: BaseRunPipeline,
-                 evaluate_size: Optional[int] = None,
-                 metrics: Optional[List[str]] = None
-                 ):
-        file_path = "BeIR/nq"
-        # Create support metrics
-        super().__init__(run_pipeline=run_pipeline, file_path=file_path, evaluate_size=evaluate_size, metrics=metrics)
-
-
 class BeirQUORAEvaluator(BaseBeirEvaluator):
     """
     BeirQUORAEvaluator is a class for evaluating pipeline performance on beir quora datasets.
