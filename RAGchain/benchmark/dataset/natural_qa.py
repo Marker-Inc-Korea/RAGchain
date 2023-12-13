@@ -60,7 +60,7 @@ class NaturalQAEvaluator(BaseDatasetEvaluator):
         self.eval_size = evaluate_size
         self.run_pipeline = run_pipeline
 
-        # Delete duplicated question - answer - retrieval gt
+        # Grouping duplicated question - answer - retrieval gt
         self.dataset = self.dataset.groupby('question', as_index=False).agg(
             {'context': lambda x: list(x), 'key': lambda x: list(x),
              'answers': lambda x: list(x.tolist()), 'labels': lambda x: list(x)})
