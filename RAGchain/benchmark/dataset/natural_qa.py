@@ -79,7 +79,7 @@ class NaturalQAEvaluator(BaseDatasetEvaluator):
         If you want to use context_recall and context_precision metrics, you should ingest all data.
         """
 
-        ingest_data = deepcopy(self.context)
+        ingest_data = self.context
         if ingest_size is not None:
             # ingest size must be larger than evaluate size.
             if ingest_size >= self.eval_size:
