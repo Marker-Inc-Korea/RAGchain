@@ -114,8 +114,7 @@ class DuoRCEvaluator(BaseDatasetEvaluator):
     def evaluate(self, **kwargs) -> EvaluateResult:
         retrieval_gt = [[str(gt)] for gt in self.qa_data['plot_id']]
         answers = self.qa_data['answers'].apply(self.__make_answer_gt)
-        test = answers.tolist()
-        t = 1
+
         return self._calculate_metrics(
             questions=self.qa_data['question'].tolist(),
             pipeline=self.run_pipeline,
