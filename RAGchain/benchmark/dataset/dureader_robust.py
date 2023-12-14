@@ -27,7 +27,6 @@ class DUReaderRobustEvaluator(BaseDatasetEvaluator):
         :param metrics: The list of metrics to use. If None, use all metrics that supports natural qa dataset.
         Supporting metrics are 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'Recall', 'Precision'
         'context_recall', 'context_precision', 'BLEU', 'answer_relevancy', 'faithfulness', 'KF1'.
-        You must ingest all data for using context_recall and context_precision metrics.
 
         Notice:
         Default metrics are essentially the metrics run when executing a test file.
@@ -112,6 +111,6 @@ class DUReaderRobustEvaluator(BaseDatasetEvaluator):
             content=row['context'],
             filepath=self.file_path,
             metadata_etc={
-                'dataset url': 'https://huggingface.co/datasets/PaddlePaddle/dureader_robust/viewer/plain_text/validation'
+                'dataset_url': 'https://huggingface.co/datasets/PaddlePaddle/dureader_robust/viewer/plain_text/validation'
             })
         return passage
