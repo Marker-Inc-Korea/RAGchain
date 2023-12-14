@@ -47,7 +47,7 @@ class DuoRCEvaluator(BaseDatasetEvaluator):
         if sub_dataset_name is None:
             raise ValueError("You didn't input sub_dataset_name")
 
-        if sub_dataset_name.lower() not in ['paraphraserc', 'selfrc']:
+        if sub_dataset_name not in ['ParaphraseRC', 'SelfRC']:
             raise ValueError(f"You have input invalid sub_dataset_name, {sub_dataset_name}.\n"
                              f"You can input 'ParaphraseRC' or 'SelfRC' as sub_dataset_name")
 
