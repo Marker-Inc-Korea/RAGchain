@@ -77,7 +77,6 @@ class TriviaQAEvaluator(BaseDatasetEvaluator):
         :param retrievals: The retrievals that you want to ingest.
         :param db: The db that you want to ingest.
         :param ingest_size: The number of data to ingest. If None, ingest all data.
-        If you want to use context_precision metrics, you should ingest all data.
         """
         ingest_data = self.ingest_data
         if ingest_size is not None:

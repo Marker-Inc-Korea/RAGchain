@@ -78,7 +78,6 @@ class SearchQAEvaluator(BaseDatasetEvaluator):
         :param retrievals: The retrievals that you want to ingest.
         :param db: The db that you want to ingest.
         :param ingest_size: The number of data to ingest. If None, ingest all data.
-        If you want to use context_recall and context_precision metrics, you should ingest all data.
         """
 
         ingest_data = deepcopy(self.context)
