@@ -21,7 +21,7 @@ def triviaqa_evaluator():
     bm25_retrieval = BM25Retrieval(save_path=bm25_path)
     db = PickleDB(pickle_path)
     llm = OpenAI(model_name="gpt-3.5-turbo-16k")
-    pipeline = BasicRunPipeline(bm25_retrieval, llm)
+    pipeline = BasicRunPipeline(bm25_retrieval, llm, retrieval_option={'top_k': 2})
     evaluator = TriviaQAEvaluator(pipeline, evaluate_size=5)
     evaluator.ingest(retrievals=[bm25_retrieval], db=db, ingest_size=20)
     yield evaluator

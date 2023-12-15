@@ -43,7 +43,7 @@ class TriviaQAEvaluator(BaseDatasetEvaluator):
 
         self.file_path = "trivia_qa"
 
-        datasets = load_dataset("trivia_qa", "rc")['validation'].to_pandas()
+        datasets = load_dataset("trivia_qa", "unfiltered")['validation'].to_pandas()
 
         default_metrics = self.retrieval_gt_metrics + self.retrieval_gt_metrics_rank_aware \
                           + self.answer_gt_metrics + self.answer_passage_metrics
@@ -77,7 +77,6 @@ class TriviaQAEvaluator(BaseDatasetEvaluator):
         :param retrievals: The retrievals that you want to ingest.
         :param db: The db that you want to ingest.
         :param ingest_size: The number of data to ingest. If None, ingest all data.
-        If you want to use context_precision metrics, you should ingest all data.
         """
         ingest_data = self.ingest_data
         if ingest_size is not None:
@@ -136,7 +135,7 @@ class TriviaQAEvaluator(BaseDatasetEvaluator):
         search_results = row['search_results']
         for idx, rank in enumerate(search_results['rank']):
             gt.append(str(row['question_id']) + '_' + str(search_results['rank'][idx]))
-            gt_order.append(max(search_results['rank']) - rank)
+            gt_order.append(50 - (rank))
 
         return gt, gt_order
 
