@@ -25,7 +25,7 @@ class StrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
         We are using train set for evaluating in this class, so it is huge. Recommend to set proper size for evaluation.
         :param metrics: The list of metrics to use. If None, use all metrics that supports KoStrategyQA.
         Supporting metrics are Recall, Precision, Hole, TopK_Accuracy, EM, F1_score, context_recall, context_precision
-        You must ingest all data for using context_recall and context_precision metrics.
+        You must ingest all data for using context_recall metrics.
 
         Notice:
         Default metrics is basically running metrics if you run test file.

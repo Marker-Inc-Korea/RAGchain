@@ -76,6 +76,7 @@ class NaturalQAEvaluator(BaseDatasetEvaluator):
         :param retrievals: The retrievals that you want to ingest.
         :param db: The db that you want to ingest.
         :param ingest_size: The number of data to ingest. If None, ingest all data.
+        You must ingest all data for using context_recall metrics.
         """
 
         ingest_data = deepcopy(self.context)

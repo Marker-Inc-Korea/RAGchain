@@ -26,7 +26,7 @@ class KoStrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
         :param evaluate_size: The number of data to evaluate. If None, evaluate all data.
         :param metrics: The list of metrics to use. If None, use all metrics that supports KoStrategyQA.
         Supporting metrics are Recall, Precision, Hole, TopK_Accuracy, EM, F1_score, context_recall, context_precision
-        You must ingest all data for using context_recall and context_precision metrics.
+        You must ingest all data for using context_recall metrics.
 
         Notice:
         Default metrics is basically running metrics if you run test file.
