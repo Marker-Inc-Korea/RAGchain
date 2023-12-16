@@ -1,3 +1,4 @@
+from .antique import AntiqueEvaluator
 from .beir import (BeirFEVEREvaluator, BeirFIQAEvaluator,
                    BeirHOTPOTQAEvaluator, BeirQUORAEvaluator,
                    BeirSCIDOCSEvaluator, BeirSCIFACTEvaluator)
