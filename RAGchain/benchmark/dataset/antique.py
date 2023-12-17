@@ -1,4 +1,3 @@
-import itertools
 from copy import deepcopy
 from typing import List, Optional
 
@@ -48,19 +47,21 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
         #  This is because when ingesting data, having one query per ground truth becomes burdensome,
         #  especially when there are a large number of ground truths to ingest
 
-        self.file_path = "antique/test"
-        datasets = ir_datasets.load("antique/test")
+        file_path = "antique/test"
+        datasets = ir_datasets.load(file_path)
 
-        # TODO: 이 둘을 한번에 할 수 있는 방법 -> 불필요한 반복이 많음
         # TODO: index로 저게 되는 이유는 공식 문서에 있음
+        # TODO: self.file_path 때문에 막혔던거 생성자에서 Corpus에 column하나를 만들면 상속 이런거 상관없이 바로 passage들 만들 수 있음. 다른 파일 모두 적용하기
         query = pd.DataFrame({'query_id': query[0], 'query': query[1]} for query in datasets.queries_iter())
-        doc = pd.DataFrame({'doc_id': doc[0], 'doc': doc[1]} for doc in datasets.docs_iter())
-        qrels = pd.DataFrame({'query_id': qrels[0], 'doc_id': qrels[1], 'relevance': qrels[2], 'iteration': qrels[3]}
-                             for qrels in datasets.qrels_iter())
+        doc = pd.DataFrame({'doc_id': doc[0], 'doc': doc[1], 'doc_metadata': datasets.docs_metadata(),
+                            'file_path': file_path} for doc in datasets.docs_iter())
+        qrels = pd.DataFrame({'query_id': key, 'retrieval_gt': value} for key, value in datasets.qrels_dict().items())
 
         default_metrics = self.retrieval_gt_metrics + self.retrieval_gt_metrics_rank_aware \
                           + self.answer_gt_metrics + self.answer_passage_metrics
-        support_metrics = default_metrics + self.retrieval_no_gt_ragas_metrics \
+        support_metrics = default_metrics \
+                          + self.retrieval_gt_ragas_metrics + \
+                          self.retrieval_no_gt_ragas_metrics \
                           + self.answer_no_gt_ragas_metrics
 
         if metrics is not None:
@@ -77,32 +78,68 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
         self.eval_size = evaluate_size
         self.run_pipeline = run_pipeline
 
-        # Preprocess dataset
-        self.ingest_data = deepcopy(datasets[['question_id', 'question_source', 'search_results']])
-        self.qa_data = datasets
+        if evaluate_size is not None and len(qrels) > evaluate_size:
+            self.retrieval_gt = qrels[:evaluate_size]
 
-        if evaluate_size is not None and len(self.qa_data) > evaluate_size:
-            self.qa_data = self.qa_data[:evaluate_size]
+        # TODO: 과연 리스트 컴프리헨션이 최선이야?
+        # Preprocess question, retrieval gt
+        self.question = [query[query['query_id'] == match_query_id]['query'].iloc[0] for match_query_id in
+                         self.retrieval_gt['query_id']]
 
-    def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB, ingest_size: Optional[int] = None):
+        result = self.retrieval_gt['retrieval_gt'].apply(self.__make_retrieval_gt)
+        self.gt, self.gt_ord = zip(*result)
+
+        self.ingest_data = doc
+        # TODO: 여기서 gt만들기 그래야만 ingest data와 뭘 만들 수 있음.
+
+    def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB, ingest_size: Optional[int] = None, random_state=None):
         """
         Ingest dataset to retrievals and db.
         :param retrievals: The retrievals that you want to ingest.
         :param db: The db that you want to ingest.
         :param ingest_size: The number of data to ingest. If None, ingest all data.
+        :param random_state: A random state to fix the shuffled corpus to ingest.
+        Types are like these. int, array-like, BitGenerator, np.random.RandomState, np.random.Generator, optional
+
+        Notice:
+        If ingest size too big, It takes a long time.
+        So we shuffle corpus and slice by ingest size for test.
+        Put retrieval gt corpus in passages because retrieval retrieves ground truth in db.
+
         If you want to use context_precision metrics, you should ingest all data.
         """
-        ingest_data = self.ingest_data
+        # TODO: gt ingest data에서 자르기전 포함하기
+
+        # TODO: refactor this
+        ingest_data = deepcopy(self.ingest_data)
+        id_for_remove_duplicated_docs = []
+        for gt_lst in deepcopy(self.gt):
+            for gt in gt_lst:
+                id_for_remove_duplicated_docs.append(gt)
+
+        # Create gt_passages for ingest.
+        # TODO: 잘 제거가 안됐음. 내일은 gt가 중복되는 ingest data지우고, ingest할 passage gt passage도 같이 이어붙이기
+
+        gt_passages = ingest_data[ingest_data['doc_id'].isin(id_for_remove_duplicated_docs)]
+        gt_passages = gt_passages.apply(self.__make_passages, axis=1).tolist()
+
         if ingest_size is not None:
             # ingest size must be larger than evaluate size.
             if ingest_size >= self.eval_size:
-                ingest_data = ingest_data[:ingest_size]
+                ingest_data = ingest_data.sample(n=ingest_size, replace=False, random_state=random_state,
+                                                 axis=0)
             else:
                 raise ValueError("ingest size must be same or larger than evaluate size")
 
-        # Create passages.
-        result = ingest_data.apply(self.__make_passages, axis=1)
-        passages = list(itertools.chain.from_iterable(result))
+        # TODO:의도적으로 gt passage들 ingest data에 넣기
+        # Remove duplicated passages between corpus and retrieval gt for ingesting passages faster.
+        # Marking duplicated values in the corpus using retrieval_gt id.
+        mask = ingest_data.isin(id_for_remove_duplicated_docs)
+        # Remove duplicated passages
+        ingest_data = ingest_data[~mask.any(axis=1)]
+        passages = ingest_data.apply(self.__make_passages, axis=1).tolist()
+
+        passages += gt_passages
 
         for retrieval in retrievals:
             retrieval.ingest(passages)
@@ -110,54 +147,38 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
         db.save(passages)
 
     def evaluate(self, **kwargs) -> EvaluateResult:
-        result = self.qa_data.apply(self.__make_retrieval_gt, axis=1)
-        gt, gt_order = zip(*result)
-        answers = self.qa_data['answer'].apply(self.__make_answer_gt)
+        # TODO: gt 만들떄만 relevancy가 1과 2 없애기
 
         return self._calculate_metrics(
-            questions=self.qa_data['question'].tolist(),
+            questions=self.question,
             pipeline=self.run_pipeline,
-            retrieval_gt=list(gt),
-            retrieval_gt_order=list(gt_order),
-            answer_gt=answers.tolist(),
+            retrieval_gt=list(self.gt),
+            retrieval_gt_order=list(self.gt_ord),
             **kwargs
         )
 
     def __make_passages(self, row):
-        passages = []
-        search_results = row['search_results']
 
-        for passage_idx, passage_text in enumerate(search_results['search_context']):
-            passages.append(Passage(
-                id=str(row['question_id']) + '_' + str(search_results['rank'][passage_idx]),
-                content=passage_text,
-                filepath=self.file_path,
-                metadata_etc={
-                    'description': search_results['description'][passage_idx],
-                    'filename': search_results['filename'][passage_idx],
-                    'title': search_results['title'][passage_idx],
-                    'url': search_results['url'][passage_idx],
-                    'rank': search_results['rank'][passage_idx]
-                }
-            ))
-        return passages
+        return Passage(
+            id=str(row['doc_id']),
+            content=row['doc'],
+            filepath=row['file_path'],
+            metadata_etc={
+                'count': row['doc_metadata']['count'],
+                'fields': row['doc_metadata']['fields']
+            }
+        )
 
     def __make_retrieval_gt(self, row):
+
         gt = []
         gt_order = []
 
-        search_results = row['search_results']
-        for idx, rank in enumerate(search_results['rank']):
-            gt.append(str(row['question_id']) + '_' + str(search_results['rank'][idx]))
-            gt_order.append(max(search_results['rank']) - rank)
+        for gts, relevancy in row.items():
+            if relevancy > 2:
+                gt.append(gts)
+                gt_order.append(relevancy)
 
         return gt, gt_order
 
-    def __make_answer_gt(self, row):
-
-        return [answer for answer in row['normalized_aliases']]
-
     # TODO: raw ir dataset을 pandas로 바꾸는 모듈 부모클래스에 넣기(모든 데이터셋의 key가 같다면)
-    def __raw_datasets_to_pandas(self, dataset):
-        query_id = {'query_id': query[0] for query in dataset.queries_iter()}
-        query = {'query': query[1] for query in dataset.queries_iter()}

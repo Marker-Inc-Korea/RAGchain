@@ -36,7 +36,7 @@ def test_antique_evaluator(antique_evaluator):
 
     assert len(result.each_results) == 5
     assert result.each_results.iloc[0][
-               'question'] == 'Who was the man behind The Chipmunks?'
+               'question'] == 'What do you mean by "weed"?'
     for key, value in result.results.items():
         logger.info(f"{key}: {value}")
     logger.info("The result length is " + f"{len(result.results)}")
