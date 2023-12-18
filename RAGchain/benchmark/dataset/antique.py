@@ -25,13 +25,10 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
         antique dataset we use is huge. Recommend to set proper size for evaluation.
         :param metrics: The list of metrics to use. If None, use all metrics that supports antique dataset.
         Supporting metrics are 'Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score',
-        'context_precision', 'answer_relevancy', 'faithfulness'.
+        'context_recall', 'context_precision', 'answer_relevancy', 'faithfulness'.
         and rank aware metrics are 'NDCG', 'AP', 'CG', 'IndDCG', 'DCG', 'IndIDCG', 'IDCG', 'RR'.
 
         Notice:
-        The reason context_recall does not accommodate this benchmark is due to the excessive number
-        of retrieval ground truths that exceed the context length in ragas metrics.
-
         Default metrics is basically running metrics if you run test file.
         Support metrics is the metrics you are available.
         This separation is because Ragas metrics take a long time in evaluation.
