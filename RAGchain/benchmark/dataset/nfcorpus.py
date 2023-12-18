@@ -32,7 +32,7 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
         TriviaQA dataset we use is huge. Recommend to set proper size for evaluation.
         :param metrics: The list of metrics to use. If None, use all metrics that supports TriviaQA dataset.
         Supporting metrics are 'Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score',
-        'context_precision', 'BLEU', 'answer_relevancy', 'faithfulness', 'KF1',
+        'context_precision'.
         and rank aware metrics are 'NDCG', 'AP', 'CG', 'IndDCG', 'DCG', 'IndIDCG', 'IDCG', 'RR'.
 
         # TODO: Modify annotation
@@ -60,8 +60,8 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
 
         default_metrics = self.retrieval_gt_metrics + self.retrieval_gt_metrics_rank_aware
         support_metrics = default_metrics \
-                          + self.retrieval_no_gt_ragas_metrics \
- \
+                          + self.retrieval_no_gt_ragas_metrics
+
         if metrics is not None:
             # Check if your metrics are available in evaluation datasets.
             for metric in metrics:
@@ -69,7 +69,7 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
                     raise ValueError("You input metrics that this dataset evaluator not support.")
             using_metrics = list(set(metrics))
         else:
-            using_metrics = support_metrics
+            using_metrics = default_metrics
 
         super().__init__(run_all=False, metrics=using_metrics)
 
