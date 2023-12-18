@@ -52,7 +52,8 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
         qrels = pd.DataFrame({'query_id': key, 'retrieval_gt': value} for key, value in datasets.qrels_dict().items())
 
         default_metrics = self.retrieval_gt_metrics + self.retrieval_gt_metrics_rank_aware
-        support_metrics = default_metrics + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics
+        support_metrics = default_metrics + self.retrieval_gt_ragas_metrics \
+                          + self.retrieval_no_gt_ragas_metrics + self.answer_no_gt_ragas_metrics
 
         if metrics is not None:
             # Check if your metrics are available in evaluation datasets.
