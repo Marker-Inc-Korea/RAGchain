@@ -35,7 +35,6 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
         'context_precision'.
         and rank aware metrics are 'NDCG', 'AP', 'CG', 'IndDCG', 'DCG', 'IndIDCG', 'IDCG', 'RR'.
 
-        # TODO: Modify annotation
         Notice:
         The reason context_recall does not accommodate this benchmark is due to the excessive number
         of retrieval ground truths that exceed the context length in ragas metrics.
@@ -100,8 +99,6 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
         If ingest size too big, It takes a long time.
         So we shuffle corpus and slice by ingest size for test.
         Put retrieval gt corpus in passages because retrieval retrieves ground truth in db.
-
-        If you want to use context_precision metrics, you should ingest all data.
         """
         ingest_data = deepcopy(self.ingest_data)
         id_for_remove_duplicated_docs = [gt for gt_lst in deepcopy(self.gt) for gt in gt_lst]
