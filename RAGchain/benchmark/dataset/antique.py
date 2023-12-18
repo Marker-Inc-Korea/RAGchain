@@ -81,16 +81,13 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
         if evaluate_size is not None and len(qrels) > evaluate_size:
             self.retrieval_gt = qrels[:evaluate_size]
 
-        # TODO: 과연 리스트 컴프리헨션이 최선이야?
         # Preprocess question, retrieval gt
         self.question = [query[query['query_id'] == match_query_id]['query'].iloc[0] for match_query_id in
                          self.retrieval_gt['query_id']]
 
         result = self.retrieval_gt['retrieval_gt'].apply(self.__make_retrieval_gt)
         self.gt, self.gt_ord = zip(*result)
-
         self.ingest_data = doc
-        # TODO: 여기서 gt만들기 그래야만 ingest data와 뭘 만들 수 있음.
 
     def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB, ingest_size: Optional[int] = None, random_state=None):
         """
@@ -109,13 +106,8 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
         If you want to use context_precision metrics, you should ingest all data.
         """
         # TODO: gt ingest data에서 자르기전 포함하기
-
-        # TODO: refactor this
         ingest_data = deepcopy(self.ingest_data)
-        id_for_remove_duplicated_docs = []
-        for gt_lst in deepcopy(self.gt):
-            for gt in gt_lst:
-                id_for_remove_duplicated_docs.append(gt)
+        id_for_remove_duplicated_docs = [gt for gt_lst in deepcopy(self.gt) for gt in gt_lst]
 
         # Create gt_passages for ingest.
         # TODO: 잘 제거가 안됐음. 내일은 gt가 중복되는 ingest data지우고, ingest할 passage gt passage도 같이 이어붙이기
