@@ -25,7 +25,7 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
         NFCorpus dataset we use is huge. Recommend to set proper size for evaluation.
         :param metrics: The list of metrics to use. If None, use all metrics that supports NFCorpus dataset.
         Supporting metrics are 'Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score',
-        'context_precision', 'answer_relevancy', 'faithfulness'..
+        'context_precision', 'answer_relevancy', 'faithfulness'.
         and rank aware metrics are 'NDCG', 'AP', 'CG', 'IndDCG', 'DCG', 'IndIDCG', 'IDCG', 'RR'.
 
         Notice:
