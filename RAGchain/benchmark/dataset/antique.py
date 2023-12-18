@@ -43,9 +43,6 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
         Support metrics is the metrics you are available.
         This separation is because Ragas metrics take a long time in evaluation.
         """
-        # TODO: Recommend make ingest size small in docs.
-        #  This is because when ingesting data, having one query per ground truth becomes burdensome,
-        #  especially when there are a large number of ground truths to ingest
 
         file_path = "antique/test"
         datasets = ir_datasets.load(file_path)
