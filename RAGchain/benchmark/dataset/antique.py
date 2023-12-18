@@ -95,7 +95,7 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
         ingest_data = deepcopy(self.ingest_data)
         id_for_remove_duplicated_docs = [gt for gt_lst in deepcopy(self.gt) for gt in gt_lst]
 
-        # Create gt_passages for ingest.\
+        # Create gt_passages for ingest.
         gt_passages = ingest_data[ingest_data['doc_id'].isin(id_for_remove_duplicated_docs)]
         gt_passages = gt_passages.apply(self.__make_passages, axis=1).tolist()
 
