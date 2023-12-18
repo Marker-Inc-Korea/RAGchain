@@ -35,6 +35,7 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
         'context_precision', 'BLEU', 'answer_relevancy', 'faithfulness', 'KF1',
         and rank aware metrics are 'NDCG', 'AP', 'CG', 'IndDCG', 'DCG', 'IndIDCG', 'IDCG', 'RR'.
 
+        # TODO: Modify annotation
         Notice:
         The reason context_recall does not accommodate this benchmark is due to the excessive number
         of retrieval ground truths that exceed the context length in ragas metrics.
@@ -47,22 +48,20 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
         file_path = "nfcorpus/test"
         datasets = ir_datasets.load(file_path)
 
-        test = datasets.docs_metadata()
-
-        # TODO: index로 저게 되는 이유는 공식 문서에 있음
-        # TODO: self.file_path 때문에 막혔던거 생성자에서 Corpus에 column하나를 만들면 상속 이런거 상관없이 바로 passage들 만들 수 있음. 다른 파일 모두 적용하기
         query = pd.DataFrame({'query_id': query[0], 'query': query[1]} for query in datasets.queries_iter())
-        doc = pd.DataFrame({'doc_id': doc[0], 'doc': doc[1], 'doc_metadata': datasets.docs_metadata(),
+        doc = pd.DataFrame(
+            {'doc_id': doc[0], 'doc': doc[3], 'title': doc[2], 'url': doc[1], 'doc_metadata': datasets.docs_metadata(),
                             'file_path': file_path} for doc in datasets.docs_iter())
-        qrels = pd.DataFrame({'query_id': key, 'retrieval_gt': value} for key, value in datasets.qrels_dict().items())
+        qrels = pd.DataFrame({'query_id': qrels[0], 'retrieval_gt': qrels[1], 'relevance': qrels[2]}
+                             for qrels in datasets.qrels_iter() if qrels[2] > 1)
 
-        default_metrics = self.retrieval_gt_metrics + self.retrieval_gt_metrics_rank_aware \
-                          + self.answer_gt_metrics + self.answer_passage_metrics
+        qrels = qrels.groupby('query_id', as_index=False).agg(
+            {'retrieval_gt': lambda x: list(x), 'relevance': lambda x: list(x)})
+
+        default_metrics = self.retrieval_gt_metrics + self.retrieval_gt_metrics_rank_aware
         support_metrics = default_metrics \
-                          + self.retrieval_gt_ragas_metrics + \
-                          self.retrieval_no_gt_ragas_metrics \
-                          + self.answer_no_gt_ragas_metrics
-
+                          + self.retrieval_no_gt_ragas_metrics \
+ \
         if metrics is not None:
             # Check if your metrics are available in evaluation datasets.
             for metric in metrics:
@@ -70,7 +69,7 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
                     raise ValueError("You input metrics that this dataset evaluator not support.")
             using_metrics = list(set(metrics))
         else:
-            using_metrics = default_metrics
+            using_metrics = support_metrics
 
         super().__init__(run_all=False, metrics=using_metrics)
 
@@ -84,7 +83,7 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
         self.question = [query[query['query_id'] == match_query_id]['query'].iloc[0] for match_query_id in
                          self.retrieval_gt['query_id']]
 
-        result = self.retrieval_gt['retrieval_gt'].apply(self.__make_retrieval_gt)
+        result = self.retrieval_gt.apply(self.__make_retrieval_gt, axis=1)
         self.gt, self.gt_ord = zip(*result)
         self.ingest_data = doc
 
@@ -156,13 +155,10 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
         )
 
     def __make_retrieval_gt(self, row):
-
-        gt = []
+        gts = []
         gt_order = []
+        for idx, gt in enumerate(row['retrieval_gt']):
+            gts.append(gt)
+            gt_order.append(row['relevance'][idx])
 
-        for gts, relevancy in row.items():
-            if relevancy > 2:
-                gt.append(gts)
-                gt_order.append(relevancy)
-
-        return gt, gt_order
+        return gts, gt_order
