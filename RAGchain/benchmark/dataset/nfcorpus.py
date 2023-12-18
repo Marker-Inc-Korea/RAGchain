@@ -1,7 +1,6 @@
 from copy import deepcopy
 from typing import List, Optional
 
-import ir_datasets
 import pandas as pd
 
 from RAGchain.DB.base import BaseDB
@@ -37,6 +36,12 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
         Support metrics is the metrics you are available.
         This separation is because Ragas metrics take a long time in evaluation.
         """
+
+        try:
+            import ir_datasets
+        except ImportError:
+            raise ImportError('You have to pip install ir_datasets.\n '
+                              'If it occurred error, please refer to our docs.')
 
         file_path = "nfcorpus/test"
         datasets = ir_datasets.load(file_path)
