@@ -141,7 +141,9 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
             filepath=row['file_path'],
             metadata_etc={
                 'count': row['doc_metadata']['count'],
-                'fields': row['doc_metadata']['fields']
+                'fields': row['doc_metadata']['fields'],
+                'title': row['title'],
+                'url': row['url']
             }
         )
 
