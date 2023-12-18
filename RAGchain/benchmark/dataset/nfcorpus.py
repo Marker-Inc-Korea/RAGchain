@@ -16,12 +16,6 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
     NFCorpusEvaluator is a class for evaluating pipeline performance on NFCorpus dataset.
     """
 
-    # TODO: Trouble shooting -> pcre.h file not found로 인한
-    # TODO: ERROR: Could not build wheels for pyautocorpus, which is required to install pyproject.toml-based projects
-    # TODO: solution: macOS에서는 brew install pcre
-    # TODO: https://stackoverflow.com/questions/22555561/error-building-fatal-error-pcre-h-no-such-file-or-directory
-
-    # TODO: requirement에 pip install --upgrade ir_datasets도 추가
     def __init__(self, run_pipeline: BaseRunPipeline,
                  evaluate_size: Optional[int] = None,
                  metrics: Optional[List[str]] = None
