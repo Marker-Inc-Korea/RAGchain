@@ -36,7 +36,7 @@ def test_antique_evaluator(antique_evaluator):
 
     assert len(result.each_results) == 5
     assert result.each_results.iloc[0][
-               'question'] == 'What do you mean by "weed"?'
+               'question'] == 'What does "see Leaflet" mean on Ept Pregnancy test?'
     for key, value in result.results.items():
         logger.info(f"{key}: {value}")
     logger.info("The result length is " + f"{len(result.results)}")
