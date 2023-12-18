@@ -105,13 +105,10 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
 
         If you want to use context_precision metrics, you should ingest all data.
         """
-        # TODO: gt ingest data에서 자르기전 포함하기
         ingest_data = deepcopy(self.ingest_data)
         id_for_remove_duplicated_docs = [gt for gt_lst in deepcopy(self.gt) for gt in gt_lst]
 
-        # Create gt_passages for ingest.
-        # TODO: 잘 제거가 안됐음. 내일은 gt가 중복되는 ingest data지우고, ingest할 passage gt passage도 같이 이어붙이기
-
+        # Create gt_passages for ingest.\
         gt_passages = ingest_data[ingest_data['doc_id'].isin(id_for_remove_duplicated_docs)]
         gt_passages = gt_passages.apply(self.__make_passages, axis=1).tolist()
 
@@ -123,7 +120,6 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
             else:
                 raise ValueError("ingest size must be same or larger than evaluate size")
 
-        # TODO:의도적으로 gt passage들 ingest data에 넣기
         # Remove duplicated passages between corpus and retrieval gt for ingesting passages faster.
         # Marking duplicated values in the corpus using retrieval_gt id.
         mask = ingest_data.isin(id_for_remove_duplicated_docs)
@@ -139,7 +135,6 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
         db.save(passages)
 
     def evaluate(self, **kwargs) -> EvaluateResult:
-        # TODO: gt 만들떄만 relevancy가 1과 2 없애기
 
         return self._calculate_metrics(
             questions=self.question,
@@ -172,5 +167,3 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
                 gt_order.append(relevancy)
 
         return gt, gt_order
-
-    # TODO: raw ir dataset을 pandas로 바꾸는 모듈 부모클래스에 넣기(모든 데이터셋의 key가 같다면)
