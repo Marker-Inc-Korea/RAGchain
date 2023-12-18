@@ -12,9 +12,9 @@ from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import EvaluateResult, Passage
 
 
-class NaturalQAEvaluator(BaseDatasetEvaluator):
+class SearchQAEvaluator(BaseDatasetEvaluator):
     """
-    NATURALQAEvaluator is a class for evaluating pipeline performance on natural qa dataset.
+    SearchQAEvaluator is a class for evaluating pipeline performance on search qa dataset.
     """
 
     def __init__(self, run_pipeline: BaseRunPipeline,
@@ -28,18 +28,20 @@ class NaturalQAEvaluator(BaseDatasetEvaluator):
         :param metrics: The list of metrics to use. If None, use all metrics that supports natural qa dataset.
         Supporting metrics are 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'Recall', 'Precision'
         'context_recall', 'context_precision', 'BLEU', 'answer_relevancy', 'faithfulness', 'KF1'.
-        You must ingest all data for using context_recall and context_precision metrics.
+        You must ingest all data for using context_recall metrics.
 
         Notice:
-        Raw natural qa dataset is too large, so we use natural questions short qa by lucadiliello generated at mrqa 2021 in huggingface.
-        link: https://huggingface.co/datasets/lucadiliello/naturalquestionsshortqa
+        Context of SearchQA benchmark are all url in raw data. So we use lucadiliello's searchqa dataset at huggingface.
+        link: https://huggingface.co/datasets/lucadiliello/searchqa
+        Split taken from the MRQA 2019 Shared Task, formatted and filtered for Question Answering. For the original dataset,
+        have a look https://huggingface.co/datasets/mrqa.
 
         Default metrics are essentially the metrics run when executing a test file.
         Support metrics refer to the available metrics.
         This distinction arises due to the prolonged evaluation time required for Ragas metrics.
         """
 
-        self.file_path = "lucadiliello/naturalquestionsshortqa"
+        self.file_path = "lucadiliello/searchqa"
         self.dataset = load_dataset(self.file_path)['validation'].to_pandas()
 
         default_metrics = self.retrieval_gt_metrics + self.answer_gt_metrics \
@@ -76,7 +78,7 @@ class NaturalQAEvaluator(BaseDatasetEvaluator):
         :param retrievals: The retrievals that you want to ingest.
         :param db: The db that you want to ingest.
         :param ingest_size: The number of data to ingest. If None, ingest all data.
-        You must ingest all data for using context_recall metrics.
+        If you want to use context_recall metrics, you should ingest all data.
         """
 
         ingest_data = deepcopy(self.context)

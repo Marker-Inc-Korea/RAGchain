@@ -81,6 +81,7 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
         :param retrievals: The retrievals that you want to ingest.
         :param db: The db that you want to ingest.
         :param ingest_size: The number of data to ingest. If None, ingest all data.
+        You must ingest all data for using context_recall metrics.
         If ingest size too big, It takes a long time.
         So we shuffle corpus and slice by ingest size for test.
         Put retrieval gt corpus in passages because retrieval retrieves ground truth in db.
