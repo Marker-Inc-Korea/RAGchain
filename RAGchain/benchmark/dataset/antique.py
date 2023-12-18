@@ -23,10 +23,10 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
         """
         :param run_pipeline: The pipeline that you want to benchmark.
         :param evaluate_size: The number of data to evaluate. If None, evaluate all data.
-        TriviaQA dataset we use is huge. Recommend to set proper size for evaluation.
-        :param metrics: The list of metrics to use. If None, use all metrics that supports TriviaQA dataset.
+        antique dataset we use is huge. Recommend to set proper size for evaluation.
+        :param metrics: The list of metrics to use. If None, use all metrics that supports antique dataset.
         Supporting metrics are 'Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score',
-        'context_precision', 'BLEU', 'answer_relevancy', 'faithfulness', 'KF1',
+        'context_precision'.
         and rank aware metrics are 'NDCG', 'AP', 'CG', 'IndDCG', 'DCG', 'IndIDCG', 'IDCG', 'RR'.
 
         Notice:
@@ -46,12 +46,8 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
                             'file_path': file_path} for doc in datasets.docs_iter())
         qrels = pd.DataFrame({'query_id': key, 'retrieval_gt': value} for key, value in datasets.qrels_dict().items())
 
-        default_metrics = self.retrieval_gt_metrics + self.retrieval_gt_metrics_rank_aware \
-                          + self.answer_gt_metrics + self.answer_passage_metrics
-        support_metrics = default_metrics \
-                          + self.retrieval_gt_ragas_metrics + \
-                          self.retrieval_no_gt_ragas_metrics \
-                          + self.answer_no_gt_ragas_metrics
+        default_metrics = self.retrieval_gt_metrics + self.retrieval_gt_metrics_rank_aware
+        support_metrics = default_metrics + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics
 
         if metrics is not None:
             # Check if your metrics are available in evaluation datasets.
