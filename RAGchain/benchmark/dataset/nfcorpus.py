@@ -23,8 +23,8 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
         """
         :param run_pipeline: The pipeline that you want to benchmark.
         :param evaluate_size: The number of data to evaluate. If None, evaluate all data.
-        TriviaQA dataset we use is huge. Recommend to set proper size for evaluation.
-        :param metrics: The list of metrics to use. If None, use all metrics that supports TriviaQA dataset.
+        NFCorpus dataset we use is huge. Recommend to set proper size for evaluation.
+        :param metrics: The list of metrics to use. If None, use all metrics that supports NFCorpus dataset.
         Supporting metrics are 'Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score',
         'context_precision'.
         and rank aware metrics are 'NDCG', 'AP', 'CG', 'IndDCG', 'DCG', 'IndIDCG', 'IDCG', 'RR'.
@@ -97,7 +97,7 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
         ingest_data = deepcopy(self.ingest_data)
         id_for_remove_duplicated_docs = [gt for gt_lst in deepcopy(self.gt) for gt in gt_lst]
 
-        # Create gt_passages for ingest.\
+        # Create gt_passages for ingest.
         gt_passages = ingest_data[ingest_data['doc_id'].isin(id_for_remove_duplicated_docs)]
         gt_passages = gt_passages.apply(self.__make_passages, axis=1).tolist()
 
