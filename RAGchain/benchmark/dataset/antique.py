@@ -100,7 +100,7 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
         So we shuffle corpus and slice by ingest size for test.
         Put retrieval gt corpus in passages because retrieval retrieves ground truth in db.
 
-        If you want to use context_precision metrics, you should ingest all data.
+        If you want to use context_recall metrics, you should ingest all data.
         """
         ingest_data = deepcopy(self.ingest_data)
         id_for_remove_duplicated_docs = [gt for gt_lst in deepcopy(self.gt) for gt in gt_lst]
