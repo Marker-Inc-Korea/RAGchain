@@ -28,7 +28,7 @@ class SearchQAEvaluator(BaseDatasetEvaluator):
         :param metrics: The list of metrics to use. If None, use all metrics that supports natural qa dataset.
         Supporting metrics are 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'Recall', 'Precision'
         'context_recall', 'context_precision', 'BLEU', 'answer_relevancy', 'faithfulness', 'KF1'.
-        You must ingest all data for using context_recall and context_precision metrics.
+        You must ingest all data for using context_recall metrics.
 
         Notice:
         Context of SearchQA benchmark are all url in raw data. So we use lucadiliello's searchqa dataset at huggingface.
