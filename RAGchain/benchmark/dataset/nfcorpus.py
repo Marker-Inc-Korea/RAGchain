@@ -57,7 +57,7 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
             {'retrieval_gt': lambda x: list(x), 'relevance': lambda x: list(x)})
 
         default_metrics = self.retrieval_gt_metrics + self.retrieval_gt_metrics_rank_aware
-        support_metrics = default_metrics \
+        support_metrics = default_metrics + self.answer_no_gt_ragas_metrics
 
         if metrics is not None:
             # Check if your metrics are available in evaluation datasets.
