@@ -58,7 +58,6 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
 
         default_metrics = self.retrieval_gt_metrics + self.retrieval_gt_metrics_rank_aware
         support_metrics = default_metrics \
-                          + self.retrieval_no_gt_ragas_metrics
 
         if metrics is not None:
             # Check if your metrics are available in evaluation datasets.
@@ -78,8 +77,7 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
             self.retrieval_gt = qrels[:evaluate_size]
 
         # Preprocess question, retrieval gt
-        self.question = [query[query['query_id'] == match_query_id]['query'].iloc[0] for match_query_id in
-                         self.retrieval_gt['query_id']]
+        self.question = query[query['query_id'].isin(self.retrieval_gt['query_id'])]['query'].tolist()
 
         result = self.retrieval_gt.apply(self.__make_retrieval_gt, axis=1)
         self.gt, self.gt_ord = zip(*result)
