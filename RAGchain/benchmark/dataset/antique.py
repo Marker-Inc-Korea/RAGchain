@@ -16,12 +16,6 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
     AntiqueEvaluator is a class for evaluating pipeline performance on antique dataset.
     """
 
-    # TODO: Trouble shooting -> pcre.h file not found로 인한
-    # TODO: ERROR: Could not build wheels for pyautocorpus, which is required to install pyproject.toml-based projects
-    # TODO: solution: macOS에서는 brew install pcre
-    # TODO: https://stackoverflow.com/questions/22555561/error-building-fatal-error-pcre-h-no-such-file-or-directory
-
-    # TODO: requirement에 pip install --upgrade ir_datasets도 추가
     def __init__(self, run_pipeline: BaseRunPipeline,
                  evaluate_size: Optional[int] = None,
                  metrics: Optional[List[str]] = None
@@ -47,8 +41,6 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
         file_path = "antique/test"
         datasets = ir_datasets.load(file_path)
 
-        # TODO: index로 저게 되는 이유는 공식 문서에 있음
-        # TODO: self.file_path 때문에 막혔던거 생성자에서 Corpus에 column하나를 만들면 상속 이런거 상관없이 바로 passage들 만들 수 있음. 다른 파일 모두 적용하기
         query = pd.DataFrame({'query_id': query[0], 'query': query[1]} for query in datasets.queries_iter())
         doc = pd.DataFrame({'doc_id': doc[0], 'doc': doc[1], 'doc_metadata': datasets.docs_metadata(),
                             'file_path': file_path} for doc in datasets.docs_iter())
