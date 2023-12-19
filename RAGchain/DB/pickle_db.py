@@ -66,6 +66,7 @@ class PickleDB(BaseDB):
     def fetch(self, ids: List[UUID]) -> List[Passage]:
         """Retrieves the Passage objects from the database based on the given list of passage IDs."""
         result = list(filter(lambda x: x.id in ids, self.db))
+        result = list(set(result))
         return result
 
     def search(self,
@@ -108,6 +109,7 @@ class PickleDB(BaseDB):
                 self.db
             )
         )
+        result = list(set(result))
         return result
 
     def _write_pickle(self):
