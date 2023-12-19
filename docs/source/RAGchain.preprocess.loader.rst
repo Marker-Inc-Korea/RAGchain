@@ -12,6 +12,14 @@ RAGchain.preprocess.loader.dataset\_loader module
    :undoc-members:
    :show-inheritance:
 
+RAGchain.preprocess.loader.deepdoctection\_loader module
+--------------------------------------------------------
+
+.. automodule:: RAGchain.preprocess.loader.deepdoctection_loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 RAGchain.preprocess.loader.excel\_loader module
 -----------------------------------------------
 

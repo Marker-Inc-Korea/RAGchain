@@ -64,11 +64,44 @@
 <li><a class="reference internal" href="#RAGchain.utils.query_decompose.QueryDecomposition"><code class="docutils literal notranslate"><span class="pre">QueryDecomposition</span></code></a><ul>
 <li><a class="reference internal" href="#RAGchain.utils.query_decompose.QueryDecomposition.decompose"><code class="docutils literal notranslate"><span class="pre">QueryDecomposition.decompose()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.utils.query_decompose.QueryDecomposition.decompose_prompt"><code class="docutils literal notranslate"><span class="pre">QueryDecomposition.decompose_prompt</span></code></a></li>
-<li><a class="reference internal" href="#RAGchain.utils.query_decompose.QueryDecomposition.generate"><code class="docutils literal notranslate"><span class="pre">QueryDecomposition.generate()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
+    <li><a class="reference internal" href="#module-RAGchain.utils.rede_search_detector">RAGchain.utils.rede_search_detector
+        module</a>
+        <ul>
+            <li><a class="reference internal" href="#RAGchain.utils.rede_search_detector.RedeSearchDetector"><code
+                    class="docutils literal notranslate"><span class="pre">RedeSearchDetector</span></code></a>
+                <ul>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.detect"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RedeSearchDetector.detect()</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.evaluate"><code
+                            class="docutils literal notranslate"><span class="pre">RedeSearchDetector.evaluate()</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.find_representation_transform"><code
+                            class="docutils literal notranslate"><span class="pre">RedeSearchDetector.find_representation_transform()</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.find_threshold"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RedeSearchDetector.find_threshold()</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.representation_formation"><code
+                            class="docutils literal notranslate"><span class="pre">RedeSearchDetector.representation_formation()</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.train_density_estimation"><code
+                            class="docutils literal notranslate"><span class="pre">RedeSearchDetector.train_density_estimation()</span></code></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
 <li><a class="reference internal" href="#module-RAGchain.utils.util">RAGchain.utils.util module</a><ul>
 <li><a class="reference internal" href="#RAGchain.utils.util.FileChecker"><code class="docutils literal notranslate"><span class="pre">FileChecker</span></code></a><ul>
 <li><a class="reference internal" href="#RAGchain.utils.util.FileChecker.check_type"><code class="docutils literal notranslate"><span class="pre">FileChecker.check_type()</span></code></a></li>
@@ -117,11 +150,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="RAGchain.utils.embed.html">RAGchain.utils.embed package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.utils.embed.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="RAGchain.utils.embed.html#module-RAGchain.utils.embed.delete_embeddings">RAGchain.utils.embed.delete_embeddings module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="RAGchain.utils.embed.html#RAGchain.utils.embed.delete_embeddings.delete_embeddings_vectordb"><code class="docutils literal notranslate"><span class="pre">delete_embeddings_vectordb()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="RAGchain.utils.embed.html#RAGchain.utils.embed.delete_embeddings.delete_sparse_retrieval_index"><code class="docutils literal notranslate"><span class="pre">delete_sparse_retrieval_index()</span></code></a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.utils.embed.html#module-RAGchain.utils.embed.embeddingfactory">RAGchain.utils.embed.embeddingfactory module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="RAGchain.utils.embed.html#RAGchain.utils.embed.embeddingfactory.EmbeddingFactory"><code class="docutils literal notranslate"><span class="pre">EmbeddingFactory</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.utils.embed.html#RAGchain.utils.embed.embeddingfactory.EmbeddingFactory.get"><code class="docutils literal notranslate"><span class="pre">EmbeddingFactory.get()</span></code></a></li>
@@ -191,7 +219,18 @@
 <span id="ragchain-utils-evidence-extractor-module"></span><h2>RAGchain.utils.evidence_extractor module<a class="headerlink" href="#module-RAGchain.utils.evidence_extractor" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="RAGchain.utils.evidence_extractor.EvidenceExtractor">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.utils.evidence_extractor.</span></span><span class="sig-name descname"><span class="pre">EvidenceExtractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system_prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'gpt-3.5-turbo'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_base</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.utils.evidence_extractor.EvidenceExtractor" title="Link to this definition"></a></dt>
+    <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+        class="sig-prename descclassname"><span class="pre">RAGchain.utils.evidence_extractor.</span></span><span
+        class="sig-name descname"><span class="pre">EvidenceExtractor</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">BaseLanguageModel</span></span></em>, <em class="sig-param"><span
+        class="n"><span class="pre">system_prompt</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a
+        class="headerlink" href="#RAGchain.utils.evidence_extractor.EvidenceExtractor"
+        title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>EvidenceExtractor is a class that extracts relevant evidences based on a given question and a list of passages.</p>
 <dl class="field-list simple">
@@ -200,6 +239,8 @@
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">RAGchain.utils.evidence_extractor</span> <span class="kn">import</span> <span class="n">EvidenceExtractor</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">RAGchain.schema</span> <span class="kn">import</span> <span class="n">Passage</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">langchain.llms.openai</span> <span
+            class="kn">import</span> <span class="n">OpenAI</span>
 <span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">passages</span> <span class="o">=</span> <span class="p">[</span>
 <span class="gp">... </span>    <span class="n">Passage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&quot;Lorem ipsum dolor sit amet&quot;</span><span class="p">),</span>
@@ -208,7 +249,8 @@
 <span class="gp">... </span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">question</span> <span class="o">=</span> <span class="s2">&quot;What is Lorem ipsum?&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">extractor</span> <span class="o">=</span> <span class="n">EvidenceExtractor</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extractor</span> <span class="o">=</span> <span class="n">EvidenceExtractor</span><span
+            class="p">(</span><span class="n">OpenAI</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">extractor</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">passages</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -217,14 +259,25 @@
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.utils.evidence_extractor.EvidenceExtractor.extract">
-<span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">question</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#RAGchain.utils.evidence_extractor.EvidenceExtractor.extract" title="Link to this definition"></a></dt>
+    <span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">question</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em
+        class="sig-param"><span class="n"><span class="pre">passages</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
+        class="pre">[</span></span><a class="reference internal"
+                                      href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                      title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span
+        class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span
+        class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+        class="pre">str</span></span></span><a class="headerlink"
+                                               href="#RAGchain.utils.evidence_extractor.EvidenceExtractor.extract"
+                                               title="Link to this definition"></a></dt>
 <dd><p>Extract method extracts relevant document evidences based on a question and a list of passages.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>question</strong> – The question for which relevant document fragments need to be extracted.</p></li>
 <li><p><strong>passages</strong> – A list of Passage objects that contain the content of the documents.</p></li>
-<li><p><strong>model_kwargs</strong> – Optional keyword arguments to be passed to the openai api for customization. Default is {}.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -286,7 +339,13 @@ location = {Dublin, Ireland}
 }</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="RAGchain.utils.query_decompose.QueryDecomposition">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.utils.query_decompose.</span></span><span class="sig-name descname"><span class="pre">QueryDecomposition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'text-davinci-003'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_base</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.utils.query_decompose.QueryDecomposition" title="Link to this definition"></a></dt>
+    <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+        class="sig-prename descclassname"><span class="pre">RAGchain.utils.query_decompose.</span></span><span
+        class="sig-name descname"><span class="pre">QueryDecomposition</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">BaseLLM</span></span></em><span class="sig-paren">)</span><a
+        class="headerlink" href="#RAGchain.utils.query_decompose.QueryDecomposition"
+        title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Query Decomposition class.
 You can decompose a multi-hop questions to multiple single-hop questions using LLM.
@@ -301,13 +360,278 @@ The default decomposition prompt is from Visconde paper, and its prompt is few-s
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="RAGchain.utils.query_decompose.QueryDecomposition.decompose_prompt">
-<span class="sig-name descname"><span class="pre">decompose_prompt</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Decompose</span> <span class="pre">a</span> <span class="pre">question</span> <span class="pre">in</span> <span class="pre">self-contained</span> <span class="pre">sub-questions.</span> <span class="pre">Use</span> <span class="pre">&quot;The</span> <span class="pre">question</span> <span class="pre">needs</span> <span class="pre">no</span> <span class="pre">decomposition&quot;</span> <span class="pre">when</span> <span class="pre">no</span> <span class="pre">decomposition</span> <span class="pre">is</span> <span class="pre">needed.\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Example</span> <span class="pre">1:\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Question:</span> <span class="pre">Is</span> <span class="pre">Hamlet</span> <span class="pre">more</span> <span class="pre">common</span> <span class="pre">on</span> <span class="pre">IMDB</span> <span class="pre">than</span> <span class="pre">Comedy</span> <span class="pre">of</span> <span class="pre">Errors?\n</span>&#160;&#160;&#160; <span class="pre">Decompositions:</span> <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">1:</span> <span class="pre">How</span> <span class="pre">many</span> <span class="pre">listings</span> <span class="pre">of</span> <span class="pre">Hamlet</span> <span class="pre">are</span> <span class="pre">there</span> <span class="pre">on</span> <span class="pre">IMDB?\n</span>&#160;&#160;&#160; <span class="pre">2:</span> <span class="pre">How</span> <span class="pre">many</span> <span class="pre">listing</span> <span class="pre">of</span> <span class="pre">Comedy</span> <span class="pre">of</span> <span class="pre">Errors</span> <span class="pre">is</span> <span class="pre">there</span> <span class="pre">on</span> <span class="pre">IMDB?\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Example</span> <span class="pre">2:\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Question:</span> <span class="pre">Are</span> <span class="pre">birds</span> <span class="pre">important</span> <span class="pre">to</span> <span class="pre">badminton?\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Decompositions:\n</span>&#160;&#160;&#160; <span class="pre">The</span> <span class="pre">question</span> <span class="pre">needs</span> <span class="pre">no</span> <span class="pre">decomposition\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Example</span> <span class="pre">3:\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Question:</span> <span class="pre">Is</span> <span class="pre">it</span> <span class="pre">legal</span> <span class="pre">for</span> <span class="pre">a</span> <span class="pre">licensed</span> <span class="pre">child</span> <span class="pre">driving</span> <span class="pre">Mercedes-Benz</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">employed</span> <span class="pre">in</span> <span class="pre">US?\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Decompositions:\n</span>&#160;&#160;&#160; <span class="pre">1:</span> <span class="pre">What</span> <span class="pre">is</span> <span class="pre">the</span> <span class="pre">minimum</span> <span class="pre">driving</span> <span class="pre">age</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">US?\n</span>&#160;&#160;&#160; <span class="pre">2:</span> <span class="pre">What</span> <span class="pre">is</span> <span class="pre">the</span> <span class="pre">minimum</span> <span class="pre">age</span> <span class="pre">for</span> <span class="pre">someone</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">employed</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">US?\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Example</span> <span class="pre">4:\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Question:</span> <span class="pre">Are</span> <span class="pre">all</span> <span class="pre">cucumbers</span> <span class="pre">the</span> <span class="pre">same</span> <span class="pre">texture?\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Decompositions:\n</span>&#160;&#160;&#160; <span class="pre">The</span> <span class="pre">question</span> <span class="pre">needs</span> <span class="pre">no</span> <span class="pre">decomposition\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Example</span> <span class="pre">5:\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Question:</span> <span class="pre">Hydrogen\'s</span> <span class="pre">atomic</span> <span class="pre">number</span> <span class="pre">squared</span> <span class="pre">exceeds</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">Spice</span> <span class="pre">Girls?\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Decompositions:\n</span>&#160;&#160;&#160; <span class="pre">1:</span> <span class="pre">What</span> <span class="pre">is</span> <span class="pre">the</span> <span class="pre">atomic</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">hydrogen?\n</span>&#160;&#160;&#160; <span class="pre">2:</span> <span class="pre">How</span> <span class="pre">many</span> <span class="pre">Spice</span> <span class="pre">Girls</span> <span class="pre">are</span> <span class="pre">there?\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Example</span> <span class="pre">6:\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Question:</span> <span class="pre">{0}\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Decompositions:&quot;\n</span>&#160;&#160;&#160; <span class="pre">'</span></em><a class="headerlink" href="#RAGchain.utils.query_decompose.QueryDecomposition.decompose_prompt" title="Link to this definition"></a></dt>
+    <span class="sig-name descname"><span class="pre">decompose_prompt</span></span><em class="property"><span
+        class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PromptTemplate(input_variables=['question'],</span>
+    <span class="pre">template='Decompose</span> <span class="pre">a</span> <span class="pre">question</span> <span
+            class="pre">in</span> <span class="pre">self-contained</span> <span class="pre">sub-questions.</span> <span
+            class="pre">Use</span> <span class="pre">&quot;The</span> <span class="pre">question</span> <span
+            class="pre">needs</span> <span class="pre">no</span> <span class="pre">decomposition&quot;</span> <span
+            class="pre">when</span> <span class="pre">no</span> <span class="pre">decomposition</span> <span
+            class="pre">is</span> <span class="pre">needed.\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160;
+    <span class="pre">Example</span> <span class="pre">1:\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160;
+    <span class="pre">Question:</span> <span class="pre">Is</span> <span class="pre">Hamlet</span> <span class="pre">more</span>
+    <span class="pre">common</span> <span class="pre">on</span> <span class="pre">IMDB</span> <span
+            class="pre">than</span> <span class="pre">Comedy</span> <span class="pre">of</span> <span class="pre">Errors?\n</span>&#160;&#160;&#160;
+    <span class="pre">Decompositions:</span> <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">1:</span>
+    <span class="pre">How</span> <span class="pre">many</span> <span class="pre">listings</span> <span
+            class="pre">of</span> <span class="pre">Hamlet</span> <span class="pre">are</span> <span
+            class="pre">there</span> <span class="pre">on</span> <span class="pre">IMDB?\n</span>&#160;&#160;&#160;
+    <span class="pre">2:</span> <span class="pre">How</span> <span class="pre">many</span> <span
+            class="pre">listing</span> <span class="pre">of</span> <span class="pre">Comedy</span> <span
+            class="pre">of</span> <span class="pre">Errors</span> <span class="pre">is</span> <span
+            class="pre">there</span> <span class="pre">on</span> <span class="pre">IMDB?\n</span>&#160;&#160;&#160;
+    <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Example</span> <span class="pre">2:\n</span>&#160;&#160;&#160;
+    <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Question:</span> <span class="pre">Are</span> <span
+            class="pre">birds</span> <span class="pre">important</span> <span class="pre">to</span> <span class="pre">badminton?\n</span>&#160;&#160;&#160;
+    <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Decompositions:\n</span>&#160;&#160;&#160; <span
+            class="pre">The</span> <span class="pre">question</span> <span class="pre">needs</span> <span
+            class="pre">no</span> <span class="pre">decomposition\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160;
+    <span class="pre">Example</span> <span class="pre">3:\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160;
+    <span class="pre">Question:</span> <span class="pre">Is</span> <span class="pre">it</span> <span
+            class="pre">legal</span> <span class="pre">for</span> <span class="pre">a</span> <span
+            class="pre">licensed</span> <span class="pre">child</span> <span class="pre">driving</span> <span
+            class="pre">Mercedes-Benz</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">employed</span>
+    <span class="pre">in</span> <span class="pre">US?\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160;
+    <span class="pre">Decompositions:\n</span>&#160;&#160;&#160; <span class="pre">1:</span> <span
+            class="pre">What</span> <span class="pre">is</span> <span class="pre">the</span> <span
+            class="pre">minimum</span> <span class="pre">driving</span> <span class="pre">age</span> <span class="pre">in</span>
+    <span class="pre">the</span> <span class="pre">US?\n</span>&#160;&#160;&#160; <span class="pre">2:</span> <span
+            class="pre">What</span> <span class="pre">is</span> <span class="pre">the</span> <span
+            class="pre">minimum</span> <span class="pre">age</span> <span class="pre">for</span> <span class="pre">someone</span>
+    <span class="pre">to</span> <span class="pre">be</span> <span class="pre">employed</span> <span
+            class="pre">in</span> <span class="pre">the</span> <span class="pre">US?\n</span>&#160;&#160;&#160; <span
+            class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Example</span> <span class="pre">4:\n</span>&#160;&#160;&#160;
+    <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Question:</span> <span class="pre">Are</span> <span
+            class="pre">all</span> <span class="pre">cucumbers</span> <span class="pre">the</span> <span class="pre">same</span>
+    <span class="pre">texture?\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span
+            class="pre">Decompositions:\n</span>&#160;&#160;&#160; <span class="pre">The</span> <span class="pre">question</span>
+    <span class="pre">needs</span> <span class="pre">no</span> <span class="pre">decomposition\n</span>&#160;&#160;&#160;
+    <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Example</span> <span class="pre">5:\n</span>&#160;&#160;&#160;
+    <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Question:</span> <span
+            class="pre">Hydrogen\'s</span> <span class="pre">atomic</span> <span class="pre">number</span> <span
+            class="pre">squared</span> <span class="pre">exceeds</span> <span class="pre">number</span> <span
+            class="pre">of</span> <span class="pre">Spice</span> <span class="pre">Girls?\n</span>&#160;&#160;&#160;
+    <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Decompositions:\n</span>&#160;&#160;&#160; <span
+            class="pre">1:</span> <span class="pre">What</span> <span class="pre">is</span> <span class="pre">the</span>
+    <span class="pre">atomic</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">hydrogen?\n</span>&#160;&#160;&#160;
+    <span class="pre">2:</span> <span class="pre">How</span> <span class="pre">many</span> <span
+            class="pre">Spice</span> <span class="pre">Girls</span> <span class="pre">are</span> <span class="pre">there?\n</span>&#160;&#160;&#160;
+    <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Example</span> <span class="pre">6:\n</span>&#160;&#160;&#160;
+    <span class="pre">\n</span>&#160;&#160;&#160; <span class="pre">Question:</span> <span
+            class="pre">{question}\n</span>&#160;&#160;&#160; <span class="pre">\n</span>&#160;&#160;&#160; <span
+            class="pre">Decompositions:&quot;\n</span>&#160;&#160;&#160; <span class="pre">')</span></em><a
+        class="headerlink" href="#RAGchain.utils.query_decompose.QueryDecomposition.decompose_prompt"
+        title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="RAGchain.utils.query_decompose.QueryDecomposition.generate">
-<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prompt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_tokens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">250</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.utils.query_decompose.QueryDecomposition.generate" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+</dd>
+</dl>
+
+</section>
+      <section id="module-RAGchain.utils.rede_search_detector">
+          <span id="ragchain-utils-rede-search-detector-module"></span>
+          <h2>RAGchain.utils.rede_search_detector module<a class="headerlink"
+                                                           href="#module-RAGchain.utils.rede_search_detector"
+                                                           title="Link to this heading"></a></h2>
+          <dl class="py class">
+              <dt class="sig sig-object py" id="RAGchain.utils.rede_search_detector.RedeSearchDetector">
+                  <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span
+                      class="pre">RAGchain.utils.rede_search_detector.</span></span><span
+                      class="sig-name descname"><span class="pre">RedeSearchDetector</span></span><span
+                      class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span
+                      class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">float</span><span class="w"> </span><span class="p"><span
+                      class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                      class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+                      class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span
+                      class="n"><span class="pre">embedding</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">Embeddings</span><span class="w"> </span><span class="p"><span
+                      class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                      class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+                      class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a
+                      class="headerlink" href="#RAGchain.utils.rede_search_detector.RedeSearchDetector"
+                      title="Link to this definition"></a></dt>
+              <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>
+              </p>
+                  <p>This class is implementation of REDE, the method for detect knowledge-seeking turn in few-shot
+                      setting.
+                      It contains train function for your custom model, and inference function for detect
+                      knowledge-seeking turn.
+                      You will need non-knowledge seeking turn dialogues. Plus, it will be great you have few
+                      knowledge-seeking turn dialogues.</p>
+                  <p>The method is implementation of below paper:</p>
+                  <dl class="simple">
+                      <dt>&#64;article{jin2021towards,</dt>
+                      <dd><p>title={Towards zero and few-shot knowledge-seeking turn detection in task-orientated
+                          dialogue systems},
+                          author={Jin, Di and Gao, Shuyang and Kim, Seokhwan and Liu, Yang and Hakkani-Tur, Dilek},
+                          journal={arXiv preprint arXiv:2109.08820},
+                          year={2021}</p>
+                      </dd>
+                  </dl>
+                  <p>}</p>
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.utils.rede_search_detector.RedeSearchDetector.detect">
+                          <span class="sig-name descname"><span class="pre">detect</span></span><span class="sig-paren">(</span><em
+                              class="sig-param"><span class="n"><span class="pre">sentences</span></span><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span>
+                          <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+                                  class="sig-return-typehint"><span class="pre">List</span><span class="p"><span
+                                  class="pre">[</span></span><span class="pre">bool</span><span class="p"><span
+                                  class="pre">]</span></span></span></span><a class="headerlink"
+                                                                              href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.detect"
+                                                                              title="Link to this definition"></a></dt>
+                      <dd>
+                          <dl class="field-list simple">
+                              <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                              <dd class="field-odd"><p><strong>sentences</strong> – Sentences to detect. List[str].</p>
+                              </dd>
+                              <dt class="field-even">Returns<span class="colon">:</span></dt>
+                              <dd class="field-even"><p>True if the sentence is knowledge-seeking turn, else False.
+                                  List[bool].</p>
+                              </dd>
+                          </dl>
+                      </dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.utils.rede_search_detector.RedeSearchDetector.evaluate">
+                          <span class="sig-name descname"><span class="pre">evaluate</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_knowledge_seeking_sentences</span></span><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                              class="n"><span class="pre">test_non_knowledge_seeking_sentences</span></span><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
+                              class="headerlink" href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.evaluate"
+                              title="Link to this definition"></a></dt>
+                      <dd><p>Evaluate rede search detector using test dataset.
+                          :param test_knowledge_seeking_sentences: knowledge-seeking turn sentences for test. List[str].
+                          :param test_non_knowledge_seeking_sentences: non-knowledge-seeking turn sentences for test.
+                          List[str].</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.utils.rede_search_detector.RedeSearchDetector.find_representation_transform">
+                          <span class="sig-name descname"><span
+                                  class="pre">find_representation_transform</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">knowledge_seeking_sentences</span></span><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                              class="n"><span class="pre">L</span></span><span class="p"><span
+                              class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">int</span><span class="w"> </span><span class="p"><span
+                              class="pre">|</span></span><span class="w"> </span><span
+                              class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                              class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+                              class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                    href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.find_representation_transform"
+                                                                                                    title="Link to this definition"></a>
+                      </dt>
+                      <dd>
+                          <dl class="field-list simple">
+                              <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                              <dd class="field-odd">
+                                  <ul class="simple">
+                                      <li><p><strong>knowledge_seeking_sentences</strong> – Knowledge-seeking turn
+                                          sentences. List[str].</p></li>
+                                      <li><p><strong>L</strong> – Number of dimensions of the transformed
+                                          representation. If None, use whole dimension.</p></li>
+                                  </ul>
+                              </dd>
+                          </dl>
+                          <p>Default is None.</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.utils.rede_search_detector.RedeSearchDetector.find_threshold">
+                          <span class="sig-name descname"><span class="pre">find_threshold</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">valid_knowledge_seeking_sentences</span></span><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                              class="n"><span class="pre">valid_non_knowledge_seeking_sentences</span></span><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
+                              class="headerlink"
+                              href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.find_threshold"
+                              title="Link to this definition"></a></dt>
+                      <dd><p>Find threshold using Youden’s index from validation data predictions.
+                          :param valid_knowledge_seeking_sentences: knowledge-seeking turn sentences for validation.
+                          List[str].
+                          You can put same sentences that you used for find_representation_transform function.
+                          :param valid_non_knowledge_seeking_sentences: non-knowledge-seeking turn sentences for
+                          validation. List[str].</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.utils.rede_search_detector.RedeSearchDetector.representation_formation">
+                          <span class="sig-name descname"><span class="pre">representation_formation</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">vectors</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span
+                              class="sig-paren">)</span> <span class="sig-return"><span
+                              class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+                              class="pre">ndarray</span></span></span><a class="headerlink"
+                                                                         href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.representation_formation"
+                                                                         title="Link to this definition"></a></dt>
+                      <dd>
+                          <dl class="field-list simple">
+                              <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                              <dd class="field-odd"><p><strong>vectors</strong> – Vectors after encoding. np.ndarray.
+                              </p>
+                              </dd>
+                              <dt class="field-even">Returns<span class="colon">:</span></dt>
+                              <dd class="field-even"><p>Transformed vectors. np.ndarray.</p>
+                              </dd>
+                          </dl>
+                      </dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.utils.rede_search_detector.RedeSearchDetector.train_density_estimation">
+                          <span class="sig-name descname"><span class="pre">train_density_estimation</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">gmm</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">GaussianMixture</span></span></em>,
+                          <em class="sig-param"><span class="n"><span class="pre">non_knowledge_seeking_sentences</span></span><span
+                                  class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                                  class="n"><span class="pre">List</span><span class="p"><span
+                                  class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                  class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
+                              class="headerlink"
+                              href="#RAGchain.utils.rede_search_detector.RedeSearchDetector.train_density_estimation"
+                              title="Link to this definition"></a></dt>
+                      <dd>
+                          <dl class="field-list simple">
+                              <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                              <dd class="field-odd">
+                                  <ul class="simple">
+                                      <li><p><strong>gmm</strong> – Gaussian Mixture Model for classify
+                                          knowledge-seeking turn. GaussianMixture. n_components must be 1.</p></li>
+                                      <li><p><strong>non_knowledge_seeking_sentences</strong> – Non-knowledge-seeking
+                                          turn sentences. List[str].</p></li>
+                                  </ul>
+                              </dd>
+                          </dl>
+                      </dd>
+                  </dl>
 
 </dd></dl>
 

@@ -159,12 +159,16 @@
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>qrels</strong> – The qrels file as a dictionary. Dict[query_id, Dict[doc_id, relevance]]</p></li>
-<li><p><strong>preds</strong> – The results file as a dictionary. Dict[query_id, Dict[doc_id, score]]</p></li>
+    <li><p><strong>qrels</strong> – The query id is key, and the value is content of retrieved passage ids.
+        Dict[query_id, List[ids]]</p></li>
+    <li><p><strong>preds</strong> – The query id is key, and the value is content of retrieved passage ids.
+        Dict[query_id, List[ids]]</p></li>
+    <li><p><strong>k_values</strong> – The k values for which the evaluation should be done. List[int]</p></li>
+    <li><p><strong>qrels_relevance</strong> – The query id is key, and the value is the rate from ground truths.
+        Dict[query_id, List[rate]]</p></li>
+    <li><p><strong>preds_relevance</strong> – The query id is key, and the value is the relevance score from
+        predictions. Dict[query_id, List[relevance score]]</p></li>
 </ul>
-</dd>
-<dt class="field-even">K_values<span class="colon">:</span></dt>
-<dd class="field-even"><p>The k values for which the evaluation should be done. List[int]</p>
 </dd>
 </dl>
 <p>results doc_id can be different from the doc_id in the qrels file.</p>

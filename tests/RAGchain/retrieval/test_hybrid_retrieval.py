@@ -61,3 +61,12 @@ def test_hybrid_retrieval(hybrid_retrieval):
 def test_hybrid_retrieval_rrf(hybrid_retrieval):
     hybrid_retrieval.method = 'rrf'
     test_hybrid_retrieval(hybrid_retrieval)
+
+
+def test_hybrid_retrieval_delete(hybrid_retrieval):
+    hybrid_retrieval.ingest(test_base_retrieval.SEARCH_TEST_PASSAGES)
+    hybrid_retrieval.delete(['test_id_4_search', 'test_id_3_search'])
+    retrieved_passages = hybrid_retrieval.retrieve(query='What is visconde structure?', top_k=4)
+    assert len(retrieved_passages) == 2
+    assert 'test_id_1_search' in [passage.id for passage in retrieved_passages]
+    assert 'test_id_2_search' in [passage.id for passage in retrieved_passages]

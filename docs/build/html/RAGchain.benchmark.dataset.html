@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>RAGchain.benchmark.dataset package &mdash; RAGchain documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css"/>
+    <link rel="canonical" href="https://nomadamas.github.io/RAGchain/RAGchain.benchmark.dataset.html"/>
+    <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <script src="_static/jquery.js?v=5d32c60e"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html"/>
+    <link rel="search" title="Search" href="search.html"/>
+</head>
+
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+        <div class="wy-side-scroll">
+            <div class="wy-side-nav-search">
+
+
+                <a href="index.html" class="icon icon-home">
+                    RAGchain
+                </a>
+                <div role="search">
+                    <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+                        <input type="text" name="q" placeholder="Search docs" aria-label="Search docs"/>
+                        <input type="hidden" name="check_keywords" value="yes"/>
+                        <input type="hidden" name="area" value="default"/>
+                    </form>
+                </div>
+            </div>
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+                <!-- Local TOC -->
+                <div class="local-toc">
+                    <ul>
+                        <li><a class="reference internal" href="#">RAGchain.benchmark.dataset package</a>
+                            <ul>
+                                <li><a class="reference internal" href="#submodules">Submodules</a></li>
+                                <li><a class="reference internal" href="#module-RAGchain.benchmark.dataset.base">RAGchain.benchmark.dataset.base
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.benchmark.dataset.base.BaseBeirEvaluator"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">BaseBeirEvaluator</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.base.BaseBeirEvaluator.evaluate"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseBeirEvaluator.evaluate()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.base.BaseBeirEvaluator.ingest"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseBeirEvaluator.ingest()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.base.BaseBeirEvaluator.make_corpus_passages"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseBeirEvaluator.make_corpus_passages()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.base.BaseBeirEvaluator.make_gt_passages_and_duplicated_id"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseBeirEvaluator.make_gt_passages_and_duplicated_id()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.base.BaseBeirEvaluator.remove_duplicate_passages"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseBeirEvaluator.remove_duplicate_passages()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"><code
+                                                class="docutils literal notranslate"><span class="pre">BaseDatasetEvaluator</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.base.BaseDatasetEvaluator.ingest"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseDatasetEvaluator.ingest()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.benchmark.dataset.base.BaseStrategyQA"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">BaseStrategyQA</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.base.BaseStrategyQA.convert_qa_to_pd"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseStrategyQA.convert_qa_to_pd()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="reference internal" href="#module-RAGchain.benchmark.dataset.beir">RAGchain.benchmark.dataset.beir
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.benchmark.dataset.beir.BeirFEVEREvaluator"><code
+                                                class="docutils literal notranslate"><span class="pre">BeirFEVEREvaluator</span></code></a>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.benchmark.dataset.beir.BeirFIQAEvaluator"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">BeirFIQAEvaluator</span></code></a></li>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.benchmark.dataset.beir.BeirHOTPOTQAEvaluator"><code
+                                                class="docutils literal notranslate"><span class="pre">BeirHOTPOTQAEvaluator</span></code></a>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.benchmark.dataset.beir.BeirQUORAEvaluator"><code
+                                                class="docutils literal notranslate"><span class="pre">BeirQUORAEvaluator</span></code></a>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.benchmark.dataset.beir.BeirSCIDOCSEvaluator"><code
+                                                class="docutils literal notranslate"><span class="pre">BeirSCIDOCSEvaluator</span></code></a>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.benchmark.dataset.beir.BeirSCIFACTEvaluator"><code
+                                                class="docutils literal notranslate"><span class="pre">BeirSCIFACTEvaluator</span></code></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="reference internal"
+                                       href="#module-RAGchain.benchmark.dataset.ko_strategy_qa">RAGchain.benchmark.dataset.ko_strategy_qa
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.benchmark.dataset.ko_strategy_qa.KoStrategyQAEvaluator"><code
+                                                class="docutils literal notranslate"><span class="pre">KoStrategyQAEvaluator</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.ko_strategy_qa.KoStrategyQAEvaluator.dataset_name"><code
+                                                        class="docutils literal notranslate"><span class="pre">KoStrategyQAEvaluator.dataset_name</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.ko_strategy_qa.KoStrategyQAEvaluator.evaluate"><code
+                                                        class="docutils literal notranslate"><span class="pre">KoStrategyQAEvaluator.evaluate()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.ko_strategy_qa.KoStrategyQAEvaluator.ingest"><code
+                                                        class="docutils literal notranslate"><span class="pre">KoStrategyQAEvaluator.ingest()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="reference internal" href="#module-RAGchain.benchmark.dataset.mr_tydi">RAGchain.benchmark.dataset.mr_tydi
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.benchmark.dataset.mr_tydi.MrTydiEvaluator"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">MrTydiEvaluator</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.mr_tydi.MrTydiEvaluator.evaluate"><code
+                                                        class="docutils literal notranslate"><span class="pre">MrTydiEvaluator.evaluate()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.mr_tydi.MrTydiEvaluator.ingest"><code
+                                                        class="docutils literal notranslate"><span class="pre">MrTydiEvaluator.ingest()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="reference internal" href="#module-RAGchain.benchmark.dataset.msmarco">RAGchain.benchmark.dataset.msmarco
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.benchmark.dataset.msmarco.MSMARCOEvaluator"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">MSMARCOEvaluator</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.msmarco.MSMARCOEvaluator.evaluate"><code
+                                                        class="docutils literal notranslate"><span class="pre">MSMARCOEvaluator.evaluate()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.msmarco.MSMARCOEvaluator.ingest"><code
+                                                        class="docutils literal notranslate"><span class="pre">MSMARCOEvaluator.ingest()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="reference internal" href="#module-RAGchain.benchmark.dataset.natural_qa">RAGchain.benchmark.dataset.natural_qa
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator"><code
+                                                class="docutils literal notranslate"><span class="pre">NaturalQAEvaluator</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator.evaluate"><code
+                                                        class="docutils literal notranslate"><span class="pre">NaturalQAEvaluator.evaluate()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator.ingest"><code
+                                                        class="docutils literal notranslate"><span class="pre">NaturalQAEvaluator.ingest()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="reference internal" href="#module-RAGchain.benchmark.dataset.qasper">RAGchain.benchmark.dataset.qasper
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.benchmark.dataset.qasper.QasperEvaluator"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">QasperEvaluator</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.qasper.QasperEvaluator.dataset_name"><code
+                                                        class="docutils literal notranslate"><span class="pre">QasperEvaluator.dataset_name</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.qasper.QasperEvaluator.evaluate"><code
+                                                        class="docutils literal notranslate"><span class="pre">QasperEvaluator.evaluate()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.qasper.QasperEvaluator.ingest"><code
+                                                        class="docutils literal notranslate"><span class="pre">QasperEvaluator.ingest()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.qasper.QasperEvaluator.preprocess"><code
+                                                        class="docutils literal notranslate"><span class="pre">QasperEvaluator.preprocess()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="reference internal" href="#module-RAGchain.benchmark.dataset.strategy_qa">RAGchain.benchmark.dataset.strategy_qa
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.benchmark.dataset.strategy_qa.StrategyQAEvaluator"><code
+                                                class="docutils literal notranslate"><span class="pre">StrategyQAEvaluator</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.strategy_qa.StrategyQAEvaluator.dataset_name"><code
+                                                        class="docutils literal notranslate"><span class="pre">StrategyQAEvaluator.dataset_name</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.strategy_qa.StrategyQAEvaluator.evaluate"><code
+                                                        class="docutils literal notranslate"><span class="pre">StrategyQAEvaluator.evaluate()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.strategy_qa.StrategyQAEvaluator.ingest"><code
+                                                        class="docutils literal notranslate"><span class="pre">StrategyQAEvaluator.ingest()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="reference internal" href="#module-RAGchain.benchmark.dataset">Module
+                                    contents</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+        <nav class="wy-nav-top" aria-label="Mobile navigation menu">
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="index.html">RAGchain</a>
+        </nav>
+
+        <div class="wy-nav-content">
+            <div class="rst-content">
+                <div role="navigation" aria-label="Page navigation">
+                    <ul class="wy-breadcrumbs">
+                        <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+                        <li class="breadcrumb-item active">RAGchain.benchmark.dataset package</li>
+                        <li class="wy-breadcrumbs-aside">
+                            <a href="_sources/RAGchain.benchmark.dataset.rst.txt" rel="nofollow"> View page source</a>
+                        </li>
+                    </ul>
+                    <hr/>
+                </div>
+                <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+                    <div itemprop="articleBody">
+
+                        <section id="ragchain-benchmark-dataset-package">
+                            <h1>RAGchain.benchmark.dataset package<a class="headerlink"
+                                                                     href="#ragchain-benchmark-dataset-package"
+                                                                     title="Link to this heading"></a></h1>
+                            <section id="submodules">
+                                <h2>Submodules<a class="headerlink" href="#submodules"
+                                                 title="Link to this heading"></a></h2>
+                            </section>
+                            <section id="module-RAGchain.benchmark.dataset.base">
+                                <span id="ragchain-benchmark-dataset-base-module"></span>
+                                <h2>RAGchain.benchmark.dataset.base module<a class="headerlink"
+                                                                             href="#module-RAGchain.benchmark.dataset.base"
+                                                                             title="Link to this heading"></a></h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="RAGchain.benchmark.dataset.base.BaseBeirEvaluator">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.dataset.base.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">BaseBeirEvaluator</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">run_pipeline</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                                            class="reference internal"
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">file_path</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">str</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">evaluate_size</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">int</span><span class="w"> </span><span class="p"><span
+                                            class="pre">|</span></span><span class="w"> </span><span
+                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">None</span></span></em>, <em
+                                            class="sig-param"><span class="n"><span
+                                            class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span
+                                            class="w"> </span><span class="n"><span class="pre">List</span><span
+                                            class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                                            class="p"><span class="pre">]</span></span><span class="w"> </span><span
+                                            class="p"><span class="pre">|</span></span><span class="w"> </span><span
+                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">None</span></span></em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#RAGchain.benchmark.dataset.base.BaseBeirEvaluator"
+                                                                         title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"
+                                                     title="RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseDatasetEvaluator</span></code></a>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.base.BaseBeirEvaluator.evaluate">
+                                                <span class="sig-name descname"><span class="pre">evaluate</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="o"><span class="pre">**</span></span><span class="n"><span
+                                                    class="pre">kwargs</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><a class="reference internal"
+                                                                                   href="RAGchain.schema.html#RAGchain.schema.evaluate_result.EvaluateResult"
+                                                                                   title="RAGchain.schema.evaluate_result.EvaluateResult"><span
+                                                    class="pre">EvaluateResult</span></a></span></span><a
+                                                    class="headerlink"
+                                                    href="#RAGchain.benchmark.dataset.base.BaseBeirEvaluator.evaluate"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>Evaluate pipeline performance on fever dataset.
+                                                This method always validate passages.</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.base.BaseBeirEvaluator.ingest">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">ingest</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">retrievals</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">List</span><span class="p"><span
+                                                    class="pre">[</span></span><a class="reference internal"
+                                                                                  href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval"
+                                                                                  title="RAGchain.retrieval.base.BaseRetrieval"><span
+                                                    class="pre">BaseRetrieval</span></a><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">db</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><a class="reference internal"
+                                                                 href="RAGchain.DB.html#RAGchain.DB.base.BaseDB"
+                                                                 title="RAGchain.DB.base.BaseDB"><span class="pre">BaseDB</span></a></span></em>,
+                                                <em class="sig-param"><span class="n"><span
+                                                        class="pre">ingest_size</span></span><span class="p"><span
+                                                        class="pre">:</span></span><span class="w"> </span><span
+                                                        class="n"><span class="pre">int</span><span
+                                                        class="w"> </span><span class="p"><span
+                                                        class="pre">|</span></span><span class="w"> </span><span
+                                                        class="pre">None</span></span><span class="w"> </span><span
+                                                        class="o"><span class="pre">=</span></span><span
+                                                        class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
+                                                <em class="sig-param"><span class="n"><span
+                                                        class="pre">random_state</span></span><span class="o"><span
+                                                        class="pre">=</span></span><span class="default_value"><span
+                                                        class="pre">None</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#RAGchain.benchmark.dataset.base.BaseBeirEvaluator.ingest"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd><p>Ingest dataset to retrievals and db.
+                                                :param retrievals: The retrievals that you want to ingest.
+                                                :param db: The db that you want to ingest.
+                                                :param ingest_size: The number of data to ingest. If None, ingest all
+                                                data.
+                                                If ingest size too big, It takes a long time.
+                                                So we shuffle corpus and slice by ingest size for test.
+                                                We put retrieval gt corpus in passages because retrieval retrieves
+                                                ground truth in db.
+                                                :param random_state: A random state to fix the shuffled corpus to
+                                                ingest.
+                                                Types are like these. int, array-like, BitGenerator,
+                                                np.random.RandomState, np.random.Generator, optional</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.base.BaseBeirEvaluator.make_corpus_passages">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">make_corpus_passages</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">row</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#RAGchain.benchmark.dataset.base.BaseBeirEvaluator.make_corpus_passages"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.base.BaseBeirEvaluator.make_gt_passages_and_duplicated_id">
+                                                <span class="sig-name descname"><span class="pre">make_gt_passages_and_duplicated_id</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">gt_ids</span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">corpus</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#RAGchain.benchmark.dataset.base.BaseBeirEvaluator.make_gt_passages_and_duplicated_id"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.base.BaseBeirEvaluator.remove_duplicate_passages">
+                                                <span class="sig-name descname"><span class="pre">remove_duplicate_passages</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">ingest_size</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span
+                                                    class="pre">int</span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">eval_size</span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">corpus</span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">random_state</span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span class="pre">id_for_remove_duplicated_corpus</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">]</span></span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#RAGchain.benchmark.dataset.base.BaseBeirEvaluator.remove_duplicate_passages"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd><p>Remove duplicated passages between corpus and retrieval gt for
+                                                ingesting passages faster.
+                                                Marking duplicated values in the corpus using retrieval_gt id.</p>
+                                            </dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="RAGchain.benchmark.dataset.base.BaseDatasetEvaluator">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.dataset.base.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">BaseDatasetEvaluator</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">run_all</span></span><span class="p"><span class="pre">:</span></span><span
+                                            class="w"> </span><span class="n"><span class="pre">bool</span></span><span
+                                            class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                            class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">metrics</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+                                                class="pre">str</span><span class="p"><span
+                                                class="pre">]</span></span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink"
+                                            href="#RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="RAGchain.benchmark.html#RAGchain.benchmark.base.BaseEvaluator"
+                                                     title="RAGchain.benchmark.base.BaseEvaluator"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseEvaluator</span></code></a>,
+                                        <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.base.BaseDatasetEvaluator.ingest">
+                                                <em class="property"><span class="pre">abstract</span><span
+                                                        class="w"> </span></em><span class="sig-name descname"><span
+                                                    class="pre">ingest</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">retrievals</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">List</span><span class="p"><span
+                                                    class="pre">[</span></span><a class="reference internal"
+                                                                                  href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval"
+                                                                                  title="RAGchain.retrieval.base.BaseRetrieval"><span
+                                                    class="pre">BaseRetrieval</span></a><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">db</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><a class="reference internal"
+                                                                 href="RAGchain.DB.html#RAGchain.DB.base.BaseDB"
+                                                                 title="RAGchain.DB.base.BaseDB"><span class="pre">BaseDB</span></a></span></em>,
+                                                <em class="sig-param"><span class="n"><span
+                                                        class="pre">ingest_size</span></span><span class="p"><span
+                                                        class="pre">:</span></span><span class="w"> </span><span
+                                                        class="n"><span class="pre">int</span><span
+                                                        class="w"> </span><span class="p"><span
+                                                        class="pre">|</span></span><span class="w"> </span><span
+                                                        class="pre">None</span></span><span class="w"> </span><span
+                                                        class="o"><span class="pre">=</span></span><span
+                                                        class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#RAGchain.benchmark.dataset.base.BaseDatasetEvaluator.ingest"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py" id="RAGchain.benchmark.dataset.base.BaseStrategyQA">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.dataset.base.</span></span><span
+                                            class="sig-name descname"><span class="pre">BaseStrategyQA</span></span><a
+                                            class="headerlink" href="#RAGchain.benchmark.dataset.base.BaseStrategyQA"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+                                            class="pre">object</span></code></p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.base.BaseStrategyQA.convert_qa_to_pd">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">convert_qa_to_pd</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">data</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#RAGchain.benchmark.dataset.base.BaseStrategyQA.convert_qa_to_pd"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-RAGchain.benchmark.dataset.beir">
+                                <span id="ragchain-benchmark-dataset-beir-module"></span>
+                                <h2>RAGchain.benchmark.dataset.beir module<a class="headerlink"
+                                                                             href="#module-RAGchain.benchmark.dataset.beir"
+                                                                             title="Link to this heading"></a></h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="RAGchain.benchmark.dataset.beir.BeirFEVEREvaluator">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.dataset.beir.</span></span><span
+                                            class="sig-name descname"><span class="pre">BeirFEVEREvaluator</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">run_pipeline</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                                            class="reference internal"
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">evaluate_size</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">int</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">metrics</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span><span class="w"> </span><span class="p"><span
+                                            class="pre">|</span></span><span class="w"> </span><span
+                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">None</span></span></em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#RAGchain.benchmark.dataset.beir.BeirFEVEREvaluator"
+                                                                         title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#RAGchain.benchmark.dataset.base.BaseBeirEvaluator"
+                                                     title="RAGchain.benchmark.dataset.base.BaseBeirEvaluator"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseBeirEvaluator</span></code></a>
+                                    </p>
+                                        <p>BeirFEVEREvaluator is a class for evaluating pipeline performance on beir
+                                            FEVER datasets.</p>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="RAGchain.benchmark.dataset.beir.BeirFIQAEvaluator">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.dataset.beir.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">BeirFIQAEvaluator</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">run_pipeline</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                                            class="reference internal"
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">evaluate_size</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">int</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">metrics</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span><span class="w"> </span><span class="p"><span
+                                            class="pre">|</span></span><span class="w"> </span><span
+                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">None</span></span></em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#RAGchain.benchmark.dataset.beir.BeirFIQAEvaluator"
+                                                                         title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#RAGchain.benchmark.dataset.base.BaseBeirEvaluator"
+                                                     title="RAGchain.benchmark.dataset.base.BaseBeirEvaluator"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseBeirEvaluator</span></code></a>
+                                    </p>
+                                        <p>BeirFIQAEvaluator is a class for evaluating pipeline performance on beir fiqa
+                                            datasets.</p>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="RAGchain.benchmark.dataset.beir.BeirHOTPOTQAEvaluator">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.dataset.beir.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">BeirHOTPOTQAEvaluator</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">run_pipeline</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                                            class="reference internal"
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">evaluate_size</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">int</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">metrics</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span><span class="w"> </span><span class="p"><span
+                                            class="pre">|</span></span><span class="w"> </span><span
+                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">None</span></span></em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#RAGchain.benchmark.dataset.beir.BeirHOTPOTQAEvaluator"
+                                                                         title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#RAGchain.benchmark.dataset.base.BaseBeirEvaluator"
+                                                     title="RAGchain.benchmark.dataset.base.BaseBeirEvaluator"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseBeirEvaluator</span></code></a>
+                                    </p>
+                                        <p>BeirHOTPOTQAEvaluator is a class for evaluating pipeline performance on beir
+                                            hotpotqa datasets.</p>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="RAGchain.benchmark.dataset.beir.BeirQUORAEvaluator">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.dataset.beir.</span></span><span
+                                            class="sig-name descname"><span class="pre">BeirQUORAEvaluator</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">run_pipeline</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                                            class="reference internal"
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">evaluate_size</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">int</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">metrics</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span><span class="w"> </span><span class="p"><span
+                                            class="pre">|</span></span><span class="w"> </span><span
+                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">None</span></span></em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#RAGchain.benchmark.dataset.beir.BeirQUORAEvaluator"
+                                                                         title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#RAGchain.benchmark.dataset.base.BaseBeirEvaluator"
+                                                     title="RAGchain.benchmark.dataset.base.BaseBeirEvaluator"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseBeirEvaluator</span></code></a>
+                                    </p>
+                                        <p>BeirQUORAEvaluator is a class for evaluating pipeline performance on beir
+                                            quora datasets.</p>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="RAGchain.benchmark.dataset.beir.BeirSCIDOCSEvaluator">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.dataset.beir.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">BeirSCIDOCSEvaluator</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">run_pipeline</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                                            class="reference internal"
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">evaluate_size</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">int</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">metrics</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span><span class="w"> </span><span class="p"><span
+                                            class="pre">|</span></span><span class="w"> </span><span
+                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">None</span></span></em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#RAGchain.benchmark.dataset.beir.BeirSCIDOCSEvaluator"
+                                                                         title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#RAGchain.benchmark.dataset.base.BaseBeirEvaluator"
+                                                     title="RAGchain.benchmark.dataset.base.BaseBeirEvaluator"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseBeirEvaluator</span></code></a>
+                                    </p>
+                                        <p>BeirSCIDOCSEvaluator is a class for evaluating pipeline performance on beir
+                                            scidocs datasets.</p>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="RAGchain.benchmark.dataset.beir.BeirSCIFACTEvaluator">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.dataset.beir.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">BeirSCIFACTEvaluator</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">run_pipeline</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                                            class="reference internal"
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">evaluate_size</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">int</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">metrics</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span><span class="w"> </span><span class="p"><span
+                                            class="pre">|</span></span><span class="w"> </span><span
+                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">None</span></span></em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#RAGchain.benchmark.dataset.beir.BeirSCIFACTEvaluator"
+                                                                         title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#RAGchain.benchmark.dataset.base.BaseBeirEvaluator"
+                                                     title="RAGchain.benchmark.dataset.base.BaseBeirEvaluator"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseBeirEvaluator</span></code></a>
+                                    </p>
+                                        <p>BeirSCIFACTEvaluator is a class for evaluating pipeline performance on beir
+                                            scifact datasets.</p>
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-RAGchain.benchmark.dataset.ko_strategy_qa">
+                                <span id="ragchain-benchmark-dataset-ko-strategy-qa-module"></span>
+                                <h2>RAGchain.benchmark.dataset.ko_strategy_qa module<a class="headerlink"
+                                                                                       href="#module-RAGchain.benchmark.dataset.ko_strategy_qa"
+                                                                                       title="Link to this heading"></a>
+                                </h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="RAGchain.benchmark.dataset.ko_strategy_qa.KoStrategyQAEvaluator">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.dataset.ko_strategy_qa.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">KoStrategyQAEvaluator</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">run_pipeline</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                                            class="reference internal"
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">evaluate_size</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">int</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">metrics</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span><span class="w"> </span><span class="p"><span
+                                            class="pre">|</span></span><span class="w"> </span><span
+                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">None</span></span></em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#RAGchain.benchmark.dataset.ko_strategy_qa.KoStrategyQAEvaluator"
+                                                                         title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"
+                                                     title="RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseDatasetEvaluator</span></code></a>,
+                                        <a class="reference internal"
+                                           href="#RAGchain.benchmark.dataset.base.BaseStrategyQA"
+                                           title="RAGchain.benchmark.dataset.base.BaseStrategyQA"><code
+                                                class="xref py py-class docutils literal notranslate"><span class="pre">BaseStrategyQA</span></code></a>
+                                    </p>
+                                        <p>Ko-StrategyQA dataset evaluator</p>
+                                        <dl class="py attribute">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.ko_strategy_qa.KoStrategyQAEvaluator.dataset_name">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">dataset_name</span></span><em class="property"><span
+                                                    class="w"> </span><span class="p"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="pre">'NomaDamas/Ko-StrategyQA'</span></em><a
+                                                    class="headerlink"
+                                                    href="#RAGchain.benchmark.dataset.ko_strategy_qa.KoStrategyQAEvaluator.dataset_name"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.ko_strategy_qa.KoStrategyQAEvaluator.evaluate">
+                                                <span class="sig-name descname"><span class="pre">evaluate</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">validate_passages</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span
+                                                    class="pre">bool</span></span><span class="w"> </span><span
+                                                    class="o"><span class="pre">=</span></span><span
+                                                    class="w"> </span><span class="default_value"><span
+                                                    class="pre">True</span></span></em><span class="sig-paren">)</span>
+                                                <span class="sig-return"><span
+                                                        class="sig-return-icon">&#x2192;</span> <span
+                                                        class="sig-return-typehint"><a class="reference internal"
+                                                                                       href="RAGchain.schema.html#RAGchain.schema.evaluate_result.EvaluateResult"
+                                                                                       title="RAGchain.schema.evaluate_result.EvaluateResult"><span
+                                                        class="pre">EvaluateResult</span></a></span></span><a
+                                                    class="headerlink"
+                                                    href="#RAGchain.benchmark.dataset.ko_strategy_qa.KoStrategyQAEvaluator.evaluate"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>Evaluate pipeline performance on Ko-StrategyQA dataset.
+                                                :return: EvaluateResult</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.ko_strategy_qa.KoStrategyQAEvaluator.ingest">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">ingest</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">retrievals</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">List</span><span class="p"><span
+                                                    class="pre">[</span></span><a class="reference internal"
+                                                                                  href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval"
+                                                                                  title="RAGchain.retrieval.base.BaseRetrieval"><span
+                                                    class="pre">BaseRetrieval</span></a><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">db</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><a class="reference internal"
+                                                                 href="RAGchain.DB.html#RAGchain.DB.base.BaseDB"
+                                                                 title="RAGchain.DB.base.BaseDB"><span class="pre">BaseDB</span></a></span></em>,
+                                                <em class="sig-param"><span class="n"><span
+                                                        class="pre">ingest_size</span></span><span class="p"><span
+                                                        class="pre">:</span></span><span class="w"> </span><span
+                                                        class="n"><span class="pre">int</span><span
+                                                        class="w"> </span><span class="p"><span
+                                                        class="pre">|</span></span><span class="w"> </span><span
+                                                        class="pre">None</span></span><span class="w"> </span><span
+                                                        class="o"><span class="pre">=</span></span><span
+                                                        class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#RAGchain.benchmark.dataset.ko_strategy_qa.KoStrategyQAEvaluator.ingest"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd><p>Ingest dataset to retrievals and db.
+                                                :param retrievals: The retrievals that you want to ingest.
+                                                :param db: The db that you want to ingest.
+                                                :param ingest_size: The number of data to ingest. If None, ingest all
+                                                data.
+                                                If you want to use context_recall and context_precision metrics, you
+                                                should ingest all data.</p>
+                                            </dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-RAGchain.benchmark.dataset.mr_tydi">
+                                <span id="ragchain-benchmark-dataset-mr-tydi-module"></span>
+                                <h2>RAGchain.benchmark.dataset.mr_tydi module<a class="headerlink"
+                                                                                href="#module-RAGchain.benchmark.dataset.mr_tydi"
+                                                                                title="Link to this heading"></a></h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="RAGchain.benchmark.dataset.mr_tydi.MrTydiEvaluator">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.dataset.mr_tydi.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">MrTydiEvaluator</span></span><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n"><span
+                                            class="pre">run_pipeline</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                                            class="reference internal"
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">evaluate_size</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">int</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">metrics</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span><span class="w"> </span><span class="p"><span
+                                            class="pre">|</span></span><span class="w"> </span><span
+                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">None</span></span></em>, <em
+                                            class="sig-param"><span class="n"><span
+                                            class="pre">language</span></span><span class="p"><span class="pre">:</span></span><span
+                                            class="w"> </span><span class="n"><span class="pre">str</span></span><span
+                                            class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                            class="w"> </span><span class="default_value"><span
+                                            class="pre">'english'</span></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink"
+                                            href="#RAGchain.benchmark.dataset.mr_tydi.MrTydiEvaluator"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"
+                                                     title="RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseDatasetEvaluator</span></code></a>
+                                    </p>
+                                        <p>MrTydiEvaluator is a class for evaluating pipeline performance on Mr.tydi
+                                            dataset.</p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.mr_tydi.MrTydiEvaluator.evaluate">
+                                                <span class="sig-name descname"><span class="pre">evaluate</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="o"><span class="pre">**</span></span><span class="n"><span
+                                                    class="pre">kwargs</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><a class="reference internal"
+                                                                                   href="RAGchain.schema.html#RAGchain.schema.evaluate_result.EvaluateResult"
+                                                                                   title="RAGchain.schema.evaluate_result.EvaluateResult"><span
+                                                    class="pre">EvaluateResult</span></a></span></span><a
+                                                    class="headerlink"
+                                                    href="#RAGchain.benchmark.dataset.mr_tydi.MrTydiEvaluator.evaluate"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>Evaluate pipeline performance on Mr. Tydi dataset.
+                                                This method always validate passages.</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.mr_tydi.MrTydiEvaluator.ingest">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">ingest</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">retrievals</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">List</span><span class="p"><span
+                                                    class="pre">[</span></span><a class="reference internal"
+                                                                                  href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval"
+                                                                                  title="RAGchain.retrieval.base.BaseRetrieval"><span
+                                                    class="pre">BaseRetrieval</span></a><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">db</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><a class="reference internal"
+                                                                 href="RAGchain.DB.html#RAGchain.DB.base.BaseDB"
+                                                                 title="RAGchain.DB.base.BaseDB"><span class="pre">BaseDB</span></a></span></em>,
+                                                <em class="sig-param"><span class="n"><span
+                                                        class="pre">ingest_size</span></span><span class="p"><span
+                                                        class="pre">:</span></span><span class="w"> </span><span
+                                                        class="n"><span class="pre">int</span><span
+                                                        class="w"> </span><span class="p"><span
+                                                        class="pre">|</span></span><span class="w"> </span><span
+                                                        class="pre">None</span></span><span class="w"> </span><span
+                                                        class="o"><span class="pre">=</span></span><span
+                                                        class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
+                                                <em class="sig-param"><span class="n"><span
+                                                        class="pre">random_state</span></span><span class="o"><span
+                                                        class="pre">=</span></span><span class="default_value"><span
+                                                        class="pre">None</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#RAGchain.benchmark.dataset.mr_tydi.MrTydiEvaluator.ingest"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd><p>Ingest dataset to retrievals and db.
+                                                :param retrievals: The retrievals that you want to ingest.
+                                                :param db: The db that you want to ingest.
+                                                :param ingest_size: The number of data to ingest. If None, ingest all
+                                                data.
+                                                If ingest size too big, It takes a long time.
+                                                So we shuffle corpus and slice by ingest size for test.
+                                                Put retrieval gt corpus in passages because retrieval retrieves ground
+                                                truth in db.
+                                                :param random_state: A random state to fix the shuffled corpus to
+                                                ingest.
+                                                Types are like these. int, array-like, BitGenerator,
+                                                np.random.RandomState, np.random.Generator, optional</p>
+                                            </dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-RAGchain.benchmark.dataset.msmarco">
+                                <span id="ragchain-benchmark-dataset-msmarco-module"></span>
+                                <h2>RAGchain.benchmark.dataset.msmarco module<a class="headerlink"
+                                                                                href="#module-RAGchain.benchmark.dataset.msmarco"
+                                                                                title="Link to this heading"></a></h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="RAGchain.benchmark.dataset.msmarco.MSMARCOEvaluator">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.dataset.msmarco.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">MSMARCOEvaluator</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">run_pipeline</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                                            class="reference internal"
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">evaluate_size</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">int</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">metrics</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span><span class="w"> </span><span class="p"><span
+                                            class="pre">|</span></span><span class="w"> </span><span
+                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">None</span></span></em>, <em
+                                            class="sig-param"><span class="n"><span
+                                            class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span
+                                            class="w"> </span><span class="n"><span class="pre">str</span></span><span
+                                            class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                            class="w"> </span><span class="default_value"><span
+                                            class="pre">'v1.1'</span></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink"
+                                            href="#RAGchain.benchmark.dataset.msmarco.MSMARCOEvaluator"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"
+                                                     title="RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseDatasetEvaluator</span></code></a>
+                                    </p>
+                                        <p>MSMARCO is a class for evaluating pipeline performance on MSMARCO
+                                            dataset.</p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.msmarco.MSMARCOEvaluator.evaluate">
+                                                <span class="sig-name descname"><span class="pre">evaluate</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="o"><span class="pre">**</span></span><span class="n"><span
+                                                    class="pre">kwargs</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><a class="reference internal"
+                                                                                   href="RAGchain.schema.html#RAGchain.schema.evaluate_result.EvaluateResult"
+                                                                                   title="RAGchain.schema.evaluate_result.EvaluateResult"><span
+                                                    class="pre">EvaluateResult</span></a></span></span><a
+                                                    class="headerlink"
+                                                    href="#RAGchain.benchmark.dataset.msmarco.MSMARCOEvaluator.evaluate"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>Evaluate metrics and return the results
+                                                :param validate_passages: If True, validate passages in retrieval_gt
+                                                already ingested.
+                                                If False, you can’t use context_recall and KF1 metrics.
+                                                We recommend to set True for robust evaluation.
+                                                :return: EvaluateResult</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.msmarco.MSMARCOEvaluator.ingest">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">ingest</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">retrievals</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">List</span><span class="p"><span
+                                                    class="pre">[</span></span><a class="reference internal"
+                                                                                  href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval"
+                                                                                  title="RAGchain.retrieval.base.BaseRetrieval"><span
+                                                    class="pre">BaseRetrieval</span></a><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">db</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><a class="reference internal"
+                                                                 href="RAGchain.DB.html#RAGchain.DB.base.BaseDB"
+                                                                 title="RAGchain.DB.base.BaseDB"><span class="pre">BaseDB</span></a></span></em>,
+                                                <em class="sig-param"><span class="n"><span
+                                                        class="pre">ingest_size</span></span><span class="p"><span
+                                                        class="pre">:</span></span><span class="w"> </span><span
+                                                        class="n"><span class="pre">int</span><span
+                                                        class="w"> </span><span class="p"><span
+                                                        class="pre">|</span></span><span class="w"> </span><span
+                                                        class="pre">None</span></span><span class="w"> </span><span
+                                                        class="o"><span class="pre">=</span></span><span
+                                                        class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#RAGchain.benchmark.dataset.msmarco.MSMARCOEvaluator.ingest"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd><p>Ingest dataset to retrievals and db.
+                                                :param retrievals: The retrievals that you want to ingest.
+                                                :param db: The db that you want to ingest.
+                                                :param ingest_size: The number of data to ingest. If None, ingest all
+                                                data.
+                                                If you want to use context_recall and context_precision metrics, you
+                                                should ingest all data.</p>
+                                            </dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-RAGchain.benchmark.dataset.natural_qa">
+                                <span id="ragchain-benchmark-dataset-natural-qa-module"></span>
+                                <h2>RAGchain.benchmark.dataset.natural_qa module<a class="headerlink"
+                                                                                   href="#module-RAGchain.benchmark.dataset.natural_qa"
+                                                                                   title="Link to this heading"></a>
+                                </h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.dataset.natural_qa.</span></span><span
+                                            class="sig-name descname"><span class="pre">NaturalQAEvaluator</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">run_pipeline</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                                            class="reference internal"
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">evaluate_size</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">int</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">metrics</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span><span class="w"> </span><span class="p"><span
+                                            class="pre">|</span></span><span class="w"> </span><span
+                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">None</span></span></em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator"
+                                                                         title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"
+                                                     title="RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseDatasetEvaluator</span></code></a>
+                                    </p>
+                                        <p>NATURALQAEvaluator is a class for evaluating pipeline performance on natural
+                                            qa dataset.</p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator.evaluate">
+                                                <span class="sig-name descname"><span class="pre">evaluate</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="o"><span class="pre">**</span></span><span class="n"><span
+                                                    class="pre">kwargs</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><a class="reference internal"
+                                                                                   href="RAGchain.schema.html#RAGchain.schema.evaluate_result.EvaluateResult"
+                                                                                   title="RAGchain.schema.evaluate_result.EvaluateResult"><span
+                                                    class="pre">EvaluateResult</span></a></span></span><a
+                                                    class="headerlink"
+                                                    href="#RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator.evaluate"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>Evaluate metrics and return the results
+                                                :param validate_passages: If True, validate passages in retrieval_gt
+                                                already ingested.
+                                                If False, you can’t use context_recall and KF1 metrics.
+                                                We recommend to set True for robust evaluation.
+                                                :return: EvaluateResult</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator.ingest">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">ingest</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">retrievals</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">List</span><span class="p"><span
+                                                    class="pre">[</span></span><a class="reference internal"
+                                                                                  href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval"
+                                                                                  title="RAGchain.retrieval.base.BaseRetrieval"><span
+                                                    class="pre">BaseRetrieval</span></a><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">db</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><a class="reference internal"
+                                                                 href="RAGchain.DB.html#RAGchain.DB.base.BaseDB"
+                                                                 title="RAGchain.DB.base.BaseDB"><span class="pre">BaseDB</span></a></span></em>,
+                                                <em class="sig-param"><span class="n"><span
+                                                        class="pre">ingest_size</span></span><span class="p"><span
+                                                        class="pre">:</span></span><span class="w"> </span><span
+                                                        class="n"><span class="pre">int</span><span
+                                                        class="w"> </span><span class="p"><span
+                                                        class="pre">|</span></span><span class="w"> </span><span
+                                                        class="pre">None</span></span><span class="w"> </span><span
+                                                        class="o"><span class="pre">=</span></span><span
+                                                        class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator.ingest"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd><p>Ingest dataset to retrievals and db.
+                                                :param retrievals: The retrievals that you want to ingest.
+                                                :param db: The db that you want to ingest.
+                                                :param ingest_size: The number of data to ingest. If None, ingest all
+                                                data.
+                                                If you want to use context_recall and context_precision metrics, you
+                                                should ingest all data.</p>
+                                            </dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-RAGchain.benchmark.dataset.qasper">
+                                <span id="ragchain-benchmark-dataset-qasper-module"></span>
+                                <h2>RAGchain.benchmark.dataset.qasper module<a class="headerlink"
+                                                                               href="#module-RAGchain.benchmark.dataset.qasper"
+                                                                               title="Link to this heading"></a></h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="RAGchain.benchmark.dataset.qasper.QasperEvaluator">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.dataset.qasper.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">QasperEvaluator</span></span><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n"><span
+                                            class="pre">run_pipeline</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                                            class="reference internal"
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">evaluate_size</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">int</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">metrics</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span><span class="w"> </span><span class="p"><span
+                                            class="pre">|</span></span><span class="w"> </span><span
+                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">None</span></span></em>, <em
+                                            class="sig-param"><span class="n"><span
+                                            class="pre">random_state</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">int</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">42</span></span></em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#RAGchain.benchmark.dataset.qasper.QasperEvaluator"
+                                                                         title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"
+                                                     title="RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseDatasetEvaluator</span></code></a>
+                                    </p>
+                                        <p>QasperEvaluator is a class for evaluating pipeline performance on Qasper
+                                            dataset.</p>
+                                        <dl class="py attribute">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.qasper.QasperEvaluator.dataset_name">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">dataset_name</span></span><em class="property"><span
+                                                    class="w"> </span><span class="p"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="pre">'NomaDamas/qasper'</span></em><a class="headerlink"
+                                                                                                 href="#RAGchain.benchmark.dataset.qasper.QasperEvaluator.dataset_name"
+                                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.qasper.QasperEvaluator.evaluate">
+                                                <span class="sig-name descname"><span class="pre">evaluate</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="o"><span class="pre">**</span></span><span class="n"><span
+                                                    class="pre">kwargs</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><a class="reference internal"
+                                                                                   href="RAGchain.schema.html#RAGchain.schema.evaluate_result.EvaluateResult"
+                                                                                   title="RAGchain.schema.evaluate_result.EvaluateResult"><span
+                                                    class="pre">EvaluateResult</span></a></span></span><a
+                                                    class="headerlink"
+                                                    href="#RAGchain.benchmark.dataset.qasper.QasperEvaluator.evaluate"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>Evaluate pipeline performance on Qasper dataset.
+                                                :return: EvaluateResult</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.qasper.QasperEvaluator.ingest">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">ingest</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">retrievals</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">List</span><span class="p"><span
+                                                    class="pre">[</span></span><a class="reference internal"
+                                                                                  href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval"
+                                                                                  title="RAGchain.retrieval.base.BaseRetrieval"><span
+                                                    class="pre">BaseRetrieval</span></a><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">db</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><a class="reference internal"
+                                                                 href="RAGchain.DB.html#RAGchain.DB.base.BaseDB"
+                                                                 title="RAGchain.DB.base.BaseDB"><span class="pre">BaseDB</span></a></span></em>,
+                                                <em class="sig-param"><span class="n"><span
+                                                        class="pre">ingest_size</span></span><span class="p"><span
+                                                        class="pre">:</span></span><span class="w"> </span><span
+                                                        class="n"><span class="pre">int</span><span
+                                                        class="w"> </span><span class="p"><span
+                                                        class="pre">|</span></span><span class="w"> </span><span
+                                                        class="pre">None</span></span><span class="w"> </span><span
+                                                        class="o"><span class="pre">=</span></span><span
+                                                        class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#RAGchain.benchmark.dataset.qasper.QasperEvaluator.ingest"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd><p>Set ingest params for evaluating pipeline.
+                                                In this method, we don’t ingest passages, because Qasper dataset is not
+                                                designed for ingest all paragraphs
+                                                and retrieve it. It only has questions that are related to certain
+                                                papers.
+                                                So, we ingest each paper’s paragraphs when we evaluate it.
+                                                :param retrievals: retrievals to ingest
+                                                :param db: db to ingest
+                                                :param ingest_size: Default is None. You don’t need to set this params.
+                                                If you set, it will ignore this param.</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.qasper.QasperEvaluator.preprocess">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">preprocess</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">data</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#RAGchain.benchmark.dataset.qasper.QasperEvaluator.preprocess"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd><p>Preprocess Qasper dataset to make it suitable for evaluating
+                                                pipeline.</p>
+                                            </dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-RAGchain.benchmark.dataset.strategy_qa">
+                                <span id="ragchain-benchmark-dataset-strategy-qa-module"></span>
+                                <h2>RAGchain.benchmark.dataset.strategy_qa module<a class="headerlink"
+                                                                                    href="#module-RAGchain.benchmark.dataset.strategy_qa"
+                                                                                    title="Link to this heading"></a>
+                                </h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="RAGchain.benchmark.dataset.strategy_qa.StrategyQAEvaluator">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.dataset.strategy_qa.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">StrategyQAEvaluator</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">run_pipeline</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                                            class="reference internal"
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">evaluate_size</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">int</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">metrics</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span><span class="w"> </span><span class="p"><span
+                                            class="pre">|</span></span><span class="w"> </span><span
+                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">None</span></span></em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#RAGchain.benchmark.dataset.strategy_qa.StrategyQAEvaluator"
+                                                                         title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"
+                                                     title="RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseDatasetEvaluator</span></code></a>,
+                                        <a class="reference internal"
+                                           href="#RAGchain.benchmark.dataset.base.BaseStrategyQA"
+                                           title="RAGchain.benchmark.dataset.base.BaseStrategyQA"><code
+                                                class="xref py py-class docutils literal notranslate"><span class="pre">BaseStrategyQA</span></code></a>
+                                    </p>
+                                        <p>StrategyQAEvaluator is a class for evaluating pipeline performance on
+                                            StrategyQA dataset.</p>
+                                        <dl class="py attribute">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.strategy_qa.StrategyQAEvaluator.dataset_name">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">dataset_name</span></span><em class="property"><span
+                                                    class="w"> </span><span class="p"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="pre">'voidful/StrategyQA'</span></em><a class="headerlink"
+                                                                                                   href="#RAGchain.benchmark.dataset.strategy_qa.StrategyQAEvaluator.dataset_name"
+                                                                                                   title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.strategy_qa.StrategyQAEvaluator.evaluate">
+                                                <span class="sig-name descname"><span class="pre">evaluate</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">validate_passages</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span
+                                                    class="pre">bool</span></span><span class="w"> </span><span
+                                                    class="o"><span class="pre">=</span></span><span
+                                                    class="w"> </span><span class="default_value"><span
+                                                    class="pre">True</span></span></em>, <em class="sig-param"><span
+                                                    class="o"><span class="pre">**</span></span><span class="n"><span
+                                                    class="pre">kwargs</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><a class="reference internal"
+                                                                                   href="RAGchain.schema.html#RAGchain.schema.evaluate_result.EvaluateResult"
+                                                                                   title="RAGchain.schema.evaluate_result.EvaluateResult"><span
+                                                    class="pre">EvaluateResult</span></a></span></span><a
+                                                    class="headerlink"
+                                                    href="#RAGchain.benchmark.dataset.strategy_qa.StrategyQAEvaluator.evaluate"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>Evaluate metrics and return the results
+                                                :param validate_passages: If True, validate passages in retrieval_gt
+                                                already ingested.
+                                                If False, you can’t use context_recall and KF1 metrics.
+                                                We recommend to set True for robust evaluation.
+                                                :return: EvaluateResult</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.strategy_qa.StrategyQAEvaluator.ingest">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">ingest</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">retrievals</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">List</span><span class="p"><span
+                                                    class="pre">[</span></span><a class="reference internal"
+                                                                                  href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval"
+                                                                                  title="RAGchain.retrieval.base.BaseRetrieval"><span
+                                                    class="pre">BaseRetrieval</span></a><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">db</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><a class="reference internal"
+                                                                 href="RAGchain.DB.html#RAGchain.DB.base.BaseDB"
+                                                                 title="RAGchain.DB.base.BaseDB"><span class="pre">BaseDB</span></a></span></em>,
+                                                <em class="sig-param"><span class="n"><span
+                                                        class="pre">ingest_size</span></span><span class="p"><span
+                                                        class="pre">:</span></span><span class="w"> </span><span
+                                                        class="n"><span class="pre">int</span><span
+                                                        class="w"> </span><span class="p"><span
+                                                        class="pre">|</span></span><span class="w"> </span><span
+                                                        class="pre">None</span></span><span class="w"> </span><span
+                                                        class="o"><span class="pre">=</span></span><span
+                                                        class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#RAGchain.benchmark.dataset.strategy_qa.StrategyQAEvaluator.ingest"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd><p>Ingest dataset to retrievals and db.
+                                                :param retrievals: The retrievals that you want to ingest.
+                                                :param db: The db that you want to ingest.
+                                                :param ingest_size: The number of data to ingest. If None, ingest all
+                                                data.
+                                                If you want to use context_recall and context_precision metrics, you
+                                                should ingest all data.</p>
+                                            </dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-RAGchain.benchmark.dataset">
+                                <span id="module-contents"></span>
+                                <h2>Module contents<a class="headerlink" href="#module-RAGchain.benchmark.dataset"
+                                                      title="Link to this heading"></a></h2>
+                            </section>
+                        </section>
+
+
+                    </div>
+                </div>
+                <footer>
+
+                    <hr/>
+
+                    <div role="contentinfo">
+                        <p>&#169; Copyright 2023, NomaDamas.</p>
+                    </div>
+
+                    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+                    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+                    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+                </footer>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    jQuery(function () {
+        SphinxRtdTheme.Navigation.enable(true);
+    });
+</script>
+
+</body>
+</html>

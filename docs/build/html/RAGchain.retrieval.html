@@ -48,6 +48,8 @@
 <li><a class="reference internal" href="#module-RAGchain.retrieval.base">RAGchain.retrieval.base module</a><ul>
 <li><a class="reference internal" href="#RAGchain.retrieval.base.BaseRetrieval"><code class="docutils literal notranslate"><span class="pre">BaseRetrieval</span></code></a><ul>
 <li><a class="reference internal" href="#RAGchain.retrieval.base.BaseRetrieval.create_db"><code class="docutils literal notranslate"><span class="pre">BaseRetrieval.create_db()</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.retrieval.base.BaseRetrieval.delete"><code
+            class="docutils literal notranslate"><span class="pre">BaseRetrieval.delete()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.retrieval.base.BaseRetrieval.duplicate_check"><code class="docutils literal notranslate"><span class="pre">BaseRetrieval.duplicate_check()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.retrieval.base.BaseRetrieval.fetch_data"><code class="docutils literal notranslate"><span class="pre">BaseRetrieval.fetch_data()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.retrieval.base.BaseRetrieval.fetch_data_from_db_origin"><code class="docutils literal notranslate"><span class="pre">BaseRetrieval.fetch_data_from_db_origin()</span></code></a></li>
@@ -67,6 +69,8 @@
 </li>
 <li><a class="reference internal" href="#module-RAGchain.retrieval.bm25_retrieval">RAGchain.retrieval.bm25_retrieval module</a><ul>
 <li><a class="reference internal" href="#RAGchain.retrieval.bm25_retrieval.BM25Retrieval"><code class="docutils literal notranslate"><span class="pre">BM25Retrieval</span></code></a><ul>
+    <li><a class="reference internal" href="#RAGchain.retrieval.bm25_retrieval.BM25Retrieval.delete"><code
+            class="docutils literal notranslate"><span class="pre">BM25Retrieval.delete()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.retrieval.bm25_retrieval.BM25Retrieval.ingest"><code class="docutils literal notranslate"><span class="pre">BM25Retrieval.ingest()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.retrieval.bm25_retrieval.BM25Retrieval.load_data"><code class="docutils literal notranslate"><span class="pre">BM25Retrieval.load_data()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.retrieval.bm25_retrieval.BM25Retrieval.persist"><code class="docutils literal notranslate"><span class="pre">BM25Retrieval.persist()</span></code></a></li>
@@ -79,6 +83,8 @@
 </li>
 <li><a class="reference internal" href="#module-RAGchain.retrieval.hybrid">RAGchain.retrieval.hybrid module</a><ul>
 <li><a class="reference internal" href="#RAGchain.retrieval.hybrid.HybridRetrieval"><code class="docutils literal notranslate"><span class="pre">HybridRetrieval</span></code></a><ul>
+    <li><a class="reference internal" href="#RAGchain.retrieval.hybrid.HybridRetrieval.delete"><code
+            class="docutils literal notranslate"><span class="pre">HybridRetrieval.delete()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.retrieval.hybrid.HybridRetrieval.ingest"><code class="docutils literal notranslate"><span class="pre">HybridRetrieval.ingest()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.retrieval.hybrid.HybridRetrieval.min_max_normalization"><code class="docutils literal notranslate"><span class="pre">HybridRetrieval.min_max_normalization()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.retrieval.hybrid.HybridRetrieval.retrieve"><code class="docutils literal notranslate"><span class="pre">HybridRetrieval.retrieve()</span></code></a></li>
@@ -92,8 +98,9 @@
 <li><a class="reference internal" href="#module-RAGchain.retrieval.hyde">RAGchain.retrieval.hyde module</a><ul>
 <li><a class="reference internal" href="#RAGchain.retrieval.hyde.HyDERetrieval"><code class="docutils literal notranslate"><span class="pre">HyDERetrieval</span></code></a><ul>
 <li><a class="reference internal" href="#RAGchain.retrieval.hyde.HyDERetrieval.BASIC_SYSTEM_PROMPT"><code class="docutils literal notranslate"><span class="pre">HyDERetrieval.BASIC_SYSTEM_PROMPT</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.retrieval.hyde.HyDERetrieval.delete"><code
+            class="docutils literal notranslate"><span class="pre">HyDERetrieval.delete()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.retrieval.hyde.HyDERetrieval.ingest"><code class="docutils literal notranslate"><span class="pre">HyDERetrieval.ingest()</span></code></a></li>
-<li><a class="reference internal" href="#RAGchain.retrieval.hyde.HyDERetrieval.make_prompt"><code class="docutils literal notranslate"><span class="pre">HyDERetrieval.make_prompt()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.retrieval.hyde.HyDERetrieval.retrieve"><code class="docutils literal notranslate"><span class="pre">HyDERetrieval.retrieve()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.retrieval.hyde.HyDERetrieval.retrieve_id"><code class="docutils literal notranslate"><span class="pre">HyDERetrieval.retrieve_id()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.retrieval.hyde.HyDERetrieval.retrieve_id_with_scores"><code class="docutils literal notranslate"><span class="pre">HyDERetrieval.retrieve_id_with_scores()</span></code></a></li>
@@ -103,6 +110,8 @@
 </li>
 <li><a class="reference internal" href="#module-RAGchain.retrieval.vectordb_retrieval">RAGchain.retrieval.vectordb_retrieval module</a><ul>
 <li><a class="reference internal" href="#RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval"><code class="docutils literal notranslate"><span class="pre">VectorDBRetrieval</span></code></a><ul>
+    <li><a class="reference internal" href="#RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval.delete"><code
+            class="docutils literal notranslate"><span class="pre">VectorDBRetrieval.delete()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval.ingest"><code class="docutils literal notranslate"><span class="pre">VectorDBRetrieval.ingest()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval.retrieve"><code class="docutils literal notranslate"><span class="pre">VectorDBRetrieval.retrieve()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval.retrieve_id"><code class="docutils literal notranslate"><span class="pre">VectorDBRetrieval.retrieve_id()</span></code></a></li>
@@ -159,6 +168,21 @@
 selector-ModuleSelector cant import because of circular import.</p>
 </dd></dl>
 
+    <dl class="py method">
+        <dt class="sig sig-object py" id="RAGchain.retrieval.base.BaseRetrieval.delete">
+            <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span
+                class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em
+                class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span
+                class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
+                class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
+                class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span
+                class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
+                class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.delete" title="Link to this definition"></a>
+        </dt>
+        <dd><p>delete passages from vector representation of passages by ids.</p>
+        </dd>
+    </dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.base.BaseRetrieval.duplicate_check">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">duplicate_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_origin_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.duplicate_check" title="Link to this definition"></a></dt>
@@ -176,19 +200,66 @@ db_origin = {“db_type”: “mongo_db”,</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.base.BaseRetrieval.fetch_data">
-<span class="sig-name descname"><span class="pre">fetch_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.fetch_data" title="Link to this definition"></a></dt>
+    <span class="sig-name descname"><span class="pre">fetch_data</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+        class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
+        class="p"><span class="pre">[</span></span><a class="reference internal"
+                                                      href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                                      title="RAGchain.schema.passage.Passage"><span
+        class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a
+        class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.fetch_data"
+        title="Link to this definition"></a></dt>
 <dd><p>fetch passages from each db. This can fetch data from multiple db.
 :param ids: list of passage ids</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.base.BaseRetrieval.fetch_data_from_db_origin">
-<span class="sig-name descname"><span class="pre">fetch_data_from_db_origin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_origin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.fetch_data_from_db_origin" title="Link to this definition"></a></dt>
+    <span class="sig-name descname"><span class="pre">fetch_data_from_db_origin</span></span><span
+        class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span
+        class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
+        class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">db_origin</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span
+        class="n"><span class="pre">target_ids</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span
+        class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+        class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a
+        class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+        title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span
+        class="pre">]</span></span></span></span><a class="headerlink"
+                                                    href="#RAGchain.retrieval.base.BaseRetrieval.fetch_data_from_db_origin"
+                                                    title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.base.BaseRetrieval.fetch_each_db">
-<span class="sig-name descname"><span class="pre">fetch_each_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">final_db_origin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.fetch_each_db" title="Link to this definition"></a></dt>
+    <span class="sig-name descname"><span class="pre">fetch_each_db</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">final_db_origin</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span
+        class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">,</span></span><span
+        class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span
+        class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+        class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+        class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
+        class="p"><span class="pre">[</span></span><a class="reference internal"
+                                                      href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                                      title="RAGchain.schema.passage.Passage"><span
+        class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a
+        class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.fetch_each_db"
+        title="Link to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>check_dict = {((“db_type”: “mongo_db”),</dt><dd><p>((‘mongo_url’: “~”), (‘db_name’: “~”), (‘collection_name’: “~”))): [0,  2], …}</p>
 </dd>
@@ -214,13 +285,48 @@ db_origin = {“db_type”: “mongo_db”,</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.base.BaseRetrieval.retrieve_id">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">retrieve_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.retrieve_id" title="Link to this definition"></a></dt>
+    <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span
+        class="sig-name descname"><span class="pre">retrieve_id</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em
+        class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em
+        class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
+        class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
+        class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="pre">]</span></span></span></span><a class="headerlink"
+                                                    href="#RAGchain.retrieval.base.BaseRetrieval.retrieve_id"
+                                                    title="Link to this definition"></a></dt>
 <dd><p>retrieve passage ids at ingested vector representation of passages.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.base.BaseRetrieval.retrieve_id_with_scores">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">retrieve_id_with_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.retrieve_id_with_scores" title="Link to this definition"></a></dt>
+    <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span
+        class="sig-name descname"><span class="pre">retrieve_id_with_scores</span></span><span
+        class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span
+        class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>,
+    <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span
+            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span
+            class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+            class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em
+        class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
+        class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span
+        class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span
+        class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span
+        class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span
+        class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a
+        class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.retrieve_id_with_scores"
+        title="Link to this definition"></a></dt>
 <dd><p>retrieve passage ids and similarity scores at ingested vector representation of passages.</p>
 </dd></dl>
 
@@ -240,7 +346,32 @@ db_origin = {“db_type”: “mongo_db”,</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.base.BaseRetrieval.search_data">
-<span class="sig-name descname"><span class="pre">search_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.search_data" title="Link to this definition"></a></dt>
+    <span class="sig-name descname"><span class="pre">search_data</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+        class="w"> </span><span class="pre">UUID</span><span class="p"><span class="pre">]</span></span></span></em>,
+    <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span
+            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
+            class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+            class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+            class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span
+            class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
+    <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span
+            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
+            class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+            class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+            class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span
+            class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
+    <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
+            class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
+        class="p"><span class="pre">[</span></span><a class="reference internal"
+                                                      href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                                      title="RAGchain.schema.passage.Passage"><span
+        class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a
+        class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.search_data"
+        title="Link to this definition"></a></dt>
 <dd><p>search passages from each db with given filters. This can search data from multiple db.
 :param ids: list of passage ids
 :param content: content list to filter
@@ -250,12 +381,69 @@ db_origin = {“db_type”: “mongo_db”,</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.base.BaseRetrieval.search_data_from_db_origin">
-<span class="sig-name descname"><span class="pre">search_data_from_db_origin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_origin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.search_data_from_db_origin" title="Link to this definition"></a></dt>
+    <span class="sig-name descname"><span class="pre">search_data_from_db_origin</span></span><span
+        class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span
+        class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
+        class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">db_origin</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span
+        class="n"><span class="pre">target_ids</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span
+        class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+        class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span
+        class="sig-paren">)</span><a class="headerlink"
+                                     href="#RAGchain.retrieval.base.BaseRetrieval.search_data_from_db_origin"
+                                     title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.base.BaseRetrieval.search_each_db">
-<span class="sig-name descname"><span class="pre">search_each_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">final_db_origin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.search_each_db" title="Link to this definition"></a></dt>
+    <span class="sig-name descname"><span class="pre">search_each_db</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">final_db_origin</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span
+        class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">,</span></span><span
+        class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span
+        class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+        class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+        class="w"> </span><span class="pre">UUID</span><span class="p"><span class="pre">]</span></span></span></em>,
+    <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span
+            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
+            class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+            class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+            class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span
+            class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
+    <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span
+            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
+            class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+            class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+            class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span
+            class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
+    <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
+            class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
+        class="p"><span class="pre">[</span></span><a class="reference internal"
+                                                      href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                                      title="RAGchain.schema.passage.Passage"><span
+        class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a
+        class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.search_each_db" title="Link to this definition"></a>
+</dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -272,9 +460,23 @@ Default data structure looks like this:
 {</p>
 <blockquote>
 <div><p>“tokens” : [], # 2d list of tokens
-“passage_id” : [], # 2d list of passage_id. Type must be UUID.</p>
+    “passage_id” : [], # 2d list of passage_id. Type must be UUID or string.</p>
 </div></blockquote>
 <p>}</p>
+    <dl class="py method">
+        <dt class="sig sig-object py" id="RAGchain.retrieval.bm25_retrieval.BM25Retrieval.delete">
+            <span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em
+                class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span
+                class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
+                class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
+                class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span
+                class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
+                class="headerlink" href="#RAGchain.retrieval.bm25_retrieval.BM25Retrieval.delete"
+                title="Link to this definition"></a></dt>
+        <dd><p>delete passages from vector representation of passages by ids.</p>
+        </dd>
+    </dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.bm25_retrieval.BM25Retrieval.ingest">
 <span class="sig-name descname"><span class="pre">ingest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">passages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.retrieval.bm25_retrieval.BM25Retrieval.ingest" title="Link to this definition"></a></dt>
@@ -300,13 +502,46 @@ Default data structure looks like this:
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.bm25_retrieval.BM25Retrieval.retrieve_id">
-<span class="sig-name descname"><span class="pre">retrieve_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.retrieval.bm25_retrieval.BM25Retrieval.retrieve_id" title="Link to this definition"></a></dt>
+    <span class="sig-name descname"><span class="pre">retrieve_id</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em
+        class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em
+        class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
+        class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
+        class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="pre">]</span></span></span></span><a class="headerlink"
+                                                    href="#RAGchain.retrieval.bm25_retrieval.BM25Retrieval.retrieve_id"
+                                                    title="Link to this definition"></a></dt>
 <dd><p>retrieve passage ids at ingested vector representation of passages.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.bm25_retrieval.BM25Retrieval.retrieve_id_with_scores">
-<span class="sig-name descname"><span class="pre">retrieve_id_with_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.retrieval.bm25_retrieval.BM25Retrieval.retrieve_id_with_scores" title="Link to this definition"></a></dt>
+    <span class="sig-name descname"><span class="pre">retrieve_id_with_scores</span></span><span
+        class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span
+        class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>,
+    <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span
+            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span
+            class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+            class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em
+        class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
+        class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span
+        class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span
+        class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span
+        class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span
+        class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a
+        class="headerlink" href="#RAGchain.retrieval.bm25_retrieval.BM25Retrieval.retrieve_id_with_scores"
+        title="Link to this definition"></a></dt>
 <dd><p>retrieve passage ids and similarity scores at ingested vector representation of passages.</p>
 </dd></dl>
 
@@ -321,6 +556,20 @@ Default data structure looks like this:
 <dd><p>Bases: <a class="reference internal" href="#RAGchain.retrieval.base.BaseRetrieval" title="RAGchain.retrieval.base.BaseRetrieval"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrieval</span></code></a></p>
 <p>Hybrid Retrieval class for retrieve passages from multiple retrievals.
 You can combine retrieval scores with rrf algorithm or convex combination algorithm.</p>
+    <dl class="py method">
+        <dt class="sig sig-object py" id="RAGchain.retrieval.hybrid.HybridRetrieval.delete">
+            <span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em
+                class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span
+                class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
+                class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
+                class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span
+                class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
+                class="headerlink" href="#RAGchain.retrieval.hybrid.HybridRetrieval.delete"
+                title="Link to this definition"></a></dt>
+        <dd><p>delete passages from vector representation of passages by ids.</p>
+        </dd>
+    </dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.hybrid.HybridRetrieval.ingest">
 <span class="sig-name descname"><span class="pre">ingest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">passages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.retrieval.hybrid.HybridRetrieval.ingest" title="Link to this definition"></a></dt>
@@ -340,13 +589,46 @@ You can combine retrieval scores with rrf algorithm or convex combination algori
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.hybrid.HybridRetrieval.retrieve_id">
-<span class="sig-name descname"><span class="pre">retrieve_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.retrieval.hybrid.HybridRetrieval.retrieve_id" title="Link to this definition"></a></dt>
+    <span class="sig-name descname"><span class="pre">retrieve_id</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em
+        class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em
+        class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
+        class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
+        class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="pre">]</span></span></span></span><a class="headerlink"
+                                                    href="#RAGchain.retrieval.hybrid.HybridRetrieval.retrieve_id"
+                                                    title="Link to this definition"></a></dt>
 <dd><p>retrieve passage ids at ingested vector representation of passages.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.hybrid.HybridRetrieval.retrieve_id_with_scores">
-<span class="sig-name descname"><span class="pre">retrieve_id_with_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.retrieval.hybrid.HybridRetrieval.retrieve_id_with_scores" title="Link to this definition"></a></dt>
+    <span class="sig-name descname"><span class="pre">retrieve_id_with_scores</span></span><span
+        class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span
+        class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>,
+    <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span
+            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span
+            class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+            class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em
+        class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
+        class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span
+        class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span
+        class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span
+        class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span
+        class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a
+        class="headerlink" href="#RAGchain.retrieval.hybrid.HybridRetrieval.retrieve_id_with_scores"
+        title="Link to this definition"></a></dt>
 <dd><p>retrieve passage ids and similarity scores at ingested vector representation of passages.</p>
 </dd></dl>
 
@@ -362,7 +644,27 @@ You can combine retrieval scores with rrf algorithm or convex combination algori
 <span id="ragchain-retrieval-hyde-module"></span><h2>RAGchain.retrieval.hyde module<a class="headerlink" href="#module-RAGchain.retrieval.hyde" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="RAGchain.retrieval.hyde.HyDERetrieval">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.retrieval.hyde.</span></span><span class="sig-name descname"><span class="pre">HyDERetrieval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">retrieval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#RAGchain.retrieval.base.BaseRetrieval" title="RAGchain.retrieval.base.BaseRetrieval"><span class="pre">BaseRetrieval</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">system_prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'gpt-3.5-turbo'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_base</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.retrieval.hyde.HyDERetrieval" title="Link to this definition"></a></dt>
+    <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+        class="sig-prename descclassname"><span class="pre">RAGchain.retrieval.hyde.</span></span><span
+        class="sig-name descname"><span class="pre">HyDERetrieval</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">retrieval</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal"
+                                                                              href="#RAGchain.retrieval.base.BaseRetrieval"
+                                                                              title="RAGchain.retrieval.base.BaseRetrieval"><span
+        class="pre">BaseRetrieval</span></a></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+        class="n"><span class="pre">BaseLanguageModel</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">system_prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+        class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em
+        class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
+        class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                href="#RAGchain.retrieval.hyde.HyDERetrieval"
+                                                                                title="Link to this definition"></a>
+</dt>
 <dd><p>Bases: <a class="reference internal" href="#RAGchain.retrieval.base.BaseRetrieval" title="RAGchain.retrieval.base.BaseRetrieval"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseRetrieval</span></code></a></p>
 <p>HyDE Retrieval, which inspired by “Precise Zero-shot Dense Retrieval without Relevance Labels” (<a class="reference external" href="https://arxiv.org/pdf/2212.10496.pdf">https://arxiv.org/pdf/2212.10496.pdf</a>)
 At retrieval, LLM model creates hypothetical passage.
@@ -372,6 +674,20 @@ And then, retrieve passages using hypothetical passage as query.</p>
 <span class="sig-name descname"><span class="pre">BASIC_SYSTEM_PROMPT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Please</span> <span class="pre">write</span> <span class="pre">a</span> <span class="pre">passage</span> <span class="pre">to</span> <span class="pre">answer</span> <span class="pre">the</span> <span class="pre">question'</span></em><a class="headerlink" href="#RAGchain.retrieval.hyde.HyDERetrieval.BASIC_SYSTEM_PROMPT" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
+    <dl class="py method">
+        <dt class="sig sig-object py" id="RAGchain.retrieval.hyde.HyDERetrieval.delete">
+            <span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em
+                class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span
+                class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
+                class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
+                class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span
+                class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
+                class="headerlink" href="#RAGchain.retrieval.hyde.HyDERetrieval.delete" title="Link to this definition"></a>
+        </dt>
+        <dd><p>delete passages from vector representation of passages by ids.</p>
+        </dd>
+    </dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.hyde.HyDERetrieval.ingest">
 <span class="sig-name descname"><span class="pre">ingest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">passages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.retrieval.hyde.HyDERetrieval.ingest" title="Link to this definition"></a></dt>
@@ -379,25 +695,69 @@ And then, retrieve passages using hypothetical passage as query.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="RAGchain.retrieval.hyde.HyDERetrieval.make_prompt">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_prompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.retrieval.hyde.HyDERetrieval.make_prompt" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.hyde.HyDERetrieval.retrieve">
-<span class="sig-name descname"><span class="pre">retrieve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.retrieval.hyde.HyDERetrieval.retrieve" title="Link to this definition"></a></dt>
+    <span class="sig-name descname"><span class="pre">retrieve</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em
+        class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em
+        class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
+        class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
+        class="p"><span class="pre">[</span></span><a class="reference internal"
+                                                      href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                                      title="RAGchain.schema.passage.Passage"><span
+        class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a
+        class="headerlink" href="#RAGchain.retrieval.hyde.HyDERetrieval.retrieve" title="Link to this definition"></a>
+</dt>
 <dd><p>retrieve passages at ingested vector representation of passages.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.hyde.HyDERetrieval.retrieve_id">
-<span class="sig-name descname"><span class="pre">retrieve_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.retrieval.hyde.HyDERetrieval.retrieve_id" title="Link to this definition"></a></dt>
+    <span class="sig-name descname"><span class="pre">retrieve_id</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em
+        class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em
+        class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
+        class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
+        class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="pre">]</span></span></span></span><a class="headerlink"
+                                                    href="#RAGchain.retrieval.hyde.HyDERetrieval.retrieve_id"
+                                                    title="Link to this definition"></a></dt>
 <dd><p>retrieve passage ids at ingested vector representation of passages.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.hyde.HyDERetrieval.retrieve_id_with_scores">
-<span class="sig-name descname"><span class="pre">retrieve_id_with_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.retrieval.hyde.HyDERetrieval.retrieve_id_with_scores" title="Link to this definition"></a></dt>
+    <span class="sig-name descname"><span class="pre">retrieve_id_with_scores</span></span><span
+        class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span
+        class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>,
+    <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span
+            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span
+            class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+            class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em
+        class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
+        class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span
+        class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span
+        class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span
+        class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span
+        class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a
+        class="headerlink" href="#RAGchain.retrieval.hyde.HyDERetrieval.retrieve_id_with_scores"
+        title="Link to this definition"></a></dt>
 <dd><p>retrieve passage ids and similarity scores at ingested vector representation of passages.</p>
 </dd></dl>
 
@@ -415,6 +775,20 @@ First, embed the passage content using embedding model.
 Then, store the embedded vector in VectorDB.
 When retrieving, embed the query and search the most similar vectors in VectorDB.
 Lastly, return the passages that have the most similar vectors.</p>
+    <dl class="py method">
+        <dt class="sig sig-object py" id="RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval.delete">
+            <span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em
+                class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span
+                class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
+                class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
+                class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span
+                class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
+                class="headerlink" href="#RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval.delete"
+                title="Link to this definition"></a></dt>
+        <dd><p>delete passages from vector representation of passages by ids.</p>
+        </dd>
+    </dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval.ingest">
 <span class="sig-name descname"><span class="pre">ingest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">passages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval.ingest" title="Link to this definition"></a></dt>
@@ -429,13 +803,46 @@ Lastly, return the passages that have the most similar vectors.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval.retrieve_id">
-<span class="sig-name descname"><span class="pre">retrieve_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval.retrieve_id" title="Link to this definition"></a></dt>
+    <span class="sig-name descname"><span class="pre">retrieve_id</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em
+        class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em
+        class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
+        class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
+        class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="pre">]</span></span></span></span><a class="headerlink"
+                                                    href="#RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval.retrieve_id"
+                                                    title="Link to this definition"></a></dt>
 <dd><p>retrieve passage ids at ingested vector representation of passages.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval.retrieve_id_with_scores">
-<span class="sig-name descname"><span class="pre">retrieve_id_with_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval.retrieve_id_with_scores" title="Link to this definition"></a></dt>
+    <span class="sig-name descname"><span class="pre">retrieve_id_with_scores</span></span><span
+        class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span
+        class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>,
+    <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span
+            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span
+            class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+            class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em
+        class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
+        class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span
+        class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span
+        class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">UUID</span><span class="p"><span
+        class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span
+        class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span
+        class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a
+        class="headerlink" href="#RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval.retrieve_id_with_scores"
+        title="Link to this definition"></a></dt>
 <dd><p>retrieve passage ids and similarity scores at ingested vector representation of passages.</p>
 </dd></dl>
 

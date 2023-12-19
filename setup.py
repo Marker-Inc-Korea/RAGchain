@@ -3,10 +3,15 @@ from os.path import basename, splitext
 
 from setuptools import find_packages, setup
 
+with open('README.md', encoding='utf-8') as f:
+    long_description = f.read()
+
 setup(
     name='RAGchain',
-    version='0.1.1',
+    version='0.2.1',
     description='Build advanced RAG workflows with LLM, compatible with Langchain',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     author='NomaDamas',
     author_email='vkehfdl1@gmail.com',
     keywords=['RAG', 'RAGchain', 'ragchain', 'LLM', 'Langchain', 'DQA', 'GPT', 'ODQA'],
@@ -17,8 +22,8 @@ setup(
     license='Apache License 2.0',
     py_modules=[splitext(basename(path))[0] for path in glob('./*.py')],
     install_requires=[
-        'langchain==0.0.309',
-        'chromadb==0.4.5',
+        'langchain~=0.0.339',
+        'chromadb>=0.4.16',
         'urllib3',
         'pdfminer.six',
         'click',
@@ -42,7 +47,13 @@ setup(
         'transformers',
         'torch',
         'pyarrow',
-        'fastparquet'
+        'fastparquet',
+        'ragas',
+        'datasets',
+        'lxml',
+        'tiktoken',
+        'sacrebleu',
+        'scikit-learn',
     ],
     classifiers=[
         "Intended Audience :: Developers",

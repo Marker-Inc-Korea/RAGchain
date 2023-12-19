@@ -2,7 +2,7 @@ from typing import List, Union
 from uuid import UUID
 
 from langchain.schema import Document
-from langchain.vectorstores import VectorStore
+from langchain.schema.vectorstore import VectorStore
 
 from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import Passage
@@ -48,6 +48,9 @@ class VectorDBRetrieval(BaseRetrieval):
         docs = [result[0] for result in results]
         scores = [result[1] for result in results]
         return [self.__str_to_uuid(doc.metadata.get('passage_id')) for doc in docs], scores
+
+    def delete(self, ids: List[Union[str, UUID]]):
+        self.vectordb.delete([str(_id) for _id in ids])
 
     @staticmethod
     def __str_to_uuid(input_str: str) -> Union[str, UUID]:

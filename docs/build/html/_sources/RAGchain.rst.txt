@@ -9,7 +9,6 @@ Subpackages
 
    RAGchain.DB
    RAGchain.benchmark
-   RAGchain.llm
    RAGchain.pipeline
    RAGchain.preprocess
    RAGchain.reranker

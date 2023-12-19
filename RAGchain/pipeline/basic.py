@@ -1,20 +1,21 @@
-from typing import List
+from operator import itemgetter
+from typing import List, Optional, Union
 
 from langchain.document_loaders.base import BaseLoader
+from langchain.schema import StrOutputParser
+from langchain.schema.language_model import BaseLanguageModel
+from langchain.schema.runnable import RunnableLambda, RunnablePassthrough
 
 from RAGchain.DB.base import BaseDB
-from RAGchain.llm.base import BaseLLM
-from RAGchain.llm.basic import BasicLLM
-from RAGchain.pipeline.base import BasePipeline
+from RAGchain.pipeline.base import BaseIngestPipeline, BaseRunPipeline
 from RAGchain.preprocess.text_splitter import RecursiveTextSplitter
 from RAGchain.preprocess.text_splitter.base import BaseTextSplitter
 from RAGchain.retrieval.base import BaseRetrieval
-from RAGchain.schema import Passage
+from RAGchain.schema import Passage, RAGchainPromptTemplate, RAGchainChatPromptTemplate
 from RAGchain.utils.file_cache import FileCache
-from RAGchain.utils.util import slice_stop_words
 
 
-class BasicIngestPipeline(BasePipeline):
+class BasicIngestPipeline(BaseIngestPipeline):
     """
     Basic ingest pipeline class.
     This class handles the ingestion process of documents into a database and retrieval system.
@@ -35,6 +36,7 @@ class BasicIngestPipeline(BasePipeline):
     >>> pipeline = BasicIngestPipeline(file_loader=file_loader, db=db, retrieval=retrieval)
     >>> pipeline.run()
     """
+
     def __init__(self,
                  file_loader: BaseLoader,
                  db: BaseDB,
@@ -89,31 +91,7 @@ class BasicIngestPipeline(BasePipeline):
         print("Ingest complete!")
 
 
-class BasicDatasetPipeline(BasePipeline):
-    """
-    DEPRECATED
-    This class is deprecated and recommend to use BasicIngestPipeline instead.
-    Basic dataset pipeline class.
-    You can ingest specific dataset to retrieval system.
-    """
-    def __init__(self, file_loader: BaseLoader, retrieval: BaseRetrieval):
-        self.file_loader = file_loader
-        self.retrieval = retrieval
-
-    def run(self, *args, **kwargs):
-        # File Loader
-        documents = self.file_loader.load()
-        if len(documents) <= 0:
-            return
-
-        passages = [Passage(id=document.metadata['id'], content=document.page_content,
-                            filepath='KoStrategyQA', previous_passage_id=None, next_passage_id=None) for document in
-                    documents]
-        # Ingest to retrieval
-        self.retrieval.ingest(passages)
-
-
-class BasicRunPipeline(BasePipeline):
+class BasicRunPipeline(BaseRunPipeline):
     """
     Basic run pipeline class.
     This class handles the run process of document question answering.
@@ -124,30 +102,60 @@ class BasicRunPipeline(BasePipeline):
     :example:
     >>> from RAGchain.pipeline.basic import BasicRunPipeline
     >>> from RAGchain.retrieval import BM25Retrieval
-    >>> from RAGchain.llm.basic import BasicLLM
+    >>> from langchain.llms.openai import OpenAI
 
     >>> retrieval = BM25Retrieval(save_path="./bm25.pkl")
-    >>> llm = BasicLLM(retrieval)
-    >>> pipeline = BasicRunPipeline(retrieval=retrieval, llm=llm)
-    >>> answer, passages = pipeline.run(query="Where is the capital of Korea?")
+    >>> pipeline = BasicRunPipeline(retrieval=retrieval, llm=OpenAI())
+    >>> answer, passages, rel_scores = pipeline.get_passages_and_run(questions=["Where is the capital of Korea?"])
+    >>> # Run with Langchain LCEL
+    >>> answer = pipeline.run.invoke({"question": "Where is the capital of Korea?"})
     """
-    def __init__(self,
-                 retrieval: BaseRetrieval,
-                 llm: BaseLLM = None):
-        """
-        Initialize BasicRunPipeline.
-        :param retrieval: Retrieval module to retrieve passages.
-        :param llm: LLM module to get answer. Default is BasicLLM.
-        """
-        self.retrieval = retrieval
-        self.llm = llm if llm is not None else BasicLLM(retrieval)
 
-    def run(self, query: str, *args, **kwargs) -> tuple[str, List[Passage]]:
-        """
-        Run the run pipeline.
-        :param query: Query to ask.
-        :return: Answer, retrieved passages.
-        """
-        answer, passages = self.llm.ask(query=query)
-        answer = slice_stop_words(answer, ["Question :", "question:"])
-        return answer, passages
+    def __init__(self, retrieval: BaseRetrieval, llm: BaseLanguageModel,
+                 prompt: Optional[Union[RAGchainPromptTemplate, RAGchainChatPromptTemplate]] = None,
+                 retrieval_option: Optional[dict] = None):
+        self.retrieval = retrieval
+        self.llm = llm
+        self.prompt = self._get_default_prompt(llm, prompt)
+        self.retrieval_option = retrieval_option if retrieval_option is not None else {}
+        super().__init__()
+
+    def _make_runnable(self):
+        self.run = RunnablePassthrough.assign(
+            passages=itemgetter("question") | RunnableLambda(
+                lambda question: Passage.make_prompts(self.retrieval.retrieve(question,
+                                                                              **self.retrieval_option))),
+            question=itemgetter("question"),
+        ) | self.prompt | self.llm | StrOutputParser()
+
+    def get_passages_and_run(self, questions: List[str]) -> tuple[List[str], List[List[Passage]], List[List[float]]]:
+        def passage_scores_to_dict(passages_scores):
+            return {
+                "passage_ids": passages_scores[0],
+                "scores": passages_scores[1]
+            }
+
+        passage_scores = RunnablePassthrough.assign(
+            passage_scores=itemgetter("question") | RunnableLambda(
+                lambda question: passage_scores_to_dict(self.retrieval.retrieve_id_with_scores(
+                    question, **self.retrieval_option)))
+        )
+
+        runnable = passage_scores | RunnablePassthrough.assign(
+            passages=lambda x: self.retrieval.fetch_data(x['passage_scores']['passage_ids']),
+            scores=lambda x: x['passage_scores']['scores']
+        ) | RunnablePassthrough.assign(
+            answer={
+                       "question": itemgetter("question"),
+                       "passages": itemgetter("passages") | RunnableLambda(
+                           lambda passages: Passage.make_prompts(passages)
+                       )
+                   } | self.prompt | self.llm | StrOutputParser()
+        )
+
+        answers = runnable.batch(
+            [{"question": question} for question in questions])
+
+        final_answers, final_passages, final_scores = (
+            map(list, zip(*[(answer['answer'], answer['passages'], answer['scores']) for answer in answers])))
+        return final_answers, final_passages, final_scores

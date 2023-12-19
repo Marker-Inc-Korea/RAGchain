@@ -20,6 +20,22 @@ RAGchain.pipeline.basic module
    :undoc-members:
    :show-inheritance:
 
+RAGchain.pipeline.rerank module
+-------------------------------
+
+.. automodule:: RAGchain.pipeline.rerank
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+RAGchain.pipeline.visconde module
+---------------------------------
+
+.. automodule:: RAGchain.pipeline.visconde
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

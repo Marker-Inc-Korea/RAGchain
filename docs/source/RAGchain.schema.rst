@@ -12,10 +12,26 @@ RAGchain.schema.db\_origin module
    :undoc-members:
    :show-inheritance:
 
+RAGchain.schema.evaluate\_result module
+---------------------------------------
+
+.. automodule:: RAGchain.schema.evaluate_result
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 RAGchain.schema.passage module
 ------------------------------
 
 .. automodule:: RAGchain.schema.passage
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+RAGchain.schema.prompt module
+-----------------------------
+
+.. automodule:: RAGchain.schema.prompt
    :members:
    :undoc-members:
    :show-inheritance:
