@@ -1,6 +1,6 @@
 from typing import List, Iterator
 
-from langchain.docstore.document import Document
+from langchain.schema import Document
 from langchain.document_loaders.base import BaseLoader
 
 
