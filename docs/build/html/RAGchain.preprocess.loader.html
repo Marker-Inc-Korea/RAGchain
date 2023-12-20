@@ -130,6 +130,50 @@
 </li>
 </ul>
 </li>
+    <li><a class="reference internal" href="#module-RAGchain.preprocess.loader.rust_hwp_loader">RAGchain.preprocess.loader.rust_hwp_loader
+        module</a>
+        <ul>
+            <li><a class="reference internal" href="#RAGchain.preprocess.loader.rust_hwp_loader.RustHwpLoader"><code
+                    class="docutils literal notranslate"><span class="pre">RustHwpLoader</span></code></a>
+                <ul>
+                    <li><a class="reference internal"
+                           href="#RAGchain.preprocess.loader.rust_hwp_loader.RustHwpLoader.lazy_load"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RustHwpLoader.lazy_load()</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.preprocess.loader.rust_hwp_loader.RustHwpLoader.load"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RustHwpLoader.load()</span></code></a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><a class="reference internal" href="#module-RAGchain.preprocess.loader.win32_hwp_loader">RAGchain.preprocess.loader.win32_hwp_loader
+        module</a>
+        <ul>
+            <li><a class="reference internal" href="#RAGchain.preprocess.loader.win32_hwp_loader.Win32HwpLoader"><code
+                    class="docutils literal notranslate"><span class="pre">Win32HwpLoader</span></code></a>
+                <ul>
+                    <li><a class="reference internal"
+                           href="#RAGchain.preprocess.loader.win32_hwp_loader.Win32HwpLoader.convert_hwp_to_hwpx"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">Win32HwpLoader.convert_hwp_to_hwpx()</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.preprocess.loader.win32_hwp_loader.Win32HwpLoader.lazy_load"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">Win32HwpLoader.lazy_load()</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.preprocess.loader.win32_hwp_loader.Win32HwpLoader.load"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">Win32HwpLoader.load()</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.preprocess.loader.win32_hwp_loader.Win32HwpLoader.preprocessor"><code
+                            class="docutils literal notranslate"><span class="pre">Win32HwpLoader.preprocessor()</span></code></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
 <li><a class="reference internal" href="#module-RAGchain.preprocess.loader">Module contents</a></li>
 </ul>
 </li>
@@ -484,6 +528,159 @@ You can use Nougat API server using Dockerfile at <a class="reference external" 
 </dd></dl>
 
 </section>
+      <section id="module-RAGchain.preprocess.loader.rust_hwp_loader">
+          <span id="ragchain-preprocess-loader-rust-hwp-loader-module"></span>
+          <h2>RAGchain.preprocess.loader.rust_hwp_loader module<a class="headerlink"
+                                                                  href="#module-RAGchain.preprocess.loader.rust_hwp_loader"
+                                                                  title="Link to this heading"></a></h2>
+          <dl class="py class">
+              <dt class="sig sig-object py" id="RAGchain.preprocess.loader.rust_hwp_loader.RustHwpLoader">
+                  <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span
+                      class="pre">RAGchain.preprocess.loader.rust_hwp_loader.</span></span><span
+                      class="sig-name descname"><span class="pre">RustHwpLoader</span></span><span
+                      class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                      class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span
+                      class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a
+                      class="headerlink" href="#RAGchain.preprocess.loader.rust_hwp_loader.RustHwpLoader"
+                      title="Link to this definition"></a></dt>
+              <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+                      class="pre">BaseLoader</span></code></p>
+                  <p>Load HWP file using libhwp. It works for any os.
+                      Using load or lazy_load, you can get list of Documents from hwp file.
+                      This loader loads all paragraphs and tables from hwp file.
+                      At the first Document, there are all paragraphs from hwp file, including texts in each table.
+                      Next, there are separated Documents for each table paragraphs.
+                      Unfortunately, You can’t distinguish row and columns in table.</p>
+                  <p>In the metadata, there are filepath at key ‘source’ and page_type, which is ‘text’ or ‘table’.</p>
+                  <p>Recommend to use other hwp loader, but it is great option to use this loader at mac and linux.
+                      It is no need to use external hwp loader server, or hwp program that only available at
+                      windows.</p>
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.preprocess.loader.rust_hwp_loader.RustHwpLoader.lazy_load">
+                          <span class="sig-name descname"><span class="pre">lazy_load</span></span><span
+                              class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span
+                              class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+                              class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span
+                              class="pre">Document</span><span class="p"><span class="pre">]</span></span></span></span><a
+                              class="headerlink"
+                              href="#RAGchain.preprocess.loader.rust_hwp_loader.RustHwpLoader.lazy_load"
+                              title="Link to this definition"></a></dt>
+                      <dd><p>A lazy loader for Documents.</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.preprocess.loader.rust_hwp_loader.RustHwpLoader.load">
+                          <span class="sig-name descname"><span class="pre">load</span></span><span
+                              class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span
+                              class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Document</span><span
+                              class="p"><span class="pre">]</span></span></span></span><a class="headerlink"
+                                                                                          href="#RAGchain.preprocess.loader.rust_hwp_loader.RustHwpLoader.load"
+                                                                                          title="Link to this definition"></a>
+                      </dt>
+                      <dd><p>Load data into Document objects.</p>
+                      </dd>
+                  </dl>
+
+              </dd>
+          </dl>
+
+      </section>
+      <section id="module-RAGchain.preprocess.loader.win32_hwp_loader">
+          <span id="ragchain-preprocess-loader-win32-hwp-loader-module"></span>
+          <h2>RAGchain.preprocess.loader.win32_hwp_loader module<a class="headerlink"
+                                                                   href="#module-RAGchain.preprocess.loader.win32_hwp_loader"
+                                                                   title="Link to this heading"></a></h2>
+          <dl class="py class">
+              <dt class="sig sig-object py" id="RAGchain.preprocess.loader.win32_hwp_loader.Win32HwpLoader">
+                  <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span
+                      class="pre">RAGchain.preprocess.loader.win32_hwp_loader.</span></span><span
+                      class="sig-name descname"><span class="pre">Win32HwpLoader</span></span><span
+                      class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                      class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span
+                      class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a
+                      class="headerlink" href="#RAGchain.preprocess.loader.win32_hwp_loader.Win32HwpLoader"
+                      title="Link to this definition"></a></dt>
+              <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+                      class="pre">BaseLoader</span></code></p>
+                  <p>Load HWP file using pywin32. It works for only Windows.
+                      Using load or lazy_load, you can get list of Documents from hwp and hwpx file.
+                      This loader loads all paragraphs and tables from hwp or hwpx file.
+                      At the first Document, there are all paragraphs excluding texts in each table.
+                      Next, there are separated Documents for each table. All table contents are converted to html
+                      format.
+                      So you can get row, columns, or any complicated table structure.</p>
+                  <p>In the metadata, there are filepath at key ‘source’ and page_type, which is ‘text’ or ‘table’.</p>
+                  <p>It is great option to use loader for loading complicated tables from hwp or hwpx file.
+                      But it is only available at windows, so choose other hwp loader if you want to use at mac or
+                      linux.</p>
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.preprocess.loader.win32_hwp_loader.Win32HwpLoader.convert_hwp_to_hwpx">
+                          <em class="property"><span class="pre">static</span><span class="w"> </span></em><span
+                              class="sig-name descname"><span class="pre">convert_hwp_to_hwpx</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_filepath</span></span></em>,
+                          <em class="sig-param"><span class="n"><span
+                                  class="pre">output_filepath</span></span></em><span class="sig-paren">)</span><a
+                              class="headerlink"
+                              href="#RAGchain.preprocess.loader.win32_hwp_loader.Win32HwpLoader.convert_hwp_to_hwpx"
+                              title="Link to this definition"></a></dt>
+                      <dd></dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.preprocess.loader.win32_hwp_loader.Win32HwpLoader.lazy_load">
+                          <span class="sig-name descname"><span class="pre">lazy_load</span></span><span
+                              class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span
+                              class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+                              class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span
+                              class="pre">Document</span><span class="p"><span class="pre">]</span></span></span></span><a
+                              class="headerlink"
+                              href="#RAGchain.preprocess.loader.win32_hwp_loader.Win32HwpLoader.lazy_load"
+                              title="Link to this definition"></a></dt>
+                      <dd><p>A lazy loader for Documents.</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.preprocess.loader.win32_hwp_loader.Win32HwpLoader.load">
+                          <span class="sig-name descname"><span class="pre">load</span></span><span
+                              class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span
+                              class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Document</span><span
+                              class="p"><span class="pre">]</span></span></span></span><a class="headerlink"
+                                                                                          href="#RAGchain.preprocess.loader.win32_hwp_loader.Win32HwpLoader.load"
+                                                                                          title="Link to this definition"></a>
+                      </dt>
+                      <dd><p>Load data into Document objects.</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.preprocess.loader.win32_hwp_loader.Win32HwpLoader.preprocessor">
+                          <span class="sig-name descname"><span class="pre">preprocessor</span></span><span
+                              class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span
+                              class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+                              class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span
+                              class="pre">List</span><span class="p"><span class="pre">,</span></span><span
+                              class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span></span><a
+                              class="headerlink"
+                              href="#RAGchain.preprocess.loader.win32_hwp_loader.Win32HwpLoader.preprocessor"
+                              title="Link to this definition"></a></dt>
+                      <dd></dd>
+                  </dl>
+
+              </dd>
+          </dl>
+
+      </section>
 <section id="module-RAGchain.preprocess.loader">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-RAGchain.preprocess.loader" title="Link to this heading"></a></h2>
 </section>
