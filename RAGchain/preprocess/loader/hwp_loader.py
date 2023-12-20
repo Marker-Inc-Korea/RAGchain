@@ -4,7 +4,7 @@ from http.client import HTTPException
 from typing import List, Iterator
 
 import aiohttp
-from langchain.docstore.document import Document
+from langchain.schema import Document
 from langchain.document_loaders.base import BaseLoader
 
 logger = logging.getLogger(__name__)

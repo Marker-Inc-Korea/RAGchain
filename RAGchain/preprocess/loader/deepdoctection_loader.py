@@ -1,13 +1,10 @@
+import re
 from typing import List, Iterator, Dict, Any
+from urllib.parse import urljoin, urlencode
 
 import requests
-from urllib.parse import urljoin, urlencode
-from pathlib import Path
-
 from langchain.document_loaders.pdf import BasePDFLoader
 from langchain.schema import Document
-
-import re
 
 
 class DeepdoctectionPDFLoader(BasePDFLoader):
@@ -46,10 +43,11 @@ class DeepdoctectionPDFLoader(BasePDFLoader):
         for extracted_page in extracted_pages:
             if 'table' in extracted_page:
                 yield Document(page_content=extracted_page['table'],
-                               metadata={'page_number': extracted_page['page_number'], 'page_type': 'table'})
+                               metadata={'source': self.file_path, 'page_number': extracted_page['page_number'],
+                                         'page_type': 'table'})
             else:
                 page_content = 'title:' + extracted_page['title'] + '\n' + 'text:' + extracted_page['text']
-                metadata = {'page_number': extracted_page['page_number'], 'page_type': 'text'}
+                metadata = {'source': self.file_path, 'page_number': extracted_page['page_number'], 'page_type': 'text'}
                 yield Document(page_content=page_content, metadata=metadata)
 
     def extract_pages(self, result: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
