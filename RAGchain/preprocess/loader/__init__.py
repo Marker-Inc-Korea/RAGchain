@@ -6,3 +6,4 @@ from .hwp_loader import HwpLoader
 from .mathpix_markdown_loader import MathpixMarkdownLoader
 from .nougat_pdf_loader import NougatPDFLoader
 from .rust_hwp_loader import RustHwpLoader
+from .win32_hwp_loader import Win32HwpLoader
