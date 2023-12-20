@@ -1,5 +1,6 @@
 import os
 import re
+import tempfile
 import zipfile
 from typing import List, Iterator
 
@@ -11,40 +12,78 @@ class Win32HwpLoader(BaseLoader):
     def __init__(self, path: str):
         self.file_path = path
         self.hwp_file_path = self.file_path
-        self.result = []
-        self.flag = 0
 
-    def convert_hwp_to_hwpx(self):
+    def lazy_load(self) -> Iterator[Document]:
+        text, tables = self.preprocessor()
+
+        yield Document(page_content=" ".join(text), metadata={"source": self.file_path,
+                                                              'page_type': 'text'})
+        for table in tables:
+            yield Document(page_content=table, metadata={"source": self.file_path, 'page_type': 'table'})
+
+    def load(self) -> List[Document]:
+        return list(self.lazy_load())
+
+    def preprocessor(self) -> tuple[List, List]:
+        text = list()
+        table = list()
+
+        hwpx_temp_file = None
+        if self.file_path.endswith('.hwp'):
+            hwpx_temp_file = tempfile.NamedTemporaryFile(suffix='.hwpx', mode='w', delete=False)
+            self.convert_hwp_to_hwpx(self.file_path, hwpx_temp_file.name)
+            hwpx_file = hwpx_temp_file.name
+        elif self.file_path.endswith('.hwpx'):
+            hwpx_file = self.file_path
+        else:
+            raise ValueError("The file extension must be .hwp or .hwpx")
+
+        with tempfile.TemporaryDirectory() as target_path:
+            with zipfile.ZipFile(hwpx_file, 'r') as zf:
+                zf.extractall(path=target_path)
+
+            if hwpx_temp_file is not None:
+                hwpx_temp_file.close()
+                os.unlink(hwpx_temp_file.name)
+
+            text_extract_pattern = r'</?(?!(?:em|strong)\b)[a-z](?:[^>"\']|"[^"]*"|\'[^\']*\')*>'
+
+            for i, xml in enumerate(self.__splitter(os.path.join(target_path, "Contents", "section0.xml"))):
+                if i % 2 == 0:
+                    text.append(re.sub(text_extract_pattern, '', xml))  # just text
+                elif i % 2 == 1:
+                    table.append('<hp:tbl' + xml)  # table
+
+            text[0] = text[0].strip("""['<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>""")
+            table = list(map(self.__xml_to_html, table))
+
+            return text, table
+
+    @staticmethod
+    def convert_hwp_to_hwpx(input_filepath, output_filepath):
         try:
             import win32com.client as win32
         except ImportError:
             raise ImportError("Please install pywin32."
                               "pip install pywin32")
-        # TODO: make this tempFile
+
         hwp = win32.gencache.EnsureDispatch("HWPFrame.HwpObject")
         hwp.RegisterModule("FilePathCheckDLL", "FilePathCheckerModule")
         hwp.HParameterSet.HTableCreation.TableProperties.TreatAsChar = 1
-        hwp.Open(self.file_path)
-        hwp.SaveAs(hwp.Path + "x", "HWPX")
+        hwp.Open(input_filepath)
+        hwp.SaveAs(output_filepath, "HWPX")
         hwp.Quit()
-        self.hwp_file_path = self.file_path + "x"
 
-    def unzip_hwpx(self, file_path):
-        # TODO: make this tempFile
-        os.chdir(os.path.dirname(file_path))
-        target_path = os.path.join(os.getcwd(), "hwpx")
-        with zipfile.ZipFile(file_path, 'r') as zf:
-            zf.extractall(path=target_path)
-        # os.remove(self.file_path)
-
-    def splitter(self, path):
+    @staticmethod
+    def __splitter(path):
         with open(path, 'r', encoding='utf-8') as file:
             xml_content = file.read()
 
         separate = re.split(r'<hp:tbl|</hp:tbl>', xml_content)
         return separate
 
-    def xml_to_html(self, xml):
+    @staticmethod
+    def __xml_to_html(xml):
         try:
             from bs4 import BeautifulSoup
         except ImportError:
@@ -86,39 +125,3 @@ class Win32HwpLoader(BaseLoader):
             result_txt += '\t </tr>\n'
         result_txt += '</table>'
         return result_txt
-
-    def preprocessor(self) -> tuple[List, List]:
-        text = list()
-        table = list()
-
-        if self.file_path.endswith(".hwpx"):
-            self.unzip_hwpx(self.hwp_file_path)
-        elif self.file_path.endswith(".hwp"):
-            self.convert_hwp_to_hwpx()
-            self.unzip_hwpx(self.hwp_file_path)
-        else:
-            raise ValueError("The file extension must be .hwp or .hwpx")
-
-        text_extract_pattern = r'</?(?!(?:em|strong)\b)[a-z](?:[^>"\']|"[^"]*"|\'[^\']*\')*>'
-
-        for i, xml in enumerate(self.splitter(os.path.join(os.getcwd(), "hwpx", "Contents", "section0.xml"))):
-            if i % 2 == 0:
-                text.append(re.sub(text_extract_pattern, '', xml))  # just text
-            elif i % 2 == 1:
-                table.append('<hp:tbl' + xml)  # table
-
-        text[0] = text[0].strip("""['<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>""")
-        table = list(map(self.xml_to_html, table))
-
-        return text, table
-
-    def lazy_load(self) -> Iterator[Document]:
-        text, tables = self.preprocessor()
-
-        yield Document(page_content=" ".join(text), metadata={"source": self.file_path,
-                                                              'page_type': 'text'})
-        for table in tables:
-            yield Document(page_content=table, metadata={"source": self.file_path, 'page_type': 'table'})
-
-    def load(self) -> List[Document]:
-        return list(self.lazy_load())
