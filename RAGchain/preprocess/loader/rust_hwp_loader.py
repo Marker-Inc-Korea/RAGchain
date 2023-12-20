@@ -16,7 +16,7 @@ class RustHwpLoader(BaseLoader):
     In the metadata, there are filepath at key 'source' and page_type, which is 'text' or 'table'.
 
     Recommend to use other hwp loader, but it is great option to use this loader at mac and linux.
-    It is no need to use external hwp loader server, or hwp program only available at windows.
+    It is no need to use external hwp loader server, or hwp program that only available at windows.
     """
     def __init__(self, path: str):
         """
@@ -28,8 +28,6 @@ class RustHwpLoader(BaseLoader):
             raise ImportError("Please install libhwp."
                               "pip install libhwp")
         self.file_path = path
-        self.result = []
-        self.only_table = []
         self.hwp = HWPReader(self.file_path)
 
     def lazy_load(self) -> Iterator[Document]:

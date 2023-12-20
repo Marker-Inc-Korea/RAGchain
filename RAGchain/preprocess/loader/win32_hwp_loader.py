@@ -11,15 +11,15 @@ from langchain.schema import Document
 class Win32HwpLoader(BaseLoader):
     """
     Load HWP file using pywin32. It works for only Windows.
-    Using load or lazy_load, you can get list of Documents from hwp file.
-    This loader loads all paragraphs and tables from hwp file.
-    At the first Document, there are all paragraphs from hwp file, excluding texts in each table.
+    Using load or lazy_load, you can get list of Documents from hwp and hwpx file.
+    This loader loads all paragraphs and tables from hwp or hwpx file.
+    At the first Document, there are all paragraphs excluding texts in each table.
     Next, there are separated Documents for each table. All table contents are converted to html format.
     So you can get row, columns, or any complicated table structure.
 
     In the metadata, there are filepath at key 'source' and page_type, which is 'text' or 'table'.
 
-    It is great option to use loader for loading complicated tables from hwp file.
+    It is great option to use loader for loading complicated tables from hwp or hwpx file.
     But it is only available at windows, so choose other hwp loader if you want to use at mac or linux.
     """
     def __init__(self, path: str):
