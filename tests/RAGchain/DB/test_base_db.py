@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 
 from RAGchain.DB.base import BaseDB
@@ -8,6 +9,7 @@ TEST_PASSAGES: List[Passage] = [
         id='test_id_1',
         content='This is test number 1',
         filepath='./test/first_file.txt',
+        content_datetime=datetime(2022, 2, 3),
         previous_passage_id=None,
         next_passage_id='test_id_2',
         metadata_etc={'test': 'test1'}
@@ -16,6 +18,7 @@ TEST_PASSAGES: List[Passage] = [
         id='test_id_2',
         content='This is test number 2',
         filepath='./test/second_file.txt',
+        content_datatime=datetime(2022, 2, 4),
         previous_passage_id='test_id_1',
         next_passage_id='test_id_3',
         metadata_etc={'test': 'test2'}
@@ -24,6 +27,7 @@ TEST_PASSAGES: List[Passage] = [
         id='test_id_3',
         content='This is test number 3',
         filepath='./test/second_file.txt',
+        content_datetime=datetime(2022, 2, 5),
         previous_passage_id='test_id_2',
         next_passage_id='test_id_4',
         metadata_etc={'test': 'test3'}
@@ -32,6 +36,7 @@ TEST_PASSAGES: List[Passage] = [
         id='test_id_4',
         content='This is test number 3',
         filepath='./test/third_file.txt',
+        content_datetime=datetime(2022, 3, 6),
         previous_passage_id='test_id_3',
         next_passage_id=None,
         metadata_etc={'test': 'test3'}
