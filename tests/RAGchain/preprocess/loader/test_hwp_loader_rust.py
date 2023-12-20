@@ -18,9 +18,12 @@ def test_hwp_table_loader_doc():
 
 
 def test_hwp_table_loader_table():
-    tables = HwpLoaderRust(table_file_path).load_table()
+    docs = HwpLoaderRust(table_file_path).load()
+    assert len(docs) == 2
+    assert bool(docs[0].page_content)
+    assert docs[0].metadata['page_type'] == 'text'
+    assert docs[0].metadata['source'] == table_file_path
 
-    assert len(tables) != 0
-    assert bool(tables[0].page_content)
-    assert tables[0].metadata['page_type'] == 'table'
-    assert tables[0].metadata['source'] == table_file_path
+    assert bool(docs[1].page_content)
+    assert docs[1].metadata['page_type'] == 'table'
+    assert docs[1].metadata['source'] == table_file_path
