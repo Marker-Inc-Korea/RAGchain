@@ -4,6 +4,14 @@ RAGchain.benchmark.dataset package
 Submodules
 ----------
 
+RAGchain.benchmark.dataset.antique module
+-----------------------------------------
+
+.. automodule:: RAGchain.benchmark.dataset.antique
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 RAGchain.benchmark.dataset.base module
 --------------------------------------
 
@@ -52,6 +60,14 @@ RAGchain.benchmark.dataset.natural\_qa module
    :undoc-members:
    :show-inheritance:
 
+RAGchain.benchmark.dataset.nfcorpus module
+------------------------------------------
+
+.. automodule:: RAGchain.benchmark.dataset.nfcorpus
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 RAGchain.benchmark.dataset.qasper module
 ----------------------------------------
 
@@ -60,10 +76,26 @@ RAGchain.benchmark.dataset.qasper module
    :undoc-members:
    :show-inheritance:
 
+RAGchain.benchmark.dataset.search\_qa module
+--------------------------------------------
+
+.. automodule:: RAGchain.benchmark.dataset.search_qa
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 RAGchain.benchmark.dataset.strategy\_qa module
 ----------------------------------------------
 
 .. automodule:: RAGchain.benchmark.dataset.strategy_qa
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+RAGchain.benchmark.dataset.triviaqa module
+------------------------------------------
+
+.. automodule:: RAGchain.benchmark.dataset.triviaqa
    :members:
    :undoc-members:
    :show-inheritance:
