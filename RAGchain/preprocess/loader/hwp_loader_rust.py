@@ -24,7 +24,7 @@ class HwpLoaderRust(BaseLoader):
 
         page = " ".join(self.result)
         print(page)
-        document_list = [Document(page_content=page, metadata={"source": self.file_path})]
+        document_list = [Document(page_content=page, metadata={"source": self.file_path, 'page_type': 'text'})]
         return document_list
 
     def load_table(self) -> List[Document]:
@@ -34,7 +34,7 @@ class HwpLoaderRust(BaseLoader):
                 for paragraph in cell.paragraphs:
                     self.only_table.append(str(paragraph))
 
-        table = " ".join(self.only_table)
+        table = ",".join(self.only_table)
 
-        document_list = [Document(page_content=table, metadata={"source": self.file_path})]
+        document_list = [Document(page_content=table, metadata={"source": self.file_path, 'page_type': 'table'})]
         return document_list

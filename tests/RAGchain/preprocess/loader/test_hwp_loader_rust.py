@@ -13,6 +13,8 @@ def test_hwp_table_loader_doc():
 
     assert len(docs) != 0
     assert bool(docs[0].page_content)
+    assert docs[0].metadata['page_type'] == 'text'
+    assert docs[0].metadata['source'] == file_path
 
 
 def test_hwp_table_loader_table():
@@ -20,3 +22,5 @@ def test_hwp_table_loader_table():
 
     assert len(tables) != 0
     assert bool(tables[0].page_content)
+    assert tables[0].metadata['page_type'] == 'table'
+    assert tables[0].metadata['source'] == table_file_path
