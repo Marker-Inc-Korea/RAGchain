@@ -1,15 +1,15 @@
 import os
 import pathlib
 
-from RAGchain.preprocess.loader.hwp_loader_rust import HwpLoaderRust
+from RAGchain.preprocess.loader import RustHwpLoader
 
 root_dir = pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent.parent
 file_path = os.path.join(root_dir, "resources", "ingest_files", "test.hwp")
 table_file_path = os.path.join(root_dir, "resources", "ingest_files", "hwp_table_sample.hwp")
 
 
-def test_hwp_table_loader_doc():
-    docs = HwpLoaderRust(file_path).load()
+def test_rust_hwp_loader_doc():
+    docs = RustHwpLoader(file_path).load()
 
     assert len(docs) != 0
     assert bool(docs[0].page_content)
@@ -17,8 +17,8 @@ def test_hwp_table_loader_doc():
     assert docs[0].metadata['source'] == file_path
 
 
-def test_hwp_table_loader_table():
-    docs = HwpLoaderRust(table_file_path).load()
+def test_rust_hwp_loader_table():
+    docs = RustHwpLoader(table_file_path).load()
     assert len(docs) == 3
     assert bool(docs[0].page_content)
     assert docs[0].metadata['page_type'] == 'text'

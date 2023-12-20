@@ -4,7 +4,7 @@ from langchain.docstore.document import Document
 from langchain.document_loaders.base import BaseLoader
 
 
-class HwpLoaderRust(BaseLoader):
+class RustHwpLoader(BaseLoader):
     """
     Load HWP file using libhwp. It works for any os.
     Using load or lazy_load, you can get list of Documents from hwp file.
