@@ -14,7 +14,7 @@ from RAGchain.schema import EvaluateResult, Passage
 
 class ASQAEvaluator(BaseDatasetEvaluator):
     """
-    ASQAEvaluator is a class for evaluating pipeline performance on NFCorpus dataset.
+    ASQAEvaluator is a class for evaluating pipeline performance on ASQA dataset.
     """
 
     def __init__(self, run_pipeline: BaseRunPipeline,
@@ -24,8 +24,8 @@ class ASQAEvaluator(BaseDatasetEvaluator):
         """
         :param run_pipeline: The pipeline that you want to benchmark.
         :param evaluate_size: The number of data to evaluate. If None, evaluate all data.
-        NFCorpus dataset we use is huge. Recommend to set proper size for evaluation.
-        :param metrics: The list of metrics to use. If None, use all metrics that supports NFCorpus dataset.
+        ASQA dataset we use is huge. Recommend to set proper size for evaluation.
+        :param metrics: The list of metrics to use. If None, use all metrics that supports ASQA dataset.
         Supporting metrics are 'Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score',
         'context_recall', 'BLEU', 'context_precision', 'answer_relevancy', 'faithfulness', 'KF1'.
 
@@ -94,7 +94,7 @@ class ASQAEvaluator(BaseDatasetEvaluator):
 
     def evaluate(self, **kwargs) -> EvaluateResult:
         question = self.question['ambiguous_question']
-        answer_gt = [answers for answers in self.answers['answer_gt']]
+        answer_gt = self.answers['answer_gt'].tolist()
         retrieval_gt = self.retrieval_gt.apply(self.__make_retrieval_gt, axis=1).tolist()
 
         return self._calculate_metrics(
@@ -129,12 +129,9 @@ class ASQAEvaluator(BaseDatasetEvaluator):
             answer_lst += [element['long_answer']]
 
         if len(content_lst) == 0 or len(answer_lst) == 0:
-            row['retrieval_gt'], row['answers'] = np.NAN, np.NAN
+            return np.NAN, np.NAN
         else:
-            row['retrieval_gt'], row['answers'] = content_lst, answer_lst
-
-        return row['retrieval_gt'], row['answers']
-
+            return content_lst, answer_lst
     def __make_retrieval_gt(self, row):
         gt = [str(row['sample_id']) + '_' + str(idx) for idx, content in enumerate(row['retrieval_gt'])]
 
