@@ -1,21 +1,20 @@
 import os
-import pytest
+import pathlib
 
-from RAGchain.preprocess.loader.hwp_table_loader import HwpLoader
+from RAGchain.preprocess.loader.win32_hwp_loader import Win32HwpLoader
 
-file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir, os.pardir, os.pardir, "resources",
-                         "ingest_files", "hwp_sample.hwp")
-table_file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir, os.pardir, os.pardir,
-                               "resources", "ingest_files", "hwp_table_sample.hwp")
+root_dir = pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent.parent
+file_path = os.path.join(root_dir, "resources", "ingest_files", "test.hwp")
+table_file_path = os.path.join(root_dir, "resources", "ingest_files", "hwp_table_sample.hwp")
 
 
 def test_hwp_table_loader_doc():
-    docs = HwpLoader(file_path).load()
+    docs = Win32HwpLoader(file_path).load()
 
     print(docs[0].page_content)
 
 
 def test_hwp_table_loader_table():
-    tables = HwpLoader(table_file_path).load_table()
+    tables = Win32HwpLoader(table_file_path).load_table()
 
     print(tables[0].page_content)

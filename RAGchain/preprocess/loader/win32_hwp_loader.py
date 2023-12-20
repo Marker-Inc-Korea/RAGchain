@@ -3,20 +3,22 @@ import re
 import zipfile
 from typing import List
 
-import win32com.client as win32
-from bs4 import BeautifulSoup
-from langchain.docstore.document import Document
-
 from langchain.document_loaders.base import BaseLoader
+from langchain.schema import Document
 
 
-class HwpLoader(BaseLoader):
+class Win32HwpLoader(BaseLoader):
     def __init__(self, path: str, *args, **kwargs):
         self.file_path = path
         self.result = []
         self.flag = 0
 
     def convert_hwp_to_hwpx(self):
+        try:
+            import win32com.client as win32
+        except ImportError:
+            raise ImportError("Please install pywin32."
+                              "pip install pywin32")
         hwp = win32.gencache.EnsureDispatch("HWPFrame.HwpObject")
         hwp.RegisterModule("FilePathCheckDLL", "FilePathCheckerModule")
         hwp.HParameterSet.HTableCreation.TableProperties.TreatAsChar = 1
@@ -40,6 +42,11 @@ class HwpLoader(BaseLoader):
         return separate
 
     def xml_to_html(self, xml):
+        try:
+            from bs4 import BeautifulSoup
+        except ImportError:
+            raise ImportError("Please install bs4."
+                              "pip install bs4")
         bs = BeautifulSoup(xml, 'html.parser')
         flag, line = 0, 0
         result_txt = """<table
