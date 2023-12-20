@@ -19,6 +19,9 @@ class HwpLoaderRust(BaseLoader):
     It is no need to use external hwp loader server, or hwp program only available at windows.
     """
     def __init__(self, path: str):
+        """
+        :param path: hwp file path
+        """
         try:
             from libhwp import HWPReader
         except ImportError:
