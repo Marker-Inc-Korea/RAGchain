@@ -1,7 +1,10 @@
+import logging
 import os
 import pathlib
 
 from RAGchain.preprocess.loader.win32_hwp_loader import Win32HwpLoader
+
+logger = logging.getLogger(__name__)
 
 root_dir = pathlib.PurePath(os.path.dirname(os.path.realpath(__file__))).parent.parent.parent
 file_path = os.path.join(root_dir, "resources", "ingest_files", "test.hwp")
@@ -11,10 +14,17 @@ table_file_path = os.path.join(root_dir, "resources", "ingest_files", "hwp_table
 def test_hwp_table_loader_doc():
     docs = Win32HwpLoader(file_path).load()
 
-    print(docs[0].page_content)
+    assert len(docs) == 1
+    assert bool(docs[0].page_content)
+    logger.info(f'loaded file content : {docs[0].page_content}')
 
 
 def test_hwp_table_loader_table():
-    tables = Win32HwpLoader(table_file_path).load_table()
+    tables = Win32HwpLoader(table_file_path).load()
 
-    print(tables[0].page_content)
+    assert len(tables) == 3
+    assert bool(tables[0].page_content)
+    assert tables[0].metadata['page_type'] == 'text'
+    assert tables[0].metadata['source'] == table_file_path
+
+    assert tables[1].metadata['page_type'] == 'table'
