@@ -1,6 +1,4 @@
-import os
 from typing import List
-from libhwp import HWPReader
 
 from langchain.docstore.document import Document
 from langchain.document_loaders.base import BaseLoader
@@ -9,14 +7,18 @@ from langchain.document_loaders.base import BaseLoader
 class HwpLoaderRust(BaseLoader):
     # It works any OS
     def __init__(self, path: str, *args, **kwargs):
+        try:
+            from libhwp import HWPReader
+        except ImportError:
+            raise ImportError("Please install libhwp."
+                              "pip install libhwp")
         self.file_path = path
         self.result = []
         self.only_table = []
+        self.hwp = HWPReader(self.file_path)
 
     def load(self) -> List[Document]:
-        hwp = HWPReader(self.file_path)
-
-        for paragraph in hwp.find_all('paragraph'):
+        for paragraph in self.hwp.find_all('paragraph'):
             print(str(paragraph))
             self.result.append(str(paragraph))
 
@@ -27,10 +29,7 @@ class HwpLoaderRust(BaseLoader):
 
     def load_table(self) -> List[Document]:
         # just return paragraph in table
-
-        hwp = HWPReader(self.file_path)
-
-        for table in hwp.find_all('table'):
+        for table in self.hwp.find_all('table'):
             for cell in table.cells:
                 for paragraph in cell.paragraphs:
                     self.only_table.append(str(paragraph))
