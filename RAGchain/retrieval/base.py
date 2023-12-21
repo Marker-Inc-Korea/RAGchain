@@ -1,5 +1,6 @@
 import concurrent.futures
 from abc import ABC, abstractmethod
+from datetime import datetime
 from typing import List, Union, Optional
 from uuid import UUID
 
@@ -13,6 +14,7 @@ class BaseRetrieval(ABC):
     """
     Base Retrieval class for all retrieval classes.
     """
+
     def __init__(self):
         self.db_instance_list: List[BaseDB] = []
         self.redis_db = RedisDBSingleton()
@@ -56,6 +58,7 @@ class BaseRetrieval(ABC):
     def retrieve_with_filter(self, query: str, top_k: int = 5,
                              content: Optional[List[str]] = None,
                              filepath: Optional[List[str]] = None,
+                             content_datetime_range: Optional[List[tuple[datetime, datetime]]] = None,
                              multi_num: int = 2,
                              retrieve_range_mult: int = 8,
                              max_trial: int = 5,
@@ -67,6 +70,7 @@ class BaseRetrieval(ABC):
         :param top_k: passages count to retrieve
         :param content: content list to filter
         :param filepath: filepath list to filter
+        :param content_datetime_range: content_datetime_range list to filter
         :param kwargs: metadata_etc to filter
         :param multi_num: multiplier when failed to retrieve enough passages
         :param retrieve_range_mult: multiplier for retrieve range
@@ -75,7 +79,8 @@ class BaseRetrieval(ABC):
         result_passages = []
         for _ in range(max_trial):
             ids = self.retrieve_id(query, top_k=retrieve_range_mult * top_k)
-            passages = self.search_data(ids, content=content, filepath=filepath, **kwargs)
+            passages = self.search_data(ids, content=content, filepath=filepath,
+                                        content_datetime_range=content_datetime_range, **kwargs)
             result_passages = passages[:top_k]
             if len(result_passages) >= top_k:
                 break
@@ -99,6 +104,7 @@ class BaseRetrieval(ABC):
     def search_data(self, ids: List[Union[UUID, str]],
                     content: Optional[List[str]] = None,
                     filepath: Optional[List[str]] = None,
+                    content_datetime_range: Optional[List[tuple[datetime, datetime]]] = None,
                     **kwargs
                     ) -> List[Passage]:
         """
@@ -106,12 +112,14 @@ class BaseRetrieval(ABC):
         :param ids: list of passage ids
         :param content: content list to filter
         :param filepath: filepath list to filter
+        :param content_datetime_range: content_datetime_range list to filter
         :param kwargs: metadata_etc to filter. Put metadata_etc key as kwargs key and metadata_etc value as kwargs value.
         """
         db_origin_list = self.redis_db.get_json(ids)
         filter_db_origin = list(filter(lambda db_origin: db_origin is not None, db_origin_list))
         final_db_origin = self.duplicate_check(filter_db_origin)
-        return self.search_each_db(final_db_origin, ids, content=content, filepath=filepath, **kwargs)
+        return self.search_each_db(final_db_origin, ids, content=content, filepath=filepath,
+                                   content_datetime_range=content_datetime_range, **kwargs)
 
     def fetch_each_db(self, final_db_origin: dict[tuple, list[int]], ids: List[Union[UUID, str]]) -> List[Passage]:
         """
@@ -129,11 +137,12 @@ class BaseRetrieval(ABC):
     def search_each_db(self, final_db_origin: dict[tuple, list[int]], ids: List[Union[UUID, str]],
                        content: Optional[List[str]] = None,
                        filepath: Optional[List[str]] = None,
+                       content_datetime_range: Optional[List[tuple[datetime, datetime]]] = None,
                        **kwargs
                        ) -> List[Passage]:
         with concurrent.futures.ThreadPoolExecutor() as executor:
             futures = [executor.submit(self.search_data_from_db_origin, ids, dict(db_origin),
-                                       target_ids, content, filepath, **kwargs)
+                                       target_ids, content, filepath, content_datetime_range, **kwargs)
                        for db_origin, target_ids in final_db_origin.items()]
         result = []
         for future in futures:
@@ -157,6 +166,7 @@ class BaseRetrieval(ABC):
                                    target_ids: List[int],
                                    content: Optional[List[str]] = None,
                                    filepath: Optional[List[str]] = None,
+                                   content_datetime_range: Optional[List[tuple[datetime, datetime]]] = None,
                                    **kwargs
                                    ):
         db_path = dict(db_origin['db_path'])
@@ -166,7 +176,8 @@ class BaseRetrieval(ABC):
         # make each id list
         each_ids = [ids[i] for i in target_ids]
         # search data
-        result_data = db.search(id=each_ids, content=content, filepath=filepath, **kwargs)
+        result_data = db.search(id=each_ids, content=content, filepath=filepath,
+                                content_datetime_range=content_datetime_range, **kwargs)
         return result_data
 
     def is_created(self, db_type: str, db_path: dict):

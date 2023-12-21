@@ -1,6 +1,7 @@
 import os
 import pathlib
 import pickle
+from datetime import datetime
 from typing import List, Union
 from uuid import UUID
 
@@ -19,6 +20,7 @@ SEARCH_TEST_PASSAGES: List[Passage] = [
         id='test_id_1_search',
         content='This is test number 1',
         filepath='./test/first_file.txt',
+        content_datetime=datetime(2021, 1, 1),
         previous_passage_id=None,
         next_passage_id='test_id_2',
         metadata_etc={'test': 'test1'}
@@ -27,6 +29,7 @@ SEARCH_TEST_PASSAGES: List[Passage] = [
         id='test_id_2_search',
         content='This is test number 2',
         filepath='./test/second_file.txt',
+        content_datetime=datetime(2021, 1, 2),
         previous_passage_id='test_id_1',
         next_passage_id='test_id_3',
         metadata_etc={'test': 'test2'}
@@ -35,6 +38,7 @@ SEARCH_TEST_PASSAGES: List[Passage] = [
         id='test_id_3_search',
         content='This is test number 3',
         filepath='./test/second_file.txt',
+        content_datetime=datetime(2021, 1, 3),
         previous_passage_id='test_id_2',
         next_passage_id='test_id_4',
         metadata_etc={'test': 'test3'}
@@ -43,6 +47,7 @@ SEARCH_TEST_PASSAGES: List[Passage] = [
         id='test_id_4_search',
         content='This is test number 3',
         filepath='./test/third_file.txt',
+        content_datetime=datetime(2021, 11, 4),
         previous_passage_id='test_id_3',
         next_passage_id=None,
         metadata_etc={'test': 'test3'}
