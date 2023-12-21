@@ -54,6 +54,7 @@ SEARCH_TEST_PASSAGES: List[Passage] = [
     )
 ]
 
+
 def test_load_passage():
     assert len(TEST_PASSAGES) > 0
     for passage in TEST_PASSAGES:
@@ -125,11 +126,12 @@ TEST_DB_ORIGIN = [{
 
 TEST_DB_ORIGIN_RESULT = {(('db_type', 'mongo_db'), ('db_path', (('mongo_url', 'test_url_1'),
                                                                 ('db_name', 'test_db_name_1'),
-                                                                ('collection_name', 'test_collection_name_1')))): [0, 3],
+                                                                ('collection_name', 'test_collection_name_1')))): [0,
+                                                                                                                   3],
                          (('db_type', 'pickle_db'), ('db_path', (('save_path', 'test.pkl'),))): [1],
                          (('db_type', 'mongo_db'), ('db_path', (('mongo_url', 'test_url_2'),
-                                                                 ('db_name', 'test_db_name_2'),
-                                                                 ('collection_name', 'test_collection_name_2')))): [2]}
+                                                                ('db_name', 'test_db_name_2'),
+                                                                ('collection_name', 'test_collection_name_2')))): [2]}
 
 
 @pytest.fixture
