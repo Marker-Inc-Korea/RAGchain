@@ -5,8 +5,10 @@ import logging
 
 import boto3
 from botocore.exceptions import NoCredentialsError, ClientError
+from dotenv import load_dotenv
 
 logger = logging.getLogger(__name__)
+load_dotenv()
 
 
 class DynamoDBSingleton:
@@ -30,9 +32,14 @@ class DynamoDBSingleton:
         region_name = os.getenv("AWS_REGION")
         table_name = os.getenv("DYNAMODB_TABLE_NAME")
 
-        if not all([aws_access_key_id, aws_secret_access_key, region_name, table_name]):
-            raise ValueError("Please set AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, "
-                             "and DYNAMODB_TABLE_NAME to environment variables")
+        if aws_access_key_id is None:
+            raise ValueError("Please set AWS_ACCESS_KEY_ID to environment variable")
+        if aws_secret_access_key is None:
+            raise ValueError("Please set AWS_SECRET_ACCESS_KEY to environment variable")
+        if region_name is None:
+            raise ValueError("Please set AWS_REGION to environment variable")
+        if table_name is None:
+            raise ValueError("Please set DYNAMODB_TABLE_NAME to environment variable")
 
         try:
             self.dynamodb = boto3.resource(
@@ -58,7 +65,7 @@ class DynamoDBSingleton:
         try:
             self.table = self.dynamodb.create_table(
                 TableName=table_name,
-                KeySchema=[{'AttributeName': 'id', 'KeyType': 'STRING'}],
+                KeySchema=[{'AttributeName': 'id', 'KeyType': 'HASH'}],
                 AttributeDefinitions=[{'AttributeName': 'id', 'AttributeType': 'S'}],
                 ProvisionedThroughput={'ReadCapacityUnits': 5, 'WriteCapacityUnits': 5})
             self.table.wait_until_exists()
@@ -91,10 +98,6 @@ class DynamoDBSingleton:
         else:
             self.create_table(table_name)
 
-    def get_json(self, ids: list[Union[UUID, str]]):
-        str_ids = [str(find_id) for find_id in ids]
-        return [self.table.get_item(Key={'id': find_id})['db_origin'] for find_id in str_ids]
-
     @staticmethod
     def handle_error(err, table_name, operation):
         logger.error(
@@ -105,6 +108,11 @@ class DynamoDBSingleton:
             err.response["Error"]["Message"],
         )
         raise
+
+    def get_json(self, ids: list[Union[UUID, str]]):
+        str_ids = [str(find_id) for find_id in ids]
+        response_list = [self.table.get_item(Key={'id': find_id}) for find_id in str_ids]
+        return [response['Item']['db_origin'] for response in response_list]
 
     def flush_db(self):
         self.table.delete()
