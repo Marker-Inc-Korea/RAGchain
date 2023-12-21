@@ -84,6 +84,11 @@ class BaseRetrieval(ABC):
             result_passages = passages[:top_k]
             if len(result_passages) >= top_k:
                 break
+
+            # break when there is no more passages to retrieve
+            if retrieve_range_mult * top_k > len(ids):
+                break
+
             retrieve_range_mult *= multi_num
 
         return result_passages
