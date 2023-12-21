@@ -15,7 +15,8 @@ class PickleDB(BaseDB):
     """
     This DB stores passages in a pickle file format at your local disk.
     """
-    def __init__(self, save_path: str, *args, **kwargs):
+
+    def __init__(self, save_path: str):
         """
         Initializes a PickleDB object.
 

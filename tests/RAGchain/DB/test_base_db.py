@@ -90,3 +90,9 @@ def search_test_base(db: BaseDB):
                               content=['This is test number 3'])
     assert len(test_result_8) == 1
     assert 'test_id_3' == test_result_8[0].id
+
+    test_result_9 = db.search(content_datetime_range=[(datetime(2022, 2, 1), datetime(2022, 2, 3)),
+                                                      (datetime(2022, 3, 1), datetime(2022, 3, 10))])
+    assert len(test_result_9) == 2
+    assert 'test_id_1' in [passage.id for passage in test_result_9]
+    assert 'test_id_4' in [passage.id for passage in test_result_9]
