@@ -1,9 +1,10 @@
+from datetime import datetime
 from typing import Optional, Union, List
 from uuid import UUID, uuid4
 
 from langchain.load.serializable import Serializable
 from langchain.schema import Document
-from pydantic import Field
+from pydantic import Field, Extra
 
 
 class Passage(Serializable):
@@ -15,6 +16,9 @@ class Passage(Serializable):
     """String text."""
     filepath: str
     """Filepath of the passage."""
+    content_datetime: datetime = Field(default_factory=datetime.now)
+    """Datetime when the passage content is created or edited. Everytime passge content changes, this value should be 
+    updated."""
     previous_passage_id: Optional[Union[UUID, str]]
     """Previous passage's id. If this is the first passage, this value should be None."""
     next_passage_id: Optional[Union[UUID, str]]
@@ -22,11 +26,16 @@ class Passage(Serializable):
     metadata_etc: dict = Field(default_factory=dict)
     """Arbitrary metadata about the passage."""
 
+    # forbid to use another parameter
+    class Config:
+        extra = Extra.forbid
+
     def to_document(self) -> Document:
         metadata = self.metadata_etc.copy()
         metadata['id'] = self.id
         metadata['content'] = self.content
         metadata['filepath'] = self.filepath
+        metadata['content_datetime'] = self.content_datetime
         metadata['previous_passage_id'] = self.previous_passage_id
         metadata['next_passage_id'] = self.next_passage_id
         return Document(page_content=self.content, metadata=metadata)
@@ -36,6 +45,7 @@ class Passage(Serializable):
             "_id": self.id,
             "content": self.content,
             "filepath": self.filepath,
+            "content_datetime": self.content_datetime,
             "previous_passage_id": self.previous_passage_id,
             "next_passage_id": self.next_passage_id,
             "metadata_etc": self.metadata_etc
@@ -53,6 +63,7 @@ class Passage(Serializable):
         return self.id == other.id and \
             self.content == other.content and \
             self.filepath == other.filepath and \
+            self.content_datetime == other.content_datetime and \
             self.previous_passage_id == other.previous_passage_id and \
             self.next_passage_id == other.next_passage_id and \
             self.metadata_etc == other.metadata_etc
