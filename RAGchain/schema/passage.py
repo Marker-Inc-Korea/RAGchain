@@ -4,7 +4,7 @@ from uuid import UUID, uuid4
 
 from langchain.load.serializable import Serializable
 from langchain.schema import Document
-from pydantic import Field
+from pydantic import Field, Extra
 
 
 class Passage(Serializable):
@@ -25,6 +25,10 @@ class Passage(Serializable):
     """Next passage's id. If this is the last passage, this value should be None."""
     metadata_etc: dict = Field(default_factory=dict)
     """Arbitrary metadata about the passage."""
+
+    # forbid to use another parameter
+    class Config:
+        extra = Extra.forbid
 
     def to_document(self) -> Document:
         metadata = self.metadata_etc.copy()
