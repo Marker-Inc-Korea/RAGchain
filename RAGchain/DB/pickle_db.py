@@ -1,5 +1,6 @@
 import os
 import pickle
+from datetime import datetime
 from typing import List, Optional, Union
 from uuid import UUID
 
@@ -73,19 +74,8 @@ class PickleDB(BaseDB):
                id: Optional[List[Union[UUID, str]]] = None,
                content: Optional[List[str]] = None,
                filepath: Optional[List[str]] = None,
+               content_datetime_range: Optional[List[tuple[datetime, datetime]]] = None,
                **kwargs) -> List[Passage]:
-        """
-        Searches for Passage objects in the database based on the given filters.
-        This function is an implicit AND operation,
-        which is return Passage that matches all values to corresponding keys in filter_dict.
-        When the match value is not exist, return empty list.
-
-        :param id: List of Passage ID to search.
-        :param content: List of Passage content to search.
-        :param filepath: List of Passage filepath to search.
-        :param kwargs: Additional metadata to search.
-        """
-
         def is_default_elem(filter_key: str) -> bool:
             return filter_key in ['id', 'content', 'filepath']
 
@@ -109,6 +99,16 @@ class PickleDB(BaseDB):
                 self.db
             )
         )
+        if content_datetime_range is not None:
+            result = list(
+                filter(
+                    lambda passage: any(
+                        datetime_range[0] <= passage.content_datetime <= datetime_range[1]
+                        for datetime_range in content_datetime_range
+                    ),
+                    result
+                )
+            )
         result = list(set(result))
         return result
 

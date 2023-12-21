@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from datetime import datetime
 from typing import List, Union, Optional
 from uuid import UUID
 
@@ -50,19 +51,22 @@ class BaseDB(ABC):
                id: Optional[List[Union[UUID, str]]] = None,
                content: Optional[List[str]] = None,
                filepath: Optional[List[str]] = None,
+               content_datetime_range: Optional[List[tuple[datetime, datetime]]] = None,
                **kwargs
                ) -> List[Passage]:
         """
-            Abstract method for search Passage from DB using filter Dict.
+            search Passage from DB using filter Dict.
             This function can search Passage using 'id', 'content', 'filepath' and 'metadata_etc'.
             You can add more search condition in metadata_etc using **kwargs.
             This function is an implicit AND operation.
 
-            Args:
-                id (Optional[List[Union[UUID, str]]]): List of Passage ID to search.
-                content (Optional[List[str]]): List of Passage content to search.
-                filepath (Optional[List[str]]): List of Passage filepath to search.
-                **kwargs: Additional metadata to search.
+            :param id: (Optional[List[Union[UUID, str]]]): List of Passage ID to search.
+            :param content: (Optional[List[str]]): List of Passage content to search.
+            :param filepath: (Optional[List[str]]): List of Passage filepath to search.
+            :param content_datetime_range: (Optional[List[tuple[datetime.datetime, datetime.datetime]]]): List of content_datetime range to search.
+            You can set start_time at the first element in tuple and end_time at the second element in tuple.
+            Multiple time range search is possible, and the search condition is OR operation in time range.
+            **kwargs: Additional metadata to search.
         """
         pass
 
