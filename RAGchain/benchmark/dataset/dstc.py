@@ -26,9 +26,8 @@ class DSTCEvaluator(BaseDatasetEvaluator):
         DSTC-11-Track-5 dataset we use is huge. Recommend to set proper size for evaluation.
         :param metrics: The list of metrics to use. If None, use all metrics that supports DSTC-11-Track-5 dataset.
         Supporting metrics are 'Recall', 'Precision', 'Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'context_recall',
-        'context_precision', 'answer_relevancy', 'faithfulness'.
-        Rank aware metrics are 'NDCG', 'AP', 'CG', 'IndDCG', 'DCG', 'IndIDCG', 'IDCG', 'RR'.
-        You must ingest all data for using context_recall and context_precision metrics.
+        'context_precision', 'BLEU', 'answer_relevancy', 'faithfulness', 'KF1'.
+        You must ingest all data for using context_recall metrics.
 
         Notice:
         Default metrics is basically running metrics if you run test file.
@@ -51,7 +50,7 @@ class DSTCEvaluator(BaseDatasetEvaluator):
                     raise ValueError(f"You input {metric} that this dataset evaluator not support.")
             using_metrics = list(set(metrics))
         else:
-            using_metrics = default_metrics
+            using_metrics = support_metrics
 
         super().__init__(run_all=False, metrics=using_metrics)
 
