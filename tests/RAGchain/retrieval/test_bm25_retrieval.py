@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 import pytest
 
@@ -40,10 +41,12 @@ def test_bm25_retrieval(bm25_retrieval):
     retrieved_passages = bm25_retrieval.retrieve_with_filter(
         query='What is visconde structure?',
         top_k=top_k,
-        content=['This is test number 1', 'This is test number 3']
+        content=['This is test number 1', 'This is test number 3'],
+        content_datetime_range=[(datetime(2020, 12, 1), datetime(2021, 1, 31))]
     )
-    assert len(retrieved_passages) == 3
+    assert len(retrieved_passages) == 2
     assert 'test_id_1_search' in [passage.id for passage in retrieved_passages]
+    assert 'test_id_3_search' in [passage.id for passage in retrieved_passages]
 
 
 def test_bm25_retrieval_delete(bm25_retrieval):
