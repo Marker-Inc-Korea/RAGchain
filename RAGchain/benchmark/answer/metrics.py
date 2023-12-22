@@ -111,10 +111,6 @@ class METEOR(BasePassageAnswerMetric):
     def __init__(self):
         super().__init__()
         self._metric_name = "METEOR"
-        try:
-            from evaluate import load
-        except ImportError:
-            raise ImportError("Please install huggingface dataset. pip install datasets")
 
     def retrieval_metric_function(self, solutions: List[str], pred: str) -> float:
         meteor = evaluate.load("meteor")
