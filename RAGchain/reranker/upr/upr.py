@@ -41,9 +41,6 @@ class UPRReranker(BaseReranker):
         reranked_passages = [passages[idx] for idx in indexes]
         return reranked_passages
 
-    def rerank_sliding_window(self, query: str, passages: List[Passage], window_size: int) -> List[Passage]:
-        raise NotImplementedError("UPR reranker does not support sliding window reranking.")
-
     def calculate_likelihood(self, question: str, contexts: List[str]) -> tuple[List[int], List[float]]:
         prompts = [f"{self.prefix_prompt} {context} {self.suffix_prompt}" for context in contexts]
         # tokenize contexts and instruction prompts
