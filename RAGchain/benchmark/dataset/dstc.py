@@ -36,8 +36,6 @@ class DSTCEvaluator(BaseDatasetEvaluator):
         This separation is because Ragas metrics take a long time in evaluation.
         """
 
-        # TODO: 앞써 한 발화는 따로 문맥같은걸로 question에 포함해야하는가?
-
         self.file_path = "NomaDamas/DSTC-11-Track-5"
         qa = load_dataset(self.file_path, 'default')['test'].to_pandas().dropna()
         self.knowledge = load_dataset(self.file_path, 'knowledge')['train'].to_pandas()
@@ -89,7 +87,6 @@ class DSTCEvaluator(BaseDatasetEvaluator):
         # Create gt_passages for ingest.
         gt_passages = ingest_data[ingest_data['doc_id'].isin(id_for_remove_duplicated_corpus)]
         gt_passages = gt_passages.apply(self.__make_passages, axis=1).tolist()
-        # TODO: 자꾸 주석실수하니 metric 관련 주석 부분은 rank aware한것, answer있는것, gt만 있는것 따로해서 모듈화 시켜 상속
 
         if ingest_size is not None:
             # ingest size must be larger than evaluate size.
@@ -170,5 +167,3 @@ class DSTCEvaluator(BaseDatasetEvaluator):
                           + knowledge['domain'] + '_' + str(knowledge['entity_id']))
 
         return question, gt, response
-
-# TODO: 모두 대화의 마지막이 user로 끝나는가?
