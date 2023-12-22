@@ -4,8 +4,8 @@ from abc import ABC, abstractmethod
 from collections import Counter
 from typing import List
 
+import evaluate
 import sacrebleu
-
 
 class BaseAnswerMetric(ABC):
     def __init__(self):
@@ -105,4 +105,20 @@ class KF1(BasePassageAnswerMetric):
 
     def retrieval_metric_function(self, knowledge: List[str], pred: str) -> float:
         score = self._token_f1_score(pred, "\n".join(knowledge))
+        return score
+
+class METEOR(BasePassageAnswerMetric):
+    def __init__(self):
+        super().__init__()
+        self._metric_name = "METEOR"
+        try:
+            from evaluate import load
+        except ImportError:
+            raise ImportError("Please install huggingface dataset. pip install datasets")
+
+    def retrieval_metric_function(self, solutions: List[str], pred: str) -> float:
+        meteor = evaluate.load("meteor")
+        score = 0.0
+        for solution in solutions:
+            score = max(meteor.compute(predictions=[pred], references=[solution])['meteor'], score)
         return score
