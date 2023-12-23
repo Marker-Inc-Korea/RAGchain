@@ -1,17 +1,19 @@
 import os
 import shutil
+from datetime import datetime
 
 import chromadb
 import pytest
 from langchain.vectorstores import Chroma
 
 import test_base_retrieval
+from RAGchain.DB import PickleDB
 from RAGchain.retrieval import VectorDBRetrieval
 from RAGchain.utils.embed import EmbeddingFactory
 from RAGchain.utils.vectorstore import ChromaSlim
 
 
-@pytest.fixture
+@pytest.fixture(scope='module')
 def vectordb_retrieval():
     pickle_path = os.path.join(test_base_retrieval.root_dir, "resources", "pickle", "test_vectordb_retrieval.pkl")
     if not os.path.exists(os.path.dirname(pickle_path)):
@@ -32,7 +34,34 @@ def vectordb_retrieval():
         shutil.rmtree(chroma_path)
 
 
-@pytest.fixture
+@pytest.fixture(scope='module')
+def vectordb_retrieval_for_delete():
+    pickle_path = os.path.join(test_base_retrieval.root_dir, "resources", "pickle",
+                               "test_vectordb_retrieval_for_delete.pkl")
+    if not os.path.exists(os.path.dirname(pickle_path)):
+        os.makedirs(os.path.dirname(pickle_path))
+    db = PickleDB(save_path=pickle_path)
+    db.create_or_load()
+    db.save(test_base_retrieval.SEARCH_TEST_PASSAGES)
+    chroma_path = os.path.join(test_base_retrieval.root_dir, "resources", "test_vectordb_retrieval_for_delete_chroma")
+    if not os.path.exists(chroma_path):
+        os.makedirs(chroma_path)
+    chroma = ChromaSlim(
+        client=chromadb.PersistentClient(path=chroma_path),
+        collection_name='test_vectordb_retrieval_for_delete',
+        embedding_function=EmbeddingFactory('openai').get()
+    )
+    retrieval = VectorDBRetrieval(vectordb=chroma)
+    retrieval.ingest(test_base_retrieval.SEARCH_TEST_PASSAGES)
+    yield retrieval
+    # teardown
+    if os.path.exists(pickle_path):
+        os.remove(pickle_path)
+    if os.path.exists(chroma_path):
+        shutil.rmtree(chroma_path)
+
+
+@pytest.fixture(scope='module')
 def slim_vectordb_retrieval():
     pickle_path = os.path.join(test_base_retrieval.root_dir, "resources", "pickle", "test_slim_vectordb_retrieval.pkl")
     if not os.path.exists(os.path.dirname(pickle_path)):
@@ -80,16 +109,17 @@ def vectordb_retrieval_test(retrieval: VectorDBRetrieval):
     retrieved_passages = retrieval.retrieve_with_filter(
         query='What is visconde structure?',
         top_k=top_k,
-        content=['This is test number 1', 'This is test number 3']
+        content=['This is test number 1', 'This is test number 3'],
+        content_datetime_range=[(datetime(2020, 12, 1), datetime(2021, 1, 31))]
     )
-    assert len(retrieved_passages) == 3
+    assert len(retrieved_passages) == 2
     assert 'test_id_1_search' in [passage.id for passage in retrieved_passages]
+    assert 'test_id_3_search' in [passage.id for passage in retrieved_passages]
 
 
-def test_vectordb_retrieval_delete(slim_vectordb_retrieval):
-    slim_vectordb_retrieval.ingest(test_base_retrieval.SEARCH_TEST_PASSAGES)
-    slim_vectordb_retrieval.delete(['test_id_4_search', 'test_id_3_search'])
-    retrieved_passages = slim_vectordb_retrieval.retrieve(query='What is visconde structure?', top_k=4)
+def test_vectordb_retrieval_delete(vectordb_retrieval_for_delete):
+    vectordb_retrieval_for_delete.delete(['test_id_4_search', 'test_id_3_search'])
+    retrieved_passages = vectordb_retrieval_for_delete.retrieve(query='What is visconde structure?', top_k=4)
     assert len(retrieved_passages) == 2
     assert 'test_id_1_search' in [passage.id for passage in retrieved_passages]
     assert 'test_id_2_search' in [passage.id for passage in retrieved_passages]

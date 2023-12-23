@@ -76,3 +76,4 @@ def test_deepdoctection_pdf_loader(deepdoctection_pdf_loader):
     text_count_content = sum('text' in doc.page_content for doc in docs)
     text_count_metadata = sum('text' in doc.metadata['page_type'] for doc in docs)
     assert text_count_content == text_count_metadata == 12
+    assert docs[0].metadata['source'] == deepdoctection_pdf_loader.file_path

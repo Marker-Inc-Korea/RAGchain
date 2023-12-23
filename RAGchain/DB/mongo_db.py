@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List, Optional, Union
 from uuid import UUID
 
@@ -68,22 +69,19 @@ class MongoDB(BaseDB):
     def fetch(self, ids: List[UUID]) -> List[Passage]:
         """Fetches the passages from MongoDB collection by their passage ids."""
         dict_passages = list(self.collection.find({"_id": {"$in": ids}}))
-        return [Passage(id=dict_passage['_id'], **dict_passage) for dict_passage in dict_passages]
+        result = list()
+        for dict_passage in dict_passages:
+            _id = dict_passage.pop('_id')
+            result.append(Passage(id=_id, **dict_passage))
+        return result
 
     def search(self,
                id: Optional[List[Union[UUID, str]]] = None,
                content: Optional[List[str]] = None,
                filepath: Optional[List[str]] = None,
+               content_datetime_range: Optional[List[tuple[datetime, datetime]]] = None,
                **kwargs
                ) -> List[Passage]:
-        """
-        Searches the MongoDB collection based on the provided filters and returns the resulting passages.
-        :param id: Optional[List[Union[UUID, str]]], list of Passage ID to search.
-        :param content: Optional[List[str]], list of Passage content to search.
-        :param filepath: Optional[List[str]], list of Passage filepath to search.
-        :param kwargs: Additional metadata to search.
-        :return: List[Passage], list of Passage extract from the MongoDB.
-        """
         filter_dict = {}
         if id is not None:
             filter_dict["_id"] = {'$in': id}
@@ -91,12 +89,19 @@ class MongoDB(BaseDB):
             filter_dict["content"] = {'$in': content}
         if filepath is not None:
             filter_dict["filepath"] = {'$in': filepath}
+        if content_datetime_range is not None:
+            filter_dict["$or"] = [{'content_datetime': {'$gte': start, '$lte': end}} for start, end in
+                                  content_datetime_range]
         if kwargs is not None and len(kwargs) > 0:
             for key, value in kwargs.items():
                 filter_dict[f'metadata_etc.{key}'] = {'$in': value}
 
         cursor = self.collection.find(filter_dict)
-        return [Passage(id=passage['_id'], **passage) for passage in cursor]
+        result = list()
+        for passage in cursor:
+            _id = passage.pop('_id')
+            result.append(Passage(id=_id, **passage))
+        return result
 
     def set_db(self):
         self.client = pymongo.MongoClient(self.mongo_url, uuidRepresentation='standard')

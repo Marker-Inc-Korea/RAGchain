@@ -68,6 +68,22 @@ RAGchain.preprocess.loader.pdf\_link\_loader module
    :undoc-members:
    :show-inheritance:
 
+RAGchain.preprocess.loader.rust\_hwp\_loader module
+---------------------------------------------------
+
+.. automodule:: RAGchain.preprocess.loader.rust_hwp_loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+RAGchain.preprocess.loader.win32\_hwp\_loader module
+----------------------------------------------------
+
+.. automodule:: RAGchain.preprocess.loader.win32_hwp_loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

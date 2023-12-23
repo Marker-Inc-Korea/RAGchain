@@ -39,6 +39,3 @@ class MonoT5Reranker(BaseReranker):
                     next_passage_id=text.metadata['next_passage_id'],
                     metadata_etc=text.metadata['metadata_etc']) for text in reranked_texts]
         return result_passage
-
-    def rerank_sliding_window(self, query: str, passages: List[Passage], window_size: int) -> List[Passage]:
-        raise NotImplementedError("MonoT5 does not support sliding window reranking")

@@ -36,6 +36,3 @@ class TARTReranker(BaseReranker):
         sorted_pairs = sorted(zip(passages, normalized_scores), key=lambda x: x[1], reverse=True)
         sorted_passages = [passage for passage, score in sorted_pairs]
         return sorted_passages
-
-    def rerank_sliding_window(self, query: str, passages: List[Passage], window_size: int) -> List[Passage]:
-        raise NotImplementedError("TARTReranker does not support sliding window reranking.")

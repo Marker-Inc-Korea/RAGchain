@@ -35,9 +35,6 @@ class BM25Reranker(BaseReranker):
 
         return sorted_passages
 
-    def rerank_sliding_window(self, query: str, passages: List[Passage], window_size: int) -> List[Passage]:
-        raise NotImplementedError("BM25Reranker doesn't support sliding window reranking.")
-
     def __tokenize(self, values: List[str]):
         tokenized = self.tokenizer(values)
         return tokenized.input_ids
