@@ -7,11 +7,13 @@ import boto3
 from botocore.exceptions import NoCredentialsError, ClientError
 from dotenv import load_dotenv
 
+from RAGchain.utils.linker.base import BaseLinker
+
 logger = logging.getLogger(__name__)
 load_dotenv()
 
 
-class DynamoDBSingleton:
+class DynamoDBSingleton(BaseLinker):
     """
     DynamoDBSingleton is a singleton class that manages DynamoDB.
     """
@@ -119,3 +121,11 @@ class DynamoDBSingleton:
 
     def __del__(self):
         self.dynamodb.close()
+
+    def put_json(self, id: Union[UUID, str], json: dict):
+        self.table.put_item(
+            Item={
+                'id': str(id),
+                'db_origin': json
+            }
+        )

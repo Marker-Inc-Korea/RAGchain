@@ -17,7 +17,7 @@ TEST_DB_ORIGIN = {
 @pytest.fixture
 def redis_db():
     redis_db = RedisDBSingleton()
-    redis_db.client.json().set(TEST_IDS[0], '$', TEST_DB_ORIGIN)
+    redis_db.put_json(TEST_IDS[0], TEST_DB_ORIGIN)
     yield redis_db
     redis_db.flush_db()
     assert redis_db.connection_check() is True
