@@ -1,5 +1,6 @@
 __version__ = '0.2.2'
 
+
 # Sets the linker, which is required to use RAGchain.
 import os
 from dotenv import load_dotenv

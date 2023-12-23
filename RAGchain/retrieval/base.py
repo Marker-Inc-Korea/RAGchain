@@ -7,7 +7,7 @@ from uuid import UUID
 from RAGchain.DB import MongoDB, PickleDB
 from RAGchain.DB.base import BaseDB
 from RAGchain.schema import Passage, DBOrigin
-from RAGchain.utils.linker import RedisDBSingleton, DynamoDBSingleton
+from RAGchain import linker
 
 
 class BaseRetrieval(ABC):
@@ -17,7 +17,6 @@ class BaseRetrieval(ABC):
 
     def __init__(self):
         self.db_instance_list: List[BaseDB] = []
-        self.redis_db = RedisDBSingleton()
 
     @abstractmethod
     def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Passage]:
@@ -98,7 +97,7 @@ class BaseRetrieval(ABC):
         fetch passages from each db. This can fetch data from multiple db.
         :param ids: list of passage ids
         """
-        db_origin_list = self.redis_db.get_json(ids)
+        db_origin_list = linker.get_json(ids)
         # Sometimes redis doesn't find the id, so we need to filter that db_origin is None.
         filter_db_origin = list(filter(lambda db_origin: db_origin is not None, db_origin_list))
         # Check duplicated db origin in one retrieval.
@@ -120,7 +119,7 @@ class BaseRetrieval(ABC):
         :param content_datetime_range: content_datetime_range list to filter
         :param kwargs: metadata_etc to filter. Put metadata_etc key as kwargs key and metadata_etc value as kwargs value.
         """
-        db_origin_list = self.redis_db.get_json(ids)
+        db_origin_list = linker.get_json(ids)
         filter_db_origin = list(filter(lambda db_origin: db_origin is not None, db_origin_list))
         final_db_origin = self.duplicate_check(filter_db_origin)
         return self.search_each_db(final_db_origin, ids, content=content, filepath=filepath,

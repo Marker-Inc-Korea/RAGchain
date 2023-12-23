@@ -4,10 +4,11 @@ from uuid import UUID
 
 import pymongo
 
+from RAGchain import linker
 from RAGchain.DB.base import BaseDB
 from RAGchain.schema import Passage
 from RAGchain.schema.db_origin import DBOrigin
-from RAGchain.utils.linker import RedisDBSingleton, DynamoDBSingleton
+
 
 
 class MongoDB(BaseDB):
@@ -26,7 +27,6 @@ class MongoDB(BaseDB):
         self.db_name = db_name
         self.collection_name = collection_name
         self.collection = None
-        self.redis_db = RedisDBSingleton()
 
     @property
     def db_type(self) -> str:
@@ -64,7 +64,7 @@ class MongoDB(BaseDB):
             # save to redisDB
             db_origin = self.get_db_origin()
             db_origin_dict = db_origin.to_dict()
-            self.redis_db.client.json().set(str(passage.id), '$', db_origin_dict)
+            linker.put_json(str(passage.id), db_origin_dict)
 
     def fetch(self, ids: List[UUID]) -> List[Passage]:
         """Fetches the passages from MongoDB collection by their passage ids."""
