@@ -6,7 +6,7 @@ from uuid import UUID
 from RAGchain.DB import MongoDB, PickleDB
 from RAGchain.DB.base import BaseDB
 from RAGchain.schema import Passage, DBOrigin
-from RAGchain.utils.linker import RedisDBSingleton
+from RAGchain.utils.linker import RedisDBSingleton, DynamoDBSingleton
 
 
 class BaseRetrieval(ABC):

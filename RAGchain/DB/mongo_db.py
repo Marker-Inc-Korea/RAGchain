@@ -6,7 +6,7 @@ import pymongo
 from RAGchain.DB.base import BaseDB
 from RAGchain.schema import Passage
 from RAGchain.schema.db_origin import DBOrigin
-from RAGchain.utils.linker.redisdbSingleton import RedisDBSingleton
+from RAGchain.utils.linker import RedisDBSingleton, DynamoDBSingleton
 
 
 class MongoDB(BaseDB):

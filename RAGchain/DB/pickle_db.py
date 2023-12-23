@@ -6,7 +6,7 @@ from uuid import UUID
 from RAGchain.DB.base import BaseDB
 from RAGchain.schema import Passage
 from RAGchain.schema.db_origin import DBOrigin
-from RAGchain.utils.linker import RedisDBSingleton
+from RAGchain.utils.linker import RedisDBSingleton, DynamoDBSingleton
 from RAGchain.utils.util import FileChecker
 
 
