@@ -33,8 +33,8 @@ def dstc11_track5_evaluator():
         os.remove(pickle_path)
 
 
-def test_dstc_track5_evaluator(dstc_track5_evaluator):
-    result = dstc_track5_evaluator.evaluate()
+def test_dstc11_track5_evaluator(dstc11_track5_evaluator):
+    result = dstc11_track5_evaluator.evaluate()
 
     assert len(result.each_results) == 5
     assert result.each_results.iloc[0]['question'] == ("U: I'm looking to stay at a 3 star hotel in the north. "
