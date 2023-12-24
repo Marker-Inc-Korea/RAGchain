@@ -11,9 +11,9 @@ from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import EvaluateResult, Passage
 
 
-class DSTC11Evaluator(BaseDatasetEvaluator):
+class DSTC11Track5Evaluator(BaseDatasetEvaluator):
     """
-    DSTC11Evaluator is a class for evaluating pipeline performance on DSTC-11-Track-5 dataset.
+    DSTC11Track5Evaluator is a class for evaluating pipeline performance on DSTC-11-Track-5 dataset.
     """
 
     def __init__(self, run_pipeline: BaseRunPipeline,

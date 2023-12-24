@@ -2,7 +2,7 @@ from .antique import AntiqueEvaluator
 from .beir import (BeirFEVEREvaluator, BeirFIQAEvaluator,
                    BeirHOTPOTQAEvaluator, BeirQUORAEvaluator,
                    BeirSCIDOCSEvaluator, BeirSCIFACTEvaluator)
-from .dstc11 import DSTC11Evaluator
+from .dstc11_track5 import DSTC11Track5Evaluator
 from .ko_strategy_qa import KoStrategyQAEvaluator
 from .mr_tydi import MrTydiEvaluator
 from .msmarco import MSMARCOEvaluator
