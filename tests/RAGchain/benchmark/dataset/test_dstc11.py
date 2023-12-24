@@ -6,7 +6,7 @@ import pytest
 from langchain.llms.openai import OpenAI
 
 from RAGchain.DB import PickleDB
-from RAGchain.benchmark.dataset import DSTCEvaluator
+from RAGchain.benchmark.dataset import DSTC11Evaluator
 from RAGchain.pipeline import BasicRunPipeline
 from RAGchain.retrieval import BM25Retrieval
 
@@ -23,7 +23,7 @@ def dstc_evaluator():
     db = PickleDB(pickle_path)
     llm = OpenAI(model_name="babbage-002")
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
-    evaluator = DSTCEvaluator(pipeline, evaluate_size=5)
+    evaluator = DSTC11Evaluator(pipeline, evaluate_size=5)
 
     evaluator.ingest([bm25_retrieval], db, ingest_size=20)
     yield evaluator
@@ -37,7 +37,15 @@ def test_dstc_evaluator(dstc_evaluator):
     result = dstc_evaluator.evaluate()
 
     assert len(result.each_results) == 5
-    assert result.each_results.iloc[0]['question'] == 'Does this hotel have rooms with a good view of the neighborhood?'
+    assert result.each_results.iloc[0]['question'] == ("U: I'm looking to stay at a 3 star hotel in the north. "
+                                                       "S: Sorry, I have no results for that query. Would you like to "
+                                                       "try a different area of town? U: Are there any moderate priced "
+                                                       "hotels in the North? S: Yes I have two. Would you like me to book "
+                                                       "one? U: I need a hotel to include free parking; does either have"
+                                                       " that? S: Yes both of them have free parking. U: Which one would"
+                                                       " you recommend? S: How about the Ashley hotel? U: Is the Ashley "
+                                                       "hotel a 3 star hotel? S: the ashley is actually a 2 star hotel. "
+                                                       "U: Does this hotel have rooms with a good view of the neighborhood?")
     assert result.each_results.iloc[0]['answer_pred']
     logger.info('The result of DSTC-11-Track-5 dataset.')
     for key, value in result.results.items():

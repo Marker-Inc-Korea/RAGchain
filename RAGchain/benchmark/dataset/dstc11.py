@@ -11,9 +11,9 @@ from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import EvaluateResult, Passage
 
 
-class DSTCEvaluator(BaseDatasetEvaluator):
+class DSTC11Evaluator(BaseDatasetEvaluator):
     """
-    DSTCEvaluator is a class for evaluating pipeline performance on DSTC-11-Track-5 dataset.
+    DSTC11Evaluator is a class for evaluating pipeline performance on DSTC-11-Track-5 dataset.
     """
 
     def __init__(self, run_pipeline: BaseRunPipeline,
@@ -58,10 +58,8 @@ class DSTCEvaluator(BaseDatasetEvaluator):
         self.run_pipeline = run_pipeline
 
         # Preprocess qa and knowledge data
-        self.questions, self.retrieval_gt, self.response = zip(*qa.apply(self.__preprocess_qa, axis=1))
+        self.questions, self.retrieval_gt, self.response = zip(*qa.apply(self.__preprocess_prompt, axis=1))
         self.knowledge['doc_id'] = self.knowledge.apply(self.__renewal_doc_id, axis=1)
-
-        test = self.retrieval_gt
 
         if evaluate_size is not None and len(qa) > evaluate_size:
             self.questions = self.questions[:evaluate_size]
@@ -147,22 +145,32 @@ class DSTCEvaluator(BaseDatasetEvaluator):
 
     def __renewal_doc_id(self, row):
         if row['doc_type'] == 'review':
-            return str(row['doc_id']) + '_' + row['doc_type'] + '_' + row['domain'] \
-                + '_' + str(row['entity_id']) + '_' + str(row['review_sent_id'])
+            return "_".join(
+                [str(row['doc_id']), row['doc_type'], row['domain'],
+                 str(row['entity_id']), str(row['review_sent_id'])]
+            )
         elif row['doc_type'] == 'faq':
-            return str(row['doc_id']) + '_' + row['doc_type'] + '_' \
-                + row['domain'] + '_' + str(row['entity_id'])
+            return "_".join(
+                [str(row['doc_id']), row['doc_type'],
+                 row['domain'], str(row['entity_id'])]
+            )
 
-    def __preprocess_qa(self, row):
-        question = row['log'][-1]['text']
+    def __preprocess_prompt(self, row):
+        question = " ".join(
+            [f"{prompt['speaker']}: {prompt['text']}" for prompt in row['log']])
+
         response = row['response']
         gt = []
         for knowledge in row['knowledge']:
             if knowledge['doc_type'] == 'review':
-                gt.append(str(knowledge['doc_id']) + '_' + knowledge['doc_type'] + '_' + knowledge['domain'] + '_'
-                          + str(knowledge['entity_id']) + '_' + str(int(knowledge['sent_id'])))
+                gt.append("_".join(
+                    [str(knowledge['doc_id']), knowledge['doc_type'], knowledge['domain'],
+                     str(knowledge['entity_id']), str(int(knowledge['sent_id']))]
+                ))
             elif knowledge['doc_type'] == 'faq':
-                gt.append(str(knowledge['doc_id']) + '_' + knowledge['doc_type'] + '_'
-                          + knowledge['domain'] + '_' + str(knowledge['entity_id']))
+                gt.append("_".join(
+                    [str(knowledge['doc_id']), knowledge['doc_type'],
+                     knowledge['domain'], str(knowledge['entity_id'])]
+                ))
 
         return question, gt, response
