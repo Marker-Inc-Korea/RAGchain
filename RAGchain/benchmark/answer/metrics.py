@@ -107,7 +107,7 @@ class KF1(BasePassageAnswerMetric):
         score = self._token_f1_score(pred, "\n".join(knowledge))
         return score
 
-class METEOR(BasePassageAnswerMetric):
+class METEOR(BaseAnswerMetric):
     def __init__(self):
         super().__init__()
         self._metric_name = "METEOR"
