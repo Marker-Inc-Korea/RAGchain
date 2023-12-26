@@ -55,6 +55,8 @@ setup(
         'sacrebleu',
         'scikit-learn',
         'boto3',
+        'evaluate'
+
     ],
     classifiers=[
         "Intended Audience :: Developers",
