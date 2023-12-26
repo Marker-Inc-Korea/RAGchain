@@ -133,5 +133,4 @@ class ROUGE(BaseAnswerMetric):
         score = 0.0
         for solution in solutions:
             score = max(rouge.compute(predictions=[pred], references=[solution])['rougeL'], score)
-        print(score)
         return score
