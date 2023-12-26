@@ -55,8 +55,6 @@ setup(
         'sacrebleu',
         'scikit-learn',
         'evaluate',
-        'absl-py',
-        'six>=1.14.0',
         'rouge_score'
     ],
     classifiers=[
