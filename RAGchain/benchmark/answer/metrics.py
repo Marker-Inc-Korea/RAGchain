@@ -118,3 +118,15 @@ class METEOR(BaseAnswerMetric):
         for solution in solutions:
             score = max(meteor.compute(predictions=[pred], references=[solution])['meteor'], score)
         return score
+
+class ROUGE(BaseAnswerMetric):
+    def __init__(self):
+        super().__init__()
+        self._metric_name = "ROUGE"
+
+    def retrieval_metric_function(self, solutions: List[str], pred: str) -> float:
+        rouge = evaluate.load("rouge")
+        score = 0.0
+        for solution in solutions:
+            score = max(rouge.compute(predictions=[pred], references=[solution])['rougeL'], score)
+        return score
