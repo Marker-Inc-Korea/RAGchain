@@ -123,10 +123,15 @@ class ROUGE(BaseAnswerMetric):
     def __init__(self):
         super().__init__()
         self._metric_name = "ROUGE"
+        try:
+            from rouge_score import rouge_scorer
+        except ImportError:
+            raise ImportError("Please install rouge_scorer. pip install rouge_score")
 
     def retrieval_metric_function(self, solutions: List[str], pred: str) -> float:
         rouge = evaluate.load("rouge")
         score = 0.0
         for solution in solutions:
             score = max(rouge.compute(predictions=[pred], references=[solution])['rougeL'], score)
+        print(score)
         return score
