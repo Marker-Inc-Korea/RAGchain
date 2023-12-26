@@ -57,7 +57,7 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
         :param evaluate_size: The number of data to evaluate. If None, evaluate all data.
         We are using train set for evaluating in this class, so it is huge. Recommend to set proper size for evaluation.
 
-        :param metrics: The list of metrics to use. If None, use all metrics that supports BEIR datasets.
+        :param metrics: The list of metrics to use. If None, use all metrics that supports BEIR dataset.
         Supporting metrics are Recall, Precision, Hole, TopK_Accuracy, EM, F1_score, context_precision, MRR.
         You must ingest all data for using context_recall and context_precision metrics.
         Notice: We except context_recall metric that is ragas metric.
