@@ -10,7 +10,6 @@ from RAGchain.schema import Passage
 from RAGchain.schema.db_origin import DBOrigin
 
 
-
 class MongoDB(BaseDB):
     """
     MongoDB class for using MongoDB as a database for passage contents.
