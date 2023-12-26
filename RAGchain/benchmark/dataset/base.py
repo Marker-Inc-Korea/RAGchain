@@ -140,7 +140,7 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
 
     def evaluate(self, **kwargs) -> EvaluateResult:
         """
-        Evaluate pipeline performance on fever dataset.
+        Evaluate pipeline performance on beir dataset.
         This method always validate passages.
         """
 
