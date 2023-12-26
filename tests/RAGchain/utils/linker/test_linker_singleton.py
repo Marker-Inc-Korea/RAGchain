@@ -14,6 +14,6 @@ def test_singleton_same_child():
 def test_singleton_different_child():
     with pytest.raises(Exception) as e:
         test_linker_dynamo = DynamoDBSingleton()
-        test_linker_redis = DynamoDBSingleton()
+        test_linker_redis = RedisDBSingleton()
     assert e.type is Exception
     assert "Instance of linker already created. Cannot create another linker." in str(e.value)
