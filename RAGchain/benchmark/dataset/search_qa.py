@@ -41,8 +41,11 @@ class SearchQAEvaluator(BaseDatasetEvaluator):
         This distinction arises due to the prolonged evaluation time required for Ragas metrics.
         """
 
+        # TODO: train test validation split 해야할듯? 아니면 내가 짤라서 hugging에 올리기
+
         self.file_path = "search_qa"
-        self.dataset = load_dataset(self.file_path, 'raw_jeopardy')
+        self.dataset = load_dataset(self.file_path, 'raw_jeopardy')['train'].to_pandas()
+        test = self.dataset
 
         default_metrics = self.retrieval_gt_metrics + self.answer_gt_metrics \
                           + self.answer_no_gt_ragas_metrics + self.answer_passage_metrics
