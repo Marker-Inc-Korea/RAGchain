@@ -10,6 +10,7 @@ Subpackages
    RAGchain.reranker.llm
    RAGchain.reranker.pygaggle
    RAGchain.reranker.tart
+   RAGchain.reranker.time
    RAGchain.reranker.upr
 
 Submodules

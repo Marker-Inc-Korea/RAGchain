@@ -68,6 +68,26 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li><a class="reference internal" href="#module-RAGchain.benchmark.dataset.asqa">RAGchain.benchmark.dataset.asqa
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.benchmark.dataset.asqa.ASQAEvaluator"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">ASQAEvaluator</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.asqa.ASQAEvaluator.evaluate"><code
+                                                        class="docutils literal notranslate"><span class="pre">ASQAEvaluator.evaluate()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.asqa.ASQAEvaluator.ingest"><code
+                                                        class="docutils literal notranslate"><span class="pre">ASQAEvaluator.ingest()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
                                 <li><a class="reference internal" href="#module-RAGchain.benchmark.dataset.base">RAGchain.benchmark.dataset.base
                                     module</a>
                                     <ul>
@@ -147,6 +167,26 @@
                                         <li><a class="reference internal"
                                                href="#RAGchain.benchmark.dataset.beir.BeirSCIFACTEvaluator"><code
                                                 class="docutils literal notranslate"><span class="pre">BeirSCIFACTEvaluator</span></code></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="reference internal"
+                                       href="#module-RAGchain.benchmark.dataset.dstc11_track5">RAGchain.benchmark.dataset.dstc11_track5
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.benchmark.dataset.dstc11_track5.DSTC11Track5Evaluator"><code
+                                                class="docutils literal notranslate"><span class="pre">DSTC11Track5Evaluator</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.dstc11_track5.DSTC11Track5Evaluator.evaluate"><code
+                                                        class="docutils literal notranslate"><span class="pre">DSTC11Track5Evaluator.evaluate()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.dstc11_track5.DSTC11Track5Evaluator.ingest"><code
+                                                        class="docutils literal notranslate"><span class="pre">DSTC11Track5Evaluator.ingest()</span></code></a>
+                                                </li>
+                                            </ul>
                                         </li>
                                     </ul>
                                 </li>
@@ -505,6 +545,118 @@
                                                     ground truth in db.</p>
                                                 <p>If you want to use context_recall metrics, you should ingest all
                                                     data.</p>
+                                            </dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-RAGchain.benchmark.dataset.asqa">
+                                <span id="ragchain-benchmark-dataset-asqa-module"></span>
+                                <h2>RAGchain.benchmark.dataset.asqa module<a class="headerlink"
+                                                                             href="#module-RAGchain.benchmark.dataset.asqa"
+                                                                             title="Link to this heading"></a></h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py" id="RAGchain.benchmark.dataset.asqa.ASQAEvaluator">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.dataset.asqa.</span></span><span
+                                            class="sig-name descname"><span class="pre">ASQAEvaluator</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">run_pipeline</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                                            class="reference internal"
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">evaluate_size</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">int</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">metrics</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span><span class="w"> </span><span class="p"><span
+                                            class="pre">|</span></span><span class="w"> </span><span
+                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">None</span></span></em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#RAGchain.benchmark.dataset.asqa.ASQAEvaluator"
+                                                                         title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"
+                                                     title="RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseDatasetEvaluator</span></code></a>
+                                    </p>
+                                        <p>ASQAEvaluator is a class for evaluating pipeline performance on ASQA
+                                            dataset.</p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.asqa.ASQAEvaluator.evaluate">
+                                                <span class="sig-name descname"><span class="pre">evaluate</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="o"><span class="pre">**</span></span><span class="n"><span
+                                                    class="pre">kwargs</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><a class="reference internal"
+                                                                                   href="RAGchain.schema.html#RAGchain.schema.evaluate_result.EvaluateResult"
+                                                                                   title="RAGchain.schema.evaluate_result.EvaluateResult"><span
+                                                    class="pre">EvaluateResult</span></a></span></span><a
+                                                    class="headerlink"
+                                                    href="#RAGchain.benchmark.dataset.asqa.ASQAEvaluator.evaluate"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>Evaluate metrics and return the results
+                                                :param validate_passages: If True, validate passages in retrieval_gt
+                                                already ingested.
+                                                If False, you can’t use context_recall and KF1 metrics.
+                                                We recommend to set True for robust evaluation.
+                                                :return: EvaluateResult</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.asqa.ASQAEvaluator.ingest">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">ingest</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">retrievals</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">List</span><span class="p"><span
+                                                    class="pre">[</span></span><a class="reference internal"
+                                                                                  href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval"
+                                                                                  title="RAGchain.retrieval.base.BaseRetrieval"><span
+                                                    class="pre">BaseRetrieval</span></a><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">db</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><a class="reference internal"
+                                                                 href="RAGchain.DB.html#RAGchain.DB.base.BaseDB"
+                                                                 title="RAGchain.DB.base.BaseDB"><span class="pre">BaseDB</span></a></span></em>,
+                                                <em class="sig-param"><span class="n"><span
+                                                        class="pre">ingest_size</span></span><span class="p"><span
+                                                        class="pre">:</span></span><span class="w"> </span><span
+                                                        class="n"><span class="pre">int</span><span
+                                                        class="w"> </span><span class="p"><span
+                                                        class="pre">|</span></span><span class="w"> </span><span
+                                                        class="pre">None</span></span><span class="w"> </span><span
+                                                        class="o"><span class="pre">=</span></span><span
+                                                        class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#RAGchain.benchmark.dataset.asqa.ASQAEvaluator.ingest"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd><p>Ingest dataset to retrievals and db.
+                                                :param retrievals: The retrievals that you want to ingest.
+                                                :param db: The db that you want to ingest.
+                                                :param ingest_size: The number of data to ingest. If None, ingest all
+                                                data.</p>
                                             </dd>
                                         </dl>
 
@@ -1052,6 +1204,130 @@
                                     </p>
                                         <p>BeirSCIFACTEvaluator is a class for evaluating pipeline performance on beir
                                             scifact datasets.</p>
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-RAGchain.benchmark.dataset.dstc11_track5">
+                                <span id="ragchain-benchmark-dataset-dstc11-track5-module"></span>
+                                <h2>RAGchain.benchmark.dataset.dstc11_track5 module<a class="headerlink"
+                                                                                      href="#module-RAGchain.benchmark.dataset.dstc11_track5"
+                                                                                      title="Link to this heading"></a>
+                                </h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="RAGchain.benchmark.dataset.dstc11_track5.DSTC11Track5Evaluator">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.dataset.dstc11_track5.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">DSTC11Track5Evaluator</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">run_pipeline</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                                            class="reference internal"
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">evaluate_size</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">int</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">metrics</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span><span class="w"> </span><span class="p"><span
+                                            class="pre">|</span></span><span class="w"> </span><span
+                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">None</span></span></em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#RAGchain.benchmark.dataset.dstc11_track5.DSTC11Track5Evaluator"
+                                                                         title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"
+                                                     title="RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseDatasetEvaluator</span></code></a>
+                                    </p>
+                                        <p>DSTC11Track5Evaluator is a class for evaluating pipeline performance on
+                                            DSTC-11-Track-5 dataset.</p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.dstc11_track5.DSTC11Track5Evaluator.evaluate">
+                                                <span class="sig-name descname"><span class="pre">evaluate</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="o"><span class="pre">**</span></span><span class="n"><span
+                                                    class="pre">kwargs</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><a class="reference internal"
+                                                                                   href="RAGchain.schema.html#RAGchain.schema.evaluate_result.EvaluateResult"
+                                                                                   title="RAGchain.schema.evaluate_result.EvaluateResult"><span
+                                                    class="pre">EvaluateResult</span></a></span></span><a
+                                                    class="headerlink"
+                                                    href="#RAGchain.benchmark.dataset.dstc11_track5.DSTC11Track5Evaluator.evaluate"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>Evaluate metrics and return the results
+                                                :param validate_passages: If True, validate passages in retrieval_gt
+                                                already ingested.
+                                                If False, you can’t use context_recall and KF1 metrics.
+                                                We recommend to set True for robust evaluation.
+                                                :return: EvaluateResult</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.dstc11_track5.DSTC11Track5Evaluator.ingest">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">ingest</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">retrievals</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">List</span><span class="p"><span
+                                                    class="pre">[</span></span><a class="reference internal"
+                                                                                  href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval"
+                                                                                  title="RAGchain.retrieval.base.BaseRetrieval"><span
+                                                    class="pre">BaseRetrieval</span></a><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">db</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><a class="reference internal"
+                                                                 href="RAGchain.DB.html#RAGchain.DB.base.BaseDB"
+                                                                 title="RAGchain.DB.base.BaseDB"><span class="pre">BaseDB</span></a></span></em>,
+                                                <em class="sig-param"><span class="n"><span
+                                                        class="pre">ingest_size</span></span><span class="p"><span
+                                                        class="pre">:</span></span><span class="w"> </span><span
+                                                        class="n"><span class="pre">int</span><span
+                                                        class="w"> </span><span class="p"><span
+                                                        class="pre">|</span></span><span class="w"> </span><span
+                                                        class="pre">None</span></span><span class="w"> </span><span
+                                                        class="o"><span class="pre">=</span></span><span
+                                                        class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
+                                                <em class="sig-param"><span class="n"><span
+                                                        class="pre">random_state</span></span><span class="o"><span
+                                                        class="pre">=</span></span><span class="default_value"><span
+                                                        class="pre">None</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#RAGchain.benchmark.dataset.dstc11_track5.DSTC11Track5Evaluator.ingest"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd><p>Ingest dataset to retrievals and db.
+                                                :param retrievals: The retrievals that you want to ingest.
+                                                :param db: The db that you want to ingest.
+                                                :param ingest_size: The number of data to ingest. If None, ingest all
+                                                data.
+                                                You must ingest all data for using context_recall metrics.
+                                                :param random_state: A random state to fix the shuffled corpus to
+                                                ingest.
+                                                Types are like these. int, array-like, BitGenerator,
+                                                np.random.RandomState, np.random.Generator, optional</p>
+                                            </dd>
+                                        </dl>
+
                                     </dd>
                                 </dl>
 
