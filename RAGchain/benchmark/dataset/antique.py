@@ -29,9 +29,9 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
         and rank aware metrics are 'NDCG', 'AP', 'CG', 'IndDCG', 'DCG', 'IndIDCG', 'IDCG', 'RR'.
 
         Notice:
-        Default metrics is basically running metrics if you run test file.
-        Support metrics is the metrics you are available.
-        This separation is because Ragas metrics take a long time in evaluation.
+        Default metrics are essentially the metrics run when executing a test file.
+        Support metrics refer to the available metrics.
+        This distinction arises due to the prolonged evaluation time required for Ragas metrics.
         """
 
         try:

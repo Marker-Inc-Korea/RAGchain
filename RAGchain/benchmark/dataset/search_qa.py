@@ -41,8 +41,8 @@ class SearchQAEvaluator(BaseDatasetEvaluator):
         This distinction arises due to the prolonged evaluation time required for Ragas metrics.
         """
 
-        self.file_path = "lucadiliello/searchqa"
-        self.dataset = load_dataset(self.file_path)['validation'].to_pandas()
+        self.file_path = "search_qa"
+        self.dataset = load_dataset(self.file_path, 'raw_jeopardy')
 
         default_metrics = self.retrieval_gt_metrics + self.answer_gt_metrics \
                           + self.answer_no_gt_ragas_metrics + self.answer_passage_metrics

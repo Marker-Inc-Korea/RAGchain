@@ -30,9 +30,9 @@ class ASQAEvaluator(BaseDatasetEvaluator):
         'context_recall', 'BLEU', 'context_precision', 'answer_relevancy', 'faithfulness', 'KF1'.
 
         Notice:
-        Default metrics is basically running metrics if you run test file.
-        Support metrics is the metrics you are available.
-        This separation is because Ragas metrics take a long time in evaluation.
+        The default metric refers to the metric that is essentially executed when you run the test file.
+        Support metrics refer to those that are available for use.
+        This distinction exists because the evaluation process for Ragas metrics is time-consuming.
         """
 
         self.file_path = "din0s/asqa"

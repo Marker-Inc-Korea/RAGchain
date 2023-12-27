@@ -30,9 +30,9 @@ class DSTC11Track5Evaluator(BaseDatasetEvaluator):
         You must ingest all data for using context_recall metrics.
 
         Notice:
-        Default metrics is basically running metrics if you run test file.
-        Support metrics is the metrics you are available.
-        This separation is because Ragas metrics take a long time in evaluation.
+        The default metric refers to the metric that is essentially executed when you run the test file.
+        Support metrics refer to those that are available for use.
+        This distinction exists because the evaluation process for Ragas metrics is time-consuming.
         """
 
         self.file_path = "NomaDamas/DSTC-11-Track-5"

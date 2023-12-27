@@ -28,9 +28,9 @@ class StrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
         You must ingest all data for using context_recall metrics.
 
         Notice:
-        Default metrics is basically running metrics if you run test file.
-        Support metrics is the metrics you are available.
-        This separation is because Ragas metrics take a long time in evaluation.
+        The default metric refers to the metric that is essentially executed when you run the test file.
+        Support metrics refer to those that are available for use.
+        This distinction exists because the evaluation process for Ragas metrics is time-consuming.
         """
         default_metrics = self.retrieval_gt_metrics
         support_metrics = default_metrics + self.retrieval_no_gt_ragas_metrics + self.retrieval_gt_ragas_metrics

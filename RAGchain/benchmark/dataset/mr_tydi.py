@@ -33,9 +33,9 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
         If you want to use languages combined, You can choose 'combined' configuration.
 
         Notice:
-        Default metrics is basically running metrics if you run test file.
-        Support metrics is the metrics you are available.
-        This separation is because Ragas metrics take a long time in evaluation.
+        The default metric refers to the metric that is essentially executed when you run the test file.
+        Support metrics refer to those that are available for use.
+        This distinction exists because the evaluation process for Ragas metrics is time-consuming.
         """
         default_metrics = (self.retrieval_gt_metrics + ['MRR'])
         support_metrics = (default_metrics

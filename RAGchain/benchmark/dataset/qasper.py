@@ -29,9 +29,9 @@ class QasperEvaluator(BaseDatasetEvaluator):
         :param random_state: random seed for sampling data. Default is 42.
 
         Notice:
-        Default metrics is basically running metrics if you run test file.
-        Support metrics is the metrics you are available.
-        This separation is because Ragas metrics take a long time in evaluation.
+        The default metric refers to the metric that is essentially executed when you run the test file.
+        Support metrics refer to those that are available for use.
+        This distinction exists because the evaluation process for Ragas metrics is time-consuming.
         """
         default_metrics = (self.retrieval_gt_metrics + self.answer_gt_metrics +
                            self.answer_no_gt_ragas_metrics + self.answer_passage_metrics)

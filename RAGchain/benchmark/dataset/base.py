@@ -59,10 +59,14 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
 
         :param metrics: The list of metrics to use. If None, use all metrics that supports KoStrategyQA.
         Supporting metrics are Recall, Precision, Hole, TopK_Accuracy, EM, F1_score, context_precision, MRR.
-        You must ingest all data for using context_recall and context_precision metrics.
+        You must ingest all data for using context_recall  metrics.
         Notice: We except context_recall metric that is ragas metric.
                 It takes a long time in evaluation because beir token is too big.
                 So if you want to use context_recall metric, You can add self.retrieval_gt_ragas_metrics.
+
+        The default metric refers to the metric that is essentially executed when you run the test file.
+        Support metrics refer to those that are available for use.
+        This distinction exists because the evaluation process for Ragas metrics is time-consuming.
 
         Additionally, you can preprocess datasets in this class constructor to benchmark your own pipeline.
         You can modify utils methods by overriding it for your dataset.
