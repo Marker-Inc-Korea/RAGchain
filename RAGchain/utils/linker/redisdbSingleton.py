@@ -15,12 +15,8 @@ class RedisDBSingleton(BaseLinker):
     RedisDBSingleton is a singleton class that manages redis.
     We use redis to link DB and passage ids that stores in retrievals.
     """
-    _is_initialized = False
 
     def __init__(self):
-        if self._is_initialized:
-            return
-
         host = os.getenv("REDIS_HOST")
         port = os.getenv("REDIS_PORT")
         db_name = os.getenv("REDIS_DB_NAME")
