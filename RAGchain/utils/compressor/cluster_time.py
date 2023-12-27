@@ -1,3 +1,4 @@
+import re
 from typing import List, Iterator
 
 from RAGchain.schema import Passage
@@ -26,7 +27,12 @@ class ClusterTimeCompressor(BaseCompressor):
         :param passages: list of passages to be compressed.
         :param kwargs: kwargs for clustering algorithm.
         """
-        pass
+        if self.split_by_sentences:
+            passages = list(self._split_sentences(passages))
+
+        clusters = self.semantic_cluster.cluster(passages, **kwargs)
+        result = [max(cluster, key=lambda p: p.content_datetime) for cluster in clusters]
+        return result
 
     @staticmethod
     def _split_sentences(passages: List[Passage]) -> Iterator[Passage]:
@@ -35,6 +41,6 @@ class ClusterTimeCompressor(BaseCompressor):
         So, the returned passages have same id and other params, but different content.
         """
         for passage in passages:
-            sentences = passage.content.split(".")
+            sentences = re.split('(?<=[.!?]) +', passage.content)
             for sentence in sentences:
                 yield passage.copy(content=sentence.strip())
