@@ -102,6 +102,20 @@
             </li>
         </ul>
     </li>
+    <li><a class="reference internal" href="#module-RAGchain.utils.semantic_clustering">RAGchain.utils.semantic_clustering
+        module</a>
+        <ul>
+            <li><a class="reference internal" href="#RAGchain.utils.semantic_clustering.SemanticClustering"><code
+                    class="docutils literal notranslate"><span class="pre">SemanticClustering</span></code></a>
+                <ul>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.semantic_clustering.SemanticClustering.cluster"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">SemanticClustering.cluster()</span></code></a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
 <li><a class="reference internal" href="#module-RAGchain.utils.util">RAGchain.utils.util module</a><ul>
 <li><a class="reference internal" href="#RAGchain.utils.util.FileChecker"><code class="docutils literal notranslate"><span class="pre">FileChecker</span></code></a><ul>
 <li><a class="reference internal" href="#RAGchain.utils.util.FileChecker.check_type"><code class="docutils literal notranslate"><span class="pre">FileChecker.check_type()</span></code></a></li>
@@ -148,6 +162,49 @@
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+    <li class="toctree-l1"><a class="reference internal" href="RAGchain.utils.compressor.html">RAGchain.utils.compressor
+        package</a>
+        <ul>
+            <li class="toctree-l2"><a class="reference internal" href="RAGchain.utils.compressor.html#submodules">Submodules</a>
+            </li>
+            <li class="toctree-l2"><a class="reference internal"
+                                      href="RAGchain.utils.compressor.html#module-RAGchain.utils.compressor.base">RAGchain.utils.compressor.base
+                module</a>
+                <ul>
+                    <li class="toctree-l3"><a class="reference internal"
+                                              href="RAGchain.utils.compressor.html#RAGchain.utils.compressor.base.BaseCompressor"><code
+                            class="docutils literal notranslate"><span class="pre">BaseCompressor</span></code></a>
+                        <ul>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.utils.compressor.html#RAGchain.utils.compressor.base.BaseCompressor.compress"><code
+                                    class="docutils literal notranslate"><span
+                                    class="pre">BaseCompressor.compress()</span></code></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="toctree-l2"><a class="reference internal"
+                                      href="RAGchain.utils.compressor.html#module-RAGchain.utils.compressor.cluster_time">RAGchain.utils.compressor.cluster_time
+                module</a>
+                <ul>
+                    <li class="toctree-l3"><a class="reference internal"
+                                              href="RAGchain.utils.compressor.html#RAGchain.utils.compressor.cluster_time.ClusterTimeCompressor"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">ClusterTimeCompressor</span></code></a>
+                        <ul>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.utils.compressor.html#RAGchain.utils.compressor.cluster_time.ClusterTimeCompressor.compress"><code
+                                    class="docutils literal notranslate"><span class="pre">ClusterTimeCompressor.compress()</span></code></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="toctree-l2"><a class="reference internal"
+                                      href="RAGchain.utils.compressor.html#module-RAGchain.utils.compressor">Module
+                contents</a></li>
+        </ul>
+    </li>
 <li class="toctree-l1"><a class="reference internal" href="RAGchain.utils.embed.html">RAGchain.utils.embed package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.utils.embed.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.utils.embed.html#module-RAGchain.utils.embed.embeddingfactory">RAGchain.utils.embed.embeddingfactory module</a><ul>
@@ -170,11 +227,136 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="RAGchain.utils.linker.html">RAGchain.utils.linker package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.utils.linker.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="RAGchain.utils.linker.html#module-RAGchain.utils.linker.redisdbSingleton">RAGchain.utils.linker.redisdbSingleton module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="RAGchain.utils.linker.html#RAGchain.utils.linker.redisdbSingleton.RedisDBSingleton"><code class="docutils literal notranslate"><span class="pre">RedisDBSingleton</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="RAGchain.utils.linker.html#RAGchain.utils.linker.redisdbSingleton.RedisDBSingleton.connection_check"><code class="docutils literal notranslate"><span class="pre">RedisDBSingleton.connection_check()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="RAGchain.utils.linker.html#RAGchain.utils.linker.redisdbSingleton.RedisDBSingleton.flush_db"><code class="docutils literal notranslate"><span class="pre">RedisDBSingleton.flush_db()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="RAGchain.utils.linker.html#RAGchain.utils.linker.redisdbSingleton.RedisDBSingleton.get_json"><code class="docutils literal notranslate"><span class="pre">RedisDBSingleton.get_json()</span></code></a></li>
+    <li class="toctree-l2"><a class="reference internal"
+                              href="RAGchain.utils.linker.html#module-RAGchain.utils.linker.base">RAGchain.utils.linker.base
+        module</a>
+        <ul>
+            <li class="toctree-l3"><a class="reference internal"
+                                      href="RAGchain.utils.linker.html#RAGchain.utils.linker.base.BaseLinker"><code
+                    class="docutils literal notranslate"><span class="pre">BaseLinker</span></code></a>
+                <ul>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.base.BaseLinker.flush_db"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">BaseLinker.flush_db()</span></code></a></li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.base.BaseLinker.get_json"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">BaseLinker.get_json()</span></code></a></li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.base.BaseLinker.put_json"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">BaseLinker.put_json()</span></code></a></li>
+                </ul>
+            </li>
+            <li class="toctree-l3"><a class="reference internal"
+                                      href="RAGchain.utils.linker.html#RAGchain.utils.linker.base.Singleton"><code
+                    class="docutils literal notranslate"><span class="pre">Singleton</span></code></a></li>
+            <li class="toctree-l3"><a class="reference internal"
+                                      href="RAGchain.utils.linker.html#RAGchain.utils.linker.base.SingletonCreationError"><code
+                    class="docutils literal notranslate"><span class="pre">SingletonCreationError</span></code></a></li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal"
+                              href="RAGchain.utils.linker.html#module-RAGchain.utils.linker.dynamo_linker">RAGchain.utils.linker.dynamo_linker
+        module</a>
+        <ul>
+            <li class="toctree-l3"><a class="reference internal"
+                                      href="RAGchain.utils.linker.html#RAGchain.utils.linker.dynamo_linker.DynamoLinker"><code
+                    class="docutils literal notranslate"><span class="pre">DynamoLinker</span></code></a>
+                <ul>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.dynamo_linker.DynamoLinker.create_or_load_table"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">DynamoLinker.create_or_load_table()</span></code></a></li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.dynamo_linker.DynamoLinker.create_table"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">DynamoLinker.create_table()</span></code></a></li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.dynamo_linker.DynamoLinker.flush_db"><code
+                            class="docutils literal notranslate"><span class="pre">DynamoLinker.flush_db()</span></code></a>
+                    </li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.dynamo_linker.DynamoLinker.get_json"><code
+                            class="docutils literal notranslate"><span class="pre">DynamoLinker.get_json()</span></code></a>
+                    </li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.dynamo_linker.DynamoLinker.handle_error"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">DynamoLinker.handle_error()</span></code></a></li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.dynamo_linker.DynamoLinker.load_table"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">DynamoLinker.load_table()</span></code></a></li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.dynamo_linker.DynamoLinker.put_json"><code
+                            class="docutils literal notranslate"><span class="pre">DynamoLinker.put_json()</span></code></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal"
+                              href="RAGchain.utils.linker.html#module-RAGchain.utils.linker.json_linker">RAGchain.utils.linker.json_linker
+        module</a>
+        <ul>
+            <li class="toctree-l3"><a class="reference internal"
+                                      href="RAGchain.utils.linker.html#RAGchain.utils.linker.json_linker.JsonLinker"><code
+                    class="docutils literal notranslate"><span class="pre">JsonLinker</span></code></a>
+                <ul>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.json_linker.JsonLinker.create_json"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">JsonLinker.create_json()</span></code></a></li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.json_linker.JsonLinker.create_or_load_json"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">JsonLinker.create_or_load_json()</span></code></a></li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.json_linker.JsonLinker.flush_db"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">JsonLinker.flush_db()</span></code></a></li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.json_linker.JsonLinker.get_json"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">JsonLinker.get_json()</span></code></a></li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.json_linker.JsonLinker.load_json"><code
+                            class="docutils literal notranslate"><span class="pre">JsonLinker.load_json()</span></code></a>
+                    </li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.json_linker.JsonLinker.put_json"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">JsonLinker.put_json()</span></code></a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal"
+                              href="RAGchain.utils.linker.html#module-RAGchain.utils.linker.redis_linker">RAGchain.utils.linker.redis_linker
+        module</a>
+        <ul>
+            <li class="toctree-l3"><a class="reference internal"
+                                      href="RAGchain.utils.linker.html#RAGchain.utils.linker.redis_linker.RedisLinker"><code
+                    class="docutils literal notranslate"><span class="pre">RedisLinker</span></code></a>
+                <ul>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.redis_linker.RedisLinker.connection_check"><code
+                            class="docutils literal notranslate"><span class="pre">RedisLinker.connection_check()</span></code></a>
+                    </li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.redis_linker.RedisLinker.flush_db"><code
+                            class="docutils literal notranslate"><span class="pre">RedisLinker.flush_db()</span></code></a>
+                    </li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.redis_linker.RedisLinker.get_json"><code
+                            class="docutils literal notranslate"><span class="pre">RedisLinker.get_json()</span></code></a>
+                    </li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.redis_linker.RedisLinker.put_json"><code
+                            class="docutils literal notranslate"><span class="pre">RedisLinker.put_json()</span></code></a>
+                    </li>
 </ul>
 </li>
 </ul>
@@ -628,6 +810,71 @@ The default decomposition prompt is from Visconde paper, and its prompt is few-s
                                       <li><p><strong>non_knowledge_seeking_sentences</strong> – Non-knowledge-seeking
                                           turn sentences. List[str].</p></li>
                                   </ul>
+                              </dd>
+                          </dl>
+                      </dd>
+                  </dl>
+
+              </dd>
+          </dl>
+
+      </section>
+      <section id="module-RAGchain.utils.semantic_clustering">
+          <span id="ragchain-utils-semantic-clustering-module"></span>
+          <h2>RAGchain.utils.semantic_clustering module<a class="headerlink"
+                                                          href="#module-RAGchain.utils.semantic_clustering"
+                                                          title="Link to this heading"></a></h2>
+          <dl class="py class">
+              <dt class="sig sig-object py" id="RAGchain.utils.semantic_clustering.SemanticClustering">
+                  <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span
+                      class="pre">RAGchain.utils.semantic_clustering.</span></span><span class="sig-name descname"><span
+                      class="pre">SemanticClustering</span></span><span class="sig-paren">(</span><em class="sig-param"><span
+                      class="n"><span class="pre">embedding_function</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">Embeddings</span></span></em>, <em class="sig-param"><span class="n"><span
+                      class="pre">clustering_algorithm</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">str</span></span><span class="w"> </span><span class="o"><span
+                      class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'kmeans'</span></span></em><span
+                      class="sig-paren">)</span><a class="headerlink"
+                                                   href="#RAGchain.utils.semantic_clustering.SemanticClustering"
+                                                   title="Link to this definition"></a></dt>
+              <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>
+              </p>
+                  <p>This class is used to cluster the passages based on their semantic information.
+                      First, we vectorize to embedding vector for representing each passages’ semantic information.
+                      Second, we cluster the embedding vectors by using various clustering algorithm.</p>
+                  <p>There are no optimal clustering algorithm for all cases. So, you can try various clustering
+                      algorithm.</p>
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.utils.semantic_clustering.SemanticClustering.cluster">
+                          <span class="sig-name descname"><span class="pre">cluster</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">passages</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
+                              class="pre">[</span></span><a class="reference internal"
+                                                            href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                                            title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                              class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                              class="o"><span class="pre">**</span></span><span class="n"><span
+                              class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span
+                              class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+                              class="sig-return-typehint"><span class="pre">List</span><span class="p"><span
+                              class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a
+                              class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                              title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                              class="p"><span class="pre">]</span></span><span class="p"><span
+                              class="pre">]</span></span></span></span><a class="headerlink"
+                                                                          href="#RAGchain.utils.semantic_clustering.SemanticClustering.cluster"
+                                                                          title="Link to this definition"></a></dt>
+                      <dd><p>clustering
+                          :param passages: list of passages to be clustered.
+                          :param kwargs: kwargs for clustering algorithm.</p>
+                          <dl class="field-list simple">
+                              <dt class="field-odd">Returns<span class="colon">:</span></dt>
+                              <dd class="field-odd"><p>2-d list of clustered Passages. Each cluster is a list of
+                                  passages.</p>
                               </dd>
                           </dl>
                       </dd>

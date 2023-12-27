@@ -332,12 +332,55 @@ db_origin = {“db_type”: “mongo_db”,</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.retrieval.base.BaseRetrieval.retrieve_with_filter">
-<span class="sig-name descname"><span class="pre">retrieve_with_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retrieve_range_mult</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_trial</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.retrieve_with_filter" title="Link to this definition"></a></dt>
+    <span class="sig-name descname"><span class="pre">retrieve_with_filter</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em
+        class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+        class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+        class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">content_datetime_range</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime</span><span
+        class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">datetime</span><span
+        class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span
+        class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">multi_num</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span
+        class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+        class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">retrieve_range_mult</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span
+        class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+        class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">max_trial</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span
+        class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+        class="pre">5</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span
+        class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                href="#RAGchain.retrieval.base.BaseRetrieval.retrieve_with_filter"
+                                                                                                title="Link to this definition"></a>
+</dt>
 <dd><p>retrieve passages which matches filter_dict conditions.
 :param query: query string
 :param top_k: passages count to retrieve
 :param content: content list to filter
 :param filepath: filepath list to filter
+    :param content_datetime_range: content_datetime_range list to filter
 :param kwargs: metadata_etc to filter
 :param multi_num: multiplier when failed to retrieve enough passages
 :param retrieve_range_mult: multiplier for retrieve range
@@ -363,19 +406,28 @@ db_origin = {“db_type”: “mongo_db”,</p>
             class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
             class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span
             class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
-    <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
-            class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
-        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
-        class="p"><span class="pre">[</span></span><a class="reference internal"
-                                                      href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
-                                                      title="RAGchain.schema.passage.Passage"><span
-        class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a
-        class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.search_data"
-        title="Link to this definition"></a></dt>
+    <em class="sig-param"><span class="n"><span class="pre">content_datetime_range</span></span><span class="p"><span
+            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
+            class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span
+            class="pre">[</span></span><span class="pre">datetime</span><span class="p"><span
+            class="pre">,</span></span><span class="w"> </span><span class="pre">datetime</span><span class="p"><span
+            class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span
+            class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+            class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+            class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span
+        class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+        class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a
+        class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+        title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span
+        class="pre">]</span></span></span></span><a class="headerlink"
+                                                    href="#RAGchain.retrieval.base.BaseRetrieval.search_data"
+                                                    title="Link to this definition"></a></dt>
 <dd><p>search passages from each db with given filters. This can search data from multiple db.
 :param ids: list of passage ids
 :param content: content list to filter
 :param filepath: filepath list to filter
+    :param content_datetime_range: content_datetime_range list to filter
 :param kwargs: metadata_etc to filter. Put metadata_etc key as kwargs key and metadata_etc value as kwargs value.</p>
 </dd></dl>
 
@@ -402,6 +454,14 @@ db_origin = {“db_type”: “mongo_db”,</p>
         class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
         class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span
         class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">content_datetime_range</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime</span><span
+        class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">datetime</span><span
+        class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span
+        class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
         class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
         class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span
         class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span
@@ -435,15 +495,23 @@ db_origin = {“db_type”: “mongo_db”,</p>
             class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
             class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span
             class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
-    <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
-            class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
-        class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span
-        class="p"><span class="pre">[</span></span><a class="reference internal"
-                                                      href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
-                                                      title="RAGchain.schema.passage.Passage"><span
-        class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a
-        class="headerlink" href="#RAGchain.retrieval.base.BaseRetrieval.search_each_db" title="Link to this definition"></a>
-</dt>
+    <em class="sig-param"><span class="n"><span class="pre">content_datetime_range</span></span><span class="p"><span
+            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
+            class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span
+            class="pre">[</span></span><span class="pre">datetime</span><span class="p"><span
+            class="pre">,</span></span><span class="w"> </span><span class="pre">datetime</span><span class="p"><span
+            class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span
+            class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+            class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+            class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span
+        class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+        class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a
+        class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+        title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span
+        class="pre">]</span></span></span></span><a class="headerlink"
+                                                    href="#RAGchain.retrieval.base.BaseRetrieval.search_each_db"
+                                                    title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>

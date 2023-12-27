@@ -173,18 +173,63 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.DB.base.BaseDB.search">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.DB.base.BaseDB.search" title="Link to this definition"></a></dt>
-<dd><p>Abstract method for search Passage from DB using filter Dict.
+    <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span
+        class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
+        class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span
+        class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+        class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span
+        class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em
+        class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
+        class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span
+        class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+        class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">content_datetime_range</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime</span><span
+        class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">datetime</span><span
+        class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span
+        class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span
+        class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+        class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a
+        class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+        title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span
+        class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.DB.base.BaseDB.search"
+                                                    title="Link to this definition"></a></dt>
+    <dd><p>search Passage from DB using filter Dict.
 This function can search Passage using ‘id’, ‘content’, ‘filepath’ and ‘metadata_etc’.
 You can add more search condition in metadata_etc using <a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs.
 This function is an implicit AND operation.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>id (Optional[List[Union[UUID, str]]]): List of Passage ID to search.
-content (Optional[List[str]]): List of Passage content to search.
-filepath (Optional[List[str]]): List of Passage filepath to search.
-<a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Additional metadata to search.</p>
+        <dl class="field-list simple">
+            <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+            <dd class="field-odd">
+                <ul class="simple">
+                    <li><p><strong>id</strong> – (Optional[List[Union[UUID, str]]]): List of Passage ID to search.</p>
+                    </li>
+                    <li><p><strong>content</strong> – (Optional[List[str]]): List of Passage content to search.</p></li>
+                    <li><p><strong>filepath</strong> – (Optional[List[str]]): List of Passage filepath to search.</p>
+                    </li>
+                    <li><p><strong>content_datetime_range</strong> – (Optional[List[tuple[datetime.datetime,
+                        datetime.datetime]]]): List of content_datetime range to search.</p></li>
+                </ul>
 </dd>
 </dl>
+        <p>You can set start_time at the first element in tuple and end_time at the second element in tuple.
+            Multiple time range search is possible, and the search condition is OR operation in time range.
+            <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Additional metadata to search.</p>
 </dd></dl>
 
 </dd></dl>
@@ -241,13 +286,63 @@ filepath (Optional[List[str]]): List of Passage filepath to search.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.DB.mongo_db.MongoDB.search">
-<span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.DB.mongo_db.MongoDB.search" title="Link to this definition"></a></dt>
-<dd><p>Searches the MongoDB collection based on the provided filters and returns the resulting passages.
-:param id: Optional[List[Union[UUID, str]]], list of Passage ID to search.
-:param content: Optional[List[str]], list of Passage content to search.
-:param filepath: Optional[List[str]], list of Passage filepath to search.
-:param kwargs: Additional metadata to search.
-:return: List[Passage], list of Passage extract from the MongoDB.</p>
+    <span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
+        class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span
+        class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+        class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span
+        class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em
+        class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
+        class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span
+        class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+        class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">content_datetime_range</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime</span><span
+        class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">datetime</span><span
+        class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span
+        class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span
+        class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+        class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a
+        class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+        title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span
+        class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.DB.mongo_db.MongoDB.search"
+                                                    title="Link to this definition"></a></dt>
+    <dd><p>search Passage from DB using filter Dict.
+        This function can search Passage using ‘id’, ‘content’, ‘filepath’ and ‘metadata_etc’.
+        You can add more search condition in metadata_etc using <a href="#id5"><span class="problematic"
+                                                                                     id="id6">**</span></a>kwargs.
+        This function is an implicit AND operation.</p>
+        <dl class="field-list simple">
+            <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+            <dd class="field-odd">
+                <ul class="simple">
+                    <li><p><strong>id</strong> – (Optional[List[Union[UUID, str]]]): List of Passage ID to search.</p>
+                    </li>
+                    <li><p><strong>content</strong> – (Optional[List[str]]): List of Passage content to search.</p></li>
+                    <li><p><strong>filepath</strong> – (Optional[List[str]]): List of Passage filepath to search.</p>
+                    </li>
+                    <li><p><strong>content_datetime_range</strong> – (Optional[List[tuple[datetime.datetime,
+                        datetime.datetime]]]): List of content_datetime range to search.</p></li>
+                </ul>
+            </dd>
+        </dl>
+        <p>You can set start_time at the first element in tuple and end_time at the second element in tuple.
+            Multiple time range search is possible, and the search condition is OR operation in time range.
+            <a href="#id7"><span class="problematic" id="id8">**</span></a>kwargs: Additional metadata to search.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -262,7 +357,13 @@ filepath (Optional[List[str]]): List of Passage filepath to search.
 <span id="ragchain-db-pickle-db-module"></span><h2>RAGchain.DB.pickle_db module<a class="headerlink" href="#module-RAGchain.DB.pickle_db" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="RAGchain.DB.pickle_db.PickleDB">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.DB.pickle_db.</span></span><span class="sig-name descname"><span class="pre">PickleDB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.DB.pickle_db.PickleDB" title="Link to this definition"></a></dt>
+    <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+        class="sig-prename descclassname"><span class="pre">RAGchain.DB.pickle_db.</span></span><span
+        class="sig-name descname"><span class="pre">PickleDB</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span
+        class="sig-paren">)</span><a class="headerlink" href="#RAGchain.DB.pickle_db.PickleDB"
+                                     title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#RAGchain.DB.base.BaseDB" title="RAGchain.DB.base.BaseDB"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseDB</span></code></a></p>
 <p>This DB stores passages in a pickle file format at your local disk.</p>
 <dl class="py method">
@@ -309,21 +410,60 @@ filepath (Optional[List[str]]): List of Passage filepath to search.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.DB.pickle_db.PickleDB.search">
-<span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.DB.pickle_db.PickleDB.search" title="Link to this definition"></a></dt>
-<dd><p>Searches for Passage objects in the database based on the given filters.
-This function is an implicit AND operation,
-which is return Passage that matches all values to corresponding keys in filter_dict.
-When the match value is not exist, return empty list.</p>
+    <span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
+        class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span
+        class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+        class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span
+        class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em
+        class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span
+        class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
+        class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span
+        class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+        class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">content_datetime_range</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime</span><span
+        class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">datetime</span><span
+        class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span
+        class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span
+        class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span
+        class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+        class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a
+        class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+        title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span
+        class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.DB.pickle_db.PickleDB.search"
+                                                    title="Link to this definition"></a></dt>
+    <dd><p>search Passage from DB using filter Dict.
+        This function can search Passage using ‘id’, ‘content’, ‘filepath’ and ‘metadata_etc’.
+        You can add more search condition in metadata_etc using <a href="#id9"><span class="problematic"
+                                                                                     id="id10">**</span></a>kwargs.
+        This function is an implicit AND operation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>id</strong> – List of Passage ID to search.</p></li>
-<li><p><strong>content</strong> – List of Passage content to search.</p></li>
-<li><p><strong>filepath</strong> – List of Passage filepath to search.</p></li>
-<li><p><strong>kwargs</strong> – Additional metadata to search.</p></li>
+    <li><p><strong>id</strong> – (Optional[List[Union[UUID, str]]]): List of Passage ID to search.</p></li>
+    <li><p><strong>content</strong> – (Optional[List[str]]): List of Passage content to search.</p></li>
+    <li><p><strong>filepath</strong> – (Optional[List[str]]): List of Passage filepath to search.</p></li>
+    <li><p><strong>content_datetime_range</strong> – (Optional[List[tuple[datetime.datetime, datetime.datetime]]]): List
+        of content_datetime range to search.</p></li>
 </ul>
 </dd>
 </dl>
+        <p>You can set start_time at the first element in tuple and end_time at the second element in tuple.
+            Multiple time range search is possible, and the search condition is OR operation in time range.
+            <a href="#id11"><span class="problematic" id="id12">**</span></a>kwargs: Additional metadata to search.</p>
 </dd></dl>
 
 </dd></dl>

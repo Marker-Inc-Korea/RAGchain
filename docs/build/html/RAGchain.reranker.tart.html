@@ -61,7 +61,6 @@
 <li><a class="reference internal" href="#module-RAGchain.reranker.tart.tart">RAGchain.reranker.tart.tart module</a><ul>
 <li><a class="reference internal" href="#RAGchain.reranker.tart.tart.TARTReranker"><code class="docutils literal notranslate"><span class="pre">TARTReranker</span></code></a><ul>
 <li><a class="reference internal" href="#RAGchain.reranker.tart.tart.TARTReranker.rerank"><code class="docutils literal notranslate"><span class="pre">TARTReranker.rerank()</span></code></a></li>
-<li><a class="reference internal" href="#RAGchain.reranker.tart.tart.TARTReranker.rerank_sliding_window"><code class="docutils literal notranslate"><span class="pre">TARTReranker.rerank_sliding_window()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -196,25 +195,6 @@ You can rerank the passages with the instruction using TARTReranker.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>List[<a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage">Passage</a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="RAGchain.reranker.tart.tart.TARTReranker.rerank_sliding_window">
-<span class="sig-name descname"><span class="pre">rerank_sliding_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.reranker.tart.tart.TARTReranker.rerank_sliding_window" title="Link to this definition"></a></dt>
-<dd><p>Reranks a list of passages based on a specific ranking algorithm with sliding window.
-This function is useful when the model input token size is limited like LLMs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>passages</strong> – (List[Passage]): The list of passages to be reranked.</p></li>
-<li><p><strong>query</strong> – str: The query that was used for retrieving the passages.</p></li>
-<li><p><strong>window_size</strong> – (int): The size of the sliding window used for reranking.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>List[Passage]: The reranked list of passages.</p>
 </dd>
 </dl>
 </dd></dl>

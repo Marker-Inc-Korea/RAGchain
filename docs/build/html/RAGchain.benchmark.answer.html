@@ -104,6 +104,28 @@
                                                 </li>
                                             </ul>
                                         </li>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.benchmark.answer.metrics.METEOR"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">METEOR</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.answer.metrics.METEOR.retrieval_metric_function"><code
+                                                        class="docutils literal notranslate"><span class="pre">METEOR.retrieval_metric_function()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.benchmark.answer.metrics.ROUGE"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">ROUGE</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.answer.metrics.ROUGE.retrieval_metric_function"><code
+                                                        class="docutils literal notranslate"><span class="pre">ROUGE.retrieval_metric_function()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li><a class="reference internal" href="#module-RAGchain.benchmark.answer">Module
@@ -391,6 +413,84 @@
                                                     class="sig-return-typehint"><span
                                                     class="pre">float</span></span></span><a class="headerlink"
                                                                                              href="#RAGchain.benchmark.answer.metrics.KF1.retrieval_metric_function"
+                                                                                             title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py" id="RAGchain.benchmark.answer.metrics.METEOR">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.answer.metrics.</span></span><span
+                                            class="sig-name descname"><span class="pre">METEOR</span></span><a
+                                            class="headerlink" href="#RAGchain.benchmark.answer.metrics.METEOR"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#RAGchain.benchmark.answer.metrics.BaseAnswerMetric"
+                                                     title="RAGchain.benchmark.answer.metrics.BaseAnswerMetric"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseAnswerMetric</span></code></a>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.answer.metrics.METEOR.retrieval_metric_function">
+                                                <span class="sig-name descname"><span class="pre">retrieval_metric_function</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">solutions</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">pred</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">str</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">float</span></span></span><a class="headerlink"
+                                                                                             href="#RAGchain.benchmark.answer.metrics.METEOR.retrieval_metric_function"
+                                                                                             title="Link to this definition"></a>
+                                            </dt>
+                                            <dd></dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py" id="RAGchain.benchmark.answer.metrics.ROUGE">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.answer.metrics.</span></span><span
+                                            class="sig-name descname"><span class="pre">ROUGE</span></span><a
+                                            class="headerlink" href="#RAGchain.benchmark.answer.metrics.ROUGE"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#RAGchain.benchmark.answer.metrics.BaseAnswerMetric"
+                                                     title="RAGchain.benchmark.answer.metrics.BaseAnswerMetric"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseAnswerMetric</span></code></a>
+                                    </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.answer.metrics.ROUGE.retrieval_metric_function">
+                                                <span class="sig-name descname"><span class="pre">retrieval_metric_function</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">solutions</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">pred</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">str</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">float</span></span></span><a class="headerlink"
+                                                                                             href="#RAGchain.benchmark.answer.metrics.ROUGE.retrieval_metric_function"
                                                                                              title="Link to this definition"></a>
                                             </dt>
                                             <dd></dd>
