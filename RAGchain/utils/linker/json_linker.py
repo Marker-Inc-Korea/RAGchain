@@ -15,7 +15,7 @@ class JsonLinker(BaseLinker):
         json_path = os.getenv("JSON_LINKER_PATH")
 
         if json_path is None:
-            raise ValueError("Please set JSON_FILE_PATH to environment variable")
+            raise ValueError("Please set JSON_LINKER_PATH to environment variable")
 
         self.json_path = json_path
         self.create_or_load_json()
