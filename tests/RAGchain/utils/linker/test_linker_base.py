@@ -21,6 +21,12 @@ def test_singleton_same_child():
     assert "Instance of linker already created. Cannot create another linker." in str(e.value)
 
 
+def test_allow_multiple_instances():
+    test_linker_dynamo1 = DynamoDBSingleton(allow_multiple_instances=True)
+    test_linker_dynamo2 = DynamoDBSingleton(allow_multiple_instances=True)
+    assert test_linker_dynamo1 is not test_linker_dynamo2
+
+
 def test_singleton_different_child():
     with pytest.raises(SingletonCreationError) as e:
         test_linker_dynamo = DynamoDBSingleton()

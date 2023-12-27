@@ -6,7 +6,7 @@ import test_linker_base
 
 @pytest.fixture
 def redis_db():
-    redis_db = RedisDBSingleton()
+    redis_db = RedisDBSingleton(allow_multiple_instances=True)
     redis_db.put_json(test_linker_base.TEST_IDS[0], test_linker_base.TEST_DB_ORIGIN)
     yield redis_db
     redis_db.flush_db()
