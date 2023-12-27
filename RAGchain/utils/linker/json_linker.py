@@ -12,7 +12,7 @@ class JsonLinker(BaseLinker):
     to be played locally to use JSON file without using an external DB like redis or dynamo.
     """
     def __init__(self):
-        json_path = os.getenv("JSON_FILE_PATH")
+        json_path = os.getenv("JSON_LINKER_PATH")
 
         if json_path is None:
             raise ValueError("Please set JSON_FILE_PATH to environment variable")
