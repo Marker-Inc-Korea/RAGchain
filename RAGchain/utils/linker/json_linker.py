@@ -6,7 +6,7 @@ import os
 import json
 
 
-class LocalDBSingleton(BaseLinker):
+class JsonLinker(BaseLinker):
     """
     LocalDBSingleton is a singleton class that allows the role of a linker
     to be played locally to use JSON file without using an external DB like redis or dynamo.

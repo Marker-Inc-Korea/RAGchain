@@ -10,7 +10,7 @@ from RAGchain.utils.linker.base import BaseLinker
 load_dotenv()
 
 
-class RedisDBSingleton(BaseLinker):
+class RedisLinker(BaseLinker):
     """
     RedisDBSingleton is a singleton class that manages redis.
     We use redis to link DB and passage ids that stores in retrievals.

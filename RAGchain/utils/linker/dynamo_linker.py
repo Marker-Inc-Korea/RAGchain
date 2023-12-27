@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 load_dotenv()
 
 
-class DynamoDBSingleton(BaseLinker):
+class DynamoLinker(BaseLinker):
     """
     DynamoDBSingleton is a singleton class that manages DynamoDB.
     """
