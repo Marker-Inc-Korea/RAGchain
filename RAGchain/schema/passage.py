@@ -71,3 +71,13 @@ class Passage(Serializable):
     @staticmethod
     def make_prompts(passages: List['Passage']) -> str:
         return "\n".join([passage.content for passage in passages])
+
+    def copy(self, *args, **kwargs):
+        self_params = self.dict()
+        for key in list(kwargs.keys()):
+            self_params.pop(key)
+        return Passage(**self_params, **kwargs)
+
+    def reset_id(self):
+        self.id = uuid4()
+        return self
