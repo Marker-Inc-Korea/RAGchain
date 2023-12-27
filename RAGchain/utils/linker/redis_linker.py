@@ -10,7 +10,7 @@ from RAGchain.utils.linker.base import BaseLinker
 load_dotenv()
 
 
-class RedisDBSingleton(BaseLinker):
+class RedisLinker(BaseLinker):
     """
     RedisDBSingleton is a singleton class that manages redis.
     We use redis to link DB and passage ids that stores in retrievals.
@@ -38,7 +38,6 @@ class RedisDBSingleton(BaseLinker):
             decode_responses=True,
             password=password
         )
-        self._is_initialized = True
 
     def get_json(self, ids: list[Union[UUID, str]]):
         # redis only accept str type key
@@ -54,5 +53,5 @@ class RedisDBSingleton(BaseLinker):
     def __del__(self):
         self.client.close()
 
-    def put_json(self, id: Union[UUID, str], json: dict):
-        self.client.json().set(str(id), '$', json)
+    def put_json(self, id: Union[UUID, str], json_data: dict):
+        self.client.json().set(str(id), '$', json_data)

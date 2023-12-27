@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 load_dotenv()
 
 
-class DynamoDBSingleton(BaseLinker):
+class DynamoLinker(BaseLinker):
     """
     DynamoDBSingleton is a singleton class that manages DynamoDB.
     """
@@ -45,7 +45,6 @@ class DynamoDBSingleton(BaseLinker):
 
         self.table = None
         self.create_or_load_table(table_name)
-        self._is_initialized = True
 
     def create_table(self, table_name):
         """
@@ -112,10 +111,10 @@ class DynamoDBSingleton(BaseLinker):
     def __del__(self):
         self.dynamodb.close()
 
-    def put_json(self, id: Union[UUID, str], json: dict):
+    def put_json(self, id: Union[UUID, str], json_data: dict):
         self.table.put_item(
             Item={
                 'id': str(id),
-                'db_origin': json
+                'db_origin': json_data
             }
         )
