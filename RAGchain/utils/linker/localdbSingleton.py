@@ -24,7 +24,7 @@ class LocalDBSingleton(BaseLinker):
     def create_json(self):
         with open(self.json_path, "w") as f:
             json.dump({}, f)
-            self.data = json.load(f)
+        self.data = {}
 
     def load_json(self):
         try:
@@ -44,7 +44,7 @@ class LocalDBSingleton(BaseLinker):
     def put_json(self, id: Union[UUID, str], json_data: dict):
         self.data[id] = json_data
         with open(self.json_path, "w") as f:
-            json.dump(self.data, f, ident=4)
+            json.dump(self.data, f)
 
     def get_json(self, ids: list[Union[UUID, str]]):
         return [self.data.get(find_id) for find_id in ids]
