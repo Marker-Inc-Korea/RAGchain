@@ -7,7 +7,7 @@ from uuid import UUID
 from RAGchain.DB.base import BaseDB
 from RAGchain.schema import Passage
 from RAGchain.schema.db_origin import DBOrigin
-from RAGchain.utils.linker import RedisDBSingleton
+from RAGchain import linker
 from RAGchain.utils.util import FileChecker
 
 
@@ -26,7 +26,6 @@ class PickleDB(BaseDB):
         FileChecker(save_path).check_type(file_types=['.pickle', '.pkl'])
         self.save_path = save_path
         self.db: List[Passage] = list()
-        self.redis_db = RedisDBSingleton()
 
     @property
     def db_type(self) -> str:
@@ -63,7 +62,7 @@ class PickleDB(BaseDB):
         # save to redisDB
         db_origin = self.get_db_origin()
         db_origin_dict = db_origin.to_dict()
-        [self.redis_db.client.json().set(str(passage.id), '$', db_origin_dict) for passage in passages]
+        [linker.put_json(str(passage.id), db_origin_dict) for passage in passages]
 
     def fetch(self, ids: List[UUID]) -> List[Passage]:
         """Retrieves the Passage objects from the database based on the given list of passage IDs."""

@@ -54,8 +54,9 @@ setup(
         'tiktoken',
         'sacrebleu',
         'scikit-learn',
+        'boto3',
         'evaluate',
-        'rouge_score'
+        'rouge_score',
     ],
     classifiers=[
         "Intended Audience :: Developers",

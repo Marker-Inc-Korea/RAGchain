@@ -4,25 +4,19 @@ from typing import Union
 from uuid import UUID
 
 import redis
+from dotenv import load_dotenv
+from RAGchain.utils.linker.base import BaseLinker
+
+load_dotenv()
 
 
-class RedisDBSingleton:
+class RedisDBSingleton(BaseLinker):
     """
     RedisDBSingleton is a singleton class that manages redis.
     We use redis to link DB and passage ids that stores in retrievals.
     """
-    __instance = None
-    _is_initialized = False
-
-    def __new__(cls, *args, **kwargs):
-        if not cls.__instance:
-            cls.__instance = super().__new__(cls)
-        return cls.__instance
 
     def __init__(self):
-        if self._is_initialized:
-            return
-
         host = os.getenv("REDIS_HOST")
         port = os.getenv("REDIS_PORT")
         db_name = os.getenv("REDIS_DB_NAME")
@@ -59,3 +53,6 @@ class RedisDBSingleton:
 
     def __del__(self):
         self.client.close()
+
+    def put_json(self, id: Union[UUID, str], json: dict):
+        self.client.json().set(str(id), '$', json)
