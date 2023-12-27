@@ -2,6 +2,17 @@ import pytest
 
 from RAGchain.utils.linker import DynamoDBSingleton, RedisDBSingleton, SingletonCreationError
 
+TEST_IDS = ['test_id_1']
+
+TEST_DB_ORIGIN = {
+    'db_type': 'test_db',
+    'db_path': {
+        'url': 'test_host',
+        'db_name': 'test_port',
+        'collection_name': 'test_db_name',
+    }
+}
+
 
 def test_singleton_same_child():
     with pytest.raises(SingletonCreationError) as e:
