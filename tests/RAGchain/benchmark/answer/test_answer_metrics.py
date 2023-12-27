@@ -6,7 +6,9 @@ gt_solutions = ['The dog had bit the man.', 'The man had bitten the dog.']
 pred_answer = 'The dog bit the man.'
 metric_answers = [
     (BLEU(), 51.1507),
-    (KF1(), 0.54)
+    (KF1(), 0.54),
+    (METEOR(), 0.8535),
+    (ROUGE(), 0.9091)
 ]
 
 
