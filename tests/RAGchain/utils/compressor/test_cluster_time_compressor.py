@@ -3,7 +3,7 @@ from datetime import datetime
 import pytest
 
 from RAGchain.schema import Passage
-from RAGchain.utils.compressor.cluster_time import ClusterTimeCompressor
+from RAGchain.utils.compressor import ClusterTimeCompressor
 from RAGchain.utils.embed import EmbeddingFactory
 from RAGchain.utils.semantic_clustering import SemanticClustering
 
