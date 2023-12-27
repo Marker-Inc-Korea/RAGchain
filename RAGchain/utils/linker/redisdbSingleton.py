@@ -38,7 +38,6 @@ class RedisDBSingleton(BaseLinker):
             decode_responses=True,
             password=password
         )
-        self._is_initialized = True
 
     def get_json(self, ids: list[Union[UUID, str]]):
         # redis only accept str type key

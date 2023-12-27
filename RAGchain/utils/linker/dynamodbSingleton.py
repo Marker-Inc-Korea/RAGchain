@@ -45,7 +45,6 @@ class DynamoDBSingleton(BaseLinker):
 
         self.table = None
         self.create_or_load_table(table_name)
-        self._is_initialized = True
 
     def create_table(self, table_name):
         """
