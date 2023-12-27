@@ -111,10 +111,10 @@ class DynamoDBSingleton(BaseLinker):
     def __del__(self):
         self.dynamodb.close()
 
-    def put_json(self, id: Union[UUID, str], json: dict):
+    def put_json(self, id: Union[UUID, str], json_data: dict):
         self.table.put_item(
             Item={
                 'id': str(id),
-                'db_origin': json
+                'db_origin': json_data
             }
         )

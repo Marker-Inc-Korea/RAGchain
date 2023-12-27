@@ -53,5 +53,5 @@ class RedisDBSingleton(BaseLinker):
     def __del__(self):
         self.client.close()
 
-    def put_json(self, id: Union[UUID, str], json: dict):
-        self.client.json().set(str(id), '$', json)
+    def put_json(self, id: Union[UUID, str], json_data: dict):
+        self.client.json().set(str(id), '$', json_data)

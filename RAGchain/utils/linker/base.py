@@ -18,7 +18,7 @@ class Singleton(type):
 
 class BaseLinker(metaclass=Singleton):
     @abstractmethod
-    def put_json(self, id: Union[UUID, str], json: dict):
+    def put_json(self, id: Union[UUID, str], json_data: dict):
         pass
 
     @abstractmethod
