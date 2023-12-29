@@ -28,6 +28,7 @@ TEST_PASSAGES: List[Passage] = [
         content='This is test number 3',
         filepath='./test/second_file.txt',
         content_datetime=datetime(2022, 2, 5),
+        importance=1,
         previous_passage_id='test_id_2',
         next_passage_id='test_id_4',
         metadata_etc={'test': 'test3'}
@@ -37,6 +38,7 @@ TEST_PASSAGES: List[Passage] = [
         content='This is test number 3',
         filepath='./test/third_file.txt',
         content_datetime=datetime(2022, 3, 6),
+        importance=-1,
         previous_passage_id='test_id_3',
         next_passage_id=None,
         metadata_etc={'test': 'test3'}
@@ -96,3 +98,12 @@ def search_test_base(db: BaseDB):
     assert len(test_result_9) == 2
     assert 'test_id_1' in [passage.id for passage in test_result_9]
     assert 'test_id_4' in [passage.id for passage in test_result_9]
+
+    test_result_10 = db.search(importance=[1])
+    assert len(test_result_10) == 1
+    assert 'test_id_3' == test_result_10[0].id
+
+    test_result_11 = db.search(importance=[-1, 0], filepath=['./test/second_file.txt', './test/third_file.txt'])
+    assert len(test_result_11) == 2
+    assert 'test_id_2' in [passage.id for passage in test_result_11]
+    assert 'test_id_4' in [passage.id for passage in test_result_11]
