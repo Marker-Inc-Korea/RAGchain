@@ -19,6 +19,9 @@ class Passage(Serializable):
     content_datetime: datetime = Field(default_factory=datetime.now)
     """Datetime when the passage content is created or edited. Everytime passge content changes, this value should be 
     updated."""
+    importance: int = Field(default=0)
+    """Importance of the passage. The higher the value, the more important the passage is. It can be minus value. 
+    The default is 0."""
     previous_passage_id: Optional[Union[UUID, str]]
     """Previous passage's id. If this is the first passage, this value should be None."""
     next_passage_id: Optional[Union[UUID, str]]
@@ -36,6 +39,7 @@ class Passage(Serializable):
         metadata['content'] = self.content
         metadata['filepath'] = self.filepath
         metadata['content_datetime'] = self.content_datetime
+        metadata['importance'] = self.importance
         metadata['previous_passage_id'] = self.previous_passage_id
         metadata['next_passage_id'] = self.next_passage_id
         return Document(page_content=self.content, metadata=metadata)
@@ -46,6 +50,7 @@ class Passage(Serializable):
             "content": self.content,
             "filepath": self.filepath,
             "content_datetime": self.content_datetime,
+            "importance": self.importance,
             "previous_passage_id": self.previous_passage_id,
             "next_passage_id": self.next_passage_id,
             "metadata_etc": self.metadata_etc
@@ -64,6 +69,7 @@ class Passage(Serializable):
             self.content == other.content and \
             self.filepath == other.filepath and \
             self.content_datetime == other.content_datetime and \
+            self.importance == other.importance and \
             self.previous_passage_id == other.previous_passage_id and \
             self.next_passage_id == other.next_passage_id and \
             self.metadata_etc == other.metadata_etc
