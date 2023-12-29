@@ -45,11 +45,119 @@
               <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">RAGchain.utils.linker package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-RAGchain.utils.linker.redisdbSingleton">RAGchain.utils.linker.redisdbSingleton module</a><ul>
-<li><a class="reference internal" href="#RAGchain.utils.linker.redisdbSingleton.RedisDBSingleton"><code class="docutils literal notranslate"><span class="pre">RedisDBSingleton</span></code></a><ul>
-<li><a class="reference internal" href="#RAGchain.utils.linker.redisdbSingleton.RedisDBSingleton.connection_check"><code class="docutils literal notranslate"><span class="pre">RedisDBSingleton.connection_check()</span></code></a></li>
-<li><a class="reference internal" href="#RAGchain.utils.linker.redisdbSingleton.RedisDBSingleton.flush_db"><code class="docutils literal notranslate"><span class="pre">RedisDBSingleton.flush_db()</span></code></a></li>
-<li><a class="reference internal" href="#RAGchain.utils.linker.redisdbSingleton.RedisDBSingleton.get_json"><code class="docutils literal notranslate"><span class="pre">RedisDBSingleton.get_json()</span></code></a></li>
+    <li><a class="reference internal" href="#module-RAGchain.utils.linker.base">RAGchain.utils.linker.base module</a>
+        <ul>
+            <li><a class="reference internal" href="#RAGchain.utils.linker.base.BaseLinker"><code
+                    class="docutils literal notranslate"><span class="pre">BaseLinker</span></code></a>
+                <ul>
+                    <li><a class="reference internal" href="#RAGchain.utils.linker.base.BaseLinker.flush_db"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">BaseLinker.flush_db()</span></code></a></li>
+                    <li><a class="reference internal" href="#RAGchain.utils.linker.base.BaseLinker.get_json"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">BaseLinker.get_json()</span></code></a></li>
+                    <li><a class="reference internal" href="#RAGchain.utils.linker.base.BaseLinker.put_json"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">BaseLinker.put_json()</span></code></a></li>
+                </ul>
+            </li>
+            <li><a class="reference internal" href="#RAGchain.utils.linker.base.Singleton"><code
+                    class="docutils literal notranslate"><span class="pre">Singleton</span></code></a></li>
+            <li><a class="reference internal" href="#RAGchain.utils.linker.base.SingletonCreationError"><code
+                    class="docutils literal notranslate"><span class="pre">SingletonCreationError</span></code></a></li>
+        </ul>
+    </li>
+    <li><a class="reference internal" href="#module-RAGchain.utils.linker.dynamo_linker">RAGchain.utils.linker.dynamo_linker
+        module</a>
+        <ul>
+            <li><a class="reference internal" href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker"><code
+                    class="docutils literal notranslate"><span class="pre">DynamoLinker</span></code></a>
+                <ul>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker.create_or_load_table"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">DynamoLinker.create_or_load_table()</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker.create_table"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">DynamoLinker.create_table()</span></code></a></li>
+                    <li><a class="reference internal" href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker.flush_db"><code
+                            class="docutils literal notranslate"><span class="pre">DynamoLinker.flush_db()</span></code></a>
+                    </li>
+                    <li><a class="reference internal" href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker.get_json"><code
+                            class="docutils literal notranslate"><span class="pre">DynamoLinker.get_json()</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker.handle_error"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">DynamoLinker.handle_error()</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker.load_table"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">DynamoLinker.load_table()</span></code></a></li>
+                    <li><a class="reference internal" href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker.put_json"><code
+                            class="docutils literal notranslate"><span class="pre">DynamoLinker.put_json()</span></code></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><a class="reference internal" href="#module-RAGchain.utils.linker.json_linker">RAGchain.utils.linker.json_linker
+        module</a>
+        <ul>
+            <li><a class="reference internal" href="#RAGchain.utils.linker.json_linker.JsonLinker"><code
+                    class="docutils literal notranslate"><span class="pre">JsonLinker</span></code></a>
+                <ul>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.linker.json_linker.JsonLinker.create_json"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">JsonLinker.create_json()</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.linker.json_linker.JsonLinker.create_or_load_json"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">JsonLinker.create_or_load_json()</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.linker.json_linker.JsonLinker.flush_db"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">JsonLinker.flush_db()</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.linker.json_linker.JsonLinker.get_json"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">JsonLinker.get_json()</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.linker.json_linker.JsonLinker.load_json"><code
+                            class="docutils literal notranslate"><span class="pre">JsonLinker.load_json()</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.linker.json_linker.JsonLinker.put_json"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">JsonLinker.put_json()</span></code></a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><a class="reference internal" href="#module-RAGchain.utils.linker.redis_linker">RAGchain.utils.linker.redis_linker
+        module</a>
+        <ul>
+            <li><a class="reference internal" href="#RAGchain.utils.linker.redis_linker.RedisLinker"><code
+                    class="docutils literal notranslate"><span class="pre">RedisLinker</span></code></a>
+                <ul>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.linker.redis_linker.RedisLinker.connection_check"><code
+                            class="docutils literal notranslate"><span class="pre">RedisLinker.connection_check()</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.linker.redis_linker.RedisLinker.flush_db"><code
+                            class="docutils literal notranslate"><span class="pre">RedisLinker.flush_db()</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.linker.redis_linker.RedisLinker.get_json"><code
+                            class="docutils literal notranslate"><span class="pre">RedisLinker.get_json()</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.linker.redis_linker.RedisLinker.put_json"><code
+                            class="docutils literal notranslate"><span class="pre">RedisLinker.put_json()</span></code></a>
+                    </li>
 </ul>
 </li>
 </ul>
@@ -88,27 +196,378 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="module-RAGchain.utils.linker.redisdbSingleton">
-<span id="ragchain-utils-linker-redisdbsingleton-module"></span><h2>RAGchain.utils.linker.redisdbSingleton module<a class="headerlink" href="#module-RAGchain.utils.linker.redisdbSingleton" title="Link to this heading"></a></h2>
+      <section id="module-RAGchain.utils.linker.base">
+          <span id="ragchain-utils-linker-base-module"></span>
+          <h2>RAGchain.utils.linker.base module<a class="headerlink" href="#module-RAGchain.utils.linker.base"
+                                                  title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="RAGchain.utils.linker.redisdbSingleton.RedisDBSingleton">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.utils.linker.redisdbSingleton.</span></span><span class="sig-name descname"><span class="pre">RedisDBSingleton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.utils.linker.redisdbSingleton.RedisDBSingleton" title="Link to this definition"></a></dt>
+    <dt class="sig sig-object py" id="RAGchain.utils.linker.base.BaseLinker">
+        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+            class="sig-prename descclassname"><span class="pre">RAGchain.utils.linker.base.</span></span><span
+            class="sig-name descname"><span class="pre">BaseLinker</span></span><span class="sig-paren">(</span><em
+            class="sig-param"><span class="n"><span class="pre">allow_multiple_instances</span></span><span
+            class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>,
+        <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span
+                class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span
+            class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span
+            class="sig-paren">)</span><a class="headerlink" href="#RAGchain.utils.linker.base.BaseLinker"
+                                         title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+    <dl class="py method">
+        <dt class="sig sig-object py" id="RAGchain.utils.linker.base.BaseLinker.flush_db">
+            <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span
+                class="sig-name descname"><span class="pre">flush_db</span></span><span class="sig-paren">(</span><span
+                class="sig-paren">)</span><a class="headerlink" href="#RAGchain.utils.linker.base.BaseLinker.flush_db"
+                                             title="Link to this definition"></a></dt>
+        <dd></dd>
+    </dl>
+
+    <dl class="py method">
+        <dt class="sig sig-object py" id="RAGchain.utils.linker.base.BaseLinker.get_json">
+            <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span
+                class="sig-name descname"><span class="pre">get_json</span></span><span class="sig-paren">(</span><em
+                class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span
+                class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span
+                class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
+                class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span
+                class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
+                class="headerlink" href="#RAGchain.utils.linker.base.BaseLinker.get_json"
+                title="Link to this definition"></a></dt>
+        <dd></dd>
+    </dl>
+
+    <dl class="py method">
+        <dt class="sig sig-object py" id="RAGchain.utils.linker.base.BaseLinker.put_json">
+            <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span
+                class="sig-name descname"><span class="pre">put_json</span></span><span class="sig-paren">(</span><em
+                class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span
+                class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">UUID</span><span
+                class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span
+                class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span
+                class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span
+                class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span
+                class="sig-paren">)</span><a class="headerlink" href="#RAGchain.utils.linker.base.BaseLinker.put_json"
+                                             title="Link to this definition"></a></dt>
+        <dd></dd>
+    </dl>
+
+</dd>
+</dl>
+
+          <dl class="py class">
+              <dt class="sig sig-object py" id="RAGchain.utils.linker.base.Singleton">
+                  <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span class="pre">RAGchain.utils.linker.base.</span></span><span
+                      class="sig-name descname"><span class="pre">Singleton</span></span><a class="headerlink"
+                                                                                            href="#RAGchain.utils.linker.base.Singleton"
+                                                                                            title="Link to this definition"></a>
+              </dt>
+              <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+                      class="pre">type</span></code></p>
+              </dd>
+          </dl>
+
+          <dl class="py exception">
+              <dt class="sig sig-object py" id="RAGchain.utils.linker.base.SingletonCreationError">
+                  <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span class="pre">RAGchain.utils.linker.base.</span></span><span
+                      class="sig-name descname"><span class="pre">SingletonCreationError</span></span><a
+                      class="headerlink" href="#RAGchain.utils.linker.base.SingletonCreationError"
+                      title="Link to this definition"></a></dt>
+              <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+                      class="pre">Exception</span></code></p>
+                  <p>Exception to be raised when trying to create another singleton instance.</p>
+              </dd>
+          </dl>
+
+      </section>
+      <section id="module-RAGchain.utils.linker.dynamo_linker">
+          <span id="ragchain-utils-linker-dynamo-linker-module"></span>
+          <h2>RAGchain.utils.linker.dynamo_linker module<a class="headerlink"
+                                                           href="#module-RAGchain.utils.linker.dynamo_linker"
+                                                           title="Link to this heading"></a></h2>
+          <dl class="py class">
+              <dt class="sig sig-object py" id="RAGchain.utils.linker.dynamo_linker.DynamoLinker">
+                  <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span
+                      class="pre">RAGchain.utils.linker.dynamo_linker.</span></span><span
+                      class="sig-name descname"><span class="pre">DynamoLinker</span></span><span
+                      class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allow_multiple_instances</span></span><span
+                      class="o"><span class="pre">=</span></span><span class="default_value"><span
+                      class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span
+                      class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em
+                      class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
+                      class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                              href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker"
+                                                                                              title="Link to this definition"></a>
+              </dt>
+              <dd><p>Bases: <a class="reference internal" href="#RAGchain.utils.linker.base.BaseLinker"
+                               title="RAGchain.utils.linker.base.BaseLinker"><code
+                      class="xref py py-class docutils literal notranslate"><span
+                      class="pre">BaseLinker</span></code></a></p>
+                  <p>DynamoDBSingleton is a singleton class that manages DynamoDB.</p>
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.utils.linker.dynamo_linker.DynamoLinker.create_or_load_table">
+                          <span class="sig-name descname"><span class="pre">create_or_load_table</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span
+                              class="sig-paren">)</span><a class="headerlink"
+                                                           href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker.create_or_load_table"
+                                                           title="Link to this definition"></a></dt>
+                      <dd><p>Create a table if it does not exist, otherwise load it.</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.utils.linker.dynamo_linker.DynamoLinker.create_table">
+                          <span class="sig-name descname"><span class="pre">create_table</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span
+                              class="sig-paren">)</span><a class="headerlink"
+                                                           href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker.create_table"
+                                                           title="Link to this definition"></a></dt>
+                      <dd><p>Create a table in DynamoDB table that can be used to store DB origin.</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.utils.linker.dynamo_linker.DynamoLinker.flush_db">
+                          <span class="sig-name descname"><span class="pre">flush_db</span></span><span
+                              class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink"
+                                                                                           href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker.flush_db"
+                                                                                           title="Link to this definition"></a>
+                      </dt>
+                      <dd></dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.utils.linker.dynamo_linker.DynamoLinker.get_json">
+                          <span class="sig-name descname"><span class="pre">get_json</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span
+                              class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
+                              class="p"><span class="pre">|</span></span><span class="w"> </span><span
+                              class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span
+                              class="sig-paren">)</span><a class="headerlink"
+                                                           href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker.get_json"
+                                                           title="Link to this definition"></a></dt>
+                      <dd></dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.utils.linker.dynamo_linker.DynamoLinker.handle_error">
+                          <em class="property"><span class="pre">static</span><span class="w"> </span></em><span
+                              class="sig-name descname"><span class="pre">handle_error</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">err</span></span></em>, <em class="sig-param"><span class="n"><span
+                              class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span
+                              class="pre">operation</span></span></em><span class="sig-paren">)</span><a
+                              class="headerlink" href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker.handle_error"
+                              title="Link to this definition"></a></dt>
+                      <dd></dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.utils.linker.dynamo_linker.DynamoLinker.load_table">
+                          <span class="sig-name descname"><span class="pre">load_table</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span
+                              class="sig-paren">)</span><a class="headerlink"
+                                                           href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker.load_table"
+                                                           title="Link to this definition"></a></dt>
+                      <dd><p>Load a table in DynamoDB table that can be used to store DB origin.</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.utils.linker.dynamo_linker.DynamoLinker.put_json">
+                          <span class="sig-name descname"><span class="pre">put_json</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">UUID</span><span
+                              class="w"> </span><span class="p"><span class="pre">|</span></span><span
+                              class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span
+                              class="n"><span class="pre">json_data</span></span><span class="p"><span
+                              class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                    href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker.put_json"
+                                                                                                    title="Link to this definition"></a>
+                      </dt>
+                      <dd></dd>
+                  </dl>
+
+              </dd>
+          </dl>
+
+      </section>
+      <section id="module-RAGchain.utils.linker.json_linker">
+          <span id="ragchain-utils-linker-json-linker-module"></span>
+          <h2>RAGchain.utils.linker.json_linker module<a class="headerlink"
+                                                         href="#module-RAGchain.utils.linker.json_linker"
+                                                         title="Link to this heading"></a></h2>
+          <dl class="py class">
+              <dt class="sig sig-object py" id="RAGchain.utils.linker.json_linker.JsonLinker">
+                  <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span
+                      class="pre">RAGchain.utils.linker.json_linker.</span></span><span class="sig-name descname"><span
+                      class="pre">JsonLinker</span></span><span class="sig-paren">(</span><em class="sig-param"><span
+                      class="n"><span class="pre">allow_multiple_instances</span></span><span class="o"><span
+                      class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>,
+                  <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span
+                          class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span
+                      class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a
+                      class="headerlink" href="#RAGchain.utils.linker.json_linker.JsonLinker"
+                      title="Link to this definition"></a></dt>
+              <dd><p>Bases: <a class="reference internal" href="#RAGchain.utils.linker.base.BaseLinker"
+                               title="RAGchain.utils.linker.base.BaseLinker"><code
+                      class="xref py py-class docutils literal notranslate"><span
+                      class="pre">BaseLinker</span></code></a></p>
+                  <p>JsonLinker is a singleton class that allows the role of a linker
+                      to be played locally to use JSON file without using an external DB like redis or dynamo.</p>
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.utils.linker.json_linker.JsonLinker.create_json">
+                          <span class="sig-name descname"><span class="pre">create_json</span></span><span
+                              class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink"
+                                                                                           href="#RAGchain.utils.linker.json_linker.JsonLinker.create_json"
+                                                                                           title="Link to this definition"></a>
+                      </dt>
+                      <dd></dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.utils.linker.json_linker.JsonLinker.create_or_load_json">
+                          <span class="sig-name descname"><span class="pre">create_or_load_json</span></span><span
+                              class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink"
+                                                                                           href="#RAGchain.utils.linker.json_linker.JsonLinker.create_or_load_json"
+                                                                                           title="Link to this definition"></a>
+                      </dt>
+                      <dd></dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.utils.linker.json_linker.JsonLinker.flush_db">
+                          <span class="sig-name descname"><span class="pre">flush_db</span></span><span
+                              class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink"
+                                                                                           href="#RAGchain.utils.linker.json_linker.JsonLinker.flush_db"
+                                                                                           title="Link to this definition"></a>
+                      </dt>
+                      <dd></dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.utils.linker.json_linker.JsonLinker.get_json">
+                          <span class="sig-name descname"><span class="pre">get_json</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span
+                              class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
+                              class="p"><span class="pre">|</span></span><span class="w"> </span><span
+                              class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span
+                              class="sig-paren">)</span><a class="headerlink"
+                                                           href="#RAGchain.utils.linker.json_linker.JsonLinker.get_json"
+                                                           title="Link to this definition"></a></dt>
+                      <dd></dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.utils.linker.json_linker.JsonLinker.load_json">
+                          <span class="sig-name descname"><span class="pre">load_json</span></span><span
+                              class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink"
+                                                                                           href="#RAGchain.utils.linker.json_linker.JsonLinker.load_json"
+                                                                                           title="Link to this definition"></a>
+                      </dt>
+                      <dd></dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.utils.linker.json_linker.JsonLinker.put_json">
+                          <span class="sig-name descname"><span class="pre">put_json</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">UUID</span><span
+                              class="w"> </span><span class="p"><span class="pre">|</span></span><span
+                              class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span
+                              class="n"><span class="pre">json_data</span></span><span class="p"><span
+                              class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                    href="#RAGchain.utils.linker.json_linker.JsonLinker.put_json"
+                                                                                                    title="Link to this definition"></a>
+                      </dt>
+                      <dd></dd>
+                  </dl>
+
+              </dd>
+          </dl>
+
+      </section>
+      <section id="module-RAGchain.utils.linker.redis_linker">
+          <span id="ragchain-utils-linker-redis-linker-module"></span>
+          <h2>RAGchain.utils.linker.redis_linker module<a class="headerlink"
+                                                          href="#module-RAGchain.utils.linker.redis_linker"
+                                                          title="Link to this heading"></a></h2>
+          <dl class="py class">
+              <dt class="sig sig-object py" id="RAGchain.utils.linker.redis_linker.RedisLinker">
+                  <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span
+                      class="pre">RAGchain.utils.linker.redis_linker.</span></span><span class="sig-name descname"><span
+                      class="pre">RedisLinker</span></span><span class="sig-paren">(</span><em class="sig-param"><span
+                      class="n"><span class="pre">allow_multiple_instances</span></span><span class="o"><span
+                      class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>,
+                  <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span
+                          class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span
+                      class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a
+                      class="headerlink" href="#RAGchain.utils.linker.redis_linker.RedisLinker"
+                      title="Link to this definition"></a></dt>
+              <dd><p>Bases: <a class="reference internal" href="#RAGchain.utils.linker.base.BaseLinker"
+                               title="RAGchain.utils.linker.base.BaseLinker"><code
+                      class="xref py py-class docutils literal notranslate"><span
+                      class="pre">BaseLinker</span></code></a></p>
 <p>RedisDBSingleton is a singleton class that manages redis.
 We use redis to link DB and passage ids that stores in retrievals.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="RAGchain.utils.linker.redisdbSingleton.RedisDBSingleton.connection_check">
-<span class="sig-name descname"><span class="pre">connection_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.utils.linker.redisdbSingleton.RedisDBSingleton.connection_check" title="Link to this definition"></a></dt>
+    <dt class="sig sig-object py" id="RAGchain.utils.linker.redis_linker.RedisLinker.connection_check">
+        <span class="sig-name descname"><span class="pre">connection_check</span></span><span class="sig-paren">(</span><span
+            class="sig-paren">)</span><a class="headerlink"
+                                         href="#RAGchain.utils.linker.redis_linker.RedisLinker.connection_check"
+                                         title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="RAGchain.utils.linker.redisdbSingleton.RedisDBSingleton.flush_db">
-<span class="sig-name descname"><span class="pre">flush_db</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.utils.linker.redisdbSingleton.RedisDBSingleton.flush_db" title="Link to this definition"></a></dt>
+    <dt class="sig sig-object py" id="RAGchain.utils.linker.redis_linker.RedisLinker.flush_db">
+        <span class="sig-name descname"><span class="pre">flush_db</span></span><span class="sig-paren">(</span><span
+            class="sig-paren">)</span><a class="headerlink"
+                                         href="#RAGchain.utils.linker.redis_linker.RedisLinker.flush_db"
+                                         title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="RAGchain.utils.linker.redisdbSingleton.RedisDBSingleton.get_json">
-<span class="sig-name descname"><span class="pre">get_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.utils.linker.redisdbSingleton.RedisDBSingleton.get_json" title="Link to this definition"></a></dt>
+    <dt class="sig sig-object py" id="RAGchain.utils.linker.redis_linker.RedisLinker.get_json">
+        <span class="sig-name descname"><span class="pre">get_json</span></span><span class="sig-paren">(</span><em
+            class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span
+            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span
+            class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
+            class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span
+            class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                      href="#RAGchain.utils.linker.redis_linker.RedisLinker.get_json"
+                                                                                                      title="Link to this definition"></a>
+    </dt>
+    <dd></dd>
+</dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.utils.linker.redis_linker.RedisLinker.put_json">
+                          <span class="sig-name descname"><span class="pre">put_json</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">UUID</span><span
+                              class="w"> </span><span class="p"><span class="pre">|</span></span><span
+                              class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span
+                              class="n"><span class="pre">json_data</span></span><span class="p"><span
+                              class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                    href="#RAGchain.utils.linker.redis_linker.RedisLinker.put_json"
+                                                                                                    title="Link to this definition"></a>
+                      </dt>
 <dd></dd></dl>
 
 </dd></dl>

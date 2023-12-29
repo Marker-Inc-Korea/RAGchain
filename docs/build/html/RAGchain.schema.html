@@ -78,7 +78,18 @@
     </li>
 <li><a class="reference internal" href="#module-RAGchain.schema.passage">RAGchain.schema.passage module</a><ul>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage"><code class="docutils literal notranslate"><span class="pre">Passage</span></code></a><ul>
+    <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.Config"><code
+            class="docutils literal notranslate"><span class="pre">Passage.Config</span></code></a>
+        <ul>
+            <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.Config.extra"><code
+                    class="docutils literal notranslate"><span class="pre">Passage.Config.extra</span></code></a></li>
+        </ul>
+    </li>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.content"><code class="docutils literal notranslate"><span class="pre">Passage.content</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.content_datetime"><code
+            class="docutils literal notranslate"><span class="pre">Passage.content_datetime</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.copy"><code
+            class="docutils literal notranslate"><span class="pre">Passage.copy()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.filepath"><code class="docutils literal notranslate"><span class="pre">Passage.filepath</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.id"><code class="docutils literal notranslate"><span class="pre">Passage.id</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.is_exactly_same"><code class="docutils literal notranslate"><span class="pre">Passage.is_exactly_same()</span></code></a></li>
@@ -87,6 +98,8 @@
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.metadata_etc"><code class="docutils literal notranslate"><span class="pre">Passage.metadata_etc</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.next_passage_id"><code class="docutils literal notranslate"><span class="pre">Passage.next_passage_id</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.previous_passage_id"><code class="docutils literal notranslate"><span class="pre">Passage.previous_passage_id</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.reset_id"><code
+            class="docutils literal notranslate"><span class="pre">Passage.reset_id()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.to_dict"><code class="docutils literal notranslate"><span class="pre">Passage.to_dict()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.to_document"><code class="docutils literal notranslate"><span class="pre">Passage.to_document()</span></code></a></li>
 </ul>
@@ -260,14 +273,112 @@
 <span id="ragchain-schema-passage-module"></span><h2>RAGchain.schema.passage module<a class="headerlink" href="#module-RAGchain.schema.passage" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="RAGchain.schema.passage.Passage">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.schema.passage.</span></span><span class="sig-name descname"><span class="pre">Passage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">previous_passage_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">next_passage_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_etc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.schema.passage.Passage" title="Link to this definition"></a></dt>
+    <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+        class="sig-prename descclassname"><span class="pre">RAGchain.schema.passage.</span></span><span
+        class="sig-name descname"><span class="pre">Passage</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+        class="n"><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+        class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span
+        class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+        class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+        class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span
+        class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>,
+    <em class="sig-param"><span class="n"><span class="pre">content_datetime</span></span><span class="p"><span
+            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+            class="pre">datetime</span></span><span class="w"> </span><span class="o"><span
+            class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
+    <em class="sig-param"><span class="n"><span class="pre">previous_passage_id</span></span><span class="p"><span
+            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">UUID</span><span
+            class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span
+            class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+            class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span
+            class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
+    <em class="sig-param"><span class="n"><span class="pre">next_passage_id</span></span><span class="p"><span
+            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">UUID</span><span
+            class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span
+            class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+            class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span
+            class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
+    <em class="sig-param"><span class="n"><span class="pre">metadata_etc</span></span><span class="p"><span class="pre">:</span></span><span
+            class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span
+            class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+            class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                  href="#RAGchain.schema.passage.Passage"
+                                                                                  title="Link to this definition"></a>
+</dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Serializable</span></code></p>
 <p>Class for storing a passage and metadatas</p>
-<dl class="py attribute">
+    <dl class="py class">
+        <dt class="sig sig-object py" id="RAGchain.schema.passage.Passage.Config">
+            <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                class="sig-name descname"><span class="pre">Config</span></span><a class="headerlink"
+                                                                                   href="#RAGchain.schema.passage.Passage.Config"
+                                                                                   title="Link to this definition"></a>
+        </dt>
+        <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>
+        </p>
+            <dl class="py attribute">
+                <dt class="sig sig-object py" id="RAGchain.schema.passage.Passage.Config.extra">
+                    <span class="sig-name descname"><span class="pre">extra</span></span><em class="property"><span
+                        class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span
+                        class="pre">'forbid'</span></em><a class="headerlink"
+                                                           href="#RAGchain.schema.passage.Passage.Config.extra"
+                                                           title="Link to this definition"></a></dt>
+                <dd></dd>
+            </dl>
+
+        </dd>
+    </dl>
+
+    <dl class="py attribute">
 <dt class="sig sig-object py" id="RAGchain.schema.passage.Passage.content">
 <span class="sig-name descname"><span class="pre">content</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#RAGchain.schema.passage.Passage.content" title="Link to this definition"></a></dt>
 <dd><p>String text.</p>
 </dd></dl>
+
+    <dl class="py attribute">
+        <dt class="sig sig-object py" id="RAGchain.schema.passage.Passage.content_datetime">
+            <span class="sig-name descname"><span class="pre">content_datetime</span></span><em class="property"><span
+                class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                class="pre">datetime</span></em><a class="headerlink"
+                                                   href="#RAGchain.schema.passage.Passage.content_datetime"
+                                                   title="Link to this definition"></a></dt>
+        <dd><p>Datetime when the passage content is created or edited. Everytime passge content changes, this value
+            should be
+            updated.</p>
+        </dd>
+    </dl>
+
+    <dl class="py method">
+        <dt class="sig sig-object py" id="RAGchain.schema.passage.Passage.copy">
+            <span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em
+                class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>,
+            <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span
+                class="sig-paren">)</span><a class="headerlink" href="#RAGchain.schema.passage.Passage.copy"
+                                             title="Link to this definition"></a></dt>
+        <dd><p>Duplicate a model, optionally choose which fields to include, exclude and change.</p>
+            <dl class="field-list simple">
+                <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                <dd class="field-odd">
+                    <ul class="simple">
+                        <li><p><strong>include</strong> – fields to include in new model</p></li>
+                        <li><p><strong>exclude</strong> – fields to exclude from new model, as with values this takes
+                            precedence over include</p></li>
+                        <li><p><strong>update</strong> – values to change/add in the new model. Note: the data is not
+                            validated before creating
+                            the new model: you should trust this data</p></li>
+                        <li><p><strong>deep</strong> – set to <cite>True</cite> to make a deep copy of the model</p>
+                        </li>
+                    </ul>
+                </dd>
+                <dt class="field-even">Returns<span class="colon">:</span></dt>
+                <dd class="field-even"><p>new model instance</p>
+                </dd>
+            </dl>
+        </dd>
+    </dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="RAGchain.schema.passage.Passage.filepath">
@@ -321,7 +432,16 @@
 <dd><p>Previous passage’s id. If this is the first passage, this value should be None.</p>
 </dd></dl>
 
-<dl class="py method">
+    <dl class="py method">
+        <dt class="sig sig-object py" id="RAGchain.schema.passage.Passage.reset_id">
+            <span class="sig-name descname"><span class="pre">reset_id</span></span><span
+                class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink"
+                                                                             href="#RAGchain.schema.passage.Passage.reset_id"
+                                                                             title="Link to this definition"></a></dt>
+        <dd></dd>
+    </dl>
+
+    <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.schema.passage.Passage.to_dict">
 <span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.schema.passage.Passage.to_dict" title="Link to this definition"></a></dt>
 <dd></dd></dl>

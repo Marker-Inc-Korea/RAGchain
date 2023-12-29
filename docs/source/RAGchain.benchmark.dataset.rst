@@ -12,6 +12,14 @@ RAGchain.benchmark.dataset.antique module
    :undoc-members:
    :show-inheritance:
 
+RAGchain.benchmark.dataset.asqa module
+--------------------------------------
+
+.. automodule:: RAGchain.benchmark.dataset.asqa
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 RAGchain.benchmark.dataset.base module
 --------------------------------------
 
@@ -24,6 +32,14 @@ RAGchain.benchmark.dataset.beir module
 --------------------------------------
 
 .. automodule:: RAGchain.benchmark.dataset.beir
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+RAGchain.benchmark.dataset.dstc11\_track5 module
+------------------------------------------------
+
+.. automodule:: RAGchain.benchmark.dataset.dstc11_track5
    :members:
    :undoc-members:
    :show-inheritance:

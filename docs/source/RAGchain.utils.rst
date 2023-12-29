@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   RAGchain.utils.compressor
    RAGchain.utils.embed
    RAGchain.utils.linker
    RAGchain.utils.vectorstore
@@ -42,6 +43,14 @@ RAGchain.utils.rede\_search\_detector module
 --------------------------------------------
 
 .. automodule:: RAGchain.utils.rede_search_detector
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+RAGchain.utils.semantic\_clustering module
+------------------------------------------
+
+.. automodule:: RAGchain.utils.semantic_clustering
    :members:
    :undoc-members:
    :show-inheritance:

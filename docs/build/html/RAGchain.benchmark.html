@@ -218,6 +218,26 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="toctree-l3"><a class="reference internal"
+                                              href="RAGchain.benchmark.answer.html#RAGchain.benchmark.answer.metrics.METEOR"><code
+                            class="docutils literal notranslate"><span class="pre">METEOR</span></code></a>
+                        <ul>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.benchmark.answer.html#RAGchain.benchmark.answer.metrics.METEOR.retrieval_metric_function"><code
+                                    class="docutils literal notranslate"><span class="pre">METEOR.retrieval_metric_function()</span></code></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toctree-l3"><a class="reference internal"
+                                              href="RAGchain.benchmark.answer.html#RAGchain.benchmark.answer.metrics.ROUGE"><code
+                            class="docutils literal notranslate"><span class="pre">ROUGE</span></code></a>
+                        <ul>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.benchmark.answer.html#RAGchain.benchmark.answer.metrics.ROUGE.retrieval_metric_function"><code
+                                    class="docutils literal notranslate"><span class="pre">ROUGE.retrieval_metric_function()</span></code></a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
             <li class="toctree-l2"><a class="reference internal"
@@ -246,6 +266,26 @@
                                                       href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.antique.AntiqueEvaluator.ingest"><code
                                     class="docutils literal notranslate"><span
                                     class="pre">AntiqueEvaluator.ingest()</span></code></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="toctree-l2"><a class="reference internal"
+                                      href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.asqa">RAGchain.benchmark.dataset.asqa
+                module</a>
+                <ul>
+                    <li class="toctree-l3"><a class="reference internal"
+                                              href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.asqa.ASQAEvaluator"><code
+                            class="docutils literal notranslate"><span class="pre">ASQAEvaluator</span></code></a>
+                        <ul>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.asqa.ASQAEvaluator.evaluate"><code
+                                    class="docutils literal notranslate"><span
+                                    class="pre">ASQAEvaluator.evaluate()</span></code></a></li>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.asqa.ASQAEvaluator.ingest"><code
+                                    class="docutils literal notranslate"><span class="pre">ASQAEvaluator.ingest()</span></code></a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -331,6 +371,27 @@
                                               href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.beir.BeirSCIFACTEvaluator"><code
                             class="docutils literal notranslate"><span
                             class="pre">BeirSCIFACTEvaluator</span></code></a></li>
+                </ul>
+            </li>
+            <li class="toctree-l2"><a class="reference internal"
+                                      href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.dstc11_track5">RAGchain.benchmark.dataset.dstc11_track5
+                module</a>
+                <ul>
+                    <li class="toctree-l3"><a class="reference internal"
+                                              href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.dstc11_track5.DSTC11Track5Evaluator"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">DSTC11Track5Evaluator</span></code></a>
+                        <ul>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.dstc11_track5.DSTC11Track5Evaluator.evaluate"><code
+                                    class="docutils literal notranslate"><span class="pre">DSTC11Track5Evaluator.evaluate()</span></code></a>
+                            </li>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.dstc11_track5.DSTC11Track5Evaluator.ingest"><code
+                                    class="docutils literal notranslate"><span class="pre">DSTC11Track5Evaluator.ingest()</span></code></a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
             <li class="toctree-l2"><a class="reference internal"
@@ -735,10 +796,10 @@
                       <dt class="sig sig-object py" id="RAGchain.benchmark.base.BaseEvaluator.answer_gt_metrics">
                           <span class="sig-name descname"><span class="pre">answer_gt_metrics</span></span><em
                               class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span
-                              class="w"> </span><span class="pre">['BLEU']</span></em><a class="headerlink"
-                                                                                         href="#RAGchain.benchmark.base.BaseEvaluator.answer_gt_metrics"
-                                                                                         title="Link to this definition"></a>
-                      </dt>
+                              class="w"> </span><span class="pre">['BLEU',</span> <span class="pre">'METEOR',</span>
+                          <span class="pre">'ROUGE']</span></em><a class="headerlink"
+                                                                   href="#RAGchain.benchmark.base.BaseEvaluator.answer_gt_metrics"
+                                                                   title="Link to this definition"></a></dt>
                       <dd></dd>
                   </dl>
 
