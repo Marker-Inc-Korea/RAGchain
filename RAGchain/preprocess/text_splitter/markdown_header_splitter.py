@@ -5,6 +5,7 @@ from langchain.schema import Document
 from langchain.text_splitter import MarkdownHeaderTextSplitter
 
 from RAGchain.preprocess.text_splitter.base import BaseTextSplitter
+from RAGchain.schema import Passage
 
 
 class MarkDownHeaderSplitter(BaseTextSplitter):
@@ -33,10 +34,10 @@ class MarkDownHeaderSplitter(BaseTextSplitter):
 
         self.markdown_splitter = MarkdownHeaderTextSplitter(headers_to_split_on, return_each_line)
 
-    def split_document(self, document: Document):
+    def split_document(self, document: Document) -> List[Passage]:
         doc_copy = copy.deepcopy(document)
         split_documents = self.markdown_splitter.split_text(document.page_content)
         for doc in split_documents:
             doc.metadata.update(doc_copy.metadata)
-        passages = self.docs_to_passages(split_documents)
+        passages = Passage.from_documents(split_documents)
         return passages

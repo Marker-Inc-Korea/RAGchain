@@ -41,5 +41,5 @@ class HTMLHeaderSplitter(BaseTextSplitter):
         split_documents = self.html_header_splitter.split_text(document.page_content)
         for doc in split_documents:
             doc.metadata.update(doc_copy.metadata)
-        passages = self.docs_to_passages(split_documents)
+        passages = Passage.from_documents(split_documents)
         return passages

@@ -40,5 +40,5 @@ class CodeSplitter(BaseTextSplitter):
 
     def split_document(self, document: Document) -> List[Passage]:
         split_documents = self.code_splitter.split_documents([document])
-        passages = self.docs_to_passages(split_documents)
+        passages = Passage.from_documents(split_documents)
         return passages
