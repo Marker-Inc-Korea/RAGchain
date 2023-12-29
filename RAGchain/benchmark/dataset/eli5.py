@@ -31,7 +31,6 @@ class Eli5Evaluator(BaseDatasetEvaluator):
         Because of the large size of the dataset, we use the dataset that someone else has already processed.
 
         Notice:
-
         Default metrics is basically running metrics if you run test file.
         Support metrics is the metrics you are available.
         This separation is because Ragas metrics take a long time in evaluation.
