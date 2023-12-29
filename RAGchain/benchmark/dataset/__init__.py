@@ -3,6 +3,7 @@ from .asqa import ASQAEvaluator
 from .beir import (BeirFEVEREvaluator, BeirFIQAEvaluator,
                    BeirHOTPOTQAEvaluator, BeirQUORAEvaluator,
                    BeirSCIDOCSEvaluator, BeirSCIFACTEvaluator)
+from .eli5 import Eli5Evaluator
 from .ko_strategy_qa import KoStrategyQAEvaluator
 from .mr_tydi import MrTydiEvaluator
 from .msmarco import MSMARCOEvaluator
