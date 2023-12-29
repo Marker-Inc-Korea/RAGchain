@@ -28,7 +28,7 @@ class Eli5Evaluator(BaseDatasetEvaluator):
         'context_recall', 'context_precision', 'BLEU', 'answer_relevancy', 'faithfulness', 'KF1'.
 
         The dataset is collected from https://huggingface.co/datasets/Pakulski/ELI5-test.
-        Because of the size of the dataset, we use the dataset that someone else has already processed.
+        Because of the large size of the dataset, we use the dataset that someone else has already processed.
 
         Notice:
 
