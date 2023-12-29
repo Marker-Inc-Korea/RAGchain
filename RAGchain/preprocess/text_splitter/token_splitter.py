@@ -1,6 +1,4 @@
-import copy
 from typing import List
-from uuid import uuid4
 
 from langchain.schema import Document
 from langchain.text_splitter import (CharacterTextSplitter, TokenTextSplitter,
@@ -18,6 +16,7 @@ class TokenSplitter(BaseTextSplitter):
     It's designed to split text from a document into smaller chunks, or "tokens", using various tokenization methods.
     The class supports tokenization with 'tiktoken', 'spaCy', 'SentenceTransformers', 'NLTK', and 'huggingFace'.
     """
+
     def __init__(self, tokenizer_name: str = 'tiktoken', chunk_size: int = 100, chunk_overlap: int = 0,
                  pretrained_model_name: str = "gpt2", **kwargs):
         """
@@ -54,42 +53,10 @@ class TokenSplitter(BaseTextSplitter):
         else:
             raise ValueError("Ooops! You input invalid tokenizer name." + " Your input: " + tokenizer_name)
 
-
-
     def split_document(self, document: Document) -> List[Passage]:
         """
         Split a document.
         """
-
-        split_text = self.splitter.split_text(document.page_content)
-
-        # Convert split text to split documents.
-        split_documents = self.splitter.create_documents(split_text)
-
-        # Convert to documents to passages.
-        doc_copy = copy.deepcopy(document)
-        passages = []
-        ids = [uuid4() for _ in range(len(split_documents))]
-
-        filepath = doc_copy.metadata.pop('source')  # user doc's metadata value.
-        doc_metadata_etc = doc_copy.metadata  # TEST_DOCUMENT's metadata etc.(Already removed file path data)
-
-        for i, (split_document, uuid) in enumerate(zip(split_documents, ids)):
-            # Modify meta_data's keys and values right form.
-            ## metadata_etc = doc's metadata_etc + splitter's information.
-            metadata_etc = dict(split_document.metadata.copy(),  # Header information
-                                **doc_metadata_etc, )  # TEST_DOCUMENT's metadata etc
-
-            previous_passage_id = ids[i - 1] if i > 0 else None
-            next_passage_id = ids[i + 1] if i < len(split_documents) - 1 else None
-            passage = Passage(id=uuid,
-                              content=split_document.page_content,
-                              filepath=filepath,
-                              previous_passage_id=previous_passage_id,
-                              next_passage_id=next_passage_id,
-                              metadata_etc=metadata_etc)
-            passages.append(passage)
-        print(f"Split into {len(passages)} passages")
-
+        split_documents = self.splitter.split_documents([document])
+        passages = self.docs_to_passages(split_documents)
         return passages
-
