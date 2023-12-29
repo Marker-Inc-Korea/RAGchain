@@ -1,4 +1,3 @@
-import itertools
 from copy import deepcopy
 from typing import List, Optional
 
@@ -62,7 +61,7 @@ class Eli5Evaluator(BaseDatasetEvaluator):
 
         # Preprocess dataset
         self.ingest_data = deepcopy(datasets[['id', 'document']])
-        self.qa_data = datasets['id', 'question', 'goldenAnswer']
+        self.qa_data = datasets[['id', 'question', 'goldenAnswer']]
 
         if evaluate_size is not None and len(self.qa_data) > evaluate_size:
             self.qa_data = self.qa_data[:evaluate_size]
@@ -83,8 +82,7 @@ class Eli5Evaluator(BaseDatasetEvaluator):
                 raise ValueError("ingest size must be same or larger than evaluate size")
 
         # Create passages.
-        result = ingest_data.apply(self.__make_passages, axis=1)
-        passages = list(itertools.chain.from_iterable(result))
+        passages = ingest_data.apply(self.__make_passages, axis=1).tolist()
 
         for retrieval in retrievals:
             retrieval.ingest(passages)
@@ -96,15 +94,15 @@ class Eli5Evaluator(BaseDatasetEvaluator):
         return self._calculate_metrics(
             questions=self.qa_data['question'].tolist(),
             pipeline=self.run_pipeline,
-            retrieval_gt=self.qa_data['id'].tolist(),
-            answer_gt=self.qa_data['goldenAnswer'].tolist(),
+            retrieval_gt=[[gt] for gt in self.qa_data['id'].tolist()],
+            answer_gt=[[answer] for answer in self.qa_data['goldenAnswer'].tolist()],
             **kwargs
         )
 
     def __make_passages(self, row):
 
         return Passage(
-            id=str(row['id']),
+            id=row['id'],
             content=row['document'],
             filepath=self.file_path,
             metadata_etc={

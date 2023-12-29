@@ -36,7 +36,7 @@ def test_eli5_evaluator(eli5_evaluator):
 
     assert len(result.each_results) == 5
     assert result.each_results.iloc[0][
-               'question'] == 'Who was the man behind The Chipmunks?'
+               'question'] == 'in football whats the point of wasting the first two plays with a rush - up the middle - not regular rush plays i get those'
     for key, value in result.results.items():
         logger.info(f"{key}: {value}")
     logger.info("The result length is " + f"{len(result.results)}")
