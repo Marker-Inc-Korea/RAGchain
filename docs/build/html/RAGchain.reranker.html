@@ -49,7 +49,6 @@
 <li><a class="reference internal" href="#module-RAGchain.reranker.base">RAGchain.reranker.base module</a><ul>
 <li><a class="reference internal" href="#RAGchain.reranker.base.BaseReranker"><code class="docutils literal notranslate"><span class="pre">BaseReranker</span></code></a><ul>
 <li><a class="reference internal" href="#RAGchain.reranker.base.BaseReranker.rerank"><code class="docutils literal notranslate"><span class="pre">BaseReranker.rerank()</span></code></a></li>
-<li><a class="reference internal" href="#RAGchain.reranker.base.BaseReranker.rerank_sliding_window"><code class="docutils literal notranslate"><span class="pre">BaseReranker.rerank_sliding_window()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -62,9 +61,6 @@
                     <li><a class="reference internal" href="#RAGchain.reranker.bm25.BM25Reranker.rerank"><code
                             class="docutils literal notranslate"><span
                             class="pre">BM25Reranker.rerank()</span></code></a></li>
-                    <li><a class="reference internal" href="#RAGchain.reranker.bm25.BM25Reranker.rerank_sliding_window"><code
-                            class="docutils literal notranslate"><span
-                            class="pre">BM25Reranker.rerank_sliding_window()</span></code></a></li>
                 </ul>
             </li>
         </ul>
@@ -164,7 +160,6 @@
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.reranker.pygaggle.html#module-RAGchain.reranker.pygaggle.monoT5">RAGchain.reranker.pygaggle.monoT5 module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="RAGchain.reranker.pygaggle.html#RAGchain.reranker.pygaggle.monoT5.MonoT5Reranker"><code class="docutils literal notranslate"><span class="pre">MonoT5Reranker</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.pygaggle.html#RAGchain.reranker.pygaggle.monoT5.MonoT5Reranker.rerank"><code class="docutils literal notranslate"><span class="pre">MonoT5Reranker.rerank()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.pygaggle.html#RAGchain.reranker.pygaggle.monoT5.MonoT5Reranker.rerank_sliding_window"><code class="docutils literal notranslate"><span class="pre">MonoT5Reranker.rerank_sliding_window()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -200,7 +195,6 @@
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.reranker.tart.html#module-RAGchain.reranker.tart.tart">RAGchain.reranker.tart.tart module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="RAGchain.reranker.tart.html#RAGchain.reranker.tart.tart.TARTReranker"><code class="docutils literal notranslate"><span class="pre">TARTReranker</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.tart.html#RAGchain.reranker.tart.tart.TARTReranker.rerank"><code class="docutils literal notranslate"><span class="pre">TARTReranker.rerank()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.tart.html#RAGchain.reranker.tart.tart.TARTReranker.rerank_sliding_window"><code class="docutils literal notranslate"><span class="pre">TARTReranker.rerank_sliding_window()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -217,13 +211,55 @@
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.reranker.tart.html#module-RAGchain.reranker.tart">Module contents</a></li>
 </ul>
 </li>
+    <li class="toctree-l1"><a class="reference internal" href="RAGchain.reranker.time.html">RAGchain.reranker.time
+        package</a>
+        <ul>
+            <li class="toctree-l2"><a class="reference internal" href="RAGchain.reranker.time.html#submodules">Submodules</a>
+            </li>
+            <li class="toctree-l2"><a class="reference internal"
+                                      href="RAGchain.reranker.time.html#module-RAGchain.reranker.time.simple_time">RAGchain.reranker.time.simple_time
+                module</a>
+                <ul>
+                    <li class="toctree-l3"><a class="reference internal"
+                                              href="RAGchain.reranker.time.html#RAGchain.reranker.time.simple_time.SimpleTimeReranker"><code
+                            class="docutils literal notranslate"><span class="pre">SimpleTimeReranker</span></code></a>
+                        <ul>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.reranker.time.html#RAGchain.reranker.time.simple_time.SimpleTimeReranker.rerank"><code
+                                    class="docutils literal notranslate"><span
+                                    class="pre">SimpleTimeReranker.rerank()</span></code></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="toctree-l2"><a class="reference internal"
+                                      href="RAGchain.reranker.time.html#module-RAGchain.reranker.time.weighted_time">RAGchain.reranker.time.weighted_time
+                module</a>
+                <ul>
+                    <li class="toctree-l3"><a class="reference internal"
+                                              href="RAGchain.reranker.time.html#RAGchain.reranker.time.weighted_time.WeightedTimeReranker"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">WeightedTimeReranker</span></code></a>
+                        <ul>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.reranker.time.html#RAGchain.reranker.time.weighted_time.WeightedTimeReranker.rerank"><code
+                                    class="docutils literal notranslate"><span
+                                    class="pre">WeightedTimeReranker.rerank()</span></code></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="toctree-l2"><a class="reference internal"
+                                      href="RAGchain.reranker.time.html#module-RAGchain.reranker.time">Module
+                contents</a></li>
+        </ul>
+    </li>
 <li class="toctree-l1"><a class="reference internal" href="RAGchain.reranker.upr.html">RAGchain.reranker.upr package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.reranker.upr.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.reranker.upr.html#module-RAGchain.reranker.upr.upr">RAGchain.reranker.upr.upr module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="RAGchain.reranker.upr.html#RAGchain.reranker.upr.upr.UPRReranker"><code class="docutils literal notranslate"><span class="pre">UPRReranker</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.upr.html#RAGchain.reranker.upr.upr.UPRReranker.calculate_likelihood"><code class="docutils literal notranslate"><span class="pre">UPRReranker.calculate_likelihood()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.upr.html#RAGchain.reranker.upr.upr.UPRReranker.rerank"><code class="docutils literal notranslate"><span class="pre">UPRReranker.rerank()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.upr.html#RAGchain.reranker.upr.upr.UPRReranker.rerank_sliding_window"><code class="docutils literal notranslate"><span class="pre">UPRReranker.rerank_sliding_window()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -262,26 +298,6 @@
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="RAGchain.reranker.base.BaseReranker.rerank_sliding_window">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rerank_sliding_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.reranker.base.BaseReranker.rerank_sliding_window" title="Link to this definition"></a></dt>
-<dd><p>Reranks a list of passages based on a specific ranking algorithm with sliding window.
-This function is useful when the model input token size is limited like LLMs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-    <li><p><strong>passages</strong> – (List[Passage]): The list of passages to be reranked.</p></li>
-    <li><p><strong>query</strong> – str: The query that was used for retrieving the passages.</p></li>
-    <li><p><strong>window_size</strong> – (int): The size of the sliding window used for reranking.</p></li>
-</ul>
-</dd>
-    <dt class="field-even">Returns<span class="colon">:</span></dt>
-    <dd class="field-even"><p>List[Passage]: The reranked list of passages.</p>
-    </dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -353,48 +369,6 @@ This function is useful when the model input token size is limited like LLMs.</p
                               <dd class="field-odd"><p>List[<a class="reference internal"
                                                                href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
                                                                title="RAGchain.schema.passage.Passage">Passage</a>]</p>
-                              </dd>
-                          </dl>
-                      </dd>
-                  </dl>
-
-                  <dl class="py method">
-                      <dt class="sig sig-object py" id="RAGchain.reranker.bm25.BM25Reranker.rerank_sliding_window">
-                          <span class="sig-name descname"><span class="pre">rerank_sliding_window</span></span><span
-                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
-                              class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span
-                              class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em
-                              class="sig-param"><span class="n"><span class="pre">passages</span></span><span class="p"><span
-                              class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                              class="pre">List</span><span class="p"><span class="pre">[</span></span><a
-                              class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
-                              title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span
-                              class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span
-                              class="n"><span class="pre">window_size</span></span><span class="p"><span
-                              class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                              class="pre">int</span></span></em><span class="sig-paren">)</span> <span
-                              class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
-                              class="sig-return-typehint"><span class="pre">List</span><span class="p"><span
-                              class="pre">[</span></span><a class="reference internal"
-                                                            href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
-                                                            title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span
-                              class="p"><span class="pre">]</span></span></span></span><a class="headerlink"
-                                                                                          href="#RAGchain.reranker.bm25.BM25Reranker.rerank_sliding_window"
-                                                                                          title="Link to this definition"></a>
-                      </dt>
-                      <dd><p>Reranks a list of passages based on a specific ranking algorithm with sliding window.
-                          This function is useful when the model input token size is limited like LLMs.</p>
-                          <dl class="field-list simple">
-                              <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-                              <dd class="field-odd">
-                                  <ul class="simple">
-<li><p><strong>passages</strong> – (List[Passage]): The list of passages to be reranked.</p></li>
-<li><p><strong>query</strong> – str: The query that was used for retrieving the passages.</p></li>
-<li><p><strong>window_size</strong> – (int): The size of the sliding window used for reranking.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>List[Passage]: The reranked list of passages.</p>
 </dd>
 </dl>
 </dd></dl>

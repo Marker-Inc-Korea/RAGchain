@@ -8,7 +8,7 @@ with open('README.md', encoding='utf-8') as f:
 
 setup(
     name='RAGchain',
-    version='0.2.2',
+    version='0.2.3',
     description='Build advanced RAG workflows with LLM, compatible with Langchain',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -54,6 +54,9 @@ setup(
         'tiktoken',
         'sacrebleu',
         'scikit-learn',
+        'boto3',
+        'evaluate',
+        'rouge_score',
     ],
     classifiers=[
         "Intended Audience :: Developers",

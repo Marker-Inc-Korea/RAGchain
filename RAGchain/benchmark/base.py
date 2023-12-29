@@ -20,7 +20,7 @@ class BaseEvaluator(ABC):
     retrieval_gt_ragas_metrics = ['context_recall']
     retrieval_gt_metrics_rank_aware = ['AP', 'NDCG', 'CG', 'Ind_DCG', 'DCG', 'Ind_IDCG', 'IDCG', 'RR']
     retrieval_no_gt_ragas_metrics = ['context_precision']
-    answer_gt_metrics = ['BLEU']
+    answer_gt_metrics = ['BLEU', 'METEOR', 'ROUGE']
     answer_no_gt_ragas_metrics = ['answer_relevancy', 'faithfulness']
     answer_passage_metrics = ['KF1']
 
@@ -215,7 +215,7 @@ class BaseEvaluator(ABC):
         return result
 
     def __answer_metrics_with_gt(self) -> List[BaseAnswerMetric]:
-        answer_metrics = {metric_names: metric for metric in [BLEU()]
+        answer_metrics = {metric_names: metric for metric in [BLEU(), METEOR(), ROUGE()]
                           for metric_names in text_modifier(metric.metric_name)}
         result = [answer_metrics[metric_name] for metric_name in self.metrics if metric_name in answer_metrics]
         return result
