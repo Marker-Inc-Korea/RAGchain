@@ -138,7 +138,7 @@ class Passage(Serializable):
     def from_search(cls, search_results: List[Dict[str, str]]) -> List['Passage']:
         """
         Convert a list of search results to a list of passages.
-        :param search_results: A list of search results.
+        :param search_results: A list of search results, it requires 'title', 'link', 'snippet' keys.
         """
         if len(search_results) == 0:
             return []
