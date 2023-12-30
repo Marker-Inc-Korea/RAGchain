@@ -8,7 +8,7 @@ from RAGchain.utils.compressor.llm_lingua import LLMLinguaCompressor
 
 @pytest.fixture
 def llm_lingua_compressor():
-    compressor = LLMLinguaCompressor()
+    compressor = LLMLinguaCompressor(model_name="TheBloke/Llama-2-7b-Chat-GPTQ", model_config={"revision": "main"})
     yield compressor
 
 
