@@ -41,7 +41,7 @@ class Eli5Evaluator(BaseDatasetEvaluator):
         self.ingest_data = load_dataset(self.file_path + "-document")['train'].to_pandas()
 
         default_metrics = self.retrieval_gt_metrics + self.answer_gt_metrics + self.answer_passage_metrics
-        support_metrics = default_metrics + self.retrieval_gt_ragas_metrics, self.retrieval_no_gt_ragas_metrics \
+        support_metrics = default_metrics + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics \
                           + self.answer_no_gt_ragas_metrics
 
         if metrics is not None:
