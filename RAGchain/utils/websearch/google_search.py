@@ -22,6 +22,6 @@ class GoogleSearchWrapper(BaseWebSearch):
         )
 
     def get_search_data(self, query, num_results=5, search_params: Optional[Dict[str, str]] = None,) -> List[Passage]:
-        search_results = self.search.results(query, num_results)
+        search_results = self.search.results(query, num_results, search_params)
         passages = Passage.from_search(search_results)
         return passages
