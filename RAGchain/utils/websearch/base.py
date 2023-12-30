@@ -1,12 +1,10 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from typing import Dict, Optional, List
-
-from pydantic import utils as __pydantic_utils
 
 from RAGchain.schema import Passage
 
 
-class BaseWebSearch(__pydantic_utils.Representation):
+class BaseWebSearch(ABC):
     """
     Abstract class for using a web search engine for passage contents.
     """
