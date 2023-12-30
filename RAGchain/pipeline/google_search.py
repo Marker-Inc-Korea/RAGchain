@@ -10,7 +10,7 @@ from langchain.schema.runnable import RunnableLambda
 
 from RAGchain.pipeline.base import BaseRunPipeline
 from RAGchain.schema import RAGchainPromptTemplate, Passage
-from RAGchain.utils.websearch import GoogleSearchWrapper
+from RAGchain.utils.websearch import GoogleSearch
 
 load_dotenv()
 
@@ -50,6 +50,6 @@ class GoogleSearchRunPipeline(BaseRunPipeline):
         return answers, passages, rel_scores
 
     def __search_passages(self, query: str):
-        search = GoogleSearchWrapper()
+        search = GoogleSearch()
         passages = search.get_search_data(query, num_results=self.use_search_count)
         return passages, [i / len(passages) for i in range(len(passages), 0, -1)]

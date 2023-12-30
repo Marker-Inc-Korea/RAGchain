@@ -8,7 +8,7 @@ from RAGchain.utils.websearch import BaseWebSearch
 from RAGchain.schema import Passage
 
 
-class GoogleSearchWrapper(BaseWebSearch):
+class GoogleSearch(BaseWebSearch):
     """
     Langchain's 'GoogleSearchAPIWrapper' returns a List[Dict[str, str]] as the return value.
     This GoogleSearchWrapper class wraps this return value in a Passage.

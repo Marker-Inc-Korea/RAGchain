@@ -1,2 +1,2 @@
 from .base import BaseWebSearch
-from .google_search import GoogleSearchWrapper
+from .google_search import GoogleSearch
