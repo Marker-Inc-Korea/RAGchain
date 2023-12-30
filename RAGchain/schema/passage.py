@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional, Union, List
+from typing import Optional, Union, List, Dict
 from uuid import UUID, uuid4
 
 from langchain.load.serializable import Serializable
@@ -132,4 +132,28 @@ class Passage(Serializable):
 
             passages.append(passage)
         print(f"Split into {len(passages)} passages")
+        return passages
+
+    @classmethod
+    def from_search(cls, search_results: List[Dict[str, str]]) -> List['Passage']:
+        """
+        Convert a list of search results to a list of passages.
+        :param search_results: A list of search results.
+        """
+        if len(search_results) == 0:
+            return []
+        passages = []
+        ids = [uuid4() for _ in range(len(search_results))]
+        for i, (search_results, uuid) in enumerate(zip(search_results, ids)):
+            metadata_etc = {"title": search_results["title"]}
+            filepath = search_results["link"]
+            previous_passage_id = ids[i - 1] if i > 0 else None
+            next_passage_id = ids[i + 1] if i < len(ids) - 1 else None
+            passage = cls(id=uuid,
+                          content=search_results["snippet"],
+                          filepath=filepath,
+                          previous_passage_id=previous_passage_id,
+                          next_passage_id=next_passage_id,
+                          metadata_etc=metadata_etc)
+            passages.append(passage)
         return passages
