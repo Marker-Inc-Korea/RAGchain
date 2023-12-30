@@ -1,6 +1,6 @@
 import pytest
 
-from RAGchain.reranker.importance.simple_importance import SimpleImportanceReranker
+from RAGchain.reranker.importance import SimpleImportanceReranker
 from RAGchain.schema import Passage
 
 TEST_PASSAGES = [
