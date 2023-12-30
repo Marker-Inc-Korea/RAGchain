@@ -158,9 +158,9 @@ def test_duplicate_check(just_bm25_retrieval):
 def test_is_created(just_bm25_retrieval):
     """
     For 'is_created'
-    1. db_instance_list가 비어있을 때, list에 db instance가 잘 들어가는가? 해당 db를 잘 return하는가?
-    2. db_instance_list가 비어있지 않고, db_origin이 이미 존재하는 경우, 해당 db를 잘 return하는가?
-    3. db_instance_list가 비어있지 않고, db_origin이 존재하지 않는 경우, list에 db instance가 잘 들어가는가? 해당 db를 잘 return하는가?
+    1. when db_instance_list is empty, does the list fit a db instance well, and does it return that db well?
+    2. if db_instance_list is not empty and db_origin already exists, does it return that db well?
+    3. if db_instance_list is not empty and db_origin does not exist, does the list fit the db instance well? Does it return the corresponding db well?
     """
     # 0. reset db_instance_list for test
     just_bm25_retrieval.db_instance_list = []
