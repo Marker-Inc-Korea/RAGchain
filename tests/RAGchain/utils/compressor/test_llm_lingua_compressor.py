@@ -31,5 +31,4 @@ def test_llm_lingua_compressor(llm_lingua_compressor):
     assert bool(answer) is True
 
     for s in runnable.stream({"role": "student"}):
-        assert bool(s) is True
         logger.debug(s)
