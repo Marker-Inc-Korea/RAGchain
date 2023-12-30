@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import pytest
 from langchain.schema import Document
 
@@ -32,7 +34,24 @@ Run pytest using the python -m pytest command.
 These solutions should help resolve the import issues you are facing when running pytest.
 """,
     metadata={
-        'source': 'test_source'
+        'source': 'test_source',
+        'data_info': 'mancity',
+    }
+)
+
+TEST_DOCUMENT_2 = Document(
+    page_content="test",
+    metadata={
+        'source': 'test_source',
+        'content_datetime': '2021-01-01 00:00:00',
+        'importance': 1
+    })
+
+TEST_DOCUMENT_3 = Document(
+    page_content="test",
+    metadata={
+        'source': 'test_source',
+        'content_datetime': datetime(2021, 1, 1),
     }
 )
 
@@ -54,3 +73,15 @@ def test_recursive_text_splitter(recursive_text_splitter):
     assert passages[-1].next_passage_id is None
     assert TEST_DOCUMENT.page_content.strip()[:10] == passages[0].content[:10]
     assert TEST_DOCUMENT.page_content.strip()[-10:] == passages[-1].content[-10:]
+    assert passages[0].metadata_etc['data_info'] == 'mancity'
+    assert len(passages[0].metadata_etc) == 1
+
+
+def test_splitter_passage_conversion(recursive_text_splitter):
+    passages_2 = recursive_text_splitter.split_document(TEST_DOCUMENT_2)
+    assert passages_2[0].content_datetime == datetime(2021, 1, 1, 0, 0, 0)
+    assert passages_2[0].importance == 1
+
+    passages_3 = recursive_text_splitter.split_document(TEST_DOCUMENT_3)
+    assert passages_3[0].content_datetime == datetime(2021, 1, 1, 0, 0, 0)
+    assert passages_3[0].importance == 0

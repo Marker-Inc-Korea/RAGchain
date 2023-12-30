@@ -39,6 +39,7 @@ SEARCH_TEST_PASSAGES: List[Passage] = [
         content='This is test number 3',
         filepath='./test/second_file.txt',
         content_datetime=datetime(2021, 1, 3),
+        importance=1,
         previous_passage_id='test_id_2',
         next_passage_id='test_id_4',
         metadata_etc={'test': 'test3'}

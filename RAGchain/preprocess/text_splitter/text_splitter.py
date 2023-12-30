@@ -27,6 +27,5 @@ class RecursiveTextSplitter(BaseTextSplitter):
         Split a document.
         """
         split_documents = self.splitter.split_documents([document])
-        passages = self.docs_to_passages(split_documents)
-
+        passages = Passage.from_documents(split_documents)
         return passages

@@ -21,25 +21,30 @@ TEST_DOCUMENT = Document(
     }
 )
 
+
 @pytest.fixture
 def tiktoken():
     tiktoken = TokenSplitter(tokenizer_name='tiktoken', chunk_size=1000, chunk_overlap=0)
     yield tiktoken
+
 
 @pytest.fixture
 def spaCy():
     spaCy = TokenSplitter(tokenizer_name='spaCy', chunk_size=1000, chunk_overlap=0)
     yield spaCy
 
+
 @pytest.fixture
 def sentence_transformers():
     sentence_transformers = TokenSplitter(tokenizer_name='SentenceTransformers', chunk_overlap=0)
     yield sentence_transformers
 
+
 @pytest.fixture
 def NLTK():
     NLTK = TokenSplitter(tokenizer_name='NLTK', chunk_size=1000)
     yield NLTK
+
 
 @pytest.fixture
 def Hugging_Face():
@@ -58,8 +63,8 @@ def test_token_splitter(tiktoken, spaCy, sentence_transformers, NLTK, Hugging_Fa
 
     huggingface_passages = Hugging_Face.split_document(TEST_DOCUMENT)
 
-    test_passages = [tiktoken_passages, spaCy_passages, SentenceTransformers_passages, NLTK_passages, huggingface_passages]
-
+    test_passages = [tiktoken_passages, spaCy_passages, SentenceTransformers_passages, NLTK_passages,
+                     huggingface_passages]
 
     for passage in test_passages:
         assert len(passage) > 1
@@ -69,6 +74,9 @@ def test_token_splitter(tiktoken, spaCy, sentence_transformers, NLTK, Hugging_Fa
         assert passage[0].filepath == passage[1].filepath
         assert passage[0].previous_passage_id is None
         assert passage[-1].next_passage_id is None
+        assert len(passage[0].metadata_etc) == 2
+        assert passage[0].metadata_etc['Data information'] == '맨까 새끼들 부들부들하구나'
+        assert passage[0].metadata_etc['What is it?'] == 'THis is token splitter'
 
     # Check if TEST_DOCUMENT content put in passages.
     for passage in test_passages:
