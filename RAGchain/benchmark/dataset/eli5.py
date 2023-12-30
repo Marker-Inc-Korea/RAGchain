@@ -52,7 +52,7 @@ class Eli5Evaluator(BaseDatasetEvaluator):
                     raise ValueError("You input metrics that this dataset evaluator not support.")
             using_metrics = list(set(metrics))
         else:
-            using_metrics = support_metrics
+            using_metrics = default_metrics
 
         super().__init__(run_all=False, metrics=using_metrics)
 
