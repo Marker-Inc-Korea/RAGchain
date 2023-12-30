@@ -51,7 +51,6 @@ setup(
         'ragas',
         'datasets',
         'lxml',
-        'tiktoken',
         'sacrebleu',
         'scikit-learn',
         'boto3',
