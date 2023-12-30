@@ -107,7 +107,7 @@ class Passage(Serializable):
                 raise ValueError(f"source must be provided in metadata, but got {metadata_etc}")
 
             previous_passage_id = ids[i - 1] if i > 0 else None
-            next_passage_id = ids[i + 1] if i < len(documents) - 1 else None
+            next_passage_id = ids[i + 1] if i < len(ids) - 1 else None
             passage = cls(id=uuid,
                           content=split_document.page_content,
                           filepath=filepath,
