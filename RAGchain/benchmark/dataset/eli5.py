@@ -1,3 +1,4 @@
+import uuid
 from copy import deepcopy
 from typing import List, Optional
 
@@ -28,7 +29,7 @@ class Eli5Evaluator(BaseDatasetEvaluator):
         'context_recall', 'context_precision', 'BLEU', 'answer_relevancy', 'faithfulness', 'KF1'.
 
         The dataset is collected from https://huggingface.co/datasets/Pakulski/ELI5-test.
-        Because of the large size of the dataset, we use the dataset that someone else has already processed.
+        Because of the large size of the dataset, we use the dataset that Pakulski has already processed.
 
         Notice:
         Default metrics is basically running metrics if you run test file.
@@ -36,9 +37,9 @@ class Eli5Evaluator(BaseDatasetEvaluator):
         This separation is because Ragas metrics take a long time in evaluation.
         """
 
-        self.file_path = "Pakulski/ELI5-test"
-
-        datasets = load_dataset(self.file_path)['train'].to_pandas()
+        self.file_path = "NomaDamas/eli5"
+        self.qa_data = load_dataset(self.file_path + "-qa")['train'].to_pandas()
+        self.ingest_data = load_dataset(self.file_path + "-document")['train'].to_pandas()
 
         default_metrics = self.retrieval_gt_metrics + self.answer_gt_metrics + self.answer_passage_metrics
         support_metrics = default_metrics + self.retrieval_gt_ragas_metrics, self.retrieval_no_gt_ragas_metrics \
@@ -51,16 +52,12 @@ class Eli5Evaluator(BaseDatasetEvaluator):
                     raise ValueError("You input metrics that this dataset evaluator not support.")
             using_metrics = list(set(metrics))
         else:
-            using_metrics = default_metrics
+            using_metrics = support_metrics
 
         super().__init__(run_all=False, metrics=using_metrics)
 
         self.eval_size = evaluate_size
         self.run_pipeline = run_pipeline
-
-        # Preprocess dataset
-        self.ingest_data = deepcopy(datasets[['id', 'document']])
-        self.qa_data = datasets[['id', 'question', 'goldenAnswer']]
 
         if evaluate_size is not None and len(self.qa_data) > evaluate_size:
             self.qa_data = self.qa_data[:evaluate_size]
@@ -72,7 +69,7 @@ class Eli5Evaluator(BaseDatasetEvaluator):
         :param db: The db that you want to ingest.
         :param ingest_size: The number of data to ingest. If None, ingest all data.
         """
-        ingest_data = self.ingest_data
+        ingest_data = deepcopy(self.ingest_data)
         if ingest_size is not None:
             # ingest size must be larger than evaluate size.
             if ingest_size >= self.eval_size:
@@ -93,7 +90,7 @@ class Eli5Evaluator(BaseDatasetEvaluator):
         return self._calculate_metrics(
             questions=self.qa_data['question'].tolist(),
             pipeline=self.run_pipeline,
-            retrieval_gt=[[gt] for gt in self.qa_data['id'].tolist()],
+            retrieval_gt=[[uuid.UUID(gt)] for gt in self.qa_data['doc_id'].tolist()],
             answer_gt=[[answer] for answer in self.qa_data['goldenAnswer'].tolist()],
             **kwargs
         )
@@ -101,7 +98,7 @@ class Eli5Evaluator(BaseDatasetEvaluator):
     def __make_passages(self, row):
 
         return Passage(
-            id=row['id'],
+            id=row['doc_id'],
             content=row['document'],
             filepath=self.file_path,
             metadata_etc={
