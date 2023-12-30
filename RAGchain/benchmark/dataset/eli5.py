@@ -15,7 +15,6 @@ class Eli5Evaluator(BaseDatasetEvaluator):
     """
     Eli5Evaluator is a class for evaluating pipeline performance on Eli5 dataset.
     """
-
     def __init__(self, run_pipeline: BaseRunPipeline,
                  evaluate_size: Optional[int] = None,
                  metrics: Optional[List[str]] = None
