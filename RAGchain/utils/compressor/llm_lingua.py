@@ -9,6 +9,11 @@ from langchain.schema.runnable.utils import Input, Output
 
 
 class LLMLinguaCompressor(Runnable[LanguageModelInput, str]):
+    """
+    Compress given prompt using LLMLingua.
+    It uses small model like Llama-2-7b, and calculate perplexity of given prompt.
+    With that information, it compresses the prompt for reducing token usage.
+    """
     def __init__(self,
                  model_name: str = "NousResearch/Llama-2-7b-hf",
                  device_map: str = "cuda",
