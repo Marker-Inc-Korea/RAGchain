@@ -89,8 +89,8 @@ class Eli5Evaluator(BaseDatasetEvaluator):
         return self._calculate_metrics(
             questions=self.qa_data['question'].tolist(),
             pipeline=self.run_pipeline,
-            retrieval_gt=[[uuid.UUID(gt)] for gt in self.qa_data['doc_id'].tolist()],
-            answer_gt=[[answer] for answer in self.qa_data['goldenAnswer'].tolist()],
+            retrieval_gt=self.qa_data.apply(lambda row: [uuid.UUID(row['doc_id'])], axis=1).tolist(),
+            answer_gt=self.qa_data.apply(lambda row: [row['goldenAnswer']], axis=1).tolist(),
             **kwargs
         )
 
