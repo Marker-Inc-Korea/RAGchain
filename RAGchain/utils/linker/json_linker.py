@@ -47,7 +47,8 @@ class JsonLinker(BaseLinker):
             json.dump(self.data, f)
 
     def get_json(self, ids: list[Union[UUID, str]]):
-        return [self.data.get(find_id) for find_id in ids]
+        str_ids = [str(find_id) for find_id in ids]
+        return [self.data.get(find_id) for find_id in str_ids]
 
     def flush_db(self):
         if os.path.exists(self.json_path):
