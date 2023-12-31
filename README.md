@@ -113,6 +113,8 @@ pip install dev_requirements.txt
 - [NFCorpus](http://www.cl.uni-heidelberg.de/statnlpgroup/nfcorpus/)
 - [SearchQA](https://arxiv.org/abs/1704.05179)
 - [TriviaQA](https://arxiv.org/abs/1705.03551)
+- [ELI5](https://huggingface.co/datasets/Pakulski/ELI5-test)
+
 
 # Contributing
 We welcome any contributions. Please feel free to raise issues and submit pull requests.
