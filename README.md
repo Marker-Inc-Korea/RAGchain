@@ -87,9 +87,15 @@ pip install dev_requirements.txt
 - LLM
 - [MonoT5](https://huggingface.co/castorini/monot5-3b-msmarco-10k)
 
+## Web Search
+- Google Search
+- Bing Search
+
 ## Workflows (pipeline)
 - Basic
 - [Visconde](https://arxiv.org/abs/2212.09656)
+- Rerank
+- Google Search
 
 ## Extra utils
 - Query Decomposition
