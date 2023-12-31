@@ -100,10 +100,4 @@ class Eli5Evaluator(BaseDatasetEvaluator):
             id=row['doc_id'],
             content=row['document'],
             filepath=self.file_path,
-            metadata_etc={
-                'dataset_creator': 'Pakulski',
-                'dataset_url': 'https://huggingface.co/datasets/Pakulski/ELI5-test',
-                'dataset_name': 'ELI5-test',
-                'dataset_size': '1.3GB',
-            }
         )
