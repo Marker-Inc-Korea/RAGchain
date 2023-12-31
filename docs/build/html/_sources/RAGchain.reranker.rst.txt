@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   RAGchain.reranker.importance
    RAGchain.reranker.llm
    RAGchain.reranker.pygaggle
    RAGchain.reranker.tart

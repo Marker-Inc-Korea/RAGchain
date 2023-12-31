@@ -359,6 +359,12 @@ db_origin = {“db_type”: “mongo_db”,</p>
         class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
         class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
         class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">importance</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
         class="pre">multi_num</span></span><span class="p"><span class="pre">:</span></span><span
         class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span
         class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
@@ -381,6 +387,7 @@ db_origin = {“db_type”: “mongo_db”,</p>
 :param content: content list to filter
 :param filepath: filepath list to filter
     :param content_datetime_range: content_datetime_range list to filter
+    :param importance: importance list to filter
 :param kwargs: metadata_etc to filter
 :param multi_num: multiplier when failed to retrieve enough passages
 :param retrieve_range_mult: multiplier for retrieve range
@@ -414,7 +421,13 @@ db_origin = {“db_type”: “mongo_db”,</p>
             class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span
             class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
             class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
-            class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span
+            class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">importance</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span
         class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span
         class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
         class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a
@@ -428,6 +441,7 @@ db_origin = {“db_type”: “mongo_db”,</p>
 :param content: content list to filter
 :param filepath: filepath list to filter
     :param content_datetime_range: content_datetime_range list to filter
+    :param importance: importance list to filter
 :param kwargs: metadata_etc to filter. Put metadata_etc key as kwargs key and metadata_etc value as kwargs value.</p>
 </dd></dl>
 
@@ -462,6 +476,12 @@ db_origin = {“db_type”: “mongo_db”,</p>
         class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">datetime</span><span
         class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span
         class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">importance</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
         class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
         class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span
         class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span
@@ -503,7 +523,13 @@ db_origin = {“db_type”: “mongo_db”,</p>
             class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span
             class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
             class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
-            class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span
+            class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">importance</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+        class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span
         class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span
         class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
         class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a
