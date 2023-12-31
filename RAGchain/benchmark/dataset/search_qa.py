@@ -42,6 +42,20 @@ class SearchQAEvaluator(BaseDatasetEvaluator):
         """
 
         # TODO: train test validation split 해야할듯? 아니면 내가 짤라서 hugging에 올리기
+        # TODO: subset 설정, corpus 분리하고, train test split
+
+        self.file_path = "search_qa"
+        dataset = load_dataset(self.file_path, 'raw_jeopardy')['train'].to_pandas()
+        # preprocessing dataset
+        # TODO: corpus 중복 코퍼스 제거
+        corpus = dataset.apply(self.__extract_corpus, axis=1)
+
+        qa_dataset_train.push_to_hub("NomaDamas/searchqa-split", subset='qa_data', split='train')
+        qa_dataset_test.push_to_hub("NomaDamas/searchqa-split", subset='qa_data', split='test')
+        corpus.push_to_hub("NomaDamas/searchqa-split", subset='corpus')
+
+        # ------------------------------------------------------------
+
 
         self.file_path = "NomaDamas/searchqa-split"
         self.dataset = load_dataset(self.file_path)['test'].to_pandas()
