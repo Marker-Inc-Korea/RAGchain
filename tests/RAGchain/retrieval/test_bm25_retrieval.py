@@ -42,11 +42,11 @@ def test_bm25_retrieval(bm25_retrieval):
         query='What is visconde structure?',
         top_k=top_k,
         content=['This is test number 1', 'This is test number 3'],
-        content_datetime_range=[(datetime(2020, 12, 1), datetime(2021, 1, 31))]
+        content_datetime_range=[(datetime(2020, 12, 1), datetime(2021, 1, 31))],
+        importance=[1, 2]
     )
-    assert len(retrieved_passages) == 2
-    assert 'test_id_1_search' in [passage.id for passage in retrieved_passages]
-    assert 'test_id_3_search' in [passage.id for passage in retrieved_passages]
+    assert len(retrieved_passages) == 1
+    assert 'test_id_3_search' == retrieved_passages[0].id
 
 
 def test_bm25_retrieval_delete(bm25_retrieval):
