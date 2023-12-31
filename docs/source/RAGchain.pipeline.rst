@@ -20,6 +20,14 @@ RAGchain.pipeline.basic module
    :undoc-members:
    :show-inheritance:
 
+RAGchain.pipeline.google\_search module
+---------------------------------------
+
+.. automodule:: RAGchain.pipeline.google_search
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 RAGchain.pipeline.rerank module
 -------------------------------
 
