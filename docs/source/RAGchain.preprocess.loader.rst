@@ -68,6 +68,14 @@ RAGchain.preprocess.loader.pdf\_link\_loader module
    :undoc-members:
    :show-inheritance:
 
+RAGchain.preprocess.loader.rem\_loader module
+---------------------------------------------
+
+.. automodule:: RAGchain.preprocess.loader.rem_loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 RAGchain.preprocess.loader.rust\_hwp\_loader module
 ---------------------------------------------------
 

@@ -86,6 +86,24 @@
 </li>
 </ul>
 </li>
+    <li><a class="reference internal" href="#module-RAGchain.pipeline.google_search">RAGchain.pipeline.google_search
+        module</a>
+        <ul>
+            <li><a class="reference internal" href="#RAGchain.pipeline.google_search.GoogleSearchRunPipeline"><code
+                    class="docutils literal notranslate"><span class="pre">GoogleSearchRunPipeline</span></code></a>
+                <ul>
+                    <li><a class="reference internal"
+                           href="#RAGchain.pipeline.google_search.GoogleSearchRunPipeline.get_passages_and_run"><code
+                            class="docutils literal notranslate"><span class="pre">GoogleSearchRunPipeline.get_passages_and_run()</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.pipeline.google_search.GoogleSearchRunPipeline.run"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">GoogleSearchRunPipeline.run</span></code></a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
     <li><a class="reference internal" href="#module-RAGchain.pipeline.rerank">RAGchain.pipeline.rerank module</a>
         <ul>
             <li><a class="reference internal" href="#RAGchain.pipeline.rerank.RerankRunPipeline"><code
@@ -275,7 +293,18 @@
                                                title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="RAGchain.pipeline.basic.BasicIngestPipeline">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.pipeline.basic.</span></span><span class="sig-name descname"><span class="pre">BasicIngestPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_loader:</span> <span class="pre">~langchain.document_loaders.base.BaseLoader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db:</span> <span class="pre">~RAGchain.DB.base.BaseDB</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retrieval:</span> <span class="pre">~RAGchain.retrieval.base.BaseRetrieval</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_splitter:</span> <span class="pre">~RAGchain.preprocess.text_splitter.base.BaseTextSplitter</span> <span class="pre">=</span> <span class="pre">&lt;RAGchain.preprocess.text_splitter.text_splitter.RecursiveTextSplitter</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_existed_file:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.pipeline.basic.BasicIngestPipeline" title="Link to this definition"></a></dt>
+    <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+        class="sig-prename descclassname"><span class="pre">RAGchain.pipeline.basic.</span></span><span
+        class="sig-name descname"><span class="pre">BasicIngestPipeline</span></span><span class="sig-paren">(</span><em
+        class="sig-param"><span class="n"><span class="pre">file_loader:</span> <span class="pre">~langchain_community.document_loaders.base.BaseLoader</span></span></em>,
+    <em class="sig-param"><span class="n"><span class="pre">db:</span> <span class="pre">~RAGchain.DB.base.BaseDB</span></span></em>,
+    <em class="sig-param"><span class="n"><span class="pre">retrieval:</span> <span class="pre">~RAGchain.retrieval.base.BaseRetrieval</span></span></em>,
+    <em class="sig-param"><span class="n"><span class="pre">text_splitter:</span> <span class="pre">~RAGchain.preprocess.text_splitter.base.BaseTextSplitter</span> <span
+            class="pre">=</span> <span class="pre">&lt;RAGchain.preprocess.text_splitter.text_splitter.RecursiveTextSplitter</span> <span
+            class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_existed_file:</span> <span
+        class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em><span
+        class="sig-paren">)</span><a class="headerlink" href="#RAGchain.pipeline.basic.BasicIngestPipeline"
+                                     title="Link to this definition"></a></dt>
     <dd><p>Bases: <a class="reference internal" href="#RAGchain.pipeline.base.BaseIngestPipeline"
                      title="RAGchain.pipeline.base.BaseIngestPipeline"><code
             class="xref py py-class docutils literal notranslate"><span class="pre">BaseIngestPipeline</span></code></a>
@@ -419,6 +448,88 @@ Finally, you can get answer and passages as return value.</p>
 </dt>
             <dd></dd>
         </dl>
+
+    </dd>
+</dl>
+
+      </section>
+      <section id="module-RAGchain.pipeline.google_search">
+          <span id="ragchain-pipeline-google-search-module"></span>
+          <h2>RAGchain.pipeline.google_search module<a class="headerlink" href="#module-RAGchain.pipeline.google_search"
+                                                       title="Link to this heading"></a></h2>
+          <dl class="py class">
+              <dt class="sig sig-object py" id="RAGchain.pipeline.google_search.GoogleSearchRunPipeline">
+                  <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span class="pre">RAGchain.pipeline.google_search.</span></span><span
+                      class="sig-name descname"><span class="pre">GoogleSearchRunPipeline</span></span><span
+                      class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                      class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span
+                      class="w"> </span><span class="n"><span class="pre">BaseLLM</span></span></em>, <em
+                      class="sig-param"><span class="n"><span class="pre">prompt</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal"
+                                                                                            href="RAGchain.schema.html#RAGchain.schema.prompt.RAGchainPromptTemplate"
+                                                                                            title="RAGchain.schema.prompt.RAGchainPromptTemplate"><span
+                      class="pre">RAGchainPromptTemplate</span></a><span class="w"> </span><span class="p"><span
+                      class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                      class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+                      class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span
+                      class="n"><span class="pre">use_search_count</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">int</span></span><span class="w"> </span><span class="o"><span
+                      class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+                      class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                         href="#RAGchain.pipeline.google_search.GoogleSearchRunPipeline"
+                                                                                         title="Link to this definition"></a>
+              </dt>
+              <dd><p>Bases: <a class="reference internal" href="#RAGchain.pipeline.base.BaseRunPipeline"
+                               title="RAGchain.pipeline.base.BaseRunPipeline"><code
+                      class="xref py py-class docutils literal notranslate"><span
+                      class="pre">BaseRunPipeline</span></code></a></p>
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.pipeline.google_search.GoogleSearchRunPipeline.get_passages_and_run">
+                          <span class="sig-name descname"><span class="pre">get_passages_and_run</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">questions</span></span><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span>
+                          <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+                                  class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span
+                                  class="pre">[</span></span><span class="pre">List</span><span class="p"><span
+                                  class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                  class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span
+                                  class="w"> </span><span class="pre">List</span><span class="p"><span
+                                  class="pre">[</span></span><span class="pre">List</span><span class="p"><span
+                                  class="pre">[</span></span><a class="reference internal"
+                                                                href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                                                title="RAGchain.schema.passage.Passage"><span
+                                  class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span><span
+                                  class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span
+                                  class="w"> </span><span class="pre">List</span><span class="p"><span
+                                  class="pre">[</span></span><span class="pre">List</span><span class="p"><span
+                                  class="pre">[</span></span><span class="pre">float</span><span class="p"><span
+                                  class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span
+                                  class="p"><span class="pre">]</span></span></span></span><a class="headerlink"
+                                                                                              href="#RAGchain.pipeline.google_search.GoogleSearchRunPipeline.get_passages_and_run"
+                                                                                              title="Link to this definition"></a>
+                      </dt>
+                      <dd><p>Run the pipeline for evaluator, and get retrieved passages and rel scores.
+                          It is same with pipeline.run.batch, but returns passages and rel scores.
+                          Return List of answer, List of passages, Relevance score of passages.</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py attribute">
+                      <dt class="sig sig-object py" id="RAGchain.pipeline.google_search.GoogleSearchRunPipeline.run">
+                          <span class="sig-name descname"><span class="pre">run</span></span><em class="property"><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Runnable</span><span
+                              class="w"> </span><span class="p"><span class="pre">|</span></span><span
+                              class="w"> </span><span class="pre">None</span></em><a class="headerlink"
+                                                                                     href="#RAGchain.pipeline.google_search.GoogleSearchRunPipeline.run"
+                                                                                     title="Link to this definition"></a>
+                      </dt>
+                      <dd></dd>
+                  </dl>
 
 </dd></dl>
 

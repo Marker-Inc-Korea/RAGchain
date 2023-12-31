@@ -1,6 +1,5 @@
 from typing import Dict, List, Optional
 
-
 from langchain.tools import Tool
 from langchain.utilities import GoogleSearchAPIWrapper
 
@@ -12,6 +11,11 @@ class GoogleSearch(BaseWebSearch):
     """
     Langchain's 'GoogleSearchAPIWrapper' returns a List[Dict[str, str]] as the return value.
     This GoogleSearch class wraps this return value in a Passage.
+
+    First, you need to set up the proper API keys and environment variables.
+    To set it up, create the GOOGLE_API_KEY in the Google Cloud credential console
+    (https://console.cloud.google.com/apis/credentials) and a GOOGLE_CSE_ID using the Programmable Search Engine
+    (https://programmablesearchengine.google.com/controlpanel/create).
     """
     def __init__(self):
         self.search = GoogleSearchAPIWrapper()

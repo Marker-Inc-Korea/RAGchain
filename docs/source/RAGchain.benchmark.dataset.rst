@@ -44,6 +44,14 @@ RAGchain.benchmark.dataset.dstc11\_track5 module
    :undoc-members:
    :show-inheritance:
 
+RAGchain.benchmark.dataset.eli5 module
+--------------------------------------
+
+.. automodule:: RAGchain.benchmark.dataset.eli5
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 RAGchain.benchmark.dataset.ko\_strategy\_qa module
 --------------------------------------------------
 
@@ -68,10 +76,10 @@ RAGchain.benchmark.dataset.msmarco module
    :undoc-members:
    :show-inheritance:
 
-RAGchain.benchmark.dataset.natural\_qa module
----------------------------------------------
+RAGchain.benchmark.dataset.natural\_question module
+---------------------------------------------------
 
-.. automodule:: RAGchain.benchmark.dataset.natural_qa
+.. automodule:: RAGchain.benchmark.dataset.natural_question
    :members:
    :undoc-members:
    :show-inheritance:

@@ -164,6 +164,9 @@
                                       href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.dstc11_track5">RAGchain.benchmark.dataset.dstc11_track5
                 module</a></li>
             <li class="toctree-l4"><a class="reference internal"
+                                      href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.eli5">RAGchain.benchmark.dataset.eli5
+                module</a></li>
+            <li class="toctree-l4"><a class="reference internal"
                                       href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.ko_strategy_qa">RAGchain.benchmark.dataset.ko_strategy_qa
                 module</a></li>
             <li class="toctree-l4"><a class="reference internal"
@@ -173,7 +176,7 @@
                                       href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.msmarco">RAGchain.benchmark.dataset.msmarco
                 module</a></li>
             <li class="toctree-l4"><a class="reference internal"
-                                      href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.natural_qa">RAGchain.benchmark.dataset.natural_qa
+                                      href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.natural_question">RAGchain.benchmark.dataset.natural_question
                 module</a></li>
             <li class="toctree-l4"><a class="reference internal"
                                       href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.nfcorpus">RAGchain.benchmark.dataset.nfcorpus
@@ -361,6 +364,26 @@
 </li>
 </ul>
 </li>
+    <li class="toctree-l2"><a class="reference internal"
+                              href="RAGchain.pipeline.html#module-RAGchain.pipeline.google_search">RAGchain.pipeline.google_search
+        module</a>
+        <ul>
+            <li class="toctree-l3"><a class="reference internal"
+                                      href="RAGchain.pipeline.html#RAGchain.pipeline.google_search.GoogleSearchRunPipeline"><code
+                    class="docutils literal notranslate"><span class="pre">GoogleSearchRunPipeline</span></code></a>
+                <ul>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.pipeline.html#RAGchain.pipeline.google_search.GoogleSearchRunPipeline.get_passages_and_run"><code
+                            class="docutils literal notranslate"><span class="pre">GoogleSearchRunPipeline.get_passages_and_run()</span></code></a>
+                    </li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.pipeline.html#RAGchain.pipeline.google_search.GoogleSearchRunPipeline.run"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">GoogleSearchRunPipeline.run</span></code></a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="RAGchain.pipeline.html#module-RAGchain.pipeline.rerank">RAGchain.pipeline.rerank
         module</a>
         <ul>
@@ -422,6 +445,9 @@
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.preprocess.loader.html#module-RAGchain.preprocess.loader.nougat_pdf_loader">RAGchain.preprocess.loader.nougat_pdf_loader module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.preprocess.loader.html#module-RAGchain.preprocess.loader.pdf_link_loader">RAGchain.preprocess.loader.pdf_link_loader module</a></li>
     <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.preprocess.loader.html#module-RAGchain.preprocess.loader.rem_loader">RAGchain.preprocess.loader.rem_loader
+        module</a></li>
+    <li class="toctree-l4"><a class="reference internal"
                               href="RAGchain.preprocess.loader.html#module-RAGchain.preprocess.loader.rust_hwp_loader">RAGchain.preprocess.loader.rust_hwp_loader
         module</a></li>
     <li class="toctree-l4"><a class="reference internal"
@@ -456,6 +482,22 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="RAGchain.reranker.html">RAGchain.reranker package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.reranker.html#subpackages">Subpackages</a><ul>
+    <li class="toctree-l3"><a class="reference internal" href="RAGchain.reranker.importance.html">RAGchain.reranker.importance
+        package</a>
+        <ul>
+            <li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.importance.html#submodules">Submodules</a>
+            </li>
+            <li class="toctree-l4"><a class="reference internal"
+                                      href="RAGchain.reranker.importance.html#module-RAGchain.reranker.importance.simple_importance">RAGchain.reranker.importance.simple_importance
+                module</a></li>
+            <li class="toctree-l4"><a class="reference internal"
+                                      href="RAGchain.reranker.importance.html#module-RAGchain.reranker.importance.weighted_importance">RAGchain.reranker.importance.weighted_importance
+                module</a></li>
+            <li class="toctree-l4"><a class="reference internal"
+                                      href="RAGchain.reranker.importance.html#module-RAGchain.reranker.importance">Module
+                contents</a></li>
+        </ul>
+    </li>
 <li class="toctree-l3"><a class="reference internal" href="RAGchain.reranker.llm.html">RAGchain.reranker.llm package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.llm.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.llm.html#module-RAGchain.reranker.llm.llm">RAGchain.reranker.llm.llm module</a></li>
@@ -663,7 +705,16 @@
                               href="RAGchain.schema.html#RAGchain.schema.passage.Passage.copy"><code
             class="docutils literal notranslate"><span class="pre">Passage.copy()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage.filepath"><code class="docutils literal notranslate"><span class="pre">Passage.filepath</span></code></a></li>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.schema.html#RAGchain.schema.passage.Passage.from_documents"><code
+            class="docutils literal notranslate"><span class="pre">Passage.from_documents()</span></code></a></li>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.schema.html#RAGchain.schema.passage.Passage.from_search"><code
+            class="docutils literal notranslate"><span class="pre">Passage.from_search()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage.id"><code class="docutils literal notranslate"><span class="pre">Passage.id</span></code></a></li>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.schema.html#RAGchain.schema.passage.Passage.importance"><code
+            class="docutils literal notranslate"><span class="pre">Passage.importance</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage.is_exactly_same"><code class="docutils literal notranslate"><span class="pre">Passage.is_exactly_same()</span></code></a></li>
     <li class="toctree-l4"><a class="reference internal"
                               href="RAGchain.schema.html#RAGchain.schema.passage.Passage.make_prompts"><code
@@ -742,6 +793,9 @@
                                       href="RAGchain.utils.compressor.html#module-RAGchain.utils.compressor.cluster_time">RAGchain.utils.compressor.cluster_time
                 module</a></li>
             <li class="toctree-l4"><a class="reference internal"
+                                      href="RAGchain.utils.compressor.html#module-RAGchain.utils.compressor.llm_lingua">RAGchain.utils.compressor.llm_lingua
+                module</a></li>
+            <li class="toctree-l4"><a class="reference internal"
                                       href="RAGchain.utils.compressor.html#module-RAGchain.utils.compressor">Module
                 contents</a></li>
         </ul>
@@ -775,6 +829,28 @@
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.utils.vectorstore.html#module-RAGchain.utils.vectorstore.chroma">RAGchain.utils.vectorstore.chroma module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.utils.vectorstore.html#module-RAGchain.utils.vectorstore.pinecone">RAGchain.utils.vectorstore.pinecone module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.utils.vectorstore.html#module-RAGchain.utils.vectorstore">Module contents</a></li>
+</ul>
+</li>
+    <li class="toctree-l3"><a class="reference internal" href="RAGchain.utils.websearch.html">RAGchain.utils.websearch
+        package</a>
+        <ul>
+            <li class="toctree-l4"><a class="reference internal" href="RAGchain.utils.websearch.html#submodules">Submodules</a>
+            </li>
+            <li class="toctree-l4"><a class="reference internal"
+                                      href="RAGchain.utils.websearch.html#module-RAGchain.utils.websearch.base">RAGchain.utils.websearch.base
+                module</a></li>
+            <li class="toctree-l4"><a class="reference internal"
+                                      href="RAGchain.utils.websearch.html#module-RAGchain.utils.websearch.bing_search">RAGchain.utils.websearch.bing_search
+                module</a></li>
+            <li class="toctree-l4"><a class="reference internal"
+                                      href="RAGchain.utils.websearch.html#module-RAGchain.utils.websearch.brave_search">RAGchain.utils.websearch.brave_search
+                module</a></li>
+            <li class="toctree-l4"><a class="reference internal"
+                                      href="RAGchain.utils.websearch.html#module-RAGchain.utils.websearch.google_search">RAGchain.utils.websearch.google_search
+                module</a></li>
+            <li class="toctree-l4"><a class="reference internal"
+                                      href="RAGchain.utils.websearch.html#module-RAGchain.utils.websearch">Module
+                contents</a></li>
 </ul>
 </li>
 </ul>

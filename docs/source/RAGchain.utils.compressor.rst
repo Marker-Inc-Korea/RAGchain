@@ -20,6 +20,14 @@ RAGchain.utils.compressor.cluster\_time module
    :undoc-members:
    :show-inheritance:
 
+RAGchain.utils.compressor.llm\_lingua module
+--------------------------------------------
+
+.. automodule:: RAGchain.utils.compressor.llm_lingua
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

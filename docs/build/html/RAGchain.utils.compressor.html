@@ -79,6 +79,25 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li><a class="reference internal" href="#module-RAGchain.utils.compressor.llm_lingua">RAGchain.utils.compressor.llm_lingua
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.utils.compressor.llm_lingua.LLMLinguaCompressor"><code
+                                                class="docutils literal notranslate"><span class="pre">LLMLinguaCompressor</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.utils.compressor.llm_lingua.LLMLinguaCompressor.InputType"><code
+                                                        class="docutils literal notranslate"><span class="pre">LLMLinguaCompressor.InputType</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.utils.compressor.llm_lingua.LLMLinguaCompressor.invoke"><code
+                                                        class="docutils literal notranslate"><span class="pre">LLMLinguaCompressor.invoke()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
                                 <li><a class="reference internal" href="#module-RAGchain.utils.compressor">Module
                                     contents</a></li>
                             </ul>
@@ -240,6 +259,138 @@
                                                             <li><p><strong>kwargs</strong> – kwargs for clustering
                                                                 algorithm.</p></li>
                                                         </ul>
+                                                    </dd>
+                                                </dl>
+                                            </dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-RAGchain.utils.compressor.llm_lingua">
+                                <span id="ragchain-utils-compressor-llm-lingua-module"></span>
+                                <h2>RAGchain.utils.compressor.llm_lingua module<a class="headerlink"
+                                                                                  href="#module-RAGchain.utils.compressor.llm_lingua"
+                                                                                  title="Link to this heading"></a>
+                                </h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py"
+                                        id="RAGchain.utils.compressor.llm_lingua.LLMLinguaCompressor">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.utils.compressor.llm_lingua.</span></span><span
+                                            class="sig-name descname"><span
+                                            class="pre">LLMLinguaCompressor</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">model_name</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">str</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">'NousResearch/Llama-2-7b-hf'</span></span></em>,
+                                        <em class="sig-param"><span class="n"><span class="pre">device_map</span></span><span
+                                                class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                                                class="n"><span class="pre">str</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">'cuda'</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">model_config</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">dict</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">{}</span></span></em>, <em
+                                            class="sig-param"><span class="n"><span
+                                            class="pre">open_api_config</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">dict</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">{}</span></span></em>, <em
+                                            class="sig-param"><span class="o"><span class="pre">**</span></span><span
+                                            class="n"><span class="pre">kwargs</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">Any</span></span></em><span class="sig-paren">)</span><a
+                                            class="headerlink"
+                                            href="#RAGchain.utils.compressor.llm_lingua.LLMLinguaCompressor"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+                                            class="pre">Runnable</span></code>[<code
+                                            class="xref py py-obj docutils literal notranslate"><span
+                                            class="pre">Union</span></code>[<code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">PromptValue</span></code>,
+                                        <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>,
+                                        <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code
+                                                class="xref py py-class docutils literal notranslate"><span class="pre">BaseMessage</span></code>]],
+                                        <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]
+                                    </p>
+                                        <p>Compress given prompt using LLMLingua.
+                                            It uses small model like Llama-2-7b, and calculate perplexity of given
+                                            prompt.
+                                            With that information, it compresses the prompt for reducing token
+                                            usage.</p>
+                                        <dl class="py property">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.utils.compressor.llm_lingua.LLMLinguaCompressor.InputType">
+                                                <em class="property"><span class="pre">property</span><span
+                                                        class="w"> </span></em><span class="sig-name descname"><span
+                                                    class="pre">InputType</span></span><em class="property"><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="pre">Type</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">Input</span><span
+                                                    class="p"><span class="pre">]</span></span></em><a
+                                                    class="headerlink"
+                                                    href="#RAGchain.utils.compressor.llm_lingua.LLMLinguaCompressor.InputType"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>Get the input type for this runnable.</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.utils.compressor.llm_lingua.LLMLinguaCompressor.invoke">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">invoke</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">input</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Input</span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">config</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">RunnableConfig</span><span
+                                                    class="w"> </span><span class="p"><span
+                                                    class="pre">|</span></span><span class="w"> </span><span
+                                                    class="pre">None</span></span><span class="w"> </span><span
+                                                    class="o"><span class="pre">=</span></span><span
+                                                    class="w"> </span><span class="default_value"><span
+                                                    class="pre">None</span></span></em>, <em class="sig-param"><span
+                                                    class="o"><span class="pre">**</span></span><span class="n"><span
+                                                    class="pre">kwargs</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Any</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span
+                                                    class="pre">Output</span></span></span><a class="headerlink"
+                                                                                              href="#RAGchain.utils.compressor.llm_lingua.LLMLinguaCompressor.invoke"
+                                                                                              title="Link to this definition"></a>
+                                            </dt>
+                                            <dd><p>Transform a single input into an output. Override to implement.</p>
+                                                <dl>
+                                                    <dt>Args:</dt>
+                                                    <dd><p>input: The input to the runnable.
+                                                        config: A config to use when invoking the runnable.</p>
+                                                        <blockquote>
+                                                            <div><p>The config supports standard keys like ‘tags’,
+                                                                ‘metadata’ for tracing
+                                                                purposes, ‘max_concurrency’ for controlling how much
+                                                                work to do
+                                                                in parallel, and other keys. Please refer to the
+                                                                RunnableConfig
+                                                                for more details.</p>
+                                                            </div>
+                                                        </blockquote>
+                                                    </dd>
+                                                    <dt>Returns:</dt>
+                                                    <dd><p>The output of the runnable.</p>
                                                     </dd>
                                                 </dl>
                                             </dd>

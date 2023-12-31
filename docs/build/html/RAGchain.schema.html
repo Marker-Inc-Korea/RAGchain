@@ -91,7 +91,13 @@
     <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.copy"><code
             class="docutils literal notranslate"><span class="pre">Passage.copy()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.filepath"><code class="docutils literal notranslate"><span class="pre">Passage.filepath</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.from_documents"><code
+            class="docutils literal notranslate"><span class="pre">Passage.from_documents()</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.from_search"><code
+            class="docutils literal notranslate"><span class="pre">Passage.from_search()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.id"><code class="docutils literal notranslate"><span class="pre">Passage.id</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.importance"><code
+            class="docutils literal notranslate"><span class="pre">Passage.importance</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.is_exactly_same"><code class="docutils literal notranslate"><span class="pre">Passage.is_exactly_same()</span></code></a></li>
     <li><a class="reference internal" href="#RAGchain.schema.passage.Passage.make_prompts"><code
             class="docutils literal notranslate"><span class="pre">Passage.make_prompts()</span></code></a></li>
@@ -289,25 +295,28 @@
             class="pre">:</span></span><span class="w"> </span><span class="n"><span
             class="pre">datetime</span></span><span class="w"> </span><span class="o"><span
             class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
-    <em class="sig-param"><span class="n"><span class="pre">previous_passage_id</span></span><span class="p"><span
-            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">UUID</span><span
-            class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span
-            class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
-            class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span
-            class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
-    <em class="sig-param"><span class="n"><span class="pre">next_passage_id</span></span><span class="p"><span
-            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">UUID</span><span
-            class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span
-            class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
-            class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span
-            class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
-    <em class="sig-param"><span class="n"><span class="pre">metadata_etc</span></span><span class="p"><span class="pre">:</span></span><span
-            class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span
-            class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
-            class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink"
-                                                                                  href="#RAGchain.schema.passage.Passage"
-                                                                                  title="Link to this definition"></a>
-</dt>
+    <em class="sig-param"><span class="n"><span class="pre">importance</span></span><span class="p"><span
+            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span
+            class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+            class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">previous_passage_id</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">UUID</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">next_passage_id</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">UUID</span><span class="w"> </span><span class="p"><span
+        class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span
+        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
+        class="pre">metadata_etc</span></span><span class="p"><span class="pre">:</span></span><span
+        class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span
+        class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+        class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                              href="#RAGchain.schema.passage.Passage"
+                                                                              title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Serializable</span></code></p>
 <p>Class for storing a passage and metadatas</p>
     <dl class="py class">
@@ -386,13 +395,71 @@
 <dd><p>Filepath of the passage.</p>
 </dd></dl>
 
+    <dl class="py method">
+        <dt class="sig sig-object py" id="RAGchain.schema.passage.Passage.from_documents">
+            <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span
+                class="sig-name descname"><span class="pre">from_documents</span></span><span class="sig-paren">(</span><em
+                class="sig-param"><span class="n"><span class="pre">documents</span></span><span class="p"><span
+                class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
+                class="p"><span class="pre">[</span></span><span class="pre">Document</span><span class="p"><span
+                class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+                class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+                class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal"
+                                                                                           href="#RAGchain.schema.passage.Passage"
+                                                                                           title="RAGchain.schema.passage.Passage"><span
+                class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a
+                class="headerlink" href="#RAGchain.schema.passage.Passage.from_documents"
+                title="Link to this definition"></a></dt>
+        <dd><p>Convert a list of documents to a list of passages.
+            metadata with ‘source’ key is required. It will convert to filepath filed.
+            metadat with ‘content_datetime’ key is optional. It will convert to content_datetime field.
+            It can be datetime.datetime object, or string with ‘%Y-%m-%d %H:%M:%S’ format.
+            metadata with ‘importance’ key is optional. It will convert to importance field. It must be int.
+            :param documents: A list of documents.</p>
+        </dd>
+    </dl>
+
+    <dl class="py method">
+        <dt class="sig sig-object py" id="RAGchain.schema.passage.Passage.from_search">
+            <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span
+                class="sig-name descname"><span class="pre">from_search</span></span><span class="sig-paren">(</span><em
+                class="sig-param"><span class="n"><span class="pre">search_results</span></span><span class="p"><span
+                class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
+                class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span
+                class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span
+                class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span
+                class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span
+                class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+                class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal"
+                                                                                           href="#RAGchain.schema.passage.Passage"
+                                                                                           title="RAGchain.schema.passage.Passage"><span
+                class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a
+                class="headerlink" href="#RAGchain.schema.passage.Passage.from_search"
+                title="Link to this definition"></a></dt>
+        <dd><p>Convert a list of search results to a list of passages.
+            :param search_results: A list of search results, it requires ‘title’, ‘link’, ‘snippet’ keys.</p>
+        </dd>
+    </dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="RAGchain.schema.passage.Passage.id">
 <span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#RAGchain.schema.passage.Passage.id" title="Link to this definition"></a></dt>
 <dd><p>Unique identifier for the passage. You can use string or UUID. By default, create new UUID for new passage.</p>
 </dd></dl>
 
-<dl class="py method">
+    <dl class="py attribute">
+        <dt class="sig sig-object py" id="RAGchain.schema.passage.Passage.importance">
+            <span class="sig-name descname"><span class="pre">importance</span></span><em class="property"><span
+                class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a
+                class="headerlink" href="#RAGchain.schema.passage.Passage.importance"
+                title="Link to this definition"></a></dt>
+        <dd><p>Importance of the passage. The higher the value, the more important the passage is. It can be minus
+            value.
+            The default is 0.</p>
+        </dd>
+    </dl>
+
+    <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.schema.passage.Passage.is_exactly_same">
 <span class="sig-name descname"><span class="pre">is_exactly_same</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.schema.passage.Passage.is_exactly_same" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -465,10 +532,16 @@
                       class="sig-prename descclassname"><span class="pre">RAGchain.schema.prompt.</span></span><span
                       class="sig-name descname"><span class="pre">RAGchainChatPromptTemplate</span></span><span
                       class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>,
-                  <em class="sig-param"><span class="n"><span class="pre">input_variables</span></span><span
-                          class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                          class="pre">List</span><span class="p"><span class="pre">[</span></span><span
-                          class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em
+                  <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span
+                          class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                          class="pre">str</span><span class="w"> </span><span class="p"><span
+                          class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                          class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                          class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em
+                      class="sig-param"><span class="n"><span class="pre">input_variables</span></span><span
+                      class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+                      class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em
                       class="sig-param"><span class="n"><span class="pre">input_types</span></span><span class="p"><span
                       class="pre">:</span></span><span class="w"> </span><span class="n"><span
                       class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span
@@ -558,10 +631,16 @@
                       class="sig-prename descclassname"><span class="pre">RAGchain.schema.prompt.</span></span><span
                       class="sig-name descname"><span class="pre">RAGchainPromptTemplate</span></span><span
                       class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>,
-                  <em class="sig-param"><span class="n"><span class="pre">input_variables</span></span><span
-                          class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                          class="pre">List</span><span class="p"><span class="pre">[</span></span><span
-                          class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em
+                  <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span
+                          class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                          class="pre">str</span><span class="w"> </span><span class="p"><span
+                          class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                          class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                          class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em
+                      class="sig-param"><span class="n"><span class="pre">input_variables</span></span><span
+                      class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+                      class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em
                       class="sig-param"><span class="n"><span class="pre">input_types</span></span><span class="p"><span
                       class="pre">:</span></span><span class="w"> </span><span class="n"><span
                       class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span
