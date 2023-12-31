@@ -190,6 +190,26 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li><a class="reference internal" href="#module-RAGchain.benchmark.dataset.eli5">RAGchain.benchmark.dataset.eli5
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.benchmark.dataset.eli5.Eli5Evaluator"><code
+                                                class="docutils literal notranslate"><span
+                                                class="pre">Eli5Evaluator</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.eli5.Eli5Evaluator.evaluate"><code
+                                                        class="docutils literal notranslate"><span class="pre">Eli5Evaluator.evaluate()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.benchmark.dataset.eli5.Eli5Evaluator.ingest"><code
+                                                        class="docutils literal notranslate"><span class="pre">Eli5Evaluator.ingest()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
                                 <li><a class="reference internal"
                                        href="#module-RAGchain.benchmark.dataset.ko_strategy_qa">RAGchain.benchmark.dataset.ko_strategy_qa
                                     module</a>
@@ -254,19 +274,20 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li><a class="reference internal" href="#module-RAGchain.benchmark.dataset.natural_qa">RAGchain.benchmark.dataset.natural_qa
+                                <li><a class="reference internal"
+                                       href="#module-RAGchain.benchmark.dataset.natural_question">RAGchain.benchmark.dataset.natural_question
                                     module</a>
                                     <ul>
                                         <li><a class="reference internal"
-                                               href="#RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator"><code
+                                               href="#RAGchain.benchmark.dataset.natural_question.NaturalQAEvaluator"><code
                                                 class="docutils literal notranslate"><span class="pre">NaturalQAEvaluator</span></code></a>
                                             <ul>
                                                 <li><a class="reference internal"
-                                                       href="#RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator.evaluate"><code
+                                                       href="#RAGchain.benchmark.dataset.natural_question.NaturalQAEvaluator.evaluate"><code
                                                         class="docutils literal notranslate"><span class="pre">NaturalQAEvaluator.evaluate()</span></code></a>
                                                 </li>
                                                 <li><a class="reference internal"
-                                                       href="#RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator.ingest"><code
+                                                       href="#RAGchain.benchmark.dataset.natural_question.NaturalQAEvaluator.ingest"><code
                                                         class="docutils literal notranslate"><span class="pre">NaturalQAEvaluator.ingest()</span></code></a>
                                                 </li>
                                             </ul>
@@ -730,7 +751,7 @@
                                                     class="headerlink"
                                                     href="#RAGchain.benchmark.dataset.base.BaseBeirEvaluator.evaluate"
                                                     title="Link to this definition"></a></dt>
-                                            <dd><p>Evaluate pipeline performance on fever dataset.
+                                            <dd><p>Evaluate pipeline performance on beir dataset.
                                                 This method always validate passages.</p>
                                             </dd>
                                         </dl>
@@ -1332,6 +1353,118 @@
                                 </dl>
 
                             </section>
+                            <section id="module-RAGchain.benchmark.dataset.eli5">
+                                <span id="ragchain-benchmark-dataset-eli5-module"></span>
+                                <h2>RAGchain.benchmark.dataset.eli5 module<a class="headerlink"
+                                                                             href="#module-RAGchain.benchmark.dataset.eli5"
+                                                                             title="Link to this heading"></a></h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py" id="RAGchain.benchmark.dataset.eli5.Eli5Evaluator">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.dataset.eli5.</span></span><span
+                                            class="sig-name descname"><span class="pre">Eli5Evaluator</span></span><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                            class="pre">run_pipeline</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><a
+                                            class="reference internal"
+                                            href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"
+                                            title="RAGchain.pipeline.base.BaseRunPipeline"><span class="pre">BaseRunPipeline</span></a></span></em>,
+                                        <em class="sig-param"><span class="n"><span
+                                                class="pre">evaluate_size</span></span><span class="p"><span
+                                                class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">int</span><span class="w"> </span><span class="p"><span
+                                                class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
+                                                class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                class="w"> </span><span class="default_value"><span
+                                                class="pre">None</span></span></em>, <em class="sig-param"><span
+                                            class="n"><span class="pre">metrics</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">List</span><span class="p"><span
+                                            class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                            class="pre">]</span></span><span class="w"> </span><span class="p"><span
+                                            class="pre">|</span></span><span class="w"> </span><span
+                                            class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">None</span></span></em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#RAGchain.benchmark.dataset.eli5.Eli5Evaluator"
+                                                                         title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"
+                                                     title="RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseDatasetEvaluator</span></code></a>
+                                    </p>
+                                        <p>Eli5Evaluator is a class for evaluating pipeline performance on Eli5
+                                            dataset.</p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.eli5.Eli5Evaluator.evaluate">
+                                                <span class="sig-name descname"><span class="pre">evaluate</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="o"><span class="pre">**</span></span><span class="n"><span
+                                                    class="pre">kwargs</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><a class="reference internal"
+                                                                                   href="RAGchain.schema.html#RAGchain.schema.evaluate_result.EvaluateResult"
+                                                                                   title="RAGchain.schema.evaluate_result.EvaluateResult"><span
+                                                    class="pre">EvaluateResult</span></a></span></span><a
+                                                    class="headerlink"
+                                                    href="#RAGchain.benchmark.dataset.eli5.Eli5Evaluator.evaluate"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>Evaluate metrics and return the results
+                                                :param validate_passages: If True, validate passages in retrieval_gt
+                                                already ingested.
+                                                If False, you can’t use context_recall and KF1 metrics.
+                                                We recommend to set True for robust evaluation.
+                                                :return: EvaluateResult</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.benchmark.dataset.eli5.Eli5Evaluator.ingest">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">ingest</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">retrievals</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">List</span><span class="p"><span
+                                                    class="pre">[</span></span><a class="reference internal"
+                                                                                  href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval"
+                                                                                  title="RAGchain.retrieval.base.BaseRetrieval"><span
+                                                    class="pre">BaseRetrieval</span></a><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">db</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><a class="reference internal"
+                                                                 href="RAGchain.DB.html#RAGchain.DB.base.BaseDB"
+                                                                 title="RAGchain.DB.base.BaseDB"><span class="pre">BaseDB</span></a></span></em>,
+                                                <em class="sig-param"><span class="n"><span
+                                                        class="pre">ingest_size</span></span><span class="p"><span
+                                                        class="pre">:</span></span><span class="w"> </span><span
+                                                        class="n"><span class="pre">int</span><span
+                                                        class="w"> </span><span class="p"><span
+                                                        class="pre">|</span></span><span class="w"> </span><span
+                                                        class="pre">None</span></span><span class="w"> </span><span
+                                                        class="o"><span class="pre">=</span></span><span
+                                                        class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span
+                                                    class="sig-paren">)</span><a class="headerlink"
+                                                                                 href="#RAGchain.benchmark.dataset.eli5.Eli5Evaluator.ingest"
+                                                                                 title="Link to this definition"></a>
+                                            </dt>
+                                            <dd><p>Ingest dataset to retrievals and db.
+                                                :param retrievals: The retrievals that you want to ingest.
+                                                :param db: The db that you want to ingest.
+                                                :param ingest_size: The number of data to ingest. If None, ingest all
+                                                data.</p>
+                                            </dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                            </section>
                             <section id="module-RAGchain.benchmark.dataset.ko_strategy_qa">
                                 <span id="ragchain-benchmark-dataset-ko-strategy-qa-module"></span>
                                 <h2>RAGchain.benchmark.dataset.ko_strategy_qa module<a class="headerlink"
@@ -1717,17 +1850,17 @@
                                 </dl>
 
                             </section>
-                            <section id="module-RAGchain.benchmark.dataset.natural_qa">
-                                <span id="ragchain-benchmark-dataset-natural-qa-module"></span>
-                                <h2>RAGchain.benchmark.dataset.natural_qa module<a class="headerlink"
-                                                                                   href="#module-RAGchain.benchmark.dataset.natural_qa"
-                                                                                   title="Link to this heading"></a>
+                            <section id="module-RAGchain.benchmark.dataset.natural_question">
+                                <span id="ragchain-benchmark-dataset-natural-question-module"></span>
+                                <h2>RAGchain.benchmark.dataset.natural_question module<a class="headerlink"
+                                                                                         href="#module-RAGchain.benchmark.dataset.natural_question"
+                                                                                         title="Link to this heading"></a>
                                 </h2>
                                 <dl class="py class">
                                     <dt class="sig sig-object py"
-                                        id="RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator">
+                                        id="RAGchain.benchmark.dataset.natural_question.NaturalQAEvaluator">
                                         <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
-                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.dataset.natural_qa.</span></span><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.benchmark.dataset.natural_question.</span></span><span
                                             class="sig-name descname"><span class="pre">NaturalQAEvaluator</span></span><span
                                             class="sig-paren">(</span><em class="sig-param"><span class="n"><span
                                             class="pre">run_pipeline</span></span><span class="p"><span
@@ -1753,7 +1886,7 @@
                                             class="pre">=</span></span><span class="w"> </span><span
                                             class="default_value"><span class="pre">None</span></span></em><span
                                             class="sig-paren">)</span><a class="headerlink"
-                                                                         href="#RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator"
+                                                                         href="#RAGchain.benchmark.dataset.natural_question.NaturalQAEvaluator"
                                                                          title="Link to this definition"></a></dt>
                                     <dd><p>Bases: <a class="reference internal"
                                                      href="#RAGchain.benchmark.dataset.base.BaseDatasetEvaluator"
@@ -1764,7 +1897,7 @@
                                             qa dataset.</p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
-                                                id="RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator.evaluate">
+                                                id="RAGchain.benchmark.dataset.natural_question.NaturalQAEvaluator.evaluate">
                                                 <span class="sig-name descname"><span class="pre">evaluate</span></span><span
                                                     class="sig-paren">(</span><em class="sig-param"><span
                                                     class="o"><span class="pre">**</span></span><span class="n"><span
@@ -1776,7 +1909,7 @@
                                                                                    title="RAGchain.schema.evaluate_result.EvaluateResult"><span
                                                     class="pre">EvaluateResult</span></a></span></span><a
                                                     class="headerlink"
-                                                    href="#RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator.evaluate"
+                                                    href="#RAGchain.benchmark.dataset.natural_question.NaturalQAEvaluator.evaluate"
                                                     title="Link to this definition"></a></dt>
                                             <dd><p>Evaluate metrics and return the results
                                                 :param validate_passages: If True, validate passages in retrieval_gt
@@ -1789,7 +1922,7 @@
 
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
-                                                id="RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator.ingest">
+                                                id="RAGchain.benchmark.dataset.natural_question.NaturalQAEvaluator.ingest">
                                                 <span class="sig-name descname"><span
                                                         class="pre">ingest</span></span><span class="sig-paren">(</span><em
                                                     class="sig-param"><span class="n"><span
@@ -1816,7 +1949,7 @@
                                                         class="o"><span class="pre">=</span></span><span
                                                         class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span
                                                     class="sig-paren">)</span><a class="headerlink"
-                                                                                 href="#RAGchain.benchmark.dataset.natural_qa.NaturalQAEvaluator.ingest"
+                                                                                 href="#RAGchain.benchmark.dataset.natural_question.NaturalQAEvaluator.ingest"
                                                                                  title="Link to this definition"></a>
                                             </dt>
                                             <dd><p>Ingest dataset to retrievals and db.

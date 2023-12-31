@@ -11,6 +11,7 @@ Subpackages
    RAGchain.utils.embed
    RAGchain.utils.linker
    RAGchain.utils.vectorstore
+   RAGchain.utils.websearch
 
 Submodules
 ----------
