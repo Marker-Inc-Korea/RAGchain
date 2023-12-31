@@ -63,6 +63,12 @@ pip install dev_requirements.txt
 ```
 
 # Supporting Features
+
+## Advanced RAG features
+
+- [Time-Aware RAG](https://nomadamas.gitbook.io/ragchain-docs/advanced-rag/time_aware_rag)
+- [Importance-Aware RAG]()
+
 ## Retrievals
 - BM25
 - Vector DB
@@ -81,7 +87,7 @@ pip install dev_requirements.txt
 - LLM
 - [MonoT5](https://huggingface.co/castorini/monot5-3b-msmarco-10k)
 
-## Workflows (pipeline or LLM)
+## Workflows (pipeline)
 - Basic
 - [Visconde](https://arxiv.org/abs/2212.09656)
 
@@ -89,6 +95,8 @@ pip install dev_requirements.txt
 - Query Decomposition
 - Evidence Extractor
 - [REDE](https://arxiv.org/pdf/2109.08820.pdf) Search Detector
+- Semantic Clustering
+- Cluster Time Compressor
 
 ## Dataset Evaluators
 
@@ -97,15 +105,16 @@ pip install dev_requirements.txt
 - [Qasper](https://paperswithcode.com/dataset/qasper)
 - [StrategyQA](https://allenai.org/data/strategyqa)
 - [KoStrategyQA](https://huggingface.co/datasets/NomaDamas/Ko-StrategyQA)
-- [ANTIQUE](https://ir-datasets.com/antique.html)
-- [ASQA](https://huggingface.co/datasets/din0s/asqa/viewer/default/dev)
-- [BEIR](https://huggingface.co/BeIR)
-- [DSTC11-track5](https://huggingface.co/datasets/NomaDamas/DSTC-11-Track-5)
+- [ANTIQUE](https://paperswithcode.com/dataset/antique)
+- [ASQA](https://arxiv.org/abs/2204.06092)
+- [DSTC11-Track5](https://github.com/alexa/dstc11-track5)
+- [BEIR](https://github.com/beir-cellar/beir) datasets
+- [Natural QA](https://paperswithcode.com/dataset/natural-questions)
+- [NFCorpus](http://www.cl.uni-heidelberg.de/statnlpgroup/nfcorpus/)
+- [SearchQA](https://arxiv.org/abs/1704.05179)
+- [TriviaQA](https://arxiv.org/abs/1705.03551)
 - [ELI5](https://huggingface.co/datasets/Pakulski/ELI5-test)
-- [NATURALQuestion](https://huggingface.co/datasets/lucadiliello/naturalquestionsshortqa)
-- [NFCorpus](https://ir-datasets.com/nfcorpus.html#nfcorpus/test)
-- [SearchQA](https://huggingface.co/datasets/search_qa)
-- [TriviaQA](https://huggingface.co/datasets/trivia_qa)
+
 
 # Contributing
 We welcome any contributions. Please feel free to raise issues and submit pull requests.

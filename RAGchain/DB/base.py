@@ -52,6 +52,7 @@ class BaseDB(ABC):
                content: Optional[List[str]] = None,
                filepath: Optional[List[str]] = None,
                content_datetime_range: Optional[List[tuple[datetime, datetime]]] = None,
+               importance: Optional[List[int]] = None,
                **kwargs
                ) -> List[Passage]:
         """
@@ -66,6 +67,7 @@ class BaseDB(ABC):
             :param content_datetime_range: (Optional[List[tuple[datetime.datetime, datetime.datetime]]]): List of content_datetime range to search.
             You can set start_time at the first element in tuple and end_time at the second element in tuple.
             Multiple time range search is possible, and the search condition is OR operation in time range.
+            :param importance: (Optional[List[int]]): List of passages' importance to search.
             **kwargs: Additional metadata to search.
         """
         pass

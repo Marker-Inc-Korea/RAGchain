@@ -4,10 +4,10 @@ from datetime import datetime
 from typing import List, Optional, Union
 from uuid import UUID
 
+from RAGchain import linker
 from RAGchain.DB.base import BaseDB
 from RAGchain.schema import Passage
 from RAGchain.schema.db_origin import DBOrigin
-from RAGchain import linker
 from RAGchain.utils.util import FileChecker
 
 
@@ -75,9 +75,10 @@ class PickleDB(BaseDB):
                content: Optional[List[str]] = None,
                filepath: Optional[List[str]] = None,
                content_datetime_range: Optional[List[tuple[datetime, datetime]]] = None,
+               importance: Optional[List[int]] = None,
                **kwargs) -> List[Passage]:
         def is_default_elem(filter_key: str) -> bool:
-            return filter_key in ['id', 'content', 'filepath']
+            return filter_key in ['id', 'content', 'filepath', 'importance']
 
         filter_dict = dict()
         if id is not None:
@@ -86,6 +87,8 @@ class PickleDB(BaseDB):
             filter_dict['content'] = content
         if filepath is not None:
             filter_dict['filepath'] = filepath
+        if importance is not None:
+            filter_dict['importance'] = importance
         if kwargs is not None and len(kwargs) > 0:
             for key, value in kwargs.items():
                 filter_dict[key] = value

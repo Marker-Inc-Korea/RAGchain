@@ -79,6 +79,7 @@ class MongoDB(BaseDB):
                content: Optional[List[str]] = None,
                filepath: Optional[List[str]] = None,
                content_datetime_range: Optional[List[tuple[datetime, datetime]]] = None,
+               importance: Optional[List[int]] = None,
                **kwargs
                ) -> List[Passage]:
         filter_dict = {}
@@ -91,6 +92,8 @@ class MongoDB(BaseDB):
         if content_datetime_range is not None:
             filter_dict["$or"] = [{'content_datetime': {'$gte': start, '$lte': end}} for start, end in
                                   content_datetime_range]
+        if importance is not None:
+            filter_dict["importance"] = {'$in': importance}
         if kwargs is not None and len(kwargs) > 0:
             for key, value in kwargs.items():
                 filter_dict[f'metadata_etc.{key}'] = {'$in': value}
