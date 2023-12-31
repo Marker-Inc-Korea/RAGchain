@@ -42,7 +42,7 @@ class JsonLinker(BaseLinker):
             self.load_json()
 
     def put_json(self, id: Union[UUID, str], json_data: dict):
-        self.data[id] = json_data
+        self.data[str(id)] = json_data
         with open(self.json_path, "w") as f:
             json.dump(self.data, f)
 

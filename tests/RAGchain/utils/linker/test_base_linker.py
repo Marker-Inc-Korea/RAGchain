@@ -1,8 +1,9 @@
 import pytest
+from uuid import uuid4
 
 from RAGchain.utils.linker import DynamoLinker, RedisLinker, SingletonCreationError
 
-TEST_IDS = ['test_id_1']
+TEST_IDS = [uuid4()]
 
 TEST_DB_ORIGIN = {
     'db_type': 'test_db',
