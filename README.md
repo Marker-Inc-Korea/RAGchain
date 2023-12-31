@@ -97,6 +97,15 @@ pip install dev_requirements.txt
 - [Qasper](https://paperswithcode.com/dataset/qasper)
 - [StrategyQA](https://allenai.org/data/strategyqa)
 - [KoStrategyQA](https://huggingface.co/datasets/NomaDamas/Ko-StrategyQA)
+- [ANTIQUE](https://ir-datasets.com/antique.html)
+- [ASQA](https://huggingface.co/datasets/din0s/asqa/viewer/default/dev)
+- [BEIR](https://huggingface.co/BeIR)
+- [DSTC11-track5](https://huggingface.co/datasets/NomaDamas/DSTC-11-Track-5)
+- [ELI5](https://huggingface.co/datasets/Pakulski/ELI5-test)
+- [NATURALQuestion](https://huggingface.co/datasets/lucadiliello/naturalquestionsshortqa)
+- [NFCorpus](https://ir-datasets.com/nfcorpus.html#nfcorpus/test)
+- [SearchQA](https://huggingface.co/datasets/search_qa)
+- [TriviaQA](https://huggingface.co/datasets/trivia_qa)
 
 # Contributing
 We welcome any contributions. Please feel free to raise issues and submit pull requests.
