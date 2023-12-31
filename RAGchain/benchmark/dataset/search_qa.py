@@ -43,9 +43,8 @@ class SearchQAEvaluator(BaseDatasetEvaluator):
 
         # TODO: train test validation split 해야할듯? 아니면 내가 짤라서 hugging에 올리기
 
-        self.file_path = "search_qa"
-        self.dataset = load_dataset(self.file_path, 'raw_jeopardy')['train'].to_pandas()
-        test = self.dataset
+        self.file_path = "NomaDamas/searchqa-split"
+        self.dataset = load_dataset(self.file_path)['test'].to_pandas()
 
         default_metrics = self.retrieval_gt_metrics + self.answer_gt_metrics \
                           + self.answer_no_gt_ragas_metrics + self.answer_passage_metrics
@@ -65,10 +64,17 @@ class SearchQAEvaluator(BaseDatasetEvaluator):
         self.eval_size = evaluate_size
         self.run_pipeline = run_pipeline
 
+        test = self.dataset['question'].duplicated().sum()
+        te = self.dataset['answer'].duplicated().sum()
+        tt = self.dataset
+
+        # TODO: gt 고유 키값만들어야함.
+
+        corpus = self.dataset.apply(self.__extract_corpus, axis=1)
+
         # Delete duplicated question - answer - retrieval gt
         self.dataset = self.dataset.groupby('question', as_index=False).agg(
-            {'context': lambda x: list(x), 'key': lambda x: list(x),
-             'answers': lambda x: list(x.tolist()), 'labels': lambda x: list(x)})
+            {'search_results': lambda x: list(x), 'answer': lambda x: list(x.tolist())})
 
         self.context = deepcopy(self.dataset[['key', 'context', 'labels']])
 
@@ -127,3 +133,24 @@ class SearchQAEvaluator(BaseDatasetEvaluator):
                 }
             ))
         return passages
+
+    def __extract_corpus(self, row):
+        corpus = []
+        search_results = row['search_results']
+
+        for passage_idx, passage_text in enumerate(search_results['search_context']):
+            corpus.append(Passage(
+                id=str(row['question_id']) + '_' + str(search_results['rank'][passage_idx]),
+                content=passage_text,
+                filepath=self.file_path,
+                metadata_etc={
+                    'description': search_results['description'][passage_idx],
+                    'url': search_results['url'][passage_idx],
+                    'title': search_results['title'][passage_idx],
+                    'snippet': search_results['snippet'][passage_idx],
+                    'rank': search_results['rank'][passage_idx],
+                    'question_id': row['question_id'],
+                    'question_source': row['question_source']
+                }
+            ))
+        return corpus
