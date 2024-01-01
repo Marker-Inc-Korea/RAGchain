@@ -54,12 +54,12 @@ class JsonLinker(BaseLinker):
         for find_id in str_ids:
             # Check if id exists in json linker
             if find_id not in self.data:
-                warnings.warn(f"ID {find_id} not found in JsonLinker", NoIdWarning)
+                warnings.warn(f"ID {find_id} not found in Linker", NoIdWarning)
             else:
                 data = self.data.get(find_id)
                 # Check if data exists in json linker
                 if data is None:
-                    warnings.warn(f"Data {find_id} not found in JsonLinker", NoDataWarning)
+                    warnings.warn(f"Data {find_id} not found in Linker", NoDataWarning)
                     data_list.append(None)
                 else:
                     data_list.append(data)
