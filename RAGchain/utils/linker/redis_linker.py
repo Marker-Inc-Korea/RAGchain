@@ -5,7 +5,7 @@ from uuid import UUID
 
 import redis
 from dotenv import load_dotenv
-from RAGchain.utils.linker.base import BaseLinker
+from RAGchain.utils.linker.base import BaseLinker, NoIdWarning, NoDataWarning
 
 load_dotenv()
 
@@ -42,7 +42,21 @@ class RedisLinker(BaseLinker):
     def get_json(self, ids: list[Union[UUID, str]]):
         # redis only accept str type key
         str_ids = [str(find_id) for find_id in ids]
-        return [self.client.json().get(find_id) for find_id in str_ids]
+        data_list = []
+        for find_id in str_ids:
+            # Check if id exists in redis linker
+            if not self.client.exists(find_id):
+                warnings.warn(f"ID {find_id} not found in RedisLinker", NoIdWarning)
+                continue
+            else:
+                data = self.client.json().get(find_id)
+                # Check if data exists in redis linker
+                if data is 'null':
+                    warnings.warn(f"Data {find_id} not found in RedisLinker", NoDataWarning)
+                    continue
+                else:
+                    data_list.append(data)
+        return data_list
 
     def connection_check(self):
         return self.client.ping()

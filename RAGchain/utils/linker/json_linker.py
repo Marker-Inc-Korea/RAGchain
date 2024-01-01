@@ -63,7 +63,7 @@ class JsonLinker(BaseLinker):
                     continue
                 else:
                     data_list.append(data)
-        return [self.data.get(find_id) for find_id in str_ids]
+        return data_list
 
     def flush_db(self):
         if os.path.exists(self.json_path):
