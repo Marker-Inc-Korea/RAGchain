@@ -134,3 +134,16 @@ class ROUGE(BaseAnswerMetric):
         for solution in solutions:
             score = max(rouge.compute(predictions=[pred], references=[solution])['rougeL'], score)
         return score
+
+class EM(BaseAnswerMetric):
+    def __init__(self):
+        super().__init__()
+        self._metric_name = "EM"
+
+    def retrieval_metric_function(self, solutions: List[str], pred: str) -> float:
+        score = 0.0
+        normalized_pred = self._normalize_answer(pred)
+        for solution in solutions:
+            normalized_solution = self._normalize_answer(solution)
+            score = max(int(normalized_pred == normalized_solution), score)
+        return score
