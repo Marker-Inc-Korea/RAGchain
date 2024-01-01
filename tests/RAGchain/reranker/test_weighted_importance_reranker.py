@@ -17,6 +17,7 @@ def weighted_importance_reranker():
 
 def test_weighted_time_reranker(weighted_importance_reranker):
     reranked_passages = weighted_importance_reranker.rerank(TEST_PASSAGES, SCORES)
+    assert isinstance(reranked_passages[0], Passage)
     solution = [4, 3, 2, 1, 0]
     for passage, idx in zip(reranked_passages, solution):
         assert passage.id == str(idx)
