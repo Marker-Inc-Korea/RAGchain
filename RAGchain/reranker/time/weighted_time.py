@@ -32,7 +32,8 @@ class WeightedTimeReranker:
 
         combined_scores = [self.__get_combined_score(passage, score=score, now=now)
                            for passage, score in zip(passages, scaled_scores)]
-        return sorted(zip(passages, combined_scores), key=lambda x: x[1], reverse=True)
+        sorted_passages, _ = zip(*sorted(zip(passages, combined_scores), key=lambda x: x[1], reverse=True))
+        return sorted_passages
 
     def __get_combined_score(self, passage: Passage, score: float, now: datetime = datetime.now()):
         passed_hours = (now - passage.content_datetime).total_seconds() / 3600
