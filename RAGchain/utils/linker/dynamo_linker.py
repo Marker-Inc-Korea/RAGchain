@@ -120,7 +120,7 @@ class DynamoLinker(BaseLinker):
                     warnings.warn(f"Data {find_id} not found in DynamoLinker", NoDataWarning)
                     continue
                 else:
-                    data_list.append(data)
+                    data_list.append(db_origin)
         return data_list
 
     def flush_db(self):

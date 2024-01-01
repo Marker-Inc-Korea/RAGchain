@@ -12,9 +12,24 @@ def json_linker():
     json_linker.flush_db()
 
 
-def test_get_json(json_linker):
+def test_get_json_UUID_UUID(json_linker):
     json_linker.put_json(test_base_linker.TEST_UUID_IDS[0], test_base_linker.TEST_DB_ORIGIN)
     assert json_linker.get_json(test_base_linker.TEST_UUID_IDS) == [test_base_linker.TEST_DB_ORIGIN]
+
+
+def test_get_json_UUID_STR(json_linker):
+    json_linker.put_json(test_base_linker.TEST_UUID_IDS[0], test_base_linker.TEST_DB_ORIGIN)
+    assert json_linker.get_json(test_base_linker.TEST_STR_IDS) == [test_base_linker.TEST_DB_ORIGIN]
+
+
+def test_get_json_STR_UUID(json_linker):
+    json_linker.put_json(test_base_linker.TEST_STR_IDS[0], test_base_linker.TEST_DB_ORIGIN)
+    assert json_linker.get_json(test_base_linker.TEST_UUID_IDS) == [test_base_linker.TEST_DB_ORIGIN]
+
+
+def test_get_json_STR_STR(json_linker):
+    json_linker.put_json(test_base_linker.TEST_STR_IDS[0], test_base_linker.TEST_DB_ORIGIN)
+    assert json_linker.get_json(test_base_linker.TEST_STR_IDS) == [test_base_linker.TEST_DB_ORIGIN]
 
 
 def test_no_id_warning(json_linker):
