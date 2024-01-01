@@ -21,13 +21,12 @@ def test_get_json(dynamo_db):
 
 
 def test_no_id_warning(dynamo_db):
-    with pytest.warns(NoIdWarning) as record:
-        dynamo_db.get_json(['fake_id'])
-    assert "ID fake_id not found in DynamoLinker" in str(record[0].message)
+    test_base_linker.no_id_warning_test(dynamo_db)
 
 
 def test_no_data_warning(dynamo_db):
-    dynamo_db.put_json(test_base_linker.TEST_STR_IDS[0], None)
-    with pytest.warns(NoDataWarning) as record:
-        dynamo_db.get_json(test_base_linker.TEST_STR_IDS)
-    assert f"Data {test_base_linker.TEST_STR_IDS[0]} not found in DynamoLinker" in str(record[0].message)
+    test_base_linker.no_data_warning_test(dynamo_db)
+
+
+def test_no_data_warning2(dynamo_db):
+    test_base_linker.no_data_warning_test2(dynamo_db)

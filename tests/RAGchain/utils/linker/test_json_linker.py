@@ -6,6 +6,7 @@ import test_base_linker
 TEST_UUID_IDS = test_base_linker.TEST_UUID_IDS
 TEST_UUID_STR_IDS = test_base_linker.TEST_UUID_STR_IDS
 TEST_STR_IDS = test_base_linker.TEST_STR_IDS
+TEST_DB_ORIGIN = test_base_linker.TEST_DB_ORIGIN
 
 
 @pytest.fixture
@@ -20,13 +21,12 @@ def test_get_json(json_linker):
 
 
 def test_no_id_warning(json_linker):
-    with pytest.warns(NoIdWarning) as record:
-        json_linker.get_json(['fake_id'])
-    assert "ID fake_id not found in JsonLinker" in str(record[0].message)
+    test_base_linker.no_id_warning_test(json_linker)
 
 
 def test_no_data_warning(json_linker):
-    json_linker.put_json(test_base_linker.TEST_STR_IDS[0], None)
-    with pytest.warns(NoDataWarning) as record:
-        json_linker.get_json(test_base_linker.TEST_STR_IDS)
-    assert f"Data {test_base_linker.TEST_STR_IDS[0]} not found in JsonLinker" in str(record[0].message)
+    test_base_linker.no_data_warning_test(json_linker)
+
+
+def test_no_data_warning2(json_linker):
+    test_base_linker.no_data_warning_test2(json_linker)

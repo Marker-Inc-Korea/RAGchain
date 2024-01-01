@@ -43,27 +43,30 @@ class JsonLinker(BaseLinker):
         else:
             self.load_json()
 
-    def put_json(self, id: Union[UUID, str], json_data: dict):
-        self.data[str(id)] = json_data
+    def put_json(self, ids: list[Union[UUID, str]], json_data_list: list[dict]):
+        for i in range(len(ids)):
+            self.data[str(ids[i])] = json_data_list[i]
         with open(self.json_path, "w") as f:
             json.dump(self.data, f)
 
     def get_json(self, ids: list[Union[UUID, str]]):
         str_ids = [str(find_id) for find_id in ids]
-        data_list = []
-        for find_id in str_ids:
-            # Check if id exists in json linker
+        no_id_indices = []
+        for i, find_id in enumerate(str_ids):
             if find_id not in self.data.keys():
                 warnings.warn(f"ID {find_id} not found in Linker", NoIdWarning)
-            else:
-                data = self.data.get(find_id)
-                # Check if data exists in json linker
-                if data is None:
-                    warnings.warn(f"Data {find_id} not found in Linker", NoDataWarning)
-                    data_list.append(None)
-                else:
-                    data_list.append(data)
-        return data_list
+                no_id_indices.append(i)
+                str_ids.pop(i)
+        # if all ids are not found in redis, return None because if str_ids is empty, mget will raise error.
+        if len(str_ids) == 0:
+            return [None]
+        results = [self.data.get(str_id) for str_id in str_ids]
+        for i, data in enumerate(results):
+            if data is None:
+                warnings.warn(f"Data {str_ids[i]} not found in Linker", NoDataWarning)
+        for index in no_id_indices:
+            results.insert(index, None)
+        return results
 
     def flush_db(self):
         if os.path.exists(self.json_path):

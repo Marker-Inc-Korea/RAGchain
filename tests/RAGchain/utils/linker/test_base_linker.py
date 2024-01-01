@@ -74,3 +74,27 @@ def get_json_test(linker, TEST_UUID_IDS, TEST_UUID_STR_IDS, TEST_STR_IDS):
     assert f"ID {TEST_UUID_STR_IDS[0]} not found in Linker" in str(record[0].message)
     # 3-3. Search: str -> Success
     assert linker.get_json(TEST_STR_IDS) == TEST_DB_ORIGIN
+
+
+def no_id_warning_test(linker):
+    assert linker.get_json(TEST_STR_IDS) == [None]
+    linker.put_json(TEST_UUID_IDS, TEST_DB_ORIGIN)
+    with pytest.warns(NoIdWarning) as record:
+        assert linker.get_json([TEST_UUID_IDS[0],'fake_id']) == [TEST_DB_ORIGIN[0], None]
+    assert "ID fake_id not found in Linker" in str(record[0].message)
+
+
+def no_data_warning_test(linker):
+    linker.put_json(TEST_STR_IDS, [None])
+    with pytest.warns(NoDataWarning) as record:
+        linker.get_json(TEST_STR_IDS)
+    assert f"Data {TEST_STR_IDS[0]} not found in Linker" in str(record[0].message)
+
+
+def no_data_warning_test2(linker):
+    full_ids = [TEST_UUID_IDS[0], TEST_STR_IDS[0], TEST_UUID_STR_IDS[0]]
+    full_db_origins = [TEST_DB_ORIGIN[0], None, TEST_DB_ORIGIN[0]]
+    linker.put_json(full_ids, full_db_origins)
+    with pytest.warns(NoDataWarning) as record:
+        assert linker.get_json(full_ids) == [TEST_DB_ORIGIN[0], None, TEST_DB_ORIGIN[0]]
+    assert f"Data {TEST_STR_IDS[0]} not found in Linker" in str(record[0].message)
