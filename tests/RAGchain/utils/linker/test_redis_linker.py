@@ -7,6 +7,7 @@ import test_base_linker
 TEST_UUID_IDS = test_base_linker.TEST_UUID_IDS
 TEST_UUID_STR_IDS = test_base_linker.TEST_UUID_STR_IDS
 TEST_STR_IDS = test_base_linker.TEST_STR_IDS
+TEST_DB_ORIGIN = test_base_linker.TEST_DB_ORIGIN
 
 
 @pytest.fixture
@@ -22,13 +23,25 @@ def test_get_json(redis_db):
 
 
 def test_no_id_warning(redis_db):
+    assert redis_db.get_json(TEST_STR_IDS) == [None]
+    redis_db.put_json(TEST_UUID_IDS[0], TEST_DB_ORIGIN)
     with pytest.warns(NoIdWarning) as record:
-        redis_db.get_json(['fake_id'])
-    assert "ID fake_id not found in RedisLinker" in str(record[0].message)
+        assert redis_db.get_json([TEST_UUID_IDS[0],'fake_id']) == [TEST_DB_ORIGIN, None]
+    assert "ID fake_id not found in Linker" in str(record[0].message)
 
 
 def test_no_data_warning(redis_db):
-    redis_db.put_json(test_base_linker.TEST_STR_IDS[0], None)
+    redis_db.put_json(TEST_STR_IDS[0], None)
     with pytest.warns(NoDataWarning) as record:
-        redis_db.get_json(test_base_linker.TEST_STR_IDS)
-    assert f"Data {test_base_linker.TEST_STR_IDS[0]} not found in RedisLinker" in str(record[0].message)
+        redis_db.get_json(TEST_STR_IDS)
+    assert f"Data {test_base_linker.TEST_STR_IDS[0]} not found in Linker" in str(record[0].message)
+
+
+def test_no_data_warning2(redis_db):
+    redis_db.put_json(TEST_UUID_IDS[0], TEST_DB_ORIGIN)
+    redis_db.put_json(TEST_STR_IDS[0], None)
+    redis_db.put_json(TEST_UUID_STR_IDS[0], TEST_DB_ORIGIN)
+    full_ids = [TEST_UUID_IDS[0], TEST_STR_IDS[0], TEST_UUID_STR_IDS[0]]
+    with pytest.warns(NoDataWarning) as record:
+        assert redis_db.get_json(full_ids) == [TEST_DB_ORIGIN, None, TEST_DB_ORIGIN]
+    assert f"Data {TEST_STR_IDS[0]} not found in Linker" in str(record[0].message)
