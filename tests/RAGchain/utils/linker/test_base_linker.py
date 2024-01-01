@@ -3,7 +3,8 @@ from uuid import uuid4
 
 from RAGchain.utils.linker import DynamoLinker, RedisLinker, SingletonCreationError
 
-TEST_IDS = [uuid4()]
+TEST_UUID_IDS = [uuid4()]
+TEST_STR_IDS = ['test_id']
 
 TEST_DB_ORIGIN = {
     'db_type': 'test_db',

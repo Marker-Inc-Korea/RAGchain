@@ -1,9 +1,10 @@
-from RAGchain.utils.linker.base import BaseLinker
+from RAGchain.utils.linker.base import BaseLinker, NoIdWarning, NoDataWarning
 from typing import Union
 from uuid import UUID
 
 import os
 import json
+import warnings
 
 
 class JsonLinker(BaseLinker):
@@ -48,6 +49,20 @@ class JsonLinker(BaseLinker):
 
     def get_json(self, ids: list[Union[UUID, str]]):
         str_ids = [str(find_id) for find_id in ids]
+        data_list = []
+        for find_id in str_ids:
+            # Check if id exists in json linker
+            if find_id not in self.data:
+                warnings.warn(f"ID {find_id} not found in JsonLinker", NoIdWarning)
+                continue
+            else:
+                data = self.data.get(find_id)
+                # Check if data exists in json linker
+                if data is None:
+                    warnings.warn(f"Data {find_id} not found in JsonLinker", NoDataWarning)
+                    continue
+                else:
+                    data_list.append(data)
         return [self.data.get(find_id) for find_id in str_ids]
 
     def flush_db(self):

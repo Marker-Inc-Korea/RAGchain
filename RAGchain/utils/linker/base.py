@@ -1,7 +1,6 @@
 from abc import abstractmethod
 from typing import Union
 from uuid import UUID
-import warnings
 
 
 class Singleton(type):
@@ -33,5 +32,19 @@ class BaseLinker(metaclass=Singleton):
 class SingletonCreationError(Exception):
     """
     Exception to be raised when trying to create another singleton instance.
+    """
+    pass
+
+
+class NoIdWarning(UserWarning):
+    """
+    Warning to be raised when there is no id in Linker.
+    """
+    pass
+
+
+class NoDataWarning(UserWarning):
+    """
+    Warning to be raised when there is no data in Linker.
     """
     pass
