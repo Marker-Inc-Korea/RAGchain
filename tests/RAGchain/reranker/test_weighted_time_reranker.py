@@ -20,6 +20,7 @@ def weighted_time_reranker():
 
 def test_weighted_time_reranker(weighted_time_reranker):
     reranked_passages = weighted_time_reranker.rerank(TEST_PASSAGES, SCORES)
+    assert isinstance(reranked_passages[0], Passage)
     solution = [10, 9, 0, 8, 7, 1, 6, 2, 5, 3, 4]
     for passage, idx in zip(reranked_passages, solution):
-        assert passage[0].id == str(idx)
+        assert passage.id == str(idx)
