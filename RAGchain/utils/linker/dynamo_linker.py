@@ -45,6 +45,7 @@ class DynamoLinker(BaseLinker):
             raise ValueError("Invalid AWS credentials")
 
         self.table = None
+        self.table_name = table_name
         self.create_or_load_table(table_name)
 
     def create_table(self, table_name):
@@ -103,32 +104,48 @@ class DynamoLinker(BaseLinker):
 
     def get_json(self, ids: list[Union[UUID, str]]):
         str_ids = [str(find_id) for find_id in ids]
-        data_list = []
-        for find_id in str_ids:
-            # Check if id exists in dynamo linker
-            data = self.table.get_item(Key={'id': find_id})
-            if 'Item' not in data:
-                warnings.warn(f"ID {find_id} not found in Linker", NoIdWarning)
-            else:
-                db_origin = data['Item']['db_origin']
-                # Check if data exists in dynamo linker
-                if db_origin is None:
-                    warnings.warn(f"Data {find_id} not found in Linker", NoDataWarning)
-                    data_list.append(None)
-                else:
-                    data_list.append(db_origin)
-        return data_list
+        keys = [{'id': id} for id in str_ids]
+        response = self.dynamodb.batch_get_item(
+            RequestItems={
+                self.table_name: {
+                    'Keys': keys
+                }
+            }
+        )
+        final_response_list = response['Responses'][f'{self.table_name}']
+        used_ids = []
+        results = []
+        for final_response in final_response_list:
+            if final_response is not None:
+                results.append(final_response['data'])
+                used_ids.append(final_response['id'])
+        if len(used_ids) != len(str_ids):
+            for i, str_id in enumerate(str_ids):
+                if str_id not in used_ids:
+                    warnings.warn(f"ID {str_id} not found in Linker", NoIdWarning)
+                    results.insert(i, None)
+        return results
 
     def flush_db(self):
         self.table.delete()
 
-    def put_json(self, id: Union[UUID, str], json_data: dict):
-        self.table.put_item(
-            Item={
-                'id': str(id),
-                'db_origin': json_data
-            }
-        )
+    def put_json(self, ids: list[Union[UUID, str]], json_data_list: list[dict]):
+        str_ids = [str(find_id) for find_id in ids]
+        items = []
+        for i in range(len(str_ids)):
+            items.append({
+                'PutRequest': {
+                    'Item': {
+                        'id': str_ids[i],
+                        'data': json_data_list[i]
+                    }
+                }
+            })
+        request_items = {self.table_name: items}
+        self.dynamodb.batch_write_item(RequestItems=request_items)
 
     def delete_json(self, id: Union[UUID, str]):
         self.table.delete_item(Key={'id': str(id)})
+
+    def __del__(self):
+        self.dynamodb.close()
