@@ -12,6 +12,7 @@ class JsonLinker(BaseLinker):
     JsonLinker is a singleton class that allows the role of a linker
     to be played locally to use JSON file without using an external DB like redis or dynamo.
     """
+
     def __init__(self):
         json_path = os.getenv("JSON_LINKER_PATH")
 
@@ -69,3 +70,8 @@ class JsonLinker(BaseLinker):
             os.remove(self.json_path)
         else:
             raise FileNotFoundError("The file does not exist")
+
+    def delete_json(self, id: Union[UUID, str]):
+        del self.data[str(id)]
+        with open(self.json_path, "w") as f:
+            json.dump(self.data, f)
