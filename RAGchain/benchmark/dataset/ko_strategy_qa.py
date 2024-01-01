@@ -36,7 +36,7 @@ class KoStrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
 
         default_metrics = (self.retrieval_gt_metrics)
         support_metrics = (default_metrics + self.retrieval_gt_ragas_metrics
-                           + self.retrieval_no_gt_ragas_metrics)
+                           + self.retrieval_no_gt_ragas_metrics + self.answer_no_gt_ragas_metrics)
 
         if metrics is not None:
             # Check if your metrics are available in evaluation datasets.

@@ -33,7 +33,8 @@ class StrategyQAEvaluator(BaseDatasetEvaluator, BaseStrategyQA):
         This distinction exists because the evaluation process for Ragas metrics is time-consuming.
         """
         default_metrics = self.retrieval_gt_metrics
-        support_metrics = default_metrics + self.retrieval_no_gt_ragas_metrics + self.retrieval_gt_ragas_metrics
+        support_metrics = default_metrics + self.retrieval_no_gt_ragas_metrics + self.retrieval_gt_ragas_metrics \
+                          + self.answer_no_gt_ragas_metrics
 
         if metrics is not None:
             # Check if your metrics are available in evaluation datasets.

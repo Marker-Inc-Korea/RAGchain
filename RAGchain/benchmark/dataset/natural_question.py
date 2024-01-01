@@ -42,9 +42,9 @@ class NaturalQAEvaluator(BaseDatasetEvaluator):
         self.file_path = "lucadiliello/naturalquestionsshortqa"
         self.dataset = load_dataset(self.file_path)['validation'].to_pandas()
 
-        default_metrics = self.retrieval_gt_metrics + self.answer_gt_metrics \
-                          + self.answer_no_gt_ragas_metrics + self.answer_passage_metrics
-        support_metrics = default_metrics + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics
+        default_metrics = self.retrieval_gt_metrics + self.answer_gt_metrics + self.answer_passage_metrics
+        support_metrics = default_metrics + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics \
+                          + self.answer_no_gt_ragas_metrics
 
         if metrics is not None:
             # Check if your metrics are available in evaluation datasets.

@@ -37,9 +37,9 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
         Support metrics refer to those that are available for use.
         This distinction exists because the evaluation process for Ragas metrics is time-consuming.
         """
-        default_metrics = (self.retrieval_gt_metrics + ['MRR'])
-        support_metrics = (default_metrics
-                           + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics)
+        default_metrics = self.retrieval_gt_metrics + ['MRR']
+        support_metrics = default_metrics + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics \
+                          + self.answer_no_gt_ragas_metrics
         languages = ['arabic', 'bengali', 'combined', 'english', 'finnish',
                      'indonesian', 'japanese', 'korean', 'russian', 'swahili', 'telugu', 'thai']
         language = language.lower()
