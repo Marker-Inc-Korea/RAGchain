@@ -82,9 +82,10 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
         :param db: The db that you want to ingest.
         :param ingest_size: The number of data to ingest. If None, ingest all data.
         You must ingest all data for using context_recall metrics.
-        If ingest size too big, It takes a long time.
-        So we shuffle corpus and slice by ingest size for test.
-        Put retrieval gt corpus in passages because retrieval retrieves ground truth in db.
+        If the ingest size is excessively large, it results in prolonged processing times.
+        To address this, we shuffle the corpus and slice it according to the ingest size for testing purposes.
+        The reason for transforming the retrieval ground truth corpus into passages and ingesting it is to enable
+        retrieval to retrieve the retrieval ground truth within the database.
         :param random_state: A random state to fix the shuffled corpus to ingest.
         Types are like these. int, array-like, BitGenerator, np.random.RandomState, np.random.Generator, optional
         """

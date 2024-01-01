@@ -32,7 +32,7 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
         The reason context_recall does not accommodate this benchmark is due to the excessive number
         of retrieval ground truths that exceed the context length in ragas metrics.
 
-        DThe default metric refers to the metric that is essentially executed when you run the test file.
+        The default metric refers to the metric that is essentially executed when you run the test file.
         Support metrics refer to those that are available for use.
         This distinction exists because the evaluation process for Ragas metrics is time-consuming.
         """
@@ -93,9 +93,10 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
         Types are like these. int, array-like, BitGenerator, np.random.RandomState, np.random.Generator, optional
 
         Notice:
-        If ingest size too big, It takes a long time.
-        So we shuffle corpus and slice by ingest size for test.
-        Put retrieval gt corpus in passages because retrieval retrieves ground truth in db.
+        If the ingest size is excessively large, it results in prolonged processing times.
+        To address this, we shuffle the corpus and slice it according to the ingest size for testing purposes.
+        The reason for transforming the retrieval ground truth corpus into passages and ingesting it is to enable
+        retrieval to retrieve the retrieval ground truth within the database.
         """
         ingest_data = deepcopy(self.ingest_data)
         id_for_remove_duplicated_docs = [gt for gt_lst in deepcopy(self.gt) for gt in gt_lst]
