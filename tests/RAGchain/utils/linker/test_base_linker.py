@@ -47,7 +47,7 @@ def get_json_test(linker, TEST_UUID_IDS, TEST_UUID_STR_IDS, TEST_STR_IDS):
     # 1-3. Search: str -> Fail
     with pytest.warns(NoIdWarning) as record:
         linker.get_json(TEST_STR_IDS)
-    assert f"ID {TEST_STR_IDS[0]} not found in JsonLinker" in str(record[0].message)
+    assert f"ID {TEST_STR_IDS[0]} not found in Linker" in str(record[0].message)
     linker.delete_json(TEST_UUID_IDS[0])
 
     # 2. Input: str(UUID)
@@ -59,7 +59,7 @@ def get_json_test(linker, TEST_UUID_IDS, TEST_UUID_STR_IDS, TEST_STR_IDS):
     # 2-3. Search: str -> Fail
     with pytest.warns(NoIdWarning) as record:
         linker.get_json(TEST_STR_IDS)
-    assert f"ID {TEST_STR_IDS[0]} not found in JsonLinker" in str(record[0].message)
+    assert f"ID {TEST_STR_IDS[0]} not found in Linker" in str(record[0].message)
     linker.delete_json(TEST_UUID_STR_IDS[0])
 
     # 3. Input: str
@@ -67,10 +67,10 @@ def get_json_test(linker, TEST_UUID_IDS, TEST_UUID_STR_IDS, TEST_STR_IDS):
     # 3-1. Search: UUID -> Fail
     with pytest.warns(NoIdWarning) as record:
         linker.get_json(TEST_UUID_IDS)
-    assert f"ID {TEST_UUID_IDS[0]} not found in JsonLinker" in str(record[0].message)
+    assert f"ID {TEST_UUID_IDS[0]} not found in Linker" in str(record[0].message)
     # 3-2. Search: str(UUID) -> Fail
     with pytest.warns(NoIdWarning) as record:
         linker.get_json(TEST_UUID_STR_IDS)
-    assert f"ID {TEST_UUID_STR_IDS[0]} not found in JsonLinker" in str(record[0].message)
+    assert f"ID {TEST_UUID_STR_IDS[0]} not found in Linker" in str(record[0].message)
     # 3-3. Search: str -> Success
     assert linker.get_json(TEST_STR_IDS) == [TEST_DB_ORIGIN]

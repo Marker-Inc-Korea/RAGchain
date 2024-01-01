@@ -1,7 +1,6 @@
 import pytest
 
-from RAGchain.utils.linker import JsonLinker
-from RAGchain.utils.linker.base import NoIdWarning, NoDataWarning
+from RAGchain.utils.linker import JsonLinker, NoIdWarning, NoDataWarning
 import test_base_linker
 
 TEST_UUID_IDS = test_base_linker.TEST_UUID_IDS
