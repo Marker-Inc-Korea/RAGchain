@@ -59,6 +59,7 @@ class JsonLinker(BaseLinker):
                 # Check if data exists in json linker
                 if data is None:
                     warnings.warn(f"Data {find_id} not found in JsonLinker", NoDataWarning)
+                    data_list.append(None)
                 else:
                     data_list.append(data)
         return data_list

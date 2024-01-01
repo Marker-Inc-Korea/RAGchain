@@ -106,10 +106,6 @@ class DynamoLinker(BaseLinker):
         data_list = []
         for find_id in str_ids:
             # Check if id exists in dynamo linker
-            """
-            response_list = [self.table.get_item(Key={'id': find_id}) for find_id in str_ids]
-            return [response['Item']['db_origin'] for response in response_list]
-            """
             data = self.table.get_item(Key={'id': find_id})
             if 'Item' not in data:
                 warnings.warn(f"ID {find_id} not found in DynamoLinker", NoIdWarning)
@@ -118,7 +114,7 @@ class DynamoLinker(BaseLinker):
                 # Check if data exists in dynamo linker
                 if db_origin is None:
                     warnings.warn(f"Data {find_id} not found in DynamoLinker", NoDataWarning)
-                    continue
+                    data_list.append(None)
                 else:
                     data_list.append(db_origin)
         return data_list

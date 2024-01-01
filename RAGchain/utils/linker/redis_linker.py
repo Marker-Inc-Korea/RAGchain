@@ -52,6 +52,7 @@ class RedisLinker(BaseLinker):
                 # Check if data exists in redis linker
                 if data is 'null':
                     warnings.warn(f"Data {find_id} not found in RedisLinker", NoDataWarning)
+                    data_list.append(None)
                 else:
                     data_list.append(data)
         return data_list
