@@ -28,6 +28,10 @@ class BaseLinker(metaclass=Singleton):
     def flush_db(self):
         pass
 
+    @abstractmethod
+    def delete_json(self, id: Union[UUID, str]):
+        pass
+
 
 class SingletonCreationError(Exception):
     """

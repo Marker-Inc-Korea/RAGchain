@@ -46,12 +46,12 @@ class RedisLinker(BaseLinker):
         for find_id in str_ids:
             # Check if id exists in redis linker
             if not self.client.exists(find_id):
-                warnings.warn(f"ID {find_id} not found in RedisLinker", NoIdWarning)
+                warnings.warn(f"ID {find_id} not found in Linker", NoIdWarning)
             else:
                 data = self.client.json().get(find_id)
                 # Check if data exists in redis linker
                 if data == 'null':
-                    warnings.warn(f"Data {find_id} not found in RedisLinker", NoDataWarning)
+                    warnings.warn(f"Data {find_id} not found in Linker", NoDataWarning)
                     data_list.append(None)
                 else:
                     data_list.append(data)
@@ -68,3 +68,6 @@ class RedisLinker(BaseLinker):
 
     def put_json(self, id: Union[UUID, str], json_data: dict):
         self.client.json().set(str(id), '$', json_data)
+
+    def delete_json(self, id: Union[UUID, str]):
+        self.client.delete(str(id))

@@ -108,12 +108,12 @@ class DynamoLinker(BaseLinker):
             # Check if id exists in dynamo linker
             data = self.table.get_item(Key={'id': find_id})
             if 'Item' not in data:
-                warnings.warn(f"ID {find_id} not found in DynamoLinker", NoIdWarning)
+                warnings.warn(f"ID {find_id} not found in Linker", NoIdWarning)
             else:
                 db_origin = data['Item']['db_origin']
                 # Check if data exists in dynamo linker
                 if db_origin is None:
-                    warnings.warn(f"Data {find_id} not found in DynamoLinker", NoDataWarning)
+                    warnings.warn(f"Data {find_id} not found in Linker", NoDataWarning)
                     data_list.append(None)
                 else:
                     data_list.append(db_origin)
@@ -129,3 +129,6 @@ class DynamoLinker(BaseLinker):
                 'db_origin': json_data
             }
         )
+
+    def delete_json(self, id: Union[UUID, str]):
+        self.table.delete_item(Key={'id': str(id)})
