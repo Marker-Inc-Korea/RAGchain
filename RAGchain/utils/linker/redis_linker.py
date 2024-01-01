@@ -47,13 +47,11 @@ class RedisLinker(BaseLinker):
             # Check if id exists in redis linker
             if not self.client.exists(find_id):
                 warnings.warn(f"ID {find_id} not found in RedisLinker", NoIdWarning)
-                continue
             else:
                 data = self.client.json().get(find_id)
                 # Check if data exists in redis linker
                 if data is 'null':
                     warnings.warn(f"Data {find_id} not found in RedisLinker", NoDataWarning)
-                    continue
                 else:
                     data_list.append(data)
         return data_list

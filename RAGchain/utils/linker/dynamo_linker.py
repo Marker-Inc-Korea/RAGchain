@@ -2,12 +2,13 @@ import os
 from typing import Union
 from uuid import UUID
 import logging
+import warnings
 
 import boto3
 from botocore.exceptions import NoCredentialsError, ClientError
 from dotenv import load_dotenv
 
-from RAGchain.utils.linker.base import BaseLinker
+from RAGchain.utils.linker.base import BaseLinker, NoIdWarning, NoDataWarning
 
 logger = logging.getLogger(__name__)
 load_dotenv()
@@ -102,14 +103,28 @@ class DynamoLinker(BaseLinker):
 
     def get_json(self, ids: list[Union[UUID, str]]):
         str_ids = [str(find_id) for find_id in ids]
-        response_list = [self.table.get_item(Key={'id': find_id}) for find_id in str_ids]
-        return [response['Item']['db_origin'] for response in response_list]
+        data_list = []
+        for find_id in str_ids:
+            # Check if id exists in dynamo linker
+            """
+            response_list = [self.table.get_item(Key={'id': find_id}) for find_id in str_ids]
+            return [response['Item']['db_origin'] for response in response_list]
+            """
+            data = self.table.get_item(Key={'id': find_id})
+            if 'Item' not in data:
+                warnings.warn(f"ID {find_id} not found in DynamoLinker", NoIdWarning)
+            else:
+                db_origin = data['Item']['db_origin']
+                # Check if data exists in dynamo linker
+                if db_origin is None:
+                    warnings.warn(f"Data {find_id} not found in DynamoLinker", NoDataWarning)
+                    continue
+                else:
+                    data_list.append(data)
+        return data_list
 
     def flush_db(self):
         self.table.delete()
-
-    def __del__(self):
-        self.dynamodb.close()
 
     def put_json(self, id: Union[UUID, str], json_data: dict):
         self.table.put_item(
