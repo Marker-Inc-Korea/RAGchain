@@ -62,7 +62,12 @@ class PickleDB(BaseDB):
         # save to redisDB
         db_origin = self.get_db_origin()
         db_origin_dict = db_origin.to_dict()
-        [linker.put_json(str(passage.id), db_origin_dict) for passage in passages]
+        id_list = []
+        db_origin_list = []
+        for passage in passages:
+            id_list.append(str(passage.id))
+            db_origin_list.append(db_origin_dict)
+        linker.put_json(id_list, db_origin_list)
 
     def fetch(self, ids: List[UUID]) -> List[Passage]:
         """Retrieves the Passage objects from the database based on the given list of passage IDs."""
