@@ -69,8 +69,12 @@ class RedisLinker(BaseLinker):
     def __del__(self):
         self.client.close()
 
-    def put_json(self, id: Union[UUID, str], json_data: dict):
-        self.client.json().set(str(id), '$', json_data)
+    def put_json(self, ids: list[Union[UUID, str]], json_data_list: list[dict]):
+        str_ids = [str(find_id) for find_id in ids]
+        triplets = []
+        for i in range(len(str_ids)):
+            triplets.append((str_ids[i], '$', json_data_list[i]))
+        self.client.json().mset(triplets)
 
     def delete_json(self, id: Union[UUID, str]):
         self.client.delete(str(id))
