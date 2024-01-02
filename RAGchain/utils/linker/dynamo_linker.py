@@ -1,14 +1,16 @@
-import os
-from typing import Union
-from uuid import UUID
 import logging
+import os
 import warnings
+from typing import Union, List
+from uuid import UUID
 
 import boto3
 from botocore.exceptions import NoCredentialsError, ClientError
 from dotenv import load_dotenv
 
-from RAGchain.utils.linker.base import BaseLinker, NoIdWarning, NoDataWarning
+from RAGchain.utils.linker.base import BaseLinker, NoIdWarning
+
+# TODO: There is no implementation of NoDataWarning in this file.
 
 logger = logging.getLogger(__name__)
 load_dotenv()
@@ -102,7 +104,7 @@ class DynamoLinker(BaseLinker):
         )
         raise
 
-    def get_json(self, ids: list[Union[UUID, str]]):
+    def get_json(self, ids: List[Union[UUID, str]]):
         str_ids = [str(find_id) for find_id in ids]
         keys = [{'id': id} for id in str_ids]
         response = self.dynamodb.batch_get_item(
@@ -129,7 +131,7 @@ class DynamoLinker(BaseLinker):
     def flush_db(self):
         self.table.delete()
 
-    def put_json(self, ids: list[Union[UUID, str]], json_data_list: list[dict]):
+    def put_json(self, ids: List[Union[UUID, str]], json_data_list: List[dict]):
         str_ids = [str(find_id) for find_id in ids]
         items = []
         for i in range(len(str_ids)):

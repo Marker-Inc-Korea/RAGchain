@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Union
+from typing import Union, List
 from uuid import UUID
 
 
@@ -17,11 +17,11 @@ class Singleton(type):
 
 class BaseLinker(metaclass=Singleton):
     @abstractmethod
-    def put_json(self, ids: list[Union[UUID, str]], json_data_list: list[dict]):
+    def put_json(self, ids: List[Union[UUID, str]], json_data_list: List[dict]):
         pass
 
     @abstractmethod
-    def get_json(self, ids: list[Union[UUID, str]]):
+    def get_json(self, ids: List[Union[UUID, str]]):
         pass
 
     @abstractmethod

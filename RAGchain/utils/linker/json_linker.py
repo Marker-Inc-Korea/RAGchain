@@ -1,10 +1,10 @@
-from RAGchain.utils.linker.base import BaseLinker, NoIdWarning, NoDataWarning
-from typing import Union
+import json
+import os
+import warnings
+from typing import Union, List
 from uuid import UUID
 
-import os
-import json
-import warnings
+from RAGchain.utils.linker.base import BaseLinker, NoIdWarning, NoDataWarning
 
 
 class JsonLinker(BaseLinker):
@@ -43,13 +43,13 @@ class JsonLinker(BaseLinker):
         else:
             self.load_json()
 
-    def put_json(self, ids: list[Union[UUID, str]], json_data_list: list[dict]):
+    def put_json(self, ids: List[Union[UUID, str]], json_data_list: List[dict]):
         for i in range(len(ids)):
             self.data[str(ids[i])] = json_data_list[i]
         with open(self.json_path, "w") as f:
             json.dump(self.data, f)
 
-    def get_json(self, ids: list[Union[UUID, str]]):
+    def get_json(self, ids: List[Union[UUID, str]]):
         str_ids = [str(find_id) for find_id in ids]
         no_id_indices = []
         for i, find_id in enumerate(str_ids):

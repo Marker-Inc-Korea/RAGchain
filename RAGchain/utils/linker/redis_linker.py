@@ -1,10 +1,11 @@
 import os
 import warnings
-from typing import Union
+from typing import Union, List
 from uuid import UUID
 
 import redis
 from dotenv import load_dotenv
+
 from RAGchain.utils.linker.base import BaseLinker, NoIdWarning, NoDataWarning
 
 load_dotenv()
@@ -39,7 +40,7 @@ class RedisLinker(BaseLinker):
             password=password
         )
 
-    def get_json(self, ids: list[Union[UUID, str]]):
+    def get_json(self, ids: List[Union[UUID, str]]):
         # redis only accept str type key
         str_ids = [str(find_id) for find_id in ids]
         no_id_indices = []
@@ -69,7 +70,7 @@ class RedisLinker(BaseLinker):
     def __del__(self):
         self.client.close()
 
-    def put_json(self, ids: list[Union[UUID, str]], json_data_list: list[dict]):
+    def put_json(self, ids: List[Union[UUID, str]], json_data_list: List[dict]):
         str_ids = [str(find_id) for find_id in ids]
         triplets = []
         for i in range(len(str_ids)):
