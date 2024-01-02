@@ -41,6 +41,7 @@ class RedisLinker(BaseLinker):
         )
 
     def get_json(self, ids: List[Union[UUID, str]]):
+        assert len(ids) > 0, "ids must be a non-empty list"
         # redis only accept str type key
         str_ids = [str(find_id) for find_id in ids]
         no_id_indices = []
@@ -49,9 +50,7 @@ class RedisLinker(BaseLinker):
                 warnings.warn(f"ID {find_id} not found in Linker", NoIdWarning)
                 no_id_indices.append(i)
                 str_ids.pop(i)
-        # if all ids are not found in redis, return None because if str_ids is empty, mget will raise error.
-        if len(str_ids) == 0:
-            return [None]
+
         results = self.client.json().mget(str_ids, '$')
         flattened_data = [item for sublist in results for item in sublist]
         for i, data in enumerate(flattened_data):
