@@ -1,8 +1,5 @@
-import os
-
-from typing import List
 from operator import itemgetter
-from dotenv import load_dotenv
+from typing import List
 
 from langchain.llms import BaseLLM
 from langchain.schema import StrOutputParser
@@ -11,8 +8,6 @@ from langchain.schema.runnable import RunnableLambda
 from RAGchain.pipeline.base import BaseRunPipeline
 from RAGchain.schema import RAGchainPromptTemplate, Passage
 from RAGchain.utils.websearch import GoogleSearch
-
-load_dotenv()
 
 
 class GoogleSearchRunPipeline(BaseRunPipeline):

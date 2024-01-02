@@ -1,14 +1,9 @@
 __version__ = '0.2.4'
 
-
 # Sets the linker, which is required to use RAGchain.
 import os
 
-from dotenv import load_dotenv
-
 from RAGchain.utils.linker import RedisLinker, DynamoLinker, JsonLinker
-
-load_dotenv()
 
 linker_type = os.getenv("LINKER_TYPE")
 if linker_type == "redisdb":
