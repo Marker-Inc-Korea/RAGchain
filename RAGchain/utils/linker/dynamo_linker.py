@@ -1,16 +1,15 @@
-import os
-from typing import Union
-from uuid import UUID
 import logging
+import os
+import warnings
+from typing import Union, List
+from uuid import UUID
 
 import boto3
 from botocore.exceptions import NoCredentialsError, ClientError
-from dotenv import load_dotenv
 
-from RAGchain.utils.linker.base import BaseLinker
+from RAGchain.utils.linker.base import BaseLinker, NoIdWarning, NoDataWarning
 
 logger = logging.getLogger(__name__)
-load_dotenv()
 
 
 class DynamoLinker(BaseLinker):
@@ -44,6 +43,7 @@ class DynamoLinker(BaseLinker):
             raise ValueError("Invalid AWS credentials")
 
         self.table = None
+        self.table_name = table_name
         self.create_or_load_table(table_name)
 
     def create_table(self, table_name):
@@ -100,21 +100,53 @@ class DynamoLinker(BaseLinker):
         )
         raise
 
-    def get_json(self, ids: list[Union[UUID, str]]):
+    def get_json(self, ids: List[Union[UUID, str]]):
         str_ids = [str(find_id) for find_id in ids]
-        response_list = [self.table.get_item(Key={'id': find_id}) for find_id in str_ids]
-        return [response['Item']['db_origin'] for response in response_list]
+        keys = [{'id': _id} for _id in str_ids]
+        response = self.dynamodb.batch_get_item(
+            RequestItems={
+                self.table_name: {
+                    'Keys': keys
+                }
+            }
+        )
+        final_response_list = response['Responses'][f'{self.table_name}']
+        id_to_result = {result['id']: result for result in final_response_list}
+        results = []
+        for _id in str_ids:
+            if _id not in id_to_result:
+                warnings.warn(f"ID {_id} not found in Linker", NoIdWarning)
+                results.append(None)
+            else:
+                results.append(id_to_result[_id]['data'])
+                if id_to_result[_id]['data'] is None:
+                    warnings.warn(f"Data {_id} not found in Linker", NoDataWarning)
+        return results
 
     def flush_db(self):
         self.table.delete()
 
-    def __del__(self):
-        self.dynamodb.close()
-
-    def put_json(self, id: Union[UUID, str], json_data: dict):
-        self.table.put_item(
-            Item={
-                'id': str(id),
-                'db_origin': json_data
+    def put_json(self, ids: List[Union[UUID, str]], json_data_list: List[dict]):
+        assert len(ids) == len(json_data_list), "ids and json_data_list must have the same length"
+        items = [{
+            'PutRequest': {
+                'Item': {
+                    'id': str(_id),
+                    'data': json_data
+                }
             }
-        )
+        } for _id, json_data in zip(ids, json_data_list)]
+        request_items = {self.table_name: items}
+        self.dynamodb.batch_write_item(RequestItems=request_items)
+
+    def delete_json(self, ids: List[Union[UUID, str]]):
+        str_ids = [str(_id) for _id in ids]
+        items = [{
+            'DeleteRequest': {
+                'Key': {
+                    'id': _id
+                }
+            }
+        } for _id in str_ids]
+        request_items = {self.table_name: items}
+        self.dynamodb.batch_write_item(RequestItems=request_items)

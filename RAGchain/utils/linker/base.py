@@ -1,7 +1,6 @@
 from abc import abstractmethod
-from typing import Union
+from typing import Union, List
 from uuid import UUID
-import warnings
 
 
 class Singleton(type):
@@ -18,20 +17,38 @@ class Singleton(type):
 
 class BaseLinker(metaclass=Singleton):
     @abstractmethod
-    def put_json(self, id: Union[UUID, str], json_data: dict):
+    def put_json(self, ids: List[Union[UUID, str]], json_data_list: List[dict]):
         pass
 
     @abstractmethod
-    def get_json(self, ids: list[Union[UUID, str]]):
+    def get_json(self, ids: List[Union[UUID, str]]):
         pass
 
     @abstractmethod
     def flush_db(self):
         pass
 
+    @abstractmethod
+    def delete_json(self, ids: List[Union[UUID, str]]):
+        pass
+
 
 class SingletonCreationError(Exception):
     """
     Exception to be raised when trying to create another singleton instance.
+    """
+    pass
+
+
+class NoIdWarning(UserWarning):
+    """
+    Warning to be raised when there is no id in Linker.
+    """
+    pass
+
+
+class NoDataWarning(UserWarning):
+    """
+    Warning to be raised when there is no data in Linker.
     """
     pass

@@ -2,7 +2,6 @@ import os
 
 import pinecone
 import pytest
-from dotenv import load_dotenv
 
 from RAGchain.utils.embed import EmbeddingFactory
 from RAGchain.utils.vectorstore import PineconeSlim
@@ -11,7 +10,6 @@ from base import PASSAGES
 
 @pytest.fixture(scope="session")
 def pinecone_slim():
-    load_dotenv()
     assert bool(os.getenv('PINECONE_API_KEY'))
     assert bool(os.getenv('PINECONE_ENV'))
     pinecone.init(

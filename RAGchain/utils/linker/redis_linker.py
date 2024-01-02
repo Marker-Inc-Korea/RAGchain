@@ -1,13 +1,11 @@
 import os
 import warnings
-from typing import Union
+from typing import Union, List
 from uuid import UUID
 
 import redis
-from dotenv import load_dotenv
-from RAGchain.utils.linker.base import BaseLinker
 
-load_dotenv()
+from RAGchain.utils.linker.base import BaseLinker, NoIdWarning, NoDataWarning
 
 
 class RedisLinker(BaseLinker):
@@ -39,10 +37,22 @@ class RedisLinker(BaseLinker):
             password=password
         )
 
-    def get_json(self, ids: list[Union[UUID, str]]):
+    def get_json(self, ids: List[Union[UUID, str]]):
+        assert len(ids) > 0, "ids must be a non-empty list"
         # redis only accept str type key
         str_ids = [str(find_id) for find_id in ids]
-        return [self.client.json().get(find_id) for find_id in str_ids]
+
+        response = self.client.json().mget(str_ids, '$')
+        results = []
+        for i, sublist in enumerate(response):
+            if sublist is None:
+                warnings.warn(f"ID {str_ids[i]} not found in Linker", NoIdWarning)
+                results.append(None)
+            else:
+                results.append(sublist[0])
+                if sublist[0] is None:
+                    warnings.warn(f"Data {str_ids[i]} not found in Linker", NoDataWarning)
+        return results
 
     def connection_check(self):
         return self.client.ping()
@@ -53,5 +63,13 @@ class RedisLinker(BaseLinker):
     def __del__(self):
         self.client.close()
 
-    def put_json(self, id: Union[UUID, str], json_data: dict):
-        self.client.json().set(str(id), '$', json_data)
+    def put_json(self, ids: List[Union[UUID, str]], json_data_list: List[dict]):
+        str_ids = [str(find_id) for find_id in ids]
+        triplets = []
+        for i in range(len(str_ids)):
+            triplets.append((str_ids[i], '$', json_data_list[i]))
+        self.client.json().mset(triplets)
+
+    def delete_json(self, ids: List[Union[UUID, str]]):
+        str_ids = [str(find_id) for find_id in ids]
+        self.client.delete(*str_ids)
