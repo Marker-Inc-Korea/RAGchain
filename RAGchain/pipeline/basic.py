@@ -12,7 +12,6 @@ from RAGchain.preprocess.text_splitter import RecursiveTextSplitter
 from RAGchain.preprocess.text_splitter.base import BaseTextSplitter
 from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import Passage, RAGchainPromptTemplate, RAGchainChatPromptTemplate
-from RAGchain.utils.file_cache import FileCache
 
 
 class BasicIngestPipeline(BaseIngestPipeline):
@@ -20,8 +19,8 @@ class BasicIngestPipeline(BaseIngestPipeline):
     Basic ingest pipeline class.
     This class handles the ingestion process of documents into a database and retrieval system.
     First, load file from directory using file loader.
-    Second, split document into passages using text splitter.
-    Third, save passages to database.
+    Second, split a document into passages using text splitter.
+    Third, save passages to a database.
     Fourth, ingest passages to retrieval module.
 
     :example:
@@ -34,7 +33,7 @@ class BasicIngestPipeline(BaseIngestPipeline):
     >>> db = PickleDB("./db")
     >>> retrieval = BM25Retrieval(save_path="./bm25.pkl")
     >>> pipeline = BasicIngestPipeline(file_loader=file_loader, db=db, retrieval=retrieval)
-    >>> pipeline.run()
+    >>> pipeline.run.invoke(None)
     """
 
     def __init__(self,
@@ -48,47 +47,20 @@ class BasicIngestPipeline(BaseIngestPipeline):
         :param file_loader: File loader to load documents. You can use any file loader from langchain and RAGchain.
         :param db: Database to save passages.
         :param retrieval: Retrieval module to ingest passages.
-        :param text_splitter: Text splitter to split document into passages. Default is RecursiveTextSplitter.
-        :param ignore_existed_file: If True, ignore existed file in database. Default is True.
+        :param text_splitter: Text splitter to split a document into passages. Default is RecursiveTextSplitter.
+        :param ignore_existed_file: If True, ignore existed file in a database. Default is True.
         """
         self.file_loader = file_loader
         self.text_splitter = text_splitter
         self.db = db
         self.retrieval = retrieval
         self.ignore_existed_file = ignore_existed_file
+        super().__init__()
 
-    def run(self, target_dir=None, *args, **kwargs):
-        """
-        Run ingest pipeline.
-
-        :param target_dir: Target directory to load documents. If None, use target_dir from file_loader that you passed in __init__.
-        """
-        # File Loader
-        if target_dir is not None:
-            self.file_loader.target_dir = target_dir
-        documents = self.file_loader.load()
-
-        if self.ignore_existed_file:
-            file_cache = FileCache(self.db)
-            documents = file_cache.delete_duplicate(documents)
-
-        if len(documents) <= 0:
-            print("No file to ingest")
-            return
-
-        # Text Splitter
-        passages = []
-        for document in documents:
-            passages.extend(self.text_splitter.split_document(document))
-        print(f"Split into {len(passages)} passages")
-
-        # Save passages to DB
-        self.db.create_or_load()
-        self.db.save(passages)
-
-        # Ingest to retrieval
-        self.retrieval.ingest(passages)
-        print("Ingest complete!")
+    def _make_runnable(self):
+        self.run = (RunnableLambda(self.file_loader.load) |
+                    self.text_splitter.as_runnable() |
+                    self.db.as_runnable() | self.retrieval.as_runnable('ingest'))
 
 
 class BasicRunPipeline(BaseRunPipeline):

@@ -14,11 +14,15 @@ class BaseIngestPipeline(ABC):
     Base class for all pipelines
     """
 
+    def __init__(self):
+        self.run: Optional[Runnable] = None
+        self._make_runnable()
+        if self.run is None:
+            raise NotImplementedError("You should implement __make_runnable method")
+
     @abstractmethod
-    def run(self, *args, **kwargs):
-        """
-        Run the pipeline
-        """
+    def _make_runnable(self):
+        """initialize runnable"""
         pass
 
 
