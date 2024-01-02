@@ -50,22 +50,17 @@ class JsonLinker(BaseLinker):
             json.dump(self.data, f)
 
     def get_json(self, ids: List[Union[UUID, str]]):
+        assert len(ids) > 0, "ids must be a non-empty list"
         str_ids = [str(find_id) for find_id in ids]
-        no_id_indices = []
-        for i, find_id in enumerate(str_ids):
-            if find_id not in self.data.keys():
-                warnings.warn(f"ID {find_id} not found in Linker", NoIdWarning)
-                no_id_indices.append(i)
-                str_ids.pop(i)
-        # if all ids are not found in redis, return None because if str_ids is empty, mget will raise error.
-        if len(str_ids) == 0:
-            return [None]
-        results = [self.data.get(str_id) for str_id in str_ids]
-        for i, data in enumerate(results):
-            if data is None:
-                warnings.warn(f"Data {str_ids[i]} not found in Linker", NoDataWarning)
-        for index in no_id_indices:
-            results.insert(index, None)
+        results = []
+        for _id in str_ids:
+            if _id not in self.data:
+                warnings.warn(f"ID {_id} not found in Linker", NoIdWarning)
+                results.append(None)
+            else:
+                if self.data[_id] is None:
+                    warnings.warn(f"Data {_id} not found in Linker", NoDataWarning)
+                results.append(self.data[_id])
         return results
 
     def flush_db(self):
