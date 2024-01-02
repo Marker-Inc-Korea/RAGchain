@@ -6,12 +6,10 @@ from uuid import UUID
 
 import boto3
 from botocore.exceptions import NoCredentialsError, ClientError
-from dotenv import load_dotenv
 
 from RAGchain.utils.linker.base import BaseLinker, NoIdWarning, NoDataWarning
 
 logger = logging.getLogger(__name__)
-load_dotenv()
 
 
 class DynamoLinker(BaseLinker):
