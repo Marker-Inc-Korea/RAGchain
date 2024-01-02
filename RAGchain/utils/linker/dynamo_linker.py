@@ -141,5 +141,5 @@ class DynamoLinker(BaseLinker):
         request_items = {self.table_name: items}
         self.dynamodb.batch_write_item(RequestItems=request_items)
 
-    def delete_json(self, id: Union[UUID, str]):
-        self.table.delete_item(Key={'id': str(id)})
+    def delete_json(self, ids: List[Union[UUID, str]]):
+        self.table.delete_item(Key={'id': str(ids)})

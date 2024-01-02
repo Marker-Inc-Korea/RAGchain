@@ -1,7 +1,7 @@
 import pytest
 
-from RAGchain.utils.linker import JsonLinker, NoIdWarning, NoDataWarning
 import test_base_linker
+from RAGchain.utils.linker import JsonLinker
 
 TEST_UUID_IDS = test_base_linker.TEST_UUID_IDS
 TEST_UUID_STR_IDS = test_base_linker.TEST_UUID_STR_IDS
@@ -30,3 +30,7 @@ def test_no_data_warning(json_linker):
 
 def test_no_data_warning2(json_linker):
     test_base_linker.no_data_warning_test2(json_linker)
+
+
+def test_delete(json_linker):
+    test_base_linker.delete_test(json_linker)

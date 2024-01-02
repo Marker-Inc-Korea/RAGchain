@@ -49,7 +49,7 @@ def get_json_test(linker, TEST_UUID_IDS, TEST_UUID_STR_IDS, TEST_STR_IDS):
     with pytest.warns(NoIdWarning) as record:
         linker.get_json(TEST_STR_IDS)
     assert f"ID {TEST_STR_IDS[0]} not found in Linker" in str(record[0].message)
-    linker.delete_json(TEST_UUID_IDS[0])
+    linker.delete_json([TEST_UUID_IDS[0]])
 
     # 2. Input: str(UUID)
     linker.put_json(TEST_UUID_STR_IDS, TEST_DB_ORIGIN)
@@ -61,7 +61,7 @@ def get_json_test(linker, TEST_UUID_IDS, TEST_UUID_STR_IDS, TEST_STR_IDS):
     with pytest.warns(NoIdWarning) as record:
         linker.get_json(TEST_STR_IDS)
     assert f"ID {TEST_STR_IDS[0]} not found in Linker" in str(record[0].message)
-    linker.delete_json(TEST_UUID_STR_IDS[0])
+    linker.delete_json([TEST_UUID_STR_IDS[0]])
 
     # 3. Input: str
     linker.put_json(TEST_STR_IDS, TEST_DB_ORIGIN)
@@ -100,3 +100,15 @@ def no_data_warning_test2(linker):
     with pytest.warns(NoDataWarning) as record:
         assert linker.get_json(full_ids) == [TEST_DB_ORIGIN[0], None, TEST_DB_ORIGIN[0]]
     assert f"Data {TEST_STR_IDS[0]} not found in Linker" in str(record[0].message)
+
+
+def delete_test(linker):
+    test_id_list = ['test_id1', 'test_id2', 'test_id3', 'test_id4']
+    db_origin_list = [TEST_DB_ORIGIN[0] for _ in range(len(test_id_list))]
+    linker.put_json(test_id_list, db_origin_list)
+    original_data = linker.get_json(test_id_list)
+    assert original_data == db_origin_list
+    # delete 2 ids
+    linker.delete_json(['test_id2', 'test_id4'])
+    new_data = linker.get_json(test_id_list)
+    assert new_data == [db_origin_list[0], None, db_origin_list[2], None]

@@ -69,7 +69,8 @@ class JsonLinker(BaseLinker):
         else:
             raise FileNotFoundError("The file does not exist")
 
-    def delete_json(self, id: Union[UUID, str]):
-        del self.data[str(id)]
+    def delete_json(self, ids: List[Union[UUID, str]]):
+        for _id in ids:
+            del self.data[str(_id)]
         with open(self.json_path, "w") as f:
             json.dump(self.data, f)

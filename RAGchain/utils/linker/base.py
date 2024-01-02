@@ -29,7 +29,7 @@ class BaseLinker(metaclass=Singleton):
         pass
 
     @abstractmethod
-    def delete_json(self, id: Union[UUID, str]):
+    def delete_json(self, ids: List[Union[UUID, str]]):
         pass
 
 

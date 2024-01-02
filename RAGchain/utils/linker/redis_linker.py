@@ -44,21 +44,18 @@ class RedisLinker(BaseLinker):
         assert len(ids) > 0, "ids must be a non-empty list"
         # redis only accept str type key
         str_ids = [str(find_id) for find_id in ids]
-        no_id_indices = []
-        for i, find_id in enumerate(str_ids):
-            if find_id not in self.client.keys() or self.client.keys() is None:
-                warnings.warn(f"ID {find_id} not found in Linker", NoIdWarning)
-                no_id_indices.append(i)
-                str_ids.pop(i)
 
-        results = self.client.json().mget(str_ids, '$')
-        flattened_data = [item for sublist in results for item in sublist]
-        for i, data in enumerate(flattened_data):
-            if data is None:
-                warnings.warn(f"Data {str_ids[i]} not found in Linker", NoDataWarning)
-        for index in no_id_indices:
-            flattened_data.insert(index, None)
-        return flattened_data
+        response = self.client.json().mget(str_ids, '$')
+        results = []
+        for i, sublist in enumerate(response):
+            if sublist is None:
+                warnings.warn(f"ID {str_ids[i]} not found in Linker", NoIdWarning)
+                results.append(None)
+            else:
+                results.append(sublist[0])
+                if sublist[0] is None:
+                    warnings.warn(f"Data {str_ids[i]} not found in Linker", NoDataWarning)
+        return results
 
     def connection_check(self):
         return self.client.ping()
@@ -76,5 +73,6 @@ class RedisLinker(BaseLinker):
             triplets.append((str_ids[i], '$', json_data_list[i]))
         self.client.json().mset(triplets)
 
-    def delete_json(self, id: Union[UUID, str]):
-        self.client.delete(str(id))
+    def delete_json(self, ids: List[Union[UUID, str]]):
+        str_ids = [str(find_id) for find_id in ids]
+        self.client.delete(*str_ids)
