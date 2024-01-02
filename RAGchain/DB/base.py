@@ -3,6 +3,9 @@ from datetime import datetime
 from typing import List, Union, Optional
 from uuid import UUID
 
+from langchain_core.runnables import Runnable, RunnableConfig
+from langchain_core.runnables.utils import Input, Output
+
 from RAGchain.schema import Passage
 from RAGchain.schema.db_origin import DBOrigin
 
@@ -76,3 +79,24 @@ class BaseDB(ABC):
     def get_db_origin(self) -> DBOrigin:
         """DBOrigin: Abstract method for retrieving DBOrigin of the database."""
         pass
+
+    def as_runnable(self):
+        return RunnableDB(self)
+
+
+class RunnableDB(Runnable[List[Passage], List[Passage]]):
+    def __init__(self, db: BaseDB):
+        self.db = db
+
+    def invoke(self, input: Input, config: Optional[RunnableConfig] = None) -> Output:
+        self.db.create_or_load()
+        self.db.save(input)
+        return input
+
+    @property
+    def InputType(self) -> type[Input]:
+        return List[Passage]
+
+    @property
+    def OutputType(self) -> type[Output]:
+        return List[Passage]

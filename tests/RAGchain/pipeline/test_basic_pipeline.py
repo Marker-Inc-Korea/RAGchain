@@ -7,10 +7,12 @@ from langchain.llms.openai import OpenAI
 from langchain.memory.chat_message_histories import ChatMessageHistory
 from langchain.prompts import MessagesPlaceholder
 from langchain.schema.runnable.history import RunnableWithMessageHistory
+from langchain_core.runnables import RunnableLambda
 
 from RAGchain.DB import MongoDB
 from RAGchain.pipeline.basic import BasicIngestPipeline, BasicRunPipeline
 from RAGchain.preprocess.loader import FileLoader
+from RAGchain.preprocess.text_splitter import RecursiveTextSplitter
 from RAGchain.retrieval import BM25Retrieval
 from RAGchain.schema.prompt import RAGchainChatPromptTemplate
 
@@ -31,12 +33,14 @@ mongodb_config = {
 def basic_run_pipeline():
     if not os.path.exists(file_dir):
         os.makedirs(file_dir)
-    ingest_pipeline = BasicIngestPipeline(
-        file_loader=FileLoader(file_dir, os.getenv('HWP_CONVERTER_HOST')),
-        db=MongoDB(**mongodb_config),
-        retrieval=BM25Retrieval(bm25_path)
-    )
-    ingest_pipeline.run()
+
+    # test runnable
+    file_loader = FileLoader(file_dir, os.getenv('HWP_CONVERTER_HOST'))
+    text_splitter = RecursiveTextSplitter(chunk_size=500, chunk_overlap=50)
+    ingest_runnable = RunnableLambda(file_loader.load) | text_splitter.as_runnable() | MongoDB(
+        **mongodb_config).as_runnable() | BM25Retrieval(bm25_path).as_runnable('ingest')
+    ingest_runnable.invoke(None)
+
     pipeline = BasicRunPipeline(
         retrieval=BM25Retrieval(bm25_path),
         llm=OpenAI(),

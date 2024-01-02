@@ -4,10 +4,14 @@ from datetime import datetime
 from typing import List, Union, Optional
 from uuid import UUID
 
+from langchain_core.runnables import Runnable, RunnableConfig
+from langchain_core.runnables.utils import Input, Output
+
 from RAGchain import linker
 from RAGchain.DB import MongoDB, PickleDB
 from RAGchain.DB.base import BaseDB
 from RAGchain.schema import Passage, DBOrigin
+from RAGchain.utils.util import text_modifier
 
 
 class BaseRetrieval(ABC):
@@ -243,3 +247,33 @@ class BaseRetrieval(ABC):
                 check_origin_duplicate.append(db_origin)
                 result[tuple_final] = [index]
         return result
+
+    def as_runnable(self, runnable_type: str):
+        """
+        return a runnable version of this retrieval.
+        :param runnable_type: runnable type. "retrieval" or "ingest"
+        """
+        if runnable_type in text_modifier('retrieval'):
+            # return RunnableRetrieval(self)
+            pass
+        elif runnable_type in text_modifier('ingest'):
+            return RunnableRetrievalIngest(self)
+        else:
+            raise ValueError(f"Unknown runnable type: {runnable_type}")
+
+
+class RunnableRetrievalIngest(Runnable[List[Passage], List[Passage]]):
+    def __init__(self, retrieval: BaseRetrieval):
+        self.retrieval = retrieval
+
+    def invoke(self, input: Input, config: Optional[RunnableConfig] = None) -> Output:
+        self.retrieval.ingest(input)
+        return input
+
+    @property
+    def InputType(self) -> type[Input]:
+        return List[Passage]
+
+    @property
+    def OutputType(self) -> type[Output]:
+        return List[Passage]

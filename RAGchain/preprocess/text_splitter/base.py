@@ -42,7 +42,7 @@ class RunnableTextSplitter(Runnable[List[Document], List[Passage]]):
         self.text_splitter = text_splitter
 
     def invoke(self, input: Input, config: Optional[RunnableConfig] = None) -> Output:
-        return itertools.chain.from_iterable(self.text_splitter.split_documents(input))
+        return list(itertools.chain.from_iterable(self.text_splitter.split_documents(input)))
 
     @property
     def InputType(self) -> Type[Input]:
