@@ -35,3 +35,7 @@ def test_no_data_warning2(redis_db):
 
 def test_delete(redis_db):
     test_base_linker.delete_test(redis_db)
+
+
+def test_long(redis_db):
+    test_base_linker.long_test(redis_db)

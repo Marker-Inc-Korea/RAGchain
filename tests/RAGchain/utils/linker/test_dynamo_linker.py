@@ -32,3 +32,11 @@ def test_no_data_warning(dynamo_db):
 
 def test_no_data_warning2(dynamo_db):
     test_base_linker.no_data_warning_test2(dynamo_db)
+
+
+def test_delete(dynamo_db):
+    test_base_linker.delete_test(dynamo_db)
+
+
+def test_long(dynamo_db):
+    test_base_linker.long_test(dynamo_db)

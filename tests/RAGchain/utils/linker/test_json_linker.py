@@ -34,3 +34,7 @@ def test_no_data_warning2(json_linker):
 
 def test_delete(json_linker):
     test_base_linker.delete_test(json_linker)
+
+
+def test_long(json_linker):
+    test_base_linker.long_test(json_linker)
