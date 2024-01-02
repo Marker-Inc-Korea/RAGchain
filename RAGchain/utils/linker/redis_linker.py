@@ -4,11 +4,8 @@ from typing import Union, List
 from uuid import UUID
 
 import redis
-from dotenv import load_dotenv
 
 from RAGchain.utils.linker.base import BaseLinker, NoIdWarning, NoDataWarning
-
-load_dotenv()
 
 
 class RedisLinker(BaseLinker):
