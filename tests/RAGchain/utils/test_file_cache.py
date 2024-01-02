@@ -4,6 +4,7 @@ from typing import List
 
 import pytest
 from langchain.schema import Document
+from langchain_core.runnables import RunnablePassthrough
 
 from RAGchain.DB import PickleDB
 from RAGchain.schema import Passage
@@ -39,6 +40,14 @@ def file_cache():
 
 def test_file_cache(file_cache):
     result_documents = file_cache.delete_duplicate(test_documents)
+    assert len(result_documents) == 3
+    for doc in result_documents:
+        assert doc.metadata['source'] != 'test1' and doc.metadata['source'] != 'test2'
+
+
+def test_file_cache_runnable(file_cache):
+    runnable = RunnablePassthrough() | file_cache
+    result_documents = runnable.invoke(test_documents)
     assert len(result_documents) == 3
     for doc in result_documents:
         assert doc.metadata['source'] != 'test1' and doc.metadata['source'] != 'test2'
