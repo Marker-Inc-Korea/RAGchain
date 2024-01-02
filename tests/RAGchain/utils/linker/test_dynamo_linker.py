@@ -1,3 +1,5 @@
+import time
+
 import pytest
 
 import test_base_linker
@@ -13,6 +15,7 @@ def dynamo_db():
     dynamo_db = DynamoLinker(allow_multiple_instances=True)
     yield dynamo_db
     dynamo_db.flush_db()
+    time.sleep(5)
 
 
 def test_get_json(dynamo_db):
@@ -21,3 +24,11 @@ def test_get_json(dynamo_db):
 
 def test_no_id_warning(dynamo_db):
     test_base_linker.no_id_warning_test(dynamo_db)
+
+
+def test_no_data_warning(dynamo_db):
+    test_base_linker.no_data_warning_test(dynamo_db)
+
+
+def test_no_data_warning2(dynamo_db):
+    test_base_linker.no_data_warning_test2(dynamo_db)

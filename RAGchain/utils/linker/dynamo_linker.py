@@ -8,7 +8,7 @@ import boto3
 from botocore.exceptions import NoCredentialsError, ClientError
 from dotenv import load_dotenv
 
-from RAGchain.utils.linker.base import BaseLinker, NoIdWarning
+from RAGchain.utils.linker.base import BaseLinker, NoIdWarning, NoDataWarning
 
 logger = logging.getLogger(__name__)
 load_dotenv()
@@ -104,7 +104,7 @@ class DynamoLinker(BaseLinker):
 
     def get_json(self, ids: List[Union[UUID, str]]):
         str_ids = [str(find_id) for find_id in ids]
-        keys = [{'id': id} for id in str_ids]
+        keys = [{'id': _id} for _id in str_ids]
         response = self.dynamodb.batch_get_item(
             RequestItems={
                 self.table_name: {
@@ -113,17 +113,16 @@ class DynamoLinker(BaseLinker):
             }
         )
         final_response_list = response['Responses'][f'{self.table_name}']
-        used_ids = []
+        id_to_result = {result['id']: result for result in final_response_list}
         results = []
-        for final_response in final_response_list:
-            if final_response is not None:
-                results.append(final_response['data'])
-                used_ids.append(final_response['id'])
-        if len(used_ids) != len(str_ids):
-            for i, str_id in enumerate(str_ids):
-                if str_id not in used_ids:
-                    warnings.warn(f"ID {str_id} not found in Linker", NoIdWarning)
-                    results.insert(i, None)
+        for _id in str_ids:
+            if _id not in id_to_result:
+                warnings.warn(f"ID {_id} not found in Linker", NoIdWarning)
+                results.append(None)
+            else:
+                results.append(id_to_result[_id]['data'])
+                if id_to_result[_id]['data'] is None:
+                    warnings.warn(f"Data {_id} not found in Linker", NoDataWarning)
         return results
 
     def flush_db(self):
@@ -144,6 +143,3 @@ class DynamoLinker(BaseLinker):
 
     def delete_json(self, id: Union[UUID, str]):
         self.table.delete_item(Key={'id': str(id)})
-
-    def __del__(self):
-        self.dynamodb.close()

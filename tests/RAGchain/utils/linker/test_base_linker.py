@@ -1,5 +1,6 @@
-import pytest
 from uuid import uuid4
+
+import pytest
 
 from RAGchain.utils.linker import DynamoLinker, RedisLinker, SingletonCreationError, NoIdWarning, NoDataWarning
 
@@ -80,7 +81,7 @@ def no_id_warning_test(linker):
     assert linker.get_json(TEST_STR_IDS) == [None]
     linker.put_json(TEST_UUID_IDS, TEST_DB_ORIGIN)
     with pytest.warns(NoIdWarning) as record:
-        assert linker.get_json([TEST_UUID_IDS[0],'fake_id']) == [TEST_DB_ORIGIN[0], None]
+        assert linker.get_json([TEST_UUID_IDS[0], 'fake_id']) == [TEST_DB_ORIGIN[0], None]
     assert "ID fake_id not found in Linker" in str(record[0].message)
 
 
@@ -92,7 +93,8 @@ def no_data_warning_test(linker):
 
 
 def no_data_warning_test2(linker):
-    full_ids = [TEST_UUID_IDS[0], TEST_STR_IDS[0], TEST_UUID_STR_IDS[0]]
+    new_id = uuid4()
+    full_ids = [TEST_UUID_IDS[0], TEST_STR_IDS[0], new_id]
     full_db_origins = [TEST_DB_ORIGIN[0], None, TEST_DB_ORIGIN[0]]
     linker.put_json(full_ids, full_db_origins)
     with pytest.warns(NoDataWarning) as record:
