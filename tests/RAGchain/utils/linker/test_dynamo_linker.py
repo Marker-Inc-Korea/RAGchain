@@ -1,8 +1,7 @@
 import pytest
 
-from RAGchain.utils.linker import DynamoLinker, NoIdWarning, NoDataWarning
-
 import test_base_linker
+from RAGchain.utils.linker import DynamoLinker
 
 TEST_UUID_IDS = test_base_linker.TEST_UUID_IDS
 TEST_UUID_STR_IDS = test_base_linker.TEST_UUID_STR_IDS

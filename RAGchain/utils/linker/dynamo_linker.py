@@ -10,8 +10,6 @@ from dotenv import load_dotenv
 
 from RAGchain.utils.linker.base import BaseLinker, NoIdWarning
 
-# TODO: There is no implementation of NoDataWarning in this file.
-
 logger = logging.getLogger(__name__)
 load_dotenv()
 
@@ -132,17 +130,15 @@ class DynamoLinker(BaseLinker):
         self.table.delete()
 
     def put_json(self, ids: List[Union[UUID, str]], json_data_list: List[dict]):
-        str_ids = [str(find_id) for find_id in ids]
-        items = []
-        for i in range(len(str_ids)):
-            items.append({
-                'PutRequest': {
-                    'Item': {
-                        'id': str_ids[i],
-                        'data': json_data_list[i]
-                    }
+        assert len(ids) == len(json_data_list), "ids and json_data_list must have the same length"
+        items = [{
+            'PutRequest': {
+                'Item': {
+                    'id': str(_id),
+                    'data': json_data
                 }
-            })
+            }
+        } for _id, json_data in zip(ids, json_data_list)]
         request_items = {self.table_name: items}
         self.dynamodb.batch_write_item(RequestItems=request_items)
 
