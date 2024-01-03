@@ -41,8 +41,7 @@ def basic_run_pipeline():
 
     pipeline = BasicRunPipeline(
         retrieval=BM25Retrieval(bm25_path),
-        llm=OpenAI(),
-        retrieval_option={"top_k": 4}
+        llm=OpenAI()
     )
     yield pipeline
     teardown_all(mongodb_config, bm25_path)
@@ -69,7 +68,6 @@ def basic_run_pipeline_chat_history():
     pipeline = BasicRunPipeline(
         retrieval=BM25Retrieval(bm25_path),
         llm=OpenAI(),
-        retrieval_option={"top_k": 4},
         prompt=chat_history_prompt
     )
     yield pipeline
@@ -80,14 +78,14 @@ def test_basic_pipeline(basic_run_pipeline):
     assert os.path.exists(bm25_path)
     query = "What is the purpose of RAGchain project? And what inspired it?"
     log.info(f"query: {query}")
-    answer = basic_run_pipeline.run.invoke({"question": query})
+    answer = basic_run_pipeline.run.invoke(query)
     assert bool(answer) is True
     log.info(f"answer: {answer}")
 
     queries = ["What is the purpose of KoPrivateGPT project?",
                "What inspired KoPrivateGPT project?",
                "How can I install KoPrivateGPT project?"]
-    answers, passages, scores = basic_run_pipeline.get_passages_and_run(queries)
+    answers, passages, scores = basic_run_pipeline.get_passages_and_run(queries, top_k=4)
     assert len(answers) == len(queries)
     assert len(passages) == len(queries)
     assert len(scores) == len(queries)

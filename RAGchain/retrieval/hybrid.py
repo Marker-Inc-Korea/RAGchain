@@ -14,12 +14,13 @@ class HybridRetrieval(BaseRetrieval):
     Hybrid Retrieval class for retrieve passages from multiple retrievals.
     You can combine retrieval scores with rrf algorithm or convex combination algorithm.
     """
+
     def __init__(self, retrievals: List[BaseRetrieval],
                  weights: Optional[List[float]] = None,
                  p: int = 500,
                  method: str = 'cc',
                  rrf_k: int = 60,
-                 *args, **kwargs):
+                 ):
         """
 
         Initializes a HybridRetrieval object.
@@ -47,8 +48,8 @@ class HybridRetrieval(BaseRetrieval):
         self.p = p
         self.method = method
 
-    def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Passage]:
-        ids = self.retrieve_id(query, top_k, *args, **kwargs)
+    def retrieve(self, query: str, top_k: int = 5) -> List[Passage]:
+        ids = self.retrieve_id(query, top_k)
         passages = self.fetch_data(ids)
         return passages
 
@@ -56,14 +57,14 @@ class HybridRetrieval(BaseRetrieval):
         for retrieval in self.retrievals:
             retrieval.ingest(passages)
 
-    def retrieve_id(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Union[str, UUID]]:
-        ids, scores = self.retrieve_id_with_scores(query, top_k=top_k, *args, **kwargs)
+    def retrieve_id(self, query: str, top_k: int = 5) -> List[Union[str, UUID]]:
+        ids, scores = self.retrieve_id_with_scores(query, top_k=top_k)
         return ids
 
-    def retrieve_id_with_scores(self, query: str, top_k: int = 5, *args, **kwargs) -> tuple[
+    def retrieve_id_with_scores(self, query: str, top_k: int = 5) -> tuple[
         List[Union[str, UUID]], List[float]]:
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            futures = [executor.submit(self.retrieve_id_with_scores_parallel, retrieval, query, self.p, *args, **kwargs)
+            futures = [executor.submit(self.retrieve_id_with_scores_parallel, retrieval, query, self.p)
                        for retrieval in self.retrievals]
 
         if self.method == 'cc':
@@ -88,9 +89,8 @@ class HybridRetrieval(BaseRetrieval):
         for retrieval in self.retrievals:
             retrieval.delete(ids)
 
-    def retrieve_id_with_scores_parallel(self, retrieval: BaseRetrieval, query: str, top_k: int, *args,
-                                         **kwargs) -> pd.Series:
-        ids, scores = retrieval.retrieve_id_with_scores(query, top_k=top_k, *args, **kwargs)
+    def retrieve_id_with_scores_parallel(self, retrieval: BaseRetrieval, query: str, top_k: int) -> pd.Series:
+        ids, scores = retrieval.retrieve_id_with_scores(query, top_k=top_k)
         return pd.Series(dict(zip(list(map(str, ids)), scores)))
 
     @staticmethod

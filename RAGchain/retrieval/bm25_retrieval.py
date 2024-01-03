@@ -25,7 +25,7 @@ class BM25Retrieval(BaseRetrieval):
 
     def __init__(self, save_path: str,
                  tokenizer_name: str = "gpt2",
-                 *args, **kwargs):
+                 ):
         """
         Initialize a new instance of the BM25Retrieval class.
 
@@ -58,12 +58,12 @@ class BM25Retrieval(BaseRetrieval):
                 "passage_id": [],
             }
 
-    def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Passage]:
+    def retrieve(self, query: str, top_k: int = 5) -> List[Passage]:
         ids = self.retrieve_id(query, top_k)
         passage_list = self.fetch_data(ids)
         return passage_list
 
-    def retrieve_id(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Union[str, UUID]]:
+    def retrieve_id(self, query: str, top_k: int = 5) -> List[Union[str, UUID]]:
         ids, scores = self.retrieve_id_with_scores(query, top_k)
         return ids
 
@@ -72,7 +72,7 @@ class BM25Retrieval(BaseRetrieval):
             self._save_one(passage)
         self.persist(self.save_path)
 
-    def retrieve_id_with_scores(self, query: str, top_k: int = 5, *args, **kwargs) -> tuple[
+    def retrieve_id_with_scores(self, query: str, top_k: int = 5) -> tuple[
         List[Union[str, UUID]], List[float]]:
         if self.data is None:
             raise ValueError("BM25Retriever.data is None. Please save data first.")

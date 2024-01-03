@@ -22,7 +22,7 @@ class BaseRetrieval(Runnable[Union[Tuple[str, int], str], RetrievalResult], ABC)
         self.db_instance_list: List[BaseDB] = []
 
     @abstractmethod
-    def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Passage]:
+    def retrieve(self, query: str, top_k: int = 5) -> List[Passage]:
         """
         retrieve passages at ingested vector representation of passages.
         """
@@ -36,15 +36,14 @@ class BaseRetrieval(Runnable[Union[Tuple[str, int], str], RetrievalResult], ABC)
         pass
 
     @abstractmethod
-    def retrieve_id(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Union[str, UUID]]:
+    def retrieve_id(self, query: str, top_k: int = 5) -> List[Union[str, UUID]]:
         """
         retrieve passage ids at ingested vector representation of passages.
         """
         pass
 
     @abstractmethod
-    def retrieve_id_with_scores(self, query: str, top_k: int = 5, *args, **kwargs) -> tuple[
-        List[Union[str, UUID]], List[float]]:
+    def retrieve_id_with_scores(self, query: str, top_k: int = 5) -> tuple[List[Union[str, UUID]], List[float]]:
         """
         retrieve passage ids and similarity scores at ingested vector representation of passages.
         """
@@ -264,6 +263,8 @@ class BaseRetrieval(Runnable[Union[Tuple[str, int], str], RetrievalResult], ABC)
                 passages=self.fetch_data(ids),
                 scores=scores,
             )
+        else:
+            raise ValueError(f"input type must be Tuple[str, int] or str, but got {type(input)}")
 
     @property
     def InputType(self) -> type[Input]:

@@ -1,17 +1,16 @@
-from operator import itemgetter
 from typing import List, Optional, Union
 
 from langchain.document_loaders.base import BaseLoader
 from langchain.schema import StrOutputParser
 from langchain.schema.language_model import BaseLanguageModel
-from langchain.schema.runnable import RunnableLambda, RunnablePassthrough
+from langchain.schema.runnable import RunnableLambda
 
 from RAGchain.DB.base import BaseDB
 from RAGchain.pipeline.base import BaseIngestPipeline, BaseRunPipeline
 from RAGchain.preprocess.text_splitter import RecursiveTextSplitter
 from RAGchain.preprocess.text_splitter.base import BaseTextSplitter
 from RAGchain.retrieval.base import BaseRetrieval
-from RAGchain.schema import Passage, RAGchainPromptTemplate, RAGchainChatPromptTemplate
+from RAGchain.schema import Passage, RAGchainPromptTemplate, RAGchainChatPromptTemplate, RetrievalResult
 
 
 class BasicIngestPipeline(BaseIngestPipeline):
@@ -80,56 +79,28 @@ class BasicRunPipeline(BaseRunPipeline):
     >>> pipeline = BasicRunPipeline(retrieval=retrieval, llm=OpenAI())
     >>> answer, passages, rel_scores = pipeline.get_passages_and_run(questions=["Where is the capital of Korea?"])
     >>> # Run with Langchain LCEL
-    >>> answer = pipeline.run.invoke({"question": "Where is the capital of Korea?"})
+    >>> answer = pipeline.run.invoke("Where is the capital of Korea?")
     """
 
     def __init__(self, retrieval: BaseRetrieval, llm: BaseLanguageModel,
-                 prompt: Optional[Union[RAGchainPromptTemplate, RAGchainChatPromptTemplate]] = None,
-                 retrieval_option: Optional[dict] = None):
+                 prompt: Optional[Union[RAGchainPromptTemplate, RAGchainChatPromptTemplate]] = None):
         self.retrieval = retrieval
         self.llm = llm
         self.prompt = self._get_default_prompt(llm, prompt)
-        self.retrieval_option = retrieval_option if retrieval_option is not None else {}
         super().__init__()
 
     def _make_runnable(self):
-        # self.run = RunnablePassthrough.assign(
-        #     passages=itemgetter("question") | RunnableLambda(
-        #         lambda question: Passage.make_prompts(self.retrieval.retrieve(question,
-        #                                                                       **self.retrieval_option))),
-        #     question=itemgetter("question"),
-        # ) | self.prompt | self.llm | StrOutputParser()
-
         self.run = self.retrieval | RunnableLambda(
-            lambda x: x.to_prompt_input()) | self.prompt | self.llm | StrOutputParser()
+            RetrievalResult.to_prompt_input) | self.prompt | self.llm | StrOutputParser()
 
-    def get_passages_and_run(self, questions: List[str]) -> tuple[List[str], List[List[Passage]], List[List[float]]]:
-        def passage_scores_to_dict(passages_scores):
-            return {
-                "passage_ids": passages_scores[0],
-                "scores": passages_scores[1]
-            }
-
-        passage_scores = RunnablePassthrough.assign(
-            passage_scores=itemgetter("question") | RunnableLambda(
-                lambda question: passage_scores_to_dict(self.retrieval.retrieve_id_with_scores(
-                    question, **self.retrieval_option)))
-        )
-
-        runnable = passage_scores | RunnablePassthrough.assign(
-            passages=lambda x: self.retrieval.fetch_data(x['passage_scores']['passage_ids']),
-            scores=lambda x: x['passage_scores']['scores']
-        ) | RunnablePassthrough.assign(
-            answer={
-                       "question": itemgetter("question"),
-                       "passages": itemgetter("passages") | RunnableLambda(
-                           lambda passages: Passage.make_prompts(passages)
-                       )
-                   } | self.prompt | self.llm | StrOutputParser()
-        )
-
-        answers = runnable.batch(
-            [{"question": question} for question in questions])
+    def get_passages_and_run(self, questions: List[str], top_k: int = 5) -> tuple[
+        List[str], List[List[Passage]], List[List[float]]]:
+        runnable = self.retrieval | {
+            "answer": RunnableLambda(lambda x: x.to_prompt_input()) | self.prompt | self.llm | StrOutputParser(),
+            "passages": RunnableLambda(lambda x: x.passages),
+            "scores": RunnableLambda(lambda x: x.scores),
+        }
+        answers = runnable.batch([(question, top_k) for question in questions])
 
         final_answers, final_passages, final_scores = (
             map(list, zip(*[(answer['answer'], answer['passages'], answer['scores']) for answer in answers])))
