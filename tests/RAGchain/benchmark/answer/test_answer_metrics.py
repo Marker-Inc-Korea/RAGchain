@@ -9,7 +9,7 @@ metric_answers = [
     (KF1(), 0.54),
     (METEOR(), 0.8535),
     (ROUGE(), 0.9091),
-    (EM(), 0.0)
+    (EM_answer(), 0.0)
 ]
 
 

@@ -213,6 +213,9 @@
             <li><a href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.beir.BeirSCIFACTEvaluator">BeirSCIFACTEvaluator
                 (class in RAGchain.benchmark.dataset.beir)</a>
             </li>
+            <li><a href="RAGchain.utils.websearch.html#RAGchain.utils.websearch.bing_search.BingSearch">BingSearch
+                (class in RAGchain.utils.websearch.bing_search)</a>
+            </li>
             <li><a href="RAGchain.benchmark.answer.html#RAGchain.benchmark.answer.metrics.BLEU">BLEU (class in
                 RAGchain.benchmark.answer.metrics)</a>
             </li>
@@ -374,35 +377,50 @@
       <li><a href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline.default_prompt">default_prompt
           (RAGchain.pipeline.base.BaseRunPipeline attribute)</a>
       </li>
+      <li><a href="RAGchain.benchmark.html#RAGchain.benchmark.base.DummyRetrieval.delete">delete()
+          (RAGchain.benchmark.base.DummyRetrieval method)</a>
+
+          <ul>
+              <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.delete">(RAGchain.retrieval.base.BaseRetrieval
+                  method)</a>
+              </li>
+              <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.bm25_retrieval.BM25Retrieval.delete">(RAGchain.retrieval.bm25_retrieval.BM25Retrieval
+                  method)</a>
+</li>
+              <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.hybrid.HybridRetrieval.delete">(RAGchain.retrieval.hybrid.HybridRetrieval
+                  method)</a>
+              </li>
+              <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.hyde.HyDERetrieval.delete">(RAGchain.retrieval.hyde.HyDERetrieval
+                  method)</a>
+              </li>
+              <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval.delete">(RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval
+                  method)</a>
+              </li>
+          </ul>
+      </li>
   </ul>
   </td>
     <td style="width: 33%; vertical-align: top;">
         <ul>
-            <li><a href="RAGchain.benchmark.html#RAGchain.benchmark.base.DummyRetrieval.delete">delete()
-                (RAGchain.benchmark.base.DummyRetrieval method)</a>
-
-                <ul>
-                    <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.delete">(RAGchain.retrieval.base.BaseRetrieval
-                        method)</a>
-</li>
-                    <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.bm25_retrieval.BM25Retrieval.delete">(RAGchain.retrieval.bm25_retrieval.BM25Retrieval
-                        method)</a>
-                    </li>
-                    <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.hybrid.HybridRetrieval.delete">(RAGchain.retrieval.hybrid.HybridRetrieval
-                        method)</a>
-                    </li>
-                    <li><a href="RAGchain.retrieval.html#RAGchain.retrieval.hyde.HyDERetrieval.delete">(RAGchain.retrieval.hyde.HyDERetrieval
-                        method)</a>
-                    </li>
-                    <li>
-                        <a href="RAGchain.retrieval.html#RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval.delete">(RAGchain.retrieval.vectordb_retrieval.VectorDBRetrieval
-                            method)</a>
-                    </li>
-                </ul>
-            </li>
             <li><a href="RAGchain.utils.html#RAGchain.utils.file_cache.FileCache.delete_duplicate">delete_duplicate()
                 (RAGchain.utils.file_cache.FileCache method)</a>
+            </li>
+            <li><a href="RAGchain.utils.linker.html#RAGchain.utils.linker.base.BaseLinker.delete_json">delete_json()
+                (RAGchain.utils.linker.base.BaseLinker method)</a>
+
+                <ul>
+                    <li>
+                        <a href="RAGchain.utils.linker.html#RAGchain.utils.linker.dynamo_linker.DynamoLinker.delete_json">(RAGchain.utils.linker.dynamo_linker.DynamoLinker
+                            method)</a>
+                    </li>
+                    <li><a href="RAGchain.utils.linker.html#RAGchain.utils.linker.json_linker.JsonLinker.delete_json">(RAGchain.utils.linker.json_linker.JsonLinker
+                        method)</a>
+                    </li>
+                    <li><a href="RAGchain.utils.linker.html#RAGchain.utils.linker.redis_linker.RedisLinker.delete_json">(RAGchain.utils.linker.redis_linker.RedisLinker
+                        method)</a>
 </li>
+                </ul>
+            </li>
       <li><a href="RAGchain.reranker.tart.html#RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification.deparallelize">deparallelize() (RAGchain.reranker.tart.modeling_enc_t5.EncT5ForSequenceClassification method)</a>
       </li>
             <li><a href="RAGchain.utils.html#RAGchain.utils.rede_search_detector.RedeSearchDetector.detect">detect()
@@ -437,6 +455,12 @@
       </li>
       <li><a href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.eli5.Eli5Evaluator">Eli5Evaluator (class
           in RAGchain.benchmark.dataset.eli5)</a>
+      </li>
+      <li><a href="RAGchain.benchmark.answer.html#RAGchain.benchmark.answer.metrics.EM_answer">EM_answer (class in
+          RAGchain.benchmark.answer.metrics)</a>
+      </li>
+      <li><a href="RAGchain.benchmark.retrieval.html#RAGchain.benchmark.retrieval.metrics.EM_retrieval">EM_retrieval
+          (class in RAGchain.benchmark.retrieval.metrics)</a>
       </li>
       <li><a href="RAGchain.utils.embed.html#RAGchain.utils.embed.embeddingfactory.EmbeddingFactory">EmbeddingFactory (class in RAGchain.utils.embed.embeddingfactory)</a>
 </li>
@@ -535,8 +559,6 @@
           RAGchain.schema.evaluate_result)</a>
 </li>
       <li><a href="RAGchain.utils.html#RAGchain.utils.evidence_extractor.EvidenceExtractor">EvidenceExtractor (class in RAGchain.utils.evidence_extractor)</a>
-</li>
-      <li><a href="RAGchain.benchmark.retrieval.html#RAGchain.benchmark.retrieval.metrics.ExactlyMatch">ExactlyMatch (class in RAGchain.benchmark.retrieval.metrics)</a>
 </li>
       <li><a href="RAGchain.preprocess.loader.html#RAGchain.preprocess.loader.excel_loader.ExcelLoader">ExcelLoader (class in RAGchain.preprocess.loader.excel_loader)</a>
 </li>
@@ -697,6 +719,10 @@
                 (RAGchain.utils.websearch.base.BaseWebSearch method)</a>
 
                 <ul>
+                    <li>
+                        <a href="RAGchain.utils.websearch.html#RAGchain.utils.websearch.bing_search.BingSearch.get_search_data">(RAGchain.utils.websearch.bing_search.BingSearch
+                            method)</a>
+                    </li>
                     <li>
                         <a href="RAGchain.utils.websearch.html#RAGchain.utils.websearch.google_search.GoogleSearch.get_search_data">(RAGchain.utils.websearch.google_search.GoogleSearch
                             method)</a>
@@ -1257,8 +1283,6 @@
           </li>
           <li><a href="RAGchain.utils.websearch.html#module-RAGchain.utils.websearch.bing_search">RAGchain.utils.websearch.bing_search</a>
           </li>
-          <li><a href="RAGchain.utils.websearch.html#module-RAGchain.utils.websearch.brave_search">RAGchain.utils.websearch.brave_search</a>
-          </li>
           <li><a href="RAGchain.utils.websearch.html#module-RAGchain.utils.websearch.google_search">RAGchain.utils.websearch.google_search</a>
           </li>
       </ul></li>
@@ -1286,17 +1310,21 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.natural_question.NaturalQAEvaluator">NaturalQAEvaluator
           (class in RAGchain.benchmark.dataset.natural_question)</a>
-</li>
+      </li>
       <li><a href="RAGchain.benchmark.retrieval.html#RAGchain.benchmark.retrieval.metrics.NDCG">NDCG (class in
           RAGchain.benchmark.retrieval.metrics)</a>
-      </li>
+</li>
       <li><a href="RAGchain.schema.html#RAGchain.schema.passage.Passage.next_passage_id">next_passage_id
           (RAGchain.schema.passage.Passage attribute)</a>
+      </li>
+      <li><a href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.nfcorpus.NFCorpusEvaluator">NFCorpusEvaluator
+          (class in RAGchain.benchmark.dataset.nfcorpus)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="RAGchain.benchmark.dataset.html#RAGchain.benchmark.dataset.nfcorpus.NFCorpusEvaluator">NFCorpusEvaluator
-          (class in RAGchain.benchmark.dataset.nfcorpus)</a>
+      <li><a href="RAGchain.utils.linker.html#RAGchain.utils.linker.base.NoDataWarning">NoDataWarning</a>
+      </li>
+      <li><a href="RAGchain.utils.linker.html#RAGchain.utils.linker.base.NoIdWarning">NoIdWarning</a>
       </li>
       <li><a href="RAGchain.preprocess.loader.html#RAGchain.preprocess.loader.nougat_pdf_loader.NougatPDFLoader">NougatPDFLoader (class in RAGchain.preprocess.loader.nougat_pdf_loader)</a>
 </li>
@@ -2294,14 +2322,6 @@
                 </ul>
             </li>
             <li>
-                RAGchain.utils.websearch.brave_search
-
-                <ul>
-                    <li><a href="RAGchain.utils.websearch.html#module-RAGchain.utils.websearch.brave_search">module</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
                 RAGchain.utils.websearch.google_search
 
                 <ul>
@@ -2414,6 +2434,10 @@
           <li><a href="RAGchain.benchmark.answer.html#RAGchain.benchmark.answer.metrics.BLEU.retrieval_metric_function">(RAGchain.benchmark.answer.metrics.BLEU
               method)</a>
           </li>
+          <li>
+              <a href="RAGchain.benchmark.answer.html#RAGchain.benchmark.answer.metrics.EM_answer.retrieval_metric_function">(RAGchain.benchmark.answer.metrics.EM_answer
+                  method)</a>
+          </li>
           <li><a href="RAGchain.benchmark.answer.html#RAGchain.benchmark.answer.metrics.KF1.retrieval_metric_function">(RAGchain.benchmark.answer.metrics.KF1
               method)</a>
           </li>
@@ -2435,7 +2459,9 @@
 </li>
         <li><a href="RAGchain.benchmark.retrieval.html#RAGchain.benchmark.retrieval.metrics.DCG.retrieval_metric_function">(RAGchain.benchmark.retrieval.metrics.DCG method)</a>
 </li>
-        <li><a href="RAGchain.benchmark.retrieval.html#RAGchain.benchmark.retrieval.metrics.ExactlyMatch.retrieval_metric_function">(RAGchain.benchmark.retrieval.metrics.ExactlyMatch method)</a>
+          <li>
+              <a href="RAGchain.benchmark.retrieval.html#RAGchain.benchmark.retrieval.metrics.EM_retrieval.retrieval_metric_function">(RAGchain.benchmark.retrieval.metrics.EM_retrieval
+                  method)</a>
 </li>
         <li><a href="RAGchain.benchmark.retrieval.html#RAGchain.benchmark.retrieval.metrics.F1.retrieval_metric_function">(RAGchain.benchmark.retrieval.metrics.F1 method)</a>
 </li>
