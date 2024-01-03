@@ -9,7 +9,7 @@ from langchain_core.runnables.utils import Input, Output
 from RAGchain.schema import Passage
 
 
-class BaseTextSplitter(ABC):
+class BaseTextSplitter(Runnable[List[Document], List[Passage]], ABC):
     """
     Base class for text splitters.
     At this framework, we use our own text splitter instead of the one from langchain.
@@ -30,19 +30,8 @@ class BaseTextSplitter(ABC):
         """
         pass
 
-    def as_runnable(self):
-        """
-        Return a runnable version of this text splitter.
-        """
-        return RunnableTextSplitter(self)
-
-
-class RunnableTextSplitter(Runnable[List[Document], List[Passage]]):
-    def __init__(self, text_splitter: BaseTextSplitter):
-        self.text_splitter = text_splitter
-
     def invoke(self, input: Input, config: Optional[RunnableConfig] = None) -> Output:
-        return list(itertools.chain.from_iterable(self.text_splitter.split_documents(input)))
+        return list(itertools.chain.from_iterable(self.split_documents(input)))
 
     @property
     def InputType(self) -> Type[Input]:

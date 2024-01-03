@@ -1,7 +1,7 @@
 import concurrent.futures
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import List, Union, Optional
+from typing import List, Union, Optional, Tuple
 from uuid import UUID
 
 from langchain_core.runnables import Runnable, RunnableConfig
@@ -10,11 +10,10 @@ from langchain_core.runnables.utils import Input, Output
 from RAGchain import linker
 from RAGchain.DB import MongoDB, PickleDB
 from RAGchain.DB.base import BaseDB
-from RAGchain.schema import Passage, DBOrigin
-from RAGchain.utils.util import text_modifier
+from RAGchain.schema import Passage, DBOrigin, RetrievalResult
 
 
-class BaseRetrieval(ABC):
+class BaseRetrieval(Runnable[Union[Tuple[str, int], str], RetrievalResult], ABC):
     """
     Base Retrieval class for all retrieval classes.
     """
@@ -248,18 +247,34 @@ class BaseRetrieval(ABC):
                 result[tuple_final] = [index]
         return result
 
-    def as_runnable(self, runnable_type: str):
-        """
-        return a runnable version of this retrieval.
-        :param runnable_type: runnable type. "retrieval" or "ingest"
-        """
-        if runnable_type in text_modifier('retrieval'):
-            # return RunnableRetrieval(self)
-            pass
-        elif runnable_type in text_modifier('ingest'):
-            return RunnableRetrievalIngest(self)
-        else:
-            raise ValueError(f"Unknown runnable type: {runnable_type}")
+    def invoke(self, input: Input, config: Optional[RunnableConfig] = None) -> Output:
+        if isinstance(input, Tuple):
+            assert isinstance(input[0], str), "first input of tuple must be str"
+            assert isinstance(input[1], int), "second input of tuple must be int"
+            ids, scores = self.retrieve_id_with_scores(input[0], input[1])
+            return RetrievalResult(
+                query=input[0],
+                passages=self.fetch_data(ids),
+                scores=scores,
+            )
+        elif isinstance(input, str):
+            ids, scores = self.retrieve_id_with_scores(input)
+            return RetrievalResult(
+                query=input,
+                passages=self.fetch_data(ids),
+                scores=scores,
+            )
+
+    @property
+    def InputType(self) -> type[Input]:
+        return Union[Tuple[str, int], str]
+
+    @property
+    def OutputType(self) -> type[Output]:
+        return RetrievalResult
+
+    def as_ingest(self):
+        return RunnableRetrievalIngest(self)
 
 
 class RunnableRetrievalIngest(Runnable[List[Passage], List[Passage]]):

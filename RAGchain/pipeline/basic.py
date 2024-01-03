@@ -59,8 +59,8 @@ class BasicIngestPipeline(BaseIngestPipeline):
 
     def _make_runnable(self):
         self.run = (RunnableLambda(self.file_loader.load) |
-                    self.text_splitter.as_runnable() |
-                    self.db.as_runnable() | self.retrieval.as_runnable('ingest'))
+                    self.text_splitter |
+                    self.db | self.retrieval.as_ingest())
 
 
 class BasicRunPipeline(BaseRunPipeline):
@@ -93,12 +93,15 @@ class BasicRunPipeline(BaseRunPipeline):
         super().__init__()
 
     def _make_runnable(self):
-        self.run = RunnablePassthrough.assign(
-            passages=itemgetter("question") | RunnableLambda(
-                lambda question: Passage.make_prompts(self.retrieval.retrieve(question,
-                                                                              **self.retrieval_option))),
-            question=itemgetter("question"),
-        ) | self.prompt | self.llm | StrOutputParser()
+        # self.run = RunnablePassthrough.assign(
+        #     passages=itemgetter("question") | RunnableLambda(
+        #         lambda question: Passage.make_prompts(self.retrieval.retrieve(question,
+        #                                                                       **self.retrieval_option))),
+        #     question=itemgetter("question"),
+        # ) | self.prompt | self.llm | StrOutputParser()
+
+        self.run = self.retrieval | RunnableLambda(
+            lambda x: x.to_prompt_input()) | self.prompt | self.llm | StrOutputParser()
 
     def get_passages_and_run(self, questions: List[str]) -> tuple[List[str], List[List[Passage]], List[List[float]]]:
         def passage_scores_to_dict(passages_scores):

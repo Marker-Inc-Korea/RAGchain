@@ -10,7 +10,7 @@ from RAGchain.schema import Passage
 from RAGchain.schema.db_origin import DBOrigin
 
 
-class BaseDB(ABC):
+class BaseDB(Runnable[List[Passage], List[Passage]], ABC):
     """
     Abstract class for using a database for passage contents.
     """
@@ -80,17 +80,9 @@ class BaseDB(ABC):
         """DBOrigin: Abstract method for retrieving DBOrigin of the database."""
         pass
 
-    def as_runnable(self):
-        return RunnableDB(self)
-
-
-class RunnableDB(Runnable[List[Passage], List[Passage]]):
-    def __init__(self, db: BaseDB):
-        self.db = db
-
     def invoke(self, input: Input, config: Optional[RunnableConfig] = None) -> Output:
-        self.db.create_or_load()
-        self.db.save(input)
+        self.create_or_load()
+        self.save(input)
         return input
 
     @property
