@@ -20,14 +20,6 @@ RAGchain.utils.websearch.bing\_search module
    :undoc-members:
    :show-inheritance:
 
-RAGchain.utils.websearch.brave\_search module
----------------------------------------------
-
-.. automodule:: RAGchain.utils.websearch.brave_search
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 RAGchain.utils.websearch.google\_search module
 ----------------------------------------------
 

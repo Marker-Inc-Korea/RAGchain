@@ -209,6 +209,16 @@
                         </ul>
                     </li>
                     <li class="toctree-l3"><a class="reference internal"
+                                              href="RAGchain.benchmark.answer.html#RAGchain.benchmark.answer.metrics.EM_answer"><code
+                            class="docutils literal notranslate"><span class="pre">EM_answer</span></code></a>
+                        <ul>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.benchmark.answer.html#RAGchain.benchmark.answer.metrics.EM_answer.retrieval_metric_function"><code
+                                    class="docutils literal notranslate"><span class="pre">EM_answer.retrieval_metric_function()</span></code></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toctree-l3"><a class="reference internal"
                                               href="RAGchain.benchmark.answer.html#RAGchain.benchmark.answer.metrics.KF1"><code
                             class="docutils literal notranslate"><span class="pre">KF1</span></code></a>
                         <ul>
@@ -678,8 +688,14 @@
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.benchmark.retrieval.html#RAGchain.benchmark.retrieval.metrics.DCG.retrieval_metric_function"><code class="docutils literal notranslate"><span class="pre">DCG.retrieval_metric_function()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="RAGchain.benchmark.retrieval.html#RAGchain.benchmark.retrieval.metrics.ExactlyMatch"><code class="docutils literal notranslate"><span class="pre">ExactlyMatch</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="RAGchain.benchmark.retrieval.html#RAGchain.benchmark.retrieval.metrics.ExactlyMatch.retrieval_metric_function"><code class="docutils literal notranslate"><span class="pre">ExactlyMatch.retrieval_metric_function()</span></code></a></li>
+    <li class="toctree-l3"><a class="reference internal"
+                              href="RAGchain.benchmark.retrieval.html#RAGchain.benchmark.retrieval.metrics.EM_retrieval"><code
+            class="docutils literal notranslate"><span class="pre">EM_retrieval</span></code></a>
+        <ul>
+            <li class="toctree-l4"><a class="reference internal"
+                                      href="RAGchain.benchmark.retrieval.html#RAGchain.benchmark.retrieval.metrics.EM_retrieval.retrieval_metric_function"><code
+                    class="docutils literal notranslate"><span
+                    class="pre">EM_retrieval.retrieval_metric_function()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="RAGchain.benchmark.retrieval.html#RAGchain.benchmark.retrieval.metrics.F1"><code class="docutils literal notranslate"><span class="pre">F1</span></code></a><ul>
@@ -817,9 +833,9 @@
                           <span class="sig-name descname"><span class="pre">answer_gt_metrics</span></span><em
                               class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span
                               class="w"> </span><span class="pre">['BLEU',</span> <span class="pre">'METEOR',</span>
-                          <span class="pre">'ROUGE']</span></em><a class="headerlink"
-                                                                   href="#RAGchain.benchmark.base.BaseEvaluator.answer_gt_metrics"
-                                                                   title="Link to this definition"></a></dt>
+                          <span class="pre">'ROUGE',</span> <span class="pre">'EM_answer']</span></em><a
+                              class="headerlink" href="#RAGchain.benchmark.base.BaseEvaluator.answer_gt_metrics"
+                              title="Link to this definition"></a></dt>
                       <dd></dd>
                   </dl>
 
@@ -876,8 +892,8 @@
                           <span class="sig-name descname"><span class="pre">retrieval_gt_metrics</span></span><em
                               class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span
                               class="w"> </span><span class="pre">['Hole',</span> <span
-                              class="pre">'TopK_Accuracy',</span> <span class="pre">'EM',</span> <span class="pre">'F1_score',</span>
-                          <span class="pre">'Recall',</span> <span class="pre">'Precision']</span></em><a
+                              class="pre">'TopK_Accuracy',</span> <span class="pre">'EM_retrieval',</span> <span
+                              class="pre">'F1_score',</span> <span class="pre">'Recall',</span> <span class="pre">'Precision']</span></em><a
                               class="headerlink" href="#RAGchain.benchmark.base.BaseEvaluator.retrieval_gt_metrics"
                               title="Link to this definition"></a></dt>
                       <dd></dd>

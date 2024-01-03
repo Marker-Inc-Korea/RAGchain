@@ -65,9 +65,20 @@
                                     </ul>
                                 </li>
                                 <li><a class="reference internal" href="#module-RAGchain.utils.websearch.bing_search">RAGchain.utils.websearch.bing_search
-                                    module</a></li>
-                                <li><a class="reference internal" href="#module-RAGchain.utils.websearch.brave_search">RAGchain.utils.websearch.brave_search
-                                    module</a></li>
+                                    module</a>
+                                    <ul>
+                                        <li><a class="reference internal"
+                                               href="#RAGchain.utils.websearch.bing_search.BingSearch"><code
+                                                class="docutils literal notranslate"><span class="pre">BingSearch</span></code></a>
+                                            <ul>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.utils.websearch.bing_search.BingSearch.get_search_data"><code
+                                                        class="docutils literal notranslate"><span class="pre">BingSearch.get_search_data()</span></code></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
                                 <li><a class="reference internal" href="#module-RAGchain.utils.websearch.google_search">RAGchain.utils.websearch.google_search
                                     module</a>
                                     <ul>
@@ -154,20 +165,7 @@
                                                     class="n"><span class="pre">int</span></span><span
                                                     class="w"> </span><span class="o"><span
                                                     class="pre">=</span></span><span class="w"> </span><span
-                                                    class="default_value"><span class="pre">5</span></span></em>, <em
-                                                    class="sig-param"><span class="n"><span
-                                                    class="pre">search_params</span></span><span class="p"><span
-                                                    class="pre">:</span></span><span class="w"> </span><span
-                                                    class="n"><span class="pre">Dict</span><span class="p"><span
-                                                    class="pre">[</span></span><span class="pre">str</span><span
-                                                    class="p"><span class="pre">,</span></span><span
-                                                    class="w"> </span><span class="pre">str</span><span class="p"><span
-                                                    class="pre">]</span></span><span class="w"> </span><span
-                                                    class="p"><span class="pre">|</span></span><span
-                                                    class="w"> </span><span class="pre">None</span></span><span
-                                                    class="w"> </span><span class="o"><span
-                                                    class="pre">=</span></span><span class="w"> </span><span
-                                                    class="default_value"><span class="pre">None</span></span></em><span
+                                                    class="default_value"><span class="pre">5</span></span></em><span
                                                     class="sig-paren">)</span> <span class="sig-return"><span
                                                     class="sig-return-icon">&#x2192;</span> <span
                                                     class="sig-return-typehint"><span class="pre">List</span><span
@@ -195,13 +193,54 @@
                                                                                   href="#module-RAGchain.utils.websearch.bing_search"
                                                                                   title="Link to this heading"></a>
                                 </h2>
-                            </section>
-                            <section id="module-RAGchain.utils.websearch.brave_search">
-                                <span id="ragchain-utils-websearch-brave-search-module"></span>
-                                <h2>RAGchain.utils.websearch.brave_search module<a class="headerlink"
-                                                                                   href="#module-RAGchain.utils.websearch.brave_search"
-                                                                                   title="Link to this heading"></a>
-                                </h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py" id="RAGchain.utils.websearch.bing_search.BingSearch">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                                            class="sig-prename descclassname"><span class="pre">RAGchain.utils.websearch.bing_search.</span></span><span
+                                            class="sig-name descname"><span class="pre">BingSearch</span></span><a
+                                            class="headerlink" href="#RAGchain.utils.websearch.bing_search.BingSearch"
+                                            title="Link to this definition"></a></dt>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="#RAGchain.utils.websearch.base.BaseWebSearch"
+                                                     title="RAGchain.utils.websearch.base.BaseWebSearch"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseWebSearch</span></code></a>
+                                    </p>
+                                        <p>Langchain’s ‘BingSearchAPIWrapper’ returns a List[Dict[str, str]] as the
+                                            return value.
+                                            This BingSearch class wraps this return value in a Passage.</p>
+                                        <p>First, you need to set up the proper API keys and environment variables.
+                                            To set it up, create the BING_SUBSCRIPTION_KEY in the Bing Search API
+                                            (<a class="reference external" href="https://portal.azure.com/#home">https://portal.azure.com/#home</a>)
+                                            and a BING_SEARCH_URL using the Bing Search API</p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.utils.websearch.bing_search.BingSearch.get_search_data">
+                                                <span class="sig-name descname"><span class="pre">get_search_data</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">query</span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">num_results</span></span><span class="o"><span
+                                                    class="pre">=</span></span><span class="default_value"><span
+                                                    class="pre">5</span></span></em><span class="sig-paren">)</span>
+                                                <span class="sig-return"><span
+                                                        class="sig-return-icon">&#x2192;</span> <span
+                                                        class="sig-return-typehint"><span class="pre">List</span><span
+                                                        class="p"><span class="pre">[</span></span><a
+                                                        class="reference internal"
+                                                        href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                                        title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                                                        class="p"><span class="pre">]</span></span></span></span><a
+                                                    class="headerlink"
+                                                    href="#RAGchain.utils.websearch.bing_search.BingSearch.get_search_data"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>Abstract method for searching passages from the web search
+                                                engine.</p>
+                                            </dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
                             </section>
                             <section id="module-RAGchain.utils.websearch.google_search">
                                 <span id="ragchain-utils-websearch-google-search-module"></span>
@@ -226,6 +265,15 @@
                                         <p>Langchain’s ‘GoogleSearchAPIWrapper’ returns a List[Dict[str, str]] as the
                                             return value.
                                             This GoogleSearch class wraps this return value in a Passage.</p>
+                                        <p>First, you need to set up the proper API keys and environment variables.
+                                            To set it up, create the GOOGLE_API_KEY in the Google Cloud credential
+                                            console
+                                            (<a class="reference external"
+                                                href="https://console.cloud.google.com/apis/credentials">https://console.cloud.google.com/apis/credentials</a>)
+                                            and a GOOGLE_CSE_ID using the Programmable Search Engine
+                                            (<a class="reference external"
+                                                href="https://programmablesearchengine.google.com/controlpanel/create">https://programmablesearchengine.google.com/controlpanel/create</a>).
+                                        </p>
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="RAGchain.utils.websearch.google_search.GoogleSearch.get_search_data">
