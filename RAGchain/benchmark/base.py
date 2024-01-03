@@ -7,7 +7,7 @@ from datasets import Dataset
 
 from RAGchain.benchmark.answer.metrics import *
 from RAGchain.benchmark.retrieval.metrics import BaseRetrievalMetric, AP, NDCG, CG, IndDCG, DCG, IndIDCG, IDCG, \
-    Recall, Precision, RR, Hole, TopKAccuracy, ExactlyMatch, F1
+    Recall, Precision, RR, Hole, TopKAccuracy, EM_retrieval, F1
 from RAGchain.pipeline.base import BaseRunPipeline
 from RAGchain.retrieval.base import BaseRetrieval
 from RAGchain.schema import EvaluateResult, Passage
@@ -16,11 +16,11 @@ from RAGchain.utils.util import text_modifier
 
 class BaseEvaluator(ABC):
     # retrieval_gt_ragas_metrics is retrieval gt metrics that use ragas evaluation.
-    retrieval_gt_metrics = ['Hole', 'TopK_Accuracy', 'EM', 'F1_score', 'Recall', 'Precision']
+    retrieval_gt_metrics = ['Hole', 'TopK_Accuracy', 'EM_retrieval', 'F1_score', 'Recall', 'Precision']
     retrieval_gt_ragas_metrics = ['context_recall']
     retrieval_gt_metrics_rank_aware = ['AP', 'NDCG', 'CG', 'Ind_DCG', 'DCG', 'Ind_IDCG', 'IDCG', 'RR']
     retrieval_no_gt_ragas_metrics = ['context_precision']
-    answer_gt_metrics = ['BLEU', 'METEOR', 'ROUGE', 'EM']
+    answer_gt_metrics = ['BLEU', 'METEOR', 'ROUGE', 'EM_answer']
     answer_no_gt_ragas_metrics = ['answer_relevancy', 'faithfulness']
     answer_passage_metrics = ['KF1']
 
@@ -181,7 +181,7 @@ class BaseEvaluator(ABC):
         Make a list of retrieval metrics from a list of metric names
         """
         binary_metrics = {metric_names: metric for metric in
-                          [TopKAccuracy(), ExactlyMatch(), F1(), Hole(), Recall(), Precision()]
+                          [TopKAccuracy(), EM_retrieval(), F1(), Hole(), Recall(), Precision()]
                           for metric_names in text_modifier(metric.metric_name)}
         rank_aware_metrics = {metric_names: metric for metric in
                               [AP(), NDCG(), CG(), IndDCG(), DCG(), IndIDCG(), IDCG(), RR()]
@@ -215,7 +215,7 @@ class BaseEvaluator(ABC):
         return result
 
     def __answer_metrics_with_gt(self) -> List[BaseAnswerMetric]:
-        answer_metrics = {metric_names: metric for metric in [BLEU(), METEOR(), ROUGE(), EM()]
+        answer_metrics = {metric_names: metric for metric in [BLEU(), METEOR(), ROUGE(), EM_answer()]
                           for metric_names in text_modifier(metric.metric_name)}
         result = [answer_metrics[metric_name] for metric_name in self.metrics if metric_name in answer_metrics]
         return result

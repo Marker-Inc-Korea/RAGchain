@@ -282,9 +282,9 @@ class TopKAccuracy(BaseRetrievalMetric):
         return top_k_acc
 
 
-class ExactlyMatch(BaseRetrievalMetric):
+class EM_retrieval(BaseRetrievalMetric):
     def __init__(self):
-        self._metric_name = "EM"
+        self._metric_name = "EM_retrieval"
 
     def retrieval_metric_function(self, solution: Dict[str, int],
                                   pred: Dict[str, float],
