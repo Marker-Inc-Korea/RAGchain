@@ -1,4 +1,4 @@
-__version__ = '0.2.4'
+__version__ = '0.2.5'
 
 # Sets the linker, which is required to use RAGchain.
 import os

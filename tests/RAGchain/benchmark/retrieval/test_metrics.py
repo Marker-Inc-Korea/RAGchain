@@ -1,10 +1,10 @@
 import pytest
 
 from RAGchain.benchmark.retrieval.metrics import Recall, RR, Precision, NDCG, DCG, Hole, TopKAccuracy, IDCG, IndDCG, \
-    IndIDCG, AP, CG, ExactlyMatch, F1
+    IndIDCG, AP, CG, EM_retrieval, F1
 
 metric_instances = [Recall(), RR(), Precision(), NDCG(), DCG(), Hole(), TopKAccuracy(), IDCG(), IndDCG(), IndIDCG(),
-                    AP(), CG(), ExactlyMatch(), F1()]
+                    AP(), CG(), EM_retrieval(), F1()]
 
 metric_test_values = [
     ({"1": 1, "2": 1, "3": 1}, {"1": 1, "2": 1, "3": 1}, 3,
