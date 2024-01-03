@@ -143,7 +143,6 @@ def test_base_evaluator(dummy_evaluator):
     assert result.each_results.iloc[0]['F1_score'] > 0
     assert len(result.use_metrics) == len(dummy_evaluator.metrics)
 
-
 def test_no_ragas(no_ragas_evaluator):
     # It just tests it can initialize without ragas metrics.
     result = no_ragas_evaluator.evaluate()

@@ -135,10 +135,10 @@ class ROUGE(BaseAnswerMetric):
             score = max(rouge.compute(predictions=[pred], references=[solution])['rougeL'], score)
         return score
 
-class EM(BaseAnswerMetric):
+class EM_answer(BaseAnswerMetric):
     def __init__(self):
         super().__init__()
-        self._metric_name = "EM"
+        self._metric_name = "EM_answer"
 
     def retrieval_metric_function(self, solutions: List[str], pred: str) -> float:
         score = 0.0
