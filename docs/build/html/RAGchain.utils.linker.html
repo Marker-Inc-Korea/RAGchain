@@ -50,6 +50,9 @@
             <li><a class="reference internal" href="#RAGchain.utils.linker.base.BaseLinker"><code
                     class="docutils literal notranslate"><span class="pre">BaseLinker</span></code></a>
                 <ul>
+                    <li><a class="reference internal" href="#RAGchain.utils.linker.base.BaseLinker.delete_json"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">BaseLinker.delete_json()</span></code></a></li>
                     <li><a class="reference internal" href="#RAGchain.utils.linker.base.BaseLinker.flush_db"><code
                             class="docutils literal notranslate"><span
                             class="pre">BaseLinker.flush_db()</span></code></a></li>
@@ -61,6 +64,10 @@
                             class="pre">BaseLinker.put_json()</span></code></a></li>
                 </ul>
             </li>
+            <li><a class="reference internal" href="#RAGchain.utils.linker.base.NoDataWarning"><code
+                    class="docutils literal notranslate"><span class="pre">NoDataWarning</span></code></a></li>
+            <li><a class="reference internal" href="#RAGchain.utils.linker.base.NoIdWarning"><code
+                    class="docutils literal notranslate"><span class="pre">NoIdWarning</span></code></a></li>
             <li><a class="reference internal" href="#RAGchain.utils.linker.base.Singleton"><code
                     class="docutils literal notranslate"><span class="pre">Singleton</span></code></a></li>
             <li><a class="reference internal" href="#RAGchain.utils.linker.base.SingletonCreationError"><code
@@ -81,6 +88,10 @@
                            href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker.create_table"><code
                             class="docutils literal notranslate"><span
                             class="pre">DynamoLinker.create_table()</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker.delete_json"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">DynamoLinker.delete_json()</span></code></a></li>
                     <li><a class="reference internal" href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker.flush_db"><code
                             class="docutils literal notranslate"><span class="pre">DynamoLinker.flush_db()</span></code></a>
                     </li>
@@ -117,6 +128,10 @@
                             class="docutils literal notranslate"><span
                             class="pre">JsonLinker.create_or_load_json()</span></code></a></li>
                     <li><a class="reference internal"
+                           href="#RAGchain.utils.linker.json_linker.JsonLinker.delete_json"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">JsonLinker.delete_json()</span></code></a></li>
+                    <li><a class="reference internal"
                            href="#RAGchain.utils.linker.json_linker.JsonLinker.flush_db"><code
                             class="docutils literal notranslate"><span
                             class="pre">JsonLinker.flush_db()</span></code></a></li>
@@ -146,6 +161,10 @@
                            href="#RAGchain.utils.linker.redis_linker.RedisLinker.connection_check"><code
                             class="docutils literal notranslate"><span class="pre">RedisLinker.connection_check()</span></code></a>
                     </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.utils.linker.redis_linker.RedisLinker.delete_json"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RedisLinker.delete_json()</span></code></a></li>
                     <li><a class="reference internal"
                            href="#RAGchain.utils.linker.redis_linker.RedisLinker.flush_db"><code
                             class="docutils literal notranslate"><span class="pre">RedisLinker.flush_db()</span></code></a>
@@ -214,6 +233,20 @@
                                          title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
     <dl class="py method">
+        <dt class="sig sig-object py" id="RAGchain.utils.linker.base.BaseLinker.delete_json">
+            <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span
+                class="sig-name descname"><span class="pre">delete_json</span></span><span class="sig-paren">(</span><em
+                class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span
+                class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
+                class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
+                class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span
+                class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
+                class="headerlink" href="#RAGchain.utils.linker.base.BaseLinker.delete_json"
+                title="Link to this definition"></a></dt>
+        <dd></dd>
+    </dl>
+
+    <dl class="py method">
         <dt class="sig sig-object py" id="RAGchain.utils.linker.base.BaseLinker.flush_db">
             <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span
                 class="sig-name descname"><span class="pre">flush_db</span></span><span class="sig-paren">(</span><span
@@ -227,7 +260,7 @@
             <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span
                 class="sig-name descname"><span class="pre">get_json</span></span><span class="sig-paren">(</span><em
                 class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span
-                class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span
+                class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
                 class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
                 class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span
                 class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
@@ -240,19 +273,51 @@
         <dt class="sig sig-object py" id="RAGchain.utils.linker.base.BaseLinker.put_json">
             <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span
                 class="sig-name descname"><span class="pre">put_json</span></span><span class="sig-paren">(</span><em
-                class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span
-                class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">UUID</span><span
-                class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span
-                class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span
-                class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span
-                class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span
-                class="sig-paren">)</span><a class="headerlink" href="#RAGchain.utils.linker.base.BaseLinker.put_json"
-                                             title="Link to this definition"></a></dt>
+                class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span
+                class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
+                class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
+                class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span
+                class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span
+                class="pre">json_data_list</span></span><span class="p"><span class="pre">:</span></span><span
+                class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
+                class="pre">[</span></span><span class="pre">dict</span><span class="p"><span
+                class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                          href="#RAGchain.utils.linker.base.BaseLinker.put_json"
+                                                                                          title="Link to this definition"></a>
+        </dt>
         <dd></dd>
     </dl>
 
 </dd>
 </dl>
+
+          <dl class="py exception">
+              <dt class="sig sig-object py" id="RAGchain.utils.linker.base.NoDataWarning">
+                  <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span class="pre">RAGchain.utils.linker.base.</span></span><span
+                      class="sig-name descname"><span class="pre">NoDataWarning</span></span><a class="headerlink"
+                                                                                                href="#RAGchain.utils.linker.base.NoDataWarning"
+                                                                                                title="Link to this definition"></a>
+              </dt>
+              <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+                      class="pre">UserWarning</span></code></p>
+                  <p>Warning to be raised when there is no data in Linker.</p>
+              </dd>
+          </dl>
+
+          <dl class="py exception">
+              <dt class="sig sig-object py" id="RAGchain.utils.linker.base.NoIdWarning">
+                  <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span class="pre">RAGchain.utils.linker.base.</span></span><span
+                      class="sig-name descname"><span class="pre">NoIdWarning</span></span><a class="headerlink"
+                                                                                              href="#RAGchain.utils.linker.base.NoIdWarning"
+                                                                                              title="Link to this definition"></a>
+              </dt>
+              <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+                      class="pre">UserWarning</span></code></p>
+                  <p>Warning to be raised when there is no id in Linker.</p>
+              </dd>
+          </dl>
 
           <dl class="py class">
               <dt class="sig sig-object py" id="RAGchain.utils.linker.base.Singleton">
@@ -330,6 +395,21 @@
                   </dl>
 
                   <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.utils.linker.dynamo_linker.DynamoLinker.delete_json">
+                          <span class="sig-name descname"><span class="pre">delete_json</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
+                              class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
+                              class="p"><span class="pre">|</span></span><span class="w"> </span><span
+                              class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span
+                              class="sig-paren">)</span><a class="headerlink"
+                                                           href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker.delete_json"
+                                                           title="Link to this definition"></a></dt>
+                      <dd></dd>
+                  </dl>
+
+                  <dl class="py method">
                       <dt class="sig sig-object py" id="RAGchain.utils.linker.dynamo_linker.DynamoLinker.flush_db">
                           <span class="sig-name descname"><span class="pre">flush_db</span></span><span
                               class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink"
@@ -344,7 +424,7 @@
                           <span class="sig-name descname"><span class="pre">get_json</span></span><span
                               class="sig-paren">(</span><em class="sig-param"><span class="n"><span
                               class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span
-                              class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span
+                              class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
                               class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
                               class="p"><span class="pre">|</span></span><span class="w"> </span><span
                               class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span
@@ -382,16 +462,17 @@
                       <dt class="sig sig-object py" id="RAGchain.utils.linker.dynamo_linker.DynamoLinker.put_json">
                           <span class="sig-name descname"><span class="pre">put_json</span></span><span
                               class="sig-paren">(</span><em class="sig-param"><span class="n"><span
-                              class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span
-                              class="w"> </span><span class="n"><span class="pre">UUID</span><span
-                              class="w"> </span><span class="p"><span class="pre">|</span></span><span
-                              class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span
-                              class="n"><span class="pre">json_data</span></span><span class="p"><span
-                              class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                              class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink"
-                                                                                                    href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker.put_json"
-                                                                                                    title="Link to this definition"></a>
-                      </dt>
+                              class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
+                              class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
+                              class="p"><span class="pre">|</span></span><span class="w"> </span><span
+                              class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em
+                              class="sig-param"><span class="n"><span class="pre">json_data_list</span></span><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span
+                              class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
+                              class="headerlink" href="#RAGchain.utils.linker.dynamo_linker.DynamoLinker.put_json"
+                              title="Link to this definition"></a></dt>
                       <dd></dd>
                   </dl>
 
@@ -445,6 +526,21 @@
                   </dl>
 
                   <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.utils.linker.json_linker.JsonLinker.delete_json">
+                          <span class="sig-name descname"><span class="pre">delete_json</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
+                              class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
+                              class="p"><span class="pre">|</span></span><span class="w"> </span><span
+                              class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span
+                              class="sig-paren">)</span><a class="headerlink"
+                                                           href="#RAGchain.utils.linker.json_linker.JsonLinker.delete_json"
+                                                           title="Link to this definition"></a></dt>
+                      <dd></dd>
+                  </dl>
+
+                  <dl class="py method">
                       <dt class="sig sig-object py" id="RAGchain.utils.linker.json_linker.JsonLinker.flush_db">
                           <span class="sig-name descname"><span class="pre">flush_db</span></span><span
                               class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink"
@@ -459,7 +555,7 @@
                           <span class="sig-name descname"><span class="pre">get_json</span></span><span
                               class="sig-paren">(</span><em class="sig-param"><span class="n"><span
                               class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span
-                              class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span
+                              class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
                               class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
                               class="p"><span class="pre">|</span></span><span class="w"> </span><span
                               class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span
@@ -483,16 +579,17 @@
                       <dt class="sig sig-object py" id="RAGchain.utils.linker.json_linker.JsonLinker.put_json">
                           <span class="sig-name descname"><span class="pre">put_json</span></span><span
                               class="sig-paren">(</span><em class="sig-param"><span class="n"><span
-                              class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span
-                              class="w"> </span><span class="n"><span class="pre">UUID</span><span
-                              class="w"> </span><span class="p"><span class="pre">|</span></span><span
-                              class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span
-                              class="n"><span class="pre">json_data</span></span><span class="p"><span
-                              class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                              class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink"
-                                                                                                    href="#RAGchain.utils.linker.json_linker.JsonLinker.put_json"
-                                                                                                    title="Link to this definition"></a>
-                      </dt>
+                              class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
+                              class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
+                              class="p"><span class="pre">|</span></span><span class="w"> </span><span
+                              class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em
+                              class="sig-param"><span class="n"><span class="pre">json_data_list</span></span><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span
+                              class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
+                              class="headerlink" href="#RAGchain.utils.linker.json_linker.JsonLinker.put_json"
+                              title="Link to this definition"></a></dt>
                       <dd></dd>
                   </dl>
 
@@ -530,6 +627,21 @@ We use redis to link DB and passage ids that stores in retrievals.</p>
             class="sig-paren">)</span><a class="headerlink"
                                          href="#RAGchain.utils.linker.redis_linker.RedisLinker.connection_check"
                                          title="Link to this definition"></a></dt>
+    <dd></dd>
+</dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.utils.linker.redis_linker.RedisLinker.delete_json">
+                          <span class="sig-name descname"><span class="pre">delete_json</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
+                              class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
+                              class="p"><span class="pre">|</span></span><span class="w"> </span><span
+                              class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span
+                              class="sig-paren">)</span><a class="headerlink"
+                                                           href="#RAGchain.utils.linker.redis_linker.RedisLinker.delete_json"
+                                                           title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -544,7 +656,7 @@ We use redis to link DB and passage ids that stores in retrievals.</p>
     <dt class="sig sig-object py" id="RAGchain.utils.linker.redis_linker.RedisLinker.get_json">
         <span class="sig-name descname"><span class="pre">get_json</span></span><span class="sig-paren">(</span><em
             class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span
-            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span
+            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span
             class="p"><span class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
             class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span
             class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink"
@@ -558,16 +670,17 @@ We use redis to link DB and passage ids that stores in retrievals.</p>
                       <dt class="sig sig-object py" id="RAGchain.utils.linker.redis_linker.RedisLinker.put_json">
                           <span class="sig-name descname"><span class="pre">put_json</span></span><span
                               class="sig-paren">(</span><em class="sig-param"><span class="n"><span
-                              class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span
-                              class="w"> </span><span class="n"><span class="pre">UUID</span><span
-                              class="w"> </span><span class="p"><span class="pre">|</span></span><span
-                              class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span
-                              class="n"><span class="pre">json_data</span></span><span class="p"><span
-                              class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                              class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink"
-                                                                                                    href="#RAGchain.utils.linker.redis_linker.RedisLinker.put_json"
-                                                                                                    title="Link to this definition"></a>
-                      </dt>
+                              class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span
+                              class="pre">[</span></span><span class="pre">UUID</span><span class="w"> </span><span
+                              class="p"><span class="pre">|</span></span><span class="w"> </span><span
+                              class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em
+                              class="sig-param"><span class="n"><span class="pre">json_data_list</span></span><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span
+                              class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a
+                              class="headerlink" href="#RAGchain.utils.linker.redis_linker.RedisLinker.put_json"
+                              title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
