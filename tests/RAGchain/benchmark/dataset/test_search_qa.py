@@ -23,9 +23,7 @@ def search_qa_evaluator():
     llm = OpenAI(model_name="babbage-002")
     pipeline = BasicRunPipeline(bm25_retrieval, llm)
     evaluator = SearchQAEvaluator(pipeline, evaluate_size=5)
-
     evaluator.ingest([bm25_retrieval], db, ingest_size=20)
-
     yield evaluator
     if os.path.exists(bm25_path):
         os.remove(bm25_path)
@@ -38,7 +36,7 @@ def test_search_qa_evaluator(search_qa_evaluator):
 
     assert len(result.each_results) == 5
     assert result.each_results.iloc[0][
-               'question'] == '"$17.2 billion...started sellingcomputers from...dorm room 1984 with $1,000"'
+               'question'] == "Title of a Robert Louis Stevenson book about a boy's abduction"
     assert result.each_results.iloc[0]['answer_pred']
     for key, value in result.results.items():
         logger.info(f"{key}: {value}")
