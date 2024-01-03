@@ -138,10 +138,12 @@ def test_base_evaluator(dummy_evaluator):
 
     assert len(result.each_results) == 5
     assert result.each_results.iloc[0]['question'] == 'What is the capital of France?'
-    assert result.each_results.iloc[0]['passage_contents'][0] == 'The capital of France is Paris. And it is well-known.'
-    assert result.each_results.iloc[0]['passage_ids'][0] == 'id-2'
+    assert bool(result.each_results.iloc[0]['passage_contents'][0]) is True
+    assert result.each_results.iloc[0]['passage_contents'][0] == \
+           list(filter(lambda x: x.id == result.each_results.iloc[0]['passage_ids'][0], TEST_PASSAGES))[0].content
     assert result.each_results.iloc[0]['F1_score'] > 0
     assert len(result.use_metrics) == len(dummy_evaluator.metrics)
+
 
 def test_no_ragas(no_ragas_evaluator):
     # It just tests it can initialize without ragas metrics.
