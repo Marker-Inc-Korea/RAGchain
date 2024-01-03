@@ -4,7 +4,7 @@ from typing import List, Dict
 import click
 
 from RAGchain.benchmark.retrieval.metrics import Recall, RR, Precision, NDCG, DCG, Hole, TopKAccuracy, IDCG, IndDCG, \
-    IndIDCG, AP, CG, ExactlyMatch, F1
+    IndIDCG, AP, CG, EM_retrieval, F1
 
 
 def basic_retrieval_evaluation(qrels: Dict[str, List[str]], preds: Dict[str, List[str]], k_values: List[int],
@@ -21,8 +21,8 @@ def basic_retrieval_evaluation(qrels: Dict[str, List[str]], preds: Dict[str, Lis
     """
 
     all_metrics = [Recall(), RR(), Precision(), NDCG(), DCG(), Hole(), TopKAccuracy(), IDCG(), IndDCG(), IndIDCG(),
-                   AP(), CG(), ExactlyMatch(), F1()]
-    binary_metrics = [TopKAccuracy(), ExactlyMatch(), F1(), Hole(), Recall(), Precision()]
+                   AP(), CG(), EM_retrieval(), F1()]
+    binary_metrics = [TopKAccuracy(), EM_retrieval(), F1(), Hole(), Recall(), Precision()]
     score_dict = dict()
 
     is_rank_aware = check_retrieval_eval(qrels, preds, k_values, preds_relevance, qrels_relevance)
@@ -66,7 +66,7 @@ def stretagyqa_retrieval_evaluation(qrels: List[dict],
 
     #all_metrics = [Recall(), RR(), Precision(), NDCG(), DCG(), Hole(), TopKAccuracy(), IDCG(), IndDCG(), IndIDCG(),
     #               AP(), CG(), ExactlyMatch(), F1()]
-    binary_metrics = [TopKAccuracy(), ExactlyMatch(), F1(), Hole(), Recall(), Precision()]
+    binary_metrics = [TopKAccuracy(), EM_retrieval(), F1(), Hole(), Recall(), Precision()]
 
     score_dict = dict()
     for k in k_values:

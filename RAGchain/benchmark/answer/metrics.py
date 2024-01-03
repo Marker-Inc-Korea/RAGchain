@@ -7,6 +7,7 @@ from typing import List
 import evaluate
 import sacrebleu
 
+
 class BaseAnswerMetric(ABC):
     def __init__(self):
         self._metric_name = None
@@ -107,6 +108,7 @@ class KF1(BasePassageAnswerMetric):
         score = self._token_f1_score(pred, "\n".join(knowledge))
         return score
 
+
 class METEOR(BaseAnswerMetric):
     def __init__(self):
         super().__init__()
@@ -118,6 +120,7 @@ class METEOR(BaseAnswerMetric):
         for solution in solutions:
             score = max(meteor.compute(predictions=[pred], references=[solution])['meteor'], score)
         return score
+
 
 class ROUGE(BaseAnswerMetric):
     def __init__(self):
@@ -135,10 +138,11 @@ class ROUGE(BaseAnswerMetric):
             score = max(rouge.compute(predictions=[pred], references=[solution])['rougeL'], score)
         return score
 
-class EM(BaseAnswerMetric):
+
+class EM_answer(BaseAnswerMetric):
     def __init__(self):
         super().__init__()
-        self._metric_name = "EM"
+        self._metric_name = "EM_answer"
 
     def retrieval_metric_function(self, solutions: List[str], pred: str) -> float:
         score = 0.0
