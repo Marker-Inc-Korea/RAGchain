@@ -44,7 +44,6 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         if version == 'v1.1' or version == 'v2.1':
             # You can available MSMARCO dataset versions v1.1 and v2.1
             self.dataset = load_dataset(self.file_path, version)
-            # TODO: answer gt 도 추가
             if version == 'v1.1':
                 self.data = self.dataset['test']
             elif version == 'v2.1':
@@ -93,22 +92,21 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         :param ingest_size: The number of data to ingest. If None, ingest all data.
         You must ingest all data for using context_recall metrics.
         """
-
-        if ingest_size is not None:
-            self.ingest_data = deepcopy(self.qa_data)
-            # ingest size must be larger than evaluate size.
-            if ingest_size >= self.eval_size:
-                self.ingest_data = self.ingest_data[:ingest_size]
-                make_passages = pd.concat(
-                    [self.ingest_data['query_id'], json_normalize(self.ingest_data['passages'].tolist())],
-                    axis=1)
-
-            else:
-                raise ValueError("ingest size must be same or larger than evaluate size")
+        # Setting the evaluation size.
+        if self.eval_size is None:
+            eval_size = len(self.qa_data)
         else:
-            make_passages = pd.concat(
-                [self.ingest_data['query_id'], json_normalize(self.ingest_data['passages'].tolist())],
-                axis=1)
+            eval_size = self.eval_size
+
+        self.__validate_eval_size_and_ingest_size(ingest_size, eval_size)
+
+        # Slice ingest data by ingest size. If ingest size is None, ingest all data.
+        self.ingest_data = deepcopy(self.qa_data)
+        if ingest_size is not None:
+            self.ingest_data = self.ingest_data[:ingest_size]
+        make_passages = pd.concat(
+            [self.ingest_data['query_id'], json_normalize(self.ingest_data['passages'].tolist())],
+            axis=1)
 
         # Create passages.
         result = make_passages.apply(self.__make_passages_and_retrieval_gt, axis=1)
@@ -158,3 +156,9 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
                 ord_rank += 1
 
         return passages, retrieval_gt, retrieval_gt_ord
+
+    def __validate_eval_size_and_ingest_size(self, ingest_size, eval_size):
+        if ingest_size is not None:
+            # ingest size must be larger than evaluate size.
+            if ingest_size < eval_size:
+                raise ValueError(f"ingest size({ingest_size}) must be same or larger than evaluate size({eval_size})")

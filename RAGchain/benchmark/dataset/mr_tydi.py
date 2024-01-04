@@ -94,23 +94,27 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
         corpus_passages = deepcopy(self.corpus)
 
         gt_ids = gt_ids.apply(self.__extract_gt_id)
-        id_for_remove_duplicated_corpus = list(itertools.chain.from_iterable(gt_ids))
+        gt_ingestion = list(itertools.chain.from_iterable(gt_ids))
+
+        # Setting the evaluation size.
+        if self.eval_size is None:
+            eval_size = len(gt_ingestion)
+        else:
+            eval_size = self.eval_size
+
+        self.__validate_eval_size_and_ingest_size(ingest_size, eval_size)
 
         # Create gt_passages for ingest.
-        gt_passages = corpus_passages[corpus_passages['docid'].isin(id_for_remove_duplicated_corpus)]
+        gt_passages = corpus_passages[corpus_passages['docid'].isin(gt_ingestion)]
         gt_passages = gt_passages.apply(self.__make_corpus_passages, axis=1).tolist()
 
         if ingest_size is not None:
-            # ingest size must be larger than evaluate size.
-            if ingest_size >= self.eval_size:
-                corpus_passages = corpus_passages.sample(n=ingest_size, replace=False, random_state=random_state,
-                                                         axis=0)
-            else:
-                raise ValueError("ingest size must be same or larger than evaluate size")
+            corpus_passages = corpus_passages.sample(n=ingest_size, replace=False, random_state=random_state,
+                                                     axis=0)
 
         # Remove duplicated passages between corpus and retrieval gt for ingesting passages faster.
         # Marking duplicated values in the corpus using retrieval_gt id.
-        mask = corpus_passages.isin(id_for_remove_duplicated_corpus)
+        mask = corpus_passages.isin(gt_ingestion)
         # Remove duplicated passages
         corpus_passages = corpus_passages[~mask.any(axis=1)]
         passages = corpus_passages.apply(self.__make_corpus_passages, axis=1).tolist()
@@ -152,3 +156,9 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
         for element in row:
             gt_id.append(element['docid'])
         return gt_id
+
+    def __validate_eval_size_and_ingest_size(self, ingest_size, eval_size):
+        if ingest_size is not None:
+            # ingest size must be larger than evaluate size.
+            if ingest_size < eval_size:
+                raise ValueError(f"ingest size({ingest_size}) must be same or larger than evaluate size({eval_size})")

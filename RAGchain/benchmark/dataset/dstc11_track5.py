@@ -79,23 +79,27 @@ class DSTC11Track5Evaluator(BaseDatasetEvaluator):
         ingest_data = deepcopy(self.knowledge)
         gt_ids = deepcopy(self.retrieval_gt)
 
-        id_for_remove_duplicated_corpus = list(itertools.chain.from_iterable(gt_ids))
+        gt_ingestion = list(itertools.chain.from_iterable(gt_ids))
+
+        # Setting the evaluation size.
+        if self.eval_size is None:
+            eval_size = len(gt_ingestion)
+        else:
+            eval_size = self.eval_size
+
+        self.__validate_eval_size_and_ingest_size(ingest_size, eval_size)
 
         # Create gt_passages for ingest.
-        gt_passages = ingest_data[ingest_data['doc_id'].isin(id_for_remove_duplicated_corpus)]
+        gt_passages = ingest_data[ingest_data['doc_id'].isin(gt_ingestion)]
         gt_passages = gt_passages.apply(self.__make_passages, axis=1).tolist()
 
         if ingest_size is not None:
-            # ingest size must be larger than evaluate size.
-            if ingest_size >= self.eval_size:
-                ingest_data = ingest_data.sample(n=ingest_size, replace=False, random_state=random_state,
-                                                 axis=0)
-            else:
-                raise ValueError("ingest size must be same or larger than evaluate size")
+            ingest_data = ingest_data.sample(n=ingest_size, replace=False, random_state=random_state,
+                                             axis=0)
 
         # Remove duplicated passages between corpus and retrieval gt for ingesting passages faster.
         # Marking duplicated values in the corpus using retrieval_gt id.
-        mask = ingest_data.isin(id_for_remove_duplicated_corpus)
+        mask = ingest_data.isin(gt_ingestion)
         # Remove duplicated passages
         ingest_data = ingest_data[~mask.any(axis=1)]
         passages = ingest_data.apply(self.__make_passages, axis=1).tolist()
@@ -174,3 +178,9 @@ class DSTC11Track5Evaluator(BaseDatasetEvaluator):
                 ))
 
         return question, gt, response
+
+    def __validate_eval_size_and_ingest_size(self, ingest_size, eval_size):
+        if ingest_size is not None:
+            # ingest size must be larger than evaluate size.
+            if ingest_size < eval_size:
+                raise ValueError(f"ingest size({ingest_size}) must be same or larger than evaluate size({eval_size})")

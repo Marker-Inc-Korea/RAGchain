@@ -74,17 +74,13 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
         if file_path is None:
             raise ValueError("file_path is not input.")
 
-        queries = load_dataset(file_path, 'queries')['queries']
-        corpus = load_dataset(file_path, 'corpus')['corpus']
-        qrels = load_dataset(f"{file_path}-qrels")['test']
+        self.queries = load_dataset(file_path, 'queries')['queries'].to_pandas()
+        self.corpus = load_dataset(file_path, 'corpus')['corpus'].to_pandas()
+        self.qrels = load_dataset(f"{file_path}-qrels")['test'].to_pandas()
 
         self.run_pipeline = run_pipeline
         self.eval_size = evaluate_size
         self.file_path = file_path
-
-        self.queries = queries.to_pandas()
-        self.corpus = corpus.to_pandas()
-        self.qrels = qrels.to_pandas()
 
         # Remove row that contains none relevant passages.
         self.qrels = self.qrels[self.qrels['score'] >= 1]
@@ -124,16 +120,23 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
         gt_ids = deepcopy(self.retrieval_gt)
         corpus = deepcopy(self.corpus)
 
-        gt_befor_passages, id_for_remove_duplicated_corpus = self.make_gt_passages_and_duplicated_id(gt_ids, corpus)
+        # Setting the evaluation size.
+        if self.eval_size is None:
+            eval_size = len(gt_ids)
+        else:
+            eval_size = self.eval_size
+
+        self.__validate_eval_size_and_ingest_size(ingest_size, eval_size)
+
+        gt_before_passages, id_for_remove_duplicated_corpus = self.make_gt_passages_and_duplicated_id(gt_ids, corpus)
 
         # Slice corpus by ingest_size and remove duplicate passages.
         corpus_before_passages = self.remove_duplicate_passages(ingest_size=ingest_size,
-                                                                eval_size=self.eval_size,
                                                                 corpus=corpus,
                                                                 random_state=random_state,
                                                                 id_for_remove_duplicated_corpus=id_for_remove_duplicated_corpus,
                                                                 )
-        gt_passages = gt_befor_passages.apply(self.make_corpus_passages, axis=1).tolist()
+        gt_passages = gt_before_passages.apply(self.make_corpus_passages, axis=1).tolist()
 
         passages = corpus_before_passages.apply(self.make_corpus_passages, axis=1).tolist()
         passages += gt_passages
@@ -198,9 +201,14 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
 
         return gt_passages, id_for_remove_duplicated_corpus
 
+    def __validate_eval_size_and_ingest_size(self, ingest_size, eval_size):
+        if ingest_size is not None:
+            # ingest size must be larger than evaluate size.
+            if ingest_size < eval_size:
+                raise ValueError(f"ingest size({ingest_size}) must be same or larger than evaluate size({eval_size})")
+
     def remove_duplicate_passages(self,
                                   ingest_size: int,
-                                  eval_size,
                                   corpus,
                                   random_state,
                                   id_for_remove_duplicated_corpus: List[str],
@@ -211,12 +219,8 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
         """
         corpus_passages = corpus
         if ingest_size is not None:
-            # ingest size must be larger than evaluate size.
-            if ingest_size >= eval_size:
-                corpus_passages = corpus.sample(n=ingest_size, replace=False, random_state=random_state,
-                                                axis=0)
-            else:
-                raise ValueError("ingest size must be same or larger than evaluate size")
+            corpus_passages = corpus.sample(n=ingest_size, replace=False, random_state=random_state,
+                                            axis=0)
 
         # Remove duplicated passages between corpus and retrieval gt for ingesting passages faster.
         # Marking duplicated values in the dataframe using values list and Remove duplicated values.
