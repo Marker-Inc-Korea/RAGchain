@@ -20,12 +20,14 @@ def test_simple_time_reranker(simple_time_reranker):
 
 
 def test_simple_time_reranker_runnable(simple_time_reranker):
-    runnable = simple_time_reranker | RunnableLambda(lambda x: x.passages)
-    rerank_passages = runnable.invoke(RetrievalResult(
+    runnable = simple_time_reranker | RunnableLambda(lambda x: x.to_dict())
+    result = runnable.invoke(RetrievalResult(
         query="What is reranker role?",
         passages=test_base_reranker.TEST_PASSAGES,
-        scores=[1.0] * len(test_base_reranker.TEST_PASSAGES)
+        scores=[i for i in range(len(test_base_reranker.TEST_PASSAGES))]
     ))
+    rerank_passages = result['passages']
     assert len(rerank_passages) == len(test_base_reranker.TEST_PASSAGES)
     for i in range(1, len(rerank_passages)):
         assert rerank_passages[i].content_datetime <= rerank_passages[i - 1].content_datetime
+    assert result['scores'] == [i for i in range(len(test_base_reranker.TEST_PASSAGES) - 1, -1, -1)]

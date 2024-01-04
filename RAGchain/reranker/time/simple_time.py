@@ -11,9 +11,11 @@ class SimpleTimeReranker(BaseReranker):
     """Rerank passages by their content_datetime only. It is simple reranker for time-aware RAG."""
 
     def invoke(self, input: Input, config: Optional[RunnableConfig] = None) -> Output:
-        passages = input.passages
-        sorted_passages = sorted(passages, key=lambda p: p.content_datetime, reverse=True)
-        input.passages = sorted_passages
+        # sort input.passages and passages.scores at once by content_datetime
+        sorted_pairs = sorted(zip(input.passages, input.scores), key=lambda p: p[0].content_datetime, reverse=True)
+        sorted_passages, sorted_scores = zip(*sorted_pairs)
+        input.passages = list(sorted_passages)
+        input.scores = list(sorted_scores)
         return input
 
     def rerank(self, passages: List[Passage]) -> List[Passage]:
