@@ -76,26 +76,31 @@ class SearchQAEvaluator(BaseDatasetEvaluator):
         Types are like these. int, array-like, BitGenerator, np.random.RandomState, np.random.Generator, optional
         """
 
-        ingest_data = deepcopy(self.corpus)
-        gt_ingestion = list(itertools.chain.from_iterable(deepcopy([gt for gt in self.qa_data['retrieval_gt']])))
+        corpus = deepcopy(self.corpus)
+        gt_ingestion = list(itertools.chain.from_iterable(self.qa_data['retrieval_gt'].tolist()))
 
-        # Retrieval ground truth ingestion
-        gt_df = ingest_data[ingest_data['doc_id'].isin(gt_ingestion)]
+        # Setting the evaluation size.
+        if self.eval_size is None:
+            eval_size = len(gt_ingestion)
+        else:
+            eval_size = self.eval_size
+
+        self.__validate_eval_size_and_ingest_size(ingest_size, eval_size)
+
+        # Convert retrieval ground truth dataframe to passages.
+        gt_df = corpus[corpus['doc_id'].isin(gt_ingestion)]
         gt_passages = gt_df.apply(self.__make_passages, axis=1).tolist()
 
+        # Shuffle corpus and slice it according to the ingest size.
         if ingest_size is not None:
-            # ingest size must be larger than evaluate size.
-            if ingest_size >= self.eval_size:
-                ingest_data = ingest_data.sample(n=ingest_size, replace=False, random_state=random_state,
-                                                 axis=0)
-            else:
-                raise ValueError("ingest size must be same or larger than evaluate size")
+            corpus = corpus.sample(n=ingest_size, replace=False, random_state=random_state,
+                                   axis=0)
 
         # Remove duplicated passages between corpus and retrieval gt for ingesting passages faster.
         # Marking duplicated values in the corpus using retrieval_gt id.
-        mask = ingest_data.isin(gt_ingestion)
+        mask = corpus.isin(gt_ingestion)
         # Remove duplicated passages
-        ingest_data = ingest_data[~mask.any(axis=1)]
+        ingest_data = corpus[~mask.any(axis=1)]
 
         # Create passages.
         passages = ingest_data.apply(self.__make_passages, axis=1).tolist()
@@ -108,8 +113,9 @@ class SearchQAEvaluator(BaseDatasetEvaluator):
 
     def evaluate(self, **kwargs) -> EvaluateResult:
         question = self.qa_data['question'].tolist()
-        retrieval_gt = [[uuid.UUID(gt) for gt in gt_lst] for gt_lst in self.qa_data['retrieval_gt']]
-        answer_gt = [[answer] for answer in self.qa_data['answer']]
+        retrieval_gt = self.qa_data.apply(lambda row: list(map(lambda x: uuid.UUID(x), row['retrieval_gt'])),
+                                          axis=1).tolist()
+        answer_gt = self.qa_data['answer'].apply(lambda row: [row]).tolist()
 
         return self._calculate_metrics(
             questions=question,
@@ -134,6 +140,8 @@ class SearchQAEvaluator(BaseDatasetEvaluator):
                 }
         )
 
-    def __make_doc_id(self, row):
-
-        return str(uuid.uuid4())
+    def __validate_eval_size_and_ingest_size(self, ingest_size, eval_size):
+        if ingest_size is not None:
+            # ingest size must be larger than evaluate size.
+            if ingest_size < eval_size:
+                raise ValueError(f"ingest size({ingest_size}) must be same or larger than evaluate size({eval_size})")
