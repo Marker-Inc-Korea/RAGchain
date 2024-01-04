@@ -8,6 +8,7 @@ from RAGchain.schema import RetrievalResult
 test_passages = test_base_reranker.TEST_PASSAGES[:20]
 query = "What is query decomposition?"
 
+
 @pytest.fixture
 def upr_reranker():
     reranker = UPRReranker()
@@ -15,7 +16,6 @@ def upr_reranker():
 
 
 def test_upr_reranker(upr_reranker):
-
     rerank_passages = upr_reranker.rerank(query, test_passages)
     assert len(rerank_passages) == len(test_passages)
     assert rerank_passages[0] != test_passages[0] or rerank_passages[-1] != test_passages[-1]
