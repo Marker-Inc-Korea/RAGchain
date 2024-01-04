@@ -19,9 +19,9 @@ class JsonLinker(BaseLinker):
         if json_path is None:
             raise ValueError("Please set JSON_LINKER_PATH to environment variable")
 
+        self.data = {}
         self.json_path = json_path
         self.create_or_load_json()
-        self.data = {}
 
     def create_json(self):
         with open(self.json_path, "w") as f:
