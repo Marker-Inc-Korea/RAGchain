@@ -1,9 +1,7 @@
 import pytest
-from langchain_core.runnables import RunnableLambda
 
 import test_base_reranker
 from RAGchain.reranker import TARTReranker
-from RAGchain.schema import RetrievalResult
 
 test_passages = test_base_reranker.TEST_PASSAGES[:20]
 query = "What is query decomposition?"
@@ -22,10 +20,4 @@ def test_tart_reranker(tart_reranker):
 
 
 def test_tart_reranker_runnable(tart_reranker):
-    runnable = tart_reranker | RunnableLambda(lambda x: x.to_dict())
-    rerank_passages = runnable.invoke(RetrievalResult(query=query, passages=test_passages, scores=[]))
-    assert len(rerank_passages['passages']) == len(test_passages)
-    assert rerank_passages['passages'][0] != test_passages[0] or rerank_passages['passages'][-1] != test_passages[-1]
-    assert rerank_passages['query'] == query
-    for i in range(1, len(rerank_passages['scores'])):
-        assert rerank_passages['scores'][i - 1] >= rerank_passages['scores'][i]
+    test_base_reranker.base_runnable_test(tart_reranker)

@@ -1,9 +1,7 @@
 import pytest
-from langchain_core.runnables import RunnableLambda
 
 import test_base_reranker
 from RAGchain.reranker import UPRReranker
-from RAGchain.schema import RetrievalResult
 
 test_passages = test_base_reranker.TEST_PASSAGES[:20]
 query = "What is query decomposition?"
@@ -33,9 +31,4 @@ def test_calculate_likelihood(upr_reranker):
 
 
 def test_upr_reranker_runnable(upr_reranker):
-    runnable = upr_reranker | RunnableLambda(lambda x: x.to_dict())
-    result = runnable.invoke(RetrievalResult(query=query, passages=test_passages, scores=[]))
-    assert len(test_passages) == len(result['passages'])
-    assert result['passages'][0] != test_passages[0] or result['passages'][-1] != test_passages[-1]
-    for i in range(1, len(result['scores'])):
-        assert result['scores'][i - 1] > result['scores'][i]
+    test_base_reranker.base_runnable_test(upr_reranker)
