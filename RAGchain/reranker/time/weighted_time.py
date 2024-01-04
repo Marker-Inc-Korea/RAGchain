@@ -1,10 +1,14 @@
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
-from RAGchain.schema import Passage
+from langchain_core.runnables import RunnableConfig
+from langchain_core.runnables.utils import Input, Output
+
+from RAGchain.reranker.base import BaseReranker
+from RAGchain.schema import Passage, RetrievalResult
 
 
-class WeightedTimeReranker:
+class WeightedTimeReranker(BaseReranker):
     """
     Rerank passages by their content_datetime and relevance score.
     First, relevance score must be normalized to [0, 1] range.
@@ -26,14 +30,21 @@ class WeightedTimeReranker:
         :param passages: list of passages to be reranked.
         :param scores: list of relevance scores of passages.
         """
+        retrieval_result = RetrievalResult(query="", passages=passages, scores=scores)
+        return self.invoke(retrieval_result).passages
+
+    def invoke(self, input: Input, config: Optional[RunnableConfig] = None) -> Output:
         now = datetime.now()
+        scores = input.scores
+        passages = input.passages
         # normalize scores
         scaled_scores = [(score - min(scores)) / (max(scores) - min(scores)) for score in scores]
-
         combined_scores = [self.__get_combined_score(passage, score=score, now=now)
                            for passage, score in zip(passages, scaled_scores)]
-        sorted_passages, _ = zip(*sorted(zip(passages, combined_scores), key=lambda x: x[1], reverse=True))
-        return sorted_passages
+        sorted_passages, sorted_scores = zip(*sorted(zip(passages, combined_scores), key=lambda x: x[1], reverse=True))
+        input.passages = sorted_passages
+        input.scores = sorted_scores
+        return input
 
     def __get_combined_score(self, passage: Passage, score: float, now: datetime = datetime.now()):
         passed_hours = (now - passage.content_datetime).total_seconds() / 3600
