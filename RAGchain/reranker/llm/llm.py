@@ -3,7 +3,10 @@ The original code is from [RankGPT](https://github.com/sunnweiwei/RankGPT).
 I modified the code to fit the RAGchain framework.
 """
 import os
-from typing import List
+from typing import List, Optional
+
+from langchain_core.runnables import RunnableConfig
+from langchain_core.runnables.utils import Input, Output
 
 from RAGchain.reranker.base import BaseReranker
 from RAGchain.reranker.llm.rank_gpt import permutation_pipeline, sliding_windows
@@ -17,6 +20,10 @@ class LLMReranker(BaseReranker):
     The LLM rerank the passages by question.
     This reranker only supports the OpenAI models only.
     """
+
+    def invoke(self, input: Input, config: Optional[RunnableConfig] = None) -> Output:
+        raise NotImplementedError("LLMReranker does not support LCEL yet.")
+
     def __init__(self, model_name: str = "gpt-3.5-turbo", api_base: str = None, *args, **kwargs):
         self.model_name = model_name
         self.api_base = api_base
