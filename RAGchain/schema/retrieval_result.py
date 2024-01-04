@@ -21,3 +21,11 @@ class RetrievalResult(BaseModel):
             "question": self.query,
             "passages": passage_convert_func(self.passages)
         }
+
+    def to_dict(self):
+        return {
+            "query": self.query,
+            "passages": self.passages,
+            "scores": self.scores,
+            "metadata": self.metadata
+        }
