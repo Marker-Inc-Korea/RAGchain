@@ -41,8 +41,8 @@ class TARTReranker(BaseReranker):
             scores = self.model(**features).logits
             normalized_scores = [float(score[1]) for score in F.softmax(scores, dim=1)]
 
-        sorted_pairs = sorted(zip(passages, normalized_scores), key=lambda x: x[1], reverse=True)
-        sorted_passages, sorted_scores = list(zip(*sorted_pairs))
-        input.passages = sorted_passages
-        input.scores = sorted_scores
+        sorted_passages, sorted_scores = zip(
+            *sorted(zip(passages, normalized_scores), key=lambda x: x[1], reverse=True))
+        input.passages = list(sorted_passages)
+        input.scores = list(sorted_scores)
         return input

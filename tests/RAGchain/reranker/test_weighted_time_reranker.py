@@ -34,6 +34,8 @@ def test_weighted_time_reranker_runnable(weighted_time_reranker):
     }
 
     result = runnable.invoke(RetrievalResult(query="query", passages=TEST_PASSAGES, scores=SCORES))
+    assert isinstance(result['passages'], list)
+    assert isinstance(result['scores'], list)
     assert isinstance(result['passages'][0], Passage)
     assert isinstance(result['scores'][0], float)
     solution = [10, 9, 0, 8, 7, 1, 6, 2, 5, 3, 4]

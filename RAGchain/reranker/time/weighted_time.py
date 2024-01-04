@@ -42,8 +42,8 @@ class WeightedTimeReranker(BaseReranker):
         combined_scores = [self.__get_combined_score(passage, score=score, now=now)
                            for passage, score in zip(passages, scaled_scores)]
         sorted_passages, sorted_scores = zip(*sorted(zip(passages, combined_scores), key=lambda x: x[1], reverse=True))
-        input.passages = sorted_passages
-        input.scores = sorted_scores
+        input.passages = list(sorted_passages)
+        input.scores = list(sorted_scores)
         return input
 
     def __get_combined_score(self, passage: Passage, score: float, now: datetime = datetime.now()):

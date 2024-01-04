@@ -24,6 +24,9 @@ def test_load_passage():
 def base_runnable_test(reranker: BaseReranker):
     runnable = reranker | RunnableLambda(lambda x: x.to_dict())
     result = runnable.invoke(RetrievalResult(query=query, passages=TEST_PASSAGES, scores=[]))
+    assert isinstance(result['query'], str)
+    assert isinstance(result['passages'], list)
+    assert isinstance(result['scores'], list)
     assert len(result['passages']) == len(TEST_PASSAGES)
     assert result['passages'][0] != TEST_PASSAGES[0] or result['passages'][-1] != TEST_PASSAGES[-1]
     assert len(result['scores']) == len(result['passages'])

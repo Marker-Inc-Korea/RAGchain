@@ -31,10 +31,9 @@ class BM25Reranker(BaseReranker):
         tokenized_query = self.__tokenize([input.query])[0]
         bm25 = BM25Okapi(tokenized_content)
         scores = bm25.get_scores(tokenized_query)
-        sorted_pairs = sorted(zip(input.passages, scores), key=lambda x: x[1], reverse=True)
-        sorted_passages, sorted_scores = list(zip(*sorted_pairs))
-        input.passages = sorted_passages
-        input.scores = sorted_scores
+        sorted_passages, sorted_scores = zip(*sorted(zip(input.passages, scores), key=lambda x: x[1], reverse=True))
+        input.passages = list(sorted_passages)
+        input.scores = list(sorted_scores)
         return input
 
     def __tokenize(self, values: List[str]):
