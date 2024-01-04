@@ -34,9 +34,9 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         You must ingest all data for using context_recall and context_precision metrics.
 
         Notice:
-        Default metrics is basically running metrics if you run test file.
-        Support metrics is the metrics you are available.
-        This separation is because Ragas metrics take a long time in evaluation.
+        The default metric refers to the metric that is essentially executed when you run the test file.
+        Support metrics refer to those that are available for use.
+        This distinction exists because the evaluation process for Ragas metrics is time-consuming.
         """
 
         self.file_path = "ms_marco"
@@ -44,7 +44,6 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         if version == 'v1.1' or version == 'v2.1':
             # You can available MSMARCO dataset versions v1.1 and v2.1
             self.dataset = load_dataset(self.file_path, version)
-            # TODO: answer gt 도 추가
             if version == 'v1.1':
                 self.data = self.dataset['test']
             elif version == 'v2.1':
@@ -83,7 +82,9 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
             (self.qa_data['answers'].map(lambda x: len(x)) != 0) & (
                     self.qa_data['passages'].map(lambda x: sum(x['is_selected'])) != 0)
             ].reset_index(drop=True)
-        self.ingest_data = None
+
+        if self.eval_size is not None and len(self.qa_data) > self.eval_size:
+            self.qa_data = self.qa_data[:self.eval_size]
 
     def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB, ingest_size: Optional[int] = None):
         """
@@ -93,22 +94,16 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         :param ingest_size: The number of data to ingest. If None, ingest all data.
         You must ingest all data for using context_recall metrics.
         """
+        # Slice ingest data by ingest size. If ingest size is None, ingest all data.
+        self.ingest_data = deepcopy(self.qa_data)
+
+        self._validate_eval_size_and_ingest_size(ingest_size, eval_size=len(self.qa_data))
 
         if ingest_size is not None:
-            self.ingest_data = deepcopy(self.qa_data)
-            # ingest size must be larger than evaluate size.
-            if ingest_size >= self.eval_size:
-                self.ingest_data = self.ingest_data[:ingest_size]
-                make_passages = pd.concat(
-                    [self.ingest_data['query_id'], json_normalize(self.ingest_data['passages'].tolist())],
-                    axis=1)
-
-            else:
-                raise ValueError("ingest size must be same or larger than evaluate size")
-        else:
-            make_passages = pd.concat(
-                [self.ingest_data['query_id'], json_normalize(self.ingest_data['passages'].tolist())],
-                axis=1)
+            self.ingest_data = self.ingest_data[:ingest_size]
+        make_passages = pd.concat(
+            [self.ingest_data['query_id'], json_normalize(self.ingest_data['passages'].tolist())],
+            axis=1)
 
         # Create passages.
         result = make_passages.apply(self.__make_passages_and_retrieval_gt, axis=1)
@@ -122,18 +117,13 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         db.save(passages)
 
     def evaluate(self, **kwargs) -> EvaluateResult:
-        if self.eval_size is not None and len(self.ingest_data) > self.eval_size:
-            evaluate_data = self.ingest_data[:self.eval_size]
-        else:
-            # else case is ingested data sliced by ingest size.
-            evaluate_data = self.ingest_data
 
         return self._calculate_metrics(
-            questions=evaluate_data['question'].tolist(),
+            questions=self.qa_data['question'].tolist(),
             pipeline=self.run_pipeline,
-            retrieval_gt=evaluate_data['retrieval_gt'].tolist(),
-            retrieval_gt_order=evaluate_data['retrieval_gt_order'].tolist(),
-            answer_gt=evaluate_data['answers'].tolist(),
+            retrieval_gt=self.qa_data['retrieval_gt'].tolist(),
+            retrieval_gt_order=self.qa_data['retrieval_gt_order'].tolist(),
+            answer_gt=self.qa_data['answers'].tolist(),
             **kwargs
         )
 

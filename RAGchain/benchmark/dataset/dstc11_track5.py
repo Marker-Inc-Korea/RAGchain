@@ -30,9 +30,9 @@ class DSTC11Track5Evaluator(BaseDatasetEvaluator):
         You must ingest all data for using context_recall metrics.
 
         Notice:
-        Default metrics is basically running metrics if you run test file.
-        Support metrics is the metrics you are available.
-        This separation is because Ragas metrics take a long time in evaluation.
+        The default metric refers to the metric that is essentially executed when you run the test file.
+        Support metrics refer to those that are available for use.
+        This distinction exists because the evaluation process for Ragas metrics is time-consuming.
         """
 
         self.file_path = "NomaDamas/DSTC-11-Track-5"
@@ -79,23 +79,21 @@ class DSTC11Track5Evaluator(BaseDatasetEvaluator):
         ingest_data = deepcopy(self.knowledge)
         gt_ids = deepcopy(self.retrieval_gt)
 
-        id_for_remove_duplicated_corpus = list(itertools.chain.from_iterable(gt_ids))
+        gt_ingestion = list(itertools.chain.from_iterable(gt_ids))
+
+        self._validate_eval_size_and_ingest_size(ingest_size, eval_size=len(self.questions))
 
         # Create gt_passages for ingest.
-        gt_passages = ingest_data[ingest_data['doc_id'].isin(id_for_remove_duplicated_corpus)]
+        gt_passages = ingest_data[ingest_data['doc_id'].isin(gt_ingestion)]
         gt_passages = gt_passages.apply(self.__make_passages, axis=1).tolist()
 
         if ingest_size is not None:
-            # ingest size must be larger than evaluate size.
-            if ingest_size >= self.eval_size:
-                ingest_data = ingest_data.sample(n=ingest_size, replace=False, random_state=random_state,
-                                                 axis=0)
-            else:
-                raise ValueError("ingest size must be same or larger than evaluate size")
+            ingest_data = ingest_data.sample(n=ingest_size, replace=False, random_state=random_state,
+                                             axis=0)
 
         # Remove duplicated passages between corpus and retrieval gt for ingesting passages faster.
         # Marking duplicated values in the corpus using retrieval_gt id.
-        mask = ingest_data.isin(id_for_remove_duplicated_corpus)
+        mask = ingest_data.isin(gt_ingestion)
         # Remove duplicated passages
         ingest_data = ingest_data[~mask.any(axis=1)]
         passages = ingest_data.apply(self.__make_passages, axis=1).tolist()

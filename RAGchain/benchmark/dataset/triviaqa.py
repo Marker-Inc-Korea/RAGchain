@@ -33,9 +33,9 @@ class TriviaQAEvaluator(BaseDatasetEvaluator):
         The reason context_recall does not accommodate this benchmark is due to the excessive number
         of retrieval ground truths that exceed the context length in ragas metrics.
 
-        Default metrics is basically running metrics if you run test file.
-        Support metrics is the metrics you are available.
-        This separation is because Ragas metrics take a long time in evaluation.
+        The default metric refers to the metric that is essentially executed when you run the test file.
+        Support metrics refer to those that are available for use.
+        This distinction exists because the evaluation process for Ragas metrics is time-consuming.
         """
 
         self.file_path = "trivia_qa"
@@ -76,12 +76,11 @@ class TriviaQAEvaluator(BaseDatasetEvaluator):
         :param ingest_size: The number of data to ingest. If None, ingest all data.
         """
         ingest_data = self.ingest_data
+
+        self._validate_eval_size_and_ingest_size(ingest_size, eval_size=len(self.qa_data))
+
         if ingest_size is not None:
-            # ingest size must be larger than evaluate size.
-            if ingest_size >= self.eval_size:
-                ingest_data = ingest_data[:ingest_size]
-            else:
-                raise ValueError("ingest size must be same or larger than evaluate size")
+            ingest_data = ingest_data[:ingest_size]
 
         # Create passages.
         result = ingest_data.apply(self.__make_passages, axis=1)

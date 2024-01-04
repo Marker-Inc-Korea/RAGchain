@@ -33,13 +33,13 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
         If you want to use languages combined, You can choose 'combined' configuration.
 
         Notice:
-        Default metrics is basically running metrics if you run test file.
-        Support metrics is the metrics you are available.
-        This separation is because Ragas metrics take a long time in evaluation.
+        The default metric refers to the metric that is essentially executed when you run the test file.
+        Support metrics refer to those that are available for use.
+        This distinction exists because the evaluation process for Ragas metrics is time-consuming.
         """
-        default_metrics = (self.retrieval_gt_metrics + ['MRR'])
-        support_metrics = (default_metrics
-                           + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics)
+        default_metrics = self.retrieval_gt_metrics + ['MRR']
+        support_metrics = default_metrics + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics \
+                          + self.answer_no_gt_ragas_metrics
         languages = ['arabic', 'bengali', 'combined', 'english', 'finnish',
                      'indonesian', 'japanese', 'korean', 'russian', 'swahili', 'telugu', 'thai']
         language = language.lower()
@@ -65,12 +65,8 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
 
         # Data load
         self.file_path = 'castorini/mr-tydi'
-        dataset = load_dataset(self.file_path, language)['test']
-        corpus = load_dataset('castorini/mr-tydi-corpus', language)['train']
-
-        # Convert dataformat as pandas dataframe
-        self.qa_data = dataset.to_pandas()
-        self.corpus = corpus.to_pandas()
+        self.qa_data = load_dataset(self.file_path, language)['test'].to_pandas()
+        self.corpus = load_dataset('castorini/mr-tydi-corpus', language)['train'].to_pandas()
 
         if evaluate_size is not None and len(self.qa_data) > evaluate_size:
             self.qa_data = self.qa_data[:evaluate_size]
@@ -82,9 +78,10 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
         :param db: The db that you want to ingest.
         :param ingest_size: The number of data to ingest. If None, ingest all data.
         You must ingest all data for using context_recall metrics.
-        If ingest size too big, It takes a long time.
-        So we shuffle corpus and slice by ingest size for test.
-        Put retrieval gt corpus in passages because retrieval retrieves ground truth in db.
+        If the ingest size is excessively large, it results in prolonged processing times.
+        To address this, we shuffle the corpus and slice it according to the ingest size for testing purposes.
+        The reason for transforming the retrieval ground truth corpus into passages and ingesting it is to enable
+        retrieval to retrieve the retrieval ground truth within the database.
         :param random_state: A random state to fix the shuffled corpus to ingest.
         Types are like these. int, array-like, BitGenerator, np.random.RandomState, np.random.Generator, optional
         """
@@ -93,23 +90,21 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
         corpus_passages = deepcopy(self.corpus)
 
         gt_ids = gt_ids.apply(self.__extract_gt_id)
-        id_for_remove_duplicated_corpus = list(itertools.chain.from_iterable(gt_ids))
+        gt_ingestion = list(itertools.chain.from_iterable(gt_ids))
+
+        self._validate_eval_size_and_ingest_size(ingest_size, eval_size=len(self.qa_data))
 
         # Create gt_passages for ingest.
-        gt_passages = corpus_passages[corpus_passages['docid'].isin(id_for_remove_duplicated_corpus)]
+        gt_passages = corpus_passages[corpus_passages['docid'].isin(gt_ingestion)]
         gt_passages = gt_passages.apply(self.__make_corpus_passages, axis=1).tolist()
 
         if ingest_size is not None:
-            # ingest size must be larger than evaluate size.
-            if ingest_size >= self.eval_size:
-                corpus_passages = corpus_passages.sample(n=ingest_size, replace=False, random_state=random_state,
-                                                         axis=0)
-            else:
-                raise ValueError("ingest size must be same or larger than evaluate size")
+            corpus_passages = corpus_passages.sample(n=ingest_size, replace=False, random_state=random_state,
+                                                     axis=0)
 
         # Remove duplicated passages between corpus and retrieval gt for ingesting passages faster.
         # Marking duplicated values in the corpus using retrieval_gt id.
-        mask = corpus_passages.isin(id_for_remove_duplicated_corpus)
+        mask = corpus_passages.isin(gt_ingestion)
         # Remove duplicated passages
         corpus_passages = corpus_passages[~mask.any(axis=1)]
         passages = corpus_passages.apply(self.__make_corpus_passages, axis=1).tolist()
