@@ -81,13 +81,7 @@ class DSTC11Track5Evaluator(BaseDatasetEvaluator):
 
         gt_ingestion = list(itertools.chain.from_iterable(gt_ids))
 
-        # Setting the evaluation size.
-        if self.eval_size is None:
-            eval_size = len(gt_ingestion)
-        else:
-            eval_size = self.eval_size
-
-        self.__validate_eval_size_and_ingest_size(ingest_size, eval_size)
+        self._validate_eval_size_and_ingest_size(ingest_size, eval_size=len(self.questions))
 
         # Create gt_passages for ingest.
         gt_passages = ingest_data[ingest_data['doc_id'].isin(gt_ingestion)]
@@ -178,9 +172,3 @@ class DSTC11Track5Evaluator(BaseDatasetEvaluator):
                 ))
 
         return question, gt, response
-
-    def __validate_eval_size_and_ingest_size(self, ingest_size, eval_size):
-        if ingest_size is not None:
-            # ingest size must be larger than evaluate size.
-            if ingest_size < eval_size:
-                raise ValueError(f"ingest size({ingest_size}) must be same or larger than evaluate size({eval_size})")

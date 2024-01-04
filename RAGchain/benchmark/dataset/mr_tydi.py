@@ -65,12 +65,8 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
 
         # Data load
         self.file_path = 'castorini/mr-tydi'
-        dataset = load_dataset(self.file_path, language)['test']
-        corpus = load_dataset('castorini/mr-tydi-corpus', language)['train']
-
-        # Convert dataformat as pandas dataframe
-        self.qa_data = dataset.to_pandas()
-        self.corpus = corpus.to_pandas()
+        self.qa_data = load_dataset(self.file_path, language)['test'].to_pandas()
+        self.corpus = load_dataset('castorini/mr-tydi-corpus', language)['train'].to_pandas()
 
         if evaluate_size is not None and len(self.qa_data) > evaluate_size:
             self.qa_data = self.qa_data[:evaluate_size]
@@ -96,13 +92,7 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
         gt_ids = gt_ids.apply(self.__extract_gt_id)
         gt_ingestion = list(itertools.chain.from_iterable(gt_ids))
 
-        # Setting the evaluation size.
-        if self.eval_size is None:
-            eval_size = len(gt_ingestion)
-        else:
-            eval_size = self.eval_size
-
-        self.__validate_eval_size_and_ingest_size(ingest_size, eval_size)
+        self._validate_eval_size_and_ingest_size(ingest_size, eval_size=len(self.qa_data))
 
         # Create gt_passages for ingest.
         gt_passages = corpus_passages[corpus_passages['docid'].isin(gt_ingestion)]
@@ -156,9 +146,3 @@ class MrTydiEvaluator(BaseDatasetEvaluator):
         for element in row:
             gt_id.append(element['docid'])
         return gt_id
-
-    def __validate_eval_size_and_ingest_size(self, ingest_size, eval_size):
-        if ingest_size is not None:
-            # ingest size must be larger than evaluate size.
-            if ingest_size < eval_size:
-                raise ValueError(f"ingest size({ingest_size}) must be same or larger than evaluate size({eval_size})")

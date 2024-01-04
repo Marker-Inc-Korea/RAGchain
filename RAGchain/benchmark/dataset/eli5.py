@@ -70,13 +70,7 @@ class Eli5Evaluator(BaseDatasetEvaluator):
         """
         ingest_data = deepcopy(self.ingest_data)
 
-        # Setting the evaluation size.
-        if self.eval_size is None:
-            eval_size = len(self.qa_data)
-        else:
-            eval_size = self.eval_size
-
-        self.__validate_eval_size_and_ingest_size(ingest_size, eval_size)
+        self._validate_eval_size_and_ingest_size(ingest_size, eval_size=len(self.qa_data))
 
         if ingest_size is not None:
             ingest_data = ingest_data[:ingest_size]
@@ -106,9 +100,3 @@ class Eli5Evaluator(BaseDatasetEvaluator):
             content=row['document'],
             filepath=self.file_path,
         )
-
-    def __validate_eval_size_and_ingest_size(self, ingest_size, eval_size):
-        if ingest_size is not None:
-            # ingest size must be larger than evaluate size.
-            if ingest_size < eval_size:
-                raise ValueError(f"ingest size({ingest_size}) must be same or larger than evaluate size({eval_size})")

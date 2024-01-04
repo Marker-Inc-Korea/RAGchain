@@ -19,6 +19,11 @@ class BaseDatasetEvaluator(BaseEvaluator, ABC):
                ingest_size: Optional[int] = None):
         pass
 
+    def _validate_eval_size_and_ingest_size(self, ingest_size, eval_size):
+        if ingest_size is not None and ingest_size < eval_size:
+            # ingest size must be larger than evaluate size.
+            raise ValueError(f"ingest size({ingest_size}) must be same or larger than evaluate size({eval_size})")
+
 
 class BaseStrategyQA:
     def convert_qa_to_pd(self, data):
@@ -74,7 +79,7 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
         if file_path is None:
             raise ValueError("file_path is not input.")
 
-        self.queries = load_dataset(file_path, 'queries')['queries'].to_pandas()
+        self.questions = load_dataset(file_path, 'queries')['queries'].to_pandas()
         self.corpus = load_dataset(file_path, 'corpus')['corpus'].to_pandas()
         self.qrels = load_dataset(f"{file_path}-qrels")['test'].to_pandas()
 
@@ -98,7 +103,7 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
 
         # Create question
         q_id = self.qrels['query-id'].tolist()
-        self.questions = self.queries.loc[self.queries['_id'].isin(q_id)]['text'].tolist()
+        self.questions = self.questions.loc[self.questions['_id'].isin(q_id)]['text'].tolist()
 
     def ingest(self, retrievals: List[BaseRetrieval],
                db: BaseDB,
@@ -120,13 +125,7 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
         gt_ids = deepcopy(self.retrieval_gt)
         corpus = deepcopy(self.corpus)
 
-        # Setting the evaluation size.
-        if self.eval_size is None:
-            eval_size = len(gt_ids)
-        else:
-            eval_size = self.eval_size
-
-        self.__validate_eval_size_and_ingest_size(ingest_size, eval_size)
+        self._validate_eval_size_and_ingest_size(ingest_size, len(self.questions))
 
         gt_before_passages, id_for_remove_duplicated_corpus = self.make_gt_passages_and_duplicated_id(gt_ids, corpus)
 
@@ -200,12 +199,6 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
         gt_passages = corpus.loc[corpus['_id'].isin(id_for_remove_duplicated_corpus)]
 
         return gt_passages, id_for_remove_duplicated_corpus
-
-    def __validate_eval_size_and_ingest_size(self, ingest_size, eval_size):
-        if ingest_size is not None:
-            # ingest size must be larger than evaluate size.
-            if ingest_size < eval_size:
-                raise ValueError(f"ingest size({ingest_size}) must be same or larger than evaluate size({eval_size})")
 
     def remove_duplicate_passages(self,
                                   ingest_size: int,

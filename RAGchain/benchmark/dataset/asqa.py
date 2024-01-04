@@ -44,6 +44,7 @@ class ASQAEvaluator(BaseDatasetEvaluator):
         self.question = dataset[['sample_id', 'ambiguous_question']]
         self.content = dataset[['sample_id', 'retrieval_gt', 'wikipages']]
         self.answers = dataset[['sample_id', 'answer_gt']]
+        self.retrieval_gt = deepcopy(self.content)
 
         default_metrics = self.retrieval_gt_metrics + self.answer_gt_metrics + self.answer_passage_metrics
         support_metrics = default_metrics + self.retrieval_gt_ragas_metrics \
@@ -66,7 +67,7 @@ class ASQAEvaluator(BaseDatasetEvaluator):
         if evaluate_size is not None and len(self.question) > evaluate_size:
             self.question = self.question[:evaluate_size]
             self.answers = self.answers[:evaluate_size]
-            self.retrieval_gt = self.content[:evaluate_size]
+            self.retrieval_gt = self.retrieval_gt[:evaluate_size]
 
     def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB, ingest_size: Optional[int] = None):
         """
@@ -77,13 +78,7 @@ class ASQAEvaluator(BaseDatasetEvaluator):
         """
         ingest_data = deepcopy(self.content)
 
-        # Setting the evaluation size.
-        if self.eval_size is None:
-            eval_size = len(self.question)
-        else:
-            eval_size = self.eval_size
-
-        self.__validate_eval_size_and_ingest_size(ingest_size, eval_size)
+        self._validate_eval_size_and_ingest_size(ingest_size, eval_size=len(self.question))
 
         if ingest_size is not None:
             ingest_data = ingest_data[:ingest_size]
@@ -140,9 +135,3 @@ class ASQAEvaluator(BaseDatasetEvaluator):
         gt = [str(row['sample_id']) + '_' + str(idx) for idx, content in enumerate(row['retrieval_gt'])]
 
         return gt
-
-    def __validate_eval_size_and_ingest_size(self, ingest_size, eval_size):
-        if ingest_size is not None:
-            # ingest size must be larger than evaluate size.
-            if ingest_size < eval_size:
-                raise ValueError(f"ingest size({ingest_size}) must be same or larger than evaluate size({eval_size})")

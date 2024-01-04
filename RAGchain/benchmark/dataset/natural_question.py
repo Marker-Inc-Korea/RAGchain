@@ -40,7 +40,7 @@ class NaturalQAEvaluator(BaseDatasetEvaluator):
         """
 
         self.file_path = "lucadiliello/naturalquestionsshortqa"
-        self.dataset = load_dataset(self.file_path)['validation'].to_pandas()
+        dataset = load_dataset(self.file_path)['validation'].to_pandas()
 
         default_metrics = self.retrieval_gt_metrics + self.answer_gt_metrics + self.answer_passage_metrics
         support_metrics = default_metrics + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics \
@@ -61,14 +61,14 @@ class NaturalQAEvaluator(BaseDatasetEvaluator):
         self.run_pipeline = run_pipeline
 
         # Delete duplicated question - answer - retrieval gt
-        self.dataset = self.dataset.groupby('question', as_index=False).agg(
+        self.qa_data = dataset.groupby('question', as_index=False).agg(
             {'context': lambda x: list(x), 'key': lambda x: list(x),
              'answers': lambda x: list(x.tolist()), 'labels': lambda x: list(x)})
 
-        self.context = deepcopy(self.dataset[['key', 'context', 'labels']])
+        self.context = deepcopy(self.qa_data[['key', 'context', 'labels']])
 
-        if evaluate_size is not None and len(self.dataset) > evaluate_size:
-            self.qa_data = self.dataset[:evaluate_size]
+        if evaluate_size is not None and len(self.qa_data) > evaluate_size:
+            self.qa_data = self.qa_data[:evaluate_size]
 
     def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB, ingest_size: Optional[int] = None):
         """
@@ -80,13 +80,7 @@ class NaturalQAEvaluator(BaseDatasetEvaluator):
         """
         ingest_data = deepcopy(self.context)
 
-        # Setting the evaluation size.
-        if self.eval_size is None:
-            eval_size = len(self.qa_data)
-        else:
-            eval_size = self.eval_size
-
-        self.__validate_eval_size_and_ingest_size(ingest_size, eval_size)
+        self._validate_eval_size_and_ingest_size(ingest_size, eval_size=len(self.qa_data))
 
         if ingest_size is not None:
             ingest_data = ingest_data[:ingest_size]
@@ -126,9 +120,3 @@ class NaturalQAEvaluator(BaseDatasetEvaluator):
                 }
             ))
         return passages
-
-    def __validate_eval_size_and_ingest_size(self, ingest_size, eval_size):
-        if ingest_size is not None:
-            # ingest size must be larger than evaluate size.
-            if ingest_size < eval_size:
-                raise ValueError(f"ingest size({ingest_size}) must be same or larger than evaluate size({eval_size})")

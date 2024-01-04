@@ -82,7 +82,9 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
             (self.qa_data['answers'].map(lambda x: len(x)) != 0) & (
                     self.qa_data['passages'].map(lambda x: sum(x['is_selected'])) != 0)
             ].reset_index(drop=True)
-        self.ingest_data = None
+
+        if self.eval_size is not None and len(self.qa_data) > self.eval_size:
+            self.qa_data = self.qa_data[:self.eval_size]
 
     def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB, ingest_size: Optional[int] = None):
         """
@@ -92,16 +94,11 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         :param ingest_size: The number of data to ingest. If None, ingest all data.
         You must ingest all data for using context_recall metrics.
         """
-        # Setting the evaluation size.
-        if self.eval_size is None:
-            eval_size = len(self.qa_data)
-        else:
-            eval_size = self.eval_size
-
-        self.__validate_eval_size_and_ingest_size(ingest_size, eval_size)
-
         # Slice ingest data by ingest size. If ingest size is None, ingest all data.
         self.ingest_data = deepcopy(self.qa_data)
+
+        self._validate_eval_size_and_ingest_size(ingest_size, eval_size=len(self.qa_data))
+
         if ingest_size is not None:
             self.ingest_data = self.ingest_data[:ingest_size]
         make_passages = pd.concat(
@@ -120,18 +117,13 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
         db.save(passages)
 
     def evaluate(self, **kwargs) -> EvaluateResult:
-        if self.eval_size is not None and len(self.ingest_data) > self.eval_size:
-            evaluate_data = self.ingest_data[:self.eval_size]
-        else:
-            # else case is ingested data sliced by ingest size.
-            evaluate_data = self.ingest_data
 
         return self._calculate_metrics(
-            questions=evaluate_data['question'].tolist(),
+            questions=self.qa_data['question'].tolist(),
             pipeline=self.run_pipeline,
-            retrieval_gt=evaluate_data['retrieval_gt'].tolist(),
-            retrieval_gt_order=evaluate_data['retrieval_gt_order'].tolist(),
-            answer_gt=evaluate_data['answers'].tolist(),
+            retrieval_gt=self.qa_data['retrieval_gt'].tolist(),
+            retrieval_gt_order=self.qa_data['retrieval_gt_order'].tolist(),
+            answer_gt=self.qa_data['answers'].tolist(),
             **kwargs
         )
 
@@ -156,9 +148,3 @@ class MSMARCOEvaluator(BaseDatasetEvaluator):
                 ord_rank += 1
 
         return passages, retrieval_gt, retrieval_gt_ord
-
-    def __validate_eval_size_and_ingest_size(self, ingest_size, eval_size):
-        if ingest_size is not None:
-            # ingest size must be larger than evaluate size.
-            if ingest_size < eval_size:
-                raise ValueError(f"ingest size({ingest_size}) must be same or larger than evaluate size({eval_size})")

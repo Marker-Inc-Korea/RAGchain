@@ -101,13 +101,7 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
         ingest_data = deepcopy(self.ingest_data)
         gt_ingestion = [gt for gt_lst in deepcopy(self.gt) for gt in gt_lst]
 
-        # Setting the evaluation size.
-        if self.eval_size is None:
-            eval_size = len(gt_ingestion)
-        else:
-            eval_size = self.eval_size
-
-        self.__validate_eval_size_and_ingest_size(ingest_size, eval_size)
+        self._validate_eval_size_and_ingest_size(ingest_size, eval_size=len(self.question))
 
         # Create gt_passages for ingest.
         gt_passages = ingest_data[ingest_data['doc_id'].isin(gt_ingestion)]
@@ -163,9 +157,3 @@ class NFCorpusEvaluator(BaseDatasetEvaluator):
             gt_order.append(row['relevance'][idx])
 
         return gts, gt_order
-
-    def __validate_eval_size_and_ingest_size(self, ingest_size, eval_size):
-        if ingest_size is not None:
-            # ingest size must be larger than evaluate size.
-            if ingest_size < eval_size:
-                raise ValueError(f"ingest size({ingest_size}) must be same or larger than evaluate size({eval_size})")

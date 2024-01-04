@@ -36,7 +36,7 @@ class SearchQAEvaluator(BaseDatasetEvaluator):
         This distinction arises due to the prolonged evaluation time required for Ragas metrics.
         """
 
-        self.file_path = "NomaDamas/search_qa_split"
+        self.file_path = "NomaDamas/split_search_qa"
         self.qa_data = load_dataset(self.file_path, 'qa_data')['test'].to_pandas()
         self.corpus = load_dataset(self.file_path, 'corpus')['train'].to_pandas()
 
@@ -76,16 +76,13 @@ class SearchQAEvaluator(BaseDatasetEvaluator):
         Types are like these. int, array-like, BitGenerator, np.random.RandomState, np.random.Generator, optional
         """
 
+        check_isnull_gt = self.qa_data[('doc_id')].isnull().sum()
+        assert check_isnull_gt == 0, "There are null values in retrieval_gt column."
+
         corpus = deepcopy(self.corpus)
-        gt_ingestion = list(itertools.chain.from_iterable(self.qa_data['retrieval_gt'].tolist()))
+        gt_ingestion = list(itertools.chain.from_iterable(self.qa_data['doc_id'].tolist()))
 
-        # Setting the evaluation size.
-        if self.eval_size is None:
-            eval_size = len(gt_ingestion)
-        else:
-            eval_size = self.eval_size
-
-        self.__validate_eval_size_and_ingest_size(ingest_size, eval_size)
+        self._validate_eval_size_and_ingest_size(ingest_size, eval_size=len(self.qa_data))
 
         # Convert retrieval ground truth dataframe to passages.
         gt_df = corpus[corpus['doc_id'].isin(gt_ingestion)]
@@ -113,7 +110,7 @@ class SearchQAEvaluator(BaseDatasetEvaluator):
 
     def evaluate(self, **kwargs) -> EvaluateResult:
         question = self.qa_data['question'].tolist()
-        retrieval_gt = self.qa_data.apply(lambda row: list(map(lambda x: uuid.UUID(x), row['retrieval_gt'])),
+        retrieval_gt = self.qa_data.apply(lambda row: list(map(lambda x: uuid.UUID(x), row['doc_id'])),
                                           axis=1).tolist()
         answer_gt = self.qa_data['answer'].apply(lambda row: [row]).tolist()
 
@@ -139,9 +136,3 @@ class SearchQAEvaluator(BaseDatasetEvaluator):
                     'show_number': row['show_number']
                 }
         )
-
-    def __validate_eval_size_and_ingest_size(self, ingest_size, eval_size):
-        if ingest_size is not None:
-            # ingest size must be larger than evaluate size.
-            if ingest_size < eval_size:
-                raise ValueError(f"ingest size({ingest_size}) must be same or larger than evaluate size({eval_size})")
