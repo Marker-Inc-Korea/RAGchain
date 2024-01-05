@@ -48,7 +48,7 @@ pip install RAGchain
 First, clone this git repository to your local machine.
 
 ```bash
-git clone https://github.com/NomaDamas/RAGchain.git
+git clone https://github.com/Marker-Inc-Korea/RAGchain.git
 cd RAGchain
 ```
 
@@ -125,4 +125,5 @@ pip install dev_requirements.txt
 We welcome any contributions. Please feel free to raise issues and submit pull requests.
 
 # Acknowledgement
-This project was developed by [NomaDamas](https://github.com/NomaDamas), an open-source project group based in Seoul. The project is licensed under the Apache 2.0 License.
+
+This project is an early version, so it can be unstable. The project is licensed under the Apache 2.0 License.
