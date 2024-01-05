@@ -25,6 +25,7 @@ class MonoT5Reranker(BaseReranker):
                                token_true=token_true)
 
     def invoke(self, input: Input, config: Optional[RunnableConfig] = None) -> Output:
+        assert isinstance(input, RetrievalResult), f'input must be RetrievalResult, but {type(input)} is given.'
         input_query = Query(text=input.query)
         input_texts = list(map(self.__passage_to_text, input.passages))
         reranked_texts: List[Text] = self.reranker.rerank(input_query, input_texts)

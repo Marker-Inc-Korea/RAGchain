@@ -95,6 +95,9 @@ class QueryDecomposition(Runnable[str, List[str]]):
         try:
             questions = [l for l in answer.splitlines() if l != ""]
             questions = [q.split(':')[1].strip() for q in questions]
+            if not isinstance(questions, list) or len(questions) <= 0 or not isinstance(questions[0], str) or bool(
+                    questions[0]) is False:
+                return [query]
             return questions
         except:
             return [query]

@@ -44,6 +44,8 @@ class RetrievalResult(BaseModel):
         return self
 
     def __add__(self, other):
+        if not isinstance(other, RetrievalResult):
+            raise ValueError(f"Can't add {type(other)} to RetrievalResult")
         if self.query == other.query:
             query = self.query
         else:
@@ -61,5 +63,7 @@ class RetrievalResult(BaseModel):
     def __radd__(self, other):
         if other == 0:  # this is for the initial value in sum function
             return self
-        else:
+        elif isinstance(other, RetrievalResult):
             return self.__add__(other)
+        else:
+            raise ValueError(f"Can't add {type(other)} to RetrievalResult")

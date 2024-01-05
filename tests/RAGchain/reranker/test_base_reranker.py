@@ -34,3 +34,16 @@ def base_runnable_test(reranker: BaseReranker):
     assert isinstance(result['scores'][0], float)
     for i in range(1, len(result['passages'])):
         assert result['scores'][i - 1] >= result['scores'][i]
+
+    results = runnable.batch([
+        RetrievalResult(query=query, passages=TEST_PASSAGES[:10], scores=[]),
+        RetrievalResult(query=query, passages=TEST_PASSAGES[10:25], scores=[])
+    ])
+    assert isinstance(results, list)
+    assert len(results) == 2
+    assert isinstance(results[0]['passages'], list)
+    assert isinstance(results[1]['passages'][0], Passage)
+    assert len(results[0]['passages']) == 10
+    assert len(results[1]['passages']) == 15
+    assert len(results[0]['scores']) == 10
+    assert len(results[1]['scores']) == 15

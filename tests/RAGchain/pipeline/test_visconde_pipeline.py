@@ -26,7 +26,7 @@ def visconde_run_pipeline():
     db.save(TEST_PASSAGES)
     retrieval = BM25Retrieval(save_path=bm25_path)
     retrieval.ingest(TEST_PASSAGES)
-    pipeline = ViscondeRunPipeline(retrieval, OpenAI(model_name="babbage-002"), use_passage_count=4)
+    pipeline = ViscondeRunPipeline(retrieval, OpenAI(model_name="babbage-002", temperature=0.1), use_passage_count=4)
     yield pipeline
     # teardown bm25
     if os.path.exists(bm25_path):
@@ -41,7 +41,11 @@ def test_visconde_run_pipeline(visconde_run_pipeline):
     logger.info(f"Answer: {answer}")
     assert bool(answer)
 
+
+def test_visconde_run_pipeline_get_passages_and_run(visconde_run_pipeline):
     answers, passages, scores = visconde_run_pipeline.get_passages_and_run(["Is reranker and retriever have same role?",
                                                                             "What is reranker role?"], top_k=70)
+    logger.info(f"Answer 1: {answers[0]}")
+    logger.info(f"Answer 2: {answers[1]}")
     assert len(answers) == len(passages) == len(scores) == 2
     assert len(passages[0]) == len(scores[0]) == 4
