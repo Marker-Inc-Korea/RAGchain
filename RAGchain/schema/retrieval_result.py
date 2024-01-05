@@ -41,3 +41,19 @@ class RetrievalResult(BaseModel):
         self.passages = self.passages[start:end]
         self.scores = self.scores[start:end]
         return self
+
+    def __add__(self, other):
+        if self.query == other.query:
+            query = self.query
+        else:
+            query = f"{self.query}\n{other.query}"
+        passages = self.passages + other.passages
+        scores = self.scores + other.scores
+        metadata = {**self.metadata, **other.metadata}
+        return RetrievalResult(query=query, passages=passages, scores=scores, metadata=metadata)
+
+    def __radd__(self, other):
+        if other == 0:  # this is for the initial value in sum function
+            return self
+        else:
+            return self.__add__(other)
