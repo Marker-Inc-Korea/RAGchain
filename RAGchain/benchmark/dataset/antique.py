@@ -29,9 +29,9 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
         and rank aware metrics are 'NDCG', 'AP', 'CG', 'IndDCG', 'DCG', 'IndIDCG', 'IDCG', 'RR'.
 
         Notice:
-        Default metrics is basically running metrics if you run test file.
-        Support metrics is the metrics you are available.
-        This separation is because Ragas metrics take a long time in evaluation.
+        Default metrics are essentially the metrics run when executing a test file.
+        Support metrics refer to the available metrics.
+        This distinction arises due to the prolonged evaluation time required for Ragas metrics.
         """
 
         try:
@@ -46,7 +46,8 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
         query = pd.DataFrame({'query_id': query[0], 'query': query[1]} for query in datasets.queries_iter())
         doc = pd.DataFrame({'doc_id': doc[0], 'doc': doc[1], 'doc_metadata': datasets.docs_metadata(),
                             'file_path': file_path} for doc in datasets.docs_iter())
-        qrels = pd.DataFrame({'query_id': key, 'retrieval_gt': value} for key, value in datasets.qrels_dict().items())
+        self.retrieval_gt = pd.DataFrame(
+            {'query_id': key, 'retrieval_gt': value} for key, value in datasets.qrels_dict().items())
 
         default_metrics = self.retrieval_gt_metrics + self.retrieval_gt_metrics_rank_aware
         support_metrics = default_metrics + self.retrieval_gt_ragas_metrics \
@@ -66,8 +67,8 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
         self.eval_size = evaluate_size
         self.run_pipeline = run_pipeline
 
-        if evaluate_size is not None and len(qrels) > evaluate_size:
-            self.retrieval_gt = qrels[:evaluate_size]
+        if evaluate_size is not None and len(self.retrieval_gt) > evaluate_size:
+            self.retrieval_gt = self.retrieval_gt[:evaluate_size]
 
         # Preprocess question, retrieval gt
         self.question = query[query['query_id'].isin(self.retrieval_gt['query_id'])]['query'].tolist()
@@ -93,10 +94,12 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
         If you want to use context_recall metrics, you should ingest all data.
         """
         ingest_data = deepcopy(self.ingest_data)
-        id_for_remove_duplicated_docs = [gt for gt_lst in deepcopy(self.gt) for gt in gt_lst]
+        gt_ingestion = [gt for gt_lst in deepcopy(self.gt) for gt in gt_lst]
+
+        self._validate_eval_size_and_ingest_size(ingest_size, eval_size=len(self.question))
 
         # Create gt_passages for ingest.
-        gt_passages = ingest_data[ingest_data['doc_id'].isin(id_for_remove_duplicated_docs)]
+        gt_passages = ingest_data[ingest_data['doc_id'].isin(gt_ingestion)]
         gt_passages = gt_passages.apply(self.__make_passages, axis=1).tolist()
 
         if ingest_size is not None:
@@ -109,7 +112,7 @@ class AntiqueEvaluator(BaseDatasetEvaluator):
 
         # Remove duplicated passages between corpus and retrieval gt for ingesting passages faster.
         # Marking duplicated values in the corpus using retrieval_gt id.
-        mask = ingest_data.isin(id_for_remove_duplicated_docs)
+        mask = ingest_data.isin(gt_ingestion)
         # Remove duplicated passages
         ingest_data = ingest_data[~mask.any(axis=1)]
         passages = ingest_data.apply(self.__make_passages, axis=1).tolist()

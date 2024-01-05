@@ -19,6 +19,11 @@ class BaseDatasetEvaluator(BaseEvaluator, ABC):
                ingest_size: Optional[int] = None):
         pass
 
+    def _validate_eval_size_and_ingest_size(self, ingest_size, eval_size):
+        if ingest_size is not None and ingest_size < eval_size:
+            # ingest size must be larger than evaluate size.
+            raise ValueError(f"ingest size({ingest_size}) must be same or larger than evaluate size({eval_size})")
+
 
 class BaseStrategyQA:
     def convert_qa_to_pd(self, data):
@@ -59,10 +64,14 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
 
         :param metrics: The list of metrics to use. If None, use all metrics that supports Beir dataset.
         Supporting metrics are Recall, Precision, Hole, TopK_Accuracy, EM, F1_score, context_precision, MRR.
-        You must ingest all data for using context_recall and context_precision metrics.
+        You must ingest all data for using context_recall  metrics.
         Notice: We except context_recall metric that is ragas metric.
                 It takes a long time in evaluation because beir token is too big.
                 So if you want to use context_recall metric, You can add self.retrieval_gt_ragas_metrics.
+
+        The default metric refers to the metric that is essentially executed when you run the test file.
+        Support metrics refer to those that are available for use.
+        This distinction exists because the evaluation process for Ragas metrics is time-consuming.
 
         Additionally, you can preprocess datasets in this class constructor to benchmark your own pipeline.
         You can modify utils methods by overriding it for your dataset.
@@ -70,17 +79,13 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
         if file_path is None:
             raise ValueError("file_path is not input.")
 
-        queries = load_dataset(file_path, 'queries')['queries']
-        corpus = load_dataset(file_path, 'corpus')['corpus']
-        qrels = load_dataset(f"{file_path}-qrels")['test']
+        self.questions = load_dataset(file_path, 'queries')['queries'].to_pandas()
+        self.corpus = load_dataset(file_path, 'corpus')['corpus'].to_pandas()
+        self.qrels = load_dataset(f"{file_path}-qrels")['test'].to_pandas()
 
         self.run_pipeline = run_pipeline
         self.eval_size = evaluate_size
         self.file_path = file_path
-
-        self.queries = queries.to_pandas()
-        self.corpus = corpus.to_pandas()
-        self.qrels = qrels.to_pandas()
 
         # Remove row that contains none relevant passages.
         self.qrels = self.qrels[self.qrels['score'] >= 1]
@@ -98,7 +103,7 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
 
         # Create question
         q_id = self.qrels['query-id'].tolist()
-        self.questions = self.queries.loc[self.queries['_id'].isin(q_id)]['text'].tolist()
+        self.questions = self.questions.loc[self.questions['_id'].isin(q_id)]['text'].tolist()
 
     def ingest(self, retrievals: List[BaseRetrieval],
                db: BaseDB,
@@ -110,25 +115,27 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
         :param db: The db that you want to ingest.
         :param ingest_size: The number of data to ingest. If None, ingest all data.
         You must ingest all data for using context_recall metrics.
-        If ingest size too big, It takes a long time.
-        So we shuffle corpus and slice by ingest size for test.
-        We put retrieval gt corpus in passages because retrieval retrieves ground truth in db.
+        If the ingest size is excessively large, it results in prolonged processing times.
+        To address this, we shuffle the corpus and slice it according to the ingest size for testing purposes.
+        The reason for transforming the retrieval ground truth corpus into passages and ingesting it is to enable
+        retrieval to retrieve the retrieval ground truth within the database.
         :param random_state: A random state to fix the shuffled corpus to ingest.
         Types are like these. int, array-like, BitGenerator, np.random.RandomState, np.random.Generator, optional
         """
         gt_ids = deepcopy(self.retrieval_gt)
         corpus = deepcopy(self.corpus)
 
-        gt_befor_passages, id_for_remove_duplicated_corpus = self.make_gt_passages_and_duplicated_id(gt_ids, corpus)
+        self._validate_eval_size_and_ingest_size(ingest_size, len(self.questions))
+
+        gt_before_passages, id_for_remove_duplicated_corpus = self.make_gt_passages_and_duplicated_id(gt_ids, corpus)
 
         # Slice corpus by ingest_size and remove duplicate passages.
         corpus_before_passages = self.remove_duplicate_passages(ingest_size=ingest_size,
-                                                                eval_size=self.eval_size,
                                                                 corpus=corpus,
                                                                 random_state=random_state,
                                                                 id_for_remove_duplicated_corpus=id_for_remove_duplicated_corpus,
                                                                 )
-        gt_passages = gt_befor_passages.apply(self.make_corpus_passages, axis=1).tolist()
+        gt_passages = gt_before_passages.apply(self.make_corpus_passages, axis=1).tolist()
 
         passages = corpus_before_passages.apply(self.make_corpus_passages, axis=1).tolist()
         passages += gt_passages
@@ -156,7 +163,7 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
     def __call_metrics(self, metrics):
         default_metrics = (self.retrieval_gt_metrics)
         support_metrics = (default_metrics + self.retrieval_gt_ragas_metrics
-                           + self.retrieval_no_gt_ragas_metrics)
+                           + self.retrieval_no_gt_ragas_metrics + self.answer_no_gt_ragas_metrics)
 
         if metrics is not None:
             # Check if your metrics are available in evaluation datasets.
@@ -195,7 +202,6 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
 
     def remove_duplicate_passages(self,
                                   ingest_size: int,
-                                  eval_size,
                                   corpus,
                                   random_state,
                                   id_for_remove_duplicated_corpus: List[str],
@@ -206,12 +212,8 @@ class BaseBeirEvaluator(BaseDatasetEvaluator):
         """
         corpus_passages = corpus
         if ingest_size is not None:
-            # ingest size must be larger than evaluate size.
-            if ingest_size >= eval_size:
-                corpus_passages = corpus.sample(n=ingest_size, replace=False, random_state=random_state,
-                                                axis=0)
-            else:
-                raise ValueError("ingest size must be same or larger than evaluate size")
+            corpus_passages = corpus.sample(n=ingest_size, replace=False, random_state=random_state,
+                                            axis=0)
 
         # Remove duplicated passages between corpus and retrieval gt for ingesting passages faster.
         # Marking duplicated values in the dataframe using values list and Remove duplicated values.

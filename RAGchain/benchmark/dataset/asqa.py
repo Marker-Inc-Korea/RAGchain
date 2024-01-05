@@ -30,9 +30,9 @@ class ASQAEvaluator(BaseDatasetEvaluator):
         'context_recall', 'BLEU', 'context_precision', 'answer_relevancy', 'faithfulness', 'KF1'.
 
         Notice:
-        Default metrics is basically running metrics if you run test file.
-        Support metrics is the metrics you are available.
-        This separation is because Ragas metrics take a long time in evaluation.
+        The default metric refers to the metric that is essentially executed when you run the test file.
+        Support metrics refer to those that are available for use.
+        This distinction exists because the evaluation process for Ragas metrics is time-consuming.
         """
 
         self.file_path = "din0s/asqa"
@@ -44,6 +44,7 @@ class ASQAEvaluator(BaseDatasetEvaluator):
         self.question = dataset[['sample_id', 'ambiguous_question']]
         self.content = dataset[['sample_id', 'retrieval_gt', 'wikipages']]
         self.answers = dataset[['sample_id', 'answer_gt']]
+        self.retrieval_gt = deepcopy(self.content)
 
         default_metrics = self.retrieval_gt_metrics + self.answer_gt_metrics + self.answer_passage_metrics
         support_metrics = default_metrics + self.retrieval_gt_ragas_metrics \
@@ -66,7 +67,7 @@ class ASQAEvaluator(BaseDatasetEvaluator):
         if evaluate_size is not None and len(self.question) > evaluate_size:
             self.question = self.question[:evaluate_size]
             self.answers = self.answers[:evaluate_size]
-            self.retrieval_gt = self.content[:evaluate_size]
+            self.retrieval_gt = self.retrieval_gt[:evaluate_size]
 
     def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB, ingest_size: Optional[int] = None):
         """
@@ -77,12 +78,10 @@ class ASQAEvaluator(BaseDatasetEvaluator):
         """
         ingest_data = deepcopy(self.content)
 
+        self._validate_eval_size_and_ingest_size(ingest_size, eval_size=len(self.question))
+
         if ingest_size is not None:
-            # ingest size must be larger than evaluate size.
-            if ingest_size >= self.eval_size:
-                ingest_data = ingest_data[:ingest_size]
-            else:
-                raise ValueError("ingest size must be same or larger than evaluate size")
+            ingest_data = ingest_data[:ingest_size]
 
         passages = ingest_data.apply(self.__make_passages, axis=1).tolist()
         passages = list(itertools.chain.from_iterable(passages))

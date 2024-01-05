@@ -34,17 +34,17 @@ class NaturalQAEvaluator(BaseDatasetEvaluator):
         Raw natural qa dataset is too large, so we use natural questions short qa by lucadiliello generated at mrqa 2021 in huggingface.
         link: https://huggingface.co/datasets/lucadiliello/naturalquestionsshortqa
 
-        Default metrics are essentially the metrics run when executing a test file.
-        Support metrics refer to the available metrics.
-        This distinction arises due to the prolonged evaluation time required for Ragas metrics.
+        The default metric refers to the metric that is essentially executed when you run the test file.
+        Support metrics refer to those that are available for use.
+        This distinction exists because the evaluation process for Ragas metrics is time-consuming.
         """
 
         self.file_path = "lucadiliello/naturalquestionsshortqa"
-        self.dataset = load_dataset(self.file_path)['validation'].to_pandas()
+        dataset = load_dataset(self.file_path)['validation'].to_pandas()
 
-        default_metrics = self.retrieval_gt_metrics + self.answer_gt_metrics \
-                          + self.answer_no_gt_ragas_metrics + self.answer_passage_metrics
-        support_metrics = default_metrics + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics
+        default_metrics = self.retrieval_gt_metrics + self.answer_gt_metrics + self.answer_passage_metrics
+        support_metrics = default_metrics + self.retrieval_gt_ragas_metrics + self.retrieval_no_gt_ragas_metrics \
+                          + self.answer_no_gt_ragas_metrics
 
         if metrics is not None:
             # Check if your metrics are available in evaluation datasets.
@@ -61,14 +61,14 @@ class NaturalQAEvaluator(BaseDatasetEvaluator):
         self.run_pipeline = run_pipeline
 
         # Delete duplicated question - answer - retrieval gt
-        self.dataset = self.dataset.groupby('question', as_index=False).agg(
+        self.qa_data = dataset.groupby('question', as_index=False).agg(
             {'context': lambda x: list(x), 'key': lambda x: list(x),
              'answers': lambda x: list(x.tolist()), 'labels': lambda x: list(x)})
 
-        self.context = deepcopy(self.dataset[['key', 'context', 'labels']])
+        self.context = deepcopy(self.qa_data[['key', 'context', 'labels']])
 
-        if evaluate_size is not None and len(self.dataset) > evaluate_size:
-            self.qa_data = self.dataset[:evaluate_size]
+        if evaluate_size is not None and len(self.qa_data) > evaluate_size:
+            self.qa_data = self.qa_data[:evaluate_size]
 
     def ingest(self, retrievals: List[BaseRetrieval], db: BaseDB, ingest_size: Optional[int] = None):
         """
@@ -78,14 +78,12 @@ class NaturalQAEvaluator(BaseDatasetEvaluator):
         :param ingest_size: The number of data to ingest. If None, ingest all data.
         You must ingest all data for using context_recall metrics.
         """
-
         ingest_data = deepcopy(self.context)
+
+        self._validate_eval_size_and_ingest_size(ingest_size, eval_size=len(self.qa_data))
+
         if ingest_size is not None:
-            # ingest size must be larger than evaluate size.
-            if ingest_size >= self.eval_size:
-                ingest_data = ingest_data[:ingest_size]
-            else:
-                raise ValueError("ingest size must be same or larger than evaluate size")
+            ingest_data = ingest_data[:ingest_size]
 
         # Create passages.
         result = ingest_data.apply(self.__make_passages, axis=1)
