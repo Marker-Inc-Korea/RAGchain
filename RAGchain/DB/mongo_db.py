@@ -57,7 +57,6 @@ class MongoDB(BaseDB):
     def save(self, passages: List[Passage]):
         """Saves the passages to MongoDB collection."""
         dict_passages = []
-        self.collection.insert_many(dict_passages)
         id_list = []
         db_origin_list = []
         for passage in passages:
