@@ -12,7 +12,7 @@ def test_google_search():
 def test_google_search_runnable():
     search = GoogleSearch()
     runnable = search | RunnableLambda(lambda x: x.to_dict())
-    result = runnable.invoke(("뉴진스 민지의 생일은?", 2))
+    result = runnable.invoke("뉴진스 민지의 생일은?", config={"configurable": {"web_search_options": {"num_results": 2}}})
     assert isinstance(result['query'], str)
     assert result['query'] == "뉴진스 민지의 생일은?"
     assert isinstance(result['passages'], list)

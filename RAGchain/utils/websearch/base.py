@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Optional, List, Tuple, Union, Type
+from typing import Optional, List, Type
 
 from langchain_core.runnables import Runnable, RunnableConfig
 from langchain_core.runnables.utils import Input, Output
@@ -7,7 +7,7 @@ from langchain_core.runnables.utils import Input, Output
 from RAGchain.schema import Passage, RetrievalResult
 
 
-class BaseWebSearch(Runnable[Union[str, Tuple[str, int]], RetrievalResult], ABC):
+class BaseWebSearch(Runnable[str, RetrievalResult], ABC):
     """
     Abstract class for using a web search engine for passage contents.
     """
@@ -20,22 +20,25 @@ class BaseWebSearch(Runnable[Union[str, Tuple[str, int]], RetrievalResult], ABC)
         pass
 
     def invoke(self, input: Input, config: Optional[RunnableConfig] = None) -> Output:
-        if isinstance(input, str):
-            passages = self.get_search_data(input)
-            return RetrievalResult(query=input, passages=passages, scores=self.__make_scores(len(passages)))
-        elif isinstance(input, Tuple):
-            passages = self.get_search_data(input[0], num_results=input[1])
-            return RetrievalResult(query=input[0], passages=passages, scores=self.__make_scores(len(passages)))
-        else:
-            raise ValueError(f"Input type must be str or Tuple[str, int], but got {type(input)}")
+        """
+        Invoke the WebSearch module.
+        :param input: A query string.
+        :param config: You can set num_results in config.
+        The configurable key is "web_search_options".
+        For example,
+            runnable.invoke("your search query", config={"configurable": {"web_search_options": {"num_results": 10}}})
+        """
+        retrieval_option = config['configurable'].get('web_search_options', {}) if config is not None else {}
+        passages = self.get_search_data(input, **retrieval_option)
+        return RetrievalResult(query=input, passages=passages, scores=self.__make_scores(len(passages)))
 
     @property
     def InputType(self) -> Type[Input]:
-        return Union[str, Tuple[str, int]]
+        return str
 
     @property
     def OutputType(self) -> Type[Output]:
-        return List[Passage]
+        return RetrievalResult
 
     @staticmethod
     def __make_scores(retrieved_length: int):

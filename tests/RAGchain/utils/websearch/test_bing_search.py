@@ -12,7 +12,7 @@ def test_bing_search():
 def test_bing_search_runnable():
     search = BingSearch()
     runnable = search | RunnableLambda(lambda x: x.to_dict())
-    result = runnable.invoke(("뉴진스 민지의 생일은?", 2))
+    result = runnable.invoke("뉴진스 민지의 생일은?", config={"configurable": {"web_search_options": {"num_results": 2}}})
     assert isinstance(result['query'], str)
     assert result['query'] == "뉴진스 민지의 생일은?"
     assert isinstance(result['passages'], list)
