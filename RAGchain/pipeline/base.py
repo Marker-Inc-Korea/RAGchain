@@ -67,8 +67,8 @@ class BaseRunPipeline(ABC):
         List[str], List[List[Passage]], List[List[float]]]:
         """
         Run the pipeline for evaluator, and get retrieved passages and rel scores.
-        It is same with pipeline.run.batch, but returns passages and rel scores.
-        Return List of answer, List of passages, Relevance score of passages.
+        It is the same with pipeline.run.batch, but returns passages and rel scores.
+        Return List of answers, List of passages, Relevance score of passages.
 
         :param questions: List of questions.
         :param top_k: The number of passages to retrieve.

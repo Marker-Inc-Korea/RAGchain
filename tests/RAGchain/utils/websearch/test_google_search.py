@@ -19,3 +19,20 @@ def test_google_search_runnable():
     assert len(result['passages']) == 2
     assert isinstance(result['scores'], list)
     assert result['scores'] == [1.0, 0.5]
+
+
+def test_google_search_runnable_batch():
+    search = GoogleSearch()
+    runnable = search | RunnableLambda(lambda x: x.to_dict())
+    results = runnable.batch([
+        "뉴진스 민지의 생일은?",
+        "에스파 카리나의 생일은?",
+    ], config={"configurable": {"web_search_options": {"num_results": 2}}})
+    assert len(results) == 2
+    assert isinstance(results[0]['query'], str)
+    assert results[0]['query'] == "뉴진스 민지의 생일은?"
+    assert isinstance(results[0]['passages'], list)
+    assert len(results[0]['passages']) == 2
+    assert isinstance(results[0]['scores'], list)
+    assert len(results[0]['scores']) == 2
+    assert results[1]['query'] == "에스파 카리나의 생일은?"
