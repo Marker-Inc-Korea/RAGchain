@@ -70,3 +70,7 @@ class LLMLinguaCompressor(Runnable[LanguageModelInput, str]):
             Union[StringPromptValue, ChatPromptValueConcrete],
             List[AnyMessage],
         ]
+
+    @property
+    def OutputType(self) -> Type[Output]:
+        return str
