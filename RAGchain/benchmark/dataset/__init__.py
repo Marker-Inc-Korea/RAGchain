@@ -1,8 +1,5 @@
 from .antique import AntiqueEvaluator
 from .asqa import ASQAEvaluator
-from .beir import (BeirFEVEREvaluator, BeirFIQAEvaluator,
-                   BeirHOTPOTQAEvaluator, BeirQUORAEvaluator,
-                   BeirSCIDOCSEvaluator, BeirSCIFACTEvaluator)
 from .dstc11_track5 import DSTC11Track5Evaluator
 from .eli5 import Eli5Evaluator
 from .ko_strategy_qa import KoStrategyQAEvaluator
