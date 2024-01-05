@@ -7,7 +7,7 @@ RAGchain is designed to overcome these limitations by providing powerful feature
 Also, it is partially compatible with Langchain, allowing you to leverage many of its integrations for vector storage,
 embeddings, document loaders, and LLM models.
 
-[Docs](https://nomadamas.gitbook.io/ragchain-docs/) | [API Spec](https://nomadamas.github.io/RAGchain) | [QuickStart](https://nomadamas.gitbook.io/ragchain-docs/quick-start)
+[Docs](https://nomadamas.gitbook.io/ragchain-docs/) | [API Spec](https://marker-inc-korea.github.io/RAGchain/build/html/index.html) | [QuickStart](https://nomadamas.gitbook.io/ragchain-docs/quick-start)
 
 # Quick Install
 ```bash
@@ -114,7 +114,6 @@ pip install dev_requirements.txt
 - [ANTIQUE](https://paperswithcode.com/dataset/antique)
 - [ASQA](https://arxiv.org/abs/2204.06092)
 - [DSTC11-Track5](https://github.com/alexa/dstc11-track5)
-- [BEIR](https://github.com/beir-cellar/beir) datasets
 - [Natural QA](https://paperswithcode.com/dataset/natural-questions)
 - [NFCorpus](http://www.cl.uni-heidelberg.de/statnlpgroup/nfcorpus/)
 - [SearchQA](https://arxiv.org/abs/1704.05179)
