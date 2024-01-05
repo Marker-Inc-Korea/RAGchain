@@ -1,10 +1,12 @@
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union, Any
 
 from langchain.tools import Tool
 from langchain.utilities import GoogleSearchAPIWrapper
+from langchain_core.runnables import RunnableConfig
+from langchain_core.runnables.utils import Input, Output
 
-from RAGchain.utils.websearch import BaseWebSearch
 from RAGchain.schema import Passage
+from RAGchain.utils.websearch import BaseWebSearch
 
 
 class GoogleSearch(BaseWebSearch):
@@ -29,3 +31,18 @@ class GoogleSearch(BaseWebSearch):
         search_results = self.search.results(query, num_results, search_params)
         passages = Passage.from_search(search_results)
         return passages
+
+    def batch(
+            self,
+            inputs: List[Input],
+            config: Optional[Union[RunnableConfig, List[RunnableConfig]]] = None,
+            *,
+            return_exceptions: bool = False,
+            **kwargs: Optional[Any],
+    ) -> List[Output]:
+        outputs = []
+        for _input, _config in zip(inputs, config):
+            if not isinstance(_input, str):
+                raise TypeError(f"Input type must be str, but {type(_input)}")
+            outputs.append(self.invoke(_input, _config))
+        return outputs

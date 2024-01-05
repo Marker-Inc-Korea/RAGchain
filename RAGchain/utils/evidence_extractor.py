@@ -1,12 +1,13 @@
-from typing import List
+from typing import List, Optional, Union, Any, Type
 
 from langchain.chat_models.base import BaseChatModel
 from langchain.llms import BaseLLM
-from langchain.prompts import PromptTemplate, ChatPromptTemplate
 from langchain.schema import StrOutputParser
 from langchain.schema.language_model import BaseLanguageModel
+from langchain_core.runnables import Runnable, RunnableConfig, RunnableLambda
+from langchain_core.runnables.utils import Input, Output
 
-from RAGchain.schema import Passage
+from RAGchain.schema import Passage, RetrievalResult, RAGchainPromptTemplate, RAGchainChatPromptTemplate
 
 # This prompt is originated from RETA-LLM
 BASIC_SYSTEM_PROMPT = """From the given document, please select and output the relevant document fragments which are related to the query.
@@ -15,7 +16,7 @@ If there is no fragment related to the query in the document, please output 'No 
 """
 
 
-class EvidenceExtractor:
+class EvidenceExtractor(Runnable[RetrievalResult, str]):
     """
     EvidenceExtractor is a class that extracts relevant evidences based on a given question and a list of passages.
 
@@ -56,24 +57,46 @@ class EvidenceExtractor:
 
         :return: The extracted relevant document fragments.
         """
-        content_str = "\n".join([passage.content for passage in passages])
-        runnable = self.__make_prompt() | self.llm | StrOutputParser()
+        runnable = self.__get_prompt() | self.llm | StrOutputParser()
         answer = runnable.invoke({
             "question": question,
-            "content_str": content_str,
+            "passages": Passage.make_prompts(passages),
         })
         return answer
 
-    def __make_prompt(self):
+    def invoke(self, input: Input, config: Optional[RunnableConfig] = None) -> Output:
+        runnable = RunnableLambda(lambda x: x.to_prompt_input()) | self.__get_prompt() | self.llm | StrOutputParser()
+        return runnable.invoke(input, config)
+
+    def batch(
+            self,
+            inputs: List[Input],
+            config: Optional[Union[RunnableConfig, List[RunnableConfig]]] = None,
+            *,
+            return_exceptions: bool = False,
+            **kwargs: Optional[Any],
+    ) -> List[Output]:
+        runnable = RunnableLambda(lambda x: x.to_prompt_input()) | self.__get_prompt() | self.llm | StrOutputParser()
+        return runnable.batch(inputs, config, **kwargs)
+
+    @property
+    def InputType(self) -> Type[Input]:
+        return RetrievalResult
+
+    @property
+    def OutputType(self) -> Type[str]:
+        return str
+
+    def __get_prompt(self):
         if isinstance(self.llm, BaseLLM):
-            return PromptTemplate.from_template(
+            return RAGchainPromptTemplate.from_template(
                 self.system_prompt +
-                "Document content: {content_str}\n\nquery: {question}]\n\nrelevant document fragments:"
+                "Document content: {passages}\n\nquery: {question}]\n\nrelevant document fragments:"
             )
         elif isinstance(self.llm, BaseChatModel):
-            return ChatPromptTemplate.from_messages([
+            return RAGchainChatPromptTemplate.from_messages([
                 ("system", self.system_prompt),
-                ("human", "Document content: {content_str}\n\nquery: {question}"),
+                ("human", "Document content: {passages}\n\nquery: {question}"),
                 ("ai", "relevant document fragments: ")
             ])
         else:

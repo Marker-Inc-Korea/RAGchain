@@ -12,12 +12,13 @@ from RAGchain.utils.vectorstore.base import SlimVectorStore
 class VectorDBRetrieval(BaseRetrieval):
     """
     VectorDBRetrieval is a retrieval class that uses VectorDB as a backend.
-    First, embed the passage content using embedding model.
+    First, embed the passage content using an embedding model.
     Then, store the embedded vector in VectorDB.
     When retrieving, embed the query and search the most similar vectors in VectorDB.
     Lastly, return the passages that have the most similar vectors.
     """
-    def __init__(self, vectordb: VectorStore, *args, **kwargs):
+
+    def __init__(self, vectordb: VectorStore):
         """
         :param vectordb: VectorStore instance. You can all langchain VectorStore classes, also you can use SlimVectorStore for better storage efficiency.
         """
@@ -32,16 +33,16 @@ class VectorDBRetrieval(BaseRetrieval):
                 [Document(page_content=passage.content, metadata={'passage_id': str(passage.id)}) for passage in
                  passages])
 
-    def retrieve(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Passage]:
+    def retrieve(self, query: str, top_k: int = 5) -> List[Passage]:
         ids = self.retrieve_id(query, top_k)
         passage_list = self.fetch_data(ids)
         return passage_list
 
-    def retrieve_id(self, query: str, top_k: int = 5, *args, **kwargs) -> List[Union[str, UUID]]:
+    def retrieve_id(self, query: str, top_k: int = 5) -> List[Union[str, UUID]]:
         docs = self.vectordb.similarity_search(query=query, k=top_k)
         return [self.__str_to_uuid(doc.metadata.get('passage_id')) for doc in docs]
 
-    def retrieve_id_with_scores(self, query: str, top_k: int = 5, *args, **kwargs) -> tuple[
+    def retrieve_id_with_scores(self, query: str, top_k: int = 5) -> tuple[
         List[Union[str, UUID]], List[float]]:
         results = self.vectordb.similarity_search_with_score(query=query, k=top_k)
         results = results[::-1]

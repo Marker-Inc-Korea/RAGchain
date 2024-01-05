@@ -14,11 +14,15 @@ class BaseIngestPipeline(ABC):
     Base class for all pipelines
     """
 
+    def __init__(self):
+        self.run: Optional[Runnable] = None
+        self._make_runnable()
+        if self.run is None:
+            raise NotImplementedError("You should implement __make_runnable method")
+
     @abstractmethod
-    def run(self, *args, **kwargs):
-        """
-        Run the pipeline
-        """
+    def _make_runnable(self):
+        """initialize runnable"""
         pass
 
 
@@ -59,11 +63,17 @@ class BaseRunPipeline(ABC):
         pass
 
     @abstractmethod
-    def get_passages_and_run(self, questions: List[str]) -> tuple[List[str], List[List[Passage]], List[List[float]]]:
+    def get_passages_and_run(self, questions: List[str], top_k: int = 5) -> tuple[
+        List[str], List[List[Passage]], List[List[float]]]:
         """
         Run the pipeline for evaluator, and get retrieved passages and rel scores.
-        It is same with pipeline.run.batch, but returns passages and rel scores.
-        Return List of answer, List of passages, Relevance score of passages.
+        It is the same with pipeline.run.batch, but returns passages and rel scores.
+        Return List of answers, List of passages, Relevance score of passages.
+
+        :param questions: List of questions.
+        :param top_k: The number of passages to retrieve.
+        It is the same as retrieval_options top_k.
+        Default is 5.
         """
         pass
 

@@ -1,8 +1,7 @@
 import pytest
+from langchain.llms.openai import OpenAI
 
 from RAGchain.pipeline import GoogleSearchRunPipeline
-
-from langchain.llms.openai import OpenAI
 
 
 @pytest.fixture
@@ -13,10 +12,15 @@ def google_search_run_pipeline():
 
 
 def test_google_search_run_pipeline(google_search_run_pipeline):
-    answer = google_search_run_pipeline.run.invoke({"question": "What is the capital of France?"})
+    answer = google_search_run_pipeline.run.invoke("What is the capital of France?")
     assert bool(answer)
 
+    answers = google_search_run_pipeline.run.batch(["What is the capital of France?",
+                                                    "What is the capital of Germany?"])
+    assert len(answers) == 2
+
     answers, passages, scores = google_search_run_pipeline.get_passages_and_run(["What is the capital of France?",
-                                                                                   "What is the capital of Germany?"])
+                                                                                 "What is the capital of Germany?"],
+                                                                                top_k=2)
     assert len(answers) == len(passages) == len(scores) == 2
-    assert len(passages[0]) == len(scores[0]) == 3
+    assert len(passages[0]) == len(scores[0]) == 2

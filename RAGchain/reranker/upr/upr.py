@@ -1,10 +1,12 @@
-from typing import List
+from typing import List, Optional
 
 import torch
+from langchain_core.runnables import RunnableConfig
+from langchain_core.runnables.utils import Input, Output
 from transformers import T5ForConditionalGeneration, T5Tokenizer
 
 from RAGchain.reranker.base import BaseReranker
-from RAGchain.schema import Passage
+from RAGchain.schema import Passage, RetrievalResult
 
 
 class UPRReranker(BaseReranker):
@@ -12,6 +14,7 @@ class UPRReranker(BaseReranker):
     UPRReranker is a reranker based on UPR (https://github.com/DevSinghSachan/unsupervised-passage-reranking).
     The language model will make a question based on the passage and rerank the passages by the likelihood of the question.
     """
+
     def __init__(self,
                  model_name: str = "t5-large",
                  prefix_prompt: str = "Passage: ",
@@ -35,11 +38,17 @@ class UPRReranker(BaseReranker):
         self.use_gpu = use_gpu
         self.shard_size = shard_size
 
+    def invoke(self, input: Input, config: Optional[RunnableConfig] = None) -> Output:
+        input_contexts = [f"{passage.filepath} {passage.content}" for passage in input.passages]
+        indexes, scores = self.calculate_likelihood(input.query, input_contexts)
+        reranked_passages = [input.passages[idx] for idx in indexes]
+        input.passages = reranked_passages
+        input.scores = scores
+        return input
+
     def rerank(self, query: str, passages: List[Passage]) -> List[Passage]:
-        input_contexts = [f"{passage.filepath} {passage.content}" for passage in passages]
-        indexes, _ = self.calculate_likelihood(query, input_contexts)
-        reranked_passages = [passages[idx] for idx in indexes]
-        return reranked_passages
+        result = self.invoke(RetrievalResult(query=query, passages=passages, scores=[]))
+        return result.passages
 
     def calculate_likelihood(self, question: str, contexts: List[str]) -> tuple[List[int], List[float]]:
         prompts = [f"{self.prefix_prompt} {context} {self.suffix_prompt}" for context in contexts]

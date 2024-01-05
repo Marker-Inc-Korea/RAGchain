@@ -1,7 +1,8 @@
 import pytest
+from langchain_core.runnables import RunnableLambda
 
 from RAGchain.reranker.importance import SimpleImportanceReranker
-from RAGchain.schema import Passage
+from RAGchain.schema import Passage, RetrievalResult
 
 TEST_PASSAGES = [
     Passage(
@@ -48,3 +49,27 @@ def test_simple_importance_reranker(simple_importance_reranker):
     assert rerank_passages[1].id == 'test-4'
     assert rerank_passages[2].id == 'test-2'
     assert rerank_passages[3].id == 'test-1'
+
+
+def test_simple_importance_reranker_runnable(simple_importance_reranker):
+    runnable = simple_importance_reranker | RunnableLambda(lambda x: x.to_dict())
+    result = runnable.invoke(RetrievalResult(query='query', passages=TEST_PASSAGES,
+                                             scores=[i for i in range(len(TEST_PASSAGES))]))
+    assert isinstance(result['passages'], list)
+    assert isinstance(result['passages'][0], Passage)
+    assert isinstance(result['scores'], list)
+    assert isinstance(result['scores'][0], float)
+    assert result['passages'][0].id == 'test-3'
+    assert result['passages'][1].id == 'test-4'
+    assert result['passages'][2].id == 'test-2'
+    assert result['passages'][3].id == 'test-1'
+
+    assert result['passages'][0].importance == 2
+    assert result['passages'][1].importance == 1
+    assert result['passages'][2].importance == 0
+    assert result['passages'][3].importance == -1
+
+    assert result['scores'][0] == 2
+    assert result['scores'][1] == 3
+    assert result['scores'][2] == 1
+    assert result['scores'][3] == 0
