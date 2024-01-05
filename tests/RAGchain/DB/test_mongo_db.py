@@ -14,6 +14,8 @@ def mongo_db():
         db_name=os.getenv('MONGO_DB_NAME'),
         collection_name=os.getenv('MONGO_COLLECTION_NAME'))
     mongo_db.create_or_load()
+    # drop first, as any leftover garbage data in mongodb may cause the test to fail.
+    mongo_db.collection.drop()
     mongo_db.save(test_base_db.TEST_PASSAGES)
     yield mongo_db
     mongo_db.collection.drop()
