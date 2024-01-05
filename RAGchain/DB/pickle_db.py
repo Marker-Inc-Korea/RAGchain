@@ -59,7 +59,7 @@ class PickleDB(BaseDB):
         # save to pickleDB
         self.db.extend(passages)
         self._write_pickle()
-        # save to redisDB
+        # save to linker
         db_origin = self.get_db_origin()
         db_origin_dict = db_origin.to_dict()
         id_list = []

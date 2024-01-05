@@ -56,17 +56,21 @@ class MongoDB(BaseDB):
 
     def save(self, passages: List[Passage]):
         """Saves the passages to MongoDB collection."""
+        dict_passages = []
+        self.collection.insert_many(dict_passages)
         id_list = []
         db_origin_list = []
         for passage in passages:
-            # save to mongoDB
-            passage_to_dict = passage.to_dict()
-            self.collection.insert_one(passage_to_dict)
-            # save to redisDB
+            # Setting up files for saving to 'mongodb'
+            dict_passages.append(passage.to_dict())
+            # Setting up files for saving to 'linker'
             db_origin = self.get_db_origin()
             db_origin_dict = db_origin.to_dict()
             id_list.append(str(passage.id))
             db_origin_list.append(db_origin_dict)
+        # save to 'mongodb'
+        self.collection.insert_many(dict_passages)
+        # save to 'linker'
         linker.put_json(id_list, db_origin_list)
 
     def fetch(self, ids: List[UUID]) -> List[Passage]:
