@@ -1,5 +1,6 @@
 from typing import List, Callable
 
+import pandas as pd
 from pydantic import BaseModel, Field
 
 from RAGchain.schema import Passage
@@ -49,8 +50,13 @@ class RetrievalResult(BaseModel):
             query = f"{self.query}\n{other.query}"
         passages = self.passages + other.passages
         scores = self.scores + other.scores
+        df = pd.DataFrame({'passages': passages, 'scores': scores})
+        df = df.drop_duplicates(subset=['passages'])
         metadata = {**self.metadata, **other.metadata}
-        return RetrievalResult(query=query, passages=passages, scores=scores, metadata=metadata)
+        return RetrievalResult(query=query,
+                               passages=df.passages.tolist(),
+                               scores=df.scores.tolist(),
+                               metadata=metadata)
 
     def __radd__(self, other):
         if other == 0:  # this is for the initial value in sum function

@@ -17,6 +17,7 @@ TEST_PASSAGES = [Passage(
 retrieval_result1 = RetrievalResult(query="test1", passages=[TEST_PASSAGES[0]], scores=[1.0])
 retrieval_result2 = RetrievalResult(query="test1", passages=[TEST_PASSAGES[1]], scores=[0.5])
 retrieval_result3 = RetrievalResult(query="test3", passages=[TEST_PASSAGES[2]], scores=[0.3])
+retrieval_result4 = RetrievalResult(query="test4", passages=[TEST_PASSAGES[1]], scores=[0.6])
 
 
 def test_retrieval_result_add():
@@ -31,6 +32,12 @@ def test_retrieval_result_add():
     assert sum_result.query == "test1\ntest3"
     assert sum_result.passages == [TEST_PASSAGES[0], TEST_PASSAGES[1], TEST_PASSAGES[2]]
     assert sum_result.scores == [1.0, 0.5, 0.3]
+
+    sum_result = sum([retrieval_result1, retrieval_result2, retrieval_result4])
+    assert isinstance(sum_result, RetrievalResult)
+    assert sum_result.query == "test1\ntest4"
+    assert sum_result.passages == [TEST_PASSAGES[0], TEST_PASSAGES[1]]
+    assert sum_result.scores == [1.0, 0.5]
 
 
 def test_retrieval_to_dict():
