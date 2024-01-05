@@ -48,7 +48,8 @@ def test_rerank_run_pipeline(rerank_run_pipeline):
     for i in range(1, len(scores[0])):
         assert scores[0][i - 1] >= scores[0][i]
 
-    result = rerank_run_pipeline.run.invoke(("What is reranker role?", 3))
+    result = rerank_run_pipeline.run.invoke("What is reranker role?",
+                                            config={"configurable": {"retrieval_options": {"top_k": 3}}})
     logger.info(f"Answer: {result}")
     assert bool(result)
     assert isinstance(result, str)

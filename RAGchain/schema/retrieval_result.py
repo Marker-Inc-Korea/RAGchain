@@ -34,7 +34,7 @@ class RetrievalResult(BaseModel):
         """
         Slice passages and scores.
         :param start: int, start index of slice. Default is 0.
-        :param end: int, end index of slice. Default is length of passages.
+        :param end: int, end index of slice. Default is the length of passages.
         """
         if end is None:
             end = len(self.passages)

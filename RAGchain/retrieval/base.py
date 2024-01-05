@@ -1,7 +1,7 @@
 import concurrent.futures
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import List, Union, Optional, Tuple
+from typing import List, Union, Optional
 from uuid import UUID
 
 from langchain_core.runnables import Runnable, RunnableConfig
@@ -13,7 +13,7 @@ from RAGchain.DB.base import BaseDB
 from RAGchain.schema import Passage, DBOrigin, RetrievalResult
 
 
-class BaseRetrieval(Runnable[Union[Tuple[str, int], str], RetrievalResult], ABC):
+class BaseRetrieval(Runnable[str, RetrievalResult], ABC):
     """
     Base Retrieval class for all retrieval classes.
     """
@@ -247,28 +247,26 @@ class BaseRetrieval(Runnable[Union[Tuple[str, int], str], RetrievalResult], ABC)
         return result
 
     def invoke(self, input: Input, config: Optional[RunnableConfig] = None) -> Output:
-        if isinstance(input, Tuple):
-            assert isinstance(input[0], str), "first input of tuple must be str"
-            assert isinstance(input[1], int), "second input of tuple must be int"
-            ids, scores = self.retrieve_id_with_scores(input[0], input[1])
-            return RetrievalResult(
-                query=input[0],
-                passages=self.fetch_data(ids),
-                scores=scores,
-            )
-        elif isinstance(input, str):
-            ids, scores = self.retrieve_id_with_scores(input)
-            return RetrievalResult(
-                query=input,
-                passages=self.fetch_data(ids),
-                scores=scores,
-            )
-        else:
-            raise ValueError(f"input type must be Tuple[str, int] or str, but got {type(input)}")
+        """
+        retrieve passages from user query.
+        :param input: user query. str type.
+        :param config: RunnableConfig. Default is None.
+        You can set top_k option in config. config['configurable'] key is "retrieval_options".
+        You can put like this.
+        Example:
+            runnable.invoke("your query", config={"configurable": {"retrieval_options": {"top_k": 10}}})
+        """
+        retrieval_option = config['configurable'].get('retrieval_options', {}) if config is not None else {}
+        ids, scores = self.retrieve_id_with_scores(input, **retrieval_option)
+        return RetrievalResult(
+            query=input,
+            passages=self.fetch_data(ids),
+            scores=scores,
+        )
 
     @property
     def InputType(self) -> type[Input]:
-        return Union[Tuple[str, int], str]
+        return str
 
     @property
     def OutputType(self) -> type[Output]:

@@ -100,7 +100,7 @@ class BasicRunPipeline(BaseRunPipeline):
             "passages": RunnableLambda(lambda x: x.passages),
             "scores": RunnableLambda(lambda x: x.scores),
         }
-        answers = runnable.batch([(question, top_k) for question in questions])
+        answers = runnable.batch(questions, config={"configurable": {"retrieval_options": {"top_k": top_k}}})
 
         final_answers, final_passages, final_scores = (
             map(list, zip(*[(answer['answer'], answer['passages'], answer['scores']) for answer in answers])))

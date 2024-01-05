@@ -62,7 +62,7 @@ class RerankRunPipeline(BaseRunPipeline):
             "scores": RunnableLambda(lambda x: x.scores),
             "answers": RunnableLambda(RetrievalResult.to_prompt_input) | self.prompt | self.llm | StrOutputParser()
         }
-        result = runnable.batch([(question, top_k) for question in questions])
+        result = runnable.batch(questions, config={"configurable": {"retrieval_options": {"top_k": top_k}}})
         answers, passages, rel_scores = zip(
             *[(answer['answers'], answer['passages'], answer['scores']) for answer in result])
         return answers, passages, rel_scores
