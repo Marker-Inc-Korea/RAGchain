@@ -3,6 +3,7 @@ import os
 import pytest
 
 import test_base_db
+from pymongo.errors import BulkWriteError
 from RAGchain.DB import MongoDB
 
 
@@ -34,3 +35,8 @@ def test_db_type(mongo_db):
 
 def test_search(mongo_db):
     test_base_db.search_test_base(mongo_db)
+
+
+def test_duplicate_id(mongo_db):
+    with pytest.raises(BulkWriteError):
+        mongo_db.save(test_base_db.TEST_PASSAGES[:1])
