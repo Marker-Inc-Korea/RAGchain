@@ -256,6 +256,7 @@ class BaseRetrieval(Runnable[str, RetrievalResult], ABC):
         Example:
             runnable.invoke("your query", config={"configurable": {"retrieval_options": {"top_k": 10}}})
         """
+        input = str(input)
         retrieval_option = config['configurable'].get('retrieval_options', {}) if config is not None else {}
         ids, scores = self.retrieve_id_with_scores(input, **retrieval_option)
         return RetrievalResult(
