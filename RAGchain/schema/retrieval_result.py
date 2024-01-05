@@ -29,3 +29,15 @@ class RetrievalResult(BaseModel):
             "scores": self.scores,
             "metadata": self.metadata
         }
+
+    def slice(self, start: int = 0, end: int = None):
+        """
+        Slice passages and scores.
+        :param start: int, start index of slice. Default is 0.
+        :param end: int, end index of slice. Default is length of passages.
+        """
+        if end is None:
+            end = len(self.passages)
+        self.passages = self.passages[start:end]
+        self.scores = self.scores[start:end]
+        return self

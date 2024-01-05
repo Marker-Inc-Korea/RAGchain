@@ -51,21 +51,13 @@ class RerankRunPipeline(BaseRunPipeline):
         super().__init__()
 
     def _make_runnable(self):
-        def __preprocess(result: RetrievalResult) -> dict:
-            result.passages = result.passages[:self.use_passage_count]
-            return result.to_prompt_input()
-
         self.run = self.retrieval | self.reranker | RunnableLambda(
-            __preprocess) | self.prompt | self.llm | StrOutputParser()
+            lambda x: x.slice(
+                end=self.use_passage_count).to_prompt_input()) | self.prompt | self.llm | StrOutputParser()
 
     def get_passages_and_run(self, questions: List[str], top_k: int = 5) -> tuple[
         List[str], List[List[Passage]], List[List[float]]]:
-        def __cut_passages(result: RetrievalResult) -> RetrievalResult:
-            result.passages = result.passages[:self.use_passage_count]
-            result.scores = result.scores[:self.use_passage_count]
-            return result
-
-        runnable = self.retrieval | self.reranker | RunnableLambda(__cut_passages) | {
+        runnable = self.retrieval | self.reranker | RunnableLambda(lambda x: x.slice(end=self.use_passage_count)) | {
             "passages": RunnableLambda(lambda x: x.passages),
             "scores": RunnableLambda(lambda x: x.scores),
             "answers": RunnableLambda(RetrievalResult.to_prompt_input) | self.prompt | self.llm | StrOutputParser()
