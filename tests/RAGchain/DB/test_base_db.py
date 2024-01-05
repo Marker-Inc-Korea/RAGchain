@@ -41,6 +41,19 @@ TEST_PASSAGES: List[Passage] = [
         importance=-1,
         previous_passage_id='test_id_3',
         next_passage_id=None,
+        metadata_etc={'test': 'test4'}
+    )
+]
+
+DUPLICATE_PASSAGE: List[Passage] = [
+    Passage(
+        id='test_id_3',
+        content='Duplicate test',
+        filepath='./test/duplicate_file.txt',
+        content_datetime=datetime(2022, 3, 6),
+        importance=-1,
+        previous_passage_id='test_id_2',
+        next_passage_id=None,
         metadata_etc={'test': 'test3'}
     )
 ]

@@ -39,4 +39,6 @@ def test_search(mongo_db):
 
 def test_duplicate_id(mongo_db):
     with pytest.raises(BulkWriteError):
-        mongo_db.save(test_base_db.TEST_PASSAGES[:1])
+        mongo_db.save(test_base_db.DUPLICATE_PASSAGE)
+    mongo_db.save(test_base_db.DUPLICATE_PASSAGE, upsert=True)
+    assert mongo_db.fetch([test_base_db.DUPLICATE_PASSAGE[0].id]) == test_base_db.DUPLICATE_PASSAGE

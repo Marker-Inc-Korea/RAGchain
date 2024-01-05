@@ -3,6 +3,7 @@ from typing import List, Optional, Union
 from uuid import UUID
 
 import pymongo
+from pymongo import UpdateOne
 
 from RAGchain import linker
 from RAGchain.DB.base import BaseDB
@@ -54,21 +55,30 @@ class MongoDB(BaseDB):
         else:
             self.create()
 
-    def save(self, passages: List[Passage]):
+    def save(self, passages: List[Passage], upsert: bool = False):
         """Saves the passages to MongoDB collection."""
-        dict_passages = []
-        id_list = []
-        db_origin_list = []
-        for passage in passages:
-            # Setting up files for saving to 'mongodb'
-            dict_passages.append(passage.to_dict())
-            # Setting up files for saving to 'linker'
-            db_origin = self.get_db_origin()
-            db_origin_dict = db_origin.to_dict()
-            id_list.append(str(passage.id))
-            db_origin_list.append(db_origin_dict)
+        # Setting up files for saving to 'mongodb'
+        dict_passages = [passage.to_dict() for passage in passages]
+        # Setting up files for saving to 'linker'
+        id_list = [str(passage.id) for passage in passages]
+        db_origin_list = [self.get_db_origin().to_dict() for _ in passages]
+
         # save to 'mongodb'
-        self.collection.insert_many(dict_passages)
+        if upsert:
+            db_id_list = [doc['_id'] for doc in self.collection.find({'_id': {'$in': id_list}}, {'_id': 1})]
+            # Create a dictionary of passages with id as key
+            dict_passages_dict = {_id: dict_passages[i] for i, _id in enumerate(id_list)}
+            if len(db_id_list) > 0:
+                requests = [UpdateOne({'_id': _id},
+                                  {'$set': dict_passages_dict[_id]}, upsert=True) for _id in db_id_list]
+                self.collection.bulk_write(requests)
+            not_duplicated_ids = [id for id in id_list if id not in db_id_list]
+            not_duplicated_passages = [dict_passages_dict[_id] for _id in not_duplicated_ids]
+            if len(not_duplicated_passages) > 0:
+                self.collection.insert_many(not_duplicated_passages)
+        else:
+            self.collection.insert_many(dict_passages)
+
         # save to 'linker'
         linker.put_json(id_list, db_origin_list)
 
