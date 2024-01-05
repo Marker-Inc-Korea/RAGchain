@@ -16,10 +16,10 @@ class BaseCompressor(Runnable[RetrievalResult, RetrievalResult], ABC):
         """
         Compress the passages in input and return the compressed passages.
         It gets compression algorithm's parameters from config.
-        Key name is 'compressor_params'.
+        Key name is 'compressor_options'.
         Set parameters at configurable to dict.
         Example:
-            runnable.invoke(retrieval_result, config={"configurable": {"compressor_params": {"n_clusters": 3}}})
+            runnable.invoke(retrieval_result, config={"configurable": {"compressor_options": {"n_clusters": 3}}})
 
         Important!
         The scores of the passages will be removed.
@@ -27,7 +27,7 @@ class BaseCompressor(Runnable[RetrievalResult, RetrievalResult], ABC):
         before you put the passages into LLM.
         """
 
-        params = config['configurable'].get('compressor_params', {}) if config is not None else {}
+        params = config['configurable'].get('compressor_options', {}) if config is not None else {}
         compressed_passages = self.compress(input.passages, **params)
         return RetrievalResult(
             query=input.query,

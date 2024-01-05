@@ -67,7 +67,7 @@ def test_cluster_time_compressor_runnable(cluster_time_compressor):
         query='test',
         passages=TEST_PASSAGES,
         scores=[1.0, 0.9, 0.8],
-    ), config={"configurable": {"compressor_params": {"n_clusters": 3}}})
+    ), config={"configurable": {"compressor_options": {"n_clusters": 3}}})
     assert len(result['passages']) == 3
     assert 'test-1' not in [passage.id for passage in result['passages']]
     assert len(result['scores']) == 0
