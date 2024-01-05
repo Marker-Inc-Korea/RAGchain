@@ -15,14 +15,16 @@ numpages = {10},
 location = {Dublin, Ireland}
 }
 """
-from typing import List
+from typing import List, Optional
 
 from langchain.llms import BaseLLM
 from langchain.prompts import PromptTemplate
 from langchain.schema import StrOutputParser
+from langchain_core.runnables import Runnable, RunnableConfig
+from langchain_core.runnables.utils import Input, Output
 
 
-class QueryDecomposition:
+class QueryDecomposition(Runnable[str, List[str]]):
     """
     Query Decomposition class.
     You can decompose a multi-hop questions to multiple single-hop questions using LLM.
@@ -84,15 +86,18 @@ class QueryDecomposition:
         """
         decompose query to little piece of questions.
         :param query: str, query to decompose.
-        :return: List[str], list of decomposed query. Return empty list if query is not decomposable.
+        :return: List[str], list of decomposed query. Return input query if query is not decomposable.
         """
         runnable = self.decompose_prompt | self.llm | StrOutputParser()
         answer = runnable.invoke({"question": query})
         if answer.lower().strip() == "the question needs no decomposition.":
-            return []
+            return [query]
         try:
             questions = [l for l in answer.splitlines() if l != ""]
             questions = [q.split(':')[1].strip() for q in questions]
             return questions
         except:
-            return []
+            return [query]
+
+    def invoke(self, input: Input, config: Optional[RunnableConfig] = None) -> Output:
+        return self.decompose(input)
