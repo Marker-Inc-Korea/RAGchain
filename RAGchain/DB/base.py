@@ -37,7 +37,7 @@ class BaseDB(ABC):
         pass
 
     @abstractmethod
-    def save(self, passages: List[Passage]):
+    def save(self, passages: List[Passage], upsert: bool = False):
         """Abstract method for saving passages to the database."""
         pass
 
