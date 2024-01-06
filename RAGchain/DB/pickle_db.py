@@ -60,25 +60,13 @@ class PickleDB(BaseDB):
         # save to pickleDB
         if os.path.exists(self.save_path):
             self.load()
-            passages_dict = {passage.id: passage for passage in passages}
-            updated_passages = []
+        if not upsert:
+            id_list = list(map(lambda x: x.id, passages))
+            duplicate_ids = [doc.id for doc in self.fetch(id_list)]
+            if len(duplicate_ids) > 0:
+                raise ValueError(f"Duplicate id {duplicate_ids} found in pickle database.")
 
-            for existing_passage in self.db:
-                # If duplicate id is found
-                if existing_passage.id in passages_dict:
-                    # If upsert is False, raise an error
-                    if not upsert:
-                        raise ValueError(f"Duplicate id {existing_passage.id} found in pickle database.")
-                    # If upsert is True, update the passage
-                    updated_passages.append(passages_dict.pop(existing_passage.id))
-                else:
-                    # If no duplicate id is found, keep the existing passage
-                    updated_passages.append(existing_passage)
-
-            updated_passages.extend(passages_dict.values())
-            self.db = updated_passages
-        else:
-            self.db.extend(passages)
+        self.db.extend(passages)
         self._write_pickle()
 
         # save to linker
