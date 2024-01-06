@@ -58,9 +58,9 @@ class MongoDB(BaseDB):
     def save(self, passages: List[Passage], upsert: bool = False):
         """Saves the passages to MongoDB collection."""
         # Setting up files for saving to 'mongodb'
-        dict_passages = [passage.to_dict() for passage in passages]
+        dict_passages = list(map(lambda x: x.to_dict(), passages))
         # Setting up files for saving to 'linker'
-        id_list = [str(passage.id) for passage in passages]
+        id_list = list(map(lambda x: str(x.id), passages))
         db_origin_list = [self.get_db_origin().to_dict() for _ in passages]
 
         # save to 'mongodb'
