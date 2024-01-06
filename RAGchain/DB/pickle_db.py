@@ -63,13 +63,12 @@ class PickleDB(BaseDB):
         id_to_passage = {str(passage.id): passage for passage in passages}
 
         # save to pickleDB
-        if upsert:
-            if len(duplicate_ids) > 0:
+        if len(duplicate_ids) > 0:
+            if upsert:
                 for str_id in str_id_list:
                     if str_id in id_to_passage:
                         self.db.remove(id_to_passage[str_id])
-        else:
-            if len(duplicate_ids) > 0:
+            else:
                 raise ValueError(f'{duplicate_ids} already exists')
         self.db.extend(passages)
         self._write_pickle()
