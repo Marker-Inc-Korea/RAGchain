@@ -1,9 +1,11 @@
 import logging
+from operator import itemgetter
 
 import pytest
 from langchain.llms.openai import OpenAI
+from langchain_core.output_parsers import StrOutputParser
 
-from RAGchain.schema import Passage
+from RAGchain.schema import Passage, RetrievalResult, RAGchainPromptTemplate
 from RAGchain.utils.evidence_extractor import EvidenceExtractor
 
 logger = logging.getLogger(__name__)
@@ -39,3 +41,32 @@ def test_evidence_extractor(evidence_extractor):
     evidence = evidence_extractor.extract(irrelevant_question, TEST_PASSAGES)
     logger.info(f'Irrelevant Evidence: {evidence}')
     assert 'No Fragment' in evidence
+
+
+def test_evidence_extractor_runnable(evidence_extractor):
+    question = 'which multilingual approaches do they compare with?'
+    retrieval_result = RetrievalResult(
+        query=question,
+        passages=TEST_PASSAGES,
+        scores=[1.0, 0.9, 0.8, 0.7],
+    )
+    prompt = RAGchainPromptTemplate.from_template("""
+        Answer the question using the given evidence.
+        Question: {question}
+        Evidence: {passages}
+        
+        Answer:
+    """)
+    runnable = {
+                   "question": itemgetter("question"),
+                   "passages": itemgetter("passages") | evidence_extractor,
+               } | prompt | OpenAI() | StrOutputParser()
+    answer = runnable.invoke({"question": question, "passages": retrieval_result})
+    logger.info(f'Answer: {answer}')
+    assert bool(answer) is True
+
+    answers = runnable.batch([{"question": question, "passages": retrieval_result}])
+    assert isinstance(answers, list)
+    assert len(answers) == 1
+    logger.info(f'Answer: {answers[0]}')
+    assert bool(answers[0]) is True

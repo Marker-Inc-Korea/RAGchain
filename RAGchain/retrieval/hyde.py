@@ -23,7 +23,7 @@ class HyDERetrieval(BaseRetrieval):
     BASIC_SYSTEM_PROMPT = "Please write a passage to answer the question"
 
     def __init__(self, retrieval: BaseRetrieval, llm: BaseLanguageModel,
-                 system_prompt: str = None, *args, **kwargs):
+                 system_prompt: str = None):
         """
         :param retrieval: retrieval instance to use
         :param llm: llm to use for hypothetical passage generation. HyDE Retrieval supports both chat and completion LLMs.

@@ -1,8 +1,9 @@
 from datetime import datetime
 
 import pytest
+from langchain_core.runnables import RunnableLambda
 
-from RAGchain.schema import Passage
+from RAGchain.schema import Passage, RetrievalResult
 from RAGchain.utils.compressor import ClusterTimeCompressor
 from RAGchain.utils.embed import EmbeddingFactory
 from RAGchain.utils.semantic_clustering import SemanticClustering
@@ -58,3 +59,15 @@ def test_cluster_time_compressor(cluster_time_compressor):
     assert len(compressed_passages) == 3
     ids = [passage.id for passage in compressed_passages]
     assert 'test-1' not in ids
+
+
+def test_cluster_time_compressor_runnable(cluster_time_compressor):
+    runnable = cluster_time_compressor | RunnableLambda(lambda x: x.to_dict())
+    result = runnable.invoke(RetrievalResult(
+        query='test',
+        passages=TEST_PASSAGES,
+        scores=[1.0, 0.9, 0.8],
+    ), config={"configurable": {"compressor_options": {"n_clusters": 3}}})
+    assert len(result['passages']) == 3
+    assert 'test-1' not in [passage.id for passage in result['passages']]
+    assert len(result['scores']) == 0

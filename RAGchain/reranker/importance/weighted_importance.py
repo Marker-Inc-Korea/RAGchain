@@ -1,9 +1,13 @@
-from typing import List
+from typing import List, Optional
 
-from RAGchain.schema import Passage
+from langchain_core.runnables import RunnableConfig
+from langchain_core.runnables.utils import Input, Output
+
+from RAGchain.reranker.base import BaseReranker
+from RAGchain.schema import Passage, RetrievalResult
 
 
-class WeightedImportanceReranker:
+class WeightedImportanceReranker(BaseReranker):
     """
     Rerank passages by their importance and relevance score.
     First, relevance score and importance must be normalized to [0, 1] range.
@@ -25,12 +29,20 @@ class WeightedImportanceReranker:
         :param passages: list of passages to be reranked.
         :param scores: list of relevance scores of passages.
         """
+        result = self.invoke(RetrievalResult(query='', passages=passages, scores=scores))
+        return result.passages
+
+    def invoke(self, input: Input, config: Optional[RunnableConfig] = None) -> Output:
+        scores = input.scores
+        passages = input.passages
         normalize_rel_scores = self.__normalize(scores)
         normalize_importance = self.__normalize([passage.importance for passage in passages])
         combined_scores = [self.__get_combined_score(rel_score, importance) for rel_score, importance in
                            zip(normalize_rel_scores, normalize_importance)]
-        passages, scores = zip(*sorted(zip(passages, combined_scores), key=lambda x: x[1], reverse=True))
-        return list(passages)
+        sorted_passages, sorted_scores = zip(*sorted(zip(passages, combined_scores), key=lambda x: x[1], reverse=True))
+        input.passages = list(sorted_passages)
+        input.scores = list(sorted_scores)
+        return input
 
     @staticmethod
     def __normalize(scores: List[float]) -> List[float]:

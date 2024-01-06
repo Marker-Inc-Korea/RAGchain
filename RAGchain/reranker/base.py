@@ -1,10 +1,13 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Type
 
-from RAGchain.schema import Passage
+from langchain_core.runnables import Runnable
+from langchain_core.runnables.utils import Input
+
+from RAGchain.schema import Passage, RetrievalResult
 
 
-class BaseReranker(ABC):
+class BaseReranker(Runnable[RetrievalResult, RetrievalResult], ABC):
     @abstractmethod
     def rerank(self, query: str, passages: List[Passage]) -> List[Passage]:
         """
@@ -18,3 +21,11 @@ class BaseReranker(ABC):
 
         """
         pass
+
+    @property
+    def InputType(self) -> Type[Input]:
+        return RetrievalResult
+
+    @property
+    def OutputType(self) -> Type[RetrievalResult]:
+        return RetrievalResult
