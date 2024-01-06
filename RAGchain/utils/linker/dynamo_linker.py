@@ -128,25 +128,31 @@ class DynamoLinker(BaseLinker):
 
     def put_json(self, ids: List[Union[UUID, str]], json_data_list: List[dict]):
         assert len(ids) == len(json_data_list), "ids and json_data_list must have the same length"
-        items = [{
-            'PutRequest': {
-                'Item': {
-                    'id': str(_id),
-                    'data': json_data
+        for id_chunk, data_chunk in zip(self.chunk(ids, 25), self.chunk(json_data_list, 25)):
+            items = [{
+                'PutRequest': {
+                    'Item': {
+                        'id': str(_id),
+                        'data': json_data
+                    }
                 }
-            }
-        } for _id, json_data in zip(ids, json_data_list)]
-        request_items = {self.table_name: items}
-        self.dynamodb.batch_write_item(RequestItems=request_items)
+            } for _id, json_data in zip(id_chunk, data_chunk)]
+            request_items = {self.table_name: items}
+            self.dynamodb.batch_write_item(RequestItems=request_items)
 
     def delete_json(self, ids: List[Union[UUID, str]]):
-        str_ids = [str(_id) for _id in ids]
-        items = [{
-            'DeleteRequest': {
-                'Key': {
-                    'id': _id
+        for id_chunk in self.chunk(ids, 25):
+            items = [{
+                'DeleteRequest': {
+                    'Key': {
+                        'id': str(_id)
+                    }
                 }
-            }
-        } for _id in str_ids]
-        request_items = {self.table_name: items}
-        self.dynamodb.batch_write_item(RequestItems=request_items)
+            } for _id in id_chunk]
+            request_items = {self.table_name: items}
+            self.dynamodb.batch_write_item(RequestItems=request_items)
+
+    @staticmethod
+    def chunk(lst, n):
+        for i in range(0, len(lst), n):
+            yield lst[i:i + n]

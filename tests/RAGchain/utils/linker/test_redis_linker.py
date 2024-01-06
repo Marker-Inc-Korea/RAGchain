@@ -39,3 +39,7 @@ def test_delete(redis_db):
 
 def test_long(redis_db):
     test_base_linker.long_test(redis_db)
+
+
+def test_long_26(redis_db):
+    test_base_linker.long_26_test(redis_db)
