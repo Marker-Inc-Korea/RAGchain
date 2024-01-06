@@ -4,7 +4,7 @@ import pathlib
 import pytest
 
 from RAGchain.DB import PickleDB
-from test_base_db import fetch_test_base, TEST_PASSAGES, search_test_base
+from test_base_db import fetch_test_base, TEST_PASSAGES, search_test_base, duplicate_id_test_base
 
 
 @pytest.fixture(scope='module')
@@ -35,3 +35,7 @@ def test_db_type(pickle_db):
 
 def test_search(pickle_db):
     search_test_base(pickle_db)
+
+
+def test_duplicate_id(pickle_db):
+    duplicate_id_test_base(pickle_db, ValueError)

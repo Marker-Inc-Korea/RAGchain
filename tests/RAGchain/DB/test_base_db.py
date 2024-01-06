@@ -1,5 +1,7 @@
 from datetime import datetime
-from typing import List
+from typing import List, Union, Type
+
+import pytest
 
 from RAGchain.DB.base import BaseDB
 from RAGchain.schema import Passage
@@ -120,3 +122,10 @@ def search_test_base(db: BaseDB):
     assert len(test_result_11) == 2
     assert 'test_id_2' in [passage.id for passage in test_result_11]
     assert 'test_id_4' in [passage.id for passage in test_result_11]
+
+
+def duplicate_id_test_base(db: BaseDB, error_type: Type[Exception]):
+    with pytest.raises(error_type):
+        db.save(DUPLICATE_PASSAGE)
+    db.save(DUPLICATE_PASSAGE, upsert=True)
+    assert db.fetch([DUPLICATE_PASSAGE[0].id]) == DUPLICATE_PASSAGE
