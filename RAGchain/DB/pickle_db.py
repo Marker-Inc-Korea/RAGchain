@@ -56,23 +56,27 @@ class PickleDB(BaseDB):
 
     def save(self, passages: List[Passage], upsert: bool = False):
         """Saves the given list of Passage objects to the pickle database. It also saves the data to the Linker."""
+        uuid_id_list = list(map(lambda x: x.id, passages))
+        str_id_list = [str(uuid_id) for uuid_id in uuid_id_list]
+        duplicate_ids = [doc.id for doc in self.fetch(uuid_id_list)]
+
+        id_to_passage = {str(passage.id): passage for passage in passages}
 
         # save to pickleDB
-        if os.path.exists(self.save_path):
-            self.load()
-        if not upsert:
-            id_list = list(map(lambda x: x.id, passages))
-            duplicate_ids = [doc.id for doc in self.fetch(id_list)]
+        if upsert:
             if len(duplicate_ids) > 0:
-                raise ValueError(f"Duplicate id {duplicate_ids} found in pickle database.")
-
+                for str_id in str_id_list:
+                    if str_id in id_to_passage:
+                        self.db.remove(id_to_passage[str_id])
+        else:
+            if len(duplicate_ids) > 0:
+                raise ValueError(f'{duplicate_ids} already exists')
         self.db.extend(passages)
         self._write_pickle()
 
         # save to linker
-        id_list = list(map(lambda x: str(x.id), passages))
         db_origin_list = [self.get_db_origin().to_dict() for _ in passages]
-        linker.put_json(id_list, db_origin_list)
+        linker.put_json(str_id_list, db_origin_list)
 
     def fetch(self, ids: List[UUID]) -> List[Passage]:
         """Retrieves the Passage objects from the database based on the given list of passage IDs."""
