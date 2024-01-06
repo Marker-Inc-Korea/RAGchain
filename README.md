@@ -7,7 +7,7 @@ RAGchain is designed to overcome these limitations by providing powerful feature
 Also, it is partially compatible with Langchain, allowing you to leverage many of its integrations for vector storage,
 embeddings, document loaders, and LLM models.
 
-[Docs](https://nomadamas.gitbook.io/ragchain-docs/) | [API Spec](https://nomadamas.github.io/RAGchain) | [QuickStart](https://nomadamas.gitbook.io/ragchain-docs/quick-start)
+[Docs](https://nomadamas.gitbook.io/ragchain-docs/) | [API Spec](https://marker-inc-korea.github.io/RAGchain/build/html/index.html) | [QuickStart](https://nomadamas.gitbook.io/ragchain-docs/quick-start)
 
 # Quick Install
 ```bash
@@ -48,7 +48,7 @@ pip install RAGchain
 First, clone this git repository to your local machine.
 
 ```bash
-git clone https://github.com/NomaDamas/RAGchain.git
+git clone https://github.com/Marker-Inc-Korea/RAGchain.git
 cd RAGchain
 ```
 
@@ -114,7 +114,6 @@ pip install dev_requirements.txt
 - [ANTIQUE](https://paperswithcode.com/dataset/antique)
 - [ASQA](https://arxiv.org/abs/2204.06092)
 - [DSTC11-Track5](https://github.com/alexa/dstc11-track5)
-- [BEIR](https://github.com/beir-cellar/beir) datasets
 - [Natural QA](https://paperswithcode.com/dataset/natural-questions)
 - [NFCorpus](http://www.cl.uni-heidelberg.de/statnlpgroup/nfcorpus/)
 - [SearchQA](https://arxiv.org/abs/1704.05179)
@@ -126,4 +125,5 @@ pip install dev_requirements.txt
 We welcome any contributions. Please feel free to raise issues and submit pull requests.
 
 # Acknowledgement
-This project was developed by [NomaDamas](https://github.com/NomaDamas), an open-source project group based in Seoul. The project is licensed under the Apache 2.0 License.
+
+This project is an early version, so it can be unstable. The project is licensed under the Apache 2.0 License.
