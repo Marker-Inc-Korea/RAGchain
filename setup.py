@@ -34,7 +34,7 @@ setup(
         'rank_bm25',
         'numpy',
         'pandas',
-        'pydantic',
+        'pydantic==1.10.13',
         'tqdm',
         'pymongo',
         'requests',
