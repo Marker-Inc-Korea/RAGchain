@@ -168,4 +168,5 @@ def long_26_test(linker):
     linker.put_json(LONG_26_TEST_IDS, LONG_26_DB_ORIGIN)
     assert linker.get_json(LONG_26_TEST_IDS) == LONG_26_DB_ORIGIN
     linker.delete_json(LONG_26_TEST_IDS)
-    assert linker.get_json(LONG_26_TEST_IDS) == [None for _ in range(26)]
+    with pytest.warns(NoIdWarning) as record:
+        assert linker.get_json(LONG_26_TEST_IDS) == [None for _ in range(26)]
