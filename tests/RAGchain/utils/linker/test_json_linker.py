@@ -38,3 +38,7 @@ def test_delete(json_linker):
 
 def test_long(json_linker):
     test_base_linker.long_test(json_linker)
+
+
+def test_long_26(json_linker):
+    test_base_linker.long_26_test(json_linker)

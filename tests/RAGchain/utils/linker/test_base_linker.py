@@ -36,6 +36,9 @@ LONG_TEST_IDS = [uuid4(), uuid4(), str(uuid4()), 'test-1', 'test-2', uuid4(), st
 LONG_DB_ORIGIN = [TEST_DB_ORIGIN[0], TEST_DB_ORIGIN[1], TEST_DB_ORIGIN[2], TEST_DB_ORIGIN[0], TEST_DB_ORIGIN[1],
                   TEST_DB_ORIGIN[2], None, TEST_DB_ORIGIN[1]]
 
+LONG_26_TEST_IDS = [uuid4() for _ in range(26)]
+LONG_26_DB_ORIGIN = [TEST_DB_ORIGIN[0] for _ in range(26)]
+
 
 def test_singleton_same_child():
     with pytest.raises(SingletonCreationError) as e:
@@ -159,3 +162,11 @@ def delete_test(linker):
     linker.delete_json(['test_id2', 'test_id4'])
     new_data = linker.get_json(test_id_list)
     assert new_data == [db_origin_list[0], None, db_origin_list[2], None]
+
+
+def long_26_test(linker):
+    linker.put_json(LONG_26_TEST_IDS, LONG_26_DB_ORIGIN)
+    assert linker.get_json(LONG_26_TEST_IDS) == LONG_26_DB_ORIGIN
+    linker.delete_json(LONG_26_TEST_IDS)
+    with pytest.warns(NoIdWarning) as record:
+        assert linker.get_json(LONG_26_TEST_IDS) == [None for _ in range(26)]

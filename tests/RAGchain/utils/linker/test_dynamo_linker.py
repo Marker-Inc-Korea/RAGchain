@@ -40,3 +40,7 @@ def test_delete(dynamo_db):
 
 def test_long(dynamo_db):
     test_base_linker.long_test(dynamo_db)
+
+
+def test_long_26(dynamo_db):
+    test_base_linker.long_26_test(dynamo_db)
