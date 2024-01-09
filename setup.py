@@ -22,7 +22,7 @@ setup(
     license='Apache License 2.0',
     py_modules=[splitext(basename(path))[0] for path in glob('./*.py')],
     install_requires=[
-        'langchain~=0.0.353',
+        'langchain>=0.1.0',
         'chromadb>=0.4.16',
         'urllib3',
         'pdfminer.six',
@@ -34,7 +34,7 @@ setup(
         'rank_bm25',
         'numpy',
         'pandas',
-        'pydantic',
+        'pydantic==1.10.13',
         'tqdm',
         'pymongo',
         'requests',
