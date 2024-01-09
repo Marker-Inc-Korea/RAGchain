@@ -150,6 +150,42 @@
                            href="#RAGchain.schema.prompt.RAGchainPromptTemplate.validate_template"><code
                             class="docutils literal notranslate"><span class="pre">RAGchainPromptTemplate.validate_template</span></code></a>
                     </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><a class="reference internal" href="#module-RAGchain.schema.retrieval_result">RAGchain.schema.retrieval_result
+        module</a>
+        <ul>
+            <li><a class="reference internal" href="#RAGchain.schema.retrieval_result.RetrievalResult"><code
+                    class="docutils literal notranslate"><span class="pre">RetrievalResult</span></code></a>
+                <ul>
+                    <li><a class="reference internal" href="#RAGchain.schema.retrieval_result.RetrievalResult.metadata"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RetrievalResult.metadata</span></code></a></li>
+                    <li><a class="reference internal" href="#RAGchain.schema.retrieval_result.RetrievalResult.passages"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RetrievalResult.passages</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.schema.retrieval_result.RetrievalResult.query"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RetrievalResult.query</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.schema.retrieval_result.RetrievalResult.scores"><code
+                            class="docutils literal notranslate"><span class="pre">RetrievalResult.scores</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.schema.retrieval_result.RetrievalResult.slice"><code
+                            class="docutils literal notranslate"><span class="pre">RetrievalResult.slice()</span></code></a>
+                    </li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.schema.retrieval_result.RetrievalResult.to_dict"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RetrievalResult.to_dict()</span></code></a></li>
+                    <li><a class="reference internal"
+                           href="#RAGchain.schema.retrieval_result.RetrievalResult.to_prompt_input"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RetrievalResult.to_prompt_input()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -671,19 +707,18 @@
                       class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_format</span></span><span
                       class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
                       class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span
-                      class="pre">'f-string'</span></span><span class="p"><span class="pre">]</span></span><span
-                      class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span
-                      class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span
-                      class="pre">'jinja2'</span></span><span class="p"><span class="pre">]</span></span></span><span
-                      class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
-                      class="default_value"><span class="pre">'f-string'</span></span></em>, <em class="sig-param"><span
-                      class="n"><span class="pre">validate_template</span></span><span class="p"><span
-                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                      class="pre">bool</span></span><span class="w"> </span><span class="o"><span
-                      class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span
-                      class="sig-paren">)</span><a class="headerlink"
-                                                   href="#RAGchain.schema.prompt.RAGchainPromptTemplate"
-                                                   title="Link to this definition"></a></dt>
+                      class="pre">'f-string'</span></span><span class="p"><span class="pre">,</span></span><span
+                      class="w"> </span><span class="s"><span class="pre">'jinja2'</span></span><span class="p"><span
+                      class="pre">]</span></span></span><span class="w"> </span><span class="o"><span
+                      class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'f-string'</span></span></em>,
+                  <em class="sig-param"><span class="n"><span class="pre">validate_template</span></span><span
+                          class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                          class="pre">bool</span></span><span class="w"> </span><span class="o"><span
+                          class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+                          class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                 href="#RAGchain.schema.prompt.RAGchainPromptTemplate"
+                                                                                                 title="Link to this definition"></a>
+              </dt>
               <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
                       class="pre">PromptTemplate</span></code></p>
                   <dl class="py attribute">
@@ -716,12 +751,11 @@
                               class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
                               class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span
                               class="s"><span class="pre">'f-string'</span></span><span class="p"><span
-                              class="pre">]</span></span><span class="w"> </span><span class="p"><span
-                              class="pre">|</span></span><span class="w"> </span><span class="pre">Literal</span><span
-                              class="p"><span class="pre">[</span></span><span class="s"><span
-                              class="pre">'jinja2'</span></span><span class="p"><span class="pre">]</span></span></em><a
-                              class="headerlink" href="#RAGchain.schema.prompt.RAGchainPromptTemplate.template_format"
-                              title="Link to this definition"></a></dt>
+                              class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'jinja2'</span></span><span
+                              class="p"><span class="pre">]</span></span></em><a class="headerlink"
+                                                                                 href="#RAGchain.schema.prompt.RAGchainPromptTemplate.template_format"
+                                                                                 title="Link to this definition"></a>
+                      </dt>
                       <dd><p>The format of the prompt template. Options are: ‘f-string’, ‘jinja2’.</p>
                       </dd>
                   </dl>
@@ -736,6 +770,143 @@
                                                              title="Link to this definition"></a></dt>
                       <dd><p>Whether or not to try validating the template.</p>
                       </dd>
+                  </dl>
+
+              </dd>
+          </dl>
+
+      </section>
+      <section id="module-RAGchain.schema.retrieval_result">
+          <span id="ragchain-schema-retrieval-result-module"></span>
+          <h2>RAGchain.schema.retrieval_result module<a class="headerlink"
+                                                        href="#module-RAGchain.schema.retrieval_result"
+                                                        title="Link to this heading"></a></h2>
+          <dl class="py class">
+              <dt class="sig sig-object py" id="RAGchain.schema.retrieval_result.RetrievalResult">
+                  <em class="property"><span class="pre">class</span><span class="w"> </span></em><span
+                      class="sig-prename descclassname"><span
+                      class="pre">RAGchain.schema.retrieval_result.</span></span><span class="sig-name descname"><span
+                      class="pre">RetrievalResult</span></span><span class="sig-paren">(</span><em
+                      class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em
+                      class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passages</span></span><span
+                      class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">List</span><span class="p"><span class="pre">[</span></span><a
+                      class="reference internal" href="#RAGchain.schema.passage.Passage"
+                      title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span
+                      class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scores</span></span><span
+                      class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+                      class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em
+                      class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span
+                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                      class="pre">dict</span></span><span class="w"> </span><span class="o"><span
+                      class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span
+                      class="sig-paren">)</span><a class="headerlink"
+                                                   href="#RAGchain.schema.retrieval_result.RetrievalResult"
+                                                   title="Link to this definition"></a></dt>
+              <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+                      class="pre">BaseModel</span></code></p>
+                  <p>class for storing retrieval result</p>
+                  <dl class="py attribute">
+                      <dt class="sig sig-object py" id="RAGchain.schema.retrieval_result.RetrievalResult.metadata">
+                          <span class="sig-name descname"><span class="pre">metadata</span></span><em
+                              class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                              class="pre">dict</span></em><a class="headerlink"
+                                                             href="#RAGchain.schema.retrieval_result.RetrievalResult.metadata"
+                                                             title="Link to this definition"></a></dt>
+                      <dd><p>metadata that you can store anything you want</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py attribute">
+                      <dt class="sig sig-object py" id="RAGchain.schema.retrieval_result.RetrievalResult.passages">
+                          <span class="sig-name descname"><span class="pre">passages</span></span><em
+                              class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><a
+                              class="reference internal" href="#RAGchain.schema.passage.Passage"
+                              title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span
+                              class="p"><span class="pre">]</span></span></em><a class="headerlink"
+                                                                                 href="#RAGchain.schema.retrieval_result.RetrievalResult.passages"
+                                                                                 title="Link to this definition"></a>
+                      </dt>
+                      <dd><p>list of passage retrieved</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py attribute">
+                      <dt class="sig sig-object py" id="RAGchain.schema.retrieval_result.RetrievalResult.query">
+                          <span class="sig-name descname"><span class="pre">query</span></span><em
+                              class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                              class="pre">str</span></em><a class="headerlink"
+                                                            href="#RAGchain.schema.retrieval_result.RetrievalResult.query"
+                                                            title="Link to this definition"></a></dt>
+                      <dd><p>query string used for retrieval</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py attribute">
+                      <dt class="sig sig-object py" id="RAGchain.schema.retrieval_result.RetrievalResult.scores">
+                          <span class="sig-name descname"><span class="pre">scores</span></span><em
+                              class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span
+                              class="p"><span class="pre">]</span></span></em><a class="headerlink"
+                                                                                 href="#RAGchain.schema.retrieval_result.RetrievalResult.scores"
+                                                                                 title="Link to this definition"></a>
+                      </dt>
+                      <dd><p>list of scores for each passage</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.schema.retrieval_result.RetrievalResult.slice">
+                          <span class="sig-name descname"><span class="pre">slice</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                              class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">int</span></span><span
+                              class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                              class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em
+                              class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span
+                              class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">int</span><span class="w"> </span><span class="p"><span
+                              class="pre">|</span></span><span class="w"> </span><span
+                              class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                              class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+                              class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                    href="#RAGchain.schema.retrieval_result.RetrievalResult.slice"
+                                                                                                    title="Link to this definition"></a>
+                      </dt>
+                      <dd><p>Slice passages and scores.
+                          :param start: int, start index of slice. Default is 0.
+                          :param end: int, end index of slice. Default is the length of passages.</p>
+                      </dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.schema.retrieval_result.RetrievalResult.to_dict">
+                          <span class="sig-name descname"><span class="pre">to_dict</span></span><span
+                              class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink"
+                                                                                           href="#RAGchain.schema.retrieval_result.RetrievalResult.to_dict"
+                                                                                           title="Link to this definition"></a>
+                      </dt>
+                      <dd></dd>
+                  </dl>
+
+                  <dl class="py method">
+                      <dt class="sig sig-object py"
+                          id="RAGchain.schema.retrieval_result.RetrievalResult.to_prompt_input">
+                          <span class="sig-name descname"><span class="pre">to_prompt_input</span></span><span
+                              class="sig-paren">(</span><em class="sig-param"><span
+                              class="pre">passage_convert_func:</span> <span class="pre">~typing.Callable[[~typing.List[~RAGchain.schema.passage.Passage]],</span>
+                          <span class="pre">str]</span> <span class="pre">=</span> <span class="pre">&lt;function</span>
+                          <span class="pre">Passage.make_prompts&gt;</span></em><span class="sig-paren">)</span> <span
+                              class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+                              class="sig-return-typehint"><span class="pre">dict</span></span></span><a
+                              class="headerlink"
+                              href="#RAGchain.schema.retrieval_result.RetrievalResult.to_prompt_input"
+                              title="Link to this definition"></a></dt>
+                      <dd></dd>
                   </dl>
 
 </dd></dl>

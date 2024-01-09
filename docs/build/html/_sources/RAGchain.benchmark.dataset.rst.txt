@@ -28,14 +28,6 @@ RAGchain.benchmark.dataset.base module
    :undoc-members:
    :show-inheritance:
 
-RAGchain.benchmark.dataset.beir module
---------------------------------------
-
-.. automodule:: RAGchain.benchmark.dataset.beir
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 RAGchain.benchmark.dataset.dstc11\_track5 module
 ------------------------------------------------
 

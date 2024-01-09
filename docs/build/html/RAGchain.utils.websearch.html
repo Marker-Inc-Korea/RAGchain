@@ -57,8 +57,20 @@
                                                 class="pre">BaseWebSearch</span></code></a>
                                             <ul>
                                                 <li><a class="reference internal"
+                                                       href="#RAGchain.utils.websearch.base.BaseWebSearch.InputType"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseWebSearch.InputType</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.utils.websearch.base.BaseWebSearch.OutputType"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseWebSearch.OutputType</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
                                                        href="#RAGchain.utils.websearch.base.BaseWebSearch.get_search_data"><code
                                                         class="docutils literal notranslate"><span class="pre">BaseWebSearch.get_search_data()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.utils.websearch.base.BaseWebSearch.invoke"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseWebSearch.invoke()</span></code></a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -87,6 +99,10 @@
                                                 class="docutils literal notranslate"><span
                                                 class="pre">GoogleSearch</span></code></a>
                                             <ul>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.utils.websearch.google_search.GoogleSearch.batch"><code
+                                                        class="docutils literal notranslate"><span class="pre">GoogleSearch.batch()</span></code></a>
+                                                </li>
                                                 <li><a class="reference internal"
                                                        href="#RAGchain.utils.websearch.google_search.GoogleSearch.get_search_data"><code
                                                         class="docutils literal notranslate"><span class="pre">GoogleSearch.get_search_data()</span></code></a>
@@ -147,8 +163,51 @@
                                             class="headerlink" href="#RAGchain.utils.websearch.base.BaseWebSearch"
                                             title="Link to this definition"></a></dt>
                                     <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
-                                            class="pre">ABC</span></code></p>
+                                            class="pre">Runnable</span></code>[<code
+                                            class="xref py py-class docutils literal notranslate"><span
+                                            class="pre">str</span></code>, <a class="reference internal"
+                                                                              href="RAGchain.schema.html#RAGchain.schema.retrieval_result.RetrievalResult"
+                                                                              title="RAGchain.schema.retrieval_result.RetrievalResult"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">RetrievalResult</span></code></a>],
+                                        <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code>
+                                    </p>
                                         <p>Abstract class for using a web search engine for passage contents.</p>
+                                        <dl class="py property">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.utils.websearch.base.BaseWebSearch.InputType">
+                                                <em class="property"><span class="pre">property</span><span
+                                                        class="w"> </span></em><span class="sig-name descname"><span
+                                                    class="pre">InputType</span></span><em class="property"><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="pre">Type</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">Input</span><span
+                                                    class="p"><span class="pre">]</span></span></em><a
+                                                    class="headerlink"
+                                                    href="#RAGchain.utils.websearch.base.BaseWebSearch.InputType"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>The type of input this runnable accepts specified as a type
+                                                annotation.</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py property">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.utils.websearch.base.BaseWebSearch.OutputType">
+                                                <em class="property"><span class="pre">property</span><span
+                                                        class="w"> </span></em><span class="sig-name descname"><span
+                                                    class="pre">OutputType</span></span><em class="property"><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="pre">Type</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">Output</span><span
+                                                    class="p"><span class="pre">]</span></span></em><a
+                                                    class="headerlink"
+                                                    href="#RAGchain.utils.websearch.base.BaseWebSearch.OutputType"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>The type of output this runnable produces specified as a type
+                                                annotation.</p>
+                                            </dd>
+                                        </dl>
+
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="RAGchain.utils.websearch.base.BaseWebSearch.get_search_data">
@@ -180,6 +239,45 @@
                                             </dt>
                                             <dd><p>Abstract method for searching passages from the web search
                                                 engine.</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.utils.websearch.base.BaseWebSearch.invoke">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">invoke</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">input</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Input</span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">config</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">RunnableConfig</span><span
+                                                    class="w"> </span><span class="p"><span
+                                                    class="pre">|</span></span><span class="w"> </span><span
+                                                    class="pre">None</span></span><span class="w"> </span><span
+                                                    class="o"><span class="pre">=</span></span><span
+                                                    class="w"> </span><span class="default_value"><span
+                                                    class="pre">None</span></span></em><span class="sig-paren">)</span>
+                                                <span class="sig-return"><span
+                                                        class="sig-return-icon">&#x2192;</span> <span
+                                                        class="sig-return-typehint"><span
+                                                        class="pre">Output</span></span></span><a class="headerlink"
+                                                                                                  href="#RAGchain.utils.websearch.base.BaseWebSearch.invoke"
+                                                                                                  title="Link to this definition"></a>
+                                            </dt>
+                                            <dd><p>Invoke the WebSearch module.
+                                                :param input: A query string.
+                                                :param config: You can set num_results in config.
+                                                The configurable key is “web_search_options”.
+                                                For example,</p>
+                                                <blockquote>
+                                                    <div><p>runnable.invoke(“your search query”, config={“configurable”:
+                                                        {“web_search_options”: {“num_results”: 10}}})</p>
+                                                    </div>
+                                                </blockquote>
                                             </dd>
                                         </dl>
 
@@ -274,6 +372,65 @@
                                             (<a class="reference external"
                                                 href="https://programmablesearchengine.google.com/controlpanel/create">https://programmablesearchengine.google.com/controlpanel/create</a>).
                                         </p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.utils.websearch.google_search.GoogleSearch.batch">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">batch</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span
+                                                    class="n"><span class="pre">inputs</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">Input</span><span class="p"><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">config</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span
+                                                    class="pre">RunnableConfig</span><span class="w"> </span><span
+                                                    class="p"><span class="pre">|</span></span><span
+                                                    class="w"> </span><span class="pre">List</span><span class="p"><span
+                                                    class="pre">[</span></span><span
+                                                    class="pre">RunnableConfig</span><span class="p"><span
+                                                    class="pre">]</span></span><span class="w"> </span><span
+                                                    class="p"><span class="pre">|</span></span><span
+                                                    class="w"> </span><span class="pre">None</span></span><span
+                                                    class="w"> </span><span class="o"><span
+                                                    class="pre">=</span></span><span class="w"> </span><span
+                                                    class="default_value"><span class="pre">None</span></span></em>, <em
+                                                    class="sig-param"><span class="o"><span class="pre">*</span></span></em>,
+                                                <em class="sig-param"><span class="n"><span class="pre">return_exceptions</span></span><span
+                                                        class="p"><span class="pre">:</span></span><span
+                                                        class="w"> </span><span class="n"><span class="pre">bool</span></span><span
+                                                        class="w"> </span><span class="o"><span
+                                                        class="pre">=</span></span><span class="w"> </span><span
+                                                        class="default_value"><span class="pre">False</span></span></em>,
+                                                <em class="sig-param"><span class="o"><span class="pre">**</span></span><span
+                                                        class="n"><span class="pre">kwargs</span></span><span class="p"><span
+                                                        class="pre">:</span></span><span class="w"> </span><span
+                                                        class="n"><span class="pre">Any</span><span
+                                                        class="w"> </span><span class="p"><span
+                                                        class="pre">|</span></span><span class="w"> </span><span
+                                                        class="pre">None</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span class="pre">List</span><span
+                                                    class="p"><span class="pre">[</span></span><span
+                                                    class="pre">Output</span><span class="p"><span class="pre">]</span></span></span></span><a
+                                                    class="headerlink"
+                                                    href="#RAGchain.utils.websearch.google_search.GoogleSearch.batch"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>Default implementation runs invoke in parallel using a thread pool
+                                                executor.</p>
+                                                <p>The default implementation of batch works well for IO bound
+                                                    runnables.</p>
+                                                <p>Subclasses should override this method if they can batch more
+                                                    efficiently;
+                                                    e.g., if the underlying runnable uses an API which supports a batch
+                                                    mode.</p>
+                                            </dd>
+                                        </dl>
+
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="RAGchain.utils.websearch.google_search.GoogleSearch.get_search_data">

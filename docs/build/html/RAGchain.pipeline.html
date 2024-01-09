@@ -47,13 +47,7 @@
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-RAGchain.pipeline.base">RAGchain.pipeline.base module</a><ul>
     <li><a class="reference internal" href="#RAGchain.pipeline.base.BaseIngestPipeline"><code
-            class="docutils literal notranslate"><span class="pre">BaseIngestPipeline</span></code></a>
-        <ul>
-            <li><a class="reference internal" href="#RAGchain.pipeline.base.BaseIngestPipeline.run"><code
-                    class="docutils literal notranslate"><span class="pre">BaseIngestPipeline.run()</span></code></a>
-            </li>
-</ul>
-</li>
+            class="docutils literal notranslate"><span class="pre">BaseIngestPipeline</span></code></a></li>
     <li><a class="reference internal" href="#RAGchain.pipeline.base.BaseRunPipeline"><code
             class="docutils literal notranslate"><span class="pre">BaseRunPipeline</span></code></a>
         <ul>
@@ -72,10 +66,8 @@
 </li>
     <li><a class="reference internal" href="#module-RAGchain.pipeline.basic">RAGchain.pipeline.basic module</a>
         <ul>
-<li><a class="reference internal" href="#RAGchain.pipeline.basic.BasicIngestPipeline"><code class="docutils literal notranslate"><span class="pre">BasicIngestPipeline</span></code></a><ul>
-<li><a class="reference internal" href="#RAGchain.pipeline.basic.BasicIngestPipeline.run"><code class="docutils literal notranslate"><span class="pre">BasicIngestPipeline.run()</span></code></a></li>
-</ul>
-</li>
+            <li><a class="reference internal" href="#RAGchain.pipeline.basic.BasicIngestPipeline"><code
+                    class="docutils literal notranslate"><span class="pre">BasicIngestPipeline</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.pipeline.basic.BasicRunPipeline"><code class="docutils literal notranslate"><span class="pre">BasicRunPipeline</span></code></a><ul>
     <li><a class="reference internal" href="#RAGchain.pipeline.basic.BasicRunPipeline.get_passages_and_run"><code
             class="docutils literal notranslate"><span class="pre">BasicRunPipeline.get_passages_and_run()</span></code></a>
@@ -186,18 +178,6 @@
     </dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
 <p>Base class for all pipelines</p>
-<dl class="py method">
-    <dt class="sig sig-object py" id="RAGchain.pipeline.base.BaseIngestPipeline.run">
-        <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span
-            class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em
-            class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span
-            class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span
-            class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span
-            class="sig-paren">)</span><a class="headerlink" href="#RAGchain.pipeline.base.BaseIngestPipeline.run"
-                                         title="Link to this definition"></a></dt>
-<dd><p>Run the pipeline</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -262,8 +242,12 @@
             class="sig-paren">(</span><em class="sig-param"><span class="n"><span
             class="pre">questions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
             class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
-            class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span
-            class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+            class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span
+            class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span
+            class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span
+            class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+            class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+            class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
             class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span
             class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span
             class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span
@@ -280,8 +264,19 @@
                                                         href="#RAGchain.pipeline.base.BaseRunPipeline.get_passages_and_run"
                                                         title="Link to this definition"></a></dt>
     <dd><p>Run the pipeline for evaluator, and get retrieved passages and rel scores.
-        It is same with pipeline.run.batch, but returns passages and rel scores.
-        Return List of answer, List of passages, Relevance score of passages.</p>
+        It is the same with pipeline.run.batch, but returns passages and rel scores.
+        Return List of answers, List of passages, Relevance score of passages.</p>
+        <dl class="field-list simple">
+            <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+            <dd class="field-odd">
+                <ul class="simple">
+                    <li><p><strong>questions</strong> – List of questions.</p></li>
+                    <li><p><strong>top_k</strong> – The number of passages to retrieve.</p></li>
+                </ul>
+            </dd>
+        </dl>
+        <p>It is the same as retrieval_options top_k.
+            Default is 5.</p>
 </dd></dl>
 
 </dd></dl>
@@ -312,8 +307,8 @@
 <p>Basic ingest pipeline class.
 This class handles the ingestion process of documents into a database and retrieval system.
 First, load file from directory using file loader.
-Second, split document into passages using text splitter.
-Third, save passages to database.
+    Second, split a document into passages using text splitter.
+    Third, save passages to a database.
 Fourth, ingest passages to retrieval module.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Example<span class="colon">:</span></dt>
@@ -329,20 +324,11 @@ Fourth, ingest passages to retrieval module.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">db</span> <span class="o">=</span> <span class="n">PickleDB</span><span class="p">(</span><span class="s2">&quot;./db&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">retrieval</span> <span class="o">=</span> <span class="n">BM25Retrieval</span><span class="p">(</span><span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;./bm25.pkl&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">BasicIngestPipeline</span><span class="p">(</span><span class="n">file_loader</span><span class="o">=</span><span class="n">file_loader</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span> <span class="n">retrieval</span><span class="o">=</span><span class="n">retrieval</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span
+            class="n">run</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span
+            class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
-<dl class="py method">
-<dt class="sig sig-object py" id="RAGchain.pipeline.basic.BasicIngestPipeline.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.pipeline.basic.BasicIngestPipeline.run" title="Link to this definition"></a></dt>
-<dd><p>Run ingest pipeline.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>target_dir</strong> – Target directory to load documents. If None, use target_dir from file_loader that you passed in __init__.</p>
-</dd>
-</dl>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -366,11 +352,6 @@ Fourth, ingest passages to retrieval module.</p>
                              href="RAGchain.schema.html#RAGchain.schema.prompt.RAGchainChatPromptTemplate"
                              title="RAGchain.schema.prompt.RAGchainChatPromptTemplate"><span class="pre">RAGchainChatPromptTemplate</span></a><span
         class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
-        class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
-        class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span
-        class="pre">retrieval_option</span></span><span class="p"><span class="pre">:</span></span><span
-        class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span
-        class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
         class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
         class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a
         class="headerlink" href="#RAGchain.pipeline.basic.BasicRunPipeline" title="Link to this definition"></a></dt>
@@ -406,8 +387,8 @@ Finally, you can get answer and passages as return value.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Run with Langchain LCEL</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">answer</span> <span class="o">=</span> <span
             class="n">pipeline</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span
-            class="n">invoke</span><span class="p">({</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span
-            class="s2">&quot;Where is the capital of Korea?&quot;</span><span class="p">})</span>
+            class="n">invoke</span><span class="p">(</span><span
+            class="s2">&quot;Where is the capital of Korea?&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py method">
@@ -416,8 +397,12 @@ Finally, you can get answer and passages as return value.</p>
             class="sig-paren">(</span><em class="sig-param"><span class="n"><span
             class="pre">questions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
             class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
-            class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span
-            class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+            class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span
+            class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span
+            class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span
+            class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+            class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span
+            class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
             class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span
             class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span
             class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span
@@ -434,8 +419,19 @@ Finally, you can get answer and passages as return value.</p>
                                                         href="#RAGchain.pipeline.basic.BasicRunPipeline.get_passages_and_run"
                                                         title="Link to this definition"></a></dt>
     <dd><p>Run the pipeline for evaluator, and get retrieved passages and rel scores.
-        It is same with pipeline.run.batch, but returns passages and rel scores.
-        Return List of answer, List of passages, Relevance score of passages.</p>
+        It is the same with pipeline.run.batch, but returns passages and rel scores.
+        Return List of answers, List of passages, Relevance score of passages.</p>
+        <dl class="field-list simple">
+            <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+            <dd class="field-odd">
+                <ul class="simple">
+                    <li><p><strong>questions</strong> – List of questions.</p></li>
+                    <li><p><strong>top_k</strong> – The number of passages to retrieve.</p></li>
+                </ul>
+            </dd>
+</dl>
+        <p>It is the same as retrieval_options top_k.
+            Default is 5.</p>
     </dd>
 </dl>
 
@@ -472,15 +468,9 @@ Finally, you can get answer and passages as return value.</p>
                       class="pre">RAGchainPromptTemplate</span></a><span class="w"> </span><span class="p"><span
                       class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
                       class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
-                      class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span
-                      class="n"><span class="pre">use_search_count</span></span><span class="p"><span
-                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                      class="pre">int</span></span><span class="w"> </span><span class="o"><span
-                      class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
-                      class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink"
-                                                                                         href="#RAGchain.pipeline.google_search.GoogleSearchRunPipeline"
-                                                                                         title="Link to this definition"></a>
-              </dt>
+                      class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a
+                      class="headerlink" href="#RAGchain.pipeline.google_search.GoogleSearchRunPipeline"
+                      title="Link to this definition"></a></dt>
               <dd><p>Bases: <a class="reference internal" href="#RAGchain.pipeline.base.BaseRunPipeline"
                                title="RAGchain.pipeline.base.BaseRunPipeline"><code
                       class="xref py py-class docutils literal notranslate"><span
@@ -492,30 +482,45 @@ Finally, you can get answer and passages as return value.</p>
                               class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">questions</span></span><span
                               class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
                               class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
-                              class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span>
-                          <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
-                                  class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span
-                                  class="pre">[</span></span><span class="pre">List</span><span class="p"><span
-                                  class="pre">[</span></span><span class="pre">str</span><span class="p"><span
-                                  class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span
-                                  class="w"> </span><span class="pre">List</span><span class="p"><span
-                                  class="pre">[</span></span><span class="pre">List</span><span class="p"><span
-                                  class="pre">[</span></span><a class="reference internal"
-                                                                href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
-                                                                title="RAGchain.schema.passage.Passage"><span
-                                  class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span><span
-                                  class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span
-                                  class="w"> </span><span class="pre">List</span><span class="p"><span
-                                  class="pre">[</span></span><span class="pre">List</span><span class="p"><span
-                                  class="pre">[</span></span><span class="pre">float</span><span class="p"><span
-                                  class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span
-                                  class="p"><span class="pre">]</span></span></span></span><a class="headerlink"
-                                                                                              href="#RAGchain.pipeline.google_search.GoogleSearchRunPipeline.get_passages_and_run"
-                                                                                              title="Link to this definition"></a>
-                      </dt>
+                              class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                              class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">int</span></span><span
+                              class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                              class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span
+                              class="sig-paren">)</span> <span class="sig-return"><span
+                              class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+                              class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span><span class="p"><span
+                              class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span
+                              class="p"><span class="pre">[</span></span><span class="pre">List</span><span
+                              class="p"><span class="pre">[</span></span><a class="reference internal"
+                                                                            href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                                                            title="RAGchain.schema.passage.Passage"><span
+                              class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span><span
+                              class="p"><span class="pre">]</span></span><span class="p"><span
+                              class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span
+                              class="p"><span class="pre">[</span></span><span class="pre">List</span><span
+                              class="p"><span class="pre">[</span></span><span class="pre">float</span><span
+                              class="p"><span class="pre">]</span></span><span class="p"><span
+                              class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a
+                              class="headerlink"
+                              href="#RAGchain.pipeline.google_search.GoogleSearchRunPipeline.get_passages_and_run"
+                              title="Link to this definition"></a></dt>
                       <dd><p>Run the pipeline for evaluator, and get retrieved passages and rel scores.
-                          It is same with pipeline.run.batch, but returns passages and rel scores.
-                          Return List of answer, List of passages, Relevance score of passages.</p>
+                          It is the same with pipeline.run.batch, but returns passages and rel scores.
+                          Return List of answers, List of passages, Relevance score of passages.</p>
+                          <dl class="field-list simple">
+                              <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                              <dd class="field-odd">
+                                  <ul class="simple">
+                                      <li><p><strong>questions</strong> – List of questions.</p></li>
+                                      <li><p><strong>top_k</strong> – The number of passages to retrieve.</p></li>
+                                  </ul>
+                              </dd>
+                          </dl>
+                          <p>It is the same as retrieval_options top_k.
+                              Default is 5.</p>
                       </dd>
                   </dl>
 
@@ -564,12 +569,6 @@ Finally, you can get answer and passages as return value.</p>
                                                                             href="RAGchain.schema.html#RAGchain.schema.prompt.RAGchainChatPromptTemplate"
                                                                             title="RAGchain.schema.prompt.RAGchainChatPromptTemplate"><span
                       class="pre">RAGchainChatPromptTemplate</span></a><span class="w"> </span><span class="p"><span
-                      class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
-                      class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
-                      class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span
-                      class="n"><span class="pre">retrieval_option</span></span><span class="p"><span
-                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                      class="pre">dict</span><span class="w"> </span><span class="p"><span
                       class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
                       class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
                       class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span
@@ -636,30 +635,44 @@ Finally, you can get answer and passages as return value.</p>
                               class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">questions</span></span><span
                               class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
                               class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
-                              class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span>
-                          <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
-                                  class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span
-                                  class="pre">[</span></span><span class="pre">List</span><span class="p"><span
-                                  class="pre">[</span></span><span class="pre">str</span><span class="p"><span
-                                  class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span
-                                  class="w"> </span><span class="pre">List</span><span class="p"><span
-                                  class="pre">[</span></span><span class="pre">List</span><span class="p"><span
-                                  class="pre">[</span></span><a class="reference internal"
-                                                                href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
-                                                                title="RAGchain.schema.passage.Passage"><span
-                                  class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span><span
-                                  class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span
-                                  class="w"> </span><span class="pre">List</span><span class="p"><span
-                                  class="pre">[</span></span><span class="pre">List</span><span class="p"><span
-                                  class="pre">[</span></span><span class="pre">float</span><span class="p"><span
-                                  class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span
-                                  class="p"><span class="pre">]</span></span></span></span><a class="headerlink"
-                                                                                              href="#RAGchain.pipeline.rerank.RerankRunPipeline.get_passages_and_run"
-                                                                                              title="Link to this definition"></a>
-                      </dt>
+                              class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                              class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">int</span></span><span
+                              class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                              class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span
+                              class="sig-paren">)</span> <span class="sig-return"><span
+                              class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+                              class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span><span class="p"><span
+                              class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span
+                              class="p"><span class="pre">[</span></span><span class="pre">List</span><span
+                              class="p"><span class="pre">[</span></span><a class="reference internal"
+                                                                            href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                                                            title="RAGchain.schema.passage.Passage"><span
+                              class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span><span
+                              class="p"><span class="pre">]</span></span><span class="p"><span
+                              class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span
+                              class="p"><span class="pre">[</span></span><span class="pre">List</span><span
+                              class="p"><span class="pre">[</span></span><span class="pre">float</span><span
+                              class="p"><span class="pre">]</span></span><span class="p"><span
+                              class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a
+                              class="headerlink" href="#RAGchain.pipeline.rerank.RerankRunPipeline.get_passages_and_run"
+                              title="Link to this definition"></a></dt>
                       <dd><p>Run the pipeline for evaluator, and get retrieved passages and rel scores.
-                          It is same with pipeline.run.batch, but returns passages and rel scores.
-                          Return List of answer, List of passages, Relevance score of passages.</p>
+                          It is the same with pipeline.run.batch, but returns passages and rel scores.
+                          Return List of answers, List of passages, Relevance score of passages.</p>
+                          <dl class="field-list simple">
+                              <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                              <dd class="field-odd">
+                                  <ul class="simple">
+                                      <li><p><strong>questions</strong> – List of questions.</p></li>
+                                      <li><p><strong>top_k</strong> – The number of passages to retrieve.</p></li>
+                                  </ul>
+                              </dd>
+                          </dl>
+                          <p>It is the same as retrieval_options top_k.
+                              Default is 5.</p>
                       </dd>
                   </dl>
 
@@ -711,12 +724,6 @@ Finally, you can get answer and passages as return value.</p>
                       class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
                       class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
                       class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span
-                      class="n"><span class="pre">retrieval_option</span></span><span class="p"><span
-                      class="pre">:</span></span><span class="w"> </span><span class="n"><span
-                      class="pre">dict</span><span class="w"> </span><span class="p"><span
-                      class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span
-                      class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
-                      class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span
                       class="n"><span class="pre">use_passage_count</span></span><span class="p"><span
                       class="pre">:</span></span><span class="w"> </span><span class="n"><span
                       class="pre">int</span></span><span class="w"> </span><span class="o"><span
@@ -736,30 +743,45 @@ Finally, you can get answer and passages as return value.</p>
                               class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">questions</span></span><span
                               class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
                               class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
-                              class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span>
-                          <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
-                                  class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span
-                                  class="pre">[</span></span><span class="pre">List</span><span class="p"><span
-                                  class="pre">[</span></span><span class="pre">str</span><span class="p"><span
-                                  class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span
-                                  class="w"> </span><span class="pre">List</span><span class="p"><span
-                                  class="pre">[</span></span><span class="pre">List</span><span class="p"><span
-                                  class="pre">[</span></span><a class="reference internal"
-                                                                href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
-                                                                title="RAGchain.schema.passage.Passage"><span
-                                  class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span><span
-                                  class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span
-                                  class="w"> </span><span class="pre">List</span><span class="p"><span
-                                  class="pre">[</span></span><span class="pre">List</span><span class="p"><span
-                                  class="pre">[</span></span><span class="pre">float</span><span class="p"><span
-                                  class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span
-                                  class="p"><span class="pre">]</span></span></span></span><a class="headerlink"
-                                                                                              href="#RAGchain.pipeline.visconde.ViscondeRunPipeline.get_passages_and_run"
-                                                                                              title="Link to this definition"></a>
-                      </dt>
+                              class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                              class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">int</span></span><span
+                              class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                              class="w"> </span><span class="default_value"><span class="pre">50</span></span></em><span
+                              class="sig-paren">)</span> <span class="sig-return"><span
+                              class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+                              class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span
+                              class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                              class="p"><span class="pre">]</span></span><span class="p"><span
+                              class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span
+                              class="p"><span class="pre">[</span></span><span class="pre">List</span><span
+                              class="p"><span class="pre">[</span></span><a class="reference internal"
+                                                                            href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                                                            title="RAGchain.schema.passage.Passage"><span
+                              class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span><span
+                              class="p"><span class="pre">]</span></span><span class="p"><span
+                              class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span
+                              class="p"><span class="pre">[</span></span><span class="pre">List</span><span
+                              class="p"><span class="pre">[</span></span><span class="pre">float</span><span
+                              class="p"><span class="pre">]</span></span><span class="p"><span
+                              class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a
+                              class="headerlink"
+                              href="#RAGchain.pipeline.visconde.ViscondeRunPipeline.get_passages_and_run"
+                              title="Link to this definition"></a></dt>
                       <dd><p>Run the pipeline for evaluator, and get retrieved passages and rel scores.
-                          It is same with pipeline.run.batch, but returns passages and rel scores.
-                          Return List of answer, List of passages, Relevance score of passages.</p>
+                          It is the same with pipeline.run.batch, but returns passages and rel scores.
+                          Return List of answers, List of passages, Relevance score of passages.</p>
+                          <dl class="field-list simple">
+                              <dt class="field-odd">Parameters<span class="colon">:</span></dt>
+                              <dd class="field-odd">
+                                  <ul class="simple">
+                                      <li><p><strong>questions</strong> – List of questions.</p></li>
+                                      <li><p><strong>top_k</strong> – The number of passages to retrieve.</p></li>
+                                  </ul>
+                              </dd>
+                          </dl>
+                          <p>It is the same as retrieval_options top_k.
+                              Default is 5.</p>
                       </dd>
                   </dl>
 

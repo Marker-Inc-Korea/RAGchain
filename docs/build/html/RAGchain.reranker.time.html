@@ -56,6 +56,10 @@
                                                 class="docutils literal notranslate"><span class="pre">SimpleTimeReranker</span></code></a>
                                             <ul>
                                                 <li><a class="reference internal"
+                                                       href="#RAGchain.reranker.time.simple_time.SimpleTimeReranker.invoke"><code
+                                                        class="docutils literal notranslate"><span class="pre">SimpleTimeReranker.invoke()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
                                                        href="#RAGchain.reranker.time.simple_time.SimpleTimeReranker.rerank"><code
                                                         class="docutils literal notranslate"><span class="pre">SimpleTimeReranker.rerank()</span></code></a>
                                                 </li>
@@ -70,6 +74,10 @@
                                                href="#RAGchain.reranker.time.weighted_time.WeightedTimeReranker"><code
                                                 class="docutils literal notranslate"><span class="pre">WeightedTimeReranker</span></code></a>
                                             <ul>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.reranker.time.weighted_time.WeightedTimeReranker.invoke"><code
+                                                        class="docutils literal notranslate"><span class="pre">WeightedTimeReranker.invoke()</span></code></a>
+                                                </li>
                                                 <li><a class="reference internal"
                                                        href="#RAGchain.reranker.time.weighted_time.WeightedTimeReranker.rerank"><code
                                                         class="docutils literal notranslate"><span class="pre">WeightedTimeReranker.rerank()</span></code></a>
@@ -131,10 +139,62 @@
                                             class="headerlink"
                                             href="#RAGchain.reranker.time.simple_time.SimpleTimeReranker"
                                             title="Link to this definition"></a></dt>
-                                    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
-                                            class="pre">object</span></code></p>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="RAGchain.reranker.html#RAGchain.reranker.base.BaseReranker"
+                                                     title="RAGchain.reranker.base.BaseReranker"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseReranker</span></code></a>
+                                    </p>
                                         <p>Rerank passages by their content_datetime only. It is simple reranker for
                                             time-aware RAG.</p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.reranker.time.simple_time.SimpleTimeReranker.invoke">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">invoke</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">input</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Input</span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">config</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">RunnableConfig</span><span
+                                                    class="w"> </span><span class="p"><span
+                                                    class="pre">|</span></span><span class="w"> </span><span
+                                                    class="pre">None</span></span><span class="w"> </span><span
+                                                    class="o"><span class="pre">=</span></span><span
+                                                    class="w"> </span><span class="default_value"><span
+                                                    class="pre">None</span></span></em><span class="sig-paren">)</span>
+                                                <span class="sig-return"><span
+                                                        class="sig-return-icon">&#x2192;</span> <span
+                                                        class="sig-return-typehint"><span
+                                                        class="pre">Output</span></span></span><a class="headerlink"
+                                                                                                  href="#RAGchain.reranker.time.simple_time.SimpleTimeReranker.invoke"
+                                                                                                  title="Link to this definition"></a>
+                                            </dt>
+                                            <dd><p>Transform a single input into an output. Override to implement.</p>
+                                                <dl>
+                                                    <dt>Args:</dt>
+                                                    <dd><p>input: The input to the runnable.
+                                                        config: A config to use when invoking the runnable.</p>
+                                                        <blockquote>
+                                                            <div><p>The config supports standard keys like ‘tags’,
+                                                                ‘metadata’ for tracing
+                                                                purposes, ‘max_concurrency’ for controlling how much
+                                                                work to do
+                                                                in parallel, and other keys. Please refer to the
+                                                                RunnableConfig
+                                                                for more details.</p>
+                                                            </div>
+                                                        </blockquote>
+                                                    </dd>
+                                                    <dt>Returns:</dt>
+                                                    <dd><p>The output of the runnable.</p>
+                                                    </dd>
+                                                </dl>
+                                            </dd>
+                                        </dl>
+
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="RAGchain.reranker.time.simple_time.SimpleTimeReranker.rerank">
@@ -192,8 +252,11 @@
                                             class="sig-paren">)</span><a class="headerlink"
                                                                          href="#RAGchain.reranker.time.weighted_time.WeightedTimeReranker"
                                                                          title="Link to this definition"></a></dt>
-                                    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
-                                            class="pre">object</span></code></p>
+                                    <dd><p>Bases: <a class="reference internal"
+                                                     href="RAGchain.reranker.html#RAGchain.reranker.base.BaseReranker"
+                                                     title="RAGchain.reranker.base.BaseReranker"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">BaseReranker</span></code></a>
+                                    </p>
                                         <p>Rerank passages by their content_datetime and relevance score.
                                             First, relevance score must be normalized to [0, 1] range.
                                             And calculate the combined score by the following formula:</p>
@@ -202,6 +265,55 @@
                                             </div>
                                         </blockquote>
                                         <p>The larger the decay_rate, the score from the past will be lowed.</p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.reranker.time.weighted_time.WeightedTimeReranker.invoke">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">invoke</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">input</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Input</span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">config</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">RunnableConfig</span><span
+                                                    class="w"> </span><span class="p"><span
+                                                    class="pre">|</span></span><span class="w"> </span><span
+                                                    class="pre">None</span></span><span class="w"> </span><span
+                                                    class="o"><span class="pre">=</span></span><span
+                                                    class="w"> </span><span class="default_value"><span
+                                                    class="pre">None</span></span></em><span class="sig-paren">)</span>
+                                                <span class="sig-return"><span
+                                                        class="sig-return-icon">&#x2192;</span> <span
+                                                        class="sig-return-typehint"><span
+                                                        class="pre">Output</span></span></span><a class="headerlink"
+                                                                                                  href="#RAGchain.reranker.time.weighted_time.WeightedTimeReranker.invoke"
+                                                                                                  title="Link to this definition"></a>
+                                            </dt>
+                                            <dd><p>Transform a single input into an output. Override to implement.</p>
+                                                <dl>
+                                                    <dt>Args:</dt>
+                                                    <dd><p>input: The input to the runnable.
+                                                        config: A config to use when invoking the runnable.</p>
+                                                        <blockquote>
+                                                            <div><p>The config supports standard keys like ‘tags’,
+                                                                ‘metadata’ for tracing
+                                                                purposes, ‘max_concurrency’ for controlling how much
+                                                                work to do
+                                                                in parallel, and other keys. Please refer to the
+                                                                RunnableConfig
+                                                                for more details.</p>
+                                                            </div>
+                                                        </blockquote>
+                                                    </dd>
+                                                    <dt>Returns:</dt>
+                                                    <dd><p>The output of the runnable.</p>
+                                                    </dd>
+                                                </dl>
+                                            </dd>
+                                        </dl>
+
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="RAGchain.reranker.time.weighted_time.WeightedTimeReranker.rerank">

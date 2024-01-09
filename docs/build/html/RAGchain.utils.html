@@ -48,14 +48,28 @@
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-RAGchain.utils.evidence_extractor">RAGchain.utils.evidence_extractor module</a><ul>
 <li><a class="reference internal" href="#RAGchain.utils.evidence_extractor.EvidenceExtractor"><code class="docutils literal notranslate"><span class="pre">EvidenceExtractor</span></code></a><ul>
+    <li><a class="reference internal" href="#RAGchain.utils.evidence_extractor.EvidenceExtractor.InputType"><code
+            class="docutils literal notranslate"><span class="pre">EvidenceExtractor.InputType</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.utils.evidence_extractor.EvidenceExtractor.OutputType"><code
+            class="docutils literal notranslate"><span class="pre">EvidenceExtractor.OutputType</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.utils.evidence_extractor.EvidenceExtractor.batch"><code
+            class="docutils literal notranslate"><span class="pre">EvidenceExtractor.batch()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.utils.evidence_extractor.EvidenceExtractor.extract"><code class="docutils literal notranslate"><span class="pre">EvidenceExtractor.extract()</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.utils.evidence_extractor.EvidenceExtractor.invoke"><code
+            class="docutils literal notranslate"><span class="pre">EvidenceExtractor.invoke()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-RAGchain.utils.file_cache">RAGchain.utils.file_cache module</a><ul>
 <li><a class="reference internal" href="#RAGchain.utils.file_cache.FileCache"><code class="docutils literal notranslate"><span class="pre">FileCache</span></code></a><ul>
+    <li><a class="reference internal" href="#RAGchain.utils.file_cache.FileCache.InputType"><code
+            class="docutils literal notranslate"><span class="pre">FileCache.InputType</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.utils.file_cache.FileCache.OutputType"><code
+            class="docutils literal notranslate"><span class="pre">FileCache.OutputType</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.utils.file_cache.FileCache.delete_duplicate"><code class="docutils literal notranslate"><span class="pre">FileCache.delete_duplicate()</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.utils.file_cache.FileCache.invoke"><code
+            class="docutils literal notranslate"><span class="pre">FileCache.invoke()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -64,6 +78,8 @@
 <li><a class="reference internal" href="#RAGchain.utils.query_decompose.QueryDecomposition"><code class="docutils literal notranslate"><span class="pre">QueryDecomposition</span></code></a><ul>
 <li><a class="reference internal" href="#RAGchain.utils.query_decompose.QueryDecomposition.decompose"><code class="docutils literal notranslate"><span class="pre">QueryDecomposition.decompose()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.utils.query_decompose.QueryDecomposition.decompose_prompt"><code class="docutils literal notranslate"><span class="pre">QueryDecomposition.decompose_prompt</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.utils.query_decompose.QueryDecomposition.invoke"><code
+            class="docutils literal notranslate"><span class="pre">QueryDecomposition.invoke()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -176,9 +192,21 @@
                             class="docutils literal notranslate"><span class="pre">BaseCompressor</span></code></a>
                         <ul>
                             <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.utils.compressor.html#RAGchain.utils.compressor.base.BaseCompressor.InputType"><code
+                                    class="docutils literal notranslate"><span
+                                    class="pre">BaseCompressor.InputType</span></code></a></li>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.utils.compressor.html#RAGchain.utils.compressor.base.BaseCompressor.OutputType"><code
+                                    class="docutils literal notranslate"><span
+                                    class="pre">BaseCompressor.OutputType</span></code></a></li>
+                            <li class="toctree-l4"><a class="reference internal"
                                                       href="RAGchain.utils.compressor.html#RAGchain.utils.compressor.base.BaseCompressor.compress"><code
                                     class="docutils literal notranslate"><span
                                     class="pre">BaseCompressor.compress()</span></code></a></li>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.utils.compressor.html#RAGchain.utils.compressor.base.BaseCompressor.invoke"><code
+                                    class="docutils literal notranslate"><span
+                                    class="pre">BaseCompressor.invoke()</span></code></a></li>
                         </ul>
                     </li>
                 </ul>
@@ -212,6 +240,10 @@
                                                       href="RAGchain.utils.compressor.html#RAGchain.utils.compressor.llm_lingua.LLMLinguaCompressor.InputType"><code
                                     class="docutils literal notranslate"><span
                                     class="pre">LLMLinguaCompressor.InputType</span></code></a></li>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.utils.compressor.html#RAGchain.utils.compressor.llm_lingua.LLMLinguaCompressor.OutputType"><code
+                                    class="docutils literal notranslate"><span class="pre">LLMLinguaCompressor.OutputType</span></code></a>
+                            </li>
                             <li class="toctree-l4"><a class="reference internal"
                                                       href="RAGchain.utils.compressor.html#RAGchain.utils.compressor.llm_lingua.LLMLinguaCompressor.invoke"><code
                                     class="docutils literal notranslate"><span
@@ -295,6 +327,10 @@
                                       href="RAGchain.utils.linker.html#RAGchain.utils.linker.dynamo_linker.DynamoLinker"><code
                     class="docutils literal notranslate"><span class="pre">DynamoLinker</span></code></a>
                 <ul>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.utils.linker.html#RAGchain.utils.linker.dynamo_linker.DynamoLinker.chunk"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">DynamoLinker.chunk()</span></code></a></li>
                     <li class="toctree-l4"><a class="reference internal"
                                               href="RAGchain.utils.linker.html#RAGchain.utils.linker.dynamo_linker.DynamoLinker.create_or_load_table"><code
                             class="docutils literal notranslate"><span
@@ -447,8 +483,20 @@
                             class="docutils literal notranslate"><span class="pre">BaseWebSearch</span></code></a>
                         <ul>
                             <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.utils.websearch.html#RAGchain.utils.websearch.base.BaseWebSearch.InputType"><code
+                                    class="docutils literal notranslate"><span
+                                    class="pre">BaseWebSearch.InputType</span></code></a></li>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.utils.websearch.html#RAGchain.utils.websearch.base.BaseWebSearch.OutputType"><code
+                                    class="docutils literal notranslate"><span
+                                    class="pre">BaseWebSearch.OutputType</span></code></a></li>
+                            <li class="toctree-l4"><a class="reference internal"
                                                       href="RAGchain.utils.websearch.html#RAGchain.utils.websearch.base.BaseWebSearch.get_search_data"><code
                                     class="docutils literal notranslate"><span class="pre">BaseWebSearch.get_search_data()</span></code></a>
+                            </li>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.utils.websearch.html#RAGchain.utils.websearch.base.BaseWebSearch.invoke"><code
+                                    class="docutils literal notranslate"><span class="pre">BaseWebSearch.invoke()</span></code></a>
                             </li>
                         </ul>
                     </li>
@@ -478,6 +526,10 @@
                                               href="RAGchain.utils.websearch.html#RAGchain.utils.websearch.google_search.GoogleSearch"><code
                             class="docutils literal notranslate"><span class="pre">GoogleSearch</span></code></a>
                         <ul>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.utils.websearch.html#RAGchain.utils.websearch.google_search.GoogleSearch.batch"><code
+                                    class="docutils literal notranslate"><span
+                                    class="pre">GoogleSearch.batch()</span></code></a></li>
                             <li class="toctree-l4"><a class="reference internal"
                                                       href="RAGchain.utils.websearch.html#RAGchain.utils.websearch.google_search.GoogleSearch.get_search_data"><code
                                     class="docutils literal notranslate"><span class="pre">GoogleSearch.get_search_data()</span></code></a>
@@ -513,7 +565,12 @@
         class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a
         class="headerlink" href="#RAGchain.utils.evidence_extractor.EvidenceExtractor"
         title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+            class="pre">Runnable</span></code>[<a class="reference internal"
+                                                  href="RAGchain.schema.html#RAGchain.schema.retrieval_result.RetrievalResult"
+                                                  title="RAGchain.schema.retrieval_result.RetrievalResult"><code
+            class="xref py py-class docutils literal notranslate"><span class="pre">RetrievalResult</span></code></a>,
+        <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</p>
 <p>EvidenceExtractor is a class that extracts relevant evidences based on a given question and a list of passages.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Example<span class="colon">:</span></dt>
@@ -539,7 +596,71 @@
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
 </div>
-<dl class="py method">
+        <dl class="py property">
+            <dt class="sig sig-object py" id="RAGchain.utils.evidence_extractor.EvidenceExtractor.InputType">
+                <em class="property"><span class="pre">property</span><span class="w"> </span></em><span
+                    class="sig-name descname"><span class="pre">InputType</span></span><em class="property"><span
+                    class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                    class="pre">Type</span><span class="p"><span class="pre">[</span></span><span
+                    class="pre">Input</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink"
+                                                                                                     href="#RAGchain.utils.evidence_extractor.EvidenceExtractor.InputType"
+                                                                                                     title="Link to this definition"></a>
+            </dt>
+            <dd><p>The type of input this runnable accepts specified as a type annotation.</p>
+            </dd>
+        </dl>
+
+        <dl class="py property">
+            <dt class="sig sig-object py" id="RAGchain.utils.evidence_extractor.EvidenceExtractor.OutputType">
+                <em class="property"><span class="pre">property</span><span class="w"> </span></em><span
+                    class="sig-name descname"><span class="pre">OutputType</span></span><em class="property"><span
+                    class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                    class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span
+                    class="p"><span class="pre">]</span></span></em><a class="headerlink"
+                                                                       href="#RAGchain.utils.evidence_extractor.EvidenceExtractor.OutputType"
+                                                                       title="Link to this definition"></a></dt>
+            <dd><p>The type of output this runnable produces specified as a type annotation.</p>
+            </dd>
+        </dl>
+
+        <dl class="py method">
+            <dt class="sig sig-object py" id="RAGchain.utils.evidence_extractor.EvidenceExtractor.batch">
+                <span class="sig-name descname"><span class="pre">batch</span></span><span class="sig-paren">(</span><em
+                    class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="p"><span
+                    class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                    class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+                    class="pre">Input</span><span class="p"><span class="pre">]</span></span></span></em>, <em
+                    class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span
+                    class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                    class="pre">RunnableConfig</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+                    class="w"> </span><span class="pre">List</span><span class="p"><span
+                    class="pre">[</span></span><span class="pre">RunnableConfig</span><span class="p"><span class="pre">]</span></span><span
+                    class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span
+                    class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                    class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,
+                <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em
+                    class="sig-param"><span class="n"><span class="pre">return_exceptions</span></span><span
+                    class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                    class="pre">bool</span></span><span class="w"> </span><span class="o"><span
+                    class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>,
+                <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span
+                        class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span
+                        class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span
+                        class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span
+                    class="sig-paren">)</span> <span class="sig-return"><span
+                    class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+                    class="pre">List</span><span class="p"><span class="pre">[</span></span><span
+                    class="pre">Output</span><span class="p"><span class="pre">]</span></span></span></span><a
+                    class="headerlink" href="#RAGchain.utils.evidence_extractor.EvidenceExtractor.batch"
+                    title="Link to this definition"></a></dt>
+            <dd><p>Default implementation runs invoke in parallel using a thread pool executor.</p>
+                <p>The default implementation of batch works well for IO bound runnables.</p>
+                <p>Subclasses should override this method if they can batch more efficiently;
+                    e.g., if the underlying runnable uses an API which supports a batch mode.</p>
+            </dd>
+        </dl>
+
+        <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.utils.evidence_extractor.EvidenceExtractor.extract">
     <span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em
         class="sig-param"><span class="n"><span class="pre">question</span></span><span class="p"><span
@@ -568,6 +689,42 @@
 </dl>
 </dd></dl>
 
+        <dl class="py method">
+            <dt class="sig sig-object py" id="RAGchain.utils.evidence_extractor.EvidenceExtractor.invoke">
+                <span class="sig-name descname"><span class="pre">invoke</span></span><span
+                    class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                    class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span
+                    class="w"> </span><span class="n"><span class="pre">Input</span></span></em>, <em class="sig-param"><span
+                    class="n"><span class="pre">config</span></span><span class="p"><span
+                    class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                    class="pre">RunnableConfig</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+                    class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                    class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span
+                    class="sig-paren">)</span> <span class="sig-return"><span
+                    class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+                    class="pre">Output</span></span></span><a class="headerlink"
+                                                              href="#RAGchain.utils.evidence_extractor.EvidenceExtractor.invoke"
+                                                              title="Link to this definition"></a></dt>
+            <dd><p>Transform a single input into an output. Override to implement.</p>
+                <dl>
+                    <dt>Args:</dt>
+                    <dd><p>input: The input to the runnable.
+                        config: A config to use when invoking the runnable.</p>
+                        <blockquote>
+                            <div><p>The config supports standard keys like ‘tags’, ‘metadata’ for tracing
+                                purposes, ‘max_concurrency’ for controlling how much work to do
+                                in parallel, and other keys. Please refer to the RunnableConfig
+                                for more details.</p>
+                            </div>
+                        </blockquote>
+                    </dd>
+                    <dt>Returns:</dt>
+                    <dd><p>The output of the runnable.</p>
+                    </dd>
+                </dl>
+            </dd>
+        </dl>
+
 </dd></dl>
 
 </section>
@@ -576,7 +733,12 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="RAGchain.utils.file_cache.FileCache">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.utils.file_cache.</span></span><span class="sig-name descname"><span class="pre">FileCache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="RAGchain.DB.html#RAGchain.DB.base.BaseDB" title="RAGchain.DB.base.BaseDB"><span class="pre">BaseDB</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RAGchain.utils.file_cache.FileCache" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+            class="pre">Runnable</span></code>[<code class="xref py py-class docutils literal notranslate"><span
+            class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span
+            class="pre">Document</span></code>], <code class="xref py py-class docutils literal notranslate"><span
+            class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span
+            class="pre">Document</span></code>]]</p>
 <p>This class is used to delete duplicate documents from given DB.
 You can use this after you load your file to Document using file loader.
 It will automatically check duplicate documents using source metadata and return non-duplicate documents.</p>
@@ -594,12 +756,72 @@ It will automatically check duplicate documents using source metadata and return
 <span class="gp">&gt;&gt;&gt; </span><span class="n">documents</span> <span class="o">=</span> <span class="n">file_cache</span><span class="o">.</span><span class="n">delete_duplicate</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
 </pre></div>
 </div>
-<dl class="py method">
+        <dl class="py property">
+            <dt class="sig sig-object py" id="RAGchain.utils.file_cache.FileCache.InputType">
+                <em class="property"><span class="pre">property</span><span class="w"> </span></em><span
+                    class="sig-name descname"><span class="pre">InputType</span></span><em class="property"><span
+                    class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                    class="pre">type</span></em><a class="headerlink"
+                                                   href="#RAGchain.utils.file_cache.FileCache.InputType"
+                                                   title="Link to this definition"></a></dt>
+            <dd><p>The type of input this runnable accepts specified as a type annotation.</p>
+            </dd>
+        </dl>
+
+        <dl class="py property">
+            <dt class="sig sig-object py" id="RAGchain.utils.file_cache.FileCache.OutputType">
+                <em class="property"><span class="pre">property</span><span class="w"> </span></em><span
+                    class="sig-name descname"><span class="pre">OutputType</span></span><em class="property"><span
+                    class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                    class="pre">type</span></em><a class="headerlink"
+                                                   href="#RAGchain.utils.file_cache.FileCache.OutputType"
+                                                   title="Link to this definition"></a></dt>
+            <dd><p>The type of output this runnable produces specified as a type annotation.</p>
+            </dd>
+        </dl>
+
+        <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.utils.file_cache.FileCache.delete_duplicate">
 <span class="sig-name descname"><span class="pre">delete_duplicate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">documents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Document</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Document</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.utils.file_cache.FileCache.delete_duplicate" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-</dd></dl>
+        <dl class="py method">
+            <dt class="sig sig-object py" id="RAGchain.utils.file_cache.FileCache.invoke">
+                <span class="sig-name descname"><span class="pre">invoke</span></span><span
+                    class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                    class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span
+                    class="w"> </span><span class="n"><span class="pre">Input</span></span></em>, <em class="sig-param"><span
+                    class="n"><span class="pre">config</span></span><span class="p"><span
+                    class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                    class="pre">RunnableConfig</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+                    class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                    class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span
+                    class="sig-paren">)</span> <span class="sig-return"><span
+                    class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+                    class="pre">Output</span></span></span><a class="headerlink"
+                                                              href="#RAGchain.utils.file_cache.FileCache.invoke"
+                                                              title="Link to this definition"></a></dt>
+            <dd><p>Transform a single input into an output. Override to implement.</p>
+                <dl>
+                    <dt>Args:</dt>
+                    <dd><p>input: The input to the runnable.
+                        config: A config to use when invoking the runnable.</p>
+                        <blockquote>
+                            <div><p>The config supports standard keys like ‘tags’, ‘metadata’ for tracing
+                                purposes, ‘max_concurrency’ for controlling how much work to do
+                                in parallel, and other keys. Please refer to the RunnableConfig
+                                for more details.</p>
+                            </div>
+                        </blockquote>
+                    </dd>
+                    <dt>Returns:</dt>
+                    <dd><p>The output of the runnable.</p>
+                    </dd>
+                </dl>
+            </dd>
+        </dl>
+
+    </dd></dl>
 
 </section>
 <section id="module-RAGchain.utils.query_decompose">
@@ -628,7 +850,11 @@ location = {Dublin, Ireland}
         class="w"> </span><span class="n"><span class="pre">BaseLLM</span></span></em><span class="sig-paren">)</span><a
         class="headerlink" href="#RAGchain.utils.query_decompose.QueryDecomposition"
         title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+            class="pre">Runnable</span></code>[<code class="xref py py-class docutils literal notranslate"><span
+            class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span
+            class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span
+            class="pre">str</span></code>]]</p>
 <p>Query Decomposition class.
 You can decompose a multi-hop questions to multiple single-hop questions using LLM.
 The default decomposition prompt is from Visconde paper, and its prompt is few-shot prompts from strategyQA dataset.</p>
@@ -637,7 +863,7 @@ The default decomposition prompt is from Visconde paper, and its prompt is few-s
 <span class="sig-name descname"><span class="pre">decompose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.utils.query_decompose.QueryDecomposition.decompose" title="Link to this definition"></a></dt>
 <dd><p>decompose query to little piece of questions.
 :param query: str, query to decompose.
-:return: List[str], list of decomposed query. Return empty list if query is not decomposable.</p>
+    :return: List[str], list of decomposed query. Return input query if query is not decomposable.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -706,7 +932,43 @@ The default decomposition prompt is from Visconde paper, and its prompt is few-s
         title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
+        <dl class="py method">
+            <dt class="sig sig-object py" id="RAGchain.utils.query_decompose.QueryDecomposition.invoke">
+                <span class="sig-name descname"><span class="pre">invoke</span></span><span
+                    class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                    class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span
+                    class="w"> </span><span class="n"><span class="pre">Input</span></span></em>, <em class="sig-param"><span
+                    class="n"><span class="pre">config</span></span><span class="p"><span
+                    class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                    class="pre">RunnableConfig</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+                    class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                    class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span
+                    class="sig-paren">)</span> <span class="sig-return"><span
+                    class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+                    class="pre">Output</span></span></span><a class="headerlink"
+                                                              href="#RAGchain.utils.query_decompose.QueryDecomposition.invoke"
+                                                              title="Link to this definition"></a></dt>
+            <dd><p>Transform a single input into an output. Override to implement.</p>
+                <dl>
+                    <dt>Args:</dt>
+                    <dd><p>input: The input to the runnable.
+                        config: A config to use when invoking the runnable.</p>
+                        <blockquote>
+                            <div><p>The config supports standard keys like ‘tags’, ‘metadata’ for tracing
+                                purposes, ‘max_concurrency’ for controlling how much work to do
+                                in parallel, and other keys. Please refer to the RunnableConfig
+                                for more details.</p>
+                            </div>
+                        </blockquote>
+                    </dd>
+                    <dt>Returns:</dt>
+                    <dd><p>The output of the runnable.</p>
 </dd>
+</dl>
+            </dd>
+        </dl>
+
+    </dd>
 </dl>
 
 </section>

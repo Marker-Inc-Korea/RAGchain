@@ -48,6 +48,8 @@
 <li><a class="reference internal" href="#module-RAGchain.reranker.upr.upr">RAGchain.reranker.upr.upr module</a><ul>
 <li><a class="reference internal" href="#RAGchain.reranker.upr.upr.UPRReranker"><code class="docutils literal notranslate"><span class="pre">UPRReranker</span></code></a><ul>
 <li><a class="reference internal" href="#RAGchain.reranker.upr.upr.UPRReranker.calculate_likelihood"><code class="docutils literal notranslate"><span class="pre">UPRReranker.calculate_likelihood()</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.reranker.upr.upr.UPRReranker.invoke"><code
+            class="docutils literal notranslate"><span class="pre">UPRReranker.invoke()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.reranker.upr.upr.UPRReranker.rerank"><code class="docutils literal notranslate"><span class="pre">UPRReranker.rerank()</span></code></a></li>
 </ul>
 </li>
@@ -100,7 +102,42 @@ The language model will make a question based on the passage and rerank the pass
 <span class="sig-name descname"><span class="pre">calculate_likelihood</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">question</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contexts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.reranker.upr.upr.UPRReranker.calculate_likelihood" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="py method">
+    <dl class="py method">
+        <dt class="sig sig-object py" id="RAGchain.reranker.upr.upr.UPRReranker.invoke">
+            <span class="sig-name descname"><span class="pre">invoke</span></span><span class="sig-paren">(</span><em
+                class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span
+                class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Input</span></span></em>,
+            <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span
+                    class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                    class="pre">RunnableConfig</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+                    class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                    class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span
+                class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+                class="sig-return-typehint"><span class="pre">Output</span></span></span><a class="headerlink"
+                                                                                            href="#RAGchain.reranker.upr.upr.UPRReranker.invoke"
+                                                                                            title="Link to this definition"></a>
+        </dt>
+        <dd><p>Transform a single input into an output. Override to implement.</p>
+            <dl>
+                <dt>Args:</dt>
+                <dd><p>input: The input to the runnable.
+                    config: A config to use when invoking the runnable.</p>
+                    <blockquote>
+                        <div><p>The config supports standard keys like ‘tags’, ‘metadata’ for tracing
+                            purposes, ‘max_concurrency’ for controlling how much work to do
+                            in parallel, and other keys. Please refer to the RunnableConfig
+                            for more details.</p>
+                        </div>
+                    </blockquote>
+                </dd>
+                <dt>Returns:</dt>
+                <dd><p>The output of the runnable.</p>
+                </dd>
+            </dl>
+        </dd>
+    </dl>
+
+    <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.reranker.upr.upr.UPRReranker.rerank">
 <span class="sig-name descname"><span class="pre">rerank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.reranker.upr.upr.UPRReranker.rerank" title="Link to this definition"></a></dt>
 <dd><p>Reranks a list of passages based on a specific ranking algorithm.</p>
