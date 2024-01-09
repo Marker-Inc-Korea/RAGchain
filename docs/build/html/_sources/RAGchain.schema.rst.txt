@@ -36,6 +36,14 @@ RAGchain.schema.prompt module
    :undoc-members:
    :show-inheritance:
 
+RAGchain.schema.retrieval\_result module
+----------------------------------------
+
+.. automodule:: RAGchain.schema.retrieval_result
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

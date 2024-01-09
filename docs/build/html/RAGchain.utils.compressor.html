@@ -57,8 +57,20 @@
                                                 class="pre">BaseCompressor</span></code></a>
                                             <ul>
                                                 <li><a class="reference internal"
+                                                       href="#RAGchain.utils.compressor.base.BaseCompressor.InputType"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseCompressor.InputType</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.utils.compressor.base.BaseCompressor.OutputType"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseCompressor.OutputType</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
                                                        href="#RAGchain.utils.compressor.base.BaseCompressor.compress"><code
                                                         class="docutils literal notranslate"><span class="pre">BaseCompressor.compress()</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.utils.compressor.base.BaseCompressor.invoke"><code
+                                                        class="docutils literal notranslate"><span class="pre">BaseCompressor.invoke()</span></code></a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -89,6 +101,10 @@
                                                 <li><a class="reference internal"
                                                        href="#RAGchain.utils.compressor.llm_lingua.LLMLinguaCompressor.InputType"><code
                                                         class="docutils literal notranslate"><span class="pre">LLMLinguaCompressor.InputType</span></code></a>
+                                                </li>
+                                                <li><a class="reference internal"
+                                                       href="#RAGchain.utils.compressor.llm_lingua.LLMLinguaCompressor.OutputType"><code
+                                                        class="docutils literal notranslate"><span class="pre">LLMLinguaCompressor.OutputType</span></code></a>
                                                 </li>
                                                 <li><a class="reference internal"
                                                        href="#RAGchain.utils.compressor.llm_lingua.LLMLinguaCompressor.invoke"><code
@@ -150,7 +166,52 @@
                                             class="headerlink" href="#RAGchain.utils.compressor.base.BaseCompressor"
                                             title="Link to this definition"></a></dt>
                                     <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
-                                            class="pre">ABC</span></code></p>
+                                            class="pre">Runnable</span></code>[<a class="reference internal"
+                                                                                  href="RAGchain.schema.html#RAGchain.schema.retrieval_result.RetrievalResult"
+                                                                                  title="RAGchain.schema.retrieval_result.RetrievalResult"><code
+                                            class="xref py py-class docutils literal notranslate"><span class="pre">RetrievalResult</span></code></a>,
+                                        <a class="reference internal"
+                                           href="RAGchain.schema.html#RAGchain.schema.retrieval_result.RetrievalResult"
+                                           title="RAGchain.schema.retrieval_result.RetrievalResult"><code
+                                                class="xref py py-class docutils literal notranslate"><span class="pre">RetrievalResult</span></code></a>],
+                                        <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code>
+                                    </p>
+                                        <dl class="py property">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.utils.compressor.base.BaseCompressor.InputType">
+                                                <em class="property"><span class="pre">property</span><span
+                                                        class="w"> </span></em><span class="sig-name descname"><span
+                                                    class="pre">InputType</span></span><em class="property"><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="pre">Type</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">Input</span><span
+                                                    class="p"><span class="pre">]</span></span></em><a
+                                                    class="headerlink"
+                                                    href="#RAGchain.utils.compressor.base.BaseCompressor.InputType"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>The type of input this runnable accepts specified as a type
+                                                annotation.</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py property">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.utils.compressor.base.BaseCompressor.OutputType">
+                                                <em class="property"><span class="pre">property</span><span
+                                                        class="w"> </span></em><span class="sig-name descname"><span
+                                                    class="pre">OutputType</span></span><em class="property"><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="pre">Type</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">Output</span><span
+                                                    class="p"><span class="pre">]</span></span></em><a
+                                                    class="headerlink"
+                                                    href="#RAGchain.utils.compressor.base.BaseCompressor.OutputType"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>The type of output this runnable produces specified as a type
+                                                annotation.</p>
+                                            </dd>
+                                        </dl>
+
                                         <dl class="py method">
                                             <dt class="sig sig-object py"
                                                 id="RAGchain.utils.compressor.base.BaseCompressor.compress">
@@ -166,7 +227,9 @@
                                                     href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
                                                     title="RAGchain.schema.passage.Passage"><span
                                                     class="pre">Passage</span></a><span class="p"><span
-                                                    class="pre">]</span></span></span></em><span
+                                                    class="pre">]</span></span></span></em>, <em class="sig-param"><span
+                                                    class="o"><span class="pre">**</span></span><span class="n"><span
+                                                    class="pre">kwargs</span></span></em><span
                                                     class="sig-paren">)</span> <span class="sig-return"><span
                                                     class="sig-return-icon">&#x2192;</span> <span
                                                     class="sig-return-typehint"><span class="pre">List</span><span
@@ -180,6 +243,50 @@
                                                                                                 title="Link to this definition"></a>
                                             </dt>
                                             <dd></dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.utils.compressor.base.BaseCompressor.invoke">
+                                                <span class="sig-name descname"><span
+                                                        class="pre">invoke</span></span><span class="sig-paren">(</span><em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">input</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">Input</span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span
+                                                    class="pre">config</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span
+                                                    class="n"><span class="pre">RunnableConfig</span><span
+                                                    class="w"> </span><span class="p"><span
+                                                    class="pre">|</span></span><span class="w"> </span><span
+                                                    class="pre">None</span></span><span class="w"> </span><span
+                                                    class="o"><span class="pre">=</span></span><span
+                                                    class="w"> </span><span class="default_value"><span
+                                                    class="pre">None</span></span></em><span class="sig-paren">)</span>
+                                                <span class="sig-return"><span
+                                                        class="sig-return-icon">&#x2192;</span> <span
+                                                        class="sig-return-typehint"><span
+                                                        class="pre">Output</span></span></span><a class="headerlink"
+                                                                                                  href="#RAGchain.utils.compressor.base.BaseCompressor.invoke"
+                                                                                                  title="Link to this definition"></a>
+                                            </dt>
+                                            <dd><p>Compress the passages in input and return the compressed passages.
+                                                It gets compression algorithm’s parameters from config.
+                                                Key name is ‘compressor_options’.
+                                                Set parameters at configurable to dict.
+                                                Example:</p>
+                                                <blockquote>
+                                                    <div><p>runnable.invoke(retrieval_result, config={“configurable”:
+                                                        {“compressor_options”: {“n_clusters”: 3}}})</p>
+                                                    </div>
+                                                </blockquote>
+                                                <p>Important!
+                                                    The scores of the passages will be removed.
+                                                    It is recommended to use this module after all retrievals and
+                                                    reranking passages,
+                                                    before you put the passages into LLM.</p>
+                                            </dd>
                                         </dl>
 
                                     </dd>
@@ -317,7 +424,7 @@
                                             class="pre">Union</span></code>[<code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">PromptValue</span></code>,
                                         <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>,
-                                        <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code
+                                        <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code
                                                 class="xref py py-class docutils literal notranslate"><span class="pre">BaseMessage</span></code>]],
                                         <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]
                                     </p>
@@ -340,6 +447,24 @@
                                                     href="#RAGchain.utils.compressor.llm_lingua.LLMLinguaCompressor.InputType"
                                                     title="Link to this definition"></a></dt>
                                             <dd><p>Get the input type for this runnable.</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py property">
+                                            <dt class="sig sig-object py"
+                                                id="RAGchain.utils.compressor.llm_lingua.LLMLinguaCompressor.OutputType">
+                                                <em class="property"><span class="pre">property</span><span
+                                                        class="w"> </span></em><span class="sig-name descname"><span
+                                                    class="pre">OutputType</span></span><em class="property"><span
+                                                    class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="pre">Type</span><span class="p"><span
+                                                    class="pre">[</span></span><span class="pre">Output</span><span
+                                                    class="p"><span class="pre">]</span></span></em><a
+                                                    class="headerlink"
+                                                    href="#RAGchain.utils.compressor.llm_lingua.LLMLinguaCompressor.OutputType"
+                                                    title="Link to this definition"></a></dt>
+                                            <dd><p>The type of output this runnable produces specified as a type
+                                                annotation.</p>
                                             </dd>
                                         </dl>
 

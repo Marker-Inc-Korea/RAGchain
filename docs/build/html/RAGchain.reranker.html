@@ -48,6 +48,10 @@
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-RAGchain.reranker.base">RAGchain.reranker.base module</a><ul>
 <li><a class="reference internal" href="#RAGchain.reranker.base.BaseReranker"><code class="docutils literal notranslate"><span class="pre">BaseReranker</span></code></a><ul>
+    <li><a class="reference internal" href="#RAGchain.reranker.base.BaseReranker.InputType"><code
+            class="docutils literal notranslate"><span class="pre">BaseReranker.InputType</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.reranker.base.BaseReranker.OutputType"><code
+            class="docutils literal notranslate"><span class="pre">BaseReranker.OutputType</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.reranker.base.BaseReranker.rerank"><code class="docutils literal notranslate"><span class="pre">BaseReranker.rerank()</span></code></a></li>
 </ul>
 </li>
@@ -58,6 +62,9 @@
             <li><a class="reference internal" href="#RAGchain.reranker.bm25.BM25Reranker"><code
                     class="docutils literal notranslate"><span class="pre">BM25Reranker</span></code></a>
                 <ul>
+                    <li><a class="reference internal" href="#RAGchain.reranker.bm25.BM25Reranker.invoke"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">BM25Reranker.invoke()</span></code></a></li>
                     <li><a class="reference internal" href="#RAGchain.reranker.bm25.BM25Reranker.rerank"><code
                             class="docutils literal notranslate"><span
                             class="pre">BM25Reranker.rerank()</span></code></a></li>
@@ -115,6 +122,10 @@
                             class="pre">SimpleImportanceReranker</span></code></a>
                         <ul>
                             <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.reranker.importance.html#RAGchain.reranker.importance.simple_importance.SimpleImportanceReranker.invoke"><code
+                                    class="docutils literal notranslate"><span class="pre">SimpleImportanceReranker.invoke()</span></code></a>
+                            </li>
+                            <li class="toctree-l4"><a class="reference internal"
                                                       href="RAGchain.reranker.importance.html#RAGchain.reranker.importance.simple_importance.SimpleImportanceReranker.rerank"><code
                                     class="docutils literal notranslate"><span class="pre">SimpleImportanceReranker.rerank()</span></code></a>
                             </li>
@@ -131,6 +142,10 @@
                             class="docutils literal notranslate"><span
                             class="pre">WeightedImportanceReranker</span></code></a>
                         <ul>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.reranker.importance.html#RAGchain.reranker.importance.weighted_importance.WeightedImportanceReranker.invoke"><code
+                                    class="docutils literal notranslate"><span class="pre">WeightedImportanceReranker.invoke()</span></code></a>
+                            </li>
                             <li class="toctree-l4"><a class="reference internal"
                                                       href="RAGchain.reranker.importance.html#RAGchain.reranker.importance.weighted_importance.WeightedImportanceReranker.rerank"><code
                                     class="docutils literal notranslate"><span class="pre">WeightedImportanceReranker.rerank()</span></code></a>
@@ -149,6 +164,9 @@
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.reranker.llm.html#module-RAGchain.reranker.llm.llm">RAGchain.reranker.llm.llm module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="RAGchain.reranker.llm.html#RAGchain.reranker.llm.llm.LLMReranker"><code class="docutils literal notranslate"><span class="pre">LLMReranker</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.llm.html#RAGchain.reranker.llm.llm.LLMReranker.find_passages"><code class="docutils literal notranslate"><span class="pre">LLMReranker.find_passages()</span></code></a></li>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.reranker.llm.html#RAGchain.reranker.llm.llm.LLMReranker.invoke"><code
+            class="docutils literal notranslate"><span class="pre">LLMReranker.invoke()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.llm.html#RAGchain.reranker.llm.llm.LLMReranker.make_item"><code class="docutils literal notranslate"><span class="pre">LLMReranker.make_item()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.llm.html#RAGchain.reranker.llm.llm.LLMReranker.make_passages"><code class="docutils literal notranslate"><span class="pre">LLMReranker.make_passages()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.llm.html#RAGchain.reranker.llm.llm.LLMReranker.rerank"><code class="docutils literal notranslate"><span class="pre">LLMReranker.rerank()</span></code></a></li>
@@ -203,6 +221,9 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.reranker.pygaggle.html#module-RAGchain.reranker.pygaggle.monoT5">RAGchain.reranker.pygaggle.monoT5 module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="RAGchain.reranker.pygaggle.html#RAGchain.reranker.pygaggle.monoT5.MonoT5Reranker"><code class="docutils literal notranslate"><span class="pre">MonoT5Reranker</span></code></a><ul>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.reranker.pygaggle.html#RAGchain.reranker.pygaggle.monoT5.MonoT5Reranker.invoke"><code
+            class="docutils literal notranslate"><span class="pre">MonoT5Reranker.invoke()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.pygaggle.html#RAGchain.reranker.pygaggle.monoT5.MonoT5Reranker.rerank"><code class="docutils literal notranslate"><span class="pre">MonoT5Reranker.rerank()</span></code></a></li>
 </ul>
 </li>
@@ -238,6 +259,9 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.reranker.tart.html#module-RAGchain.reranker.tart.tart">RAGchain.reranker.tart.tart module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="RAGchain.reranker.tart.html#RAGchain.reranker.tart.tart.TARTReranker"><code class="docutils literal notranslate"><span class="pre">TARTReranker</span></code></a><ul>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.reranker.tart.html#RAGchain.reranker.tart.tart.TARTReranker.invoke"><code
+            class="docutils literal notranslate"><span class="pre">TARTReranker.invoke()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.tart.html#RAGchain.reranker.tart.tart.TARTReranker.rerank"><code class="docutils literal notranslate"><span class="pre">TARTReranker.rerank()</span></code></a></li>
 </ul>
 </li>
@@ -269,6 +293,10 @@
                             class="docutils literal notranslate"><span class="pre">SimpleTimeReranker</span></code></a>
                         <ul>
                             <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.reranker.time.html#RAGchain.reranker.time.simple_time.SimpleTimeReranker.invoke"><code
+                                    class="docutils literal notranslate"><span
+                                    class="pre">SimpleTimeReranker.invoke()</span></code></a></li>
+                            <li class="toctree-l4"><a class="reference internal"
                                                       href="RAGchain.reranker.time.html#RAGchain.reranker.time.simple_time.SimpleTimeReranker.rerank"><code
                                     class="docutils literal notranslate"><span
                                     class="pre">SimpleTimeReranker.rerank()</span></code></a></li>
@@ -285,6 +313,10 @@
                             class="docutils literal notranslate"><span
                             class="pre">WeightedTimeReranker</span></code></a>
                         <ul>
+                            <li class="toctree-l4"><a class="reference internal"
+                                                      href="RAGchain.reranker.time.html#RAGchain.reranker.time.weighted_time.WeightedTimeReranker.invoke"><code
+                                    class="docutils literal notranslate"><span
+                                    class="pre">WeightedTimeReranker.invoke()</span></code></a></li>
                             <li class="toctree-l4"><a class="reference internal"
                                                       href="RAGchain.reranker.time.html#RAGchain.reranker.time.weighted_time.WeightedTimeReranker.rerank"><code
                                     class="docutils literal notranslate"><span
@@ -303,6 +335,9 @@
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.reranker.upr.html#module-RAGchain.reranker.upr.upr">RAGchain.reranker.upr.upr module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="RAGchain.reranker.upr.html#RAGchain.reranker.upr.upr.UPRReranker"><code class="docutils literal notranslate"><span class="pre">UPRReranker</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.upr.html#RAGchain.reranker.upr.upr.UPRReranker.calculate_likelihood"><code class="docutils literal notranslate"><span class="pre">UPRReranker.calculate_likelihood()</span></code></a></li>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.reranker.upr.html#RAGchain.reranker.upr.upr.UPRReranker.invoke"><code
+            class="docutils literal notranslate"><span class="pre">UPRReranker.invoke()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.upr.html#RAGchain.reranker.upr.upr.UPRReranker.rerank"><code class="docutils literal notranslate"><span class="pre">UPRReranker.rerank()</span></code></a></li>
 </ul>
 </li>
@@ -322,8 +357,47 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="RAGchain.reranker.base.BaseReranker">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.reranker.base.</span></span><span class="sig-name descname"><span class="pre">BaseReranker</span></span><a class="headerlink" href="#RAGchain.reranker.base.BaseReranker" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
-<dl class="py method">
+    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+            class="pre">Runnable</span></code>[<a class="reference internal"
+                                                  href="RAGchain.schema.html#RAGchain.schema.retrieval_result.RetrievalResult"
+                                                  title="RAGchain.schema.retrieval_result.RetrievalResult"><code
+            class="xref py py-class docutils literal notranslate"><span class="pre">RetrievalResult</span></code></a>,
+        <a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.retrieval_result.RetrievalResult"
+           title="RAGchain.schema.retrieval_result.RetrievalResult"><code
+                class="xref py py-class docutils literal notranslate"><span
+                class="pre">RetrievalResult</span></code></a>], <code
+                class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+        <dl class="py property">
+            <dt class="sig sig-object py" id="RAGchain.reranker.base.BaseReranker.InputType">
+                <em class="property"><span class="pre">property</span><span class="w"> </span></em><span
+                    class="sig-name descname"><span class="pre">InputType</span></span><em class="property"><span
+                    class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                    class="pre">Type</span><span class="p"><span class="pre">[</span></span><span
+                    class="pre">Input</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink"
+                                                                                                     href="#RAGchain.reranker.base.BaseReranker.InputType"
+                                                                                                     title="Link to this definition"></a>
+            </dt>
+            <dd><p>The type of input this runnable accepts specified as a type annotation.</p>
+            </dd>
+        </dl>
+
+        <dl class="py property">
+            <dt class="sig sig-object py" id="RAGchain.reranker.base.BaseReranker.OutputType">
+                <em class="property"><span class="pre">property</span><span class="w"> </span></em><span
+                    class="sig-name descname"><span class="pre">OutputType</span></span><em class="property"><span
+                    class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                    class="pre">Type</span><span class="p"><span class="pre">[</span></span><a
+                    class="reference internal"
+                    href="RAGchain.schema.html#RAGchain.schema.retrieval_result.RetrievalResult"
+                    title="RAGchain.schema.retrieval_result.RetrievalResult"><span
+                    class="pre">RetrievalResult</span></a><span class="p"><span class="pre">]</span></span></em><a
+                    class="headerlink" href="#RAGchain.reranker.base.BaseReranker.OutputType"
+                    title="Link to this definition"></a></dt>
+            <dd><p>The type of output this runnable produces specified as a type annotation.</p>
+            </dd>
+        </dl>
+
+        <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.reranker.base.BaseReranker.rerank">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rerank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.reranker.base.BaseReranker.rerank" title="Link to this definition"></a></dt>
 <dd><p>Reranks a list of passages based on a specific ranking algorithm.</p>
@@ -343,7 +417,7 @@
 </dl>
 </dd></dl>
 
-</dd>
+    </dd>
 </dl>
 
 </section>
@@ -372,6 +446,43 @@
               </p>
                   <p>BM25Reranker class for reranker based on BM25.
                       You can rerank the passages with BM25 scores .</p>
+                  <dl class="py method">
+                      <dt class="sig sig-object py" id="RAGchain.reranker.bm25.BM25Reranker.invoke">
+                          <span class="sig-name descname"><span class="pre">invoke</span></span><span class="sig-paren">(</span><em
+                              class="sig-param"><span class="n"><span class="pre">input</span></span><span
+                              class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                              class="pre">Input</span></span></em>, <em class="sig-param"><span class="n"><span
+                              class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span
+                              class="w"> </span><span class="n"><span class="pre">RunnableConfig</span><span
+                              class="w"> </span><span class="p"><span class="pre">|</span></span><span
+                              class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span
+                              class="o"><span class="pre">=</span></span><span class="w"> </span><span
+                              class="default_value"><span class="pre">None</span></span></em><span
+                              class="sig-paren">)</span> <span class="sig-return"><span
+                              class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+                              class="pre">Output</span></span></span><a class="headerlink"
+                                                                        href="#RAGchain.reranker.bm25.BM25Reranker.invoke"
+                                                                        title="Link to this definition"></a></dt>
+                      <dd><p>Transform a single input into an output. Override to implement.</p>
+                          <dl>
+                              <dt>Args:</dt>
+                              <dd><p>input: The input to the runnable.
+                                  config: A config to use when invoking the runnable.</p>
+                                  <blockquote>
+                                      <div><p>The config supports standard keys like ‘tags’, ‘metadata’ for tracing
+                                          purposes, ‘max_concurrency’ for controlling how much work to do
+                                          in parallel, and other keys. Please refer to the RunnableConfig
+                                          for more details.</p>
+                                      </div>
+                                  </blockquote>
+                              </dd>
+                              <dt>Returns:</dt>
+                              <dd><p>The output of the runnable.</p>
+                              </dd>
+                          </dl>
+                      </dd>
+                  </dl>
+
                   <dl class="py method">
                       <dt class="sig sig-object py" id="RAGchain.reranker.bm25.BM25Reranker.rerank">
                           <span class="sig-name descname"><span class="pre">rerank</span></span><span class="sig-paren">(</span><em

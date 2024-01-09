@@ -84,11 +84,18 @@
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.DB.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.DB.html#module-RAGchain.DB.base">RAGchain.DB.base module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="RAGchain.DB.html#RAGchain.DB.base.BaseDB"><code class="docutils literal notranslate"><span class="pre">BaseDB</span></code></a><ul>
+    <li class="toctree-l4"><a class="reference internal" href="RAGchain.DB.html#RAGchain.DB.base.BaseDB.InputType"><code
+            class="docutils literal notranslate"><span class="pre">BaseDB.InputType</span></code></a></li>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.DB.html#RAGchain.DB.base.BaseDB.OutputType"><code
+            class="docutils literal notranslate"><span class="pre">BaseDB.OutputType</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.DB.html#RAGchain.DB.base.BaseDB.create"><code class="docutils literal notranslate"><span class="pre">BaseDB.create()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.DB.html#RAGchain.DB.base.BaseDB.create_or_load"><code class="docutils literal notranslate"><span class="pre">BaseDB.create_or_load()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.DB.html#RAGchain.DB.base.BaseDB.db_type"><code class="docutils literal notranslate"><span class="pre">BaseDB.db_type</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.DB.html#RAGchain.DB.base.BaseDB.fetch"><code class="docutils literal notranslate"><span class="pre">BaseDB.fetch()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.DB.html#RAGchain.DB.base.BaseDB.get_db_origin"><code class="docutils literal notranslate"><span class="pre">BaseDB.get_db_origin()</span></code></a></li>
+    <li class="toctree-l4"><a class="reference internal" href="RAGchain.DB.html#RAGchain.DB.base.BaseDB.invoke"><code
+            class="docutils literal notranslate"><span class="pre">BaseDB.invoke()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.DB.html#RAGchain.DB.base.BaseDB.load"><code class="docutils literal notranslate"><span class="pre">BaseDB.load()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.DB.html#RAGchain.DB.base.BaseDB.save"><code class="docutils literal notranslate"><span class="pre">BaseDB.save()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.DB.html#RAGchain.DB.base.BaseDB.search"><code class="docutils literal notranslate"><span class="pre">BaseDB.search()</span></code></a></li>
@@ -156,9 +163,6 @@
                 module</a></li>
             <li class="toctree-l4"><a class="reference internal"
                                       href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.base">RAGchain.benchmark.dataset.base
-                module</a></li>
-            <li class="toctree-l4"><a class="reference internal"
-                                      href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.beir">RAGchain.benchmark.dataset.beir
                 module</a></li>
             <li class="toctree-l4"><a class="reference internal"
                                       href="RAGchain.benchmark.dataset.html#module-RAGchain.benchmark.dataset.dstc11_track5">RAGchain.benchmark.dataset.dstc11_track5
@@ -317,14 +321,7 @@
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.pipeline.html#module-RAGchain.pipeline.base">RAGchain.pipeline.base module</a><ul>
     <li class="toctree-l3"><a class="reference internal"
                               href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseIngestPipeline"><code
-            class="docutils literal notranslate"><span class="pre">BaseIngestPipeline</span></code></a>
-        <ul>
-            <li class="toctree-l4"><a class="reference internal"
-                                      href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseIngestPipeline.run"><code
-                    class="docutils literal notranslate"><span class="pre">BaseIngestPipeline.run()</span></code></a>
-            </li>
-</ul>
-</li>
+            class="docutils literal notranslate"><span class="pre">BaseIngestPipeline</span></code></a></li>
     <li class="toctree-l3"><a class="reference internal"
                               href="RAGchain.pipeline.html#RAGchain.pipeline.base.BaseRunPipeline"><code
             class="docutils literal notranslate"><span class="pre">BaseRunPipeline</span></code></a>
@@ -348,10 +345,9 @@
     <li class="toctree-l2"><a class="reference internal" href="RAGchain.pipeline.html#module-RAGchain.pipeline.basic">RAGchain.pipeline.basic
         module</a>
         <ul>
-<li class="toctree-l3"><a class="reference internal" href="RAGchain.pipeline.html#RAGchain.pipeline.basic.BasicIngestPipeline"><code class="docutils literal notranslate"><span class="pre">BasicIngestPipeline</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="RAGchain.pipeline.html#RAGchain.pipeline.basic.BasicIngestPipeline.run"><code class="docutils literal notranslate"><span class="pre">BasicIngestPipeline.run()</span></code></a></li>
-</ul>
-</li>
+            <li class="toctree-l3"><a class="reference internal"
+                                      href="RAGchain.pipeline.html#RAGchain.pipeline.basic.BasicIngestPipeline"><code
+                    class="docutils literal notranslate"><span class="pre">BasicIngestPipeline</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="RAGchain.pipeline.html#RAGchain.pipeline.basic.BasicRunPipeline"><code class="docutils literal notranslate"><span class="pre">BasicRunPipeline</span></code></a><ul>
     <li class="toctree-l4"><a class="reference internal"
                               href="RAGchain.pipeline.html#RAGchain.pipeline.basic.BasicRunPipeline.get_passages_and_run"><code
@@ -549,6 +545,12 @@
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.reranker.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.reranker.html#module-RAGchain.reranker.base">RAGchain.reranker.base module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="RAGchain.reranker.html#RAGchain.reranker.base.BaseReranker"><code class="docutils literal notranslate"><span class="pre">BaseReranker</span></code></a><ul>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.reranker.html#RAGchain.reranker.base.BaseReranker.InputType"><code
+            class="docutils literal notranslate"><span class="pre">BaseReranker.InputType</span></code></a></li>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.reranker.html#RAGchain.reranker.base.BaseReranker.OutputType"><code
+            class="docutils literal notranslate"><span class="pre">BaseReranker.OutputType</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.reranker.html#RAGchain.reranker.base.BaseReranker.rerank"><code class="docutils literal notranslate"><span class="pre">BaseReranker.rerank()</span></code></a></li>
 </ul>
 </li>
@@ -561,6 +563,10 @@
                                       href="RAGchain.reranker.html#RAGchain.reranker.bm25.BM25Reranker"><code
                     class="docutils literal notranslate"><span class="pre">BM25Reranker</span></code></a>
                 <ul>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.reranker.html#RAGchain.reranker.bm25.BM25Reranker.invoke"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">BM25Reranker.invoke()</span></code></a></li>
                     <li class="toctree-l4"><a class="reference internal"
                                               href="RAGchain.reranker.html#RAGchain.reranker.bm25.BM25Reranker.rerank"><code
                             class="docutils literal notranslate"><span
@@ -576,6 +582,15 @@
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.retrieval.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.retrieval.html#module-RAGchain.retrieval.base">RAGchain.retrieval.base module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval"><code class="docutils literal notranslate"><span class="pre">BaseRetrieval</span></code></a><ul>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.InputType"><code
+            class="docutils literal notranslate"><span class="pre">BaseRetrieval.InputType</span></code></a></li>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.OutputType"><code
+            class="docutils literal notranslate"><span class="pre">BaseRetrieval.OutputType</span></code></a></li>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.as_ingest"><code
+            class="docutils literal notranslate"><span class="pre">BaseRetrieval.as_ingest()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.create_db"><code class="docutils literal notranslate"><span class="pre">BaseRetrieval.create_db()</span></code></a></li>
     <li class="toctree-l4"><a class="reference internal"
                               href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.delete"><code
@@ -585,6 +600,9 @@
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.fetch_data_from_db_origin"><code class="docutils literal notranslate"><span class="pre">BaseRetrieval.fetch_data_from_db_origin()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.fetch_each_db"><code class="docutils literal notranslate"><span class="pre">BaseRetrieval.fetch_each_db()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.ingest"><code class="docutils literal notranslate"><span class="pre">BaseRetrieval.ingest()</span></code></a></li>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.invoke"><code
+            class="docutils literal notranslate"><span class="pre">BaseRetrieval.invoke()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.is_created"><code class="docutils literal notranslate"><span class="pre">BaseRetrieval.is_created()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.retrieve"><code class="docutils literal notranslate"><span class="pre">BaseRetrieval.retrieve()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.retrieve_id"><code class="docutils literal notranslate"><span class="pre">BaseRetrieval.retrieve_id()</span></code></a></li>
@@ -593,6 +611,24 @@
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.search_data"><code class="docutils literal notranslate"><span class="pre">BaseRetrieval.search_data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.search_data_from_db_origin"><code class="docutils literal notranslate"><span class="pre">BaseRetrieval.search_data_from_db_origin()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.retrieval.html#RAGchain.retrieval.base.BaseRetrieval.search_each_db"><code class="docutils literal notranslate"><span class="pre">BaseRetrieval.search_each_db()</span></code></a></li>
+</ul>
+</li>
+    <li class="toctree-l3"><a class="reference internal"
+                              href="RAGchain.retrieval.html#RAGchain.retrieval.base.RunnableRetrievalIngest"><code
+            class="docutils literal notranslate"><span class="pre">RunnableRetrievalIngest</span></code></a>
+        <ul>
+            <li class="toctree-l4"><a class="reference internal"
+                                      href="RAGchain.retrieval.html#RAGchain.retrieval.base.RunnableRetrievalIngest.InputType"><code
+                    class="docutils literal notranslate"><span
+                    class="pre">RunnableRetrievalIngest.InputType</span></code></a></li>
+            <li class="toctree-l4"><a class="reference internal"
+                                      href="RAGchain.retrieval.html#RAGchain.retrieval.base.RunnableRetrievalIngest.OutputType"><code
+                    class="docutils literal notranslate"><span
+                    class="pre">RunnableRetrievalIngest.OutputType</span></code></a></li>
+            <li class="toctree-l4"><a class="reference internal"
+                                      href="RAGchain.retrieval.html#RAGchain.retrieval.base.RunnableRetrievalIngest.invoke"><code
+                    class="docutils literal notranslate"><span
+                    class="pre">RunnableRetrievalIngest.invoke()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -776,6 +812,46 @@
             </li>
         </ul>
     </li>
+    <li class="toctree-l2"><a class="reference internal"
+                              href="RAGchain.schema.html#module-RAGchain.schema.retrieval_result">RAGchain.schema.retrieval_result
+        module</a>
+        <ul>
+            <li class="toctree-l3"><a class="reference internal"
+                                      href="RAGchain.schema.html#RAGchain.schema.retrieval_result.RetrievalResult"><code
+                    class="docutils literal notranslate"><span class="pre">RetrievalResult</span></code></a>
+                <ul>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.schema.html#RAGchain.schema.retrieval_result.RetrievalResult.metadata"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RetrievalResult.metadata</span></code></a></li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.schema.html#RAGchain.schema.retrieval_result.RetrievalResult.passages"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RetrievalResult.passages</span></code></a></li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.schema.html#RAGchain.schema.retrieval_result.RetrievalResult.query"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RetrievalResult.query</span></code></a></li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.schema.html#RAGchain.schema.retrieval_result.RetrievalResult.scores"><code
+                            class="docutils literal notranslate"><span class="pre">RetrievalResult.scores</span></code></a>
+                    </li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.schema.html#RAGchain.schema.retrieval_result.RetrievalResult.slice"><code
+                            class="docutils literal notranslate"><span class="pre">RetrievalResult.slice()</span></code></a>
+                    </li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.schema.html#RAGchain.schema.retrieval_result.RetrievalResult.to_dict"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RetrievalResult.to_dict()</span></code></a></li>
+                    <li class="toctree-l4"><a class="reference internal"
+                                              href="RAGchain.schema.html#RAGchain.schema.retrieval_result.RetrievalResult.to_prompt_input"><code
+                            class="docutils literal notranslate"><span
+                            class="pre">RetrievalResult.to_prompt_input()</span></code></a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.schema.html#module-RAGchain.schema">Module contents</a></li>
 </ul>
 </li>
@@ -855,14 +931,35 @@
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.utils.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.utils.html#module-RAGchain.utils.evidence_extractor">RAGchain.utils.evidence_extractor module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="RAGchain.utils.html#RAGchain.utils.evidence_extractor.EvidenceExtractor"><code class="docutils literal notranslate"><span class="pre">EvidenceExtractor</span></code></a><ul>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.utils.html#RAGchain.utils.evidence_extractor.EvidenceExtractor.InputType"><code
+            class="docutils literal notranslate"><span class="pre">EvidenceExtractor.InputType</span></code></a></li>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.utils.html#RAGchain.utils.evidence_extractor.EvidenceExtractor.OutputType"><code
+            class="docutils literal notranslate"><span class="pre">EvidenceExtractor.OutputType</span></code></a></li>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.utils.html#RAGchain.utils.evidence_extractor.EvidenceExtractor.batch"><code
+            class="docutils literal notranslate"><span class="pre">EvidenceExtractor.batch()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.utils.html#RAGchain.utils.evidence_extractor.EvidenceExtractor.extract"><code class="docutils literal notranslate"><span class="pre">EvidenceExtractor.extract()</span></code></a></li>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.utils.html#RAGchain.utils.evidence_extractor.EvidenceExtractor.invoke"><code
+            class="docutils literal notranslate"><span class="pre">EvidenceExtractor.invoke()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="RAGchain.utils.html#module-RAGchain.utils.file_cache">RAGchain.utils.file_cache module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="RAGchain.utils.html#RAGchain.utils.file_cache.FileCache"><code class="docutils literal notranslate"><span class="pre">FileCache</span></code></a><ul>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.utils.html#RAGchain.utils.file_cache.FileCache.InputType"><code
+            class="docutils literal notranslate"><span class="pre">FileCache.InputType</span></code></a></li>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.utils.html#RAGchain.utils.file_cache.FileCache.OutputType"><code
+            class="docutils literal notranslate"><span class="pre">FileCache.OutputType</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.utils.html#RAGchain.utils.file_cache.FileCache.delete_duplicate"><code class="docutils literal notranslate"><span class="pre">FileCache.delete_duplicate()</span></code></a></li>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.utils.html#RAGchain.utils.file_cache.FileCache.invoke"><code
+            class="docutils literal notranslate"><span class="pre">FileCache.invoke()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -871,6 +968,9 @@
 <li class="toctree-l3"><a class="reference internal" href="RAGchain.utils.html#RAGchain.utils.query_decompose.QueryDecomposition"><code class="docutils literal notranslate"><span class="pre">QueryDecomposition</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.utils.html#RAGchain.utils.query_decompose.QueryDecomposition.decompose"><code class="docutils literal notranslate"><span class="pre">QueryDecomposition.decompose()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="RAGchain.utils.html#RAGchain.utils.query_decompose.QueryDecomposition.decompose_prompt"><code class="docutils literal notranslate"><span class="pre">QueryDecomposition.decompose_prompt</span></code></a></li>
+    <li class="toctree-l4"><a class="reference internal"
+                              href="RAGchain.utils.html#RAGchain.utils.query_decompose.QueryDecomposition.invoke"><code
+            class="docutils literal notranslate"><span class="pre">QueryDecomposition.invoke()</span></code></a></li>
 </ul>
 </li>
 </ul>

@@ -47,6 +47,12 @@
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-RAGchain.preprocess.text_splitter.base">RAGchain.preprocess.text_splitter.base module</a><ul>
 <li><a class="reference internal" href="#RAGchain.preprocess.text_splitter.base.BaseTextSplitter"><code class="docutils literal notranslate"><span class="pre">BaseTextSplitter</span></code></a><ul>
+    <li><a class="reference internal" href="#RAGchain.preprocess.text_splitter.base.BaseTextSplitter.InputType"><code
+            class="docutils literal notranslate"><span class="pre">BaseTextSplitter.InputType</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.preprocess.text_splitter.base.BaseTextSplitter.OutputType"><code
+            class="docutils literal notranslate"><span class="pre">BaseTextSplitter.OutputType</span></code></a></li>
+    <li><a class="reference internal" href="#RAGchain.preprocess.text_splitter.base.BaseTextSplitter.invoke"><code
+            class="docutils literal notranslate"><span class="pre">BaseTextSplitter.invoke()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.preprocess.text_splitter.base.BaseTextSplitter.split_document"><code class="docutils literal notranslate"><span class="pre">BaseTextSplitter.split_document()</span></code></a></li>
 <li><a class="reference internal" href="#RAGchain.preprocess.text_splitter.base.BaseTextSplitter.split_documents"><code class="docutils literal notranslate"><span class="pre">BaseTextSplitter.split_documents()</span></code></a></li>
 </ul>
@@ -158,10 +164,82 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="RAGchain.preprocess.text_splitter.base.BaseTextSplitter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RAGchain.preprocess.text_splitter.base.</span></span><span class="sig-name descname"><span class="pre">BaseTextSplitter</span></span><a class="headerlink" href="#RAGchain.preprocess.text_splitter.base.BaseTextSplitter" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span
+            class="pre">Runnable</span></code>[<code class="xref py py-class docutils literal notranslate"><span
+            class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span
+            class="pre">Document</span></code>], <code class="xref py py-class docutils literal notranslate"><span
+            class="pre">List</span></code>[<a class="reference internal"
+                                              href="RAGchain.schema.html#RAGchain.schema.passage.Passage"
+                                              title="RAGchain.schema.passage.Passage"><code
+            class="xref py py-class docutils literal notranslate"><span class="pre">Passage</span></code></a>]], <code
+            class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
 <p>Base class for text splitters.
 At this framework, we use our own text splitter instead of the one from langchain.</p>
-<dl class="py method">
+        <dl class="py property">
+            <dt class="sig sig-object py" id="RAGchain.preprocess.text_splitter.base.BaseTextSplitter.InputType">
+                <em class="property"><span class="pre">property</span><span class="w"> </span></em><span
+                    class="sig-name descname"><span class="pre">InputType</span></span><em class="property"><span
+                    class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                    class="pre">Type</span><span class="p"><span class="pre">[</span></span><span
+                    class="pre">Input</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink"
+                                                                                                     href="#RAGchain.preprocess.text_splitter.base.BaseTextSplitter.InputType"
+                                                                                                     title="Link to this definition"></a>
+            </dt>
+            <dd><p>The type of input this runnable accepts specified as a type annotation.</p>
+            </dd>
+        </dl>
+
+        <dl class="py property">
+            <dt class="sig sig-object py" id="RAGchain.preprocess.text_splitter.base.BaseTextSplitter.OutputType">
+                <em class="property"><span class="pre">property</span><span class="w"> </span></em><span
+                    class="sig-name descname"><span class="pre">OutputType</span></span><em class="property"><span
+                    class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                    class="pre">Type</span><span class="p"><span class="pre">[</span></span><span
+                    class="pre">Output</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink"
+                                                                                                      href="#RAGchain.preprocess.text_splitter.base.BaseTextSplitter.OutputType"
+                                                                                                      title="Link to this definition"></a>
+            </dt>
+            <dd><p>The type of output this runnable produces specified as a type annotation.</p>
+            </dd>
+        </dl>
+
+        <dl class="py method">
+            <dt class="sig sig-object py" id="RAGchain.preprocess.text_splitter.base.BaseTextSplitter.invoke">
+                <span class="sig-name descname"><span class="pre">invoke</span></span><span
+                    class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                    class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span
+                    class="w"> </span><span class="n"><span class="pre">Input</span></span></em>, <em class="sig-param"><span
+                    class="n"><span class="pre">config</span></span><span class="p"><span
+                    class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                    class="pre">RunnableConfig</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span
+                    class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span
+                    class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span
+                    class="sig-paren">)</span> <span class="sig-return"><span
+                    class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span
+                    class="pre">Output</span></span></span><a class="headerlink"
+                                                              href="#RAGchain.preprocess.text_splitter.base.BaseTextSplitter.invoke"
+                                                              title="Link to this definition"></a></dt>
+            <dd><p>Transform a single input into an output. Override to implement.</p>
+                <dl>
+                    <dt>Args:</dt>
+                    <dd><p>input: The input to the runnable.
+                        config: A config to use when invoking the runnable.</p>
+                        <blockquote>
+                            <div><p>The config supports standard keys like ‘tags’, ‘metadata’ for tracing
+                                purposes, ‘max_concurrency’ for controlling how much work to do
+                                in parallel, and other keys. Please refer to the RunnableConfig
+                                for more details.</p>
+                            </div>
+                        </blockquote>
+                    </dd>
+                    <dt>Returns:</dt>
+                    <dd><p>The output of the runnable.</p>
+                    </dd>
+                </dl>
+            </dd>
+        </dl>
+
+        <dl class="py method">
 <dt class="sig sig-object py" id="RAGchain.preprocess.text_splitter.base.BaseTextSplitter.split_document">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">split_document</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">document</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Document</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="RAGchain.schema.html#RAGchain.schema.passage.Passage" title="RAGchain.schema.passage.Passage"><span class="pre">Passage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#RAGchain.preprocess.text_splitter.base.BaseTextSplitter.split_document" title="Link to this definition"></a></dt>
 <dd><p>Split a document into passages.</p>
